@@ -1,0 +1,119 @@
+name: AuDHD - stabilne publiczne URL-e
+
+on:
+  push:
+    paths:
+      - '.github/workflows/audhd-stable-urls.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  stable-urls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Utworz stale adresy i przepnij index
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('audhd')
+          index = root / 'index.html'
+          s = index.read_text(encoding='utf-8')
+
+          mapping = {
+              'co-to-znaczy/': 'co-to-znaczy-audhd-v03_01-2026-07-09-2.html',
+              'po-ludzku/': 'audhd-po-ludzku-v02_02-2026-07-09.html',
+              'cechy/': 'audhd_opracowanie_v6_0_2026-07-01-2.html',
+              'po-diagnozie/': 'CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html',
+              'rdzen-czy-maskowanie/': '63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html',
+              '20-prac/': 'apendyks1-po-ludzku-02_01-2026-08-26.html',
+              'publikacje/': 'dluga-lista-publikacji-4.01-2026-08-26.html',
+              'ilu-nas/': 'ilu-nas-jest-audhd-polska-wstep-v03_00-2026-08-10.html',
+              'pomaganie/': 'adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html',
+              'mowienie/': 'autyzm-regulacja-mowienia-v01.00-2026-05-14.html',
+              'obiektywnosc/': 'obiektywnosc-autyzm-v01.00-2026-05-14.html',
+              'jezyki-milosci/': 'piec-jezykow-milosci-nd-v01.00-2026-05-18.html',
+              'fundatorzy-it/': 'audhd-fundatorzy-it-1_00-2026-04-27.html',
+              'pamiec-esej/': 'ESEJ_architektury-pamieci-1_02-2026-04-28.html',
+              'pamiec-powiesc/': 'POWIESC_architektury-pamieci-2_00-2026-04-29.html',
+              'kognitywistyka-ai/': 'kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html',
+              'rownania/': 'CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html',
+          }
+
+          # Najpierw sprawdz, czy wszystkie cele istnieja.
+          missing = [target for target in mapping.values() if not (root / target).exists()]
+          if missing:
+              raise SystemExit('Brak plikow docelowych: ' + ', '.join(missing))
+
+          # Kazdy stabilny URL to katalog z index.html przekierowujacym do aktualnej wersji.
+          # JS zachowuje #fragment, meta refresh jest awaryjnym fallbackiem.
+          for alias, target in mapping.items():
+              d = root / alias.rstrip('/')
+              d.mkdir(parents=True, exist_ok=True)
+              redirect = d / 'index.html'
+              rel = '../' + target
+              html = f'''<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url={rel}">
+  <title>Przekierowanie</title>
+  <script>location.replace({rel!r} + location.hash);</script>
+</head>
+<body>
+  <p><a href="{rel}">Przejdź do tekstu</a></p>
+</body>
+</html>
+'''
+              redirect.write_text(html, encoding='utf-8')
+
+          # Przepnij wszystkie linki z indexu z wersjonowanych nazw na stabilne URL-e.
+          replacements = {target: alias for alias, target in mapping.items()}
+          # Stary pomocniczy redirect do 20 prac tez kierujemy na nowy staly URL.
+          replacements['opis-po-ludzku-20-prac-naukowych.html'] = '20-prac/'
+
+          changed = 0
+          for old, new in replacements.items():
+              # Zmieniamy tylko href, zachowujac ewentualny #anchor.
+              pattern = re.compile(r'href="' + re.escape(old) + r'(?P<frag>#[^"]*)?"')
+              s, n = pattern.subn(lambda m: f'href="{new}{m.group("frag") or ""}"', s)
+              changed += n
+
+          index.write_text(s, encoding='utf-8')
+
+          # Audyt: w href indexu nie moze zostac zadna wersjonowana nazwa z mapowania.
+          hrefs = re.findall(r'href="([^"]+)"', s)
+          leftovers = []
+          for href in hrefs:
+              base = href.split('#', 1)[0]
+              if base in replacements:
+                  leftovers.append(href)
+          if leftovers:
+              raise SystemExit('Zostaly stare URL-e w indexie: ' + ', '.join(leftovers))
+
+          # Audyt aliasow.
+          for alias, target in mapping.items():
+              p = root / alias / 'index.html'
+              txt = p.read_text(encoding='utf-8')
+              if ('../' + target) not in txt:
+                  raise SystemExit(f'Bledny alias {alias} -> {target}')
+
+          print(f'Utworzono stabilnych URL-i: {len(mapping)}')
+          print(f'Przepieto linkow w indexie: {changed}')
+          print('Stare wersjonowane href-y objete mapowaniem w indexie: 0')
+          PY
+
+      - name: Zapisz zmiany
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/index.html audhd/*/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "AuDHD: dodaj stabilne publiczne URL-e"
+          git push
