@@ -1,0 +1,57 @@
+AUDHD — TODO: ANCHORY WE WSZYSTKICH PLIKACH
+Plan wstępny: wtorek, 2026-09-08
+Status: DO ZROBIENIA
+
+CEL
+Przejrzeć cierpliwie wszystkie merytoryczne pliki HTML w katalogu audhd/, JEDEN PO DRUGIM.
+Nie robić tego hurtowo na całym katalogu.
+
+DLA KAŻDEGO PLIKU OSOBNO
+1. Otworzyć jeden plik.
+2. Sprawdzić, jakie poziomy nagłówków rzeczywiście w nim występują: H1, H2, H3, H4, H5, H6.
+3. Każdy nagłówek/sekcja ma mieć własny anchor w atrybucie id="...".
+4. Jeżeli nagłówek już ma sensowny id, zostawić go bez zmiany.
+5. Jeżeli id brakuje, utworzyć czytelny slug słowny z minusami, np.:
+   "Pamięć robocza i prospektywna" -> id="pamiec-robocza-i-prospektywna"
+6. Reguła nowych slugów:
+   - małe litery,
+   - polskie znaki -> odpowiedniki ASCII,
+   - spacje -> minusy,
+   - usunąć zbędną interpunkcję i znaki specjalne,
+   - zwinąć wielokrotne minusy do jednego,
+   - id musi być unikalne w obrębie pliku; przy identycznych nagłówkach użyć kolejno -2, -3 itd.
+7. Zapisać TEN JEDEN plik.
+8. Sprawdzić TEN JEDEN plik:
+   - każdy H1–H6 występujący w pliku ma id,
+   - brak duplikatów id,
+   - istniejące anchory nie zostały przypadkiem zmienione,
+   - HTML nadal jest poprawny.
+9. Dopiero potem przejść do następnego pliku.
+
+NIE DOTYKAĆ
+- audhd/index.html, chyba że osobno okaże się to potrzebne,
+- katalogów-aliasów stałych URL-i, np. audhd/cechy/index.html, audhd/po-ludzku/index.html itd.; one są tylko przekierowaniami,
+- starego pomocniczego redirectu opis-po-ludzku-20-prac-naukowych.html,
+- treści merytorycznej tekstów poza dodaniem brakujących id.
+
+PLIKI MERYTORYCZNE DO PRZEJŚCIA — PO JEDNYM
+[ ] 63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html
+[ ] CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html
+[ ] CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html
+[ ] ESEJ_architektury-pamieci-1_02-2026-04-28.html
+[ ] POWIESC_architektury-pamieci-2_00-2026-04-29.html
+[ ] adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html
+[ ] apendyks1-po-ludzku-02_01-2026-08-26.html
+[ ] audhd-fundatorzy-it-1_00-2026-04-27.html
+[ ] audhd-po-ludzku-v02_02-2026-07-09.html
+[ ] audhd_opracowanie_v6_0_2026-07-01-2.html
+[ ] autyzm-regulacja-mowienia-v01.00-2026-05-14.html
+[ ] co-to-znaczy-audhd-v03_01-2026-07-09-2.html
+[ ] dluga-lista-publikacji-4.01-2026-08-26.html
+[ ] ilu-nas-jest-audhd-polska-wstep-v03_00-2026-08-10.html
+[ ] kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html
+[ ] obiektywnosc-autyzm-v01.00-2026-05-14.html
+[ ] piec-jezykow-milosci-nd-v01.00-2026-05-18.html
+
+EFEKT KOŃCOWY
+Każda sekcja oznaczona nagłówkiem H1–H6 w każdym merytorycznym pliku AuDHD ma stabilny, czytelny anchor. Dzięki generycznemu przekazywaniu #fragment przez stałe URL-e każdy taki anchor będzie od razu dostępny także przez krótki publiczny adres.
