@@ -134,6 +134,18 @@
 
     .nav a:hover { color: var(--gold-hot); }
 
+    .nav .nav-map {
+      padding: 7px 10px;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-hot);
+      background: rgba(226, 188, 88, .06);
+    }
+
+    .nav .nav-map:hover {
+      color: var(--ink);
+      background: var(--gold);
+    }
+
     .hero {
       position: relative;
       overflow: hidden;
@@ -681,13 +693,23 @@
     }
 
     .doc-sections a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 8px;
+      border: 1px solid var(--line-soft);
       color: var(--paper-dim);
-      text-decoration-color: var(--line);
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
+      background: rgba(13, 56, 41, .22);
+      text-decoration: none;
+      transition: border-color .16s ease, color .16s ease, background .16s ease, transform .16s ease;
     }
 
-    .doc-sections a:hover { color: var(--gold-hot); }
+    .doc-sections a:hover {
+      border-color: var(--gold-dim);
+      color: var(--gold-hot);
+      background: var(--bottle);
+      transform: translateY(-1px);
+    }
 
     .doc-meta {
       display: flex;
@@ -719,7 +741,10 @@
       text-transform: uppercase;
     }
 
+    .doc-link { transition: background .16s ease, color .16s ease; }
+    .doc-link span:last-child { transition: transform .16s ease; }
     .doc-link:hover { background: var(--bottle); }
+    .doc-link:hover span:last-child { transform: translateX(4px); }
 
     .no-results {
       display: none;
@@ -1086,6 +1111,7 @@
         <span>publiczna brama korpusu</span>
       </a>
       <nav class="nav" aria-label="Główna nawigacja">
+        <a class="nav-map" href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Mapa tematów ↗</a>
         <a href="#sciezki">Ścieżki</a>
         <a href="#dokumenty">Dokumenty</a>
         <a href="#sprzezenia">Sprzężenia</a>

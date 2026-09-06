@@ -125,6 +125,95 @@
       letter-spacing: .04em;
     }
 
+
+    .map-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 0 0 34px;
+      padding: 0 0 22px;
+      border-bottom: 1px solid var(--green-line);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .map-nav a,
+    .ref-chip,
+    .footer-link {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    .map-nav a {
+      padding: 8px 11px;
+      border: 1px solid var(--green-line);
+      background: rgba(8, 35, 26, .62);
+    }
+
+    .map-nav a:first-child {
+      border-color: var(--amber-soft);
+      background: rgba(212, 170, 67, .08);
+    }
+
+    .map-nav a:hover,
+    .map-nav a:focus-visible {
+      border-color: var(--amber);
+      color: var(--green-abyss);
+      background: var(--amber);
+    }
+
+    .refs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: baseline;
+      margin-left: .28em;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .73rem;
+      font-style: normal;
+      vertical-align: baseline;
+    }
+
+    .refs-label {
+      color: var(--text-muted);
+      font-size: .68rem;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+    }
+
+    .ref-chip {
+      display: inline-flex;
+      align-items: center;
+      min-width: 31px;
+      justify-content: center;
+      padding: 2px 6px;
+      border: 1px solid var(--green-line);
+      background: rgba(8, 35, 26, .7);
+      font-weight: 850;
+      line-height: 1.45;
+      transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease;
+    }
+
+    .ref-chip:hover,
+    .ref-chip:focus-visible {
+      border-color: var(--amber);
+      color: var(--green-abyss);
+      background: var(--amber);
+      transform: translateY(-1px);
+    }
+
+    .footer-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--amber-soft);
+      font-size: .86rem;
+      font-weight: 700;
+    }
+
     @media (max-width: 620px) {
       body { font-size: 16px; }
       main { width: min(100% - 26px, 980px); padding: 45px 0 64px; }
@@ -143,6 +232,11 @@
 </head>
 <body>
 <main>
+  <nav class="map-nav" aria-label="Nawigacja między mapą a indeksem">
+    <a href="index.html">← Strona główna</a>
+    <a href="index.html#dokumenty">Wszystkie dokumenty</a>
+    <a href="index.html#sciezki">Ścieżki czytania</a>
+  </nav>
   <header>
     <h1>Co właściwie siedzi w „Rozpadzie Rosji”</h1>
     <p class="lead">Są tam fajne rzeczy. Wręcz bezczelnie fajne — tylko zostały pochowane pod etykietą „rozpad Rosji”, jakby Luwr nazwać „budynkiem z panią bez brwi”.</p>
@@ -152,67 +246,67 @@
   <section>
     <h2>Główne kontynenty tej kolumbryny</h2>
     <ol>
-      <li><strong>Ukraina jako projektant kampanii systemowej</strong> — nie zbiór pojedynczych ataków, lecz ewolucja od celów wojskowych do rozmontowywania całych zdolności państwa. Tempo, geografia, klasy celów i przejście „na hurt”. <em>(A1–A4, A6)</em></li>
-      <li><strong>Spirala OPL → rafinerie → paliwo → front</strong> — rosyjska obrona powietrzna jest za krótka na geografię Rosji, więc broniąc jednego, odsłania drugie. Imperium odkrywa, że kocyk ma granice, w przeciwieństwie do komunikatów rzecznika. <em>(A1, A2, A5, A6)</em></li>
-      <li><strong>Paliwo jako układ, nie liczba baryłek</strong> — rafinerie, zapasy, współprodukty, import, rurociągi, kolej, cysterny, magazyny i stacje. Osobno pojawia się moment, gdy wyłączone moce zjadają całą rezerwę i każde kolejne trafienie idzie już „w kość, nie w tłuszcz”. <em>(A2, A4, A6)</em></li>
-      <li><strong>Krym przekształcany z półwyspu w wyspę</strong> — trzy drogi zaopatrzenia, porty, energia, paliwo, R-280 i most kerczeński jako zagrożona karta negocjacyjna. Najciekawsza teza: most żywy, ale stale zagrożony, może być cenniejszy niż kolejna efektowna kupa gruzu. <em>(A2, A3)</em></li>
-      <li><strong>Logistyka jako anatomia państwa</strong> — kolej, porty, lotnictwo cywilne, rurociągi, remonty, części i ludzie. Rosja może jeszcze mieć towar, tylko coraz częściej nie ma czym, którędy ani komu go zawieźć. Drobiazg. <em>(A1, A2, A4–A6)</em></li>
-      <li><strong>Energetyka i rosyjska sieć elektroenergetyczna</strong> — siedem stref UES, sztywna topologia, brak importu awaryjnego, stranded gas Jamału, chłodzenie elektrowni, aluminium i sowiecka redundancja, która jest imponująca na papierze oraz umiarkowanie przydatna w rzeczywistości. <em>(A2, A4)</em></li>
-      <li><strong>Klimat jako uczestnik wojny bez konta na Telegramie</strong> — zmarzlina, susze, powodzie, pożary, torf, BAM, chłodzenie elektrowni i koszty budżetowe. Teza brzmi: klimat może ugotować sieć bez dronów; drony tylko uprzejmie skracają czas gotowania. <em>(A2)</em></li>
-      <li><strong>Gospodarka w czasie teraźniejszym ciągłym</strong> — budżet, NWF, złoto, zbiory, inflacja żywności, zaległości płacowe, upadłość przedsiębiorstw i wyprzedaż majątku. Nie „kiedyś się zawali”, tylko „właśnie się psuje, lecz każdy element ma inny zegarek”. <em>(A1, A2, A4, A5)</em></li>
-      <li><strong>Bankowość jako najkrótszy zapalnik</strong> — restrukturyzacje udające zdrowie, złe aktywa, ucieczka gotówki, niewypłacalność i marketplace’y przenoszące szkodę z magazynu do banków oraz tysięcy sprzedawców. Jedyny fragment układu zdolny zmienić kilkuletnią degradację w bardzo nieprzyjemny wtorek. <em>(A1, A4, A5)</em></li>
-      <li><strong>Ludzie jako zasób nieodnawialny</strong> — demografia, brain drain, emigracja wewnętrzna, wypalenie, braki specjalistów, spadający werbunek oraz cicha i pełna mobilizacja. Baryłkę można dokupić. Inżynier niestety nie wyrasta z ziemi po dekrecie. <em>(A1, A2, A4, A5)</em></li>
-      <li><strong>Chiny jako patron i wierzyciel, nie sojusznik</strong> — rosyjska „substytucja” okazuje się zmianą dostawcy zależności. Procesor Irtysz jest chiński, szare kanały są chińskie, gaz ma warunki chińskie. Suwerenność udała się znakomicie, tylko jej właściciel mieszka w Pekinie. <em>(A1, A2, A4, A5, A7)</em></li>
-      <li><strong>Przemysł wojenny i zerwane łańcuchy zastępowalności</strong> — komponent ważniejszy niż hala; Tupolewa nie kupuje się w sklepie z Tupolewami; KAB to kilka zależnych ogniw; remont ściga się z kolejnym uderzeniem. <em>(A2, A4)</em></li>
-      <li><strong>Rosyjskie adaptacje, które naprawdę działają</strong> — flota cieni, import przez szarą strefę, obniżanie jakości, obchodzenie sankcji i budowanie pod sankcjami. Korpus nie robi z Rosji tekturowego idioty: pokazuje, że adaptacja istnieje, ale kupuje czas, nie kierunek. <em>(A4)</em></li>
-      <li><strong>Putin jako osobna funkcja celu</strong> — państwo nie optymalizuje już „zwycięstwa Rosji”, tylko przetrwanie jednego człowieka, dla którego przegrana może oznaczać śmierć. Stąd dziewięć scenariuszy desperacji, od sukcesji kontrolowanej po nuklearne i natowskie hazardy. <em>(A1, D5, A6)</em></li>
-      <li><strong>Elity i moment przeliczenia lojalności</strong> — kiedy koszt pozostania przy Putinie przewyższy koszt jego usunięcia; dlaczego dziś są zablokowane; jak strach działa tylko dopóty, dopóki centrum wygląda na silne. <em>(A1, A2, D5, A6, A7)</em></li>
-      <li><strong>Jak właściwie kończą się państwa</strong> — osiem trybów końca, III Rzesza, 1918, 1945, ZSRR, Austro-Węgry, rozpad z peryferii i odrodzenie rdzenia. To osobny, bardzo porządny mini-korpus fenomenologii śmierci państw. <em>(A7)</em></li>
-      <li><strong>Co naprawdę spaja Rosję</strong> — nie wiara ani lojalność, lecz trzy kalkulacje: siłowicy czytają siłę, biurokracja czyta wypłatę, oligarchowie czytają karę i nagrodę. Wszystkie trzy mogą przeliczyć się naraz. <em>(A6, A7)</em></li>
-      <li><strong>Arsenał nuklearny i kontrola centrum</strong> — starzenie nośników, znaczenie Moskwy jako rdzenia oraz rozróżnienie między odpadaniem peryferii a utratą kontroli nad atomem. Atom nie jest argumentem za wiecznością federacji; jest argumentem za pilnowaniem centrum. <em>(A1, A5, A7)</em></li>
+      <li><strong>Ukraina jako projektant kampanii systemowej</strong> — nie zbiór pojedynczych ataków, lecz ewolucja od celów wojskowych do rozmontowywania całych zdolności państwa. Tempo, geografia, klasy celów i przejście „na hurt”. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html" title="Otwórz A3">A3</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Spirala OPL → rafinerie → paliwo → front</strong> — rosyjska obrona powietrzna jest za krótka na geografię Rosji, więc broniąc jednego, odsłania drugie. Imperium odkrywa, że kocyk ma granice, w przeciwieństwie do komunikatów rzecznika. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Paliwo jako układ, nie liczba baryłek</strong> — rafinerie, zapasy, współprodukty, import, rurociągi, kolej, cysterny, magazyny i stacje. Osobno pojawia się moment, gdy wyłączone moce zjadają całą rezerwę i każde kolejne trafienie idzie już „w kość, nie w tłuszcz”. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Krym przekształcany z półwyspu w wyspę</strong> — trzy drogi zaopatrzenia, porty, energia, paliwo, R-280 i most kerczeński jako zagrożona karta negocjacyjna. Najciekawsza teza: most żywy, ale stale zagrożony, może być cenniejszy niż kolejna efektowna kupa gruzu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html" title="Otwórz A3">A3</a></span></li>
+      <li><strong>Logistyka jako anatomia państwa</strong> — kolej, porty, lotnictwo cywilne, rurociągi, remonty, części i ludzie. Rosja może jeszcze mieć towar, tylko coraz częściej nie ma czym, którędy ani komu go zawieźć. Drobiazg. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Energetyka i rosyjska sieć elektroenergetyczna</strong> — siedem stref UES, sztywna topologia, brak importu awaryjnego, stranded gas Jamału, chłodzenie elektrowni, aluminium i sowiecka redundancja, która jest imponująca na papierze oraz umiarkowanie przydatna w rzeczywistości. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Klimat jako uczestnik wojny bez konta na Telegramie</strong> — zmarzlina, susze, powodzie, pożary, torf, BAM, chłodzenie elektrowni i koszty budżetowe. Teza brzmi: klimat może ugotować sieć bez dronów; drony tylko uprzejmie skracają czas gotowania. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a></span></li>
+      <li><strong>Gospodarka w czasie teraźniejszym ciągłym</strong> — budżet, NWF, złoto, zbiory, inflacja żywności, zaległości płacowe, upadłość przedsiębiorstw i wyprzedaż majątku. Nie „kiedyś się zawali”, tylko „właśnie się psuje, lecz każdy element ma inny zegarek”. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a></span></li>
+      <li><strong>Bankowość jako najkrótszy zapalnik</strong> — restrukturyzacje udające zdrowie, złe aktywa, ucieczka gotówki, niewypłacalność i marketplace’y przenoszące szkodę z magazynu do banków oraz tysięcy sprzedawców. Jedyny fragment układu zdolny zmienić kilkuletnią degradację w bardzo nieprzyjemny wtorek. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a></span></li>
+      <li><strong>Ludzie jako zasób nieodnawialny</strong> — demografia, brain drain, emigracja wewnętrzna, wypalenie, braki specjalistów, spadający werbunek oraz cicha i pełna mobilizacja. Baryłkę można dokupić. Inżynier niestety nie wyrasta z ziemi po dekrecie. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a></span></li>
+      <li><strong>Chiny jako patron i wierzyciel, nie sojusznik</strong> — rosyjska „substytucja” okazuje się zmianą dostawcy zależności. Procesor Irtysz jest chiński, szare kanały są chińskie, gaz ma warunki chińskie. Suwerenność udała się znakomicie, tylko jej właściciel mieszka w Pekinie. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>Przemysł wojenny i zerwane łańcuchy zastępowalności</strong> — komponent ważniejszy niż hala; Tupolewa nie kupuje się w sklepie z Tupolewami; KAB to kilka zależnych ogniw; remont ściga się z kolejnym uderzeniem. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Rosyjskie adaptacje, które naprawdę działają</strong> — flota cieni, import przez szarą strefę, obniżanie jakości, obchodzenie sankcji i budowanie pod sankcjami. Korpus nie robi z Rosji tekturowego idioty: pokazuje, że adaptacja istnieje, ale kupuje czas, nie kierunek. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Putin jako osobna funkcja celu</strong> — państwo nie optymalizuje już „zwycięstwa Rosji”, tylko przetrwanie jednego człowieka, dla którego przegrana może oznaczać śmierć. Stąd dziewięć scenariuszy desperacji, od sukcesji kontrolowanej po nuklearne i natowskie hazardy. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html" title="Otwórz D5">D5</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Elity i moment przeliczenia lojalności</strong> — kiedy koszt pozostania przy Putinie przewyższy koszt jego usunięcia; dlaczego dziś są zablokowane; jak strach działa tylko dopóty, dopóki centrum wygląda na silne. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html" title="Otwórz D5">D5</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>Jak właściwie kończą się państwa</strong> — osiem trybów końca, III Rzesza, 1918, 1945, ZSRR, Austro-Węgry, rozpad z peryferii i odrodzenie rdzenia. To osobny, bardzo porządny mini-korpus fenomenologii śmierci państw. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>Co naprawdę spaja Rosję</strong> — nie wiara ani lojalność, lecz trzy kalkulacje: siłowicy czytają siłę, biurokracja czyta wypłatę, oligarchowie czytają karę i nagrodę. Wszystkie trzy mogą przeliczyć się naraz. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>Arsenał nuklearny i kontrola centrum</strong> — starzenie nośników, znaczenie Moskwy jako rdzenia oraz rozróżnienie między odpadaniem peryferii a utratą kontroli nad atomem. Atom nie jest argumentem za wiecznością federacji; jest argumentem za pilnowaniem centrum. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
     </ol>
   </section>
 
   <section>
     <h2>Wojna o język, znaczenie i cudze głowy</h2>
     <ol start="19">
-      <li><strong>Gramatyka Budanowa i Zełenskiego</strong> — dosłowność, jednoczesność sprzeczności, „jedność” jako system operacyjny, przemilczenia, liczby jako komunikaty oraz rejestr „mnicha-wojownika”. To właściwie osobna analiza języka wywiadu. <em>(A2, A4)</em></li>
-      <li><strong>Sygnalizacja strategiczna</strong> — komunikaty wieloadresatowe, „wstrzymaj i pokaż”, kampanie ujawnień, timing rosyjskich odpowiedzi, Oresznik i asymetria opcjonalności. Uderzenie nie jest tylko eksplozją; bywa zdaniem wysłanym do pięciu odbiorców naraz. <em>(A2, A4)</em></li>
-      <li><strong>Milczenie strategiczne Zachodu</strong> — różnica między tym, co instytucje wiedzą, a tym, co mogą powiedzieć. Polityk nie wypowiada wniosku, bo zdanie urzędującego człowieka staje się zobowiązaniem. Każdy widzi kawałek nagiego króla, ale pełny akt widzenia wymagałby potem jakiegoś planu. Straszne chamstwo rzeczywistości. <em>(A4)</em></li>
-      <li><strong>Materia kontra sens</strong> — baryłki, wagony i ruble tworzą warunki przełomu, ale nie wyznaczają jego chwili. Państwo może mieć zapasy i stracić opowieść o sobie; może też nie mieć zapasów i dalej trwać. „Materia daje warunki, sens daje moment” jest jednym z najlepszych zdań całego korpusu. <em>(A4)</em></li>
-      <li><strong>Cele symboliczne</strong> — most kerczeński, Moskwa, Sewastopol, Kreml, rezydencje i osobiste poczucie bezpieczeństwa Putina. Ich wartość nie mieści się w tabeli ton, ale może zmieniać kalkulację nietykalności. <em>(A2, A4)</em></li>
-      <li><strong>Dark Legitimacy</strong> — system stabilizowany przez przekonanie, że każda władza jest zła, więc istniejąca jest przynajmniej znajomym złem. Korupcja i okrucieństwo go nie kompromitują; kompromituje go dopiero słabość. Bardzo istotny klucz do całej reszty. <em>(D1, A1, A2, A4)</em></li>
-      <li><strong>Disinfolklore</strong> — archetypy, „oskarżenie w lustrze”, cykl prowokacji, Witch Switch, modele odporne na dane i wojna memetyczna. Obok użytecznych narzędzi siedzi mana, pradźwięki i metafizyczny paw, więc D3 słusznie bierze całość na przesłuchanie kombinerkami. <em>(D2, D3, A1)</em></li>
-      <li><strong>Taksonomia rosyjskich „samobójstw”</strong> — 65 przypadków z ponad 75 szacowanych: okna, broń, trucizny, samoloty, dekapitacje i kombinacje, których nawet Monty Python nie odważyłby się nazwać naturalnymi. Ważniejsza od makabry jest analiza sektorów, przepływów budżetowych, timingu i niepewności jako narzędzia władzy. <em>(D4, A2)</em></li>
+      <li><strong>Gramatyka Budanowa i Zełenskiego</strong> — dosłowność, jednoczesność sprzeczności, „jedność” jako system operacyjny, przemilczenia, liczby jako komunikaty oraz rejestr „mnicha-wojownika”. To właściwie osobna analiza języka wywiadu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Sygnalizacja strategiczna</strong> — komunikaty wieloadresatowe, „wstrzymaj i pokaż”, kampanie ujawnień, timing rosyjskich odpowiedzi, Oresznik i asymetria opcjonalności. Uderzenie nie jest tylko eksplozją; bywa zdaniem wysłanym do pięciu odbiorców naraz. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Milczenie strategiczne Zachodu</strong> — różnica między tym, co instytucje wiedzą, a tym, co mogą powiedzieć. Polityk nie wypowiada wniosku, bo zdanie urzędującego człowieka staje się zobowiązaniem. Każdy widzi kawałek nagiego króla, ale pełny akt widzenia wymagałby potem jakiegoś planu. Straszne chamstwo rzeczywistości. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Materia kontra sens</strong> — baryłki, wagony i ruble tworzą warunki przełomu, ale nie wyznaczają jego chwili. Państwo może mieć zapasy i stracić opowieść o sobie; może też nie mieć zapasów i dalej trwać. „Materia daje warunki, sens daje moment” jest jednym z najlepszych zdań całego korpusu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Cele symboliczne</strong> — most kerczeński, Moskwa, Sewastopol, Kreml, rezydencje i osobiste poczucie bezpieczeństwa Putina. Ich wartość nie mieści się w tabeli ton, ale może zmieniać kalkulację nietykalności. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Dark Legitimacy</strong> — system stabilizowany przez przekonanie, że każda władza jest zła, więc istniejąca jest przynajmniej znajomym złem. Korupcja i okrucieństwo go nie kompromitują; kompromituje go dopiero słabość. Bardzo istotny klucz do całej reszty. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otwórz D1">D1</a><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Disinfolklore</strong> — archetypy, „oskarżenie w lustrze”, cykl prowokacji, Witch Switch, modele odporne na dane i wojna memetyczna. Obok użytecznych narzędzi siedzi mana, pradźwięki i metafizyczny paw, więc D3 słusznie bierze całość na przesłuchanie kombinerkami. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otwórz D2">D2</a><a class="ref-chip" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otwórz D3">D3</a><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a></span></li>
+      <li><strong>Taksonomia rosyjskich „samobójstw”</strong> — 65 przypadków z ponad 75 szacowanych: okna, broń, trucizny, samoloty, dekapitacje i kombinacje, których nawet Monty Python nie odważyłby się nazwać naturalnymi. Ważniejsza od makabry jest analiza sektorów, przepływów budżetowych, timingu i niepewności jako narzędzia władzy. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html" title="Otwórz D4">D4</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a></span></li>
     </ol>
   </section>
 
   <section>
     <h2>Geopolityczne odnogi, które wyrosły kolumbrynie z boku</h2>
     <ol start="27">
-      <li><strong>Iran i Jałta 3.0</strong> — rozpad irańskiej państwowości, utrata aury strachu IRGC, ryzyko nuklearne i szok naftowy. <em>(A1, D6, D7)</em></li>
-      <li><strong>Aras, Zagros, Kurdowie i Azerowie</strong> — geografia operacyjna, woda, pas 30 km, tożsamości i naturalne strefy wpływu. <em>(D6, D7)</em></li>
-      <li><strong>Hanza 2.0</strong> — porządek bez konferencji i bez jednego architekta: sieć handlowa pełniąca także funkcje bezpieczeństwa. Finansowanie korytarzy przez europejskie „old money”, bo budżety państw są za szybkie mniej więcej jak geologia. <em>(A1, D6)</em></li>
-      <li><strong>Nieufność jako stabilizator i równowagi Nasha</strong> — sojusz może trwać właśnie dlatego, że każdy zakłada zdradę patrona i buduje zdolność przetrwania bez niego. Bardzo niebanalny, osobny temat. <em>(D7)</em></li>
-      <li><strong>Energia jako topologia władzy</strong> — baryłka tworzy hierarchię i codzienną zależność; panel jest dobrem kapitałowym i po sprzedaży może usunąć klienta na trzy dekady. Dekarbonizacja jako decentralizacja siły, nie tylko ekologiczna dekoracja. <em>(Ropa…, Monopole…, A1)</em></li>
-      <li><strong>Monopole, które niszczą się przez używanie</strong> — saudyjska dźwignia cenowa jako autoimmunologia oraz chiński monopol na processing surowców krytycznych z wbudowanym, choć wolniejszym niż sądzono, zegarem erozji. <em>(Ropa…, Monopole…)</em></li>
-      <li><strong>Moralność transformacji</strong> — Wandel durch Handel, tani surowiec od dyktatora jako moralny hazard, 1973 kontra 2022, solidarność wymagająca substytutu i instytucji oraz pytanie, kto faktycznie płaci za transformację. <em>(Ropa…, Monopole…)</em></li>
+      <li><strong>Iran i Jałta 3.0</strong> — rozpad irańskiej państwowości, utrata aury strachu IRGC, ryzyko nuklearne i szok naftowy. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otwórz D6">D6</a><a class="ref-chip" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otwórz D7">D7</a></span></li>
+      <li><strong>Aras, Zagros, Kurdowie i Azerowie</strong> — geografia operacyjna, woda, pas 30 km, tożsamości i naturalne strefy wpływu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otwórz D6">D6</a><a class="ref-chip" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otwórz D7">D7</a></span></li>
+      <li><strong>Hanza 2.0</strong> — porządek bez konferencji i bez jednego architekta: sieć handlowa pełniąca także funkcje bezpieczeństwa. Finansowanie korytarzy przez europejskie „old money”, bo budżety państw są za szybkie mniej więcej jak geologia. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otwórz D6">D6</a></span></li>
+      <li><strong>Nieufność jako stabilizator i równowagi Nasha</strong> — sojusz może trwać właśnie dlatego, że każdy zakłada zdradę patrona i buduje zdolność przetrwania bez niego. Bardzo niebanalny, osobny temat. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otwórz D7">D7</a></span></li>
+      <li><strong>Energia jako topologia władzy</strong> — baryłka tworzy hierarchię i codzienną zależność; panel jest dobrem kapitałowym i po sprzedaży może usunąć klienta na trzy dekady. Dekarbonizacja jako decentralizacja siły, nie tylko ekologiczna dekoracja. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html" title="Otwórz E1">E1</a><a class="ref-chip" href="monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html" title="Otwórz E2">E2</a><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a></span></li>
+      <li><strong>Monopole, które niszczą się przez używanie</strong> — saudyjska dźwignia cenowa jako autoimmunologia oraz chiński monopol na processing surowców krytycznych z wbudowanym, choć wolniejszym niż sądzono, zegarem erozji. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html" title="Otwórz E1">E1</a><a class="ref-chip" href="monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html" title="Otwórz E2">E2</a></span></li>
+      <li><strong>Moralność transformacji</strong> — Wandel durch Handel, tani surowiec od dyktatora jako moralny hazard, 1973 kontra 2022, solidarność wymagająca substytutu i instytucji oraz pytanie, kto faktycznie płaci za transformację. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html" title="Otwórz E1">E1</a><a class="ref-chip" href="monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html" title="Otwórz E2">E2</a></span></li>
     </ol>
   </section>
 
   <section>
     <h2>Najlepsze drobne znaleziska</h2>
     <ul>
-      <li><strong>Detekcja absencji</strong> — brak publikowanej liczby, oczekiwanej reakcji albo nazwiska jest informacją, jeśli wiadomo, że powinny się pojawić. „Pies nie zaszczekał” dostaje tu własną metodologię OSINT. <em>(A2, A4, A6)</em></li>
-      <li><strong>Zapas kontra strumień</strong> — Rosja gromadzi drogie salwy i rezerwy; Ukraina buduje odnawialny strumień tanich narzędzi. Bardzo dobra rama, działająca jednocześnie dla paliwa, ognia, lojalności i eskalacji. <em>(A6)</em></li>
-      <li><strong>Nyquist przeciw OODA</strong> — tempo dwóch nakładających się kampanii przekracza częstotliwość, z jaką rosyjski system potrafi odtworzyć obraz sytuacji. Teoria próbkowania wpuszczona na wojnę i, ku zgorszeniu normalnych ludzi, faktycznie użyteczna. <em>(A2)</em></li>
-      <li><strong>Moskwa tonąca w jednej kałuży</strong> — powódź jako przecięcie korupcji, zaniedbania wojennego i klimatu. Mały obraz całego systemu. <em>(A2)</em></li>
-      <li><strong>Windy jako całoroczny kanarek komunalki</strong> — ciepłownia straszy zimą, ale setki tysięcy starzejących się wind mogą raportować degradację codziennie. <em>(A5)</em></li>
-      <li><strong>Wieś się wyżywi, miasta niekoniecznie</strong> — kryzys rolny i kryzys żywnościowy to dwie różne rzeczy. <em>(A4)</em></li>
-      <li><strong>Musk i Thiel jako erodatorzy zachodniego odruchu stabilizacji Rosji</strong> — nie sprawcy rozpadu, lecz prywatni aktorzy łączący preferencję fragmentacji z dostępem do amerykańskiej władzy i infrastruktury. Dziwne, ale niegłupie. <em>(A7)</em></li>
-      <li><strong>Rozbrojenie straszaka uchodźczego</strong> — argument, że rozpad Rosji automatycznie oznacza masową falę na Zachód, zostaje rozebrany na geografię, kierunki migracji i brak stabilnej „macierzy” w samym rdzeniu. <em>(A7)</em></li>
-      <li><strong>„Kompletna zła wiadomość jest tańsza niż niekompletna”</strong> — szybki szok może skrócić niepewność i przyspieszyć adaptację; Nord Stream służy jako przykład. <em>(Ropa…)</em></li>
-      <li><strong>Bestiariusz ryzyka</strong> — słoń, 24 szare nosorożce, różowe flamingi, czarne łabędzie i pijane tygrysy. To nie ozdobnik, tylko pięć różnych ontologii katastrofy. I wreszcie zoologia przydatniejsza od części politologii. <em>(A1, A2, A5)</em></li>
+      <li><strong>Detekcja absencji</strong> — brak publikowanej liczby, oczekiwanej reakcji albo nazwiska jest informacją, jeśli wiadomo, że powinny się pojawić. „Pies nie zaszczekał” dostaje tu własną metodologię OSINT. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Zapas kontra strumień</strong> — Rosja gromadzi drogie salwy i rezerwy; Ukraina buduje odnawialny strumień tanich narzędzi. Bardzo dobra rama, działająca jednocześnie dla paliwa, ognia, lojalności i eskalacji. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otwórz A6">A6</a></span></li>
+      <li><strong>Nyquist przeciw OODA</strong> — tempo dwóch nakładających się kampanii przekracza częstotliwość, z jaką rosyjski system potrafi odtworzyć obraz sytuacji. Teoria próbkowania wpuszczona na wojnę i, ku zgorszeniu normalnych ludzi, faktycznie użyteczna. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a></span></li>
+      <li><strong>Moskwa tonąca w jednej kałuży</strong> — powódź jako przecięcie korupcji, zaniedbania wojennego i klimatu. Mały obraz całego systemu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a></span></li>
+      <li><strong>Windy jako całoroczny kanarek komunalki</strong> — ciepłownia straszy zimą, ale setki tysięcy starzejących się wind mogą raportować degradację codziennie. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a></span></li>
+      <li><strong>Wieś się wyżywi, miasta niekoniecznie</strong> — kryzys rolny i kryzys żywnościowy to dwie różne rzeczy. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otwórz A4">A4</a></span></li>
+      <li><strong>Musk i Thiel jako erodatorzy zachodniego odruchu stabilizacji Rosji</strong> — nie sprawcy rozpadu, lecz prywatni aktorzy łączący preferencję fragmentacji z dostępem do amerykańskiej władzy i infrastruktury. Dziwne, ale niegłupie. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>Rozbrojenie straszaka uchodźczego</strong> — argument, że rozpad Rosji automatycznie oznacza masową falę na Zachód, zostaje rozebrany na geografię, kierunki migracji i brak stabilnej „macierzy” w samym rdzeniu. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otwórz A7">A7</a></span></li>
+      <li><strong>„Kompletna zła wiadomość jest tańsza niż niekompletna”</strong> — szybki szok może skrócić niepewność i przyspieszyć adaptację; Nord Stream służy jako przykład. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html" title="Otwórz E1">E1</a></span></li>
+      <li><strong>Bestiariusz ryzyka</strong> — słoń, 24 szare nosorożce, różowe flamingi, czarne łabędzie i pijane tygrysy. To nie ozdobnik, tylko pięć różnych ontologii katastrofy. I wreszcie zoologia przydatniejsza od części politologii. <span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span><a class="ref-chip" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otwórz A1">A1</a><a class="ref-chip" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otwórz A2">A2</a><a class="ref-chip" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otwórz A5">A5</a></span></li>
     </ul>
   </section>
 
