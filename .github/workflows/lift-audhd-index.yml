@@ -1,0 +1,84 @@
+name: AuDHD lifting 1 - klikalne tytuly
+
+on:
+  push:
+    paths:
+      - '.github/workflows/lift-audhd-index.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  lift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zrob tytuly tekstow klikalne
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('audhd/index.html')
+          s = p.read_text(encoding='utf-8')
+
+          pattern = re.compile(r'(<article class="entry"[^>]*>)(.*?)(</article>)', re.S)
+          changed = 0
+
+          def patch_article(m):
+              global changed
+              start, body, end = m.groups()
+              hm = re.search(r'<h3>(.*?)</h3>', body, re.S)
+              if not hm or '<a ' in hm.group(1):
+                  return m.group(0)
+              hrefs = re.findall(r'href="([^"]+)"', body)
+              if not hrefs:
+                  return m.group(0)
+              href = hrefs[-1]
+              title = hm.group(1)
+              replacement = f'<h3><a class="entry-title-link" href="{href}">{title}</a></h3>'
+              body2 = body[:hm.start()] + replacement + body[hm.end():]
+              changed += 1
+              return start + body2 + end
+
+          s2 = pattern.sub(patch_article, s)
+
+          css = '''
+
+    .entry-title-link {
+      color: inherit;
+      text-decoration: none;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 5px;
+    }
+
+    .entry-title-link:hover,
+    .entry-title-link:focus-visible {
+      color: #f2d98d;
+      text-decoration: underline;
+    }
+'''
+          if '.entry-title-link {' not in s2:
+              marker = '    .entry p {'
+              pos = s2.find(marker)
+              if pos == -1:
+                  raise SystemExit('Nie znaleziono miejsca na CSS')
+              s2 = s2[:pos] + css + '\n' + s2[pos:]
+
+          if changed == 0:
+              raise SystemExit('Nie znaleziono tytulow do zmiany')
+
+          p.write_text(s2, encoding='utf-8')
+          print(f'Klikalne tytuly: {changed}')
+          PY
+
+      - name: Zapisz punkt 1
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "AuDHD: klikalne tytuly tekstow"
+          git push
