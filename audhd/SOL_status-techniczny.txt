@@ -41,5 +41,13 @@ STAN PO LIFTINGU INDEX.HTML
   https://maciektora-hue.github.io/audhd/20-prac/
 - workflow wykonujący operację zakończył się SUCCESS
 
+7. Generyczne głębokie linki / anchory
+- wykonano techniczny audyt wszystkich 17 stałych URL-i
+- 17/17 aliasów zachowuje dowolny #fragment przez location.hash
+- mechanizm nie wymaga listy anchorów ani ręcznego mapowania poszczególnych id=
+- założenie robocze: jeżeli docelowy plik zawiera anchor id=, uznajemy go za poprawny
+- w aktualnych plikach docelowych pod stałymi URL-ami znaleziono 1 plik z anchorami i łącznie 71 id=
+- audyt zakończył się SUCCESS
+
 UWAGA
 Ten plik jest techniczną notatką stanu, żeby przy kolejnych poprawkach nie rekonstruować historii zmian z archeologii commitów.
