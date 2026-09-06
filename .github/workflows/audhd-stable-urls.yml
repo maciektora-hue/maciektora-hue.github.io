@@ -45,49 +45,43 @@ jobs:
               'rownania/': 'CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html',
           }
 
-          # Najpierw sprawdz, czy wszystkie cele istnieja.
           missing = [target for target in mapping.values() if not (root / target).exists()]
           if missing:
               raise SystemExit('Brak plikow docelowych: ' + ', '.join(missing))
 
-          # Kazdy stabilny URL to katalog z index.html przekierowujacym do aktualnej wersji.
-          # JS zachowuje #fragment, meta refresh jest awaryjnym fallbackiem.
           for alias, target in mapping.items():
               d = root / alias.rstrip('/')
               d.mkdir(parents=True, exist_ok=True)
-              redirect = d / 'index.html'
               rel = '../' + target
-              html = f'''<!doctype html>
-<html lang="pl">
-<head>
-  <meta charset="utf-8">
-  <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url={rel}">
-  <title>Przekierowanie</title>
-  <script>location.replace({rel!r} + location.hash);</script>
-</head>
-<body>
-  <p><a href="{rel}">Przejdź do tekstu</a></p>
-</body>
-</html>
-'''
-              redirect.write_text(html, encoding='utf-8')
+              lines = [
+                  '<!doctype html>',
+                  '<html lang="pl">',
+                  '<head>',
+                  '  <meta charset="utf-8">',
+                  '  <meta name="robots" content="noindex">',
+                  f'  <meta http-equiv="refresh" content="0; url={rel}">',
+                  '  <title>Przekierowanie</title>',
+                  f'  <script>location.replace({rel!r} + location.hash);</script>',
+                  '</head>',
+                  '<body>',
+                  f'  <p><a href="{rel}">Przejdź do tekstu</a></p>',
+                  '</body>',
+                  '</html>',
+                  '',
+              ]
+              (d / 'index.html').write_text('\n'.join(lines), encoding='utf-8')
 
-          # Przepnij wszystkie linki z indexu z wersjonowanych nazw na stabilne URL-e.
           replacements = {target: alias for alias, target in mapping.items()}
-          # Stary pomocniczy redirect do 20 prac tez kierujemy na nowy staly URL.
           replacements['opis-po-ludzku-20-prac-naukowych.html'] = '20-prac/'
 
           changed = 0
           for old, new in replacements.items():
-              # Zmieniamy tylko href, zachowujac ewentualny #anchor.
               pattern = re.compile(r'href="' + re.escape(old) + r'(?P<frag>#[^"]*)?"')
               s, n = pattern.subn(lambda m: f'href="{new}{m.group("frag") or ""}"', s)
               changed += n
 
           index.write_text(s, encoding='utf-8')
 
-          # Audyt: w href indexu nie moze zostac zadna wersjonowana nazwa z mapowania.
           hrefs = re.findall(r'href="([^"]+)"', s)
           leftovers = []
           for href in hrefs:
@@ -97,7 +91,6 @@ jobs:
           if leftovers:
               raise SystemExit('Zostaly stare URL-e w indexie: ' + ', '.join(leftovers))
 
-          # Audyt aliasow.
           for alias, target in mapping.items():
               p = root / alias / 'index.html'
               txt = p.read_text(encoding='utf-8')
