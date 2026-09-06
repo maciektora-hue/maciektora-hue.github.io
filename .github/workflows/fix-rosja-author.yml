@@ -1,0 +1,42 @@
+name: Popraw autora Rosyjskiej Kolumbryny
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-rosja-author.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Popraw podpis w lewym gornym rogu
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('rosja/index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''      <a class="brand" href="#start" aria-label="Rosyjska Kolumbryna — początek strony">
+        <strong>SOL</strong>
+        <span>publiczna brama korpusu</span>
+      </a>'''
+          new = '''      <a class="brand" href="#start" aria-label="Rosyjska Kolumbryna — początek strony">
+        <strong>Maciej Tora</strong>
+        <span>Rosyjska Kolumbryna</span>
+      </a>'''
+          if old not in s:
+              raise SystemExit('Nie znaleziono starego podpisu')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+
+      - name: Zapisz poprawke
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rosja/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Popraw autorstwo Rosyjskiej Kolumbryny"
+          git push
