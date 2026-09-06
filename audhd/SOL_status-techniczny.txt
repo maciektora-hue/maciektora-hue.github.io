@@ -29,5 +29,17 @@ STAN PO LIFTINGU INDEX.HTML
 - używane jednorazowe workflowy zakończyły się SUCCESS
 - jednorazowe workflowy po wykonaniu zostały usunięte
 
+6. Stabilne publiczne URL-e
+- utworzono 17 stałych adresów niezależnych od wersjonowanych nazw plików
+- index.html został przepięty na stałe adresy
+- linki z #anchorami są zachowywane przez przekierowanie
+- przykłady:
+  https://maciektora-hue.github.io/audhd/co-to-znaczy/
+  https://maciektora-hue.github.io/audhd/po-ludzku/
+  https://maciektora-hue.github.io/audhd/cechy/
+  https://maciektora-hue.github.io/audhd/po-diagnozie/
+  https://maciektora-hue.github.io/audhd/20-prac/
+- workflow wykonujący operację zakończył się SUCCESS
+
 UWAGA
 Ten plik jest techniczną notatką stanu, żeby przy kolejnych poprawkach nie rekonstruować historii zmian z archeologii commitów.
