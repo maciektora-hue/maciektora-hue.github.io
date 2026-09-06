@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMROZONE · zapas kontra strumień · v02.00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cinzel+Decorative:wght@700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330;
+  --text:#e6edf3; --dim:#8b949e; --line:#30363d;
+  --ua:#4a9eff; --ru:#ff5555; --eff:#ffa657; --gold:#f5c518;
+  --purple:#bc8cff; --green:#3fb950;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.62; font-size:16.5px;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:900px; margin:0 auto; padding:26px 18px 80px}
+h1{
+  font-family:'Black Ops One',sans-serif; font-weight:400;
+  font-size:2.05rem; line-height:1.18; margin:.2em 0 .1em;
+  color:#fff; letter-spacing:.5px;
+}
+.subtitle{color:var(--dim); font-size:1rem; margin:0 0 .3em; font-style:italic}
+h2{
+  font-family:'Cinzel Decorative',serif; font-weight:700;
+  font-size:1.7rem; line-height:1.25; margin:2.2em 0 .7em;
+  padding:.35em 0 .35em .65em; border-left:6px solid var(--eff);
+  color:#fff;
+}
+h2.part-strat{border-left-color:var(--ru)}
+h3{
+  font-size:1.24rem; margin:1.8em 0 .5em; color:var(--gold);
+  padding-left:.55em; border-left:3px solid var(--gold);
+  line-height:1.3;
+}
+h3.ru{color:var(--ru); border-left-color:var(--ru)}
+h3.ua{color:var(--ua); border-left-color:var(--ua)}
+h4{font-size:1.05rem; margin:1.3em 0 .35em; color:var(--eff)}
+h6{font-size:.92rem; margin:1.1em 0 .3em; color:var(--dim); font-style:italic; font-weight:600}
+p{margin:.7em 0}
+a{color:var(--ua); text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:#fff}
+.hi{color:var(--gold); font-weight:700}
+.hr{color:var(--ua)}
+.hriu{color:var(--ru)}
+
+/* sygnatura */
+.sig{
+  font-family:var(--mono); font-size:.78rem; color:var(--dim);
+  border:1px solid var(--line); border-radius:7px; padding:9px 12px;
+  margin:.8em 0; background:var(--panel);
+}
+.sig .lab{font-size:.68rem; text-transform:uppercase; letter-spacing:1px; opacity:.6; display:block; margin-bottom:3px}
+
+/* TOC */
+nav.toc{
+  background:var(--panel); border:1px solid var(--line); border-radius:9px;
+  padding:14px 20px 18px; margin:1.4em 0 2.2em;
+}
+nav.toc .toc-h{font-family:var(--mono); font-size:.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--dim); margin-bottom:.5em}
+nav.toc ul{list-style:none; margin:.2em 0; padding-left:0}
+nav.toc ol{margin:.2em 0 .6em; padding-left:1.5em}
+nav.toc>ul>li{margin:.55em 0 .2em; font-family:'Cinzel Decorative',serif; font-size:1.02rem; color:var(--eff)}
+nav.toc>ul>li.strat{color:var(--ru)}
+nav.toc ol li{margin:.22em 0; font-family:inherit; font-size:.95rem}
+nav.toc ol li a{color:var(--text)}
+nav.toc ol li a:hover{color:var(--ua)}
+
+/* summary / key box */
+.summary{
+  background:linear-gradient(180deg,rgba(74,158,255,.09),rgba(74,158,255,.03));
+  border:1px solid rgba(74,158,255,.35); border-left:5px solid var(--ua);
+  border-radius:8px; padding:13px 17px; margin:1.2em 0;
+}
+.summary .st{font-family:var(--mono); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--ua); margin-bottom:.35em}
+
+/* callout neutral */
+.callout{
+  background:var(--panel2); border:1px solid var(--line); border-left:4px solid var(--eff);
+  border-radius:7px; padding:11px 15px; margin:1em 0;
+}
+
+/* advocatus diaboli */
+.adv{
+  background:linear-gradient(180deg,rgba(188,140,255,.08),rgba(188,140,255,.02));
+  border:1px solid rgba(188,140,255,.4); border-left:5px solid var(--purple);
+  border-radius:8px; padding:13px 17px; margin:1.3em 0;
+}
+.adv .at{font-family:var(--mono); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--purple); margin-bottom:.4em}
+
+/* stat row */
+.stat-row{display:flex; flex-wrap:wrap; gap:12px; margin:1.2em 0}
+.stat{
+  flex:1 1 130px; background:var(--panel); border:1px solid var(--line);
+  border-radius:8px; padding:11px 13px; text-align:center;
+}
+.stat .num{font-family:var(--mono); font-size:1.5rem; font-weight:700; color:var(--gold); line-height:1.1}
+.stat .num.ru{color:var(--ru)}
+.stat .num.ua{color:var(--ua)}
+.stat .lbl{font-size:.76rem; color:var(--dim); margin-top:4px; line-height:1.3}
+
+/* tables */
+.tw{overflow-x:auto; margin:1.2em 0; -webkit-overflow-scrolling:touch}
+table{border-collapse:collapse; width:100%; font-size:.9rem; min-width:520px}
+th,td{border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top}
+th{background:var(--panel2); color:var(--eff); font-family:var(--mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.5px}
+tr:nth-child(even) td{background:rgba(255,255,255,.018)}
+td .whole{color:var(--green); font-weight:700}
+td .hit{color:var(--ru)}
+.tfoot-note{font-size:.82rem; color:var(--dim); margin:.3em 0 0}
+
+/* axis cards */
+.axis{
+  background:var(--panel); border:1px solid var(--line); border-radius:9px;
+  padding:14px 17px; margin:1em 0; border-top:3px solid var(--ru);
+}
+.axis .an{font-family:var(--mono); font-size:.74rem; letter-spacing:1px; color:var(--ru); text-transform:uppercase; margin-bottom:.3em}
+.axis h4{margin-top:.1em}
+
+/* pills */
+.pill{display:inline-block; font-family:var(--mono); font-size:.7rem; padding:2px 8px; border-radius:20px; margin:0 3px 3px 0; letter-spacing:.5px}
+.p-en{background:rgba(255,166,87,.16); color:var(--eff); border:1px solid rgba(255,166,87,.4)}
+.p-ru{background:rgba(255,85,85,.14); color:var(--ru); border:1px solid rgba(255,85,85,.4)}
+.p-ua{background:rgba(74,158,255,.14); color:var(--ua); border:1px solid rgba(74,158,255,.4)}
+
+/* sources */
+.src{font-size:.8rem; color:var(--dim); margin:.6em 0 0; padding-top:.5em; border-top:1px dashed var(--line); font-family:var(--mono)}
+
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:2em 0}
+ul.body,ol.body{margin:.6em 0; padding-left:1.4em}
+ul.body li,ol.body li{margin:.4em 0}
+.foot{margin-top:3em; padding-top:1.2em; border-top:1px solid var(--line); color:var(--dim); font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1 id="tytul">Zapas kontra strumień</h1>
+<p class="subtitle">Rozpad układu paliwowego Rosji i pułapka jedynego decydenta — synteza z 3 lipca 2026</p>
+
+<div class="sig" id="sygnatura-pliku-gorna">
+<span class="lab">sygnatura pliku</span>
+ZAMROZONE · zapas-kontra-strumien · v02.00 · 2026-07-03
+</div>
+
+<nav class="toc" id="spis-tresci">
+<div class="toc-h">Spis treści</div>
+<ul>
+<li>I. Materia — układ paliwowy
+<ol>
+<li><a href="#uderzenie-2806">Uderzenie 28.06 — trzy obiekty, skala</a></li>
+<li><a href="#moce-nominalne">Moce nominalne kontra faktyczny przerób</a></li>
+<li><a href="#top-rafinerie">Piętnaście największych rafinerii</a></li>
+<li><a href="#bilans-produktow">Bilans per-produkt i asymetria buforów</a></li>
+<li><a href="#zapasy-magazynowe">Zapasy magazynowe — flow kontra stock</a></li>
+<li><a href="#drabina-zakazow">Drabina zakazów i sprzężenie współproduktów</a></li>
+<li><a href="#offline-slack">Offline ≈ slack — zmiana fazy</a></li>
+<li><a href="#poziomy-kreski">Poziomy kreski i popyt stłumiony</a></li>
+<li><a href="#cebula-transportowa">Cebula transportowa — cztery warstwy</a></li>
+</ol>
+</li>
+<li class="strat">II. Strategia — pułapka decydenta
+<ol>
+<li><a href="#cztery-osie">Cztery osie zapas kontra strumień</a></li>
+<li><a href="#odczyt-absencja">Odczyt przez absencję</a></li>
+<li><a href="#generalowie">Generałowie i urojony obraz</a></li>
+<li><a href="#zablokowana-elita">Zablokowana elita</a></li>
+<li><a href="#szachmat">Szachmat — freeze zamknięty od strony Rosji</a></li>
+<li><a href="#rosja-rowna-putin">Załamanie ramy — Rosja = Putin</a></li>
+<li><a href="#gambit-nato">Gambit NATO i casus belli</a></li>
+<li><a href="#paradoks-zapedzenia">Paradoks zapędzenia</a></li>
+<li><a href="#advocatus-zebrany">Advocatus diaboli — zebrane zawiasy</a></li>
+</ol>
+</li>
+</ul>
+</nav>
+
+<div class="summary">
+<div class="st">Teza wiodąca</div>
+Rosja stoi na każdej istotnej osi w trybie <strong>zapasu, który się wyczerpuje</strong> — paliwo, ogień precyzyjny, lojalność elit, pułap eskalacji konwencjonalnej. Ukraina działa w trybie <strong>strumienia, który się odnawia</strong>. Wyczerpanie rosyjskich zapasów to warunek konieczny załamania; wyzwalaczem pozostaje pęknięcie percepcji siły centrum, którą paliwo naciska pośrednio i z opóźnieniem. A ponieważ nikt wewnątrz Rosji nie jest dziś w stanie usunąć Putina, <strong>możliwości i ryzyka Rosji = możliwości i ryzyka Putina</strong> — i jego funkcja celu (przetrwanie osobiste) rozeszła się z funkcją celu państwa (które by zamroziło).
+</div>
+
+<!-- ════════════════════════════ CZĘŚĆ I ════════════════════════════ -->
+<h2 id="czesc-materia">Część I — Materia: układ paliwowy Rosji</h2>
+
+<h3 class="ua" id="uderzenie-2806">1. Uderzenie 28.06 — trzy obiekty, skala zweryfikowana</h3>
+<p>Jedna fala, trzy obiekty potwierdzone (lista „Oko Gory"; NOELREPORTS osobno potwierdza jednostkę stabilizacji):</p>
+<span class="pill p-en">ENERGIA</span><span class="pill p-ua">DRONOWY</span>
+<div class="tw">
+<table>
+<tr><th>Obiekt</th><th>Region</th><th>Od frontu</th><th>Sygnatura</th></tr>
+<tr><td>Rafineria <strong>Sławiansk ECO</strong> (~100 tys. bpd)</td><td>Krasnodarski</td><td>315 km</td><td>FIRMS ×5, ~20 km², dym 100+ km</td></tr>
+<tr><td><strong>YANOS</strong> (Jarosławnieftieorgsintez)</td><td>Jarosławski</td><td>700 km</td><td>pożar na terenie; wcześniej ~¼ mocy</td></tr>
+<tr><td>Stabilizacja ropy + obróbka gazu (<strong>RN-Krasnodarnieftiegaz</strong>)</td><td>Krasnodarski</td><td>305 km</td><td>osobne ognisko FIRMS</td></tr>
+</table>
+</div>
+<p>Skala twardo potwierdzona danymi termicznymi MODIS/Aqua (28.06, ~45.23 N / 38.14 E): pięć pikseli FIRMS, FRP szczytowy <strong>~528 MW</strong>, suma <strong>~1140 MW</strong> — rząd wielkości powyżej typowego piksela pożarowego (dziesiątki MW). Powierzchnia ~20 km², dym widoczny z ponad 100 km. To jeden z większych pojedynczych pożarów rafineryjnych całej kampanii.</p>
+<div class="callout"><strong>Kalibracja:</strong> FRP + zasięg dymu potwierdzają intensywne <em>spalanie</em> (intensywność i rozległość), nie jeszcze <em>tonaż offline</em>. Ocena spadku przerobu przychodzi z opóźnieniem dni. Sławiansk to ~9% przerobu Południowego OF i kluczowy dostawca paliwa dla okupowanego Krymu oraz wojska.</div>
+<div class="src">NASA FIRMS (MODIS/Aqua) · Astra · Exilenova+ · Supernova+ · Crimean Wind · Eole2002 / Tendar (Bluesky)</div>
+
+<h3 id="moce-nominalne">2. Moce nominalne kontra faktyczny przerób</h3>
+<div class="stat-row">
+<div class="stat"><div class="num">327 Mt</div><div class="lbl">nominał rocznie (Carnegie, 6,5 mln bbl/d)</div></div>
+<div class="stat"><div class="num">345 Mt</div><div class="lbl">nominał alt. (IEA, 6,9 mln bbl/d)</div></div>
+<div class="stat"><div class="num">270 Mt</div><div class="lbl">faktyczny przerób 2024 (EIA, ~5,4 mln bbl/d)</div></div>
+<div class="stat"><div class="num">~57–75 Mt</div><div class="lbl">slack (luz nominał − fakt)</div></div>
+</div>
+<p>Baza analityczna: <strong>faktyczny przerób 2024 = ~270 Mt</strong> (EIA — liczba twarda, retrospektywna, instytucjonalna). Rok 2024 jest audytowalny; rok 2025 to już tylko szacunki (Rosstat utajnił część statystyk) — wchodził ~5,4 mln bbl/d, na początku 2026 „tuż poniżej 5" (Carnegie). Zaciemnienie danych samo w sobie jest sygnałem: gdy reżim utajnia własny przerób, <em>brak danych</em> też jest daną.</p>
+<p>Luz bezczynny (~57–75 Mt, czyli ~17–22% mocy zawsze idle) to był <strong>bufor mocy</strong> — spare capacity do odpalenia ze standby, gdy coś padnie. Kluczowy dla całej dalszej analizy.</p>
+<div class="callout"><strong>Nominał ≠ throughput ≠ paliwo rynkowe.</strong> Z baryłki nie wychodzi sama benzyna+diesel+jet — wychodzi mazut, VGO, nafta, bitum, koks, LPG, plus straty procesowe. Uderzenie w kolumnę atmosferyczną tnie wszystkie frakcje proporcjonalnie; uderzenie w jednostkę wtórną (FCC, hydrokraker, coker) tnie selektywnie yield jasnych, nie sam wsad. „X% mocy offline" ≠ „X% benzyny mniej".</div>
+<div class="src">Carnegie (Vakulenko) · IEA · EIA · OGJ (głębokość przerobu RU)</div>
+
+<h3 class="ru" id="top-rafinerie">3. Piętnaście największych rafinerii — udział nominalny</h3>
+<p>Ranking wg nominalnej mocy przerobowej ropy (2024, mln t/rok; ★ = liczba twarda z wielu źródeł, ~ = wartość środkowa):</p>
+<div class="tw">
+<table>
+<tr><th>#</th><th>Rafineria</th><th>Region</th><th>Moc nom.</th><th>Status 06.2026</th></tr>
+<tr><td>1</td><td><strong>Omsk</strong> (Gazprom Nieft)</td><td>Omski</td><td>★21,3</td><td><span class="whole">cały</span> — jedyny</td></tr>
+<tr><td>2</td><td><strong>Kiriszi / KINEF</strong></td><td>Leningradzki</td><td>★20,1</td><td><span class="hit">offline od 5.05</span></td></tr>
+<tr><td>3</td><td><strong>Riazań</strong></td><td>Riazański</td><td>★17,1</td><td><span class="hit">trafiona ×15</span></td></tr>
+<tr><td>4</td><td><strong>Kstowo / NORSI</strong></td><td>Niżnonowogrodzki</td><td>★17,0</td><td><span class="hit">offline</span></td></tr>
+<tr><td>5</td><td><strong>TANECO</strong> (Niżniekamsk)</td><td>Tatarstan</td><td>~16,0</td><td><span class="hit">11–12.06</span></td></tr>
+<tr><td>6</td><td><strong>Wołgograd</strong></td><td>Wołgogradzki</td><td>~15,7</td><td><span class="hit">trafiona</span></td></tr>
+<tr><td>7</td><td><strong>YANOS</strong> (Jarosławl)</td><td>Jarosławski</td><td>~15,0</td><td><span class="hit">znów 28.06, ~¼ mocy</span></td></tr>
+<tr><td>8</td><td><strong>Perm</strong></td><td>Permski</td><td>~13,1</td><td><span class="hit">trafiona</span></td></tr>
+<tr><td>9</td><td><strong>Tuapse</strong></td><td>Krasnodarski</td><td>~12,0</td><td><span class="hit">wielokrotnie</span></td></tr>
+<tr><td>10</td><td><strong>Moskwa / Kapotnia</strong></td><td>Moskwa</td><td>★11,6</td><td><span class="hit">offline do 2027</span></td></tr>
+<tr><td>11</td><td><strong>Angarsk</strong></td><td>Irkucki (Syberia)</td><td>★10,2</td><td><span class="whole">cały</span> — dystans</td></tr>
+<tr><td>12</td><td><strong>Salawat</strong></td><td>Baszkortostan</td><td>★10,0</td><td><span class="hit">trafiona</span></td></tr>
+<tr><td>13</td><td><strong>Ufanieftiechim</strong></td><td>Baszkortostan</td><td>★9,5</td><td><span class="hit">trafiona</span></td></tr>
+<tr><td>14</td><td><strong>Syzrań</strong></td><td>Samarski</td><td>★8,5</td><td><span class="hit">trafiona</span></td></tr>
+<tr><td>15</td><td><strong>Komsomolsk</strong></td><td>Chabarowski (Daleki Wsch.)</td><td>★8,3</td><td><span class="whole">cały</span> — dystans</td></tr>
+</table>
+</div>
+<div class="stat-row">
+<div class="stat"><div class="num ru">~159 Mt</div><div class="lbl">suma top-10 (~3,2 mln bbl/d)</div></div>
+<div class="stat"><div class="num ru">~49%</div><div class="lbl">top-10 / nominał 327</div></div>
+<div class="stat"><div class="num ru">~205 Mt</div><div class="lbl">suma top-15 (~4,1 mln bbl/d)</div></div>
+<div class="stat"><div class="num ru">~63%</div><div class="lbl">top-15 / nominał 327</div></div>
+</div>
+<p><strong>Piętnaście zakładów = blisko dwie trzecie całej nominalnej mocy Rosji.</strong> Z całej piętnastki cały został tylko Omsk (po stronie benzyny) plus dwie wschodnie — Angarsk i Komsomolsk — i obie ocalały <em>wyłącznie dystansem</em>. Wszystko, co w zasięgu efektywnym dronów, oberwało. <span class="hi">Ocalenie = mapa, nie OPL. Geografia ocalenia = geografia niedowozu.</span></p>
+<p class="tfoot-note">Flagi: TANECO i Tuapse mają najszersze widełki między źródłami (TANECO 8,7 stara moc vs ~16 po rozbudowie; Tuapse 9,0 vs ~12) — trzymam wartości po rozbudowie/CDU-total. Klastr Ufa liczony po zakładach (Ufanieftiechim osobno); jako kompleks ~22 zmieniłby czołówkę. Remis #15: TAIF-NK i Nowokujbyszewsk tuż pod kreską.</p>
+<div class="src">UNITED24 (top-20) · S&P Global · Rosneft · RBC · dane branżowe</div>
+
+<h3 id="bilans-produktow">4. Bilans per-produkt i asymetria buforów</h3>
+<p>Najczystszy pełnoroczny rozkład to 2023 (Enerdata); struktura jest ta sama w 2024. Produkcja − zużycie krajowe = nadwyżka eksportowa = bufor, który decyduje, ile uszkodzeń realnie boli:</p>
+<div class="tw">
+<table>
+<tr><th>Produkt</th><th>Produkcja</th><th>Zużycie krajowe</th><th>Eksport</th><th>Bufor</th></tr>
+<tr><td><strong>Benzyna</strong></td><td>~43 Mt</td><td>~37–38 Mt (869 tys. bbl/d)</td><td>~5 Mt (~110 tys. bbl/d)</td><td class="hit">CIENKI, ~12–16%</td></tr>
+<tr><td><strong>Diesel/gasoil</strong></td><td>~88 Mt</td><td>~45 Mt (916 tys. bbl/d)</td><td>~35 Mt (~1,07 mln bbl/d)</td><td class="whole">OGROMNY, ~½ na eksport</td></tr>
+<tr><td><strong>Kerosen/lotnicze</strong></td><td>w grupie z naftą</td><td>najmniejsze z trójki</td><td>eksporter (dane łączone)</td><td>słaba separacja</td></tr>
+</table>
+</div>
+<p>Te 35 Mt diesla (1,07 mln bbl/d) czyniło Rosję największym morskim eksporterem diesla świata — ponad 13% globalnego handlu morskiego. Asymetria buforów dzieli Proces B na dwa różne punkty bólu:</p>
+<ul class="body">
+<li><strong>Benzyna = ból krajowy/polityczny.</strong> Bufor cienki — każdy ubytek wchodzi w konsumpcję wewnętrzną → racjonowanie, kolejki, zerowa sprzedaż na Krymie. Ten produkt boli widocznie.</li>
+<li><strong>Diesel = ból fiskalny/eksportowy.</strong> Bufor gruby — uszkodzenie długo nie tworzy krajowego niedoboru, zjada nadwyżkę eksportową, czyli przychód wojenny. Diesel nie pali kolejek, pali budżet.</li>
+</ul>
+<div class="callout"><strong>Konsekwencja militarna:</strong> paliwo najważniejsze dla wojska (diesel — czołgi, ciężarówki, RŻD na liniach niezelektryfikowanych, rolnictwo) ma <em>najgrubszy</em> bufor, więc jest najtrudniejsze do zagłodzenia uderzeniami w rafinerie. Benzyna, najłatwiejsza do odcięcia, jest głównie cywilna → ból polityczny, nie operacyjny. <strong>Proces B (rafinerie) = dźwignia benzynowo-polityczno-przychodowa; diesel/wojsko zagłodzisz dopiero przez czas albo przez Proces A (logistyka: pociągi, składy przyfrontowe).</strong> Dwa procesy mapują się na dwa paliwa i dwa bufory. Straty diesla można — modulo specyfikacje rafinerii — liczyć proporcjonalnie; benzynę trzymać precyzyjnie (cienki bufor, konkretne jednostki wtórne).</div>
+<div class="src">Enerdata · EIA / JODI · Carnegie · IEA</div>
+
+<h3 id="zapasy-magazynowe">5. Zapasy magazynowe — flow kontra stock</h3>
+<div class="stat-row">
+<div class="stat"><div class="num ru">0</div><div class="lbl">rezerw strategicznych (rządowych)</div></div>
+<div class="stat"><div class="num ru">~16 Mbbl</div><div class="lbl">zapasy naziemne (~51% pojemności)</div></div>
+<div class="stat"><div class="num ru">&lt;2 dni</div><div class="lbl">bufor produkcji naziemnie</div></div>
+<div class="stat"><div class="num ru">~10 dni</div><div class="lbl">z rurociągami jako magazynem (eksport)</div></div>
+</div>
+<p>Rosja nie ma <strong>żadnych</strong> rezerw strategicznych ropy ani paliw (porównanie: USA 727, Japonia 470, Chiny ~1300 mln bbl). Zostaje wyłącznie pojemność operacyjna, obcięta przez przejście firm na just-in-time. Kpler z satelity: ~16 mln bbl naziemnie = ~51% pojemności → całość naziemna ~31 mln bbl → przy produkcji ~9,3 mln bbl/d bufor na niecałe dwa dni.</p>
+<div class="summary"><div class="st">Sedno</div>Bufor dieslowy jest <strong>SZEROKI, ale płaski</strong>: szeroki przepływowo (nadwyżka 2×), zerowy głębokościowo (stock ~2 dni). Odporny na częściowe trwałe szkody, ale bez poduszki, gdy przepływ spadnie poniżej linii zużycia. „Fine → kryzys" bez fazy pośredniej. Gdy Novak deklaruje „nadmiar rezerw", nazywa „zapasem" nadwyżkę PRZEPŁYWU — bo prawdziwy stock nie istnieje. Deklaracja obfitości = znacznik wyczerpania (accusation in a mirror, wersja paliwowa).</div>
+<p><strong>Dowód behawioralny:</strong> benzyna poszła zakaz → prosto do importu (Indie/Kazachstan/Białoruś), bez wielomiesięcznej fazy zjadania zapasów. Gdyby był stock, ściągaliby z magazynów miesiącami. Nie było czego. Szybkość przeskoku zakaz→import JEST odciskiem palca zerowego stocku.</p>
+<div class="src">Kpler (monitoring satelitarny zbiorników) · liczenie własne 03.2026 (Primorsk)</div>
+
+<h3 id="drabina-zakazow">6. Drabina zakazów i sprzężenie współproduktów</h3>
+<p>Zakaz benzyny to nie epizod z kwietnia 2026, lecz najnowsze ogniwo <strong>ciągłego, wielokrotnie odnawianego reżimu od jesieni 2023</strong> (pełny zakaz benzyny i diesla 2023 → przerywane 2024 → przedłużany 2025, rozszerzony na producentów → kwiecień–lipiec 2026). Stan na 28.06:</p>
+<ul class="body">
+<li><strong>Benzyna:</strong> pełny zakaz, wszyscy włącznie z producentami (1.04–31.07.2026).</li>
+<li><strong>Lotnicze/kerosen:</strong> pełny zakaz (1.06–30.11.2026).</li>
+<li><strong>Diesel:</strong> tylko częściowy — producenci wciąż eksportują, zakazani reseller-zy. Pełny zakaz jedynie rozważany (Novak: 4.06 „nie ma potrzeby" → 24.06 „rozważamy"). Uzasadnienie: nie niedobór, lecz „większa podaż" / logistyka — rezerwy w nadmiarze.</li>
+</ul>
+<p><strong>Drabina eskalacji Rosji = ranking bólu = kolejność buforów:</strong> benzyna (zakaz wyczerpany → import) &gt;&gt; lotnicze (pełny zakaz prewencyjnie) &gt; diesel (tylko częściowy, pełny „rozważany", nadmiar). Rosja własną polityką ustawia tę hierarchię.</p>
+<h6 id="dziura-w-ziemi">Zawory ciśnienia i „dziura w ziemi"</h6>
+<p>Z baryłki diesel wychodzi czy chcesz, czy nie (~⅓ wsadu). Sprzężenie współproduktów wiąże produkcję <strong>od dołu</strong>: chcesz diesla → musisz zrobić całą resztę baryłki. Ale w warunkach wojennych priorytetem jest BRAK, nie nadmiar — więc reszta baryłki nie jest hamulcem, jest <em>odpadem do utylizacji</em>. Nadmiar mazutu/ciężkich → spuszcza się (radziecko-rosyjskie ambary, ziemne doły). Nadmiar lotniczego → i tak uziemiony zakazem. Cięcie wsadu z powodu nadmiaru frakcji przy deficycie innej <strong>nie istnieje</strong> — to kategoria z gospodarki pokojowej liczącej marże i ekologię.</p>
+<div class="callout"><strong>Wniosek do modelu:</strong> throughput rafinerii NIE jest ograniczany od strony popytu/składowania — jedyne ograniczenie to fizyczne uszkodzenia jednostek. Nie ma „dobrowolnego dławienia", jest tylko dławienie wymuszone dronem. Cały widoczny spadek przerobu jest spadkiem <em>wymuszonym</em> — co podnosi wiarygodność interpretacji „X% offline = X% zniszczone" (odpada alternatywa „stoi, bo nie ma gdzie podziać produktu"). Eksport diesla producentom zostawiono celowo otwarty — to wentyl, który pozwala rafineriom kręcić, żeby robić deficytową benzynę; pełny zakaz diesla dławiłby własną benzynę. Zerowy stock jest ukrytą zmienną, która czyni tę drabinę spójną.</div>
+<div class="src">TASS (Novak) · Kpler · Pravda.ru (logistyka) · dane rynkowe RU</div>
+
+<h3 class="ru" id="offline-slack">7. Offline ≈ slack — zmiana fazy</h3>
+<div class="stat-row">
+<div class="stat"><div class="num ru">~65–85 Mt</div><div class="lbl">offline teraz (~20–25% nominału)</div></div>
+<div class="stat"><div class="num">~57–75 Mt</div><div class="lbl">slack (bufor mocy)</div></div>
+<div class="stat"><div class="num ru">38%+</div><div class="lbl">skumulowane kiedykolwiek-trafione (górny pułap)</div></div>
+</div>
+<div class="summary"><div class="st">Punkt przegięcia</div><strong>Offline (~65–85 Mt) ≈ slack (~57–75 Mt). Zbiegły się.</strong> Ilość mocy wyłączonej urosła do rozmiaru całej poduszki bezczynnej. Ocalałe rafinerie nie siedzą już wygodnie poniżej mocy — kręcą na maksa (Novak: „wyciśnęliśmy moce wszystkich rafinerii, skróciliśmy remonty"). Dostępny nominał ~257 Mt &lt; 270 → nie da się utrzymać 270 → produkcja zsuwa się ku ~250–260 Mt.</div>
+<p>To zmiana fazy, nie liniowy przyrost. <strong>Dopóki offline &lt; slack, każde uderzenie zjadało tylko bezczynną tłuszczę</strong> — produkcja trzymała (jesień 2025: ~20% offline, wolumen spadł tylko ~6%). <strong>Gdy offline ≥ slack, każde kolejne uderzenie schodzi 1:1 w realną produkcję paliwa.</strong> Ten sam dron robi teraz więcej niż pół roku temu, bo bije w kość, nie w tłuszcz. To jest „gradually then suddenly" na osi materialnej, policzone — i monotoniczność degradacji widziana od strony bilansu mocy (żaden nosorożec się nie cofnął).</p>
+<p><strong>„Rezerw brak" potwierdzone podwójnie:</strong> bufor mocy (slack) — właśnie przekroczony; bufor stocku — ~2 dni, zero strategicznych. System stracił oba amortyzatory równocześnie.</p>
+<div class="src">IEA (&gt;20% „bezprecedensowe") · RBC (~¼) · Carnegie · EIA</div>
+
+<h3 id="poziomy-kreski">8. Poziomy kreski i popyt stłumiony</h3>
+<p>Brak diesla na stacjach przy dieslu obecnym na froncie = hierarchia priorytetów, nie (jeszcze) deficyt totalny. Ale „zużycie cywilne spadło i jest zaspokojone" to mylenie popytu <em>zaspokojonego</em> z <em>stłumionym</em>: osobówka na dieslu nie tankuje → statystyka pokazuje niższe zużycie → reżim mówi „bilans się domyka". To popyt stojący pod zamkniętą stacją, nie popyt, który zniknął. <span class="hi">Odczytywanie głodu jako diety.</span></p>
+<div class="callout"><strong>Pułapka metodologiczna:</strong> „spadek zużycia" przestaje być wiarygodną zmienną, bo jest <em>endogeniczny</em> względem niedoboru. Nie wolno go liczyć jako bufor.</div>
+<p>Trzy poziomy kreski, uporządkowane:</p>
+<ol class="body">
+<li>produkcja &gt; front+priorytet+pełny cywil → stacje pełne. <strong>Przekroczone.</strong></li>
+<li>produkcja &lt; pełny cywil, ale &gt; front+priorytet → cywil tłumiony/poświęcany, front trzyma. <strong>TU JESTEŚMY</strong> (miejscami wchodząc w kartki: Tatneft, zakaz kanistrów).</li>
+<li>produkcja &lt; front+priorytet → dostawy na front ograniczane. <strong>Jeszcze nie.</strong></li>
+</ol>
+<p>Poziom 2 nie jest plateau, lecz zsuwaniem się — popyt stłumiony się kumuluje i napiera. Stopień 4 jest niefalsyfikowalny od strony rosyjskiej (nikt nie ogłosi „brakuje diesla wojsku") — trzeba go czytać pośrednio z OSINT-u przyfrontowego (kolejki cystern, pojazdy stojące), nie z komunikatów. <strong>Pierwszy cysternowy niedowóz NA FRONT znaczy więcej niż pusta stacja w Moskwie</strong> — bo to on jest sygnałem z właściwej osi.</p>
+<div class="src">Moscow Times (regiony) · RFE/RL (55/83 podmiotów) · Kpler · Charter97</div>
+
+<h3 id="cebula-transportowa">9. Cebula transportowa — cztery warstwy</h3>
+<p>„Modulo logistyka" nie jest marginesem błędu, lecz szerokim i rosnącym pasmem — bo niedowóz daje identyczny pusty dystrybutor co niedobór produkcji, a to determinuje, czy poziom 3 jest blisko. Wektor <strong>Omsk → Moskwa → front</strong> pokazuje wszystkie cztery warstwy naraz. Ten sam dystans, który ocalił wschodnie rafinerie przed dronem, czyni ich paliwo drogim i wolnym w dostawie tam, gdzie go brakuje.</p>
+<div class="axis"><div class="an">Warstwa 1 — modalna</div>
+<p>Paliwo jedzie KOLEJĄ (produktopociągi RŻD), nie rurą — sieć produktowa jest mała, nie sięga Omska na zachód masowo. Ironia: lokomotywy na liniach niezelektryfikowanych <strong>palą diesel, żeby wieźć diesel</strong> — wektor sam siebie opodatkowuje.</p></div>
+<div class="axis"><div class="an">Warstwa 2 — przepustowość kierunkowa</div>
+<p>Transsib zaprojektowany na eksport wschód→zachód (węgiel, kontenery, ropa do Chin) i zaopatrzenie zachód→wschód. Stały strumień paliwowy Omsk→zachód wchodzi w zapchane sloty, konkurując z węglem i z zaopatrzeniem wojskowym na front. RŻD przewozi 87% ładunków / 47% transportu towarowego — gdy się dusi, dusi się cała gospodarka; do tego flota cystern i lokomotyw degraduje pod sankcjami na łożyska.</p></div>
+<div class="axis"><div class="an">Warstwa 3 — interdykcja (Proces A)</div>
+<p>Omsk→Moskwa to głębokie zaplecze; Moskwa→front to strefa, gdzie Ukraina aktywnie bije: składy przyfrontowe (Feodozja, Semikołodieziańska — 7.06), węzły kolejowe, mosty (Czongar). Proces B (Omsk daleko, nietykalny) i Proces A (ostatnia noga, pod ostrzałem) spotykają się na tym samym wektorze — dwa ortogonalne procesy przestają być niezależne i zaczynają się składać.</p></div>
+<div class="axis"><div class="an">Warstwa 4 — sprzężenie z zerowym stockiem</div>
+<p>~2 700 km haulu = czas tranzytu w dniach–tygodniach; stock ~2 dni. Nie da się zbuforować odległości magazynem — paliwo jest „w drodze", nie „w zbiorniku", a każde przerwanie nitki pokazuje się na stacji natychmiast. Długi haul + zerowy stock = transport przestaje być „kosztem", staje się pojedynczym punktem awarii w czasie rzeczywistym.</p></div>
+<div class="summary"><div class="st">Pointa transportowa</div>Im więcej ocalałej mocy siedzi na wschodzie (Omsk, Angarsk, Komsomolsk), tym większa część krajowego braku jest <strong>strukturalnie logistyczna, nie produkcyjna</strong> — geografia ocalenia = geografia niedowozu. Dwie konsekwencje ciągnące w przeciwne strony: krótkoterminowo łagodzi (paliwo istnieje, teoretycznie odwracalne), długoterminowo zaostrza (transportu na 2 700 km z degradującą RŻD, zapchanym Transsibem i interdykcją ostatniej nogi nie da się szybko naprawić, a popyt stłumiony się kumuluje). To nie wąskie gardło do puszczenia remontem mostu — to strukturalna niewspółmierność geografii produkcji i zużycia, którą drony utrwaliły, kasując wszystko, co blisko odbiorcy. Przedział realnej produkcji: <strong>~250–270 Mt</strong>, offline ≈ slack, oba bufory puste — punkt zależy od grubości warstwy transportowej.</div>
+<div class="src">Kolumbryna R5/R9 (RŻD) · CREA · dane infrastrukturalne RU</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════ CZĘŚĆ II ════════════════════════════ -->
+<h2 class="part-strat" id="czesc-strategia">Część II — Strategia: pułapka jedynego decydenta</h2>
+
+<h3 id="cztery-osie">1. Cztery osie zapas kontra strumień</h3>
+<p>Rosyjska eskalacja jest ZAPASEM gromadzonym salwami; ukraiński deep-strike to STRUMIEŃ odnawialny (drony mln/rok, Flamingo 1–7/dzień). Kto gromadzi, strzela raz i czeka; kto ma strumień, dorzyna ciągle. Cztery osie, na każdej Rosja w trybie schodzącego zapasu:</p>
+<div class="axis"><div class="an">Oś 1 — paliwo</div><p>Offline ≈ slack, oba bufory (moc + stock ~2 dni) puste. Przegięcie TERAZ, mierzalne.</p></div>
+<div class="axis"><div class="an">Oś 2 — ogień precyzyjny</div><p>Drony już tylko nękają (strumień płytki); niszczą tylko rakiety (Cyrkony/Kindżały/Iskandery) — a te schodzą salwami, gromadzone miesiącami. Nakład-na-efekt rośnie: duża salwa na jeden blok = mniej rakiet w magazynie ORAZ każda robi mniej (degradacja jakości albo więcej sztuk na przebicie przez OPL).</p></div>
+<div class="axis"><div class="an">Oś 3 — lojalność elit</div><p>Zablokowana: exit/voice/loyalty zamknięte (niżej). Najbardziej opóźniona, z własnym buforem — strachem — który działa, póki centrum wygląda silnie.</p></div>
+<div class="axis"><div class="an">Oś 4 — pułap eskalacji konwencjonalnej</div><p>Wyczerpany: po 3–5 krokach UA (Moskwa, rafinerie do spodu, Ławra) rosyjska „odpowiedź symetryczna" to jeden blok, trzy garaże, dach Ławry, ~100–200 ofiar. Doktryna każe zburzyć pięć bloków; dowieziono jeden. Luka = miara pustego magazynu.</p></div>
+<p><strong>Cztery zapasy schodzące przeciw czterem strumieniom rosnącym.</strong> Jeden strumień niewyczerpany po stronie RU — terror cywilny (Szahed w blok nie wymaga precyzji) — ale strategicznie jałowy: leje się w cel regenerujący się demograficznie i moralnie (bombardowanie utwardza wolę, nie łamie — od Blitzu po Wietnam).</p>
+<div class="adv"><div class="at">Advocatus diaboli</div>Cztery zapasy wyczerpują się w RÓŻNYM tempie i nie są ciasno sprzężone. Paliwo — teraz. Ogień — schodzi drogi precyzyjny, ale masa Szahedów/glide-bomb wciąż płynie. Lojalność — najbardziej opóźniona; aparat represji (Rosgwardia + FSB) jest ODDZIELNY od armii frontowej, opłacany priorytetowo, trzyma strachem, a strach pęka dopiero, gdy „percepcja siły" cracks — a tę łamie FRONT, nie stacja. „Duża salwa na jeden blok" ma też alternatywę: sukces ukraińskiej OPL (jeden blok = te, co przeszły) — co przenosi przyczynę z „pusty magazyn" (trwałe) na „gęsta tarcza" (odwracalne dostawami Patriotów). Rozdziela to RYTM salw: pusty magazyn → salwy rzedną częstotliwością; gęsta tarcza → częste ale nieskuteczne.</div>
+<div class="src">ISW · Mediazona · Killed In Ukraine · analiza własna</div>
+
+<h3 id="odczyt-absencja">2. Odczyt przez absencję</h3>
+<p>Metryką nie jest, co Rosja zrobiła, lecz co POWINNA była zrobić według własnej doktryny — i różnicę czytać jako brak:</p>
+<ul class="body">
+<li>pusta stacja = brak paliwa (nie „zarządzanie popytem");</li>
+<li>salwowy rytm = płytki magazyn (nie „strategiczna cierpliwość");</li>
+<li>jeden blok zamiast pięciu = wyczerpany zapas eskalacyjny (nie „powściągliwość");</li>
+<li>import benzyny w improwizacji = zaskoczenie tempem UA (gotowe kanały byłyby przygotowane zawczasu).</li>
+</ul>
+<p><strong>Terror cywilny to nie szczyt eskalacji — to jej dno.</strong> Rosja bije w cywilów nie dlatego, że to działa, lecz dlatego, że w to jeszcze umie trafić; cel cywilny jest tym, co zostaje, gdy cele strategiczne są poza zasięgiem degradującej się precyzji. Cios ukraiński jest strategiczny bez bycia masakrą (rafineria: zero ofiar, maksymalny efekt); cios rosyjski jest masakrą bez bycia strategicznym (blok: maksymalny ból, zero efektu). Wybór celu cywilnego JEST spowiedzią niezdolności.</p>
+<p><strong>Import = spóźniona reakcja = dowód zaskoczenia.</strong> Państwo, które eksportowało ropę i importuje benzynę w panice (rozważa, przyspiesza, testuje procedury), nie zaplanowało tego stanu — zostało do niego zepchnięte szybciej, niż zakładało. Rzeczywistość dogania prognozę szybciej niż zakładała nawet Kolumbryna; import jest tego materialnym podpisem.</p>
+<div class="adv"><div class="at">Advocatus diaboli</div>Improwizacja importu może być racjonalnym „nie buduj bufora, którego może nie będziesz potrzebował" — do jesieni 2025 Rosja miała podstawy sądzić, że remonty nadążają. Precyzyjniej (Vakulenko): dostępna benzyna to wynik WYŚCIGU dronów z ekipami remontowymi, a przewaga dopiero teraz przechyla się ku Kijowowi. Więc nie „ślepota wywiadowcza", lecz PRZEGRANY zakład, że remonty dogonią. Falsyfikator: jeśli tempo importu i salw rośnie — zakład przegrany; jeśli staje — remonty dogoniły.</div>
+
+<h3 class="ru" id="generalowie">3. Generałowie i urojony obraz</h3>
+<p>Opcja „generałowie plus służby wymyślą coś genialnego" jest zamknięta, bo system wycina tych, którzy mogliby cokolwiek genialnego wymyślić. Surowikin — realnie kompetentny (Linia Surowikina zatrzymała kontrofensywę 2023) — usunięty przez Gierasimowa za kompetencję ORAZ niezależność. System selekcjonuje lojalność ponad kompetencję; Gierasimow, strateg-potakiwacz, trzyma się, bo osobiście usuwa samodzielnych. Co najmniej 19 generałów zabitych (14 czynnych), w tym seria z Głównego Zarządu Operacyjnego Sztabu (Moskalik IV 2025, Sarwarow XII 2025) — mózg planistyczny wykrwawiany. Czystka Piątej Służby FSB (2022, ~150 oficerów) nauczyła aparat: przeżycie = mówienie Putinowi tego, co chce usłyszeć.</p>
+<div class="callout"><strong>Kupiańsk:</strong> X 2025 Putin nadaje Bohatera Rosji za „zdobycie" miasta; XII 2025 Zełenski nagrywa wideo z jego ulic. Putin — wg relacji — nie mógł uwierzyć. Maszyna potakiwaczy, która zamyka opcję (a), <em>jednocześnie karmi Putina fałszywym optymizmem</em>. Podwójna konsekwencja: może nie widzieć jasno, że przegrywa (co opóźnia racjonalne off-rampy), a jeśli sięgnie po ruch resztkowy, zrobi to na urojonej bazie o własnych zdolnościach.</div>
+<div class="src">Euromaidan Press · Kyiv Post (Astra / Dva Majora) · The Insider · Mediazona</div>
+
+<h3 id="zablokowana-elita">4. Zablokowana elita — inaczej niż 2010/2019</h3>
+<p>146 miliarderów kontroluje 625,5 mld$ nominalnie, ale realnie 59% poziomu z 2008 — bogacą się nominalnie, biednieją realnie, coraz bardziej zależą od Kremla, który może ich znacjonalizować jednym dekretem. Exit zamknięty: zamrożone ~22 mld$ = ~1,5% z ~1,5 bln offshore (pieniądze rozproszone po wydmuszkach poza jurysdykcją = niefunkcjonalne). Kto mógł wyjść, wyszedł: brain drain 500–800 tys. w trzy lata (43% IT, śr. wiek 32, 78% z dyplomem), wróciło ~8%, z czego 80% wyemigrowało ponownie.</p>
+<p>W 2010/2019 elita miała trzy zawory Hirschmana: <strong>exit</strong> (offshore płynne, Zachód, dzieci na uczelniach), <strong>voice</strong> (lobbing, frakcje, tandem jako alternatywa), <strong>loyalty-jako-przeczekanie</strong> (stabilne państwo, w którym warto siedzieć). W 2026 wszystkie trzy zamknięte: exit zamrożony, voice = los Prigożyna (dysydencja = śmierć), a przeczekać nie ma czego. <span class="hi">„Nie mają co gadać" = nie mają czym licytować ani dokąd wyjść.</span></p>
+<div class="summary"><div class="st">Ten sam mechanizm zaworów co przy paliwie</div>Zablokowana elita wygląda STABILNIEJ (zero widocznej dysydencji), ale jest KRUCHSZA. W 2010/2019 niezadowolenie upuszczało się stopniowo — ucieczką kapitału, lobbingiem, częściowym exitem; ciśnienie schodziło łagodnie. W 2026 wszystkie upusty zamknięte → ciśnienie rośnie bez wentyla → gdy pęknie, pęka skokowo. „Gradually then suddenly" przełożone z rafinerii na politbiuro — i to jest tryb rozpadu ZSRR z typologii: nie stopniowy dryf elit, lecz nagłe, totalne porzucenie centrum, bo zablokowana elita nie ma pozycji pośredniej, więc flip jest binarny.</div>
+<div class="src">Forbes · NBER (Novokmet/Piketty/Zucman) · OutRush · bne IntelliNews · Kolumbryna R8</div>
+
+<h3 class="ru" id="szachmat">5. Szachmat — freeze zamknięty od strony Rosji</h3>
+<p>Zamrożenie frontu <em>teraz</em> nie wchodzi w rachubę ze strony ROSJI — nie Ukrainy, UE, USA czy Chin. Nie dlatego, że ktoś go nie zaproponuje, lecz dlatego, że sama Rosja go nie udźwignie. Cztery niezależne rygle:</p>
+<ol class="body">
+<li><strong>Pokój wyzwala własny kryzys, gorszy niż wojna.</strong> Demobilizacja setek tysięcy bez pracy, kryzys fiskalny (wydatki wojskowe = jedyny motor wzrostu, bezrobocie 2,4% bo wszyscy w zbrojeniówce), pytanie „po co to było". Wojna jest belką nośną; freeze wyjmuje ją.</li>
+<li><strong>Freeze wymaga zamrożenia Z POZYCJI SIŁY, której nie ma.</strong> „Mały zwycięski pokój" sprzedasz tylko wyglądając na wygrywającego; trajektoria jest jawnie w dół. Zamrożenie z widocznej słabości = kapitulacja, której dark legitimacy nie strawi. Okno zamknęło się, gdy trajektoria stała się spadkowa.</li>
+<li><strong>Maszyna potakiwaczy ukrywa przed Putinem potrzebę freeze'u.</strong> Z wnętrza złudzenia (Kupiańsk) zamrożenie = oddanie trwającego zwycięstwa. Ten sam mechanizm zamyka opcję (a) i opcję (c).</li>
+<li><strong>Z ramy egzystencjalnej nie da się zejść.</strong> Nie można być „w egzystencjalnej wojnie z całym Zachodem" w poniedziałek i zamrozić we wtorek bez rozwalenia ramy — i legitymacji, którą rama dawała.</li>
+</ol>
+<div class="callout"><strong>Catch-22 (z materiału projektu):</strong> Putin nie może kontynuować (zasoby się kończą) i nie może zakończyć (pokój wywołuje własny kryzys). „To nie dylemat — to szachmat." Mój wcześniejszy off-ramp nie działa, bo ograniczenie jest po stronie AKCEPTACJI rosyjskiej, nie oferty zachodniej. Zachód może trzymać drzwi otwarte — Rosja przez nie teraz nie przejdzie.</div>
+<div class="adv"><div class="at">Advocatus diaboli</div>„Teraz" jest indeksowane czasem i przywództwem, nie strukturalnie wieczne — szok frontowy zmieniający optykę, wymiana Putina resetująca ramę, albo próg presji chińskiej wracają freeze na stół szybko („brudny rozejm" mógłby przesunąć punkt suddenly o 2–4 lata). Rosja ma freeze w playbooku (Mińsk I/II, zamroź-dozbrój-wznów) — więc nie jest niemożliwy, jest niekorzystny; wiązaniem jest optyka + bańka + zależność-od-wojny, nie zasada. Precyzyjniej: może nie „Rosja odmawia", lecz „nie istnieje strefa porozumienia" — rosyjska podłoga twarzozachowawcza leży dziś POWYŻEJ zachodniego/ukraińskiego sufitu, luka nieprzekraczalna. To wspiera wniosek innym torem (spread może się zwęzić szokiem, „odmowa" nie).</div>
+<div class="summary"><div class="st">Domknięcie</div><strong>Freeze-staje-się-możliwy ≈ rozpad-się-zaczyna</strong> — bo oba wymagają tego samego szoku (załamanie frontu albo odsunięcie Putina). Okno na UPORZĄDKOWANY rosyjski freeze prawdopodobnie już się zamknęło; zostało nieuporządkowane. Zamrożenie i katastrofa dzielą wyzwalacz.</div>
+<div class="src">Kolumbryna R12/R22/R26 · kompendium (Catch-22, scenariusze zamrożenia) · putin-plany v3</div>
+
+<h3 class="ru" id="rosja-rowna-putin">6. Załamanie ramy — Rosja = Putin</h3>
+<div class="summary"><div class="st">Załamanie ramy analitycznej</div>Stan na dziś: w Rosji rządzi Putin, i <strong>nikt wewnątrz nie jest w stanie go usunąć</strong> (siłowicy lojalni z kalkulacji nie przekonania, nie ufają sobie, system celowo uniemożliwia koordynację potrzebną do zamachu). Zatem <strong>możliwości i ryzyka Rosji = możliwości i ryzyka Putina.</strong> Przestajemy analizować „co racjonalne dla państwa rosyjskiego", zaczynamy „co racjonalne dla Putina osobiście".</div>
+<p>To jest KORZEŃ freeze-foreclosure z poprzedniej sekcji. Funkcja celu Putina to <strong>przetrwanie osobiste, nie przetrwanie państwa</strong> — a te się rozeszły. Racjonalne państwo zamraża/negocjuje ze słabości (ścieżka Gorbaczowa). Zapędzony autokrata, który wie, że przegrana = śmierć, NIE — bo państwo ocalone przez negocjacje może znaczyć JEGO nieocalenie (elity dogadują się ponad jego głową, on jest ofiarą za zniesienie sankcji). <strong>Putin zablokuje ten off-ramp, który uratowałby Rosję — bo on jest decydentem, a jego przetrwanie ≠ przetrwanie państwa.</strong></p>
+<p>Cztery rygle freeze'u są downstream tej jednej tożsamości: Rosja nie może zamrozić, bo Putin nie przeżyje zamrożenia, a Putin = decydent. Pytanie ekonomiczne („skąd pieniądze") staje się drugorzędne wobec egzystencjalnego: <span class="hi">co zrobi człowiek, dla którego przegrana = śmierć? Odpowiedź z historii: wszystko.</span> To nie irracjonalność — to racjonalność w innej funkcji celu.</p>
+<div class="callout"><strong>Precedensy (z materiału projektu):</strong> Mikołaj II (odmówił, przejął dowodzenie → rozstrzelany), Mussolini (elity odwróciły się, gdy front się zawalił → rozstrzelany), Ceaușescu (armia w 4 dni → rozstrzelany), Kaddafi (kompromisu odmówił → zabity; Putin odtwarzał nagranie), Assad (uciekł do Moskwy — ale Putin nie ma dokąd). Jelcyn (oddał władzę za gwarancje → umarł spokojnie — jedyny sukces, wymagał zaufania).</div>
+<div class="adv"><div class="at">Advocatus diaboli — kluczowy</div>Premisa „nikt nie usunie go" jest tym samym time-indexed twierdzeniem co freeze. Mechanizm lojalności „działa dopóki system działa"; precedensy Mussolini/Ceaușescu to właśnie przypadki, gdy elity/armia odwróciły się PO załamaniu frontu. Więc tożsamość Rosja = Putin <strong>trzyma się dziś, a jej pęknięcie JEST mechanizmem rozpadu</strong>: elity odzyskują zdolność usunięcia go dokładnie wtedy, gdy koszt KONTYNUOWANIA z nim przekroczy koszt USUNIĘCIA (trigger frontowy) — i wtedy państwo wybiera przetrwanie (freeze/deal), poświęcając człowieka (Jelcyn-2.0 = jedyny scenariusz, w którym Putin przeżywa, i wymaga, by przyjął degradację — a zdegradowany autokrata to zwykle martwy albo uwięziony autokrata; fotel w drugim rzędzie bywa przystankiem do celi). Więc cała kwestia rozpadu redukuje się do: KIEDY pęka tożsamość Rosja = Putin.</div>
+
+<h3 id="gambit-nato">7. Gambit NATO i casus belli</h3>
+<p>Skoro (a) zamknięte i (c) freeze zamknięty od strony Rosji, zostają dla Putina (b) eskalacja horyzontalna albo (d) grind do wyczerpania (który prowadzi do triggera). Rdzeń „gambitu NATO": <strong>asymetria narracyjna.</strong> Legitymacja nie pochłonie przegranej z Ukrainą (przegrać z czymś, czemu odmówiłeś istnienia = ontologiczna katastrofa). Przegrana z NATO jest narracyjnie PRE-WCHŁONIĘTA („zawsze walczyliśmy z całym Zachodem" — klęska wyprana z upokorzenia).</p>
+<h4 id="miekkie-ladowanie">Miękkie lądowanie — struktura, nie życzenie</h4>
+<p>NATO nie okupuje Rosji (11 stref czasowych, mocarstwo nuklearne — niewykonalne, i nikt tego nie chce). „Przegrana z NATO" = zniszczenie tego, co osiągalne (lotnictwo, flota — cele policzalne, zniszczalne w dni), armia lądowa zostaje. A Zachód BĘDZIE CHCIAŁ zachować państwowość Rosji — żeby było z kim rozmawiać i żeby arsenał jądrowy KTOKOLWIEK pilnował (koszmar to nie „silna Rosja", lecz Rosja bezpaństwowa: 6000 głowic bez łańcucha dowodzenia). To daje Zachodowi powód, by zostawić putinowski aparat jako gwaranta głowic. Formuła: de facto bezwarunkowa kapitulacja, nazwana inaczej, z Putinem zdegradowanym do figuranta — Zachód dostaje rozbrojenie z projekcji siły + dozór nuklearny, Putin dostaje życie, elita dostaje ocalałe państwo.</p>
+<h4 id="casus-belli-polska">Casus belli — Polska 1939 (model Gliwice)</h4>
+<div class="summary"><div class="st">Zweryfikowane (3.07.2026)</div>To nie hipoteza — jest telegrafowane. USA <strong>systematycznie</strong> ostrzega Polskę o „coraz to nowych rosyjskich planach konwencjonalnego ataku na wschodnią flankę NATO" (źródła bliskie prez. Nawrockiemu, Onet/Telegraph). Guardian (26.06): Rosja przygotowuje prowokację w państwach bałtyckich lub Polsce pod presją ukraińskich uderzeń dalekiego zasięgu — nie pełnoskalową inwazję, lecz hybrydę (rakiety, drony, „zabłąkane" wejście lądowe pod pretekstem awarii GPS / „misji ratunkowej"). Sikorski wprost: Rosja może zorganizować „false flag", by uzasadnić atak na członka NATO. Precedens dronowy: ~20 rosyjskich UAV w polskiej przestrzeni 10.09.2025 (300 km w głąb), art. 4.</div>
+<p>Model Gliwice/Polska 1939 = <strong>manufaktura ofiary</strong>: sfabrykowany pretekst zamienia „atakujemy NATO" w „bronimy się przed agresją NATO" — co dokładnie obsługuje pre-wchłonięcie klęski (Rosja jako „obrońca"). Kalkulacja rosyjska (wg polskich źródeł): Polska pod presją USA zostanie zmuszona do negocjacji zamiast odpowiedzi ogniowej, a wycofanie się po negocjacjach (nie pod przymusem militarnym) Kreml sprzeda jako zwycięstwo; zniesienie wsparcia dla Ukrainy może być rosyjskim żądaniem w zamian za wycofanie.</p>
+<div class="adv"><div class="at">Advocatus diaboli — trzy zawiasy</div><strong>1. Kontrola progu jądrowego na trasie.</strong> Miękkie lądowanie istnieje jako PUNKT KOŃCOWY, ale droga wiedzie przez najbardziej niestabilny odcinek drabiny — wymaga obustronnej perfekcyjnej kalibracji pod ostrzałem, przy urojonym obrazie po stronie RU. Wynik może być przeżywalny, a przejście śmiertelne. <strong>2. Putin vs elita.</strong> „Gwarantem" nie musi być Putin — elita widząc, że Zachód potrzebuje KOGOKOLWIEK do dozoru, ma motyw i przyzwolenie wymienić go na siebie. Interes zachodni ratuje instytucję, niekoniecznie osobę. <strong>3. Błędny odczyt okna.</strong> Casus belli może być graną kartą (nastraszyć, wygrać ustępstwa), nie skalkulowaną kapitulacją — a bańka potakiwaczy psuje zdolność trafienia w wąskie okno miękkiego lądowania. Nuklearny szczebel: <strong>zaryglowany politycznie, nie pusty</strong> (Chiny przeciw, próg samobójstwa) — jedyna oś z niezużytym zapasem, niedostępna bez samobójstwa; atak na NATO USUWA dwuznaczność, która dziś chroni Rosję, zamieniając tarczę niejednoznaczności na ruletkę.</div>
+<div class="src">NV / Ukrainska Pravda / LBC / Militarnyi (3.07.2026) · Onet/Telegraph · Guardian (26.06) · Sikorski · Kolumbryna R12 scenariusz ④</div>
+
+<h3 class="ru" id="paradoks-zapedzenia">8. Paradoks zapędzenia</h3>
+<div class="summary"><div class="st">Niewygodny wniosek</div>Im skuteczniej Ukraina zamyka Rosji WSZYSTKIE ścieżki racjonalne (a cała analiza pokazuje, że właśnie to się dzieje), tym atrakcyjniejszy staje się ruch resztkowy — bo ma i narracyjne pranie klęski (przegrana z Zachodem, nie z UA), i strukturalne miękkie lądowanie (niewykonalność okupacji + zachodni interes w dozorze nuklearnym). Zapędzenie mocarstwa nuklearnego w kąt bez off-rampu ZWIĘKSZA ryzyko ogona, nie zmniejsza. Ta sama logika zaworów co przy paliwie: zamknij wszystkie wentyle ciśnienia, a to, co zostaje, wychodzi najbrudniejszą drogą.</div>
+<p>Freeze — zamknięty od strony Rosji (bo Putin = decydent, a jego przetrwanie ≠ przetrwanie państwa). Grind — prowadzi do triggera (front, elity). Gambit NATO — ma miękkie lądowanie, ale trasa przez próg jądrowy. <strong>Wszystkie trzy rosyjskie ścieżki prowadzą ku podwyższonemu ryzyku ogona albo rozpadowi. Szachmat nie ma czystego wyjścia, które Rosja mogłaby teraz wykonać.</strong></p>
+<p>Stąd twardy argument praktyczny: twarzozachowawczy off-ramp nie jest miękkością wobec Rosji, lecz domknięciem okna gambitu — ALE jest dziś niedostępny od strony akceptacji rosyjskiej. To napięcie (pełne dorżnięcie nuklearnego mocarstwa kontra danie mu wyjścia) trzeba trzymać otwarte, nie rozstrzygać życzeniowo.</p>
+
+<h3 id="advocatus-zebrany">9. Advocatus diaboli — zebrane zawiasy</h3>
+<p>Rzeczy trzymane osobno, każda podważa jakiś element, żaden nie obala rdzenia — wszystkie go warunkują:</p>
+<ul class="body">
+<li><strong>Wektor ≠ bliskość.</strong> Monotoniczność degradacji potwierdzona (żaden nosorożec się nie cofnął), ale to kierunek, nie „koniec bliski". Kryzys paliwowy ≠ kryzys reżimu — jesteśmy na przegięciu na osi materialnej, nigdzie blisko na osi przymusu.</li>
+<li><strong>Aparat represji jest oddzielny.</strong> Rosgwardia + FSB niezależne od armii frontowej i systemu paliwowego; trzymają strachem, który działa, póki centrum wygląda silnie.</li>
+<li><strong>„Teraz" jest wszędzie.</strong> Freeze zamknięty, „nikt nie usunie Putina", pułap eskalacji wyczerpany — wszystkie indeksowane obecną konfiguracją i tym samym triggerem (front). Ich pęknięcie ≈ początek rozpadu.</li>
+<li><strong>Zaprojektowana drabina czy ramp zdolnościowy.</strong> „Stopniowo, żeby czytać reakcję" zakłada intencję; alternatywa to skalowanie w tempie produkcji z częściowo post-hoc narracją. Z zewnątrz identyczne — master plan niefalsyfikowalny.</li>
+<li><strong>Nuklearny szczebel zaryglowany, nie pusty.</strong> Jedyna oś z niezużytym zapasem, niedostępna bez samobójstwa.</li>
+<li><strong>Terror ma cel polityczny, nie militarny.</strong> Jałowy na polu bitwy, ale to niska-prawdopodobieństwem stawka na złamanie woli UA i zmęczenie Zachodu — desperacki, nie bezmyślny.</li>
+</ul>
+<div class="summary"><div class="st">Rzecz do śledzenia — jedna</div>Czy mierzalna degradacja MATERIALNA przeniesie się na oś PRZYMUSU/ELIT, której nie zmierzymy i która ma własne opóźnienie i własne rezerwy (strach). To przeniesienie jest prawdziwym „suddenly" — paliwo jest jego <strong>wskaźnikiem wyprzedzającym, nie wyzwalaczem</strong>. Dlatego pierwszy cysternowy niedowóz NA FRONT i rytm rosyjskich salw (jak płytki jest magazyn) są lepszymi sygnałami pęknięcia percepcji siły niż pusta stacja w Moskwie. Cała kwestia redukuje się do momentu, w którym pęka tożsamość Rosja = Putin.</div>
+
+<div class="foot" id="stopka">
+<p><strong>Zapas kontra strumień</strong> — synteza rozmowy z 3 lipca 2026. Dokument roboczy: kotwice materialne twarde tam, gdzie oznaczone (EIA, NASA FIRMS, Kpler, IEA, Carnegie); szacunki i przedziały oznaczone jako takie; advocatus diaboli trzymany osobno przy każdej osi. Predykcje falsyfikowalne przez rytm salw, tempo importu i pierwszy niedowóz na front.</p>
+<div class="sig" id="sygnatura-pliku-dolna">
+<span class="lab">sygnatura pliku</span>
+ZAMROZONE · zapas-kontra-strumien · v02.00 · 2026-07-03
+</div>
+</div>
+
+</div>
+</body>
+</html>

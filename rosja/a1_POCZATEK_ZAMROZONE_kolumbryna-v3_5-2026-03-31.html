@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolumbryna — Wielka analiza systemowa · v3.5 · 31 marca 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f12;--bg2:#141820;--bg3:#1a1f2a;--text:#c8cdd6;--text-bright:#e8ecf2;--accent:#c0392b;--accent2:#e67e22;--accent3:#2980b9;--accent4:#27ae60;--accent5:#8e44ad;--muted:#6b7280;--border:#2a3040;--border-light:#3a4050;--card:#161b25;--iran:#e67e22;--energy:#d4a017;--glow:rgba(192,57,43,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+
+/* ═══ LAYOUT ═══ */
+.page-wrap{display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:1.5rem 0;transform:translateX(-100%);transition:transform .3s}
+.sidebar.open{transform:translateX(0)}
+.sidebar-toggle{position:fixed;top:16px;left:16px;z-index:101;width:40px;height:40px;background:var(--bg2);border:1px solid var(--border);color:var(--muted);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:all .2s}
+.sidebar-toggle:hover{color:var(--accent);border-color:var(--accent)}
+.sidebar-title{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);padding:0 1.25rem;margin-bottom:1rem}
+.sidebar .s-part{margin-bottom:.75rem}
+.sidebar .s-part-label{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:600;color:var(--text-bright);padding:.25rem 1.25rem;cursor:default}
+.sidebar .s-ch{display:block;font-size:.78rem;color:var(--muted);text-decoration:none;padding:.2rem 1.25rem .2rem 2rem;border-left:2px solid transparent;transition:all .15s;line-height:1.4}
+.sidebar .s-ch:hover{color:var(--text-bright);background:rgba(255,255,255,.02)}
+.sidebar .s-ch.active{color:var(--accent);border-left-color:var(--accent);background:rgba(192,57,43,.05)}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3),var(--accent5));z-index:200;width:0;transition:width .1s}
+.master-container{max-width:860px;margin:0 auto;padding:0 2rem}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:4rem 0}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(192,57,43,.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(41,128,185,.04) 0%,transparent 60%),radial-gradient(ellipse at 50% 50%,rgba(142,68,173,.03) 0%,transparent 50%);pointer-events:none}
+.hero-meta{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:700;line-height:1.05;color:var(--text-bright);margin-bottom:1.5rem}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--muted);line-height:1.6;max-width:680px}
+.hero-line{width:100px;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3),var(--accent5));margin:2.5rem 0}
+
+/* ═══ TOC (in-page) ═══ */
+.toc{background:var(--bg2);border:1px solid var(--border);padding:2.5rem;margin:0 0 4rem}
+.toc::before{content:'SPIS TREŚCI';font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--accent);display:block;margin-bottom:1.5rem}
+.toc-part{margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.toc-part:last-child{border-bottom:none}
+.toc-part-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--text-bright);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.toc-part-title .pc{display:inline-block;width:10px;height:10px;border-radius:2px}
+.toc-chapter{display:block;font-size:.85rem;color:var(--muted);text-decoration:none;padding:.15rem 0 .15rem 1.5rem;transition:color .2s;border-left:1px solid var(--border)}
+.toc-chapter:hover{color:var(--accent);border-left-color:var(--accent)}
+
+/* ═══ PART BREAKS ═══ */
+.part-break{min-height:55vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;margin:5rem 0}
+.part-intro{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--muted);max-width:640px;margin-top:1.5rem;line-height:1.7}
+.part-num{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1rem}
+.part-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:var(--text-bright);margin-bottom:.5rem}
+
+/* ═══ CHAPTERS ═══ */
+.volume{margin-bottom:5rem;padding-top:3rem}
+.volume-header{margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.volume-number{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.5rem}
+.volume-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--text-bright);line-height:1.2}
+.chapter{margin-bottom:4rem}
+.chapter-heading{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--text-bright);margin-bottom:1.25rem;padding-left:1rem;border-left:3px solid var(--accent)}
+.chapter p{margin-bottom:1.15rem;text-align:justify;hyphens:auto}
+.hi{color:var(--text-bright);font-weight:500}
+
+/* ═══ BRIDGE ═══ */
+.bridge{margin:3rem 0;padding:1.5rem 2rem;background:linear-gradient(90deg,rgba(192,57,43,.04),transparent 50%,rgba(41,128,185,.04));border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--muted);line-height:1.7}
+.bridge a{color:var(--accent3);text-decoration:none;border-bottom:1px dotted var(--accent3)}
+.bridge a:hover{color:var(--text-bright)}
+
+/* ═══ XREF ═══ */
+.xref{display:inline-block;background:var(--bg3);border:1px solid var(--border);padding:0 .4rem;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent3);text-decoration:none;border-radius:2px;vertical-align:baseline;transition:all .15s}
+.xref:hover{background:var(--accent3);color:#fff;border-color:var(--accent3)}
+
+/* ═══ EPIGRAPH ═══ */
+.epigraph{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;color:var(--muted);padding:1.75rem 2.5rem;margin:2rem 0;border-left:2px solid var(--border-light);background:linear-gradient(90deg,rgba(192,57,43,.03),transparent)}
+.epigraph .attr{display:block;font-size:.82rem;font-style:normal;margin-top:.6rem;color:var(--muted)}
+
+/* ═══ DATA ═══ */
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0}
+.data-card{background:var(--bg2);border:1px solid var(--border);padding:1.2rem;transition:border-color .2s}
+.data-card:hover{border-color:var(--accent)}
+.data-card .label{font-family:'IBM Plex Mono',monospace;font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.data-card .value{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--accent);line-height:1.1}
+.data-card .note{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+
+/* ═══ CALLOUT ═══ */
+.callout{margin:2rem 0;padding:1.25rem 1.5rem;background:var(--bg2);border-left:3px solid var(--accent2);font-size:.92rem}
+.callout.blue{border-left-color:var(--accent3)}.callout.green{border-left-color:var(--accent4)}.callout.red{border-left-color:var(--accent)}.callout.purple{border-left-color:var(--accent5)}.callout.orange{border-left-color:var(--iran)}
+.callout strong{color:var(--text-bright)}
+
+/* ═══ LITERARY ═══ */
+.literary{margin:2rem 0;padding:1.5rem 2rem;background:linear-gradient(135deg,rgba(142,68,173,.04),rgba(41,128,185,.04));border:1px solid var(--border);position:relative}
+.literary::before{content:'📚';position:absolute;top:-12px;left:16px;font-size:1.1rem;background:var(--bg);padding:0 .5rem}
+.literary p{font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:var(--muted)}
+.literary .lit-ref{font-size:.8rem;font-style:normal;color:var(--accent5);margin-top:.5rem}
+
+/* ═══ SOURCES ═══ */
+.sources{margin-top:1.5rem;padding:1rem 1.25rem;background:var(--bg3);border:1px solid var(--border);font-size:.76rem;color:var(--muted);line-height:1.7}
+.sources::before{content:'ŹRÓDŁA';font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.2em;display:block;margin-bottom:.4rem;color:var(--accent3)}
+
+/* ═══ BESTIARY ═══ */
+.bestiary-block{margin:2rem 0;border:1px solid var(--border);overflow:hidden}
+.bestiary-header{font-family:'IBM Plex Mono',monospace;font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;padding:.7rem 1.25rem;background:var(--accent);color:#fff}
+.beast-row{display:flex;justify-content:space-between;align-items:baseline;padding:.3rem 1.25rem;font-size:.88rem;border-bottom:1px solid var(--border)}
+.beast-row:last-child{border-bottom:none}
+.beast-prob{font-family:'IBM Plex Mono',monospace;font-size:.73rem;white-space:nowrap;margin-left:1rem}
+.prob-crit{color:#e74c3c;font-weight:500}.prob-high{color:#e67e22}.prob-med{color:#f1c40f}.prob-active{color:#27ae60;font-weight:500}
+
+/* ═══ SCENARIO ═══ */
+.scenario{background:var(--bg2);border-left:3px solid var(--accent5);padding:1.2rem 1.5rem;margin:1.25rem 0}
+.scenario .s-title{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--accent5);margin-bottom:.4rem}
+.scenario .s-kill{font-size:.83rem;color:var(--accent);margin-top:.5rem;padding-left:1rem;border-left:2px solid var(--accent)}
+
+/* ═══ SEP ═══ */
+.sep{text-align:center;margin:4rem 0;color:var(--border-light);font-size:1.5rem;letter-spacing:.8rem}
+
+/* ═══ FOOTER ═══ */
+.doc-footer{margin-top:5rem;padding:2rem 0;border-top:1px solid var(--border);font-size:.73rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;line-height:1.8}
+
+/* ═══ COLOR VARIANTS ═══ */
+.c-red{color:var(--accent)}.c-purple{color:var(--accent5)}.c-orange{color:var(--iran)}.c-yellow{color:var(--energy)}.c-blue{color:var(--accent3)}.c-green{color:var(--accent4)}
+.b-purple{border-left-color:var(--accent5)!important}.b-orange{border-left-color:var(--iran)!important}.b-yellow{border-left-color:var(--energy)!important}.b-blue{border-left-color:var(--accent3)!important}.b-green{border-left-color:var(--accent4)!important}
+
+@media(min-width:1200px){
+.sidebar{transform:translateX(0)}
+.sidebar-toggle{display:none}
+.master-container{margin-left:260px;max-width:860px;padding:0 2.5rem}
+}
+@media(max-width:640px){
+.master-container{padding:0 1.25rem}
+.hero h1{font-size:2.4rem}
+.volume-title{font-size:1.7rem}
+.data-grid{grid-template-columns:1fr}
+.part-break{min-height:40vh}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- SIDEBAR TOC -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Menu">☰</button>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-title">Kolumbryna 🐙</div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--accent)">I · Rosja</div>
+<a class="s-ch" href="#r1">1. Front i spirala OPL</a>
+<a class="s-ch" href="#r2">2. Arsenał nuklearny</a>
+<a class="s-ch" href="#r3">3. Budżet, NWF i paradoks Hormuz</a>
+<a class="s-ch" href="#r4">4. Eksport i dewizy</a>
+<a class="s-ch" href="#r5">5. Infrastruktura się sypie</a>
+<a class="s-ch" href="#r6">6. Społeczeństwo na krawędzi</a>
+<a class="s-ch" href="#r7">7. Bestiariusz — 24 procesy</a>
+<a class="s-ch" href="#r8">8. Patologia dyktatury</a>
+<a class="s-ch" href="#r9">9. Chemia pożarów i sezonowość</a>
+<a class="s-ch" href="#r10">10. Jest już za późno</a></div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--accent5)">II · Putin</div>
+<a class="s-ch" href="#r11">11. Przegrana = śmierć</a>
+<a class="s-ch" href="#r12">12. Zasoby i scenariusze</a>
+<a class="s-ch" href="#r13">13. Elity i punkt przełomu</a></div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--iran)">III · Iran i Jałta 3.0</div>
+<a class="s-ch" href="#r14">14. Rozpad irańskiej państwowości</a>
+<a class="s-ch" href="#r15">15. Aktorzy i ryzyka</a>
+<a class="s-ch" href="#r16">16. Hanza 2.0</a></div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--energy)">IV · Energia</div>
+<a class="s-ch" href="#r17">17. Od Ormuzu do panelu</a>
+<a class="s-ch" href="#r18">18. Monopole i topologia władzy</a></div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--accent3)">V · Meta</div>
+<a class="s-ch" href="#r19">19. Disinfolklore i Dark Legitimacy</a>
+<a class="s-ch" href="#r20">20. Etyka i granice poznania</a></div>
+
+<div class="s-part"><div class="s-part-label" style="color:var(--accent4)">VI · Advocatus Diaboli</div>
+<a class="s-ch" href="#r21">21. Steelmanning systemu</a>
+<a class="s-ch" href="#r22">22. Disinfolklore pod lupą</a>
+<a class="s-ch" href="#r23">23. Mapa, nie GPS</a></div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="master-container">
+
+<!-- ████████ HERO ████████ -->
+<section class="hero">
+  <div class="hero-meta">Wielka analiza systemowa · Kolumbryna v3.5 · 31 marca 2026</div>
+  <h1>Kolumbryna 🐙</h1>
+  <div class="hero-line"></div>
+  <div class="hero-subtitle">Rosja, Putin, Iran, energia, dezinformacja i ciemna legitymizacja — pełna synteza w jednym dokumencie. Sześć części, dwadzieścia trzy rozdziały, dwanaście perspektyw krytycznych.</div>
+  <div class="epigraph" style="margin-top:3rem">
+    „How did you go bankrupt? Two ways. Gradually, then suddenly."
+    <span class="attr">— Ernest Hemingway, <em>The Sun Also Rises</em></span>
+  </div>
+  <div class="epigraph">
+    «Аннушка уже купила подсолнечное масло, и не только купила, но даже и разлила.»
+    <span class="attr">— Michaił Bułhakow, <em>Mistrz i Małgorzata</em></span>
+  </div>
+</section>
+
+<!-- ████████ TOC ████████ -->
+<nav class="toc">
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--accent)"></span> Część I — Rosja: „Jest już za późno"</div>
+  <a class="toc-chapter" href="#r1">1. Front i spirala OPL — trójkąt spalania</a>
+  <a class="toc-chapter" href="#r2">2. Arsenał nuklearny — odstraszanie na papierze</a>
+  <a class="toc-chapter" href="#r3">3. Budżet, NWF i paradoks Hormuz</a>
+  <a class="toc-chapter" href="#r4">4. Eksport, dewizy i majątek — co jeszcze działa</a>
+  <a class="toc-chapter" href="#r5">5. Infrastruktura się sypie — kolej, rury, samoloty</a>
+  <a class="toc-chapter" href="#r6">6. Społeczeństwo na krawędzi — brain drain, pensje, policja</a>
+  <a class="toc-chapter" href="#r7">7. Bestiariusz — 24 szare nosorożce i ich sprzężenia</a>
+  <a class="toc-chapter" href="#r8">8. Patologia informacyjna i dlaczego nie Korea Północna</a>
+  <a class="toc-chapter" href="#r9">9. Chemia pożarów, uzależnienie i sezonowość</a>
+  <a class="toc-chapter" href="#r10">10. Jest już za późno — konkluzja</a>
+</div>
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--accent5)"></span> Część II — Putin: Cornered Animal</div>
+  <a class="toc-chapter" href="#r11">11. Dlaczego to nie jest pytanie o pieniądze</a>
+  <a class="toc-chapter" href="#r12">12. Zasoby, skreślenia i dziewięć scenariuszy desperacji</a>
+  <a class="toc-chapter" href="#r13">13. Kiedy elity odłączą się od Putina?</a>
+</div>
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--iran)"></span> Część III — Iran: Jałta 3.0</div>
+  <a class="toc-chapter" href="#r14">14. Rozpad irańskiej państwowości i koncepcja operacyjna</a>
+  <a class="toc-chapter" href="#r15">15. Mapa aktorów i ryzyka krytyczne</a>
+  <a class="toc-chapter" href="#r16">16. Hanza 2.0 — porządek bez architekta</a>
+</div>
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--energy)"></span> Część IV — Energia: Geopolityka surowców</div>
+  <a class="toc-chapter" href="#r17">17. Od Ormuzu do panelu — struktura, szok i substytucja</a>
+  <a class="toc-chapter" href="#r18">18. Monopole i topologia władzy</a>
+</div>
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--accent3)"></span> Część V — Meta: Narzędzia myślenia</div>
+  <a class="toc-chapter" href="#r19">19. Disinfolklore i Dark Legitimacy — trucizna i ciemna strona</a>
+  <a class="toc-chapter" href="#r20">20. Źródła, etyka i granice poznania</a>
+</div>
+
+<div class="toc-part">
+  <div class="toc-part-title"><span class="pc" style="background:var(--accent4)"></span> Część VI — Advocatus Diaboli</div>
+  <a class="toc-chapter" href="#r21">21. Steelmanning systemu — Chiny, inercja, zmęczenie Zachodu</a>
+  <a class="toc-chapter" href="#r22">22. Disinfolklore pod lupą — SWOT i przesłuchanie sądowe</a>
+  <a class="toc-chapter" href="#r23">23. Zrewidowana konkluzja — mapa, nie GPS</a>
+</div>
+
+</nav>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  JAK CZYTAĆ TEN TEKST                                      ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<section class="volume" style="margin-bottom:3rem;padding-top:2rem">
+<div class="volume-header"><div class="volume-number c-blue">Zanim zaczniesz</div><div class="volume-title">Jak czytać ten tekst</div></div>
+
+<p>Kolumbryna nie jest listą dwudziestu trzech osobnych problemów ułożonych w kolejności od najważniejszego do najmniej ważnego. Jest <em>siecią</em> — i to gęstą. Rozdział o spirali OPL <a href="#r1" class="xref">R1</a> prowadzi do budżetu <a href="#r3" class="xref">R3</a>, budżet do Iranu <a href="#r14" class="xref">R14</a>, Iran z powrotem do OPL (przez porażkę S-400), OPL do rafinerii, 🦀 rafinerie do paliw, paliwa do frontu, front do strat, straty do rekrutacji, rekrutacja do rynku pracy, rynek pracy do policji <a href="#r6" class="xref">R6</a>, policja do tłumienia protestów, protesty do zaległości płacowych, zaległości do budżetu. Koło się zamyka — i za każdym obrotem traci energię.</p>
+
+<p>W tekście zobaczysz małe niebieskie odnośniki (<a href="#r1" class="xref">→R1</a>, <a href="#r3" class="xref">→R3</a> itd.) — to cross-referencje, 🐙 które pokazują te połączenia jawnie. Nie musisz ich klikać przy pierwszym czytaniu. Ale jeśli pomyślisz „zaraz, a skąd się to wzięło?" — kliknij, a cross-ref zabierze cię do rozdziału, który odpowiada na to pytanie. Tekst jest zaprojektowany tak, by działał liniowo (od R1 do R23) <em>i</em> jako sieć (przez cross-refy). Obydwa tryby czytania są zamierzone.</p>
+
+<p>Mosty narracyjne — wyróżnione akapity między tomami — ciągną do następnego rozdziału i wyjaśniają, dlaczego <em>ten</em> temat prowadzi do <em>tamtego</em>. Bloki literackie (📚) zwalniają tempo: to pauzy, 🦑 nie dekoracja. Są po to, żeby dać oddech między gęstymi partiami danych — i żeby pokazać, że rosyjska degradacja działa dokładnie tak, jak chemia pożarów, Bułhakow, albo teoria uzależnień.</p>
+
+<p>Poniżej: interaktywna mapa powiązań między rozdziałami. Najedź na węzeł, żeby podświetlić jego połączenia. Kliknij po szczegóły. Rozmiar węzła = liczba połączeń. 🦀 Im grubsza linia, tym silniejsze powiązanie. Zwróć uwagę, które rozdziały są hubami sieci — to klucz do zrozumienia, co trzyma całą analizę w kupie.</p>
+
+<!-- INTERACTIVE GRAPH -->
+<div id="graphContainer" style="position:relative;width:100%;height:520px;background:var(--bg2);border:1px solid var(--border);margin:1.5rem 0;overflow:hidden;border-radius:4px">
+<div id="graphInfo" style="position:absolute;bottom:12px;left:12px;background:rgba(13,15,18,.9);border:1px solid var(--border);padding:10px 14px;font-size:.8rem;line-height:1.5;max-width:340px;border-radius:3px;display:none;z-index:5">
+<div id="graphInfoTitle" style="color:var(--text-bright);font-weight:600;margin-bottom:3px"></div>
+<div id="graphInfoDesc" style="color:var(--muted)"></div>
+<div id="graphInfoConns" style="color:var(--muted);font-size:.72rem;margin-top:4px;font-family:'IBM Plex Mono',monospace"></div>
+</div>
+<canvas id="graphCanvas" style="width:100%;height:100%"></canvas>
+</div>
+
+<script>
+(function(){
+const colors={russia:'#c0392b',putin:'#8e44ad',iran:'#e67e22',energy:'#d4a017',meta:'#2980b9',advocatus:'#27ae60'};
+const nodes=[
+{id:'R1',label:'Front i OPL',group:'russia',desc:'Spirala OPL→rafinerie→paliwa→front. Trójkąt spalania.'},
+{id:'R2',label:'Arsenał nuklearny',group:'russia',desc:'Nośniki się starzeją. Sarmat opóźniony.'},
+{id:'R3',label:'Budżet i Hormuz',group:'russia',desc:'91% deficytu w 2 mies. Paradoks windfall.'},
+{id:'R4',label:'Eksport i dewizy',group:'russia',desc:'Gaz utracony. Shadow fleet. Dewizy limitowane.'},
+{id:'R5',label:'Infrastruktura',group:'russia',desc:'Kolej, rury, samoloty — 30 lat zaniedbań.'},
+{id:'R6',label:'Społeczeństwo',group:'russia',desc:'Brain drain 500-800K. Policja ma wakaty.'},
+{id:'R7',label:'Bestiariusz',group:'russia',desc:'24 procesy erozyjne i ich sprzężenia.'},
+{id:'R8',label:'Patologia/KRLD',group:'russia',desc:'Bąbel informacyjny. Dlaczego nie Korea Płn.'},
+{id:'R9',label:'Chemia pożarów',group:'russia',desc:'Backdraft, Annuszka, uzależnienie, sezonowość.'},
+{id:'R10',label:'Za późno',group:'russia',desc:'Punkt autokorekty przekroczony. 25/40/25/10%.'},
+{id:'R11',label:'≠ pieniądze',group:'putin',desc:'Kaddafi. 50% liderów traci władzę. Inna funkcja celu.'},
+{id:'R12',label:'9 scenariuszy',group:'putin',desc:'Od kupienia Trumpa po scorched earth.'},
+{id:'R13',label:'Elity',group:'putin',desc:'Kiedy kalkulacja lojalności się odwraca.'},
+{id:'R14',label:'Iran rozpad',group:'iran',desc:'Utrata koordynacji. Aras, Zagros, Władywostok.'},
+{id:'R15',label:'Aktorzy/ryzyka',group:'iran',desc:'Konwergencja interesów. 440kg uranu.'},
+{id:'R16',label:'Hanza 2.0',group:'iran',desc:'Porządek bez architekta. Old money.'},
+{id:'R17',label:'Energia/panel',group:'energy',desc:'78% substytucyjne. Backdraft naftowy.'},
+{id:'R18',label:'Monopole',group:'energy',desc:'Saudyjski (malejący) vs chiński (rosnący).'},
+{id:'R19',label:'Disinfo/DL',group:'meta',desc:'Disinfolklore + dark legitimacy.'},
+{id:'R20',label:'Etyka',group:'meta',desc:'Źródła, bias, transparentność.'},
+{id:'R21',label:'Steelmanning',group:'advocatus',desc:'Chiny, inercja, zmęczenie Zachodu.'},
+{id:'R22',label:'SWOT Disinfo',group:'advocatus',desc:'Siły/słabości Disinfolklore. Przesłuchanie.'},
+{id:'R23',label:'Konkluzja',group:'advocatus',desc:'Zrewidowane 25/40/25/10%.'}
+];
+const edgesRaw=[
+['R1','R19'],['R1','R19'],['R1','R3'],['R1','R14'],
+['R2','R12'],
+['R3','R14'],['R3','R17'],
+['R4','R12'],['R4','R5'],['R4','R21'],['R4','R19'],['R4','R6'],
+['R5','R3'],
+['R6','R5'],['R6','R4'],['R6','R10'],['R6','R14'],
+['R7','R1'],['R7','R3'],['R7','R6'],['R7','R1'],['R7','R3'],['R7','R5'],['R7','R5'],['R7','R3'],['R7','R5'],['R7','R12'],['R7','R6'],['R7','R6'],['R7','R4'],['R7','R2'],['R7','R6'],['R7','R8'],['R7','R21'],['R7','R1'],['R7','R3'],
+['R8','R19'],['R8','R14'],['R8','R5'],['R8','R19'],['R8','R19'],['R8','R19'],['R8','R14'],['R8','R14'],['R8','R21'],
+['R9','R14'],['R9','R1'],['R9','R6'],['R9','R3'],['R9','R1'],['R9','R5'],['R9','R3'],['R9','R11'],['R9','R5'],
+['R10','R11'],['R10','R21'],['R10','R6'],['R10','R1'],['R10','R3'],['R10','R21'],['R10','R23'],
+['R12','R3'],['R12','R4'],['R12','R21'],['R12','R1'],
+['R13','R3'],['R13','R1'],['R13','R19'],['R13','R19'],['R13','R1'],['R13','R3'],
+['R14','R1'],['R14','R19'],['R14','R8'],['R14','R7'],['R14','R19'],
+['R15','R17'],['R15','R1'],['R15','R17'],
+['R17','R4'],['R17','R10'],
+['R18','R16'],
+['R19','R22'],['R19','R8'],
+['R20','R10'],
+['R21','R6'],['R21','R23'],
+['R22','R19'],
+['R23','R21'],['R23','R22'],['R23','R7']
+];
+const eMap={};
+edgesRaw.forEach(([s,t])=>{const k=[s,t].sort().join('-');if(!eMap[k])eMap[k]={s,t,w:0};eMap[k].w++});
+const edges=Object.values(eMap);
+const conn={};nodes.forEach(n=>conn[n.id]=0);
+edges.forEach(e=>{conn[e.s]++;conn[e.t]++});
+const maxC=Math.max(...Object.values(conn));
+const nMap={};
+
+const canvas=document.getElementById('graphCanvas');
+const ctx=canvas.getContext('2d');
+const dpr=window.devicePixelRatio||1;
+let W,H;
+function resize(){
+const rect=canvas.parentElement.getBoundingClientRect();
+W=rect.width;H=rect.height;
+canvas.width=W*dpr;canvas.height=H*dpr;
+ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resize();
+
+nodes.forEach((n,i)=>{
+const angle=(i/nodes.length)*Math.PI*2;
+const r=Math.min(W,H)*0.32;
+n.x=W/2+Math.cos(angle)*r*(0.8+Math.random()*0.4);
+n.y=H/2+Math.sin(angle)*r*(0.8+Math.random()*0.4);
+n.vx=0;n.vy=0;
+n.r=6+(conn[n.id]/maxC)*18;
+nMap[n.id]=n;
+});
+
+for(let iter=0;iter<250;iter++){
+for(let i=0;i<nodes.length;i++){
+for(let j=i+1;j<nodes.length;j++){
+let dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y;
+let d=Math.sqrt(dx*dx+dy*dy)||1;
+let f=6000/(d*d);
+nodes[i].vx-=(dx/d)*f;nodes[i].vy-=(dy/d)*f;
+nodes[j].vx+=(dx/d)*f;nodes[j].vy+=(dy/d)*f;
+}}
+edges.forEach(e=>{
+const s=nMap[e.s],t=nMap[e.t];
+let dx=t.x-s.x,dy=t.y-s.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+let f=d*0.005*e.w;
+s.vx+=(dx/d)*f;s.vy+=(dy/d)*f;
+t.vx-=(dx/d)*f;t.vy-=(dy/d)*f;
+});
+nodes.forEach(n=>{
+n.vx+=(W/2-n.x)*0.008;n.vy+=(H/2-n.y)*0.008;
+n.vx*=0.85;n.vy*=0.85;
+n.x+=n.vx*0.3;n.y+=n.vy*0.3;
+n.x=Math.max(40,Math.min(W-40,n.x));
+n.y=Math.max(30,Math.min(H-30,n.y));
+});
+}
+
+let hovered=null;
+function draw(){
+ctx.clearRect(0,0,W,H);
+edges.forEach(e=>{
+const s=nMap[e.s],t=nMap[e.t];
+ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(t.x,t.y);
+if(hovered&&(e.s===hovered.id||e.t===hovered.id)){
+ctx.strokeStyle=colors[hovered.group];ctx.globalAlpha=0.8;ctx.lineWidth=1+e.w*1.5;
+}else if(hovered){
+ctx.strokeStyle='#2a3040';ctx.globalAlpha=0.15;ctx.lineWidth=0.5;
+}else{
+ctx.strokeStyle='#2a3040';ctx.globalAlpha=0.45;ctx.lineWidth=0.5+e.w*0.8;
+}
+ctx.stroke();ctx.globalAlpha=1;
+});
+nodes.forEach(n=>{
+const isH=hovered&&n.id===hovered.id;
+const isConn=hovered&&edges.some(e=>(e.s===hovered.id&&e.t===n.id)||(e.t===hovered.id&&e.s===n.id));
+ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+ctx.fillStyle=colors[n.group];
+ctx.globalAlpha=(hovered&&!isH&&!isConn)?0.2:0.85;
+ctx.fill();ctx.globalAlpha=1;
+ctx.strokeStyle='#0d0f12';ctx.lineWidth=1.5;ctx.stroke();
+ctx.fillStyle='#fff';ctx.font=(n.r>12?'bold 10px':'bold 8px')+' monospace';
+ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(n.id.replace('R',''),n.x,n.y);
+ctx.fillStyle=(hovered&&!isH&&!isConn)?'rgba(156,163,175,0.2)':'#9ca3af';
+ctx.font='9px system-ui,sans-serif';ctx.textBaseline='top';
+ctx.fillText(n.label,n.x,n.y+n.r+4);
+});
+}
+draw();
+
+function getNode(x,y){
+for(let i=nodes.length-1;i>=0;i--){
+const n=nodes[i],dx=n.x-x,dy=n.y-y;
+if(dx*dx+dy*dy<=n.r*n.r*1.5)return n;
+}return null;
+}
+canvas.addEventListener('mousemove',e=>{
+const rect=canvas.getBoundingClientRect();
+const x=e.clientX-rect.left,y=e.clientY-rect.top;
+const n=getNode(x,y);
+hovered=n;canvas.style.cursor=n?'pointer':'default';
+draw();
+});
+canvas.addEventListener('click',e=>{
+const rect=canvas.getBoundingClientRect();
+const x=e.clientX-rect.left,y=e.clientY-rect.top;
+const n=getNode(x,y);
+const panel=document.getElementById('graphInfo');
+if(n){
+const cs=edges.filter(e=>e.s===n.id||e.t===n.id).map(e=>e.s===n.id?e.t:e.s);
+document.getElementById('graphInfoTitle').textContent=n.id+'. '+n.label;
+document.getElementById('graphInfoDesc').textContent=n.desc;
+document.getElementById('graphInfoConns').textContent='Połączenia ('+cs.length+'): '+cs.join(', ');
+panel.style.display='block';
+}else{panel.style.display='none';}
+});
+canvas.addEventListener('mouseleave',()=>{hovered=null;draw()});
+window.addEventListener('resize',()=>{resize();draw()});
+})();
+</script>
+
+</section>
+<div class="part-break" id="czesc1">
+  <div class="part-num c-red">Część I · dziesięć rozdziałów</div>
+  <div class="part-title">Rosja: „Jest już za późno"</div>
+  <div class="part-intro">W tej części pokażemy, jak 24 pozornie osobne procesy — od degradacji obrony przeciwlotniczej, przez wyczerpanie budżetu, po zaległości płacowe górników w Kuzbasie — tworzą jeden system z dwudziestoma czterema punktami awarii, połączony sprzężeniami zwrotnymi. Żaden z tych procesów sam nie obali systemu. Ale działając jednocześnie, przesunęły Rosję za punkt autokorekty — punkt, za którym każde rozwiązanie jednego problemu tworzy dwa nowe.</div>
+</div>
+
+<section class="volume" id="tom1">
+<div class="volume-header"><div class="volume-number c-red">Tom I</div><div class="volume-title">Front, OPL i arsenał</div></div>
+
+<!-- ═══════ R1 ═══════ -->
+<article class="chapter" id="r1">
+<h2 class="chapter-heading">Rozdział 1. Front i spirala OPL — trójkąt spalania</h2>
+
+<p>Rosja nie zbankrutuje jednego dnia. Nie przegra wojny jedną bitwą. Ale system, 🐙 w którym każde rozwiązanie jednego problemu tworzy dwa nowe, jest systemem zmierzającym ku punktowi, w którym ilość przechodzi w jakość — nagle, po długim okresie „stopniowo".</p>
+
+<p>Front w marcu 2026 to obraz paradoksu: Rosja posiada więcej terytorium ukraińskiego niż rok temu, ale jej zdolność do utrzymania tempa ofensywy maleje wykładniczo. Mięsne szturmy — fale piechoty wysyłane na okopane pozycje — to nie taktyka, lecz objaw. Objaw armii, która wyczerpała precyzyjny sprzęt, amunicję kierowaną i wyszkolonych żołnierzy, zastępując je jedynym zasobem, którego jeszcze (ledwo) ma pod dostatkiem: ludźmi. Od stycznia 2026 straty rosyjskie przewyższają rekrutację trzy miesiące z rzędu. To nie oznacza natychmiastowej katastrofy — ale oznacza, że armia się kurczy. Kurczy się nie dlatego, że nie chce rosnąć, lecz dlatego, że rynek pracy jest wyczerpany (rekordowo niskie bezrobocie 2,3%), a podwyżki żołdu kanibalizują sektory cywilne, które podwyżek żołdu potrzebują, by w ogóle funkcjonować.</p>
+
+<p>Dlaczego ludzie w ogóle idą na te szturmy? Żołd — tak, 300-400 tys. rubli miesięcznie to wielokrotność pensji w rosyjskiej prowincji. Ale jest głębsza warstwa: dark legitimacy <a href="#r19" class="xref">→R19</a> nauczyła pokolenia Rosjan, że władza jest z natury brutalna, że sprzeciw jest bezcelowy, i że lepiej zarobić w systemie niż próbować go zmienić. Mięsny szturm jest mikrokosmosem dark legitimacy: żołnierz wie, że jego szanse przeżycia są niskie, dowódca wie, że taktyka jest marnotrawna, obie strony akceptują tę wiedzę jako „normalną" — bo w systemie, gdzie najgorsze jest normą, nikt nie oczekuje lepszego. To nie jest wyuczona bezradność w sensie psychologicznym — to jest racjonalność wewnątrz systemu, w którym reguły gry wykluczają bunt jako opcję.</p>
+
+<p>A nad tym wszystkim pracuje warstwa narracyjna, którą Disinfolklore <a href="#r19" class="xref">→R19</a> pozwala zobaczyć: żołnierz idący na szturm niesie w głowie nie rozkaz — niesie <em>archetyp</em>. „Ukraina to naziści" to klasyczne Accusation in a Mirror: agresor oskarża ofiarę o to, co sam robi — i ten mechanizm był obecny w <em>każdym</em> udokumentowanym ludobójstwie, od Rwandy po Srebrennicę. „My bronimy Rosję" to Data Resistant Archetype — mentalny model tak głęboko zainstalowany, że żadna ilość dowodów z pola walki go nie zmieni, 🐙 bo archetyp jest starszy i silniejszy niż fakt. Rosyjska propaganda nie musi bombardować żołnierza codziennie — wystarczyło raz zainstalować narrację, a potem żołnierz <em>sam ją podtrzymuje</em>, bo opowiadanie sobie historii o „obronie ojczyzny" jest jedynym sposobem na psychiczne przetrwanie sytuacji, w której obiektywna rzeczywistość jest nie do zniesienia. Wyłącz Sołowiowa — archetyp dalej pracuje. Wyłącz internet — archetyp dalej pracuje. To jest ten mechanizm, który Douglas nazywa „maną" — ładunek emocjonalny tak silny, że żyje własnym życiem, niezależnie od źródła, które go wygenerowało.</p>
+
+<div class="data-grid">
+  <div class="data-card"><div class="label">Terytorium UA pod ros. kontrolą</div><div class="value">~18%</div><div class="note">w tym Krym</div></div>
+  <div class="data-card"><div class="label">Straty rosyjskie</div><div class="value">&gt;350 tys.</div><div class="note">zabici + ranni niezdolni do walki</div></div>
+  <div class="data-card"><div class="label">Straty &gt; rekrutacja</div><div class="value">3 mies.</div><div class="note">z rzędu (I–III 2026)</div></div>
+  <div class="data-card"><div class="label">Asymetria kosztowa</div><div class="value">$500 : $3M</div><div class="note">dron FPV vs czołg</div></div>
+</div>
+
+<p>Ale front to tylko jeden wierzchołek trójkąta. Gdyby ta analiza miała wskazać <em>jeden</em> proces, 🦑 który sam — bez pomocy pozostałych dwudziestu trzech — może przesądzić o wyniku wojny, byłaby to degradacja rosyjskiej obrony przeciwlotniczej (OPL). Nie dlatego, że inne procesy są mniej ważne, lecz dlatego, że OPL jest spoiwem, które trzyma całą resztę w kupie.</p>
+
+<div class="literary">
+<p>W chemii pożarów trójkąt spalania wymaga paliwa, tlenu i temperatury zapłonu. Wystarczy odebrać jeden element, by ogień zgasł. Rosyjska machina wojenna potrzebuje ludzi, sprzętu i amunicji — i wszystkie trzy jednocześnie wchodzą w deficyt. Ale jest czwarty element, który chemicy dodali do trójkąta, tworząc czworościan: reakcja łańcuchowa wolnych rodników, przyspieszająca spalanie wykładniczo. W rosyjskim kontekście tym czwartym elementem jest spirala OPL.</p>
+<div class="lit-ref">Chemia pożarów: czworościan spalania → czworościan zdolności bojowej</div>
+</div>
+
+<p>Logika kaskady jest prosta i bezlitosna: sprawna OPL chroni rafinerie → rafinerie produkują paliwo → paliwo napędza front → front zabezpiecza terytorium → terytorium daje głębokość strategiczną dla OPL. Gdy OPL słabnie, rafinerie płoną <a href="#r3" class="xref">→R3</a> → paliwa brak → front głodnieje → więcej sprzętu stoi → więcej celów dla ukraińskich dronów → kolejne elementy OPL giną. To jest pętla dodatniego sprzężenia zwrotnego — identyczna z reakcją łańcuchową wolnych rodników w chemii: każdy zniszczony radar generuje warunki do zniszczenia kolejnego.</p>
+
+<p>System S-400 — formalnie „najlepszy na świecie" — potrzebuje do pełnej operacyjności: wyrzutni, zapasu rakiet (40N6, 48N6, 9M96), radaru podświetlania 92N6, radaru wykrywania 91N6, wozu dowodzenia 55K6 i generatorów zasilania. Brak <em>jednego</em> elementu czyni cały zestaw bezużytecznym. Nie można złożyć sprawnego S-400 z dwóch uszkodzonych — potrzebujesz całego zestawu. Ukraina to rozumie i celowo niszczy radary (najtrudniejsze do zastąpienia), wiedząc, że wyrzutnia bez radaru to metal na kółkach. Jednostka „Ghosts" GUR specjalizuje się właśnie w tym: chirurgicznym eliminowaniu radarów, nie wyrzutni.</p>
+
+<p>A porażka irańska dodała nowy wymiar <a href="#r14" class="xref">→R14</a>: S-300PMU-2 (bliski kuzyn S-400) zneutralizowany przez amerykańsko-izraelską operację praktycznie bez strat — zdemolowała reputację rosyjskiej OPL na rynku globalnym. Chińscy komentatorzy wojskowi otwarcie skrytykowali jakość rosyjskiego sprzętu. Indie, Turcja, Arabia Saudyjska — potencjalni klienci — obserwują i wyciągają wnioski. Utrata rynku eksportowego oznacza mniejsze przychody, mniejsze serie produkcyjne, wyższe koszty jednostkowe — kolejna pętla ujemna, tym razem ekonomiczna.</p>
+
+<div class="callout red"><strong>Inflection point:</strong> Prawdopodobny w H2 2025 / H1 2026. Gdy gęstość sprawnych systemów spadnie poniżej pewnego progu, Ukraina uzyska zdolność do uderzeń w głąb Rosji z minimalnym ryzykiem przechwycenia. To zmienia charakter wojny z pozycyjnej na manewrową — a tego Rosja nie przeżyje, bo manewrowa wojna wymaga wyszkolonych oficerów, których już zjadły mięsne szturmy.</div>
+
+<div class="sources">ISW — daily assessments · Oryx / WarSpotting — straty sprzętowe · Kyiv Independent — straty vs rekrutacja · Global Defense Corp — „$4B air defenses destroyed" · Newsweek — „S-400 Cut to Shreds" · Kyiv Post — „S-400 Illusion: Supply Chain Failure" · RUSI — szacunki kosztowe · Militarnyi — jednostka „Ghosts" GUR · Global Defense Corp — „Why S-400 failed in Iran"</div>
+</article>
+
+<!-- ═══════ R2 ═══════ -->
+<article class="chapter" id="r2">
+<h2 class="chapter-heading">Rozdział 2. Arsenał nuklearny — odstraszanie na papierze</h2>
+
+<p>Rosyjski arsenał nuklearny to najczęściej przywoływany argument za tym, że Rosji „nic nie grozi" — i w sensie absolutnym jest prawdą: nawet zdegradowany arsenał 6000 głowic wystarcza do odstraszania egzystencjalnego. Nikt nie zaatakuje Rosji, dopóki te głowice istnieją. Ale między „nikt nas nie zaatakuje" a „jesteśmy supermocarstwem" jest przepaść, a Rosja przesuwa się ku jej krawędzi z każdym kwartałem opóźnień programu Sarmat.</p>
+
+<p>Głowice prawdopodobnie działają — tryt odnawiany (okres półtrwania 12,3 lat), pity plutonowe konserwowane. To nie jest problem. Problem leży w <em>nośnikach</em>: rakietach balistycznych, okrętach podwodnych i bombowcach strategicznych, które mają te głowice dostarczyć. Program Sarmat (RS-28) — miał zastąpić starzejące się SS-18 „Satan" — przeprowadził zaledwie jeden test (częściowo udany) zamiast sześciu planowanych. Rakieta nie jest na służbie operacyjnej, mimo planowanego terminu 2022. Bez Sarmatu Rosja opiera się na SS-18 wyprodukowanych w latach 80. <em>na Ukrainie</em> — co jest nie tylko ironiczne, ale i symptomatyczne dla głębszego problemu: rosyjski kompleks przemysłowo-obronny nie potrafi już produkować złożonych systemów na czas i w wystarczającej ilości.</p>
+
+<p>Okręty klasy Borej — jedyny w pełni nowy element triady — ale produkcja spowalnia (sankcje na komponenty). Bombowce Tu-160M i Tu-95MS to modernizacje maszyn z lat 80., 🦑 ze średnią prędkością podróżną poniżej prędkości dźwięku — łatwy cel dla OPL NATO. Podsumowując: arsenał nuklearny to straszak, nie narzędzie. Odstraszanie egzystencjalne — tak. Zdolność do „wygrania" wymiany z NATO — coraz bardziej wątpliwa. A straszak, którego nie można użyć, traci siłę z każdym rokiem bierności <a href="#r12" class="xref">→R12</a>.</p>
+
+<div class="sources">SIPRI — yearbook 2025 · Bulletin of the Atomic Scientists — status Sarmatu · Naval News — klasa Borej · CSIS — modernizacja triady rosyjskiej</div>
+</article>
+
+<div class="bridge">Front się kurczy, OPL się rozpada, arsenał nuklearny rdzewieje — ale to wymaga pieniędzy, których Rosja nie ma. A raczej: miała przez chwilę, dzięki Hormuzowi. Następny rozdział wyjaśnia, dlaczego ten tlen jest tymczasowy — i dlaczego Annuszka już rozlała olej na torach rosyjskiego budżetu.</div>
+</section>
+
+<!-- ══════ TOM II ══════ -->
+<section class="volume" id="tom2">
+<div class="volume-header"><div class="volume-number c-red">Tom II</div><div class="volume-title">Gospodarka, finanse i eksport</div></div>
+
+<!-- ═══════ R3 ═══════ -->
+<article class="chapter" id="r3">
+<h2 class="chapter-heading">Rozdział 3. Budżet, NWF i paradoks Hormuz</h2>
+
+<div class="epigraph">
+  Annuszka już rozlała olej — i to nie tylko rozlała, ale jeszcze sypnęła piaskiem na plamy, żeby nikt nie widział. Ale tramwaj jedzie. Torów nie zmienisz. I hamulce — hamulce od dawna nie działają.
+  <span class="attr">— za Bułhakowem, z korektą analityczną</span>
+</div>
+
+<p>W pierwszych dwóch miesiącach 2026 roku Rosja zużyła 91% planowanego <em>rocznego</em> deficytu budżetowego. To nie jest literówka. Rząd wydał w styczniu–lutym tyle ponad przychody, ile planował wydać przez cały rok. Fundusz Dobrobytu Narodowego (NWF) — ostatnia poduszka bezpieczeństwa — skurczył się do poziomu, w którym płynne aktywa (te, które można szybko zamienić na gotówkę) wystarczą na 2-3 miesiące wydatków wojennych. Nie dwa–trzy lata. Miesiące.</p>
+
+<p>Struktura problemu: wydatki wojenne (~30% budżetu oficjalnie, realnie bliżej 40% po ukrytych pozycjach) rosną szybciej niż przychody. VAT podniesiony do 22%, próg dla małych firm obniżony z 60 do 10 mln rubli (co de facto zniszczyło mikroprzedsiębiorczość), Gazprom przenosi koszty utraconego rynku europejskiego na konsumentów (+43% rachunki za gaz). Regiony dostały polecenie ciąć: edukację, zdrowie, 🦀 remonty dróg. Ale ściągalność podatkowa ma fizyczne granice — i Rosja się do nich zbliża, bo nie można opodatkować tego, czego nie ma, a inflacja żywności (mleko +62%, mięso +41% r/r) oznacza, że ludzie wydają coraz więcej na jedzenie i coraz mniej jest do opodatkowania.</p>
+
+<div class="data-grid">
+  <div class="data-card"><div class="label">Deficyt zużyty (I–II 2026)</div><div class="value">91%</div><div class="note">rocznego planu</div></div>
+  <div class="data-card"><div class="label">NWF płynne aktywa</div><div class="value">~2-3 mies.</div><div class="note">wydatków wojennych</div></div>
+  <div class="data-card"><div class="label">Stopa CB</div><div class="value">15,5%</div><div class="note">walka z inflacją</div></div>
+  <div class="data-card"><div class="label">Inflacja żywności</div><div class="value">+41–62%</div><div class="note">mięso/mleko r/r</div></div>
+</div>
+
+<p>I tu wchodzi paradoks Hormuz. Wojna w Iranie <a href="#r14" class="xref">→R14</a> (od 28 lutego 2026) podarowała Putinowi coś, 🐙 czego desperacko potrzebował: cenę ropy. Urals skoczyły z $36/bbl do ~$100/bbl. W ciągu dwóch tygodni marca rosyjski eksport ropy wygenerował szacunkowo €7,7 mld dodatkowych przychodów. Hormuz — „chokepoint cywilizacji" <a href="#r17" class="xref">→R17</a> — zacisnął się, a Rosja nagle mogła oddychać.</p>
+
+<p>Ale to jest pułapka chwilówkowa — pieniądze na 300% oprocentowania, które pożyczasz od przyszłości. Bo jednocześnie: Primorsk (23 marca) stanął w ogniu — terminal obsługujący 25% rosyjskiego eksportu morskiego ropy. Ust-Ługa zawiesiła operacje. Rafinerie tracą 17% mocy przerobowych pod ukraińskimi dronami — co oznacza, że nawet droga ropa nie ma jak wyjść z kraju. Windfall cenowy jest gigantyczny, ale krany się zamykają. To jak podwyżka pensji z jednoczesnym zablokowaniem konta bankowego. A Hormuz się kiedyś otworzy — i wtedy cena spadnie, a zniszczone terminale pozostaną zniszczone.</p>
+
+<div class="literary">
+<p>Bułhakowski tramwaj ma tu podwójne zastosowanie: Annuszka (ukraińskie siły specjalne) rozlała olej (drony na terminale), a tramwaj (rosyjska machina budżetowa) jedzie po ustalonych torach wydatków wojennych, których nie da się zmienić w biegu. Berlioz (rosyjski budżet) jeszcze tego nie wie — ale już poślizgnął się.</p>
+<div class="lit-ref">Bułhakow, <em>Mistrz i Małgorzata</em> — fatalizm systemowy i niemożność zmiany trajektorii</div>
+</div>
+
+<div class="sources">MinFin RF — dane budżetowe · RBC — „91% deficytu" · The Bell — analiza NWF · CREA — „windfall revenues" · Argus Media — Primorsk pożar · Reuters — Ust-Ługa · Defence Express — rafinerie -17% · Bloomberg — Urals $100/bbl</div>
+</article>
+
+<!-- ═══════ R4 ═══════ -->
+<article class="chapter" id="r4">
+<h2 class="chapter-heading">Rozdział 4. Eksport, dewizy i majątek — co jeszcze działa</h2>
+
+<p>Rosyjski eksport to historia systematycznej degradacji, rozdział po rozdziale. <strong>Gaz do Europy:</strong> utracony permanentnie — Europa ma Norwegię, US LNG i rozwija OZE. Nord Stream leży na dnie Bałtyku, Jamal nie pompuje, 🦀 tranzyt przez Ukrainę wygasł. Gazprom przeniósł resztki nadziei na Power of Siberia-2 do Chin, ale Pekin negocjuje cenę tak nisko ($248/1000 m³ — 38% poniżej rynku), że to de facto wasalizacja gazowa <a href="#r12" class="xref">→R12</a>.</p>
+
+<p><strong>Ropa:</strong> shadow fleet — flota starych tankowców bez zachodniego ubezpieczenia — starzeje się, a kilka jednostek już miało poważne incydenty (wyciek przy Danii, pożar silnika na Bałtyku). Porty płoną (Primorsk, Ust-Ługa — patrz wyżej). Rafinerie pod atakiem — co oznacza, że Rosja traci nie tylko przychody z eksportu, ale też zdolność do przetwarzania ropy na paliwo dla własnej armii i ludności. <strong>Węgiel:</strong> odcięty od rynków premium, sprzedawany Indiom i Chinom po cenach dumpingowych, z marżą zjadaną przez koszty transportu koleją na Daleki Wschód <a href="#r5" class="xref">→R5</a>. <strong>Zboże, drewno, nawozy:</strong> marże kurczą się pod sankcjami logistycznymi i rosnącymi kosztami ubezpieczeń.</p>
+
+<p><strong>Dewizy</strong> — to osobny problem, bo rosyjska gospodarka wojenna potrzebuje walut obcych jednocześnie na: import komponentów wojskowych (chipy, łożyska, precyzyjne elementy), import żywności i leków, utrzymanie kursu rubla i obsługę długu. Nie ma ich na wszystko. Handel z Chinami (~$240 mld w 2023) odbywa się coraz bardziej w juanach — ale chińskie banki, bojąc się sankcji wtórnych, ograniczają współpracę. Paradoks: nawet sojusznik nie chce ryzykować swoich relacji z Zachodem dla rosyjskich dewiz <a href="#r21" class="xref">→R21</a>.</p>
+
+<p><strong>Majątek offshore</strong> — zamrożone aktywa w Euroclear (Belgia): €194 mld. Jachty: niesprzedawalne. Nieruchomości: zamrożone. Majątki Putina i oligarchów istnieją, 🦑 ale w formie niefunkcjonalnej — nie da się nimi kupić czołgów. Da się je natomiast użyć do operacji wpływu: korumpowanie polityków, finansowanie dezinformacji, opłacanie sieci wywiadowczych. Nie miliardy na czołgi, ale miliony na destabilizację — inny ROI, inna skala, ale wciąż groźna <a href="#r19" class="xref">→R19</a>.</p>
+
+<p>Jedyny eksport, który rośnie: ludzie. Brain drain <a href="#r6" class="xref">→R6</a> od 2022 wyniósł z Rosji 500–800 tys. wykwalifikowanych specjalistów. To eksport, z którego nie ma przychodów — tylko straty.</p>
+
+<div class="sources">CREA — fossil fuel exports tracker · Kpler — shadow fleet · Wood Mackenzie — węgiel · Bloomberg — handel Chiny-Rosja $240 mld · BIS/Treasury — sankcje wtórne · Euroclear — raporty · OCCRP — Panama/Pandora Papers · OutRush — brain drain · BOFIT — monitoring handlu</div>
+</article>
+
+<div class="bridge">Pieniędzy brak, eksport się kurczy, dewizy limitowane. Ale system państwowy potrzebuje nie tylko pieniędzy — potrzebuje też fizycznej infrastruktury: torów, rur, samolotów. A ta infrastruktura, zaniedbywana od rozpadu ZSRR, właśnie zaczyna się sypać — w wielu miejscach naraz.</div>
+</section>
+
+<!-- ══════ TOM III ══════ -->
+<section class="volume" id="tom3">
+<div class="volume-header"><div class="volume-number c-red">Tom III</div><div class="volume-title">Infrastruktura i społeczeństwo</div></div>
+
+<!-- ═══════ R5 ═══════ -->
+<article class="chapter" id="r5">
+<h2 class="chapter-heading">Rozdział 5. Infrastruktura się sypie — kolej, rury, samoloty</h2>
+
+<p>Rosja to kraj o 11 strefach czasowych, w którym odległość jest wbudowana w DNA państwowości. Wszystko — węgiel z Kuzbasu, ropa z Syberii, żołnierze na front, żywność z Kubania — jedzie koleją. Kolej rosyjska (RŻD) to krwioobieg tego organizmu. I ten krwioobieg się zatyka.</p>
+
+<p>Brak łożysk (import z Chin i Europy ograniczony sankcjami). Brak nowych wagonów (zakłady pracują na 60% mocy). Brak lokomotyw (Transmashholding traci komponenty). Sieć starzeje się szybciej niż jest modernizowana — a BAM i Transsyb, dwie arterie łączące Rosję europejską z Dalekim Wschodem, wymagają inwestycji, które nie nastąpią, bo pieniądze idą na wojnę <a href="#r3" class="xref">→R3</a>. Dane RŻD za 2025: spadek przewozów towarowych o 3,7% — pierwszy taki spadek od pandemii. Ale prawdziwy problem jest głębszy: nawet jeśli wagony się znajdą, tory mogą ich nie udźwignąć.</p>
+
+<p>Infrastruktura komunalna — rury ciepłownicze, sieci elektryczne, wodociągi — to osobna katastrofa. Średni wiek rur w rosyjskich miastach przekracza 30 lat; norma wymiany: 25 lat. Zima 2025/26 przyniosła falę awarii ciepłowniczych w kilkudziesięciu miastach jednocześnie, w tym w Moskwie i Petersburgu. To nie jest problem wojenny — to problem trzydziestoletni, który wojna katastrofalnie pogłębiła. Pieniądze na remonty rur szły na czołgi. Fachowcy od spawania rur poszli spawać opancerzone wozy. Efekt: infrastruktura, która ledwo trzymała się jako tako, zaczyna się sypać — i to nie w jednym miejscu, lecz systemowo, bo zaniedbanie było systemowe.</p>
+
+<p>Trzeci wymiar: lotnictwo cywilne. ~500 samolotów Boeinga i Airbusa zatrzymanych wbrew umowom leasingowym po 2022. Brak oryginalnych części, brak aktualizacji oprogramowania, 🦀 brak certyfikatów zdatności. Rosja „kanibalizuje" jedne samoloty, by utrzymać inne w powietrzu — strategia, która daje czas, ale nie rozwiązanie. Sukhoi Superjet i MC-21 (rodzime zamienniki) cierpią na te same choroby co reszta przemysłu: brak importowanych komponentów, opóźnienia liczone w latach. Flota kurczy się — i z każdym kwartałem mniej regionów jest połączonych regularną komunikacją. W kraju, gdzie Władywostok leży dalej od Moskwy niż Nowy Jork — utrata lotnictwa to utrata spoistości państwa.</p>
+
+<div class="literary">
+<p>Jeśli front to serce rosyjskiej machiny wojennej, a budżet to krew — to infrastruktura jest układem naczyniowym. Można mieć silne serce i dużo krwi, ale jeśli naczynia są zatkane i kruche, organizm nie funkcjonuje. Rosyjskie „naczynia" — kolej, rury, samoloty — były zaniedbywane od 30 lat. Wojna nie jest przyczyną ich rozpadu — jest katalizatorem, który przyspieszył proces, który i tak był nieunikniony.</p>
+<div class="lit-ref">Analogia medyczna: układ naczyniowy → infrastruktura państwa</div>
+</div>
+
+<div class="sources">Railway Supply — RŻD raporty · Kommersant — deficyt łożysk · The Bell — spadek przewozów · Novaya Gazeta Europe — awarie ciepłownicze · SimpleFlying — „Russia's fleet cannibalisation" · Aviation Week — MC-21 opóźnienia</div>
+</article>
+
+<!-- ═══════ R6 ═══════ -->
+<article class="chapter" id="r6">
+<h2 class="chapter-heading">Rozdział 6. Społeczeństwo na krawędzi — brain drain, pensje, policja</h2>
+
+<p>500–800 tysięcy ludzi opuściło Rosję od 2022 roku — i nie byle jakich ludzi: programiści, inżynierowie, lekarze, naukowcy, przedsiębiorcy. Gruzja, Armenia, Kazachstan przejęły tysiące rosyjskich firm tech. To nie jest emigracja zarobkowa — to ewakuacja klasy twórczej. Każda utracona osoba to nie tylko brak rąk do pracy — 🦀 to brak umysłu do rozwiązywania problemów, których systemy represji nie potrafią zastąpić. Lotnictwo bez inżynierów lotniczych <a href="#r5" class="xref">→R5</a>. IT bez programistów. Medycyna bez lekarzy (system zdrowia miał 50 tys. wakatów <em>przed</em> wojną — a potem lekarze pojechali na front jako sanitariusze, wyemigrowali, zostali zmobilizowani). Szpitale w regionach operują na 40-60% obsady.</p>
+
+<p>Na drugim końcu spektrum społecznego: Kuzbas — serce wydobycia węgla — doświadcza fali zaległości płacowych. Górnicy, którym nie płacono tygodniami, wyszli na ulice w kilku miastach. Węgiel traci rynki premium <a href="#r4" class="xref">→R4</a>, sprzedaje po dumpingu, a koszty transportu zjadają marżę. Zaległości płacowe to w rosyjskiej historii jeden z najsilniejszych predyktorów niepokojów społecznych — górnicy strajkowali w 1989, w 1998, 🦑 za każdym razem sygnalizując głębszy kryzys systemowy. Ludzie nie wychodzą na ulice z powodu braku demokracji. Wychodzą z powodu braku pensji i jedzenia.</p>
+
+<p>I wreszcie wskaźnik, którego nikt nie oczekiwał: <strong>policja ma wakaty</strong>. Aparat represji — fundament putinowskiego państwa — się przerzedza. Nie dlatego, że policjanci protestują. Dlatego, że zarabiają mniej niż żołnierze na froncie, a ryzyko (dronów, mobilizacji) rośnie. Policjanci odchodzą na front — 🐙 bo tam płacą więcej. Paradoks: wojna kanibalizuje aparat, który ma tłumić niezadowolenie z wojny. Kiedy inflacja żywności przekroczy próg wytrzymałości, a na ulicach nie będzie komu utrzymywać porządku — przeskok od „gradually" do „suddenly" stanie się kwestią nie lat, lecz tygodni <a href="#r10" class="xref">→R10</a>.</p>
+
+<p>Rolnictwo — jedyny sektor, który naprawdę działał (Rosja trzecim eksporterem zboża) — też traci fundamenty. Sukces był zbudowany na importowanym sprzęcie (John Deere, CLAAS), importowanych nasionach, importowanej technologii. Sankcje oficjalnie nie objęły rolnictwa — ale objęły logistykę, ubezpieczenia morskie, komponenty do maszyn. Zbiory 2025 były dobre, ale koszty produkcji wzrosły o 25-30%. Bez modernizacji — produkcja zacznie spadać w horyzoncie 2-3 lat. A kiedy spadnie produkcja żywności w kraju, gdzie inflacja mleka wynosi +62% — próg bólu zostanie przekroczony.</p>
+
+<p>Wzorzec erozji społecznej ma lustrzane odbicie w Iranie <a href="#r14" class="xref">→R14</a>: protesty z przełomu 2025/2026, tysiące zabitych, pęknięty kontrakt społeczny — zanim jeszcze spadły pierwsze amerykańskie bomby. Iran miał brain drain od dekady (młodzi, wykształceni Irańczycy emigrowali do Kanady, 🐙 Niemiec, Australii). Miał zaległości płacowe — nauczyciele, pracownicy przemysłu naftowego strajkowali regularnie od 2021. Miał inflację żywności (rial stracił 80% wartości w pięć lat). I miał aparat represji, który — jak rosyjska policja — zaczynał mieć wakaty, bo basidżowie woleli handlować na bazarze niż tłumić protesty za pensję, której wartość topniała co miesiąc. Dwa petrostates, dwa lustrzane procesy erozji — z tą różnicą, że Iranowi zabrakło czasu, zanim kumulacja osiągnęła masę krytyczną, bo Izrael i USA ją przyspieszyły kinetycznie. Rosja tego „przyspieszenia" (jeszcze) nie doświadczyła — ale procesy wewnętrzne biegną tą samą ścieżką.</p>
+
+<div class="sources">OutRush — emigracja z Rosji · Forbes Russia — „IT-exodus" · The Insider — wakaty w policji · Moscow Times — zaległości Kuzbas, deficyt lekarzy · USDA — prognozy zbożowe · Novaya Gazeta Europe — protesty górników</div>
+</article>
+
+<div class="bridge">Infrastruktura się sypie, ludzie uciekają, pensje zalegają, policja się przerzedza. Ale to są poszczególne procesy — a siła tej analizy leży nie w opisie każdego z osobna, lecz w pokazaniu, jak łączą się w jeden system. Następne rozdziały to synteza: bestiariusz, patologia dyktatury i chemia pożarów — modele, które wyjaśniają, dlaczego 24 problemy to nie 24 osobne kryzysy, lecz jeden kryzys z 24 twarzami.</div>
+</section>
+
+<!-- ══════ TOM IV ══════ -->
+<section class="volume" id="tom4">
+<div class="volume-header"><div class="volume-number c-red">Tom IV</div><div class="volume-title">Synteza i prognoza</div></div>
+
+<!-- ═══════ R7 ═══════ -->
+<article class="chapter" id="r7">
+<h2 class="chapter-heading">Rozdział 7. Bestiariusz — 24 szare nosorożce i ich sprzężenia</h2>
+
+<p>Nie jeden „czarny łabędź", lecz stado „szarych nosorożców" — zagrożeń widocznych, przewidywalnych, ale ignorowanych. Michele Wucker ukuła ten termin na opisanie ryzyk, które wszyscy widzą, ale nikt nie adresuje, bo każde z osobna wydaje się „do przeżycia". Problem pojawia się, gdy nosorożce biegną razem — stampede.</p>
+
+<div class="bestiary-block">
+<div class="bestiary-header">Bestiariusz — 24 szare nosorożce (stan: marzec 2026)</div>
+<div class="beast-row"><span>1. Spirala OPL → rafinerie → paliwa → front <a href="#r1" class="xref">R1</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>2. Kryzys bankowy — złe aktywa &gt;10%</span><span class="beast-prob prob-crit">KRYTYCZNY</span></div>
+<div class="beast-row"><span>3. Deficyt budżetowy — wyczerpanie NWF <a href="#r3" class="xref">R3</a></span><span class="beast-prob prob-crit">KRYTYCZNY</span></div>
+<div class="beast-row"><span>4. Brain drain — exodus klasy twórczej <a href="#r6" class="xref">R6</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>5. Straty &gt; rekrutacja — kurczenie armii <a href="#r1" class="xref">R1</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>6. Inflacja żywności — próg przełomowy <a href="#r3" class="xref">R3</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>7. Kolej — degradacja krwioobiegu <a href="#r5" class="xref">R5</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>8. Infrastruktura komunalna — fala awarii <a href="#r5" class="xref">R5</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>9. Kontrolowane spalanie — porty eksportowe <a href="#r3" class="xref">R3</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>10. Lotnictwo cywilne — kanibalizm floty <a href="#r5" class="xref">R5</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>11. Kadyrow jako bomba zegarowa <a href="#r12" class="xref">R12</a></span><span class="beast-prob prob-med">ŚREDNI</span></div>
+<div class="beast-row"><span>12. Erozja aparatu policyjnego <a href="#r6" class="xref">R6</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>13. Zaległości płacowe — Kuzbas, regiony <a href="#r6" class="xref">R6</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>14. Utrata rynku gazowego (permanentna) <a href="#r4" class="xref">R4</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>15. Shadow fleet — starzenie, wypadki</span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>16. Arsenał nuklearny — nośniki się starzeją <a href="#r2" class="xref">R2</a></span><span class="beast-prob prob-med">ŚREDNI</span></div>
+<div class="beast-row"><span>17. Programy zbrojeniowe — opóźnienia</span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>18. Rolnictwo — ukryta import-zależność <a href="#r6" class="xref">R6</a></span><span class="beast-prob prob-med">ŚREDNI</span></div>
+<div class="beast-row"><span>19. Demograficzna spirala śmierci</span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>20. Patologia informacyjna dyktatury <a href="#r8" class="xref">R8</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>21. Chiny jako patron, nie sojusznik <a href="#r21" class="xref">R21</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+<div class="beast-row"><span>22. Utrata klientów zbrojeniowych (S-400/Iran) <a href="#r1" class="xref">R1</a></span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>23. Przemysł chemiczny/wybuchowy — UA kampania</span><span class="beast-prob prob-active">AKTYWNA</span></div>
+<div class="beast-row"><span>24. Hormuz windfall — tymczasowy, kurczący się <a href="#r3" class="xref">R3</a></span><span class="beast-prob prob-high">WYSOKI</span></div>
+</div>
+
+<p>Kluczowa obserwacja: to nie jest 24 osobnych problemów — to jeden system z 24 punktami awarii, połączony sprzężeniami zwrotnymi. Cross-referencje powyżej (→R) pokazują sieć zależności: OPL łączy się z rafineriami, rafinerie z budżetem, budżet z pensją policjanta, policjant z tłumieniem protestów, protesty z zaległościami płacowymi, zaległości z budżetem. Koło się zamyka — i za każdym obrotem traci energię.</p>
+
+<p>Środki zaradcze kanibalizują inne systemy: zabierasz OPL z Królewca → odsłaniasz flankę NATO. Cieszysz budżet zdrowotny → tracisz lekarzy na front. Drukujesz pieniądze → inflacja. Nacjonalizujesz → zabijasz motywację. Dajesz podwyżki górnikom → inflacja. Każde rozwiązanie jednego nosorożca karmi dwa inne. To jest definicja systemu za punktem autokorekty.</p>
+
+<div class="sources">Synteza Tomów I–III · Wucker, M. — <em>The Gray Rhino</em> · analiza sprzężeń zwrotnych własna</div>
+</article>
+
+<!-- ═══════ R8 ═══════ -->
+<article class="chapter" id="r8">
+<h2 class="chapter-heading">Rozdział 8. Patologia informacyjna i dlaczego nie Korea Północna</h2>
+
+<p>Dyktatura ma fundamentalny problem informacyjny: im więcej władzy ma lider, tym mniej prawdziwych informacji do niego dociera. Ludzie mówią mu to, co chce usłyszeć — bo mówienie prawdy jest karalne. To nie jest metafora — to mechanizm, 🦑 który wielokrotnie zawiódł w historii. Japonia 1944 (admirałowie raportowali zwycięstwa, których nie było). Irak 2003 (Saddam nie wiedział, jak słaba jest jego armia). ZSRR 1986 (nikt nie powiedział Gorbaczowowi prawdy o Czarnobylu przez 36 godzin). Putin operuje w dokładnie takim samym bąblu informacyjnym — z tą różnicą, że jego bąbel jest wzmacniany przez dark legitimacy <a href="#r19" class="xref">→R19</a>, w której nawet ci, którzy wiedzą prawdę, nie mają motywacji jej ujawniać.</p>
+
+<div class="literary">
+<p>System informacyjny dyktatury jest jak lustro krzywe na jarmarku: pokazuje to, co obserwator chce zobaczyć, nie to, co jest. Im dłużej patrzysz, tym bardziej wierzysz w zniekształcony obraz — i tym bardziej szokujący jest moment, gdy lustro pęka. A lustro zawsze pęka, bo rzeczywistość nie pyta o pozwolenie.</p>
+<div class="lit-ref">Analogia własna — lustro krzywe → patologia informacyjna dyktatury</div>
+</div>
+
+<p>Iran <a href="#r14" class="xref">→R14</a> dostarcza tu świeży case study: Chamenei prawdopodobnie nie wiedział, jak dalece zdegradowana jest jego obrona przeciwlotnicza — bo nikt mu tego nie powiedział, bo powiedzenie prawdy o rosyjskich S-300 oznaczało zakwestionowanie całej strategii sojuszu z Moskwą. Pezeshkian wydaje rozkazy, których nikt nie wykonuje — nie dlatego, że oficerowie odmawiają, lecz dlatego, że nikt nie wie, kto jeszcze żyje, kto jeszcze ma łączność, kto jeszcze ma amunicję. Blackout internetowy 100+ godzin zniszczył nie tylko komunikację cywilną — zniszczył system nerwowy dyktatury. Rosja jest od tego oddalona o jeden masowy cyberatak, jedną serię uderzeń w węzły łączności, jedną zimę z kaskadą awarii telekomunikacyjnych <a href="#r5" class="xref">→R5</a>.</p>
+
+<p>Dark legitimacy <a href="#r19" class="xref">→R19</a> pogłębia tę patologię: w systemie, gdzie „wszyscy kłamią" jest normą, nikt nie ma motywacji, by mówić prawdę nawet wtedy, gdy kłamstwo zabija. Alyukov (2022) udokumentował, jak Rosjanie jednocześnie mówili, że czują się manipulowani przez propagandę — i powtarzali jej przekazy. Wiedzieli, że lustro jest krzywe, i jednocześnie wierzyli w obraz, który pokazuje. To nie jest dysonans poznawczy — to jest racjonalna adaptacja do systemu, w którym prawda nie ma wartości rynkowej.</p>
+
+<p>Disinfolklore <a href="#r19" class="xref">→R19</a> wyjaśnia mechanizm, którego ani Alyukov, ani klasyczna propaganda studies nie opisują: <em>dlaczego</em> przekazy działają nawet po wyłączeniu telewizora, nawet po odcięciu internetu, nawet w głowach ludzi, którzy „wiedzą, że to kłamstwo". Bo propaganda rosyjska nie operuje na poziomie faktów — operuje na poziomie archetypów, zinternalizowanych przez pokolenia. Witch Switch <a href="#r19" class="xref">→R19</a> — „Ukraina nas atakuje, to my jesteśmy ofiarą" — nie wymaga codziennego powtarzania przez Sołowiowa: wystarczy, że raz został zainstalowany w mentalnym modelu, i od tej pory <em>sam się odtwarza</em> przy każdej nowej informacji. Accusation in a Mirror — „to Zachód chce nas zniszczyć, nie my ich" — działa jak Data Resistant Archetype: fakty, które mu przeczą, są automatycznie odrzucane, nie dlatego że ludzie są głupi, lecz dlatego że archetyp jest starszy i głębszy niż fakt. Douglas twierdzi, że te struktury mają 6000 lat — niezależnie od tego, czy lingwistyczna teoria dźwięków M-N jest słuszna, mechanizm archetypowy jest empirycznie obserwowany i to on tłumaczy, dlaczego dyktatura może wyłączyć internet na 100 godzin <a href="#r14" class="xref">→R14</a> i nic się nie zmienia w głowach: propaganda nie płynie kablem. Propaganda siedzi w strukturze narracji, którą ludzie opowiadają sobie sami — półświadomie, na oślep, ale tylko trochę na oślep.</p>
+
+<p><strong>Dlaczego nie Korea Północna?</strong> — to najpopularniejszy kontrargument: „Rosja po prostu stanie się wielką Koreą Północną". Odpowiedź jest strukturalna, nie moralna: Korea Północna jest mała (25 mln), homogeniczna etnicznie, nie ma 11 stref czasowych, nie graniczy z 14 państwami, nie ma wielu grup etnicznych z osobnymi tożsamościami, nie miała klasy średniej z doświadczeniem Zachodu, nie miała Internetu, i nie jest uzależniona od eksportu surowców. Korea przetrwała, bo jest zbyt mała, by się zawalić, i zbyt nieistotna, by ktoś ją atakował. Rosja jest zbyt duża, by być Koreą Północną — złożoność systemu wyklucza stabilność w izolacji. To tak, jakby porównać sadzawkę z oceanem: sadzawka może zamarzać i odmarzać bez konsekwencji, ocean — nie.</p>
+
+<p>Rosja jest też wystawiona na ryzyka zewnętrzne, których nie kontroluje: rozszerzenie NATO (Finlandia, Szwecja — już nastąpiło), potencjalny upadek Iranu <a href="#r14" class="xref">→R14</a> (jednego z głównych partnerów w obchodzeniu sankcji), nieprzewidywalność Trumpa (która działa w obie strony), oraz chińska kalkulacja <a href="#r21" class="xref">→R21</a> (Pekin kupuje tanio bez zobowiązań — Rosja zmienia jedną zależność na drugą).</p>
+
+<div class="sources">RAND — porównanie scenariuszy izolacji · Jamestown — „Russia is not North Korea" · Kotkin — złożoność systemowa · Carnegie — „Putin's information bubble" · Horbyk (2026) — dark legitimacy</div>
+</article>
+
+<!-- ═══════ R9 ═══════ -->
+<article class="chapter" id="r9">
+<h2 class="chapter-heading">Rozdział 9. Chemia pożarów, uzależnienie i sezonowość</h2>
+
+<p>Trzy modele analityczne pomagają zrozumieć, <em>jak</em> system rosyjski się degraduje — nie tylko <em>że</em>.</p>
+
+<p><strong>Model 1: chemia pożarów.</strong> Czworościan spalania: paliwo (zasoby), tlen (import), temperatura (intensywność wojny), reakcja łańcuchowa (sprzężenia zwrotne). W normalnym pożarze wystarczy odebrać jeden element. W pożarze rosyjskim traci się wszystkie cztery jednocześnie — ale system jeszcze płonie, 🐙 bo nagromadzona energia (rezerwy, inercja) podtrzymuje spalanie przez pewien czas. To jest faza <em>backdraft</em>: zamknięte pomieszczenie z ograniczonym tlenem, w którym gromadzą się niespalone gazy. Każde nagłe otwarcie — kryzys bankowy, upadek rubla, odejście Chin — może wywołać eksplozję. Iran <a href="#r14" class="xref">→R14</a> jest żywym przykładem backdraftu: dekady sankcji zamknęły drzwi, wewnątrz nagromadziły się gazy (protesty, inflacja, brain drain, erozja IRGC) — a amerykańsko-izraelskie bomby otworzyły drzwi jednym kopnięciem. Eksplozja jest w toku.</p>
+
+<div class="literary">
+<p>Backdraft: strażacy wiedzą, że zamknięte drzwi w płonącym budynku mogą być bardziej niebezpieczne niż otwarte. Otwierasz — i nagromadzone gazy eksplodują. Rosyjski system jest takim budynkiem: sankcje zamknęły „drzwi" (ograniczyły tlen/dewizy), ale wewnątrz gromadzi się „ciepło" (inflacja, długi, nieefektywność). Zamknięcie spowalnia pożar — ale nie gasi go. A gdy ktoś otworzy drzwi nieumyślnie (kryzys bankowy, panika rublowa)...</p>
+<div class="lit-ref">Chemia pożarów: backdraft jako model kryzysu systemowego</div>
+</div>
+
+<p>Ale jest jeszcze rozbudowana wersja bułhakowskiej metafory, która łączy chemię pożarów z Annuszką i opisuje to, co dzieje się w Rosji, dokładniej niż jakikolwiek model ekonometryczny.</p>
+
+<div class="literary">
+<p>Annuszka rozlała olej. Ale to nie była butelka — to była <em>tona</em>. Każda strukturalna zależność, którą Rosja zignorowała przez dekady — ceramika berylowa do radarów, łożyska kasetowe do wagonów, chipy do systemów OPL <a href="#r1" class="xref">→R1</a>, nasiona do siewu, leki do szpitali <a href="#r6" class="xref">→R6</a> — to osobna kałuża oleju na ulicy, ale razem pokrywają cały chodnik od Patriarszych Prudów do Kremla. Olej sam w sobie nie płonie w temperaturze pokojowej. Olej jest śliski — powoduje wypadki (poślizgnięcia, awarie, nieefektywność), ale nie pożary.</p>
+<p>A potem ktoś rozsypał obok 10 kg opiłków magnezu. Opiłki to nie olej — olej jest śliski, opiłki są <em>zapalne</em>. Opiłki magnezu to uderzenia w rafinerie <a href="#r3" class="xref">→R3</a>, drony na Primorsk i Ust-Ługę, ataki na infrastrukturę chemiczną i energetyczną. Ukraina nie rozlała oleju — to zrobiła Rosja sama, przez 30 lat zaniedbań. Ukraina dosypała magnezu. I nie przypadkiem — Budanow dokładnie wie, który kawałek chodnika jest pod górkę i w którą stronę olej popłynie.</p>
+<p>A tramwaj? Tramwaj jedzie swoim torem — rosyjska machina budżetowa, której nie da się zawrócić w biegu. I kiedy hamuje (cięcia budżetowe, przesunięcie OPL z frontu, spalanie NWF na łatanie bieżących dziur) — <em>lecą iskry</em>. Każde hamowanie to iskra: przesunięcie OPL do Moskwy odsłania front <a href="#r1" class="xref">→R1</a> — iskra. Cięcia 10% na infrastrukturę <a href="#r5" class="xref">→R5</a> — iskra. NWF spalany na łatanie — iskra <a href="#r3" class="xref">→R3</a>. Iskra wpada w opiłki magnezu.</p>
+<p>I tu jest clou: magnez płonie w ~1100°C. W tej temperaturze tona oleju na chodniku przechodzi <em>kraking termiczny</em> — długie łańcuchy węglowodorów pękają na krótkie: lżejsze frakcje, niższa temperatura zapłonu, wyższa prężność par. Każda frakcja lżejsza = łatwiej się pali i trudniej zgasić. Olej, który miał być <em>śliski</em>, stał się <em>łatwopalny</em>. Sam się rafinuje w ogniu — i od razu jest jeszcze bardziej palny. To jest sprzężenie zwrotne dodatnie w czystej, chemicznej postaci: pożar produkuje własne paliwo. Nie da się go zgasić wodą (magnez reaguje z wodą wybuchowo). Nie da się piaskiem (temperatura za wysoka). Można tylko czekać, aż się wypali — i liczyć straty.</p>
+<p>Berlioz u Bułhakowa miał się poślizgnąć na oleju i wpaść pod tramwaj. Jednorazowa, lokalna, przewidywalna awaria liniowa — tak wyglądała zachodnia konsensusowa prognoza w 2023: sankcje + attrition = powolny zjazd. Tymczasem chodnik pokrywa tona oleju, obok leżą opiłki magnezu, tramwaj hamując sypie iskry — i olej sam się rektyfikuje w ogniu, stając się coraz bardziej palny. To nie Berlioz wpada pod tramwaj. To cała ulica płonie, tramwaj nie ma dokąd jechać, a Woland siedzi na ławce na Patriarszych i obserwuje z wyrazem umiarkowanego zainteresowania.</p>
+<div class="lit-ref">Bułhakow, <em>Mistrz i Małgorzata</em> × chemia pożarów: od awarii liniowej do kaskady z przejściem fazowym</div>
+</div>
+
+<p><strong>Model 2: uzależnienie.</strong> Rosyjska gospodarka wojenna to organizm na metamfetaminie: krótkoterminowy zastrzyk energii (wzrost PKB 3,6% w 2023!), ale kosztem niszczenia długoterminowych zasobów. Mięśnie pracują na pełnych obrotach — organizm pali rezerwy tłuszczu, degraduje organy wewnętrzne, przestaje reagować na normalną stymulację. Charakterystyczny objaw uzależnienia: coraz większe dawki dają coraz mniejszy efekt. Rosja wkłada coraz więcej w wojnę i dostaje coraz mniej — a odstawienie (pokój) jest niemożliwe, bo organizm jest już od tego zależny <a href="#r11" class="xref">→R11</a>.</p>
+
+<p><strong>Model 3: sezonowość.</strong> Rosja ma sezonowość kryzysów — jesień i wczesna zima to historycznie okres największego ryzyka. Powody fizyczne: rachunki za ogrzewanie (infrastruktura komunalna <a href="#r5" class="xref">→R5</a>), zbiory (żywność), zamknięcie nawigacji na rzekach (logistyka), krótkie dni (morale). Rewolucja październikowa 1917: październik. Pucz sierpniowy 1991: sierpień (tuż przed jesienią). Kryzys 1998: sierpień. Jesień 2026 — XI 2027: to okno największego ryzyka systemowego. Nie dlatego, że ktoś „zaplanuje" kryzys, lecz dlatego, że sezonowość nakłada się na kumulację procesów erozyjnych — 24 nosorożce plus zima.</p>
+
+<div class="sources">Analogie własne · NBER — wartime economy sustainability · Yale CELI — Russian economic resilience · Kotkin — sezonowość kryzysów rosyjskich · dane historyczne</div>
+</article>
+
+<!-- ═══════ R10 ═══════ -->
+<article class="chapter" id="r10">
+<h2 class="chapter-heading">Rozdział 10. Jest już za późno — konkluzja Części I</h2>
+
+<p>Putin nie może kontynuować (zasoby się kończą) i 🦑 nie może zakończyć (pokój wywołuje własny kryzys <a href="#r11" class="xref">→R11</a>). To nie dylemat — to szachmat.</p>
+
+<div class="data-grid">
+  <div class="data-card"><div class="label">Scenariusz bazowy</div><div class="value">XI 2027</div><div class="note">confidence ~40%</div></div>
+  <div class="data-card"><div class="label">Przyspieszony</div><div class="value">XI 2026</div><div class="note">confidence ~25%</div></div>
+  <div class="data-card"><div class="label">Później</div><div class="value">&gt;2027</div><div class="note">confidence ~25% <a href="#r21" class="xref">→R21</a></div></div>
+  <div class="data-card"><div class="label">Zamrożenie</div><div class="value">dirty freeze</div><div class="note">confidence ~10%</div></div>
+</div>
+
+<p>Punkt „za późno" prawdopodobnie minął gdzieś w 2024 — kiedy skumulowane efekty brain drain <a href="#r6" class="xref">R6</a>, degradacji OPL <a href="#r1" class="xref">R1</a>, wyczerpania NWF <a href="#r3" class="xref">R3</a> i spirali fiskalnej przekroczyły zdolność systemu do autokorekty. ZSRR był „za późno" w połowie lat 80. — 🦑 ale Gorbaczow próbował do 1991. Sześć lat między „za późno" a „suddenly". Rosja Putina może mieć mniej czasu, bo degradacja jest szybsza — ale więcej pieniędzy (ropa), więc dokładna data to hipoteza robocza, nie pewnik.</p>
+
+<div class="callout red"><strong>Ważne:</strong> Powyższe prawdopodobieństwa dotyczą „systemowego kryzysu" — nie upadku państwa w sensie dosłownym. Kryzys może oznaczać: ostrą recesję, kryzys sukcesji, utratę kontroli nad regionami, bunt elit, katastrofę humanitarną — lub ich kombinację. Forma „suddenly" jest nieprzewidywalna, ale sam „suddenly" jest wysoce prawdopodobny.</div>
+
+<div class="sources">Synteza Tomów I–IV · szacunki prawdopodobieństw: eksperckie, nie statystyczne · korekta SWOT w <a href="#r21" class="xref">R21</a>–<a href="#r23" class="xref">R23</a></div>
+</article>
+</section>
+
+<div class="bridge">Część I odpowiada na pytanie „co się dzieje z Rosją". Ale brakuje odpowiedzi na pytanie bardziej niepokojące: co zrobi Putin, gdy zrozumie, że przegrywa? Człowiek, który wielokrotnie odtwarzał nagranie śmierci Kaddafiego. Człowiek, dla którego przegrana nie oznacza emerytury — lecz miecz. Część II odpowiada na pytanie o cornered animal.</div>
+
+<div class="sep">· · · · ·</div>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  CZĘŚĆ II — PUTIN                                          ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<div class="part-break" id="czesc2">
+  <div class="part-num c-purple">Część II · trzy rozdziały</div>
+  <div class="part-title">Putin: Cornered Animal</div>
+  <div class="part-intro">Część I mapuje degradację systemu. Część II odpowiada na pytanie, które z niej wynika: co zrobi dyktator, gdy zrozumie, że nie ma dobrego wyjścia? Nie pytamy o pieniądze — pytamy o racjonalność w innej funkcji celu, gdzie zmienną nie jest „dobro Rosji", lecz „przetrwanie Putina".</div>
+</div>
+
+<section class="volume" id="tom5">
+<div class="volume-header"><div class="volume-number c-purple">Tom V</div><div class="volume-title">Projekt życia mu nie wyszedł</div></div>
+
+<div class="epigraph">Dyktatorzy nie mają emerytury.<span class="attr">— obserwacja historyczna</span></div>
+
+<!-- ═══════ R11 ═══════ -->
+<article class="chapter" id="r11">
+<h2 class="chapter-heading b-purple">Rozdział 11. Dlaczego to nie jest pytanie o pieniądze</h2>
+
+<p>Putin wielokrotnie odtwarzał nagranie śmierci Kaddafiego — zamordowanego przez tłum po upadku reżimu. Rosja ma historię zmiany reżimu po przegranych wojnach: wojna rosyjsko-japońska → rewolucja 1905, WWI → rewolucja bolszewicka, Afganistan → rozpad ZSRR. Badania (Foreign Affairs): ok. 50% przywódców przegrywających wojny traci władzę. Wśród dyktatorów personalnych los jest zwykle gorszy niż emerytura. NSJ: „Dla Putina pokój stanowi większe zagrożenie niż kontynuacja wojny." Atlantic Council: „Putin jest uwięziony w wojnie, której nie może wygrać, ale nie odważy się zakończyć."</p>
+
+<p>W tej ramie pytanie ekonomiczne — „skąd weźmie pieniądze?" — jest drugorzędne. Pytanie egzystencjalne brzmi: <span class="hi">„co zrobi cornered animal, dla którego przegrana = śmierć?"</span> Odpowiedź z literatury i historii: <em>wszystko</em>. Każdy scenariusz z następnego rozdziału — od kupienia Trumpa, przez eskalację nuklearną, po cyberatak na Zachód — jest racjonalny w ramach logiki, w której jedyną niedopuszczalną opcją jest przegrana. To nie irracjonalność — to racjonalność <em>w innej funkcji celu</em>.</p>
+
+<div class="literary">
+<p>W literaturze rosyjskiej jest motyw, który Putin zna: „мёртвая рука" — martwa ręka. System odwetowy Perimetr, który działa nawet po śmierci operatora. Putin buduje polityczny odpowiednik: system, 🐙 w którym nawet jego upadek nie daje przeciwnikowi czystego zwycięstwa. Każdy z dziewięciu scenariuszy poniżej to element tego systemu — nie plan, lecz instynkt cornered animal, który gryzie we wszystkich kierunkach jednocześnie.</p>
+<div class="lit-ref">System Perimetr / „Dead Hand" → polityka cornered animal</div>
+</div>
+
+<div class="sources">Foreign Affairs — „50% leaders lose power" · NSJ — „peace more dangerous" · Atlantic Council — „trapped" · SIPRI · Carnegie (Vakulenko, Kennedy)</div>
+</article>
+
+<!-- ═══════ R12 ═══════ -->
+<article class="chapter" id="r12">
+<h2 class="chapter-heading b-purple">Rozdział 12. Zasoby, skreślenia i dziewięć scenariuszy desperacji</h2>
+
+<p><strong>Co mu realnie zostaje</strong> (po korektach z <a href="#r3" class="xref">R3</a>–<a href="#r4" class="xref">R4</a>): windfall z Hormuz (ale z zegarem i bez infrastruktury eksportowej). Wyciskanie ludności do ostatniej kropli (VAT 22%, rachunki +43%, nowe podatki na wszystko). Transfer rezerw CB ($350 mld niezamrożonych — jednorazowa broń ostateczna, która zmniejsza bufor kursowy). Wasalizacja u Chin (kontrakty po dumpingu, de facto podwykonawstwo gazowe).</p>
+
+<p><strong>Co skreślone:</strong> odmrożenie €194 mld (w Belgii, nie u Trumpa). Gaz do Europy (rynek utracony permanentnie). Dewaluacja rubla (miecz obosieczny — import chipów drożeje). Druk pieniędzy (inflacja już na granicy). Banki jako skarbonka (kryzys złych aktywów >10%, co czwarta firma nie spłaca rat). Nacjonalizacja zachodnich firm (nie ma czego). Zamrożenie konfliktu (Ukraina ma momentum +460 km²). Majątek offshore (niesprzedawalny). Sojusznicy (Syria upadła, Iran sam walczy, Korea Północna — mikroskala).</p>
+
+<p><strong>Dziewięć scenariuszy desperacji</strong> — każdy „od czapy" z osobna, razem mapują zachowanie cornered animal:</p>
+
+<div class="scenario"><div class="s-title">① „Kupić" Trumpa — deal kosztem Ukrainy</div>
+<p>Nie za pieniądze — za <em>zwycięstwo dyplomatyczne</em>. „Dam ci coś co możesz nazwać peace deal, w zamian za zniesienie sankcji i zamrożenie konfliktu." Trump chce sukcesu. Putin chce żyć. USA już poluzowały sankcje na rosyjską ropę.</p>
+<div class="s-kill">Bloker: Ukraina ma momentum i nie zamierza się zgodzić. Europa (może) nie zgodzi się na zniesienie sankcji. Ale jeśli USA odetną pomoc...</div></div>
+
+<div class="scenario"><div class="s-title">② Eskalacja nuklearna jako „reset button"</div>
+<p>Nie użycie — <em>demonstracja</em>. Test atmosferyczny nad Nową Ziemią. Taktyczne ćwiczenia z „symulacją" detonacji. Broń na Białorusi (już jest). Cel: wymusić negocjacje z pozycji terroru. „Albo rozmawiamy, albo świat się kończy."</p>
+<div class="s-kill">Bloker: NATO odpowiada. Chiny się dystansują (Pekin nie chce nuklearnego precedensu). Ale jeśli alternatywa to Kaddafi...</div></div>
+
+<div class="scenario"><div class="s-title">③ Cyberatak na infrastrukturę krytyczną Zachodu</div>
+<p>Jedne z najlepszych zdolności cybernetycznych na świecie. Sieci energetyczne, systemy bankowe, wodociągi. Plausible deniability. Cel: sprawić, żeby Zachodowi <em>nie opłacało się</em> dalej wspierać Ukrainy.</p>
+<div class="s-kill">Bloker: Zachód ma capacity do odwetu. Asymetria: Rosja ma mniej do stracenia w cyberprzestrzeni — ale czy mniej do stracenia = więcej do zyskania?</div></div>
+
+<div class="scenario"><div class="s-title">④ Prowokacja pod fałszywą flagą na terytorium NATO</div>
+<p>Nie atak — <em>incydent</em>. Sabotaż kabla podmorskiego. „Przypadkowy" pocisk na terytorium bałtyckie. 🦑 Shadow fleet tankowiec na mieliznę w Sundzie. Cel: podnieść stawkę na tyle, by Zachód naciskał na Ukrainę do kompromisu.</p>
+<div class="s-kill">Bloker: artykuł 5. Ale czy NATO faktycznie odpowie kinetycznie na „incydent"? Historia sugeruje: nie od razu.</div></div>
+
+<div class="scenario"><div class="s-title">⑤ Sukcesja kontrolowana — Jelcyn 2.0</div>
+<p>Jedyny scenariusz, w którym Putin przeżywa. Instaluje lojalnego następcę (Patruszew? Djumin?), sam na „emeryturę" z gwarancjami immunitetu. Precedens: Jelcyn → Putin, 1999.</p>
+<div class="s-kill">Bloker: Putin nie ufa nikomu. Żaden następca nie ma motywacji dotrzymać gwarancji — bo ochrona Putina osłabia następcę. Jelcyn zadziałał, bo oddał władzę silniejszemu. Putin nie ma silniejszego, któremu by ufał.</div></div>
+
+<div class="scenario"><div class="s-title">⑥ „Wielka wyprzedaż" — chiński protektorat</div>
+<p>Koncesje arktyczne, prawa do złóż, porty — za chiński parasol ochronny. Przedpłaty na 30-letnie kontrakty po zaniżonych cenach. De facto wasalizacja.</p>
+<div class="s-kill">Bloker: Chiny nie chcą być „sponsorem". Wolą Rosji słabej i zależnej — nie Rosji uratowanej. Kupują tanio bez zobowiązań <a href="#r21" class="xref">→R21</a>.</div></div>
+
+<div class="scenario"><div class="s-title">⑦ Kadyrow jako bomba zegarowa</div>
+<p>Czeczenia: jedyny region z własną armią lojalną wobec <em>Kadyrowa</em>, nie Putina. Kadyrow ciężko chory. ~30 tys. uzbrojonych ludzi szuka patrona. To nie plan — to wildcard.</p>
+<div class="s-kill">Chaos w Czeczenii + chaos na froncie + kryzys bankowy = trzy pożary jednocześnie.</div></div>
+
+<div class="scenario"><div class="s-title">⑧ Najczarniejszy: „jeśli ja upadam, to wszyscy"</div>
+<p>Scorched earth — nie na Ukrainie, ale <em>globalnie</em>. Masowy cyberatak. Sabotaż kabli podmorskich, satelitów. Udostępnienie technologii nuklearnej/rakietowej „komu się da". Doktryna „dead hand" przeniesiona z domeny nuklearnej do geopolitycznej.</p>
+<div class="s-kill">Nie żeby wygrać — żeby cena pokonania Rosji była wyższa niż cena tolerowania. Szantaż egzystencjalny.</div></div>
+
+<div class="scenario"><div class="s-title">⑨ „Ucieczka do przodu" — pełna mobilizacja</div>
+<p>Ogłoszenie wojny (nie „operacji specjalnej"). Mobilizacja 🦀 1-2 mln ludzi. Nacjonalizacja. Gospodarka na stopie wojennej jak ZSRR 1941.</p>
+<div class="s-kill">Rosja 2026 ≠ ZSRR 1941. Brak zaplecza przemysłowego, brak Lend-Lease, brak demografii. Czołgów brak. BMP brak. Ludzie bez sprzętu = więcej ciał, nie więcej zdolności <a href="#r1" class="xref">→R1</a>.</div></div>
+
+<div class="sources">SIPRI · Moscow Times · Bloomberg · Reuters · Carnegie · CEPA · Foreign Affairs · NSJ · Atlantic Council · CSIS · Dallas Fed · IEA</div>
+</article>
+
+<!-- ═══════ R13 ═══════ -->
+<article class="chapter" id="r13">
+<h2 class="chapter-heading b-purple">Rozdział 13. Kiedy elity odłączą się od Putina?</h2>
+
+<p>Siłowicy (FSB, wojsko, Rosgwardia) są lojalni nie z przekonania, ale z <em>kalkulacji</em>: ich przetrwanie jest związane z przetrwaniem Putina. System celowo uniemożliwia koordynację między nimi — nie znają się nawzajem, nie ufają sobie, nie mają wspólnych interesów biznesowych. Zamach stanu wymaga koordynacji — a Putin ją atomizuje od 20 lat.</p>
+
+<p>Ale to działa <em>dopóki system działa</em>. Kiedy NWF jest pusty <a href="#r3" class="xref">R3</a>, banki na granicy kryzysu, front się cofa <a href="#r1" class="xref">R1</a>, a porty płoną — 🦀 „gwarancja przetrwania" staje się „gwarancją wspólnej zagłady". Historyczny punkt przełomowy to moment, gdy elity dochodzą do wniosku, że ryzyko <em>kontynuowania</em> z liderem jest większe niż ryzyko <em>usunięcia</em> go.</p>
+
+<p>Dark legitimacy <a href="#r19" class="xref">→R19</a> dodaje tu warstwę, której analiza czysto materialna nie widzi: elity rosyjskie nie są cyniczne <em>mimo</em> systemu — one <em>są</em> systemem. W reżimie, gdzie „wszyscy kradną" jest nie oskarżeniem, lecz konstytucją, zamach stanu oznacza nie tylko zmianę lidera, ale podważenie jedynej reguły gry, którą wszyscy rozumieją. Kto obala Putina, ryzykuje nie tylko fizyczną zemstę — ryzykuje otwarcie pudełka, z którego może wysypać się pytanie: „a może nie wszyscy <em>muszą</em> kraść?". Dla elit, które zbudowały fortuny na ciemnej legitymizacji, to pytanie jest groźniejsze niż Putin. Dlatego punkt przełomowy nie jest czysto materialny (pusty NWF, cofający się front) — wymaga też <em>psychologicznego</em> zerwania z dark legitimacy, a to jest trudniejsze niż wymiana prezydenta. Ceaușescu upadł w 4 dni, bo rumuńska dark legitimacy była płytsza — ledwie dekadę po śmierci Gheorghiu-Deja. Putinowska ma 25 lat głębokości i korzenie sięgające późnego ZSRR.</p>
+
+<p>Disinfolklore <a href="#r19" class="xref">→R19</a> pokazuje jeszcze głębszą warstwę: elity nie tylko <em>akceptują</em> system — one <em>opowiadają</em> go sobie nawzajem w kategoriach archetypowych, które podtrzymują się same. „Zachód chce zniszczyć Rosję" to Accusation in a Mirror — projekcja własnych intencji na przeciwnika, identyczna strukturalnie z rwandyjskim „karaluchy planują ludobójstwo" (radio RTLM, 1994). „Bez Putina będzie chaos" to Witch Switch — odwrócenie ról, w którym twórca chaosu przedstawia się jako jedyna ochrona przed chaosem. Te narracje nie wymagają codziennego odświeżania przez propagandę telewizyjną — generał FSB, który „wie", że to kłamstwo, używa tych samych archetypów w rozmowie z żoną przy kolacji, bo nie ma innego języka do opisania rzeczywistości. Nie oszukuje siebie <em>świadomie</em> — używa jedynego dostępnego systemu narracyjnego, półświadomie, trochę na oślep. To dlatego odcięcie rosyjskich elit od zachodnich mediów (sankcje na podróże, zamrożenie aktywów, izolacja towarzyska) paradoksalnie wzmacnia archetypy zamiast je osłabiać: gdy nie masz kontaktu z alternatywną narracją, jedyna, którą znasz, staje się jedyną możliwą.</p>
+
+<p>Precedensy: Mikołaj II (odmówił negocjacji, przejął dowodzenie → rozstrzelany z rodziną). Mussolini (Wielka Rada Faszystowska się odwróciła, gdy front się zawalił → rozstrzelany). Ceaușescu (armia odwróciła się w 4 dni → rozstrzelany). Kaddafi (odmówił kompromisu → zabity przez tłum — <em>Putin wielokrotnie odtwarzał to nagranie</em>). Assad (podwoił stawkę → uciekł do Moskwy — ale Putin nie ma dokąd uciec). Jelcyn (oddał władzę w zamian za gwarancje → umarł spokojnie — jedyny „sukces", ale wymagał zaufania, którego Putin nie ma do nikogo).</p>
+
+<div class="callout purple"><strong>Synteza Części II:</strong> Putin nie ma „chytrego planu" — ma <span class="hi">jedno okno (Hormuz), jeden mechanizm (wyciskanie ludności), jedną rezerwę ($350 mld z CB) i jedną linę ratunkową (wasalizacja u Chin)</span>. Wszystko inne jest skreślone lub działa przeciwko niemu. A odpowiedź na „co zrobi?" brzmi: <em>wszystko</em> — bo jedyną niedopuszczalną opcją jest przegrana.</div>
+
+<div class="sources">Synteza z putin-plany-v3 · precedensy historyczne · Journal of Democracy · Harvard Gazette</div>
+</article>
+</section>
+
+<div class="bridge">Rosja się degraduje <a href="#czesc1">(Część I)</a>. Putin jest cornered animal <a href="#czesc2">(Część II)</a>. Ale jest trzeci element tej układanki — element, który jednocześnie pogarsza sytuację Rosji i tworzy zupełnie nowy porządek regionalny. 28 lutego 2026 Izrael i USA rozpoczęły ataki na Iran. Ten moment splata się z rosyjską degradacją w co najmniej czterech punktach: S-400 w Iranie zniszczyło reputację OPL <a href="#r1" class="xref">R1</a>. Hormuz dał windfall <a href="#r3" class="xref">R3</a>. Iran był ostatnim partnerem w obchodzeniu sankcji. A rozpad Iranu otwiera okno na nowy porządek — Jałtę bez konferencji.</div>
+
+<div class="sep">· · · · ·</div>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  CZĘŚĆ III — IRAN                                          ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<div class="part-break" id="czesc3">
+  <div class="part-num c-orange">Część III · trzy rozdziały</div>
+  <div class="part-title">Iran: Jałta 3.0</div>
+  <div class="part-intro">Rozpad irańskiej państwowości nie jest osobnym wydarzeniem — to katalizator, który zmienia wszystko: od ceny ropy, przez sojusze w Kaukazie, po kalkulacje Chin wobec Rosji. W tej części pokażemy, jak chaos w Iranie tworzy okno na nowy porządek regionalny — Jałtę bez konferencji, napędzaną chciwością i strachem, nie dobrymi intencjami.</div>
+</div>
+
+<section class="volume" id="tom6">
+<div class="volume-header"><div class="volume-number c-orange">Tom VI</div><div class="volume-title">Od Kaukazu po Zatokę</div></div>
+
+<div class="epigraph">Historyczne porządki regionalne nie powstają z planów — powstają z chaosu, który wymusza improwizację, a improwizacja z czasem krzepnie w struktury.<span class="attr">— sesja analityczna, 8 marca 2026</span></div>
+
+<!-- ═══════ R14 ═══════ -->
+<article class="chapter" id="r14">
+<h2 class="chapter-heading b-orange">Rozdział 14. Rozpad irańskiej państwowości i koncepcja operacyjna</h2>
+
+<p>28 lutego 2026 roku Izrael i USA rozpoczęły wspólne ataki powietrzne na Iran. Zginął Najwyższy Przywódca Ali Chamenei. W ciągu tygodnia irańskie ataki rakietami balistycznymi spadły o 90%, 🦀 dronami o 83%. Izrael deklarował zniszczenie 80% irańskiej obrony przeciwlotniczej — w tym systemów S-300PMU-2, które miały być wizytówką rosyjskiego eksportu obronnego <a href="#r1" class="xref">→R1</a>.</p>
+
+<p>Ale Iran nie kapitulował — Pezeshkian odrzucił żądanie Trumpa o bezwarunkową kapitulację. Jednocześnie przeprosił sąsiadów za ataki. To jest moment kluczowy: nie rozpad, ale <em>utrata zdolności do koordynacji</em>. Blackout internetowy 100+ godzin = utrata systemu nerwowego państwa. Zniszczenie Zgromadzenia Ekspertów w trakcie sesji = utrata mechanizmu sukcesji. Pezeshkian wydaje rozkazy, których nikt nie wykonuje = utrata monopolu na przemoc. IRGC traci aurę strachu — a aura strachu była ich najsilniejszą bronią, budowaną przez 40 lat (Hezbollah, Hamas, Huti działały na zasadzie franczyzy tego strachu). Sieć proxy zdziesiątkowana: Hezbollah zniszczony (2024), Hamas nieistniejący, Huti strzelają sami.</p>
+
+<p>W terminologii Disinfolklore <a href="#r19" class="xref">→R19</a>: „aura IRGC" była Data Resistant Archetype — mentalnym modelem tak silnym, że przetrwał dekady bez weryfikacji. Sąsiedzi Iranu (Azerbejdżan, Irak, kraje Zatoki) <em>wierzyli</em> w niezwyciężoność Gwardii, bo nikt jej nie przetestował na poważnie od wojny Iran-Irak (1988). Blackout wyłączył internet, ale nie wyłączył tego archetypu — ludzie w Teheranie nadal bali się IRGC w ciemności, 🦀 bez Twittera i Telegrama. Archetyp nie potrzebuje kabla: siedzi w głowie, odtwarza się sam, karmiony latami narracji, której nikt nie zakwestionował. Ale bomby zrobiły coś, czego internet nie potrafi: <em>fizycznie</em> zniszczyły nośnik archetypu. Gdy 43 okręty poszły na dno, gdy obrona powietrzna okazała się fikcją, gdy prezydent przepraszał sąsiadów — archetyp niezwyciężonego IRGC nie tyle pękł, co wyparował. To jest granica, której Disinfolklore nie przekracza: propaganda może zainstalować archetyp i archetyp może przetrwać odcięcie od źródła — ale nie przetrwa zderzenia z rzeczywistością fizyczną, której nie da się zre-archetypować. Bomby nie podlegają Witch Switch.</p>
+
+<p>Rosja jest na wcześniejszym etapie tego samego procesu <a href="#r8" class="xref">→R8</a>: archetypy („niezwyciężona armia", „Zachód nas nienawidzi", „nie mamy alternatywy") nadal pracują, bo rzeczywistość fizyczna — głód, zimno, bankructwo — jeszcze nie dotarła do Moskwy w wystarczającej skali. Wojna jest daleko (na ukraińskiej ziemi), drony na Primorsk to statystyka w wiadomościach, a inflacja mleka o 62% jest cicha i rozproszona, nie spektakularna jak 43 zatopione okręty. Ale wzorzec irański sugeruje: gdy fizyczna rzeczywistość dotrze — a dotrze, bo tak działają wszystkie 24 nosorożce <a href="#r7" class="xref">→R7</a> — archetypy pękną równie gwałtownie jak irańskie.</p>
+
+<p>Kontra-argument jest poważny: Iran to nie Libia — 2500 lat tradycji państwowej, 85 mln ludzi, silna biurokracja, tożsamość narodowa przekraczająca podziały polityczne. Perska państwowość przetrwała inwazję arabską, mongolską i wiele innych. Możliwy scenariusz: nie rozpad, ale adaptacja do trybu rozproszonego (model Hezbollah w skali państwowej). Ale nawet ten scenariusz oznacza utratę kontroli nad peryferiami — a to właśnie otwiera okno operacyjne.</p>
+
+<p>Jest fundamentalna różnica między irańskim a rosyjskim modelem legitymizacji — i ta różnica wyjaśnia, dlaczego Iran może się rozpaść szybciej niż Rosja, mimo dłuższej tradycji państwowej. Irański reżim operował na <em>afirmatywnej</em> legitymizacji religijnej: władza jest dobra, bo pochodzi od Boga. Gdy boski porządek oczywistie zawodzi (protesty 2022, tysiące zabitych, blackout, bombardowanie), afirmatywna legitymizacja rozpada się gwałtownie — bo nie ma „planu B". Rosja natomiast ma dark legitimacy <a href="#r19" class="xref">→R19</a>: władza nie musi być dobra, wystarczy, że jest „nasza" i że alternatywa wydaje się gorsza. To czyni Rosję bardziej odporną na szoki — ale też bardziej podatną na powolną erozję, bo dark legitimacy nie daje energii do reform, tylko do trwania. Iran może upaść „suddenly" od ciosu; Rosja umiera „gradually" od wewnątrz. Dwa modele, dwa tempa — ale ten sam kierunek.</p>
+
+<p><strong>Koncepcja operacyjna</strong> 🐙 opiera się na trzech filarach:</p>
+
+<p><strong>Rzeka Aras</strong> — klucz do operacji azerskiej. Tama z 1971, zbiornik 1,35 mld m³. Kontrola wody = broń strategiczna w regionie suszy. Traktat z Turkmańczaju (1828) wyznaczył Aras jako granicę rozdzielającą naród azerski — „przekroczyć Aras" = zjednoczyć naród w wyobraźni politycznej. <strong>Pas 30 km</strong> — logika minimalizmu: kto zajmuje prowincję, bierze odpowiedzialność za 15-20 mln ludzi. Kto bierze pas 30 km, bierze naturalną barierę obronną — rzeka zmienia się z granicy w fosę. Teren przygraniczny, wiejski — nie wymaga „wyzwalania" milionów. <strong>Zagros</strong> — domena kurdyjska: ugrupowania zbrojne rozpoczęły ofensywę 2 marca, nie potrzebując zaproszenia. Trzy próby państwowości w XX w. — za każdym razem Iran miażdżył. Teraz Iran nie ma czym.</p>
+
+<p>I nad tym wszystkim: <strong>Wielki deal — Władywostok za Kaukaz</strong>. Trump sygnalizuje Xi brak sprzeciwu wobec chińskich aspiracji na Dalekim Wschodzie Rosji w zamian za wycofanie się z regionu. Chińskie roszczenia historyczne do Władywostoku (od 1860) silniejsze niż wobec Tajwanu. Xi zyskuje korektę „stulecia upokorzenia" bez ryzyka 🦑 inwazji na wyspę. Wyciekły dokument FSB potwierdza rosyjskie obawy. To splata Iran z Rosją i Chinami w jeden węzeł — nowy porządek wymaga rozwiązania wszystkich trzech jednocześnie.</p>
+
+<div class="sources">Sesja analityczna 8.03.2026 · Reuters · Al Jazeera · IAEA · OSCE — Nachiczewan · FSB leaked document · Global Defense Corp</div>
+</article>
+
+<!-- ═══════ R15 ═══════ -->
+<article class="chapter" id="r15">
+<h2 class="chapter-heading b-orange">Rozdział 15. Mapa aktorów i ryzyka krytyczne</h2>
+
+<p><strong>Konwergencja interesów</strong> — wszyscy zyskują kosztem Iranu (i Rosji): Azerbejdżan dostaje ziemię, bezpieczeństwo, korytarz do Nachiczewanu i „wieczny projekt" zamiast „wiecznego zagrożenia" — uzasadnienie dalszej władzy Aliyeva. Turcja dostaje panturkizm i kasę z tranzytu — brakujący element turkijskiego łuku od Stambułu do Azji Centralnej. Izrael — bufor i eliminację zagrożenia nuklearnego. USA — TRIPP i kontrolę. UE — alternatywne korytarze energetyczne <a href="#r17" class="xref">→R17</a> (komisarz ds. energii był w Baku 2 marca!). Armenia — paradoksalnie ulgę (alternatywa Aras zmniejsza presję TRIPP). GCC — spokój.</p>
+
+<p><strong>Rosja</strong> jest daniem w karcie — Ukraina zjada armię <a href="#r1" class="xref">R1</a>, Kaukaz wpływy (Kommersant: „bezradność"), Syria upadła, Iran bombardowany. Mocarstwo z bronią nuklearną i prawie niczym innym. Nie jest przy stole — jest na talerzu.</p>
+
+<p><strong>Ryzyka 🦀 krytyczne:</strong></p>
+
+<p><strong>440 kg uranu 60%</strong> w rozpadającym się państwie. MAEA straciła ciągłość wiedzy. Chamenei autoryzował miniaturyzację głowic (X 2025). Trzy koszmary: watażka z brudną bombą, czarny rynek, desperackie przyspieszenie programu. Luźny materiał nuklearny = potencjalne weto na cały nowy porządek. Kontra: uran staje się pretekstem do protektoratu — koalicja chętnych zwołana do zabezpieczenia materiału → de facto zarząd tymczasowy.</p>
+
+<p><strong>Globalny szok naftowy</strong> — katarski minister energii: eksport z Zatoki może ustać w ciągu tygodni. Operacja kosztuje 891 mln USD/dzień. Paradoks: warunki tworzące okno możliwości niszczą bazę finansową inwestycji. Ale: szok to akcelerator — 🦀 każdy wielki szok przyspieszył transformację (1973 → japońska efektywność; COVID → dekada cyfryzacji w 10 miesięcy; Ukraina → europejska dywersyfikacja w 18 miesięcy) <a href="#r17" class="xref">→R17</a>.</p>
+
+<p><strong>Pakistan — blind spot:</strong> Beludżystan irański na granicy z mocarstwem nuklearnym. Chaos = potencjalna eskalacja Pakistan-Indie. <strong>Mission creep:</strong> 30 km wzdłuż 700 km = ogromne terytorium. Turcja w Syrii miała być tymczasowa (od 2016). <strong>Tożsamość irańskich 🐙 Azerów:</strong> na meczach reprezentacji kibicują Iranowi. W 1945 sowiecka republika upadła bez poparcia. Freedom House: Azerbejdżan mniej wolny niż Iran — „wyzwalanie" z jednej dyktatury w imię drugiej to trudna sprzedaż.</p>
+
+<div class="sources">Sesja analityczna · IAEA · EIA — Strait of Hormuz · Kommersant — „bezradność" · Southern Gas Corridor · Korytarz Transkaspijski — 4× wzrost od 2022</div>
+</article>
+
+<!-- ═══════ R16 ═══════ -->
+<article class="chapter" id="r16">
+<h2 class="chapter-heading b-orange">Rozdział 16. Hanza 2.0 — porządek bez architekta</h2>
+
+<p>Kluczowa innowacja koncepcyjna: nie „budujmy demokrację" (błąd Iraku 2003), lecz „usuńmy blokady, a ludzie sami ją zbudują". Nie narzucony podział (Sykes-Picot), lecz organiczny — podążający za liniami etnicznymi, geograficznymi i historycznymi. Model: Hanza 2.0 — sieć handlowa z funkcjami bezpieczeństwa, nie imperium i nie sojusz militarny.</p>
+
+<p>Finansowanie przez „old money" — nie budżety państwowe (powolne, polityczne), lecz europejski kapitał prywatny: cierpliwy (horyzont pokoleniowy), sieciowy (dyplomacja równoległa — Zurych, Londyn, 🐙 Frankfurt do Baku, Ankary, Erbilu), ideologiczny (handel tworzy pokój — filozofia od XIX w.). Precedensy: Suez, kolej bagdadzka, BTC — wielkie korytarze zawsze finansowało „old money".</p>
+
+<p>Podział odpowiedzialności: Europa za zachodni Kaukaz (Gruzja, Armenia). Turcja za wschodni (Azerbejdżan, korytarz). Izrael za bezpieczeństwo od dronów/rakiet. USA jako ubezpieczyciel ostateczny — daleko, nie angażuje się w codzienność, ale wszyscy wiedzą, że flota jest. Model brytyjski wobec Zatoki Perskiej XIX w.</p>
+
+<div class="callout orange"><strong>Werdykt analityka:</strong> Wizja jest wewnętrznie spójna do stopnia uniemożliwiającego łatwe odrzucenie. Podstawowa dynamika — rozpad Iranu jako katalizator przebudowy — <em>już się dzieje</em>. Nie dlatego, że ktoś to zaplanował, ale dlatego, że każdy aktor, działając racjonalnie w swoim interesie, popycha w tym samym kierunku. Wymaga, żeby bardzo dużo rzeczy poszło dobrze jednocześnie. Historia rzadko jest tak łaskawa — ale historia też rzadko oferuje momenty takiej jednoczesnej destabilizacji wielu porządków.</div>
+
+<div class="sources">Sesja analityczna 8.03.2026 · model Hanza historyczna · Suez, kolej bagdadzka — precedensy finansowania · analiza własna</div>
+</article>
+</section>
+
+<div class="bridge">Iran splata się z Rosją (OPL, windfall, utrata sojusznika) i z globalnym rynkiem energetycznym (Hormuz). Ale dotąd traktowaliśmy energię jako tło — czas postawić ją w centrum. Bo substytucja energetyczna to nie „zielona polityka" — to największe przesunięcie topologii władzy od wynalezienia silnika spalinowego. Część IV wyjaśnia dlaczego.</div>
+
+<div class="sep">· · · · ·</div>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  CZĘŚĆ IV — ENERGIA                                        ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<div class="part-break" id="czesc4">
+  <div class="part-num c-yellow">Część IV · dwa rozdziały</div>
+  <div class="part-title">Energia: Geopolityka surowców</div>
+  <div class="part-intro">Ropa i gaz to nie „towar" — to architektura władzy. Kto kontroluje przepływ energii, kontroluje politykę. Ale ta architektura się zmienia: panel słoneczny za $200 jest bardziej rewolucyjny niż jakikolwiek traktat, bo zmienia topologię z hierarchicznej na płaską. W tej części pokażemy, jak substytucja energetyczna zmienia wszystko — od kalkulacji OPEC po przetrwanie petrostates.</div>
+</div>
+
+<section class="volume" id="tom7">
+<div class="volume-header"><div class="volume-number c-yellow">Tom VII</div><div class="volume-title">Od Ormuzu do panelu słonecznego</div></div>
+
+<!-- ═══════ R17 ═══════ -->
+<article class="chapter" id="r17">
+<h2 class="chapter-heading b-yellow">Rozdział 17. Od Ormuzu do panelu — struktura, szok i substytucja</h2>
+
+<p><strong>Struktura popytu:</strong> Ropa (~103-104 mb/d w 2024) — transport pochłania ~57%, z czego sam transport drogowy ~47%. Energia i ciepło ~5-6%. Petrochemia/feedstock ~14%. Gaz (~4100 bcm/rok) — energia elektryczna i ciepło ~38%, przemysł ~23%, budynki ~21%. Kluczowy wniosek: ~78% łącznego popytu na ropę i gaz jest <em>technicznie substytucyjne</em> — transport przez EV, ogrzewanie przez pompy ciepła, energia przez OZE. Tylko feedstock (plastik, nawozy, farmaceutyki) pozostaje trwale zależny od węglowodorów. IEA prognozuje szczyt popytu na paliwa spalinowe już w 2027.</p>
+
+<p><strong>Ormuz:</strong> 20-21 mb/d ropy + 15-20% światowego LNG przechodzi przez tę cieśninę. Zamknięcie oznacza natychmiastowy skok do $150-200+/bbl i globalną recesję. Ale jest paradoks szybkiego szoku: rynki najgorzej radzą sobie z <em>niepewnością</em>, nie z szokiem. Jednoznaczne, brutalne zamknięcie daje kompletną informację i wymusza natychmiastową adaptację: Saudi odpala pipeline na max, 🦑 IEA otwiera SPR, rynek rebalansuje szybciej. Precedens: eksplozja Nord Stream paradoksalnie pomogła — zakończyła debatę „a może Putin odkręci kurek". Ceny TTF spadły po eksplozji, nie wzrosły. Kompletna zła wiadomość jest tańsza niż niekompletna zła wiadomość.</p>
+
+<p><strong>Substytucja</strong> — to fundament, który zmienia wszystko: sprzedajesz panel — straciłeś klienta na 30 lat. Sprzedajesz baryłkę — masz klienta na jutro. Cały model petrostates opiera się na tym, że klient musi wrócić. Panel to eliminuje. Solar jest self-reinforcing (kumulatywny), ropa jest self-sustaining (powtarzalny). Self-sustaining przegrywa z self-reinforcing — zawsze, bo efekt kumulacji jest wykładniczy.</p>
+
+<div class="callout" style="border-left-color:var(--energy)"><strong>Dekarbonizacja to nie polityka klimatyczna</strong> — to największy program demokratyzacji dostępu do energii w historii, który <em>mimochodem</em> też rozwiązuje problem klimatyczny. Panel kosztuje $200, instalujesz na dachu. Nie potrzebujesz rurociągu, tankowca ani pozwolenia rządu. Ropa tworzy hierarchie — solar tworzy sieć płaską. To zmiana topologii władzy, nie „ekologia".</div>
+
+<p>Konsekwencja dla Rosji <a href="#r4" class="xref">→R4</a>: jeśli substytucja postępuje do końca, pozostaje popyt na ~35-50 EJ (feedstock). Podaż, która dziś z trudem obsługuje 341 EJ i wymaga kartelu OPEC+, staje naprzeciw popytu 5-6× mniejszego. Strukturalny kolaps ceny do kosztu krańcowego najtańszego producenta (~$10-20/bbl). Petrostate, który nie może finansować aparatu władzy, albo się reformuje, albo upada — a Rosja się nie reformuje <a href="#r10" class="xref">→R10</a>.</p>
+
+<div class="sources">IEA — Oil 2024, Global Energy Review 2025 · EIA — Strait of Hormuz, International Energy Outlook · BloombergNEF — solar cost curves · S&amp;P Global · analiza własna</div>
+</article>
+
+<!-- ═══════ R18 ═══════ -->
+<article class="chapter" id="r18">
+<h2 class="chapter-heading b-yellow">Rozdział 18. Monopole i topologia władzy</h2>
+
+<p>Dwa monopole surowcowe rządzą XXI wiekiem — i mają przeciwną trajektorię.</p>
+
+<p><strong>Arabia Saudyjska:</strong> monopol na najtańszą ropę ($3-5/bbl koszt wydobycia). Trwałość: do końca ery ropy — ale ta era się kończy. Arabia dywersyfikuje się desperacko (NEOM, Vision 2030), bo wie, że panel za $200 jest jej egzystencjalnym zagrożeniem. Każdy sprzedany panel na świecie kumulatywnie i nieodwracalnie zmniejsza rynek na saudyjską ropę. To nie jest trend — to proces termodynamiczny: entropia rośnie, złożoność systemu naftowego maleje.</p>
+
+<p><strong>Chiny:</strong> quasi-monopol na przetwarzanie minerałów krytycznych (lit, kobalt, metale ziem rzadkich — 60-90% globalnego przetwarzania). Trwałość: wyższa niż saudyjska, bo minerały potrzebne są w <em>nowym</em> świecie (baterie, elektronika, obrona). Ale substytucja materiałowa (sód zamiast litu, żelazo zamiast kobaltu w bateriach LFP) oraz nowe źródła (dno oceanu, recykling, złoża w Australii/Chile/Argentynie) stopniowo podgryzają monopol.</p>
+
+<p>Porównanie: saudyjski monopol traci na wartości, bo jego <em>produkt</em> jest zastępowany. Chiński monopol utrzymuje wartość, bo jego produkty są potrzebne do zastępowania produktów saudyjskich. Ale oba są kruche na dłuższą metę — każdy monopol oparty na zasobach naturalnych jest tymczasowy w obliczu innowacji technologicznej. A innowacja w energii przyspiesza, nie zwalnia <a href="#r16" class="xref">→R16</a>.</p>
+
+<div class="sources">IEA — Critical Minerals 2025 · S&amp;P Global — koszty wydobycia · BloombergNEF — battery outlook · analiza własna</div>
+</article>
+</section>
+
+<div class="bridge">Energia daje ramy — ale brakuje jeszcze dwóch warstw. Pierwsza: narzędzia myślenia, którymi analizujemy to, czego nie widzimy gołym okiem — dezinformację i ciemną legitymizację. Druga: uczciwość wobec własnych ograniczeń — systematyczny steelmanning, który szuka dziur w tej analizie. Części V i VI zamykają Kolumbrynę.</div>
+
+<div class="sep">· · · · ·</div>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  CZĘŚĆ V — META                                            ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<div class="part-break" id="czesc5">
+  <div class="part-num c-blue">Część V · dwa rozdziały</div>
+  <div class="part-title">Meta: Narzędzia myślenia</div>
+  <div class="part-intro">Analiza jest tak dobra jak jej narzędzia — i tak uczciwa jak jej świadomość własnych ograniczeń. W tej części: Disinfolklore (metoda parsowania dezinformacji), dark legitimacy (dlaczego obnażanie korupcji wzmacnia dyktaturę zamiast ją osłabiać), i etyka analizy (jak mówić o wojnie uczciwie, będąc po jednej ze stron).</div>
+</div>
+
+<section class="volume" id="tom8">
+<div class="volume-header"><div class="volume-number c-blue">Tom VIII</div><div class="volume-title">Disinfolklore, Dark Legitimacy i etyka</div></div>
+
+<!-- ═══════ R19 ═══════ -->
+<article class="chapter" id="r19">
+<h2 class="chapter-heading b-blue">Rozdział 19. Disinfolklore i Dark Legitimacy — trucizna i ciemna strona</h2>
+
+<p><strong>Disinfolklore:</strong> Stephen Douglas — dyplomata OBWE, trzy lata na moście w Stanicy Ługańskiej — stworzył metodę łączącą folklorystykę, lingwistykę porównawczą, psychologię poznawczą i prawo międzynarodowe w jeden operacyjny system. Intuicja wyrosła z codzienności: uzbrojeni „trolle" pod mostem, cywile-pielgrzymi, dyplomaci — zbiór postaci z baśni ludowej. Rdzeń metody: dezinformacja działa, bo wykorzystuje struktury narracyjne, które ludzkość internalizowała przez 6000 lat.</p>
+
+<p>Kluczowe koncepcje: <em>mana</em> (ładunek emocjonalny w memach — dlaczego ten mem rezonuje, a tamten nie), <em>Accusation in a Mirror</em> (sprawca oskarża ofiarę o to, co sam planuje — struktura wspólna dla wszystkich ludobójstw, od Rwandy po rosyjską narrację o „nazistach" w Ukrainie), <em>Witch Switch</em> (przełączenie ofiary — prześladowany nagle staje się prześladowcą w narracji agresora), <em>Data Resistant Archetypes</em> (mentalne modele oporne na fakty — dlatego kontrnarracja musi operować na poziomie archetypów, nie danych). 12-elementowy algorytm daje powtarzalność: rozpoznaj → zidentyfikuj archetyp → oceń narzędzie → oceń źródło → podejmij decyzję → interweniuj.</p>
+
+<p>Luka FIMI: ramy UE doskonale dokumentują kanały, atrybucję i wolumeny. Nie odpowiadają na pytanie: <em>dlaczego ten mem działa?</em> Disinfolklore jest brakującą warstwą jakościową. Counter-Disinfolklore: re-archetypowanie jako broń ofensywna — np. Ukraina jako „cywilizacja źródłowa", nie „panna w opałach" <a href="#r22" class="xref">→R22</a>.</p>
+
+<p><strong>Dark Legitimacy:</strong> Roman Horbyk (Uniwersytet Zuryski) wprowadził pojęcie formy legitymizacji opartej na dzielonych <em>negatywnych</em> oczekiwaniach wobec władzy. Nie: „nasz rząd jest dobry". Lecz: „każdy rząd jest zły, a ten przynajmniej jest nasz". Mechanizm: „всe воруют" (wszyscy kradną) — to nie krytyka, to akceptacja. Wahadło polityczne zatrzymane w najniższym punkcie oczekiwań — a najniższy punkt jest zawsze w równowadze.</p>
+
+<p>Konsekwencje są fundamentalne: (1) obnażanie korupcji <em>nie działa</em> — wszyscy już wiedzą, i to wiedza, nie ignorancja, podtrzymuje system. Nawalny poświęcił życie na dokumentowanie korupcji — bez efektu systemowego, bo dark legitimacy już to wkalkulowała. (2) Reformy są delegitymizowane — 🐙 każda próba poprawy odrzucana jako „naiwność". (3) Jedyne, czego dark legitimacy się boi, to bycie postrzeganym jako <em>słaby</em> — nie jako skorumpowany, nieefektywny czy zły. Implikacja strategiczna: atakowanie reżimu jako złego <em>wzmacnia</em> dark legitimacy. Atakowanie jako słabego — może ją podkopać <a href="#r8" class="xref">→R8</a>.</p>
+
+<div class="literary">
+<p>Horbyk przywołuje automat Waltera Benjamina: maszyna udaje, że gra w szachy sama, ale w środku siedzi człowiek przesuwający figury. W dark legitimacy tą figurą jest „suwerenność" — czysta siła przymusu, jedyna rzeczywista podstawa władzy, gdy wszystkie inne źródła legitymizacji się wyczerpały. Rosja jest takim automatem: fasada technologiczna (głosowania, parliment, media), wewnątrz — nagość siły.</p>
+<div class="lit-ref">Walter Benjamin — automat szachowy · Horbyk (2026) — dark legitimacy · Foucault — gouvernementalité</div>
+</div>
+
+<p><strong>Wojna Rosja–Ukraina jako wojna o legitymizację:</strong> Ukraina operuje w logice afirmatywnej (godność, prawa, Majdan — 🦀 ludzie w 2025 wyszli na ulice „kartonowe protesty" przeciw osłabieniu antykorupcyjnych instytucji, <em>w środku wojny</em>). Rosja — w logice dark legitimacy. Zderzenie tych systemów jest nie mniej fundamentalne niż zderzenie armii. Wsparcie Ukrainy to nie geopolityka — to obrona samej możliwości, że władza może być lepsza niż „wszyscy kradną".</p>
+
+<div class="sources">disinfolklore.eu / disinfolklore.net · Horbyk, R. (2026) — „Dark legitimacy", <em>Communication and Democracy</em> · Alyukov (2022) · Beetham (1991) · Foucault (1997) · EEAS — 4. raport FIMI · Navalny FBK</div>
+</article>
+
+<!-- ═══════ R20 ═══════ -->
+<article class="chapter" id="r20">
+<h2 class="chapter-heading b-blue">Rozdział 20. Źródła, etyka i granice poznania</h2>
+
+<p>Każda analiza jest tak dobra jak jej źródła — i tak uczciwa jak jej świadomość własnych ograniczeń. Kolumbryna korzysta z kilkudziesięciu źródeł instytucjonalnych (ISW, IEA, CREA, SIPRI, RAND, Carnegie, CSIS, RUSI, OSW), OSINT-owych (Twitter/X, Telegram, 🐙 NASA FIRMS, Oryx), akademickich (Horbyk, Alyukov, Kotkin, Taleb) i medialnych (Moscow Times, The Insider, Novaya Gazeta Europe, Kyiv Independent). Żadne źródło nie jest cytowane dwukrotnie w tym samym rozdziale — dywersyfikacja jest zasadą, nie wygodą.</p>
+
+<p>Ale: analiza systemowa nie jest nauką ścisłą. Szacunki prawdopodobieństw <a href="#r10" class="xref">R10</a> są eksperckie, nie statystyczne. Problem n=1: każde państwo jest unikalne, analogie historyczne (ZSRR, Jugosławia, 🦑 Irak) są częściowe. Obciążenie konfirmacyjne jest realnym zagrożeniem — dlatego istnieje Część VI.</p>
+
+<p>Etycznie: analiza dotycząca wojny musi mieć świadomość, że nie jest neutralna. Autor jest po stronie Ukrainy — transparentnie. Nie dlatego, że analiza służy propagandzie, lecz dlatego, że analityczna uczciwość wymaga przejrzystości co do perspektywy. Czytelnik ma prawo wiedzieć, skąd patrzymy — i mieć to na uwadze, 🦑 czytając nasze wnioski. Dlatego Część VI jest tak ważna: to nie PR-owy ukłon w stronę „obiektywizmu", lecz realne narzędzie korekty.</p>
+
+<div class="sources">Metodologia OSINT · Taleb — epistemologia „skin in the game" · CIA Structured Analytic Techniques · analiza własna</div>
+</article>
+</section>
+
+<div class="bridge">Wiemy, co się dzieje <a href="#czesc1">(I)</a>. Wiemy, co zrobi Putin <a href="#czesc2">(II)</a>. Wiemy, jak Iran zmienia układankę <a href="#czesc3">(III)</a>. Wiemy, jak energia przebudowuje topologię władzy <a href="#czesc4">(IV)</a>. Mamy narzędzia do rozumienia dezinformacji i ciemnej legitymizacji <a href="#czesc5">(V)</a>. Teraz pytanie: gdzie się mylimy? Część VI to systematyczny steelmanning — najsilniejsze dostępne argumenty przeciwko tezom tej analizy.</div>
+
+<div class="sep">· · · · ·</div>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  CZĘŚĆ VI — ADVOCATUS DIABOLI                              ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<div class="part-break" id="czesc6">
+  <div class="part-num c-green">Część VI · trzy rozdziały</div>
+  <div class="part-title">Advocatus Diaboli</div>
+  <div class="part-intro">Im bardziej analiza mówi ci to, co chcesz usłyszeć — tym bardziej powinieneś szukać w niej słabości. Poniżej: najsilniejsze dostępne argumenty za tym, że się mylimy, że system przetrwa dłużej, że nasze dane są obciążone, i że narzędzia, których używamy (Disinfolklore), mają swoje własne luki.</div>
+</div>
+
+<section class="volume" id="tom9">
+<div class="volume-header"><div class="volume-number c-green">Tom IX</div><div class="volume-title">Korekta i przesłuchanie</div></div>
+
+<div class="epigraph">Analityk, który mówi „tym razem jest inaczej", prawie zawsze się myli. Analityk, który mówi „tym razem będzie tak samo", prawie zawsze upraszcza. Prawda leży w strukturze, nie w analogii.<span class="attr">— zastrzeżenie metodologiczne</span></div>
+
+<!-- ═══════ R21 ═══════ -->
+<article class="chapter" id="r21">
+<h2 class="chapter-heading b-green">Rozdział 21. Steelmanning systemu — Chiny, inercja, zmęczenie Zachodu</h2>
+
+<p>Dyktatury mają ograniczoną adaptacyjność — ale nie zerową. Argumenty za trwałością rosyjskiego systemu:</p>
+
+<p><strong>Inercja:</strong> Systemy autorytarne nie potrzebują aktywnego poparcia — wystarczy brak zorganizowanego oporu. Rosja nie ma tradycji masowego, zorganizowanego oporu cywilnego (Majdan był ukraiński, nie rosyjski). Apatia jest sojusznikiem status quo. <strong>Represja:</strong> Nawet z wakatami, policja i FSB wciąż działają <a href="#r6" class="xref">R6</a> — gorzej, ale działają. <strong>Brak alternatywy:</strong> Kto konkretnie miałby Putina zastąpić? Opozycja jest w więzieniu, na emigracji lub martwa. <strong>Próg bólu:</strong> Rosjanie mają historycznie wyższy próg tolerancji cierpienia niż zachodnie społeczeństwa — argument kontrowersyjny, ale poparty danymi (90. lata przetrwali bez rewolucji przy znacznie gorszym standardzie życia niż dziś).</p>
+
+<p><strong>Czynnik chiński</strong> — najważniejszy bufor, którego Część I niedostatecznie modeluje. Trzy scenariusze: (1) <em>Status quo</em> (75-80%): Chiny kupują tanią ropę, sprzedają komponenty, ale bez parasola ochronnego. Erozja spowolniona o 6-12 miesięcy. (2) <em>Eskalacja wsparcia</em> (10-15%): pod presją lub z kalkulacji. Erozja spowolniona o 1-2 lata. (3) <em>Wycofanie</em> (5-10%): pod zachodnią presją lub „lost cause". Erozja przyspieszona. Nawet w scenariuszu (1) Chiny kupują czas — a czas jest dokładnie tym, czego system potrzebuje.</p>
+
+<p><strong>Zmęczenie Zachodu:</strong> Ukraina traci ludzi proporcjonalnie bardziej niż Rosja (37 mln wobec 144 mln). 66% Ukraińców w XII 2025 popierało negocjacje. Trumpowska nieprzewidywalność. Erozja jedności europejskiej (Orbán, 🦑 Fico, FPÖ). Kryzys fiskalny Ukrainy — zależność od zachodniego wsparcia w stopniu bezprecedensowym. Każdy z tych czynników, działając na korzyść Rosji, spowalnia erozję — potencjalnie o miesiące lub lata.</p>
+
+<div class="callout green"><strong>Korekta:</strong> Czynnik chiński + inercja + zmęczenie Zachodu razem przesuwają rozkład prawdopodobieństw. Scenariusz „później niż XI 2027" zasługuje na wyższe prawdopodobieństwo niż pierwotnie szacowane w Części I. Dlatego w <a href="#r23" class="xref">R23</a> podnosimy go z 15% do 25%.</div>
+
+<div class="sources">CSIS — handel Chiny-Rosja · Carnegie — strategia Chin · RAND — authoritarian resilience, China's calculus · Bruegel — „China as Russia's lifeline" · KIIS/Rating Group — sondaże ukraińskie · Kotkin — <em>Armageddon Averted</em></div>
+</article>
+
+<!-- ═══════ R22 ═══════ -->
+<article class="chapter" id="r22">
+<h2 class="chapter-heading b-green">Rozdział 22. Disinfolklore pod lupą — SWOT i przesłuchanie sądowe</h2>
+
+<p>Jeśli Disinfolklore <a href="#r19" class="xref">R19</a> jest narzędziem tej analizy, to musi przejść ten sam test, co reszta — systematyczną dekonstrukcję.</p>
+
+<p><strong>Siły:</strong> Interdyscyplinarna fuzja bez precedensu (6000 lat głębokości temporalnej + operacyjna stosowalność). 🐙 Zakorzenienie w doświadczeniu dyplomatycznym (most w Stanicy Ługańskiej). 12-elementowy algorytm daje powtarzalność i nauczalność. Kontr-narracja (re-archetypowanie) to broń ofensywna, nie tylko tarcza.</p>
+
+<p><strong>Słabości:</strong> Zależność od jednej osoby (Douglas) — brak zewnętrznej walidacji, peer review, replikacji. Teoria dźwięków M-N — spekulatywna lingwistyka, nie przeszła przez filtr akademicki. 1,5 mln słów rosnących co tydzień — paradoks: metoda stworzona do parsowania nadmiaru informacji sama staje się nadmiarem. Zacieranie granicy analiza/adwokatura (Douglas jest jednocześnie analitykiem i obrońcą Ukrainy). Indoeuropocentryzm (metoda nie obejmuje sinojapońskich/semickich przestrzeni dezinformacyjnych).</p>
+
+<p><strong>Z przesłuchania sądowego</strong> (12 pytań advocatus diaboli, perspektywa art. 278 k.p.c.): kluczowe wyzwanie to warunki falsyfikowalności. Czy Disinfolklore jest narzędziem analitycznym czy systemem przekonań? Systemy przekonań nie stanowią podstawy opinii biegłego. Odpowiedź robocza: rdzeń operacyjny (Accusation in a Mirror, Witch Switch) działa empirycznie i niezależnie od tez lingwistycznych o dźwięku M-N — to klucz do walidacji. Oddzielić sprawdzony toolkit od spekulatywnej lingwistyki, 🦀 sformalizować go jako otwartą metodologię z zewnętrzną walidacją i skondensować 1,5M słów do 50-stronicowego podręcznika operacyjnego — bo narzędzie, którego nie da się szybko przyswoić, nie obroni żadnej demokracji na czas.</p>
+
+<div class="sources">Analiza SWOT własna · sesja przesłuchania sądowego (art. 278 k.p.c.) · EEAS FIMI · disinfolklore.eu</div>
+</article>
+
+<!-- ═══════ R23 ═══════ -->
+<article class="chapter" id="r23">
+<h2 class="chapter-heading b-green">Rozdział 23. Zrewidowana konkluzja — mapa, nie GPS</h2>
+
+<p>Po systematycznym steelmanningu (<a href="#r21" class="xref">R21</a>–<a 🦀 href="#r22" class="xref">R22</a>), zrewidowane prawdopodobieństwa:</p>
+
+<div class="data-grid">
+  <div class="data-card"><div class="label">Przyspieszony (do XI 2026)</div><div class="value">~25%</div><div class="note">↓ z 35% (korekta: chiński bufor)</div></div>
+  <div class="data-card"><div class="label">Bazowy (XI 2026 – XI 2027)</div><div class="value">~40%</div><div class="note">↓ z 50% (korekta: zmęczenie Zachodu)</div></div>
+  <div class="data-card"><div class="label">Później (po XI 2027)</div><div class="value">~25%</div><div class="note">↑ z 15% (korekta: inercja + Chiny)</div></div>
+  <div class="data-card"><div class="label">Zamrożenie</div><div class="value">~10%</div><div class="note">nowy (brudny rozejm — nie zatrzymuje erozji wewnętrznej)</div></div>
+</div>
+
+<p>Co się zmienia po korekcie: horyzont niepewności rozszerza się. Forma „suddenly" staje się bardziej zróżnicowana: od ostrego kryzysu (kaskada bankructw, awaria infrastrukturalna, 🦀 kryzys sukcesji) po powolny zjazd (zombifikacja ZSRR-style, trwająca latami, bez wyraźnego momentu przełomu).</p>
+
+<p>Co się <em>nie</em> zmienia: teza o przekroczeniu punktu autokorekty. Nawet jeśli daty okażą się przedwczesne — jak wiele wcześniejszych prognoz dotyczących Rosji — system, w którym każde rozwiązanie jednego problemu tworzy dwa nowe <a href="#r7" class="xref">R7</a>, nie osiągnie nowej równowagi. Jedynie nowe, niższe plateau degradacji.</p>
+
+<p>Niniejsza analiza jest mapą terenu, nie GPS-em. Pokazuje krajobraz zagrożeń, identyfikuje powiązania, wskazuje kierunki. Konkretne daty to hipotezy robocze, poddawane kwartalnej rewizji.</p>
+
+<div class="callout red" style="margin-top:2rem"><strong>Ostatnia refleksja:</strong> Ryzyko przedwczesnego optymizmu (efekt „Jerzy Urban") jest realne — ale równie realne jest ryzyko przedwczesnego pesymizmu wobec analiz, które okazują się trafne. Kto w 1987 powiedział, że ZSRR upadnie w cztery lata, został wyśmiany. Kto w 2019 powiedział, że Rosja zaatakuje Ukrainę, został wyśmiany. Fakt, że wcześniejsze prognozy rozpadu były przedwczesne, nie oznacza, że obecna jest błędna — oznacza, że „gradually" trwało dłużej niż oczekiwano. Ale „gradually" zawsze kończy się „suddenly".</div>
+
+<div class="epigraph" style="margin-top:2.5rem">
+  A Annuszka? Annuszka już dawno rozlała olej. I nie tylko rozlała — jeszcze sypnęła piasku, żeby nikt nie widział. Ale tramwaj jedzie. Torów nie zmienisz. I hamulce — hamulce od dawna nie działają.
+  <span class="attr">— za Bułhakowem, z korektą analityczną</span>
+</div>
+
+<div class="sources">Synteza Części I–VI · IMF · RAND · Taleb — <em>Antifragile</em>, <em>Black Swan</em> · Kotkin — <em>Armageddon Averted</em> · Yale CELI · Horbyk (2026) · Douglas · analiza własna</div>
+</article>
+</section>
+
+<!-- ████████████████████████████████████████████████████████████████ -->
+<!-- ██  FOOTER                                                    ██ -->
+<!-- ████████████████████████████████████████████████████████████████ -->
+<footer class="doc-footer">
+🐙 Kolumbryna v3.5 · 6 części · 9 tomów · 23 rozdziały · 31 marca 2026, 17:13 CET 🦑<br>
+Stworzono z pomocą Claude (Anthropic) · Model: Claude Opus 4.6 (claude-opus-4-6)<br>
+Źródła: ISW, EIA, IEA, CREA, Jamestown, Moscow Times, The Insider, Railway Supply, Novaya Gazeta Europe, Kyiv Independent, Carnegie, CSIS, RUSI, OSW, SIPRI, RAND, Bruegel, BOFIT, Kpler, Wood Mackenzie, RFE/RL, FAO, USDA, Rosstat, Kommersant, RBC, Bloomberg, Reuters, Fortune, Foreign Affairs, Atlantic Council, CEPA, Defence Express, Militarnyi, Euromaidan Press, Horbyk (2026), Douglas / disinfolklore.eu, sesja analityczna 8.03.2026, i in.<br>
+Analiza autorska: Maciek + Claude · Perspektywa: pro-ukraińska, transparentnie.<br>
+<br>
+<em>„Gradually, then suddenly."</em> 🐙
+</footer>
+
+</div><!-- /master-container -->
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+// Progress bar
+const progressBar=document.getElementById('progressBar');
+window.addEventListener('scroll',()=>{const h=document.documentElement;const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;progressBar.style.width=p+'%'});
+
+// Sidebar toggle
+const sidebar=document.getElementById('sidebar');
+const toggle=document.getElementById('sidebarToggle');
+toggle.addEventListener('click',()=>{sidebar.classList.toggle('open');toggle.textContent=sidebar.classList.contains('open')?'✕':'☰'});
+
+// Active chapter highlight
+const chapters=document.querySelectorAll('.chapter,.part-break');
+const sideLinks=document.querySelectorAll('.sidebar .s-ch');
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;sideLinks.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+id)});}});},{rootMargin:'-20% 0px -70% 0px'});
+chapters.forEach(c=>observer.observe(c));
+
+// Close sidebar on link click (mobile)
+sideLinks.forEach(l=>l.addEventListener('click',()=>{if(window.innerWidth<1200)sidebar.classList.remove('open');toggle.textContent='☰'}));
+</script>
+</body>
+</html>

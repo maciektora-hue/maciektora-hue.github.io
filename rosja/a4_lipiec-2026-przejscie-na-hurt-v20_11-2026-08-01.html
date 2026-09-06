@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lipiec 2026. przejscie na hurt — v20.11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body[data-theme="dark"]{--bg:#13201c;--text:#e6ece8;--h:#c9a86a;--h3:#88a094;--border:#2e3d37;--muted:#88a094;--code-bg:#1c2a25;--kw:#d2b478;}
+body[data-theme="light"]{--bg:#f2f3ee;--text:#1a2620;--h:#1f5347;--h3:#5f6f68;--border:#d3d8d0;--muted:#5f6f68;--code-bg:#e6e9e2;--kw:#1f5347;}
+body[data-theme="bw"]{--bg:#ffffff;--text:#000000;--h:#000000;--h3:#000000;--border:#bbbbbb;--muted:#555555;--code-bg:#f0f0f0;--kw:#000000;}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--text);font-family:"Atkinson Hyperlegible",sans-serif;font-size:17px;line-height:1.55;max-width:760px;padding:16px 14px 60px;margin:0 auto;transition:background .2s,color .2s;}
+h1,h2,h3,h4,h5,h6{font-family:"Fraunces",serif;}
+h1{color:var(--h);font-size:30px;margin:.3em 0 .2em;word-wrap:break-word;font-weight:700;}
+h2{color:var(--h);font-size:23px;margin:1.6em 0 .4em;word-wrap:break-word;font-weight:600;}
+h3{color:var(--h3);font-size:19px;margin:1.3em 0 .3em;font-weight:600;}
+h4{color:var(--h3);font-size:17.5px;margin:.9em 0 .3em;font-weight:600;}
+h6{color:var(--muted);font-size:16px;margin:1.1em 0 .3em;font-weight:600;font-style:italic;}
+p{margin:.6em 0;word-wrap:break-word;}
+a{color:var(--h);}
+ul,ol{margin:.5em 0;padding-left:1.4em;}
+li{margin:.25em 0;word-wrap:break-word;}
+strong{font-weight:700;color:var(--h);}
+.zrodla{font-family:"JetBrains Mono",monospace;font-size:13.5px;color:var(--muted);margin:.8em 0 0;padding-top:.5em;border-top:1px solid var(--border);}
+.switch-sep{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.theme-switch{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.theme-switch button{font-family:"JetBrains Mono",monospace;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;}
+.theme-switch button.active{background:var(--h);color:var(--bg);border-color:var(--h);font-weight:700;}
+.sygnatura{margin:14px 0 28px;font-family:"JetBrains Mono",monospace;}
+.syg-label{font-size:12px;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;text-transform:uppercase;opacity:.6;}
+.syg-main{font-size:14px;color:var(--text);}
+nav.toc{margin:1.2em 0 2em;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+nav.toc .toc-h{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+nav.toc ul{list-style:none;margin:0;padding-left:0;}
+nav.toc li{margin:.4em 0;font-family:"Fraunces",serif;font-size:17px;}
+nav.toc ol{margin:.3em 0 .5em;padding-left:1.7em;}
+nav.toc ol li{font-size:15.5px;color:var(--muted);margin:.2em 0;}
+nav.toc ol li::marker{color:var(--muted);font-weight:600;}
+nav.toc a{text-decoration:none;}
+nav.toc a:hover{text-decoration:underline;}
+.toc-new{background:#f5c518;color:#0d1117;font-weight:600;border-radius:3px;padding:0 4px;}
+.toc-prev1{background:rgba(154,138,58,0.45);border-radius:3px;padding:0 4px;}
+.toc-prev2{background:rgba(168,96,46,0.42);border-radius:3px;padding:0 4px;}
+body[data-theme="light"] .toc-new{background:#d9a400;color:#fff;}
+body[data-theme="light"] .toc-prev1{background:rgba(154,138,58,0.30);}
+body[data-theme="light"] .toc-prev2{background:rgba(168,96,46,0.28);}
+body[data-theme="bw"] .toc-new{background:#000;color:#fff;}
+body[data-theme="bw"] .toc-prev1{background:#c9c9c9;color:#000;}
+body[data-theme="bw"] .toc-prev2{background:#e4e4e4;color:#000;}
+.toc-legenda{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);line-height:1.9;}
+.toc-legenda span{border-radius:3px;padding:0 5px;margin-right:4px;}
+.nota-zamrozone{margin:0 0 26px;padding:14px 16px;border:1px solid var(--border);border-radius:6px;font-size:15.5px;line-height:1.5;}
+.nota-zamrozone .nz-tytul{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.nota-zamrozone ul{margin:.4em 0;padding-left:1.3em;}
+.nota-zamrozone li{margin:.3em 0;}
+.nota-zamrozone .nz-wersja{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--h3);}
+.nota-zamrozone .nz-uwaga{margin-top:10px;padding-top:9px;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+.cytat{margin:1.1em 0;padding:.7em 0 .7em 1.1em;border-left:3px solid var(--h3);}
+.cytat p{margin:.4em 0;font-style:italic;}
+.cytat .zrodlo-cytatu{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-style:normal;color:var(--muted);margin-top:.6em;letter-spacing:.02em;}
+@media (max-width:768px){body{font-size:17px;padding:14px 12px 50px;}h1{font-size:26px;}h2{font-size:21px;}h3{font-size:18px;}}
+@media print{.theme-switch,.switch-sep{display:none;}}
+</style>
+</head>
+<body data-theme="dark">
+
+<h1 id="tytul">lipiec 2026. przejscie na hurt</h1>
+<hr class="switch-sep">
+<div class="theme-switch">
+  <button data-theme="dark" class="active" onclick="setTheme('dark')">po ciemnemu</button>
+  <button data-theme="light" onclick="setTheme('light')">po jasnemu</button>
+  <button data-theme="bw" onclick="setTheme('bw')">biało-czarne</button>
+</div>
+
+<div class="sygnatura" id="sygnatura-pliku-gorna">
+  <div class="syg-label">sygnatura pliku</div>
+  <div class="syg-main">lipiec-2026-przejscie-na-hurt · v20.11 · 2026-08-01 · 10:25 (Europe/Warsaw)</div>
+</div>
+
+<div class="nota-zamrozone" id="nota-o-zamrozonych">
+<div class="nz-tytul">dokumenty zamrożone w czasie</div>
+<p>Ten dokument nawiązuje do dwóch głównych opracowań, zamkniętych i nieaktualizowanych — służą wyłącznie jako materiał referencyjny i punkt odniesienia dla prognoz.</p>
+<ul>
+<li><strong>Kolumbryna — Wielka analiza systemowa</strong> <span class="nz-wersja">v3.5 · 31 marca 2026</span><br>synteza systemowa, 24 szare nosorożce, rozkład czterech scenariuszy</li>
+<li><strong>maj 2026. gradually stało się suddenly</strong> <span class="nz-wersja">v25.00 · 25 czerwca 2026</span><br>sekwencyjna kronika uderzeń z analizą, audyt prognoz Kolumbryny</li>
+</ul>
+<div class="nz-uwaga">Poza nimi zamrożone są też mniejsze analizy: <strong>lista celów</strong> (v19.00), <strong>audyt dwururewizyjny</strong> (v03.00), <strong>jak kończą się państwa</strong> (v02.00) oraz <strong>zapas kontra strumień</strong> wraz z opracowaniem (v02.00 i v09.00). Wszystkie zamknięte — nowe treści trafiają wyłącznie do dokumentów bieżących.</div>
+</div>
+
+<nav class="toc" id="spis-tresci">
+<div class="toc-h">Spis treści</div>
+<ul>
+<li><a href="#skala-hurtu">I. Skala hurtu</a>
+<ol>
+<li><a href="#przerob-dno-dwudziestolecia">Przerób — dno dwudziestolecia</a></li>
+<li><a href="#tempo-uderzen">Tempo uderzeń</a></li>
+<li><a href="#zasieg-kryzysu">Zasięg kryzysu po stronie rosyjskiej</a></li>
+<li><a href="#co-znaczy-hurt">Co znaczy „hurt"</a></li>
+</ol>
+</li>
+<li><a href="#marketplace-jako-cel">II. Marketplace jako cel</a>
+<ol>
+<li><a href="#kampania-wildberries">Kampania Wildberries</a></li>
+<li><a href="#pierwszy-ozon">Pierwszy Ozon</a></li>
+<li><a href="#uzasadnienie-celu">Uzasadnienie celu</a></li>
+<li><a href="#powod-nie-pretekst">Powód, nie pretekst — i przypieczętowanie przez UE</a></li>
+<li><a href="#efekt-finansowy">Efekt finansowy i przerzucenie ryzyka</a></li>
+</ol>
+</li>
+<li><a href="#milczenie-strategiczne">III. Milczenie strategiczne Zachodu</a>
+<ol>
+<li><a href="#luka-miedzy-wiedza-a-mowa">Luka między wiedzą a mową</a></li>
+<li><a href="#slowo-jako-zobowiazanie">Słowo urzędującego to zobowiązanie</a></li>
+<li><a href="#pytanie-ktorego-nikt-nie-chce">Pytanie, którego nikt nie chce usłyszeć</a></li>
+<li><a href="#koszt-pomylki">Asymetria kosztu pomyłki</a></li>
+<li><a href="#emeryci-mowia">Emeryci mówią — test kontrolny</a></li>
+<li><a href="#media-tez">Media też — inny mechanizm, ten sam skutek</a></li>
+<li><a href="#blad-ramy-porownawczej">Błąd ramy porównawczej</a></li>
+<li><a href="#kto-moze-zobaczyc">Kto może zobaczyć, że król jest nagi</a></li>
+</ol>
+</li>
+<li><a href="#budanow-zelenski">IV. Budanow i Zełenski — zmiana języka</a>
+<ol>
+<li><a href="#awans-ktory-jest-teza">Awans, który sam jest tezą</a></li>
+<li><a href="#od-przetrwania-do-terminu">Od przetrwania do terminu</a></li>
+<li><a href="#doktryna-maksymalizacji">Doktryna maksymalizacji eskalacji</a></li>
+<li><a href="#doslownosc">Dosłowność jako narzędzie</a></li>
+<li><a href="#rejestr-mnicha">Rejestr mnicha-wojownika</a></li>
+<li><a href="#co-mowia-a-czego-nie">Co mówią, a czego nadal nie</a></li>
+</ol>
+</li>
+<li><a href="#kasparow">V. Kasparow — stała odniesienia</a>
+<ol>
+<li><a href="#dwadziescia-lat-tej-samej-tezy">Dwadzieścia lat tej samej tezy</a></li>
+<li><a href="#trzy-rzeczy-ktorych-nikt-nie-mowi">Trzy rzeczy, których nie mówi nikt inny</a></li>
+<li><a href="#dlaczego-teraz-brzmi-inaczej">Dlaczego teraz brzmi inaczej</a></li>
+<li><a href="#trzy-glosy-jeden-model">Trzy głosy, jeden model</a></li>
+</ol>
+</li>
+<li><a href="#geneza-hurtu">VI. Jak niewinnie zaczął się hurt</a>
+<ol>
+<li><a href="#drabina-zaczela-sie-wczesniej">Drabina zaczęła się wcześniej</a></li>
+<li><a href="#dwa-motory">Dwa motory w jednym kierunku</a></li>
+<li><a href="#drabina-lipcowa">Drabina lipcowa, dzień po dniu</a></li>
+<li><a href="#odpowiedz-podwojna">Odpowiedź podwójna — realna i wizerunkowa</a></li>
+<li><a href="#pewnosc-nastepnego-kroku">Pewność następnego kroku</a></li>
+<li><a href="#przypadkowa-trwalosc">Przypadkowa trwałość</a></li>
+</ol>
+</li>
+<li><a href="#inwersja-historyczna">VII. Inwersja historyczna</a>
+<ol>
+<li><a href="#czym-rosja-wygrywala">Czym Rosja wygrywała wojny</a></li>
+<li><a href="#amputacja">Amputacja własnego mięśnia</a></li>
+<li><a href="#co-z-tego-wynika">Co z tego wynika dla tej wojny</a></li>
+</ol>
+</li>
+<li><a href="#prognoza-dogania">VIII. Prognoza dogania rzeczywistość</a>
+<ol>
+<li><a href="#co-napisano-w-marcu">Co napisano w marcu</a></li>
+<li><a href="#co-dopisano-w-czerwcu">Co dopisano w czerwcu</a></li>
+<li><a href="#co-mowia-teraz">Co mówią teraz Zełenski i Budanow</a></li>
+<li><a href="#czego-nie-bylo-w-obiegu">Czego wcześniej w obiegu nie było</a></li>
+<li><a href="#dyscyplina">Dyscyplina — mapa, nie GPS</a></li>
+</ol>
+</li>
+<li><a href="#zapasc">IX. Zapaść w czasie teraźniejszym ciągłym</a>
+<ol>
+<li><a href="#budzet">Budżet — oficjalna dziura i paradoks naftowy</a></li>
+<li><a href="#zbiory" class="toc-prev2">Zbiory — paliwo zjada plon, a technologia zjada resztę</a></li>
+<li><a href="#zloto">Złoto — wyprzedaż stulecia</a></li>
+<li><a href="#kolej">Kolej — piąty rok spadku i degradacja pod spodem</a></li>
+<li><a href="#lotnictwo">Lotnictwo cywilne — awaria co tydzień</a></li>
+<li><a href="#sektor-korporacyjny" class="toc-prev1">Sektor korporacyjny — zarządzany upadek</a></li>
+<li><a href="#czas-dokonany">Dlaczego to już czas przyszły dokonany</a></li>
+</ol>
+</li>
+<li><a href="#mobilizacja">X. Mobilizacja cicha i pełna</a>
+<ol>
+<li><a href="#werbunek-siada">Werbunek siada</a></li>
+<li><a href="#cicha-mobilizacja">Cicha mobilizacja — co już trwa</a></li>
+<li><a href="#glos-przeciwny">Głos przeciwny — czy na pewno brakuje</a></li>
+<li><a href="#pelna-po-wyborach">Pełna mobilizacja po wyborach</a></li>
+<li><a href="#co-by-dala">Co by dała, a co zabrała</a></li>
+</ol>
+</li>
+<li><a href="#chinski-substytut">XI. Chiński substytut komponentowy</a>
+<ol>
+<li><a href="#skala-zastapienia">Skala zastąpienia</a></li>
+<li><a href="#oficjalna-kapitulacja">Oficjalna kapitulacja programu niezależności</a></li>
+<li><a href="#irtysz">Irtysz — procesor, który nie jest rosyjski</a></li>
+<li><a href="#szarej-strefy">Kanały szarej strefy</a></li>
+<li><a href="#gaz-oba-kierunki">Gaz — oba kierunki zamknięte</a></li>
+<li><a href="#zamiana-nie-substytucja">To nie substytucja, to zamiana wierzyciela</a></li>
+</ol>
+</li>
+<li><a href="#przemysl-domkniecia">XII. Przemysł zbrojeniowy — cztery domknięcia</a>
+<ol>
+<li><a href="#macierz-powtorzen">Macierz powtórzeń</a></li>
+<li><a href="#waskie-gardlo">Wąskim gardłem jest komponent, nie budynek</a></li>
+<li><a href="#kab-trzy-ogniwa">KAB — jeden produkt, trzy ogniwa</a></li>
+<li><a href="#trojkat-o-ludzi">Trójkąt konkurencji o ludzi</a></li>
+</ol>
+</li>
+<li><a href="#strumien-pod-obciazeniem">XIII. Strumień pod obciążeniem</a>
+<ol>
+<li><a href="#strumien-jest-realny">Strumień jest realny — liczby</a></li>
+<li><a href="#strumien-finansowany">Strumień finansowany, nie darmowy</a></li>
+<li><a href="#piechota">Piechota — deficyt, którego nie łata technologia</a></li>
+<li><a href="#energetyka-korekta">Energetyka — korekta własnej tezy</a></li>
+<li><a href="#asymetria-ograniczen">Asymetria ograniczeń</a></li>
+</ol>
+</li>
+<li><a href="#adaptacja">XIV. Czego Rosja nauczyła się dobrze</a>
+<ol>
+<li><a href="#flota-cieni">Flota cieni — od obejścia do instytucji</a></li>
+<li><a href="#budowa-pod-sankcjami">Nowy poziom: budowa mocy pod sankcjami</a></li>
+<li><a href="#sankcje-kinetyczne">Kontradaptacja: sankcje kinetyczne</a></li>
+<li><a href="#pozostale-adaptacje">Pozostałe adaptacje</a></li>
+<li><a href="#cena-adaptacji">Cena każdej adaptacji</a></li>
+<li><a href="#dlaczego-to-wzmacnia-teze">Dlaczego to wzmacnia tezę, a nie osłabia</a></li>
+</ol>
+</li>
+<li><a href="#bankowosc">XV. Bankowość — najkrótszy zapalnik</a>
+<ol>
+<li><a href="#formalnie-juz-kryzys">Formalnie kryzys już trwa</a></li>
+<li><a href="#maskowanie">Maskowanie przez restrukturyzację</a></li>
+<li><a href="#marketplace-przyspiesznik">Marketplace'y jako przyspiesznik</a></li>
+<li><a href="#ucieczka-gotowki">Ucieczka gotówki i niespłacalność</a></li>
+<li><a href="#dlaczego-najkrotszy">Dlaczego to najkrótszy zapalnik</a></li>
+</ol>
+</li>
+<li><a href="#zima">XVI. Zima 2026/27 — zbieg wektorów</a>
+<ol>
+<li><a href="#kalendarz-zbieznosci">Kalendarz zbieżności</a></li>
+<li><a href="#cieplownictwo">Ciepłownictwo — zużycie 70% przy budżecie ciętym 2,3 raza</a></li>
+<li><a href="#przyznanie-w-dokumencie">Przyznanie wpisane w dokument rządowy</a></li>
+<li><a href="#dlaczego-splot-mnozy">Dlaczego splot mnoży, a nie sumuje</a></li>
+<li><a href="#co-musialoby-pojsc-dobrze">Co musiałoby pójść dobrze</a></li>
+</ol>
+</li>
+<li><a href="#tryb-wojenny" class="toc-prev2">XVII. Tryb wojenny i cofnięcie się w czasie</a>
+<ol>
+<li><a href="#co-tryb-rozwiazuje" class="toc-prev2">Co tryb wojenny faktycznie rozwiązuje</a></li>
+<li><a href="#drzwi-zamkniete" class="toc-prev2">Drzwi zamknięto przed decyzją</a></li>
+<li><a href="#brak-lend-lease" class="toc-prev2">Czego nie ma: dostaw sojuszniczych</a></li>
+<li><a href="#trzy-warstwy-czasowe" class="toc-prev2">Trzy warstwy czasowe jednej gospodarki</a></li>
+<li><a href="#przymus-nowoczesny" class="toc-prev2">Przymus nowoczesny, produkcja archaiczna</a></li>
+</ol>
+</li>
+<li><a href="#inwentarz-opcji" class="toc-prev1">XVIII. Inwentarz opcji — co Rosji zostaje</a>
+<ol>
+<li><a href="#opcje-puste" class="toc-prev1">Opcje pozorne</a></li>
+<li><a href="#opcje-realne" class="toc-prev1">Opcje realne</a></li>
+<li><a href="#pieniadz-nie-jest-wiazaniem" class="toc-prev1">Pieniądz przestał być wiązaniem</a></li>
+</ol>
+</li>
+<li><a href="#co-jeszcze-splonie" class="toc-prev1">XIX. Co jeszcze może spłonąć</a></li>
+<li><a href="#granica-materii" class="toc-new">XX. Granica analizy materialnej</a>
+<ol>
+<li><a href="#zalozenie-jawne" class="toc-new">Założenie wypowiedziane wprost</a></li>
+<li><a href="#warunki-i-moment" class="toc-new">Materia daje warunki, sens daje moment</a></li>
+<li><a href="#asymetria-symboliczna" class="toc-new">Asymetria symboliczna</a></li>
+<li><a href="#cele-symboliczne" class="toc-new">Cele symboliczne — inna logika</a></li>
+<li><a href="#czego-ten-dokument-nie-mierzy" class="toc-new">Czego ten dokument nie mierzy</a></li>
+</ol>
+</li>
+</ul>
+<div class="toc-legenda">
+<span class="toc-new">żółte</span> dodane w tej edycji &nbsp;·&nbsp;
+<span class="toc-prev1">przygasłe</span> poprzednia edycja &nbsp;·&nbsp;
+<span class="toc-prev2">rdzawe</span> dwie edycje wstecz<br>
+bez podświetlenia — starsze, bez zmian w ostatnich trzech edycjach
+</div>
+</nav>
+
+<h2 id="skala-hurtu">I. Skala hurtu</h2>
+
+<p>Lipiec 2026 jest pierwszym miesiącem, w którym ukraińska kampania dalekiego zasięgu przestaje się opłacać opisywać uderzeniami. Nie dlatego, że uderzeń jest mniej — dlatego, że pojedyncze trafienie przestało być jednostką sensowną. Liczy się to, co zeszło z bilansu: ile przerobu, ile eksportu, ile regionów. To jest przejście z detalu na hurt.</p>
+
+<h3 id="przerob-dno-dwudziestolecia">1. Przerób — dno dwudziestolecia</h3>
+
+<p>Rosyjski przerób ropy spadł w lipcu 2026 do <strong>3,91 mln baryłek dziennie</strong> — najniżej od 21 lat, czyli od 2005 roku, i o ponad 1,4 mln baryłek dziennie poniżej średniej z roku poprzedniego (Energy Aspects za Bloombergiem). Czerwiec dał wynik zbliżony, 3,87 mln b/d, a cała pierwsza połowa roku wypada na poziomie około 4,8 mln b/d — o mniej więcej 450 tys. b/d poniżej ubiegłego roku i o 700 tys. poniżej normy dla tego okresu (Energy Intelligence).</p>
+
+<p>Po stronie mocy: <strong>ponad 3,1 mln b/d zdolności przerobowych stoi wyłączonych</strong>, bez wiadomego terminu powrotu. To znaczy, że z rosyjskiej floty rafineryjnej o łącznej mocy 6,6 mln b/d — trzeciej co do wielkości na świecie — od końca lutego wypadła blisko połowa. Sztab Generalny Sił Zbrojnych Ukrainy podaje własny rachunek: <strong>42,7% projektowanych mocy przerobowych wyłączonych</strong> na początek lipca, przy szacowanych stratach branży rzędu 13,5 mld dolarów liczonych od sierpnia 2025.</p>
+
+<p>Istotniejsza od samego procentu jest jego trwałość. Nawet gdyby uderzenia ustały natychmiast, około <strong>40% trafionych rafinerii nie wróci do pracy w ciągu najbliższych dwóch miesięcy</strong>. Nie ma tu mechanizmu odbicia: uszkodzone jednostki wtórne wymagają komponentów, których sankcje nie przepuszczają, a kolejka remontowa jest dłuższa niż tempo nowych trafień.</p>
+
+<h3 id="tempo-uderzen">2. Tempo uderzeń</h3>
+
+<p>W pierwszej połowie 2026 ukraińskie drony trafiły rosyjskie rafinerie co najmniej <strong>194 razy</strong> — jedenastokrotnie więcej niż w analogicznym okresie roku poprzedniego; rekordem miesięcznym był maj z szesnastoma skutecznymi atakami (Financial Times za Rochan Consulting). W ujęciu kumulatywnym, licząc od 24 lutego 2022: sto osiem trafień w infrastrukturę naftową po trzech latach wojny, dwieście czterdzieści sześć po czterech, i <strong>trzysta pięć</strong> do 25 czerwca 2026. Większość dorobku czterech lat przypada więc na ostatnie kilkanaście miesięcy.</p>
+
+<p>Lipiec dołożył do tego cele, których wcześniej albo nie ruszano, albo nie sięgano: <strong>Omsk</strong> — największa rafineria Rosji i główny producent benzyny, trafiona 6 lipca; <strong>Sławnieft-YANOS</strong> w obwodzie jarosławskim, jedna z pięciu największych, ok. 700 km od granicy; kompleks <strong>Ust-Ługa</strong> nad Bałtykiem; terminal naftowy w <strong>Kerczu</strong>; port i baza paliw w <strong>Taganrogu</strong> oraz skład w <strong>Azowie</strong> 10 lipca; tankowce i holownik na Morzu Czarnym i Azowskim 17 lipca; wreszcie 29 lipca <strong>Riazań</strong> (120 km od Moskwy) i <strong>Perm</strong> (ok. 1500 km na wschód od stolicy) w jednej nocy.</p>
+
+<h6 id="dygresja-o-lulu">o „przerwie", której nie było</h6>
+<p>Bloomberg opisał uderzenia z 29 lipca jako pierwsze na duże rafinerie „od blisko dwóch tygodni" — sugerując pauzę w kampanii. Wystarczy nałożyć kalendarze, żeby zobaczyć, że pauzy nie było żadnej. To dwutygodniowe okno to dokładnie czas kampanii przeciw magazynom Wildberries: start 18 lipca, potem codziennie, dziesięć uderzeń w jednym tygodniu, dziewięć hubów do 31 lipca. Równolegle biegły uderzenia w terminale, składy paliw i jednostki pływające.</p>
+<p>Nie było więc przerwy, było <strong>przesunięcie celu</strong> — z przerobu na logistykę handlową, przy niezmienionym albo rosnącym tempie. Nazwanie tego przerwą bierze się z patrzenia na kampanię przez jedną kategorię celów: kto liczy wyłącznie rafinerie, zobaczy ciszę tam, gdzie płonęły magazyny. To jest dokładnie ten błąd pomiaru, który cała ta sekcja opisuje — mierzenie hurtu narzędziami od detalu. <strong>Kampania nie robi przerw; zmienia klasę obiektu, a obserwator z wąskim licznikiem melduje spokój.</strong></p>
+
+<h3 id="zasieg-kryzysu">3. Zasięg kryzysu po stronie rosyjskiej</h3>
+
+<p>Na 2 lipca kryzys paliwowy obejmował <strong>78 z 83 uznanych międzynarodowo regionów Federacji Rosyjskiej</strong> plus okupowany Krym i Sewastopol — nietkniętych zostało pięć. W trzydziestu ośmiu regionach władze wprowadziły ograniczenia sprzedaży benzyny, w niektórych na poziomie pojedynczych miast, w innych całych obwodów. Trzy ogłosiły stan nadzwyczajny: obwód penzeński, obwód irkucki i Kraj Zabajkalski; Krym i Sewastopol zrobiły to wcześniej, 26 czerwca (Nowaja Gazieta Europa). Ograniczenia dotykają bezpośrednio około <strong>50 mln ludzi, mniej więcej 35% populacji</strong>.</p>
+
+<p>Reakcja regulacyjna układa się w drabinę, która sama datuje pogłębianie się deficytu: zakaz eksportu benzyny od kwietnia, paliwa lotniczego od 1 czerwca, <strong>diesla od 8 lipca</strong>. Równolegle import — z Indii, Kazachstanu i Białorusi — który przy krajowej konsumpcji rzędu 3 mln ton miesięcznie pozostaje plastrem, nie rozwiązaniem. Kraj będący trzecim producentem paliw kopalnych na świecie kupuje benzynę za granicą, 🐙, i wciąż mu jej brakuje.</p>
+
+<p>Dwa sygnały wychodzą poza rynek cywilny. Pierwszy: rosyjscy żołnierze opisują racjonowanie na froncie — limity rzędu 20 litrów na pojazd na dobę tam, gdzie wcześniej paliwo wydawano wedle potrzeb zadania (Wiorstka). To jest ten próg, który w poprzednich analizach był traktowany jako sygnał właściwy — niedowóz na front, nie pusta stacja w Moskwie. Drugi: Rosja zawiesiła cywilną żeglugę przez Kanał Don–Azow i Cieśninę Kerczeńską po skoncentrowanych atakach na tankowce i kotwicowiska — czyli sama zamknęła sobie drogę wodną, żeby ograniczyć straty.</p>
+
+<h3 id="co-znaczy-hurt">4. Co znaczy „hurt"</h3>
+
+<p>Przejście na hurt nie polega na tym, że uderzeń jest więcej. Polega na trzech zmianach jednocześnie. Po pierwsze, <strong>celem przestaje być obiekt, a staje się klasa obiektów</strong>: nie „rafineria w Riazaniu", lecz przerób jako taki; nie „terminal", lecz eksport morski wraz z jednostkami pływającymi i kotwicowiskami. Po drugie, <strong>miarą przestaje być zniszczenie, a staje się bilans</strong> — baryłki dziennie, procent mocy, liczba regionów na kartkach. Po trzecie, <strong>skutek przestaje być odwracalny w horyzoncie remontu</strong>: przy 40% trafionych zakładów niezdolnych do powrotu w dwa miesiące i przy tempie nowych uderzeń, kolejka napraw przestaje domykać się arytmetycznie.</p>
+
+<p>Rosyjska odpowiedź instytucjonalna potwierdza ten odczyt od drugiej strony. Deklaracja wicepremiera Nowaka z 28 lipca, że kryzys się stabilizuje, a rafinerie wracają do pracy, zderza się z własnymi danymi o przerobie na dnie dwudziestolecia i z zakazem eksportu diesla wprowadzonym trzy tygodnie wcześniej. Uspokajanie jest tu znacznikiem, nie informacją.</p>
+
+<p class="zrodla">Źródła sekcji: Energy Aspects / Bloomberg · Energy Intelligence · Sztab Generalny SZ Ukrainy · Financial Times / Rochan Consulting · Nowaja Gazieta Europa · Kyiv Post · Kyiv Independent · Moscow Times · Wiorstka · Exilenova+ · NASA FIRMS</p>
+
+<h2 id="marketplace-jako-cel">II. Marketplace jako cel</h2>
+
+<p>Od 18 lipca kampania otwiera front, którego wcześniej nie było: rosyjski handel internetowy. To nie jest poszerzenie listy celów o kolejną branżę — to zmiana klasy obiektu. Rafineria jest infrastrukturą przemysłową, magazyn marketplace'u jest węzłem gospodarki konsumenckiej, w którym zbiegają się logistyka, kredyt bankowy i drobna przedsiębiorczość kilkuset tysięcy sprzedawców. Trafienie w niego uderza w trzy rzeczy naraz.</p>
+
+<h3 id="kampania-wildberries">1. Kampania Wildberries</h3>
+
+<p>Wildberries to około połowa rosyjskiego rynku handlu internetowego, założony przez Tatianę Kim, dziś najbogatszą kobietę w Rosji. Kampania ruszyła <strong>18 lipca</strong> uderzeniami w Tambowie i Elektrostali pod Moskwą — i od tego dnia szła praktycznie codziennie. Bilans pierwszej soboty: <strong>ośmiu zabitych pracowników nocnej zmiany, ponad siedemdziesięciu rannych</strong>, straty szacowane przez rosyjskich analityków na <strong>do 100 mld rubli (ok. 1,3 mld USD)</strong> — jedno z najkosztowniejszych uderzeń w rosyjską infrastrukturę komercyjną od początku wojny.</p>
+
+<p>Dalszy przebieg: <strong>22 lipca</strong> — Krasnodar i Niewinnomyssk (Kraj Stawropolski), ośmioro rannych, zginęła kobieta przewieziona do szpitala; w Armawirze zginął pracownik od spadających szczątków; w Krasnodarze gasiło ponad stu strażaków i śmigłowiec. <strong>24 lipca</strong> — Nowosaratowka i Szuszary pod Petersburgiem, hub w Twerze, oraz magazyn w Symferopolu na okupowanym Krymie. <strong>25 lipca</strong> — Jekaterynburg, blisko 2000 km od linii frontu; spółka RWB przyznała atak, utrzymując, że sam magazyn nie ucierpiał, a obiekt przeszedł ewakuację i wstrzymał pracę. Do 31 lipca — <strong>dziewiąty hub</strong>, tym razem w Wołgogradzie, w jednej fali z tamtejszą rafinerią.</p>
+
+<p>Skala łączna: co najmniej kilkanaście magazynów od 18 lipca, dziesięć uderzeń w ciągu jednego tygodnia. Firma straciła <strong>ponad 9% powierzchni magazynowej w samym lipcu</strong> i zaczęła szukać powierzchni w Kazachstanie.</p>
+
+<h6 id="dygresja-ewakuacja">o ewakuacji, której nie było</h6>
+<p>Według relacji świadków zebranych przez Post i IStories część kierowników zatrzymywała ludzi w budynkach po uderzeniach, pracownicy ręcznie otwierali automatyczne bramy i wychodzili wąskimi wyjściami. Jeden z zatrudnionych podał, że zamiast ewakuacji przełożeni zebrali załogę, żeby oddała skanery kodów kreskowych. Osiem ofiar nocnej zmiany ma więc dwie przyczyny, i tylko jedna z nich nadleciała.</p>
+
+<h3 id="pierwszy-ozon">2. Pierwszy Ozon</h3>
+
+<p><strong>31 lipca</strong> — pierwsze uderzenie w obiekt drugiego gracza rynku. Cel: centrum logistyczne Ozona w Zielonodolsku w Tatarstanie. Firma podała, że ewakuacja zajęła kilka minut, obyło się bez ofiar, magazyn nie został uszkodzony i wrócił do pracy. Reuters zweryfikował nagranie z białym słupem dymu obok magazynu; inne, niezweryfikowane, pokazuje wybiegających pracowników i dron uderzający w ziemię w pewnej odległości.</p>
+
+<p>Ozon to trzeci rosyjski detalista pod względem obrotu w 2024: <strong>2,8 bln rubli (ok. 36,4 mld USD) GMV, 1,4 mld zamówień, 56,5 mln klientów, ponad 600 tys. sprzedawców</strong>. Uderzenie zostało zapowiedziane wprost — dowódca Sił Systemów Bezzałogowych Robert „Madziar" Browdi napisał wcześniej, że „poziom ozonu przekracza próg krytyczny". Dzień wcześniej sama spółka oficjalnie przyznała, że jej infrastruktura logistyczna jest zagrożona.</p>
+
+<h3 id="uzasadnienie-celu">3. Uzasadnienie celu</h3>
+
+<p>Zełenski uzasadnia uderzenia tym, że magazyny to <strong>centra logistyczne zaangażowane w zaopatrywanie armii rosyjskiej w komponenty dronów, sprzęt nawigacyjny i inne wyposażenie wojskowe</strong>, a zarazem odpowiedź na rosyjskie ataki na ukraińskie miasta. Kreml zaprzecza, by Wildberries obsługiwał dostawy wojskowe. Faktura po stronie faktów: sprzedawcy na platformie oferują sprzęt taktyczny, towary podwójnego zastosowania i części do dronów, a sama firma nie stosowała wyłączeń dla produktów wojskowych — jak ujął to Paweł Łuzin z CEPA, rosyjskie procedury formalne obejmują w zasadzie tylko zakupy uzbrojenia. Wymowne jest to, co Wildberries zrobił po uderzeniach: <strong>usunął tag produktowy „Wszystko dla SWO", którym oznaczonych było ponad 200 tys. towarów</strong>.</p>
+
+<p>Drugie uzasadnienie jest finansowe i pada z ust współzałożyciela Fire Point, Denysa Sztilermana (27 lipca): partnerstwo Wildberries z kontrolowanym przez państwo VTB czyni z firmy cel strategiczny, bo jako <strong>największy kredytobiorca w Rosji</strong> pociągnęłaby przy upadku kilka banków. To przesuwa sens uderzeń z logistyki wojskowej na system finansowy.</p>
+
+<h3 id="powod-nie-pretekst">4. Powód, nie pretekst — i przypieczętowanie przez UE</h3>
+
+<p>Różnica między powodem a pretekstem jest w tej wojnie różnicą kategorialną, nie stylistyczną. <strong>Pretekst</strong> fabrykuje się, żeby uzasadnić działanie już postanowione — jego związek z rzeczywistością jest przypadkowy, a jego funkcją jest osłona. <strong>Powód</strong> to realna właściwość celu, która czyni go celem; istnieje niezależnie od tego, kto po nią sięgnie, i można go zweryfikować. Rosja operuje wyłącznie pretekstami — od „ludobójstwa w Donbasie" po zapowiadane prowokacje na wschodniej flance. W przypadku magazynów marketplace'ów sytuacja jest odwrotna, i to jest sedno.</p>
+
+<p><strong>Powodu dostarczyli Rosjanie sami, na własnych stronach.</strong> Nie w tajnych dokumentach, nie w przechwyconej korespondencji — w publicznym katalogu produktów, gdzie funkcjonował tag „Wszystko dla SWO", którym oznaczonych było ponad dwieście tysięcy towarów. To jest samodokumentacja: platforma sama zadeklarowała, że obsługuje zaopatrzenie operacji wojskowej, i uczyniła z tego kategorię handlową. Do tego dochodzi to, czego nie było w tagu, a co ukraiński wywiad niemal na pewno miał w twardej postaci — wolumeny, trasy, konkretne komponenty dronów i sprzęt nawigacyjny idące przez tę logistykę. Publiczny tag był tylko tą częścią dowodu, którą każdy mógł sprawdzić sam.</p>
+
+<p>Najmocniejszym potwierdzeniem jest reakcja po uderzeniach: <strong>tag został usunięty</strong>. Usunięcie kategorii, która przez lata była elementem marketingu, jest przyznaniem się w formie czynności administracyjnej. Gdyby zarzut był pretekstem, nie byłoby czego kasować.</p>
+
+<h4 id="co-mogla-zrobic-ue">Co mogła zrobić Unia</h4>
+
+<p>Tu domyka się rzecz, która na pierwszy rzut oka zaskakuje: <strong>brak oburzenia w Europie na uderzenia w „cywilną" logistykę, a nawet ruch przeciwny — rozszerzenie sankcji na jednostki finansowe Ozona i Wildberries 24 lipca</strong>, sześć dni po rozpoczęciu kampanii. Wyjaśnienie nie wymaga zakładania sympatii ani koordynacji. Wystarczy policzyć dostępne opcje.</p>
+
+<p>Opcja pierwsza: <strong>potępić</strong>. Oznaczałoby to publiczne zakwestionowanie ukraińskiej oceny celu — a więc zaprzeczenie własnym danym wywiadowczym, bo zachodnie służby wiedzą o tej logistyce co najmniej tyle co ukraińskie, oraz przyjęcie rosyjskiej ramy „ataku na cywilów" w sytuacji, gdy strona rosyjska sama oznaczała towary jako wojskowe. Kosztowne i niespójne.</p>
+
+<p>Opcja druga: <strong>milczeć</strong>. Zostawia dwuznaczność, którą rosyjska propaganda zagospodarowałaby natychmiast, a sojusznikom nie daje żadnej wskazówki interpretacyjnej.</p>
+
+<p>Opcja trzecia: <strong>ratyfikować</strong> — czyli objąć te same podmioty własnymi środkami. To komunikat wypowiedziany w jedynym języku, jakim Unia mówi płynnie: skoro obejmujemy je sankcjami, uznajemy je za element rosyjskiego wysiłku wojennego. Nie trzeba oceniać uderzeń, żeby ich cel uznać za zasadny. Wybrano opcję trzecią.</p>
+
+<p>Sekwencja jest tu decydująca i wraca do tego, co opisano wyżej o kolejności zdolność–zapowiedź. <strong>Skutek był już dokonany, powód podany i możliwy do zweryfikowania przez każdego.</strong> Ukraina nie pytała o zgodę i nie potrzebowała jej — postawiła Unię wobec sytuacji, w której jedyną spójną reakcją było przypieczętowanie po własnej stronie. To nie jest wymuszenie ani manipulacja; to jest skutek wyboru celu, który wytrzymuje weryfikację. <span class="kw">Kto uderza w cel obroniony faktami, nie musi negocjować oceny — musi tylko poczekać, aż inni policzą swoje opcje.</span></p>
+
+<p>I szersze nawiązanie: w dokumentach zamrożonych logistyka wojskowa była wskazywana jako właściwa oś uderzeń — z uzasadnieniem, że cios strategiczny nie musi być masakrą. Lipiec pokazuje dojrzałą wersję tej zasady. Cel został wybrany tak, by spełniał trzy warunki naraz: <strong>materialnie należał do łańcucha zaopatrzenia, formalnie był udokumentowany przez samego przeciwnika, i politycznie nie dawał się obronić jako cywilny</strong>. Zweryfikowano nie tylko zasięg i trasę, ale też odporność uzasadnienia — a to jest ta sama dyscyplina, tylko zastosowana do warstwy prawno-politycznej zamiast technicznej.</p>
+
+<h3 id="efekt-finansowy">5. Efekt finansowy i przerzucenie ryzyka</h3>
+
+<p>Efekt bankowy pojawił się w dziesięć dni. Sbierbank podał, że od czasu ataków <strong>około 300 firm kredytobiorców wystąpiło o odroczenie lub zmianę warunków spłaty</strong>, i że może być zmuszony podnieść rezerwy na pokrycie niespłaconych kredytów. Rząd rozważa formy wsparcia dla Wildberries i sprzedawców platformy.</p>
+
+<p>Równolegle biegnie proces, który mówi o rosyjskiej gospodarce więcej niż same pożary: <strong>przerzucanie ryzyka wojennego na drobnych sprzedawców</strong>. Wildberries już 7 lipca — czyli przed kampanią — dopisał uderzenia dronów i rakiet do siły wyższej. Ozon zmienił regulamin, zapisując wprost, że nie kompensuje strat wywołanych działaniami wojennymi. Megamarket (Sbierbank) poszedł tą samą drogą, rozszerzając listę okoliczności siły wyższej o użycie broni, sprzętu wojskowego, dronów i amunicji, ostrzały i wybuchy. Yandex Market podobnie. Towar w magazynach należy w większości do indywidualnych przedsiębiorców — i to oni zostają ze stratą, dostając w zamian ofertę preferencyjnych kredytów zamiast odszkodowań.</p>
+
+<p>Domknięcie zewnętrzne: <strong>24 lipca Unia Europejska objęła sankcjami jednostki finansowe Ozona i Wildberries</strong>. Ozon odpowiedział, że jego spółka nie działa poza Rosją i nie ma aktywów zagranicznych.</p>
+
+<p class="zrodla">Źródła sekcji: Reuters · Al Jazeera · Moscow Times · Kyiv Independent · Ukrainska Prawda · NPR · United24 Media · Exilenova+ · Astra · Post / IStories · Mozem Objasnit · CEPA (Łuzin)</p>
+
+<h2 id="milczenie-strategiczne">III. Milczenie strategiczne Zachodu</h2>
+
+<p>Zachodni politycy sprawujący urząd komentują wojnę wyłącznie w trybie bieżącym: to uderzenie, ta rozmowa, ten pakiet sankcji. Nie mówią o tym, dokąd to zmierza — mimo że dysponują danymi wywiadowczymi lepszymi niż jakikolwiek analityk zewnętrzny, a więc wiedzą i myślą znacznie więcej, niż mówią. Ta luka nie jest przypadkiem ani ostrożnością retoryczną. Jest wymuszona strukturalnie, i da się ją rozłożyć na mechanizmy.</p>
+
+<h3 id="luka-miedzy-wiedza-a-mowa">1. Luka między wiedzą a mową</h3>
+
+<p>Najpierw trzeba zauważyć, że luka jest obserwowalna — to nie domysł. Zachodnie służby ostrzegają Polskę i państwa bałtyckie o konkretnych rosyjskich przygotowaniach do prowokacji, ostrzeżenia trafiają do prasy przez źródła, a nie z mównicy. Ambasador USA przy NATO chwali ukraiński program bezzałogowców w kategoriach czysto technicznych — „systemy bezzałogowe dają mniejszym siłom decydującą przewagę" — nie dotykając wniosku, który z tego płynie dla rosyjskiej zdolności prowadzenia wojny. Sankcje rozszerza się na jednostki finansowe rosyjskich marketplace'ów, co wymaga uprzedniej oceny, że handel internetowy jest węzłem finansowania wojny — ale oceny tej nikt nie wypowiada, ogłasza się listę podmiotów.</p>
+
+<p>Wzorzec jest stały: <strong>działanie zdradza analizę, której nie wypowiedziano</strong>. Decyzje polityczne wymagają założeń strategicznych — sankcje na konkretne ogniwo zakładają model, gdzie to ogniwo jest krytyczne. Model istnieje, jest używany, i nie jest komunikowany.</p>
+
+<h3 id="slowo-jako-zobowiazanie">2. Słowo urzędującego to zobowiązanie, nie opinia</h3>
+
+<p>Fundamentalna różnica między politykiem a analitykiem: analityk formułuje prognozę, polityk formułuje <strong>politykę</strong>. Zdanie „Rosja zmierza do załamania zdolności wojennej w perspektywie roku" w ustach analityka jest tezą do falsyfikacji. W ustach ministra jest deklaracją, z której natychmiast wynikają pytania operacyjne: skoro tak, to dlaczego nie zwiększacie dostaw? skoro tak, to po co negocjacje? skoro tak, to co z naszymi zobowiązaniami budżetowymi na obronę? Każda teza strategiczna wypowiedziana z urzędu staje się zobowiązaniem do działań, które z niej wynikają — i podstawą do rozliczenia, gdy działania nie nastąpią.</p>
+
+<p>Do tego dochodzi arytmetyka sojusznicza. Każde zdanie o kierunku wojny musi przejść przez uzgodnienie z trzydziestoma jeden partnerami o rozbieżnych interesach — od państw bałtyckich po Węgry. Wspólny mianownik tak szerokiej koalicji jest zawsze bieżący i techniczny, bo tylko w tym rejestrze da się osiągnąć zgodę. <strong>Strategiczna cisza nie jest wyborem jednego polityka, jest produktem uzgodnienia trzydziestu dwóch.</strong></p>
+
+<h3 id="pytanie-ktorego-nikt-nie-chce">3. Pytanie, którego nikt nie chce usłyszeć</h3>
+
+<p>To jest mechanizm najmocniejszy, i wprost łączy się z analizą z dokumentu zamrożonego. Powiedzenie na głos „rosyjskie państwo może się posypać" natychmiast rodzi pytanie: <strong>a co wtedy z arsenałem jądrowym?</strong> Kto go pilnuje, z kim się rozmawia, jaki jest plan na łańcuch dowodzenia w rozpadającym się mocarstwie. Żaden urzędujący polityk nie chce tego pytania, bo nie ma na nie dobrej odpowiedzi, a samo jego zadanie tworzy panikę i zobowiązanie do posiadania planu.</p>
+
+<p>Stąd asymetria, która wygląda jak niekonsekwencja, a jest spójna: Zachód <strong>działa</strong> na rzecz degradacji rosyjskiej zdolności wojennej, ale <strong>mówi</strong> wyłącznie o powstrzymaniu agresji. Bo pierwszy język zakłada koniec Rosji jako mocarstwa i wymusza planowanie na wypadek jej rozpadu, drugi mieści się w bezpiecznej ramie obrony status quo. Milczenie o rozpadzie nie jest brakiem analizy — jest odmową otwarcia teczki, której nikt nie chce nieść.</p>
+
+<h6 id="dygresja-cena-ropy">o cenie ropy</h6>
+<p>Jest jeszcze mechanizm prozaiczny: wypowiedzi zachodnich decydentów o rosyjskiej infrastrukturze naftowej poruszają rynkami. Zdanie ministra o trwałym wyłączeniu jednej trzeciej rosyjskiego przerobu ma cenę wyrażoną w dolarach za baryłkę — i w rachunkach za ogrzewanie u własnych wyborców. Analityk mówi za darmo, minister płaci za każde słowo w notowaniach.</p>
+
+<h3 id="koszt-pomylki">4. Asymetria kosztu pomyłki</h3>
+
+<p>Prognozy rozpadu Rosji mają długą i kompromitującą historię. Politycy o tym wiedzą, a ich kalkulacja ryzyka jest jednostronna: <strong>za milczenie nie ponosi się kosztu, za nietrafioną tezę strategiczną traci się wiarygodność na lata</strong>. Powiedzenie „Rosja słabnie strukturalnie" i doczekanie kolejnej rosyjskiej ofensywy jest końcem kariery; niepowiedzenie tego, gdy Rosja rzeczywiście słabnie, nie kosztuje nic, bo nikt nie rozlicza z niewypowiedzianych trafnych ocen.</p>
+
+<p>Kadencja dokłada swoje. Procesy, o których tu mowa — wyczerpanie mocy przerobowych, blokada elit, degradacja dowodzenia — mierzą się w latach. Cykl polityczny mierzy się w cyklu wyborczym. Teza o horyzoncie dłuższym niż kadencja jest z punktu widzenia urzędującego polityka czystym ryzykiem bez zwrotu: koszt spada na niego, ewentualna zasługa na następcę.</p>
+
+<h3 id="emeryci-mowia">5. Emeryci mówią — test kontrolny</h3>
+
+<p>Najlepszym dowodem, że luka jest strukturalna, a nie wynika z niewiedzy, jest porównanie tych samych ludzi w dwóch rolach. Byli szefowie sztabów, byli ministrowie obrony, byli szefowie wywiadów i emerytowani generałowie mówią o rosyjskim załamaniu, o pułapie eskalacji, o scenariuszach rozpadu — otwarcie, konkretnie i z liczbami. Ci sami ludzie, kiedy byli na etacie, mówili wyłącznie o bieżących wydarzeniach.</p>
+
+<p>Zmienia się jedno: <strong>nie wiedza, lecz zobowiązanie</strong>. Emerytowany generał nie musi mieć planu na wypadek własnej tezy. Urzędujący musi. To jest cała różnica i to jest miara luki — <em>odległość między tym, co mówi minister, a tym, co mówi jego poprzednik, jest dobrym przybliżeniem tego, ile minister przemilcza</em>.</p>
+
+<p>Metodologicznie oznacza to, że wypowiedzi urzędujących polityków trzeba czytać tak, jak czytamy rosyjską doktrynę eskalacji: <strong>przez absencję</strong>. Nie przez to, co powiedzieli, lecz przez różnicę między tym, co powiedzieli, a tym, co ich decyzje zakładają. Sankcje na finanse marketplace'ów, ostrzeżenia dla Polski przez wyciek, kwalifikowanie ukraińskich uderzeń jako „dalekosiężnych sankcji" bez komentarza o ich skutku systemowym — to wszystko są ślady modelu, który istnieje i nie jest wypowiadany.</p>
+
+<h3 id="media-tez">6. Media też — inny mechanizm, ten sam skutek</h3>
+
+<p>Powierzchowność nie jest wyłącznie przypadłością polityków. Agencje i dzienniki opisują tę wojnę w identycznie płytkim rejestrze, tylko z innego powodu. Polityk milczy, bo jego słowo jest zobowiązaniem. <strong>Media milczą, bo ich formatem jest zdarzenie, nie proces.</strong></p>
+
+<p>Serwis agencyjny odpowiada na pytanie „co się zmieniło od wczoraj". Depesza ma opisać zdarzenie, przypisać źródło, podać liczbę i skończyć się na trzeciej minucie czytania. Konsekwencja strategiczna nie jest zdarzeniem — nie ma dnia, w którym się wydarza, nie ma rzecznika, który ją ogłasza, i nie ma sposobu, by przypisać jej źródło zgodne ze standardem agencyjnym. Wypada więc poza format nie dlatego, że jest kontrowersyjna, lecz dlatego, że nie ma kształtu depeszy.</p>
+
+<p>Stąd charakterystyczny wzór relacji z kampanii paliwowej: <strong>przerób spadł do 3,91 mln baryłek dziennie, najniżej od dwudziestu jeden lat</strong> — liczba podana, źródło podane, porównanie podane, tekst skończony. Nie pada pytanie, co znaczy taki poziom przerobu dla państwa prowadzącego wojnę na pełną skalę; ani czy to jest odwracalne; ani co się dzieje, gdy trzecia gospodarka wydobywcza świata importuje benzynę. Codzienne portale przepisują depeszę, dokładają zdjęcie pożaru i zderzają ją z komentarzem strony rosyjskiej dla równowagi — po czym całość rozpływa się w strumieniu następnego dnia.</p>
+
+<p>Efekt netto jest ten sam, co przy politykach, choć droga inna: <strong>czytelnik dostaje ciąg pojedynczych zdarzeń bez wektora</strong>. Widzi trafienia, nie widzi kampanii; widzi liczby, nie widzi trajektorii. Do tego dochodzi presja symetrii — obowiązek zestawienia każdego twierdzenia z zaprzeczeniem strony przeciwnej sprawia, że rosyjskie „kryzys się stabilizuje" ląduje w tym samym akapicie co dane o dnie dwudziestolecia, wizualnie równoważąc rzecz zmierzoną z rzeczą zadeklarowaną.</p>
+
+<h3 id="blad-ramy-porownawczej">7. Błąd ramy porównawczej</h3>
+
+<p>Najgroźniejszy element tej powierzchowności jest subtelny, bo wygląda na rzetelność: <strong>porównanie historyczne</strong>. „Najniższy przerób od dwudziestu jeden lat", czyli od 2005 roku. Formalnie prawda, znaczeniowo — zafałszowanie, i to w stronę uspokajającą.</p>
+
+<p>Powód jest prosty: <strong>2005 nie jest porównywalną bazą</strong>. Tamta Rosja nie prowadziła wojny na pełną skalę, nie utrzymywała milionowej armii w polu, nie zużywała paliwa na skalę frontu, miała drożny eksport, sprawną logistykę kolejową i nie miała zakazów wywozu benzyny, diesla ani paliwa lotniczego. Ten sam wolumen przerobu obsługiwał wtedy zasadniczo mniejsze i spokojniejsze zapotrzebowanie. Dziś ta sama liczba musi pokryć popyt wojenny — a więc <strong>identyczny wynik oznacza radykalnie głębszy deficyt</strong>. Porównanie zestawia poziomy, przemilczając, że mianownik urósł.</p>
+
+<p>Druga wada tej ramy dotyczy kierunku. W 2005 przerób rzędu czterech milionów baryłek był <strong>punktem na krzywej rosnącej</strong> — moce budowano, zakłady modernizowano, inwestycje płynęły. Dziś jest punktem na krzywej opadającej, wywołanej fizycznym niszczeniem instalacji, przy zablokowanym dostępie do komponentów potrzebnych do naprawy. Ta sama wartość, przeciwny wektor, zupełnie inne konsekwencje. Porównanie poziomu bez kierunku to jak stwierdzenie, że temperatura chorego jest taka sama, jak była, gdy zdrowiał.</p>
+
+<p>Trzecia wada jest najpoważniejsza: <strong>porównanie historyczne sugeruje odwracalność</strong>. Skoro tak już było i świat się nie zawalił, to najwyraźniej da się to przeżyć. Tyle że wtedy był to stan przejściowy przy sprawnym przemyśle, a teraz jest wynikiem zniszczenia jednostek, których nie da się odbudować bez tego, czego sankcje nie przepuszczają — i przy zapowiedzi, że nawet bez nowych uderzeń dwie piąte trafionych zakładów nie wróci w ciągu dwóch miesięcy. To nie jest niski odczyt tej samej wielkości. To jest inna wielkość o tej samej nazwie.</p>
+
+<p>Uczciwa formuła brzmiałaby więc nie „najniżej od dwudziestu jeden lat", lecz: <strong>państwo prowadzące wojnę na pełną skalę utraciło blisko połowę zdolności przerobowych, wprowadziło zakazy eksportu wszystkich trzech głównych paliw, racjonuje benzynę w niemal wszystkich regionach i importuje paliwo od trzech sąsiadów, a jego wojsko limituje wydania na pojazd</strong>. Każdy element tego zdania jest udokumentowany osobno w depeszach — tylko nigdy nie stoją obok siebie. <span class="kw">Rozdzielone są prawdziwe; złożone byłyby tezą, a teza wymagałaby autora.</span></p>
+
+<h3 id="kto-moze-zobaczyc">8. Kto może zobaczyć, że król jest nagi</h3>
+
+<p>Zbierając trzy poprzednie mechanizmy razem, otrzymuje się wynik, który brzmi absurdalnie, a jest ścisły: <strong>rozpad kluczowych zdolności państwa rosyjskiego zachodzi jawnie, jest udokumentowany w setkach depesz, i praktycznie nikt nie mówi go w całości</strong>. Nie z powodu spisku ani cenzury. Z powodu trzech niezależnych filtrów, które przepuszczają fragmenty i zatrzymują sumę.</p>
+
+<p>Warunkiem powiedzenia „król jest nagi" są trzy rzeczy naraz, i prawie nikt nie ma wszystkich. <strong>Widzieć</strong> — czyli mieć dostęp do danych i metodę składania ich w całość. <strong>Móc powiedzieć</strong> — czyli nie mieć urzędu, kadencji, sojuszników do uzgodnienia ani planu, który trzeba by mieć po wypowiedzeniu tezy. <strong>Zostać usłyszanym</strong> — czyli mieć kanał, który nie wymaga sprowadzenia myśli do zdarzenia z dzisiaj.</p>
+
+<p>Instytucjonalni analitycy mają pierwsze, nie mają drugiego. Politycy mają pierwsze, nie mają drugiego w stopniu jeszcze ostrzejszym. Media mają trzecie, ale ich format kasuje pierwsze. Kasparow ma pierwsze i drugie, brakuje mu trzeciego — mówi od dwudziestu lat i jest odbierany jako pozycja, nie jako pomiar. <strong>Część wspólna wszystkich trzech warunków jest bliska pustej — i to, a nie niewiedza, jest odpowiedzią na pytanie, dlaczego nikt tego nie mówi.</strong></p>
+
+<p>Pozostaje jeszcze jeden warunek, rzadziej wymieniany: trzeba <strong>chcieć</strong> zobaczyć. Widzenie rozpadu wymaga porzucenia wygodnej przesłanki, że rzeczy toczą się dalej mniej więcej tak jak dotąd. Ludzie w instytucjach są do tej przesłanki przywiązani zawodowo, bo ich praca polega na zarządzaniu ciągłością. Dlatego przewagę mają ci, którzy patrzą <em>spoza</em> — bez kariery zależnej od trafności, bez obowiązku posiadania planu, i najlepiej z nawykiem liczenia tego, czego brakuje, zamiast tego, co jest. Odczyt przez absencję nie jest metodą wygodną ani powszechną, ale jest tą, która działa, gdy sygnałem jest luka.</p>
+
+<p class="zrodla">Źródła sekcji: wypowiedzi publiczne przedstawicieli USA i NATO (VII 2026) · komunikaty sankcyjne UE (24.07.2026) · doniesienia prasowe o ostrzeżeniach dla Polski (Onet, Telegraph, Guardian) · serwisy agencyjne i branżowe (VI–VII 2026) · analiza własna</p>
+
+<h2 id="budanow-zelenski">IV. Budanow i Zełenski — zmiana języka</h2>
+
+<p>Jeśli zachodni urzędujący politycy mówią mniej, niż wiedzą, to po stronie ukraińskiej dzieje się coś odwrotnego: przez ostatnie dwa lata język Budanowa i Zełenskiego przesunął się od ostrożnych warunków do konkretnych terminów i doktryny. Ta zmiana jest mierzalna i sama w sobie jest daną — mówi o tym, co obaj widzą w danych, których nie pokazują.</p>
+
+<h3 id="awans-ktory-jest-teza">1. Awans, który sam jest tezą</h3>
+
+<p>Pierwsza zmiana nie jest wypowiedzią, tylko stanowiskiem. Budanow nie jest już szefem HUR — od początku 2026 kieruje <strong>Biurem Prezydenta</strong>. Człowiek, który wie najwięcej o stanie przeciwnika, został przesunięty z pozycji zbierania informacji na pozycję zarządzania państwem i polityką. To jest ruch, który wykonuje się wtedy, gdy uznaje się, że kluczowe rozstrzygnięcia przenoszą się z wywiadu do decyzji — czyli że faza, w której trzeba było przede wszystkim rozumieć przeciwnika, przechodzi w fazę, w której trzeba rozegrać jego stan.</p>
+
+<h3 id="od-przetrwania-do-terminu">2. Od przetrwania do terminu</h3>
+
+<p>Chronologia wypowiedzi Budanowa układa się w wyraźną krzywą. Jesień 2023: Rosja ma zdolność gospodarczą i techniczną, by prowadzić wojnę <em>do 2025 albo 2026</em> — czyli mowa o wytrzymałości przeciwnika. Wrzesień 2024, konferencja YES: to Rosja ma swój termin — <em>„2025 to ich kluczowy rok, przełom 2025 i wczesnego 2026 jest dla nich decydujący"</em>, bo bez zwycięstwa do tego czasu tracą szansę na status supermocarstwa na trzydzieści lat. Luty 2025: to samo, z akcentem na rosyjską potrzebę przerwy. <strong>Czerwiec 2026</strong>: zapytany wprost przez Kyiv Independent, potwierdza, że zakończenie wojny <em>przed zimą 2026</em> jest realistycznym celem, a prezydent postawił zadanie zakończenia jej możliwie szybko.</p>
+
+<p>Zełenski przesuwa się równolegle. W maju 2026 formułuje to jako mechanizm, nie życzenie: <strong>w miarę jak Moskwa traci inicjatywę na froncie, a Kijów zwiększa uderzenia dalekiego zasięgu, okno na skuteczne rozmowy pozostaje otwarte do zimy</strong>. To jest zdanie o zależności — nie „chcemy pokoju", lecz „presja otwiera okno, a okno ma termin ważności". Wcześniej mówił o zdolnościach („nasi żołnierze sięgają teraz rosyjskiej logistyki wojskowej na praktycznie całej głębokości terytoriów okupowanych", piętnaście rafinerii trafionych); teraz mówi o skutku politycznym tych zdolności.</p>
+
+<h3 id="doktryna-maksymalizacji">3. Doktryna maksymalizacji eskalacji</h3>
+
+<p>Najważniejsza pojedyncza wypowiedź padła w lipcu 2026 w rozmowie z RBC-Ukraina i jest wyłożeniem doktryny wprost. Budanow: <strong>wiosną tempo negocjacji było dobre, teraz wszyscy weszliśmy w fazę eskalacji — a żeby z eskalacji wyjść, zwykle potrzebna jest jej maksymalizacja: eskalacja teraz, potem deeskalacja i dalszy ciąg dialogu</strong>. Do tego dokłada trzy rzeczy: żadnych ustępstw terytorialnych, konieczność dalszych sukcesów na polu walki dla utrzymania wsparcia USA, oraz ostrzeżenie, że Rosja technicznie wciąż może przeprowadzić kolejną falę mobilizacji, a jej dokumenty planistyczne przewidują gotowość do operacji poza Ukrainą na początek 2027 — z zastrzeżeniem, że gotowość nie oznacza podjętej decyzji.</p>
+
+<p>To nie jest komentarz do bieżących wydarzeń. To jest opis własnej strategii: <em>szczyt eskalacji jest drogą do rozmów, więc eskalujemy świadomie</em>. Zachodni polityk takiego zdania nie wypowie, bo natychmiast stałoby się zobowiązaniem i zarzutem. Ukraiński urzędnik wypowiada je, bo po jego stronie koszt milczenia jest wyższy niż koszt jasności — musi utrzymać wsparcie i uprzedzić własne społeczeństwo, że przed spokojem będzie gorzej.</p>
+
+<h3 id="doslownosc">4. Dosłowność jako narzędzie</h3>
+
+<p>Jest w ukraińskiej komunikacji cecha, która wygląda na naiwność, a jest przewagą: <strong>mówią dosłownie, co robią i co zrobią — a potem to robią</strong>. Nie w formie zawoalowanych sygnałów wymagających deszyfracji przez analityków, tylko wprost, po ludzku, z wyprzedzeniem.</p>
+
+<p>Katalog z ostatnich tygodni jest niemal komiczny w swojej jawności. Browdi pisze publicznie, że <strong>„poziom ozonu przekracza próg krytyczny"</strong> — sześć dni później płonie magazyn Ozona w Tatarstanie. Zełenski nazywa uderzenia w rafinerie <strong>„dalekosiężnymi sankcjami"</strong>, definiując tym samym doktrynę, i konsekwentnie ją realizuje. Budanow wykłada w wywiadzie, że <strong>wyjście z eskalacji wymaga jej maksymalizacji</strong> — i następuje maksymalizacja. Zełenski zapowiada wieczorem, że wywiad wskazuje na przygotowania rosyjskiego uderzenia — uderzenie przychodzi. Sztab Generalny podaje procent wyłączonych mocy przerobowych, po czym ten procent rośnie zgodnie z zapowiedzianym kierunkiem.</p>
+
+<p>A świat za każdym razem jest zaskoczony. Powód jest epistemicznie ciekawy: <strong>w dyplomacji i wywiadzie domyślnym założeniem jest, że komunikat jest grą</strong> — że deklaracja służy zmyleniu, wywarciu presji albo przygotowaniu gruntu pod coś innego niż to, co powiedziano. Cały aparat interpretacyjny jest zbudowany do szukania drugiego dna. Wobec rozmówcy, który drugiego dna nie ma, aparat ten produkuje błędne odczyty w sposób systematyczny — i to nie z głupoty, lecz z poprawnie działającego, tylko źle dopasowanego nawyku.</p>
+
+<p>Efekt jest taki, że <strong>dosłowność staje się najlepszym możliwym kamuflażem</strong>, nie przestając być prawdą. Można ogłosić cel z wyprzedzeniem i nadal osiągnąć zaskoczenie, bo odbiorca zużyje czas na ustalanie, co naprawdę miano na myśli. To jest przewaga, której nie da się skopiować przez stronę, która kłamie nawykowo: Rosja nie może użyć tej metody, bo jej deklaracje są z założenia nieinformacyjne — nikt nie potraktuje ich dosłownie, nawet gdy raz na jakiś czas są prawdziwe.</p>
+
+<p>Dodatkowa korzyść jest wewnętrzna. Mówienie wprost, co się zrobi, uprzedza własne społeczeństwo o kosztach — o tym, że przed spokojem będzie gorzej — i buduje wiarygodność wobec sojuszników, u których każda spełniona zapowiedź podnosi wartość następnej. <span class="kw">Kto mówi dosłownie i dotrzymuje, ten z czasem nie musi już niczego udowadniać.</span></p>
+
+<h3 id="rejestr-mnicha">5. Rejestr mnicha-wojownika</h3>
+
+<p>Zdanie Budanowa o zakończeniu wojny brzmi dla ucha przywykłego do polityki jak najczystsza nonszalancja: <em>prezydent postawił zadanie zakończenia wojny szybko — no to my ją kończymy</em>. Odbiór typowy to buta albo blef. Odbiór trafny jest inny i wymaga zauważenia, w jakim rejestrze ten człowiek w ogóle mówi.</p>
+
+<p>Budanow mieści się w archetypie <strong>mnicha-wojownika</strong>: dyscyplina wewnętrzna, funkcja ponad osobę, zadanie jako kategoria nadrzędna wobec wrażenia. Satysfakcja z tej wypowiedzi była u niego znikoma — to nie był moment triumfu, tylko meldunek o stanie wykonania. <strong>Pewność siebie ma zakotwiczoną w sobie, nie we wrażeniu, jakie robi</strong>, i to jest cała różnica: człowiek, który potrzebuje potwierdzenia z zewnątrz, buduje zdania pod odbiorcę; człowiek, który go nie potrzebuje, buduje zdania pod fakt.</p>
+
+<p>Odczytanie tego jako pychy jest błędem projekcji. Obserwator zakłada, że skoro zdanie brzmi mocno, to musiało być powiedziane <em>po to</em>, żeby zabrzmieć mocno. Tymczasem ono po prostu opisuje układ zależności: zwierzchnik postawił zadanie, aparat je wykonuje, mówiący relacjonuje etap. Brak ozdobników nie jest wyrazem lekceważenia, tylko brakiem warstwy, którą inni dokładają odruchowo.</p>
+
+<h4 id="ta-sama-warstwa">Ta sama brakująca warstwa</h4>
+
+<p>I tu trzy rzeczy okazują się jedną. Opisana wcześniej <strong>dosłowność</strong> — mówią, co zrobią, i robią — nie jest osobną taktyką komunikacyjną, lecz tym samym zjawiskiem widzianym z innej strony. W obu przypadkach brakuje warstwy zarządzania wrażeniem: nie ma drugiego dna, bo nie ma aparatu, który by je produkował, bo nie ma potrzeby, której ono służy.</p>
+
+<p>Do tego dochodzi element trzeci, najbardziej praktyczny: <strong>strona ukraińska zapowiada zwykle to, co uprzednio sprawdziła, że jest osiągalne</strong>. Zapowiedź nie jest obietnicą złożoną w nadziei, że się uda — jest meldunkiem o zweryfikowanej zdolności. Browdi pisze o progu krytycznym ozonu wtedy, gdy dystans, nawigacja i trasa są już policzone. Zełenski mówi o uderzeniach jako o sankcjach dalekiego zasięgu wtedy, gdy kampania działa i ma zaplecze produkcyjne. Budanow mówi o zimie jako granicy okna wtedy, gdy ma dane, które to okno wyznaczają.</p>
+
+<p>Kolejność jest więc odwrotna niż w polityce zachodniej i rosyjskiej. Tam <strong>zapowiedź poprzedza zdolność</strong> i ma ją wymusić, uwiarygodnić albo zastąpić. Tutaj <strong>zdolność poprzedza zapowiedź</strong>, a zapowiedź jest jej sprawozdaniem. Stąd bierze się jednocześnie skuteczność i pozorna nonszalancja: mówi się rzeczy trudne do uwierzenia spokojnym tonem, bo dla mówiącego są one już rozstrzygnięte, a nie postulowane.</p>
+
+<h4 id="gramatyka-budanowa">Nawiązanie: gramatyka Budanowa</h4>
+
+<p>To domyka odczyt zrobiony w dokumencie zamrożonym dwa miesiące wcześniej. Analiza jego kwietniowych wywiadów wykazała <strong>zmianę rejestru u człowieka, który kontroluje każde swoje słowo</strong>: zniknięcie słowa „zwycięstwo", zastąpienie go „jednością" i „decyzją", przeniesienie całego opisu zagrożenia z zewnętrznego (Rosja) na wewnętrzne (fragmentacja), oraz formuła o martwym starym porządku w czasie przeszłym dokonanym. Wniosek brzmiał wtedy: to ujawniona preferencja, nie deklaracja — <em>szef Biura Prezydenta alokuje uwagę na fazę po rozstrzygnięciu, nie na przetrwanie</em>.</p>
+
+<p>Lipcowa wypowiedź o kończeniu wojny jest tego samego rodzaju i potwierdza tamten odczyt. Nie jest zapowiedzią czegoś, co dopiero trzeba wywalczyć — jest zdaniem człowieka, który już przesunął uwagę na to, co po. <strong>Dlatego brzmi nonszalancko dla obserwatora, a dla mówiącego jest po prostu opisem bieżącego zadania.</strong> Ten sam brak warstwy performatywnej, ta sama kolejność zdolność–zapowiedź, ta sama satysfakcja bliska zeru, bo meldowanie zweryfikowanego faktu nie produkuje triumfu.</p>
+
+<h3 id="co-mowia-a-czego-nie">6. Co mówią, a czego nadal nie</h3>
+
+<p>Przy całej tej jawności obaj zatrzymują się w tym samym miejscu co Zachód. Mówią o <strong>zakończeniu aktywnej fazy wojny</strong>, o oknie negocjacyjnym, o utracie inicjatywy przez Rosję. Nie mówią o rozpadzie rosyjskiego państwa, o losie Putina ani o tym, co dzieje się z arsenałem, jeśli centrum przestaje kontrolować sytuację. Granica jest ta sama — kończy się tam, gdzie zaczyna się pytanie, na które nikt nie chce mieć planu.</p>
+
+<p>Zastrzeżenie kalibracyjne: Budanow ma udokumentowaną historię prognoz, które się nie sprawdziły, i sam Kyiv Independent to odnotowuje. Wartość jego wypowiedzi nie leży więc w trafności dat, lecz w <strong>kierunku i tempie zmiany języka</strong> — od „przeciwnik wytrzyma do 2026" do „możemy skończyć przed zimą" w dwa i pół roku, przy równoczesnym awansie na stanowisko decyzyjne.</p>
+
+<p class="zrodla">Źródła sekcji: RBC-Ukraina (VII 2026) · Kyiv Independent (VI 2026, II 2025) · Kyiv Post (YES 2024, VII 2026) · Ukrinform · LIGA.net · UBN</p>
+
+<h2 id="kasparow">V. Kasparow — stała odniesienia</h2>
+
+<p>Trzeci głos jest inny od dwóch poprzednich, bo nie zmienia się wcale. Kasparow mówi to samo od dwudziestu lat, i właśnie ta niezmienność czyni go użytecznym punktem odniesienia: nie jest wskaźnikiem sytuacji, jest wzorcem, wobec którego mierzy się przesunięcie innych.</p>
+
+<h3 id="dwadziescia-lat-tej-samej-tezy">1. Dwadzieścia lat tej samej tezy</h3>
+
+<p>Warszawa, 2014: Kasparow nazywa system rosyjski <strong>dyktaturą jednego człowieka</strong>, porównuje go do Hitlera i ostrzega, że jeśli Zachód nie zatrzyma Putina teraz, cena wzrośnie. Marzec 2022: broni zdania Bidena, że Putin „nie może pozostać u władzy", uznając jego wycofanie za błąd. Styczeń 2025: bez rozstrzygającej klęski militarnej nie będzie zmiany w Rosji. Luty 2026: NATO zabraknie odwagi, jeśli Putin uderzy w państwa bałtyckie; artykuł 5 jest w praktyce fikcją.</p>
+
+<p>Lipiec 2026, Politico i TVP World — te same tezy, tylko z bieżącym datownikiem: <strong>„Putin zawsze eskalował, gdy czuł się w tarapatach… najbardziej naturalną eskalacją jest prowokacja"</strong>; rosnąca presja czyni eskalację bardziej prawdopodobną niż kompromis; każde porozumienie krótsze niż rosyjska porażka da Moskwie tylko czas na regenerację; jedynym sposobem zakończenia wojny jest koniec reżimu Putina, bo <em>w chwili, gdy Putin przegrywa wojnę, upada on sam</em>. Przewidywana forma eskalacji: ograniczone wejście na terytorium państwa wschodniej flanki — Łotwa, Estonia — jako test woli sojuszu, po wrześniowych wyborach parlamentarnych w Rosji. Kasparow odrzuca argument, że Rosji brakuje zasobów na otwarcie kolejnego frontu.</p>
+
+<h3 id="trzy-rzeczy-ktorych-nikt-nie-mowi">2. Trzy rzeczy, których nie mówi nikt inny</h3>
+
+<p>Sama niezmienność tezy nie czyniłaby jeszcze Kasparowa użytecznym. Czyni go nim to, że mówi trzy rzeczy, których nie wypowie ani zachodni urzędujący polityk, ani ukraiński decydent — i każda z nich leży dokładnie za granicą, przed którą tamci się zatrzymują.</p>
+
+<h4 id="teza-rozpadnie-sie">Po pierwsze: Rosja się rozpadnie</h4>
+<p>Nie „osłabnie", nie „straci inicjatywę", nie „usiądzie do stołu" — rozpadnie się jako konstrukcja imperialna. Kasparow mówi to wprost i od dawna, łącznie z konsekwencjami terytorialnymi, i nie traktuje tego jako scenariusza skrajnego, lecz jako naturalne domknięcie procesu, w którym reżim i państwo zostały ze sobą zrośnięte. To jest teza, której zachodni minister nie postawi, bo natychmiast musiałby mieć plan; której Budanow nie postawi, bo mówi o zakończeniu aktywnej fazy wojny, nie o losie sąsiada.</p>
+
+<h4 id="teza-powinna-sie-rozpasc">Po drugie: Rosja <em>powinna</em> się rozpaść</h4>
+<p>To jest przejście od prognozy do sądu wartościującego i tu Kasparow jest zupełnie sam. Argument ma trzy nogi. <strong>Moralna</strong>: w dwudziestym pierwszym wieku barbarzyństwo tej skali — celowe bombardowanie miast, deportacje dzieci, tortury jako polityka — nie może zostać nagrodzone zachowaniem sprawcy w niezmienionej formie; każde porozumienie krótsze niż porażka Rosji jest, jak to ujmuje, ustępstwem tchórzliwym i skorumpowanym. <strong>Strategiczna</strong>: struktura, która regularnie produkuje agresję, będzie ją produkować dalej, więc rozejm bez zmiany struktury jest tylko przerwą na regenerację. <strong>Geopolityczna</strong>: imperium, które utrzymuje się przez podbój sąsiadów, jest źródłem stałej niestabilności, a nie jej hamulcem.</p>
+
+<h4 id="teza-chiny-zyskuja">Po trzecie: na tej wojnie zarabiają Chiny, i właściwie nikt inny</h4>
+<p>Kasparow konsekwentnie wskazuje, że jedynym realnym beneficjentem jest Pekin — dostaje tanie surowce, uzależnionego wasala, zajętego rywala i poligon obserwacyjny; ostrzega też przed wchłonięciem Rosji przez Chiny jako realnym wariantem przyszłości. To jest teza niewygodna dla wszystkich naraz: dla zwolenników szybkiego porozumienia, bo pokazuje, kto zbiera zyski z przeciągania; dla przeciwników rozpadu Rosji, bo odwraca argument — to nie rozpad wpycha Rosję w chińskie ręce, lecz przeciągana wojna.</p>
+
+<h4 id="teza-nic-strasznego">I wniosek, który wynika z trzech powyższych: to nic strasznego</h4>
+<p>Najbardziej wywrotowa część, bo uderza w sam mechanizm milczenia opisany wcześniej. Zachodnie milczenie o rozpadzie opiera się na założeniu, że rozpad Rosji jest katastrofą, której trzeba unikać za każdą cenę — stąd potrzeba „kogoś, z kim się rozmawia", stąd lęk o arsenał. Kasparow to założenie odrzuca: rozpad imperium nie jest końcem świata, jest zdarzeniem, które w historii zachodziło wielokrotnie i bywało przeżywalne, a koszty utrzymywania przy życiu struktury agresywnej są rozłożone na dekady i płacone przez sąsiadów. <strong>Jeśli ta teza jest trafna, to całe zachodnie milczenie strategiczne opiera się na przesłance, której nikt nie sprawdził — bo nikt nie chciał jej wypowiedzieć na tyle głośno, żeby dało się ją sprawdzić.</strong></p>
+
+<h3 id="dlaczego-teraz-brzmi-inaczej">3. Dlaczego teraz brzmi inaczej</h3>
+
+<p>Przez dwadzieścia lat te same zdania funkcjonowały jako pozycja dysydencka — moralnie zrozumiała, analitycznie traktowana jako przesadzona. Zmieniło się nie to, co mówi Kasparow, lecz <strong>to, co pokazują dane</strong>: pułap eskalacji konwencjonalnej zmierzony jednym blokiem mieszkalnym, przerób paliw na dnie dwudziestolecia, ostrzeżenia zachodnich służb przed prowokacją na wschodniej flance, rosyjskie dokumenty planistyczne z gotowością na początek 2027 wskazywane przez Budanowa.</p>
+
+<p>Innymi słowy: teza pozostała stała, a rzeczywistość przesunęła się w jej stronę. To jest dokładnie odwrotność sytuacji, w której analityk dopasowuje model do zdarzeń. I to jest powód, dla którego Kasparow jest tu przydatny — <strong>jako niezależna, nieporuszona linia bazowa, wobec której widać, jak daleko przesunęli się wszyscy inni</strong>.</p>
+
+<h3 id="trzy-glosy-jeden-model">4. Trzy głosy, jeden model</h3>
+
+<p>Zestawienie trzech poprzednich sekcji daje układ, w którym każdy głos mówi z innego miejsca, a wszystkie trzy opisują ten sam mechanizm.</p>
+
+<p><strong>Zachodni urzędujący</strong> — wiedzą dużo, mówią o bieżącym, milczą o strukturze, bo słowo jest zobowiązaniem. <strong>Ukraińscy decydenci</strong> — mówią o terminach i doktrynie eskalacji, bo muszą utrzymać wsparcie i przygotować własne społeczeństwo, ale zatrzymują się przed pytaniem o rozpad. <strong>Kasparow</strong> — nie mając urzędu, nie mając nic do stracenia i nie musząc mieć planu na własną tezę, mówi część, którą tamci dwaj przemilczają: że wojna kończy się wraz z reżimem, że eskalacja jest odpowiedzią na kłopoty, a nie sygnałem siły, i że celem następnego kroku może być terytorium NATO.</p>
+
+<p>Rozkład tych trzech głosów układa się dokładnie wzdłuż <strong>zobowiązania, a nie wzdłuż wiedzy</strong>. Im mniej ktoś odpowiada za konsekwencje własnego zdania, tym pełniej mówi. To jest ta sama zasada, którą opisano w sekcji o milczeniu strategicznym — tu widoczna na trzech punktach zamiast jednego.</p>
+
+<p class="zrodla">Źródła sekcji: Politico (15.07.2026) · TVP World · EUobserver · RBC-Ukraina (II 2026) · Kyiv Independent (I 2025) · AP/Fox (Warszawa 2014) · Newsweek (III 2022)</p>
+
+<h2 id="geneza-hurtu">VI. Jak niewinnie zaczął się hurt</h2>
+
+<p>Kampania, która w lipcu przeszła na hurt, nie zaczęła się od decyzji o zmianie doktryny. Zaczęła się jako odpowiedź — faktyczna i wizerunkowa — na kolejny barbarzyński rosyjski atak. I to jest najciekawsza rzecz w całym miesiącu: <strong>przejście na hurt było reakcją, nie planem, a mimo to okazało się trwałe</strong>.</p>
+
+<h3 id="drabina-zaczela-sie-wczesniej">1. Drabina zaczęła się wcześniej</h3>
+
+<p>Lipiec jest momentem, w którym drabina stała się widoczna dla wszystkich — ale nie jest jej początkiem. Zdolności, których użyto w lipcu, budowano latami: Flamingo od pierwszego potwierdzonego trafienia w lutym 2026 do produkcji liczonej w sztukach dziennie, park dronów dalekiego zasięgu rozbudowywany do skali, w której marzec 2026 jest pierwszym miesiącem, gdy Ukraina wystrzeliwuje w Rosję więcej dronów, niż Rosja w Ukrainę. Takich zdolności nie improwizuje się w odpowiedzi na pojedynczy atak.</p>
+
+<p>Sensowna data początku to <strong>wybór Trumpa</strong>. Od tego momentu ukraińskie planowanie musiało założyć, że amerykańskie wsparcie przestaje być stałą, a staje się zmienną zależną od bieżącej kalkulacji politycznej w Waszyngtonie. Z tego wynika jedna konkluzja operacyjna: <strong>trzeba zbudować zdolność, która działa niezależnie od decyzji sojusznika</strong> — produkowaną w kraju, tanią, skalowalną, niewymagającą zgody na użycie. Kampania dalekiego zasięgu jest dokładnie taką zdolnością, a jej architektura — własne drony i pociski zamiast przekazanych systemów zachodnich — jest odpowiedzią na to jedno ryzyko.</p>
+
+<p>Co do kierunku wpływu tego wyboru na tempo — sprawa jest otwarta i warto ją trzymać jako otwartą. <strong>Wariant przyspieszenia</strong>: świadomość, że okno wsparcia może się zamknąć, każe zużyć czas na budowę własnej dźwigni i użyć jej, póki front jest stabilny. <strong>Wariant spowolnienia</strong>: konieczność liczenia się z Waszyngtonem powstrzymuje przed uderzeniami, które mogłyby zostać odczytane jako sabotowanie amerykańskich wysiłków pokojowych — a więc odsuwa start drabiny o miesiące. Obie interpretacje pasują do obserwacji; różnicuje je tylko to, czy uznamy, że w 2025 Ukraina mogła już uderzać na skalę z lipca 2026, a się wstrzymywała.</p>
+
+<h3 id="dwa-motory">2. Dwa motory w jednym kierunku</h3>
+
+<p>To, co wydarzyło się w lipcu, było <strong>decyzją ukraińską</strong> — nie reakcją odruchową i nie skutkiem cudzej presji. I napędzały ją dwa motory pracujące zgodnie, co jest rzadkie i dlatego skuteczne.</p>
+
+<p><strong>Motor pierwszy, strategiczny</strong>: kalkulacja, że presja materialna otwiera okno negocjacyjne, że okno ma termin ważności przed zimą, że wyjście z eskalacji wymaga jej maksymalizacji, i że sukcesy na polu walki są warunkiem utrzymania wsparcia sojusznika, na którego nie można już liczyć bezwarunkowo. Cała ta kalkulacja została wypowiedziana publicznie przez Budanowa i Zełenskiego, i opisano ją w poprzedniej sekcji.</p>
+
+<p><strong>Motor drugi, etyczny</strong>: odpowiedź na barbarzyństwo. Po trzydziestu jeden zabitych w Kijowie 2 lipca i dwudziestu sześciu cztery dni później nie było możliwe nie odpowiedzieć — ani wobec własnego społeczeństwa, ani wobec elementarnego poczucia proporcji. To nie jest ornament dopisany do strategii; to niezależne źródło nacisku, które w innych okolicznościach mogłoby pchać w przeciwną stronę niż kalkulacja.</p>
+
+<p>Tutaj oba pchały w tę samą. Odpowiedź na zbrodnię była jednocześnie ruchem, który maksymalizuje presję ekonomiczną i finansową — magazyn marketplace'u zaspokaja potrzebę odwetu i uderza w kredytowy nerw systemu bankowego w jednym uderzeniu. <strong>Gdy motor moralny i motor strategiczny wskazują ten sam cel, decyzja jest szybka, a jej wykonanie konsekwentne</strong>, bo nie trzeba niczego przehandlowywać między racjami. To wyjaśnia zarówno tempo, w jakim kampania ruszyła, jak i to, że nie została wygaszona po pierwszej odpowiedzi rosyjskiej.</p>
+
+<h3 id="drabina-lipcowa">3. Drabina lipcowa, dzień po dniu</h3>
+
+<p><strong>2 lipca</strong> — masowy rosyjski atak na Kijów, <strong>31 zabitych, ponad stu rannych</strong>; jeden z najkrwawszych ataków na stolicę. <strong>6 lipca</strong>, cztery dni później — powtórka: rakiety manewrujące i balistyczne, Cyrkony i Onyksy użyte przeciw celom naziemnym, trafione budynki mieszkalne w Kijowie i obwodzie, <strong>co najmniej 26 zabitych</strong>. Zełenski poprzedza to ostrzeżeniem, że wywiad wskazuje na przygotowania kolejnego masowego uderzenia, i komentuje wybór momentu: zaraz po amerykańskim Dniu Niepodległości, przed szczytem NATO.</p>
+
+<p>Odpowiedź materialna idzie w energetykę — <strong>6 lipca</strong> Omsk, największa rafineria Rosji, i YANOS w obwodzie jarosławskim. Ale to jest kontynuacja kampanii już trwającej. Nowość przychodzi dwanaście dni później: <strong>18 lipca</strong> — pierwsze uderzenia w magazyny Wildberries, Tambow i Elektrostal. I od tego dnia codziennie.</p>
+
+<p>Rosyjska odpowiedź na odpowiedź przychodzi bez zwłoki. <strong>24 lipca</strong> — rakieta balistyczna trafia w Kijowie wystawę uzbrojenia: <strong>co najmniej dziesięciu zabitych, ponad stu rannych</strong>, wielu z nich przedstawiciele ukraińskiego przemysłu obronnego. <strong>25–26 lipca</strong> — kolejne uderzenia balistyczne w Kijów, szczątki na osiemnastopiętrowym bloku, siedem rakiet balistycznych i 136 dronów w jednej nocy. <strong>30 lipca</strong> — Lwów i inne miasta, <strong>co najmniej dziesięcioro zabitych cywilów, w tym dzieci</strong>, ponad pięćdziesięcioro rannych, a jedna z rakiet przekracza granicę Polski i NATO poderwało myśliwce.</p>
+
+<p>Ukraińska strona nie przerywa. 31 lipca — dziewiąty hub Wildberries w Wołgogradzie, pierwszy Ozon w Tatarstanie, rafineria w Wołgogradzie, wszystko w jednej fali.</p>
+
+<h3 id="odpowiedz-podwojna">4. Odpowiedź podwójna — realna i wizerunkowa</h3>
+
+<p>Uderzenie w magazyny marketplace'ów odpowiada na dwie potrzeby naraz, i dlatego zostało wybrane. <strong>Realna</strong>: to węzeł logistyczny, przez który idą komponenty dronów i sprzęt podwójnego zastosowania, a zarazem punkt zapalny dla systemu bankowego przez ekspozycję kredytową największego kredytobiorcy w kraju. <strong>Wizerunkowa</strong>: to cel, który po rosyjskim uderzeniu w cywilny Kijów daje własnemu społeczeństwu widoczną odpowiedź, nie będąc symetrycznym odwetem na cywilach.</p>
+
+<p>To rozróżnienie jest kluczowe i wraca tu z opracowania zamrożonego: cios ukraiński pozostaje strategiczny bez bycia masakrą. Płonący magazyn w Elektrostali jest obrazem, który działa w kraju, gdzie właśnie pochowano trzydziestu jeden ludzi z Kijowa — a jednocześnie uderza w logistykę i w bank, nie w blok mieszkalny. Ofiary po stronie rosyjskiej były (ośmioro pracowników nocnej zmiany), ale wynikały z uderzenia w obiekt przemysłowy pracujący na trzy zmiany, nie z wyboru celu cywilnego.</p>
+
+<h3 id="pewnosc-nastepnego-kroku">5. Pewność następnego kroku</h3>
+
+<p>Najmocniejszy element całej sekwencji: <strong>Ukraina była pewna, że Rosja odpowie eskalacją na eskalację</strong>. Nie liczyła na to, że jej odpowiedź zakończy wymianę — wiedziała, że wywoła kolejny cios, po którym przyjdzie kolejna odpowiedź. To nie jest domysł, to doktryna wyłożona publicznie przez Budanowa w tym samym miesiącu: <em>żeby wyjść z eskalacji, potrzebna jest jej maksymalizacja</em>.</p>
+
+<p>Konsekwencja jest taka, że każdy szczebel drabiny był z góry policzony jako wstęp do następnego. Ukraina eskalowała <strong>wiedząc</strong>, że koszt przyjdzie w postaci kolejnych rosyjskich uderzeń w miasta — i uznając ten koszt za wliczony w cenę dojścia do szczytu, po którym możliwa jest deeskalacja. Rosja odpowiadała za każdym razem, potwierdzając przewidywanie. Obie strony grały w tę samą grę, ale tylko jedna z nich miała ją opisaną jako model.</p>
+
+<p>Tu domyka się też pomiar z pierwszej sekcji: rosyjskie odpowiedzi <strong>nie rosły</strong>. Trzydziestu jeden zabitych 2 lipca, dwudziestu sześciu 6 lipca, dziesięcioro 24 lipca, dziesięcioro 30 lipca. Doktryna eskalacji dominującej wymagałaby krzywej rosnącej — dostajemy krzywą płaską schodzącą, przy równocześnie rosnącej skali ukraińskich uderzeń. Drabina, po której wchodzą obie strony, ma po jednej stronie kolejne szczeble, a po drugiej sufit.</p>
+
+<h3 id="przypadkowa-trwalosc">6. Przypadkowa trwałość</h3>
+
+<p>I tu jest rzecz, której nikt nie planował. Odpowiedź wizerunkowa na atak z początku lipca miała działać przez kilka dni. Zamiast tego <strong>odsłoniła klasę celów, która okazała się jednocześnie łatwa do trafienia i kosztowna dla przeciwnika</strong> — wielkie, nieopancerzone, palne obiekty, których nie da się bronić, a których zniszczenie uruchamia kaskadę: straty towaru drobnych sprzedawców, wnioski o odroczenie kredytów w Sbierbanku, konieczność podniesienia rezerw bankowych, przepisanie regulaminów przerzucających ryzyko na przedsiębiorców, sankcje UE na jednostki finansowe.</p>
+
+<p>Kampania, która zaczęła się jako odpowiedź, została utrzymana, bo policzono jej skutek. To jest ten sam mechanizm, który opisano w zamrożonym opracowaniu jako zdejmowanie powściągliwości: zasób jest odnawialny, więc jednorazowy gest nic nie kosztuje w kategoriach magazynowych — a jeśli okaże się skuteczny, staje się kampanią. <strong>Hurt wyglądał na odruch, bo taki był jego wyzwalacz — ale narzędzie było gotowe wcześniej, a decyzja o jego użyciu strategiczna. Utrzymano go, ponieważ pierwsza próba wypadła lepiej, niż zakładano.</strong></p>
+
+<p class="zrodla">Źródła sekcji: Kyiv Independent (02.07, 06.07, 24.07, 26.07) · Reuters (29–31.07) · NPR (30.07) · RBC-Ukraina (Budanow, VII 2026) · Moscow Times · Al Jazeera · Exilenova+</p>
+
+<h2 id="inwersja-historyczna">VII. Inwersja historyczna</h2>
+
+<p>Jest w tej wojnie ironia tak duża, że łatwo ją przeoczyć właśnie z powodu rozmiaru. Rosja przez trzy stulecia wygrywała wojny w znacznej mierze ludźmi i zasobami z ziem, które dziś atakuje. Zaatakowała własne zaplecze siłowe — i musi je teraz zwalczać samodzielnie, czego nigdy wcześniej nie robiła.</p>
+
+<h3 id="czym-rosja-wygrywala">1. Czym Rosja wygrywała wojny</h3>
+
+<p>Kozacy zaporoscy i dońscy byli przez stulecia jednostkami uderzeniowymi i rozpoznawczymi imperium — w wojnach z Turcją, w kampaniach kaukaskich, w wojnie napoleońskiej, gdzie kozacka jazda ścigała Wielką Armię od Moskwy po Berezynę. To nie był margines, to była zdolność, której armia regularna nie miała.</p>
+
+<p>W dwudziestym wieku ta zależność stała się jeszcze głębsza i przesunęła się z ludzi na przemysł. Ukraina była <strong>przemysłowym sercem Związku Radzieckiego</strong>: węgiel Donbasu, ruda z Krzywego Rogu, huty, zakłady maszynowe, a przede wszystkim Charków, gdzie zaprojektowano czołg, który wygrał wojnę na wschodzie. Do tego zaplecze ludzkie — Ukraińcy stanowili ogromną część Armii Czerwonej, dostarczyli jej marszałków i generałów, a późniejsza radziecka wierchuszka wyrosła w dużej mierze z klanu dniepropietrowskiego. Rakiety, silniki lotnicze, turbiny okrętowe — wszystko to jeszcze w 2014 roku produkowano na Ukrainie dla rosyjskiej armii.</p>
+
+<p>Innymi słowy: <strong>gdy Rosja wygrywała, robiła to w znacznym stopniu ukraińskimi rękami, ukraińskim przemysłem i ukraińską ziemią</strong>. Imperium było konstrukcją, w której rdzeń dostarczał władzy i doktryny, a peryferie — mięsa, stali i inżynierów.</p>
+
+<h3 id="amputacja">2. Amputacja własnego mięśnia</h3>
+
+<p>W 2014 Rosja zaatakowała to zaplecze, a w 2022 rzuciła się na nie całą siłą. Skutki są dokładnie takie, jakich należałoby oczekiwać po amputacji własnego mięśnia. Straciła dostawy komponentów, których nie umiała zastąpić — silników do śmigłowców, turbin okrętowych, części rakietowych. Straciła zaplecze ludzkie, i to podwójnie: nie tylko przestała je mieć po swojej stronie, ale musi je teraz zwalczać. Straciła przemysł, który przez dekady budowała jako własny.</p>
+
+<p>I najważniejsze, bo strukturalne: <strong>musi tę wojnę prowadzić sama</strong>. Nie ma kozackiej jazdy, nie ma ukraińskich dywizji, nie ma charkowskich fabryk. Zostaje własna, rosyjska masa — i to ona ponosi koszt, którego wcześniej nie ponosiła. Stąd Koreańczycy w okopach i irańskie drony: <em>zaplecze siłowe, które kiedyś było w środku imperium, trzeba dziś importować z drugiego końca świata</em>. To jest miara amputacji wyrażona logistycznie.</p>
+
+<h3 id="co-z-tego-wynika">3. Co z tego wynika dla tej wojny</h3>
+
+<p>Ta inwersja tłumaczy trzy rzeczy, które inaczej wyglądają na przypadek. <strong>Po pierwsze</strong>, dlaczego rosyjska armia okazała się gorsza, niż zakładano: część zdolności, które przypisywano „rosyjskiej armii", była w rzeczywistości zdolnościami imperium jako całości, a imperium właśnie odcięło sobie jego produktywną część. <strong>Po drugie</strong>, dlaczego Ukraina umie to, co umie: kompetencje przemysłowe i inżynierskie nie zniknęły, tylko zmieniły stronę — kraj, który projektował czołgi i rakiety dla Moskwy, projektuje teraz drony i pociski przeciw niej. <strong>Po trzecie</strong>, dlaczego rosyjskie uderzenia w ukraiński przemysł obronny są tak zajadłe: to nie jest atak na obcy potencjał, to próba dobicia potencjału, który sama Rosja zbudowała i utraciła.</p>
+
+<p>I domknięcie, które wraca do reszty tego dokumentu: państwo, które przez trzysta lat wygrywało cudzymi siłami, próbuje teraz wygrać własnymi — i właśnie mierzy, ile ich naprawdę ma. <strong>Odpowiedź brzmi: jeden blok mieszkalny po pięciu ciosach, przerób na dnie dwudziestolecia i limit dwudziestu litrów na pojazd.</strong> Bez peryferii, które nosiły ciężar, rdzeń okazuje się mniejszy, niż sam sądził — a rachunek za trzy stulecia korzystania z cudzego mięśnia przychodzi w jednym pokoleniu.</p>
+
+<p class="zrodla">Źródła sekcji: opracowania historii wojskowości imperium rosyjskiego i ZSRR · dane o przemyśle obronnym Ukraińskiej SRR · analiza własna</p>
+
+<h2 id="prognoza-dogania">VIII. Prognoza dogania rzeczywistość</h2>
+
+<p>Jest w tym miesiącu satysfakcja, na którą trzeba sobie pozwolić, zachowując przy tym dyscyplinę: <strong>scenariusz, który w marcu 2026 był tu jednym z czterech i miał dwadzieścia pięć procent, w lipcu 2026 pojawia się w wypowiedziach ludzi, którzy decydują — jako wariant możliwy</strong>. Nie jako pewnik. Ale wcześniej nie występował w publicznym obiegu w ogóle.</p>
+
+<h3 id="co-napisano-w-marcu">1. Co napisano w marcu</h3>
+
+<p>Kolumbryna, zamknięta 31 marca 2026, po wewnętrznym steelmanningu podała rozkład czterech scenariuszy w wersji liczbowej.</p>
+
+<div class="cytat">
+<p>Scenariusz bazowy — XI 2027, confidence ~40%. Przyspieszony — XI 2026, confidence ~25%. Później — powyżej 2027, confidence ~25%. Zamrożenie — dirty freeze, confidence ~10%.</p>
+<p>Putin nie może kontynuować (zasoby się kończą) i nie może zakończyć (pokój wywołuje własny kryzys). To nie dylemat — to szachmat.</p>
+<p class="zrodlo-cytatu">Kolumbryna v3.5, Rozdział 10 „Jest już za późno", 31 marca 2026</p>
+</div>
+
+<p>Do tego doszedł model sezonowości, który wskazywał konkretne okno: jesień i wczesna zima jako historyczny okres największego ryzyka systemowego w Rosji — rachunki za ogrzewanie, zbiory, zamknięcie nawigacji rzecznej, krótkie dni. Rewolucja październikowa, pucz sierpniowy 1991, kryzys 1998 — wszystkie w tym oknie. Wniosek marcowy: <strong>jesień 2026 do listopada 2027 to okno największego ryzyka</strong>, nie dlatego, że ktoś zaplanuje kryzys, lecz dlatego, że sezonowość nakłada się na kumulację procesów erozyjnych.</p>
+
+<h3 id="co-dopisano-w-czerwcu">2. Co dopisano w czerwcu</h3>
+
+<p>Audyt z 23 czerwca nie podważył rozkładu, tylko dołożył dane, których marzec mieć nie mógł — i przesunął ciężar ku wcześniejszemu krańcowi.</p>
+
+<div class="cytat">
+<p>Decydująca jest zbieżność trzech niezależnych zegarów. Pierwszy: prognoza estońskiego wywiadu — pozycja Rosji znacząco słabsza w cztery–pięć miesięcy, czyli horyzont wrzesień–październik 2026. Drugi: ostrzeżenia systemowej rosyjskiej opozycji o jesieni 2026. Trzeci: operacyjny powrót szczytu konsumpcji paliwa latem, nakładający się na zdegradowaną zdolność przerobu. Wszystkie trzy wskazują jesień 2026 — czyli dolny kraniec Kolumbrynowego przedziału „przyspieszony". Trzy zegary, trzy różne metody, jedno okno.</p>
+<p>Gdyby rozkład Kolumbryny rewidować dziś, scenariusz „przyspieszony do XI 2026" zasługiwałby na wartość wyższą niż wyjściowe 25%.</p>
+<p class="zrodlo-cytatu">„gradually stało się suddenly", sekcja „Zbieżność zegarów — rewizja prognozy", 23 czerwca 2026</p>
+</div>
+
+<p>Czwarty zegar był jakościowo inny, bo wewnętrzny wobec ukraińskiego aparatu: zmiana rejestru u Budanowa — zniknięcie słowa „zwycięstwo", przeniesienie opisu zagrożenia z zewnętrznego na wewnętrzne, formuła o martwym starym porządku w czasie przeszłym dokonanym. Odczytano to wtedy jako ujawnioną preferencję: <strong>szef Biura Prezydenta alokuje uwagę na fazę po rozstrzygnięciu, nie na przetrwanie</strong>.</p>
+
+<h3 id="co-mowia-teraz">3. Co mówią teraz Zełenski i Budanow</h3>
+
+<p>Miesiąc później to, co było wnioskiem z odczytu rejestru, jest wypowiadane wprost. Budanow zapytany o zakończenie wojny przed zimą 2026 potwierdza, że to cel realistyczny i że prezydent postawił zadanie zakończenia jej możliwie szybko. Zełenski formułuje mechanizm: w miarę jak Moskwa traci inicjatywę, a Kijów zwiększa uderzenia dalekiego zasięgu, okno na skuteczne rozmowy pozostaje otwarte <strong>do zimy</strong>. Budanow dokłada doktrynę — wyjście z eskalacji wymaga jej maksymalizacji — i wskazuje rosyjskie dokumenty planistyczne z gotowością na początek 2027.</p>
+
+<p>Zbieżność dat jest uderzająca. Marzec: okno ryzyka otwiera się jesienią 2026. Czerwiec: trzy zegary wskazują wrzesień–październik 2026. Lipiec: dwaj ludzie z najlepszym dostępem do danych mówią publicznie o <strong>zimie 2026</strong> jako granicy okna. Cztery niezależne drogi — model sezonowy, wywiad estoński, rosyjska opozycja systemowa i ukraińskie kierownictwo — schodzą się na tej samej jesieni.</p>
+
+<h3 id="czego-nie-bylo-w-obiegu">4. Czego wcześniej w obiegu nie było</h3>
+
+<p>I tu jest właściwa treść tej satysfakcji. Nie w tym, że data się zgadza — bo jeszcze się nie zgodziła, wrzesień dopiero przyjdzie. Rzecz w tym, że <strong>ta kategoria scenariusza w ogóle weszła do obiegu</strong>.</p>
+
+<p>Jeszcze wiosną 2026 wypowiedzi zachodnich polityków i analizy dużych mediów operowały wyłącznie w ramie „wojna na wyczerpanie o nieokreślonym końcu" albo „negocjacje wymuszone zmęczeniem". Możliwość, że rosyjska zdolność prowadzenia wojny załamie się w konkretnym, bliskim oknie, nie była rozpatrywana — nie była odrzucana jako mało prawdopodobna, po prostu nie występowała jako pozycja na liście. Dziś występuje: nie u zachodnich urzędujących, którzy nadal milczą z powodów opisanych wcześniej, ale u tych, którzy mają najlepsze dane i jednocześnie mogą mówić.</p>
+
+<p>To jest przesunięcie <strong>przestrzeni dopuszczalnych myśli</strong>, nie przesunięcie faktów. Fakty szły w tę stronę od dawna — dokumenty zamrożone opisują je miesiąc po miesiącu. Zmieniło się to, że przestały być czytane wyłącznie jako trudności przeciwnika, a zaczęły jako możliwa trajektoria.</p>
+
+<h3 id="dyscyplina">5. Dyscyplina — mapa, nie GPS</h3>
+
+<p>Kolumbryna nałożyła na siebie zastrzeżenie, które obowiązuje tym bardziej teraz, gdy prognoza wygląda na trafioną.</p>
+
+<div class="cytat">
+<p>Niniejsza analiza — nawet w wersji zrewidowanej — jest mapą terenu, nie GPS-em. Pokazuje krajobraz zagrożeń, identyfikuje wzajemne powiązania, wskazuje kierunki. Ale konkretne daty powinny być traktowane jako hipotezy robocze, poddawane kwartalnej rewizji.</p>
+<p>Ryzyko przedwczesnego optymizmu jest realne — ale równie realne jest ryzyko przedwczesnego pesymizmu wobec analiz, które okazują się trafne. Fakt, że wcześniejsze prognozy rozpadu były przedwczesne, nie oznacza, że obecna jest błędna.</p>
+<p class="zrodlo-cytatu">Kolumbryna v3.5, Rozdział 23 i zastrzeżenie metodologiczne, 31 marca 2026</p>
+</div>
+
+<p>Trzy rzeczy trzeba więc trzymać osobno. <strong>Pierwsza</strong>: zbieżność czterech niezależnych zegarów na jednym oknie jest argumentem mocnym, ale nie dowodem — zwłaszcza że każdy z nich ma własny interes w takim, a nie innym obrazie. <strong>Druga</strong>: Budanow ma udokumentowaną historię prognoz, które się nie sprawdziły, więc wartość jego wypowiedzi leży w kierunku zmiany języka, nie w trafności dat. <strong>Trzecia</strong>: „początek upadku" to nie to samo co „upadek" — nawet trafione okno oznacza tylko, że proces staje się widoczny, a nie że się kończy; sam rozkład przewidywał formy od ostrego kryzysu po zombifikację trwającą latami.</p>
+
+<p>Właściwa miara tej satysfakcji jest więc skromniejsza i mocniejsza zarazem niż „miałem rację co do daty". Brzmi tak: <strong>marcowa mapa okazała się dobrą mapą — teren wygląda tak, jak zapowiadała, a ludzie z najlepszym dostępem do danych zaczęli mówić językiem, który wtedy jeszcze nie istniał w obiegu.</strong> Data pozostaje hipotezą roboczą. Struktura się broni.</p>
+
+<p class="zrodla">Źródła sekcji: Kolumbryna v3.5 (31.03.2026, Rozdziały 9, 10, 23) · „gradually stało się suddenly" (23.06.2026, Zbieżność zegarów) · RBC-Ukraina (VII 2026) · Kyiv Independent (VI 2026) · wywiad estoński (raport roczny 2026)</p>
+
+<h2 id="zapasc">IX. Zapaść w czasie teraźniejszym ciągłym</h2>
+
+<p>Jest taki czas gramatyczny, którego polszczyzna nie ma, a który opisywałby stan Rosji najdokładniej: <strong>coś dzieje się teraz, w toku, i jednocześnie jest już rozstrzygnięte co do wyniku</strong>. Zapaść trwa — nie nastąpiła, nie skończyła się, postępuje z miesiąca na miesiąc. A zarazem cztery poniższe wskaźniki mają tę własność, że ich odwrócenie wymagałoby czegoś, czego nie ma i nie będzie w dostępnym horyzoncie. Dzieje się w czasie ciągłym, dokonało się w przyszłym.</p>
+
+<h3 id="budzet">1. Budżet — oficjalna dziura i paradoks naftowy</h3>
+
+<p>Liczby są rosyjskie, nie ukraińskie ani zachodnie — pochodzą z Ministerstwa Finansów. <strong>Deficyt federalny za pierwsze półrocze 2026 wyniósł 5,731 bln rubli, czyli 2,5% PKB — 1,7 raza więcej niż w tym samym okresie rok wcześniej</strong>. Plan na cały rok zakładał 3,786 bln i 1,6% PKB. Innymi słowy: w sześć miesięcy przekroczono roczny plan o połowę.</p>
+
+<p>Struktura tego przekroczenia jest ważniejsza niż sama kwota. Po stronie przychodów: <strong>wpływy z ropy i gazu spadły w okresie styczeń–kwiecień o 38,3%</strong>, a w samym styczniu o połowę, do pięcioletniego minimum. Po stronie wydatków: wzrost o 16,1% rok do roku. Ministerstwo tłumaczy to „przyspieszonym finansowaniem wydatków na początku roku" — wyjaśnienie, które działa raz, w styczniu, a nie przez sześć kolejnych miesięcy.</p>
+
+<p>Dwa fakty domykają obraz. <strong>Rządowy portal budżetowy przewiduje wydatki na poziomie 45,11 bln zamiast zapisanych w ustawie 44,07 bln</strong> — czyli deficyt 4,83 zamiast 3,79 bln. I drugi, mówiący więcej niż wszystkie pozostałe: <strong>osiągnięcie zerowego deficytu pierwotnego, wymagane przez własną regułę fiskalną, przesunięto na 2029 rok</strong>. Reguła nie została zniesiona — została odłożona poza horyzont planowania.</p>
+
+<h4 id="paradoks-naftowy">Paradoks naftowy — spadek wpływów przy rekordowych cenach</h4>
+
+<p>Tu jest miejsce, w którym liczba przestaje być zła i staje się alarmująca. Spadek wpływów z ropy i gazu o 38,3% nastąpił <strong>nie w okresie taniej ropy, lecz podczas największego skoku cen od dekady</strong>. Wojna na Bliskim Wschodzie i zamknięcie cieśniny Ormuz wyrwały z rynku około jednej piątej globalnej podaży: Brent poszedł z około 72 dolarów pod koniec lutego do blisko 120 w szczycie, a sam marzec przyniósł wzrost o 51% — jeden z największych miesięcznych skoków w historii notowań.</p>
+
+<p>Rosja była tego pozornie głównym beneficjentem. <strong>Urals osiągnął na początku kwietnia 116,05 dolarów za baryłkę — najwyżej od 2013 roku</strong>; dyskonto wobec Brentu zwęziło się do najniższego poziomu od grudnia, a w niektóre marcowe dni Urals notowano <em>powyżej</em> Brentu. Ropę sprzedawano do Indii z <strong>premią około 6,1 dolara ponad Brent</strong>. Budżet federalny zakłada tymczasem cenę odniesienia 59 dolarów — czyli przez wiele tygodni Rosja sprzedawała surowiec dwukrotnie drożej, niż potrzebuje.</p>
+
+<p><strong>I mimo to wpływy naftowo-gazowe spadły o 38,3%.</strong> To jest odczyt przez absencję w najczystszej postaci: nie pytamy, co się stało, tylko co <em>powinno</em> było się stać. Przy takim skoku cen wpływy powinny wzrosnąć nawet przy istotnie mniejszym wolumenie — bo mniejszy wolumen razy dwukrotnie wyższa cena daje więcej, nie mniej. Zamiast tego dostajemy spadek o blisko dwie piąte. <strong>Luka między tym, co powinno było wpłynąć, a tym, co wpłynęło, jest miarą stopnia rozbicia rosyjskiej maszyny eksportowej.</strong></p>
+
+<p>Przyczyna jest znana i wskazywana wprost przez analityków: <strong>ograniczona zdolność eksportowa wskutek uderzeń dronowych w infrastrukturę portową</strong> — same Ust-Ługa i Primorsk odpowiadają za około 40% rosyjskich mocy eksportowych ropy. Do tego dochodzi zniszczony przerób (nie ma czym przetworzyć), zakazy eksportu produktów naftowych (nie wolno sprzedać tego, co przetworzone) i zawieszona żegluga na Azowie i w Cieśninie Kerczeńskiej. Rosja miała towar i miała cenę — <span class="kw">nie miała czym i którędy dowieźć.</span></p>
+
+<p>Domknięcie przyszło w lipcu i jest okrutne w swojej symetrii. Po porozumieniu w sprawie przywrócenia żeglugi przez Ormuz ceny wróciły do punktu wyjścia: <strong>Urals w pierwszych dniach lipca średnio 41,66 dolara — dokładnie tyle co przed wojną bliskowschodnią, i o jedną trzecią poniżej budżetowego założenia 59 dolarów</strong>. Prezent, którego Rosja nie potrafiła spieniężyć, został cofnięty. Zdążyła za jego pomocą uzupełnić fundusz rezerwowy pierwszy raz od blisko roku i odroczyć cięcia wydatków — i to wszystko.</p>
+
+<p>Wniosek jest ostrzejszy niż sama statystyka deficytu. <strong>Rosja przeszła przez najkorzystniejszy układ cen od dekady i wyszła z niego z wpływami niższymi o dwie piąte oraz z deficytem półrocznym przekraczającym roczny plan.</strong> Jeśli w takich warunkach budżet się nie domyka, to nie domknie się już w żadnych — bo lepszych nie będzie.</p>
+
+<h3 id="zbiory">2. Zbiory — paliwo zjada plon, a technologia zjada resztę</h3>
+
+<p>Tu widać sprzężenie, o którym mowa w pierwszej sekcji: kampania paliwowa przestaje być sprawą stacji benzynowych, a staje się sprawą chleba. Mechanizm jest brutalnie prosty. Po dojrzeniu zboża jest <strong>siedem do dziesięciu dni</strong> na zbiór; potem ziarno zaczyna się osypywać, a deszcz uniemożliwia wjazd kombajnów. Kombajn spala <strong>do 300 litrów na zmianę</strong>, a stacje wprowadziły limity 100–200 litrów na osobę.</p>
+
+<p>Efekt jest mierzalny i dramatyczny. <strong>Na 1 lipca omłócono w Rosji 1,3–1,5 mln hektarów wobec 4,2–4,6 mln rok wcześniej — trzy razy mniej</strong>, co stanowi 3% planowanego areału. Rezerwy diesla u rolników starczają na czternaście dni prac polowych, resztę trzeba dokupować na rynku spot po zawyżonych cenach, przy czym paliwo to około 20% kosztów produkcji zboża. W Rostowie szacują potencjalne straty z tytułu przekroczenia terminów agrotechnicznych na około <strong>15% plonu</strong>. Rostów, Kraj Krasnodarski i Stawropolski to razem jedna piąta rosyjskich zbiorów zbóż — i to tam deficyt jest najostrzejszy; rolnicy nocują na stacjach, czekając na cysterny.</p>
+
+<p>Na to nakłada się kurczenie areału, zaszłe jeszcze przed żniwami: <strong>zasiewy jare mniejsze o 11,3%, ozime o 7,4%</strong> rok do roku, a powierzchnia pszenicy najmniejsza od dwunastu lat — obszar pszenicy jarej najmniejszy od dekad. SovEcon obciął prognozę zbioru zbóż i strączkowych do 135,2 mln ton wobec 141,2 mln w 2025, pszenicy do 88,9 mln ton. Wicepremier Patruszew publicznie zaprzeczył istnieniu problemów systemowych — nie podając żadnych liczb.</p>
+
+<h4 id="degradacja-technologiczna">Degradacja technologiczna pod spodem</h4>
+
+<p>Paliwo jest warstwą wierzchnią. Pod nią leży coś trwalszego, a rosyjscy specjaliści branżowi mówią o tym otwarcie. Prezes Rosyjskiego Związku Zbożowego ujmuje to wprost: <strong>za każdym razem, gdy na rynku robi się źle, wszyscy powołują się na pogodę</strong> — a właściwym problemem jest ostry regres technologiczny. Rolnicy pracują na starzejącym się sprzęcie, ograniczyli nawożenie i środki ochrony roślin oraz <strong>przeszli na tańsze nasiona gorszej jakości</strong>.</p>
+
+<p>Skutek jest sprzężeniem, nie sumą: rośliny uprawiane „technologiami uproszczonymi" są <strong>mniej odporne na ekstremalne warunki pogodowe</strong>. Czyli gorsze nasiona i brak nawozów nie tylko obniżają plon w dobrym roku, ale zwielokrotniają straty w złym. Branża wpadła w błędne koło opisane przez samych analityków: niska rentowność tnie inwestycje, mniejsze inwestycje obniżają efektywność, niższa efektywność dobija rentowność.</p>
+
+<p>Nawozy są tu przypadkiem szczególnie ironicznym. Rosja jest największym eksporterem światowym i wywozi około 90% produkcji, ale krajowi producenci są <strong>zablokowani obowiązkami dostaw wewnętrznych</strong>, nowe moce eksportowe nie ruszą przed 2027, a ewentualne zyski nadzwyczajne natychmiast przyciągają uwagę rządu szukającego wpływów budżetowych. Do tego dochodzi element z sekcji o przemyśle: <strong>zakłady azotowe trafiane jako producenci materiałów wybuchowych są jednocześnie producentami nawozów</strong> — jedno uderzenie tnie dwie gałęzie.</p>
+
+<h4 id="pogoda-i-plynnosc">Pogoda i pułapka płynności</h4>
+
+<p>Warstwa pogodowa dokłada swoje i wygląda jak zestaw plag: w części regionów <strong>nie padało od kwietnia do października</strong>, wcześniej majowe przymrozki dotknęły mniej więcej jednej trzeciej użytków rolnych i kosztowały około 10% zbioru letniego, a teraz do susz doszły deszcze grożące uniemożliwieniem wjazdu kombajnów w wąskim oknie żniwnym.</p>
+
+<p>Najlepiej jednak mechanizm oddaje wypowiedź rosyjskiej rolniczki: <em>wszystko stoi — jęczmień stoi, pszenica stoi</em>, a pieniądze potrzebne są natychmiast, bo <strong>trzeba sprzedać zbiór, żeby kupić paliwo i nawozy</strong>. To jest pułapka domknięta: nie ma paliwa, więc nie ma zbioru; nie ma zbioru, więc nie ma pieniędzy; nie ma pieniędzy, więc nie ma paliwa ani nawozów na następny sezon. Inwestycje w maszyny wstrzymano. Do tego rolnictwo traci około <strong>150 tysięcy pracowników rocznie</strong> — do miast, do przemysłu zbrojeniowego i na front.</p>
+
+<p>Konsekwencje eksportowe są wymierne: wywóz pszenicy oszacowano na 44 mln ton w sezonie 2025/26, o <strong>20% poniżej rekordu z 2023/24</strong>, a przy utrzymaniu zakłóceń żeglugi na Morzu Azowskim Rosja może wyeksportować <strong>o pięć do dziesięciu milionów ton mniej, niż zakładano</strong>. Dla największego eksportera pszenicy świata to jednocześnie utrata przychodu budżetowego i utrata narzędzia wpływu politycznego.</p>
+
+<h4 id="wies-i-miasto">Wieś się wyżywi, miasta niekoniecznie</h4>
+
+<p>Rzecz, która odróżnia kryzys żywnościowy od kryzysu rolnego. <strong>Rosyjska wieś ma bufor, którego nie ma miasto</strong>: działki przyzagrodowe, gospodarka nieformalna, wymiana bezgotówkowa, umiejętność przetrwania poza rynkiem. Zapaść rolnictwa towarowego uderza w nią przez dochód, nie przez talerz.</p>
+
+<p>Miasta bufora nie mają, a dwa z nich mają znaczenie ustrojowe. <strong>Legitymacja reżimu mieszka w Moskwie i Petersburgu</strong> — i to tam braki, ceny oraz kolejki przekładają się na politykę, a nie w regionach, które od dawna radzą sobie same. Historia jest w tej sprawie jednoznaczna: rok 1917 zaczął się od kolejek po chleb w stolicy, a nie od nieurodzaju na prowincji; rozpad 1991 przebiegał przez puste półki w miastach.</p>
+
+<p>Stąd praktyczny wniosek analityczny: <strong>właściwym wskaźnikiem nie jest wielkość zbioru, lecz cena i dostępność żywności w dwóch miastach</strong>. Zbiór może spaść o kilkanaście procent bez konsekwencji politycznych; kolejka w Moskwie ma je natychmiast. <span class="kw">Rosja nie zagłodzi się przy plonie 135 milionów ton — ale może stracić spokój w dwóch miejscach, w których ten spokój jest jej potrzebny.</span></p>
+
+<h3 id="zloto">3. Złoto — wyprzedaż stulecia</h3>
+
+<p>Sprzedaż złota jest wskaźnikiem szczególnym, bo bank centralny sięga po nie dopiero wtedy, gdy tańsze opcje są wyczerpane. <strong>Od początku 2026 roku Bank Rosji sprzedał 43,5 tony złota — 1,4 mln uncji</strong> — żeby domknąć budżet. Skala jest bezprecedensowa: <strong>największa wyprzedaż od co najmniej ćwierćwiecza, czyli za cały okres objęty statystyką World Gold Council</strong>; porównywalną przeprowadzono tylko raz, w 2002 roku.</p>
+
+<p>Tempo rośnie zamiast maleć. Kwiecień 2026 przyniósł redukcję o 200 tys. uncji — najgłębszy spadek miesięczny od ponad dwóch dekad. W czerwcu odeszło kolejne 300 tys. uncji, czyli 9,33 tony. <strong>Rezerwy są na najniższym poziomie od lutego 2022</strong> — czyli od miesiąca inwazji i pierwszych sankcji.</p>
+
+<p>Tło jest jeszcze wymowniejsze: zapasy złota w Funduszu Dobrobytu Narodowego spadły o 71% między majem 2022 a styczniem 2025, z 554,9 do 160,2 tony. Fundusz miał być poduszką na wstrząsy; został wydany na bieżące łatanie. <span class="kw">Sprzedaż złota nie jest polityką finansową — jest ostatnią rzeczą, którą robi się przed pożyczaniem drogo albo drukowaniem.</span></p>
+
+<h3 id="kolej">4. Kolej — piąty rok spadku i degradacja pod spodem</h3>
+
+<p>Koleje Rosyjskie przewożą <strong>87% rosyjskiego frachtu poza rurociągami</strong> — węgiel, metale, materiały budowlane, zboże — i są zarazem główną arterią zaopatrzenia armii. Dlatego ich dane są najlepszym dostępnym termometrem gospodarki cywilnej, odpornym na retusz statystyki PKB. Są też danymi rosyjskimi, publikowanymi comiesięcznie przez samą spółkę.</p>
+
+<p>Rzecz pierwsza i najważniejsza: <strong>spadki nie zaczęły się w tym roku ani nawet w zeszłym — to piąty rok z rzędu</strong>. NEFT Research prognozuje na 2026 około 1,1 mld ton wobec niespełna 1,12 mld w 2025, czyli kolejne minus jeden procent i <strong>piąty kolejny rok spadku</strong>. Poprzedni rok był już szesnastoletnim minimum, najniższym od kryzysu 2009. To nie jest szok, tylko trwałe osuwanie — i właśnie dlatego jest mocniejszym dowodem niż jednorazowe załamanie.</p>
+
+<p>Dane bieżące: <strong>za pierwsze półrocze 2026 załadowano 548,9 mln ton, o 1% mniej rok do roku</strong>. Sam czerwiec dał 90,2 mln ton i wzrost o 1% — trzeci miesiąc wzrostu z rzędu (kwiecień +1,9%, maj +0,5%, czerwiec +1%), co rosyjskie media podały jako powrót na plus po dwóch i pół roku. Arytmetyka bazy odbiera temu jednak cały sens: <strong>czerwiec 2024 dał 98,3 mln ton, czyli o blisko osiem milionów więcej niż dziś, a półrocze 2024 — 600,3 mln ton wobec obecnych 548,9</strong>. Odbicie mierzy się względem dna, nie względem stanu sprzed. Jak ujmuje to jeden z rosyjskich analityków branżowych: negatywny trend nie został przełamany, tylko chwilowo zatrzymany.</p>
+
+<h4 id="paradoks-gruzooborotu">Paradoks pracy przewozowej</h4>
+
+<p>Osobno warto odczytać rozjazd dwóch wskaźników, bo wygląda na dobrą wiadomość, a jest złą. Przy ładunku rosnącym o 1% <strong>praca przewozowa rośnie o 4,5%</strong>. Różnica bierze się z jednego: <strong>wydłużyła się średnia odległość przewozu</strong>, bo strumienie towarowe są przekierowywane na dłuższe trasy, przede wszystkim na wschód.</p>
+
+<p>To znaczy, że <strong>ta sama tona jedzie dziś dalej, zużywając więcej paliwa, dłużej blokując wagon i lokomotywę oraz zajmując więcej przepustowości</strong>. Praca przewozowa rośnie nie dlatego, że gospodarka produkuje więcej, lecz dlatego, że to samo trzeba wieźć dalej po utracie rynków zachodnich. Przy jednoczesnym deficycie diesla i cięciu zakupów taboru jest to wskaźnik rosnącego kosztu jednostkowego, nie ożywienia. W styczniu 2026 ten sam wskaźnik działał w drugą stronę — praca przewozowa spadała szybciej niż ładunek, bo odległości się skróciły. Oba odczyty opisują ten sam kryzys z dwóch stron.</p>
+
+<p>Struktura ładunków potwierdza, gdzie boli: w pierwszym półroczu 2026 <strong>ładunki budowlane −3,8%, cement −8%</strong>, a wcześniejsze miesiące pokazywały jeszcze głębsze zapaści w złomie, cemencie i metalach żelaznych. Budownictwo, metalurgia i górnictwo osuwają się równolegle.</p>
+
+<p>Finanse dopełniają obraz. <strong>Zadłużenie potroiło się od 2022 — z 1,5 do blisko 4 bln rubli</strong> — co czyni spółkę trzecim największym dłużnikiem w kraju. Rok 2025 zamknięto <strong>stratą netto 4,4 mld rubli wobec 44 mld zysku rok wcześniej</strong>, czyli pierwszą stratą od 2020. Inwestycje na 2026 obcięto do 713,6 mld rubli — o jedną czwartą względem 2025 i niemal o połowę względem 1,28 bln z 2024; zakupy wagonów i lokomotyw w dół o 37%.</p>
+
+<h4 id="wyprzedaz-i-kadry">Wyprzedaż majątku i ubytek ludzi</h4>
+
+<p>Poniżej liczb przewozowych dzieje się rzecz ważniejsza: <strong>spółka wyprzedaje majątek i traci ludzi zdolnych utrzymać ruch</strong>. Na liście sprzedaży są dworzec Ryski w Moskwie, lokomotywownia Lichobory, obiekt przy Krasnej Sośnie, udział w wieżowcu Moscow Towers oraz 49% akcji spółki Fiedieralnaja Gruzowaja Kompanija — łącznie planowane wpływy rzędu 200 mld rubli. Sprzedaje się nie zbędne aktywa, lecz dworce i zaplecze techniczne.</p>
+
+<p>Po stronie kadrowej: <strong>redukcja 15% zatrudnienia w centrali</strong>, program oszczędnościowy na 74 mld rubli obejmujący paliwo, energię i remonty, część pracowników na bezpłatnych urlopach, przenoszenie etatów z Moskwy do regionów o niższych płacach. <strong>Ponad 850 tys. pracowników nie dostanie w 2026 podwyżki przy inflacji co najmniej dziesięcioprocentowej</strong> — to nie jest oszczędność, to jest ciche obniżenie płacy realnej o dziesiątą część.</p>
+
+<p>I punkt najbardziej operacyjny, bo dotyczy zdolności prowadzenia ruchu, a nie bilansu: <strong>brakuje do pięciu tysięcy krytycznych techników, przez co spółka nie jest w stanie uruchomić nawet dwustu pociągów na dobę</strong>. Przyczyna jest ta sama, która drenuje resztę gospodarki — wykwalifikowanych ludzi wyciągnęła armia premiami za kontrakt. Kolej konkuruje o mechanika z frontem i przegrywa.</p>
+
+<h4 id="falszowane-remonty">Fałszowane remonty i zakazy załadunku</h4>
+
+<p>Dwie rzeczy z pierwszego kwartału 2026 pokazują, jak wygląda ta degradacja od środka. Pierwsza: śledztwo w sprawie łapówek przyjmowanych od czerwca 2020 do stycznia 2026 za <strong>zawyżanie wskaźników sprawności wagonów i ukrywanie dowodów wadliwych napraw</strong>, w zakładach remontowych w ponad czterdziestu regionach. To ten sam mechanizm, który opisano w tym dokumencie przy dowodzeniu: <em>informacja jest fałszowana w drodze do góry, więc decydent widzi park sprawniejszy, niż jest w rzeczywistości</em>. Tyle że tutaj konsekwencją nie jest zła decyzja strategiczna, lecz wagon, który wykolei się na trasie.</p>
+
+<p>Druga: <strong>zakazy załadunku wprowadzone przez samą spółkę na Kolei Dalekowschodniej</strong>. Port Wostoczny pracował pod pięćdziesięcioprocentowym ograniczeniem przez trzydzieści trzy dni stycznia i lutego, dostawy do Suchodołu wstrzymano całkowicie od 30 stycznia do 20 lutego, ograniczenia objęły też Nachodkę i inne terminale węglowe. W samym styczniu <strong>do portów Dalekiego Wschodu nie dojechał około milion ton węgla</strong> — wolumen bezpowrotnie utracony dla eksportu. Przyczyny: mróz zamrażający węgiel w wagonach, spowolniony obrót taboru i jego niedobór.</p>
+
+<p>Do tego dochodzi priorytet ustawowy: <strong>rząd nakazał pierwszeństwo przewozów wojskowych przed cywilnymi</strong>. Każda tona amunicji jadąca na front to tona węgla, która nie dojechała do portu — czyli mniej eksportu i mniej wpływów budżetowych. Wojna zjada kolej dwa razy: raz zabierając jej mechaników, drugi raz zabierając jej przepustowość.</p>
+
+<p>Wniosek pod tą warstwą jest inny niż pod liczbami przewozowymi. Sam wolumen spada powoli, o procent rocznie, i można go opisać jako stagnację. Ale <strong>pod spodem ubywa taboru, ludzi, remontów i wiarygodności danych o sprawności</strong> — a te ubytki nie odbudowują się przy odbiciu popytu, bo mechanika trzeba wykształcić, a wagon kupić. Spółka poprosiła państwo o dziesięć miliardów dolarów doraźnej pomocy; rozważane źródła to ulgi podatkowe, dotacje i Fundusz Dobrobytu Narodowego — czyli ten sam fundusz, z którego wyprzedaje się złoto. <span class="kw">Wszystkie drogi ratunku prowadzą do tej samej, kurczącej się kieszeni.</span></p>
+
+<h3 id="lotnictwo">5. Lotnictwo cywilne — awaria co tydzień</h3>
+
+<p>Piąty wskaźnik, wart odnotowania choćby krótko, bo dotyczy spójności państwa o jedenastu strefach czasowych. <strong>Liczba usterek technicznych prowadzących do odwołania lotu albo lądowania awaryjnego przekroczyła 800 od stycznia do końca listopada 2025 — czterokrotnie więcej niż rok wcześniej</strong>, gdy zanotowano nieco ponad dwieście. W praktyce oznacza to zdarzenie co kilka dni, na razie bez ofiar wśród pasażerów rejsowych.</p>
+
+<p>Przykład jednego przewoźnika pokazuje mechanizm: największy rosyjski czarter miał <strong>trzy z dziewięciu maszyn uziemione</strong> po wykryciu odchyleń parametrów silników, a od stycznia 2026 seryjnie lądował awaryjnie — w Lanzhou (awaria silnika), Hanoi (wyciek oleju), z powrotem na Phuket (podwozie), na trasie do Kazania (silnik) i w Mjanmie. Nadzór skrócił ważność certyfikatu przewoźnika.</p>
+
+<p>Pod spodem są trzy rzeczy strukturalne. <strong>Kanibalizacja</strong> — rozbieranie jednych maszyn na części do drugich — została zalegalizowana i ma matematyczny limit: każdy dawca wystarcza na skończoną liczbę biorców. <strong>Fałszowanie dokumentacji</strong> — po katastrofie z lipca 2025 wykazano systematyczne podrabianie dzienników obsługi, pomijanie dyrektyw zdatności i zatrudnianie niewykwalifikowanych techników; to ten sam wzorzec, co przy zawyżanych wskaźnikach sprawności wagonów. <strong>Utrata nadzoru</strong> — międzynarodowe organy lotnicze wystawiły Rosji formalne ostrzeżenia dotyczące nadzoru nad bezpieczeństwem, a szkolenie personelu stało się wsobne po odcięciu od certyfikacji zewnętrznej.</p>
+
+<p>Perspektywa: urząd lotnictwa cywilnego sam prognozuje skurczenie floty komercyjnej o ponad jedną trzecią w ciągu pięciu lat, a rok 2025 przyniósł <strong>pierwszy od 2022 spadek liczby pasażerów</strong>. <span class="kw">Awaryjność rośnie szybciej niż flota maleje — czyli statystyka wypadkowa pogarsza się na maszynę, nie tylko na kraj.</span></p>
+
+<h3 id="sektor-korporacyjny">6. Sektor korporacyjny — zarządzany upadek</h3>
+
+<p>Między bankiem a obywatelem leży warstwa, którą łatwo pominąć, a która przenosi kryzys: firmy. Ukraiński wywiad zagraniczny opisuje jej stan formułą <strong>„zarządzany upadek"</strong>, i liczby to uzasadniają.</p>
+
+<p><strong>Trzy czwarte największych rosyjskich spółek</strong> zanotowało na koniec 2025 spadek przychodów i zysku albo wprost straty. W 2026 <strong>53% firm zgłasza luki płynnościowe, a dla 27% jest to problem nowy</strong> — czyli pojawił się w ciągu roku. Najostrzej odczuwają to sektor naftowo-gazowy i surowcowy, przemysł ciężki oraz handel hurtowy i detaliczny.</p>
+
+<p>Najlepszym miernikiem jest zanik dywidend, bo to decyzja podejmowana przez zarządy, nie przez statystyków. Gazprom nie płaci drugi rok z rzędu — ostatnio za pierwsze półrocze 2022. Za nim poszły Rusal i Ałrosa, czyli aluminium i diamenty. Najwięksi hutnicy, NLMK i MMK, zarekomendowali brak wypłat za 2025. Deweloper Samolot zaraportował stratę netto 2,3 mld rubli wobec 8,2 mld zysku rok wcześniej, a jedna z największych sieci detalicznych w swoim segmencie balansuje na progu upadłości pod ciężarem długu i spadającego popytu.</p>
+
+<p>To domyka mechanizm z sekcji o bankowości od strony dłużnika: <strong>banki nie mają złych kredytów dlatego, że źle je udzieliły, lecz dlatego, że kredytobiorcy przestali zarabiać</strong>. I dlatego restrukturyzacja nie leczy — odracza spłatę firmie, której model przestał działać. <span class="kw">Zarządzany upadek to nie stan przejściowy, to nazwa procedury, w której państwo decyduje o kolejności bankructw.</span></p>
+
+<h3 id="czas-dokonany">7. Dlaczego to już czas przyszły dokonany</h3>
+
+<p>Cztery powyższe wskaźniki dzielą jedną cechę, która odróżnia zapaść od kryzysu: <strong>każdy z nich niszczy warunek własnego odwrócenia</strong>.</p>
+
+<p>Deficyt zasypuje się rezerwami — a rezerwy właśnie są wyprzedawane, i to złoto, czyli ostatnią warstwę. Sprzedaż złota mogłaby ustać, gdyby wróciły przychody z ropy i gazu — a te zależą od przerobu i eksportu, czyli od rzeczy, które płoną. Zbiory da się uratować paliwem — którego nie ma, bo rafinerie stoją, a mniejszy plon oznacza mniejsze wpływy eksportowe, czyli głębszy deficyt. Kolej odbiłaby przy wzroście produkcji — ale produkcja spada, spółka tnie inwestycje w tabor, a mniej taboru to mniejsza zdolność przewozowa w przyszłości, także dla paliwa i zboża.</p>
+
+<p>To jest zamknięta pętla, w której każde wyjście prowadzi przez ogniwo już uszkodzone. <strong>Dlatego zapaść dzieje się w czasie teraźniejszym ciągłym — postępuje, nie skoczyła — a jej wynik jest już w czasie przyszłym dokonanym: do odwrócenia trzeba by zasobu, którego wyczerpanie jest właśnie tym, co mierzymy.</strong></p>
+
+<p>Zastrzeżenie kalibracyjne, obowiązujące tak samo jak wszędzie w tym dokumencie: „zapaść" nie znaczy „upadek jutro". Systemy autorytarne potrafią funkcjonować długo poniżej progu wydolności — obniżając standard życia, zamrażając płace, przerzucając koszt na obywateli i przedsiębiorców, tak jak zrobiły to platformy handlowe z drobnymi sprzedawcami. Zapaść oznacza co innego: <strong>że nie ma już ścieżki powrotu do stanu sprzed, a jedynie tempo schodzenia i wybór, kto zapłaci</strong>. Rok 2026 pokazuje, że tempo przestało być powolne, a wybór — przestał być polityczny.</p>
+
+<p class="zrodla">Źródła sekcji: Ministerstwo Finansów FR / Interfax (VII 2026) · Argus Media / Bloomberg · bne IntelliNews · Meduza · OilPrice · Bank Światowy (Commodity Markets Outlook IV 2026) · Reuters (16.07.2026) · Bank Rosji / World Gold Council · Moscow Times · SovEcon · IKAR · Forbes Rosja · Kommersant / Meduza · Koleje Rosyjskie — komunikaty miesięczne (VII 2026) · NEFT Research / Wiedomosti · Interfax · SeaNews · ROLLINGSTOCK Agency · Moscow Times · International Railway Journal · Jamestown Foundation · The Coal Hub · Ekonomiczna Prawda · Jamestown Foundation · Euromaidan Press / TsMAKP  · SZRU<br>Rolnictwo: Rosyjski Związek Zbożowy (Złoczewski) · World Grain · Reuters · SovEcon · IKAR · USDA · CSIS · RBC-Ukraina / SZRU · 19FortyFive · Farmtario<br>Lotnictwo: Nowaja Gazieta Europa / kanał Aviaincident · Moscow Times (2.12.2025) · Aviation Week (Rosawiacja) · BlackSeaNews · Charter97 / TASS (2.06.2026) · OsintFlow</p>
+
+<h2 id="mobilizacja">X. Mobilizacja cicha i pełna</h2>
+
+<p>Ludzie są w tej wojnie zasobem trudniejszym do odtworzenia niż paliwo czy pieniądze. Rafinerię da się w teorii odbudować, złoto dokupić, dług zrolować — <strong>demografii nie da się zadekretować</strong>. Dlatego to, co dzieje się z rosyjskim werbunkiem, jest osobną osią, i to taką, na której wszystkie wyjścia są złe.</p>
+
+<h3 id="werbunek-siada">1. Werbunek siada</h3>
+
+<p>Liczby są zbieżne z kilku niezależnych źródeł. W pierwszym kwartale 2026 podpisano <strong>około 70,5 tysiąca kontraktów, średnio 800 dziennie — najniżej od trzech lat</strong>; rok wcześniej w tym samym okresie było około 90 tysięcy. W czwartym kwartale 2025 werbunek spadł o połowę względem analogicznego okresu 2024, a wiosną 2026 śledztwo Wiorstki i Wożnych Istorii wykazało załamanie o mniej więcej jedną trzecią.</p>
+
+<p>Deficyt widać najlepiej przez zestawienie z potrzebami. Cel na 2026 to <strong>409 tysięcy kontraktowych</strong>, co wymaga 1100–1150 podpisów dziennie; realnie schodzi 800–1000. Jednocześnie ukraiński Sztab Generalny liczy rosyjskie straty pierwszego kwartału na około 85 tysięcy — czyli <strong>więcej, niż w tym czasie zwerbowano</strong>. Niezależnie: wypłaty dla rodzin poległych objęły w pierwszym kwartale 2026 około 25 tysięcy zabitych, wobec 20 tysięcy rok wcześniej i niespełna 10 tysięcy dwa lata temu.</p>
+
+<p>Cena rośnie, skutek nie. Średnia premia za podpis sięgnęła w marcu <strong>1,47 mln rubli — poziomu rekordowego</strong>; w niektórych regionach pierwszy rok służby wyceniono na 3,3 mln, a górne oferty dochodzą do 5,5 mln. Regionalne wydatki na premie dla samych werbowników <strong>wzrosły z 358 do 802 mln rubli miesięcznie</strong>. Do tego umorzenia długów do 10 mln rubli. <span class="kw">Gdy cena podwaja się, a wolumen spada o jedną trzecią, to nie jest problem cenowy — to wyczerpanie puli.</span></p>
+
+<h3 id="cicha-mobilizacja">2. Cicha mobilizacja — co już trwa</h3>
+
+<p>Ponieważ ochotników brakuje, a ogłoszenie poboru jest politycznie kosztowne, aparat robi to samo bez nazwy. Katalog metod jest szeroki i dobrze udokumentowany:</p>
+
+<ul>
+<li><strong>Werbunek pod przykrywką pracy cywilnej</strong> — ogłoszenia o „zatrudnieniu na zapleczu" za duże pieniądze, publikowane także na Białorusi i w Chinach.</li>
+<li><strong>Nacisk na przedsiębiorstwa i uczelnie</strong>, by same dostarczały kandydatów; firmy zachęcane do zapisywania własnych pracowników mimo dojmującego braku rąk.</li>
+<li><strong>Werbunek osób w toku postępowań karnych i w areszcie</strong> w zamian za umorzenie spraw; więzienia, dotąd stały rezerwuar, pustoszeją.</li>
+<li><strong>Rozszerzanie kryteriów</strong> na starszych, cudzoziemców oraz osoby z problemami zdrowotnymi i przeszłością kryminalną.</li>
+<li><strong>Zimowe zgrupowania rezerwistów</strong> pozwalające powołać „strategiczną rezerwę nieaktywną" bez ogłaszania mobilizacji, w połączeniu z ustawą o powoływaniu rezerwistów do ochrony „obiektów strategicznych".</li>
+<li><strong>Całoroczny pobór z elektronicznymi wezwaniami</strong>, gdzie niestawienie się skutkuje zakazem wyjazdu i ograniczeniami bankowymi — przymus administracyjny zamiast dekretu.</li>
+<li><strong>Wprowadzenie do walki rezerw strategicznych</strong> oraz przenoszenie specjalistów — łącznościowców, logistyków — do zadań piechoty.</li>
+</ul>
+
+<p>Ten ostatni punkt jest osobno wymowny: przesuwanie specjalistów do okopów łata dziurę dziś, a pogłębia ją jutro, bo psuje te elementy wojska, które wymagają wyszkolenia — łączność, logistykę, walkę elektroniczną. To ta sama logika, którą widać na kolei, gdzie brakuje pięciu tysięcy techników: <strong>system zjada własnych fachowców, żeby zapchać bieżący brak</strong>.</p>
+
+<h3 id="glos-przeciwny">3. Głos przeciwny — czy na pewno brakuje</h3>
+
+<p>Uczciwość wymaga odnotowania mocnego kontrargumentu, i to z niezależnego rosyjskiego źródła. Analiza Wożnych Istorii z drugiej połowy lipca 2026 wskazuje, że Rosja werbuje około <strong>30 tysięcy ludzi miesięcznie</strong>, przy szacowanych stratach bezpowrotnych rzędu <strong>9 tysięcy miesięcznie</strong> — czyli mniej więcej jednej trzeciej napływu. Wniosek tego ośrodka jest taki, że kontraktowych wciąż wystarcza do prowadzenia wojny, a mobilizacja nie jest koniecznością operacyjną.</p>
+
+<p>Rozbieżność bierze się z różnych definicji strat: „bezpowrotne" (zabici) to inna kategoria niż „straty" ukraińskiego Sztabu Generalnego, obejmujące też rannych wyłączonych z walki. Obie liczby mogą być prawdziwe naraz. <strong>Wniosek ostrożny: Rosji nie brakuje ludzi do utrzymania frontu, brakuje jej ludzi do jego przełamania</strong> — i to przy koszcie, który rośnie szybciej niż efekt. To odróżnia sytuację desperacką od kosztownej, i na dziś jest to ta druga.</p>
+
+<h3 id="pelna-po-wyborach">4. Pełna mobilizacja po wyborach</h3>
+
+<p>Kalendarz jest tu istotniejszy niż deklaracje. Wybory parlamentarne w Rosji przypadają na <strong>wrzesień 2026</strong>, a według doniesień Wiorstki i Meduzy w Kremlu, resorcie obrony i służbach trwa dyskusja o nowej fali mobilizacji <strong>możliwej do ogłoszenia w październiku — czyli tuż po wyborach</strong>. Decyzji nie podjęto, a wskazywane powody wahania są dwa: obawa przed załamaniem gospodarczym i przed niezadowoleniem społecznym.</p>
+
+<p>Sekwencja „najpierw wybory, potem pobór" jest sama w sobie informacją. <strong>Reżim, który uważa się za dysponenta stuprocentowego poparcia, nie musiałby czekać z niepopularną decyzją na zamknięcie urn.</strong> Czekanie ujawnia, że koszt polityczny jest realny i mierzalny — a więc że fasada zgody jest cieńsza, niż głosi. To jest ten sam odczyt przez absencję, co przy pułapie eskalacji: nie liczy się, co ogłoszono, lecz czego nie zrobiono i dlaczego.</p>
+
+<p>Analitycy wskazują, że Kreml sięgnąłby po ten instrument w dwóch sytuacjach: przy <strong>groźbie załamania frontu</strong> albo przy <strong>świadomym przestawieniu państwa na pełną gospodarkę wojenną</strong> — a to drugie byłoby sygnałem przygotowań do konfliktu wykraczającego poza Ukrainę. Warto to zestawić z tym, co Budanow mówił o rosyjskich dokumentach planistycznych przewidujących gotowość na początek 2027: pełna mobilizacja jesienią 2026 pasowałaby do tego harmonogramu jako krok pierwszy.</p>
+
+<h3 id="co-by-dala">5. Co by dała, a co zabrała</h3>
+
+<p>Pełna mobilizacja rozwiązałaby jeden problem i pogłębiła cztery. Da się to policzyć, bo dane o rynku pracy są jawne i pochodzą od rosyjskich instytucji.</p>
+
+<h4 id="dalaby-piechote">Dałaby: masę piechoty, na jeden sezon</h4>
+<p>Kilkaset tysięcy ludzi w krótkim czasie, bez licytowania się premiami — czyli zdolność do utrzymania obecnego tempa działań, a przy dużej skali do jednorazowego wysiłku ofensywnego. To realna korzyść i nie należy jej lekceważyć. Ma jednak termin ważności: mobilizowany bez wyszkolenia i sprzętu jest piechotą, a nie armią, a sprzętu — o czym w innych sekcjach — ubywa równolegle.</p>
+
+<h4 id="zabralaby-rynek-pracy">Zabrałaby: ostatnie rezerwy rynku pracy</h4>
+<p>Tu jest sedno, i mówią to Rosjanie. Prezes banku centralnego stwierdziła w kwietniu 2026, że <strong>współczesna Rosja nigdy nie doświadczyła tak dotkliwego niedoboru rąk do pracy</strong>. Wicepremier: zatrudnienie osiągnęło pułap, wolnych zasobów pracy praktycznie nie ma. Bezrobocie w okolicach 2,2% nie jest sukcesem, lecz komunikatem, że gospodarka nie ma z czego dobrać ludzi.</p>
+<p>Skala rezerwy: <strong>pula osób niepracujących, ale zdolnych do pracy, skurczyła się od 2021 o 40% — o 2,6 mln osób, do zaledwie 4,4 mln</strong>. Bloomberg Economics szacuje bieżący brak na 1,5 mln pracowników, rosyjski związek pracodawców na 3 mln do 2030, a rosyjskie Ministerstwo Pracy prognozuje zapotrzebowanie 12,2 mln pracowników w latach 2026–2032. Pobór kilkuset tysięcy mężczyzn wyjąłby ich wprost z tej kurczącej się puli.</p>
+
+<h4 id="zabralaby-specjalistow">Zabrałaby: specjalistów, których wojna potrzebuje najbardziej</h4>
+<p>Współczesna wojna nie potrzebuje wyłącznie ciał — potrzebuje ludzi obsługujących łączność, systemy techniczne i walkę elektroniczną. Mobilizacja masowa wyciąga z gospodarki dokładnie tę warstwę, o którą wojsko konkuruje z przemysłem, i pogłębia rywalizację sektora cywilnego z obronnym. Efekt jest samozwrotny: <strong>im więcej ludzi wciągniesz do wojska, tym mniej zostaje tych, którzy produkują dla wojska</strong>.</p>
+
+<h4 id="zabralaby-ludzi-za-granice">Zabrałaby: kolejną falę emigracji, tym razem trwałą</h4>
+<p>Mobilizacja z 2022 wypchnęła z kraju setki tysięcy ludzi; część wróciła. Ukraiński wywiad wskazuje, że <strong>kolejna fala byłaby prawdopodobnie trwała</strong> — bo wyjeżdżający już raz przetestowali ścieżkę, a wracać będzie do czego mniej. Wyjeżdżają przy tym najbardziej mobilni, czyli młodzi i wykwalifikowani, więc ubytek jest jakościowy, nie tylko ilościowy.</p>
+
+<h4 id="zabralaby-spokoj">Zabrałaby: spokój społeczny, którego nie da się odkupić</h4>
+<p>Pierwsza fala w 2022 wywołała protesty i masową ucieczkę, ale reżim ją przetrwał. Druga byłaby trudniejsza z trzech powodów: gospodarka jest zmęczona, zmobilizowani z 2022 wciąż są na froncie bez wyznaczonej daty powrotu — co widzą wszyscy potencjalni kolejni — a nastroje społeczne pogorszyły się po czterech latach. <strong>Mobilizacja nie tylko wciąga ludzi do wojska; ona informuje społeczeństwo, że dotychczasowa opowieść o „operacji specjalnej" była nieprawdziwa.</strong></p>
+
+<p>Sumarycznie: pełna mobilizacja nie jest rozwiązaniem kryzysu, tylko <strong>przeniesieniem go z frontu do gospodarki i na ulicę</strong>. Kupuje sezon działań bojowych kosztem rezerw pracy, specjalistów, emigracji i legitymacji — czyli kosztem czterech rzeczy, których wyczerpanie opisano w tym dokumencie jako właśnie postępujące. To wyjaśnia, dlaczego decyzja jest odkładana mimo oczywistego deficytu ludzi na froncie: <span class="kw">jest to karta, która działa raz i zostawia gracza słabszym, niż był przed jej zagraniem.</span></p>
+
+<p class="zrodla">Źródła sekcji: Wiorstka / Wożnyje Istorii (VI–VII 2026) · Meduza · ISW · Janis Kluge (SWP) · Kyiv Independent · Kyiv Post · Moscow Times · CNN · Bloomberg / Bloomberg Economics · Bank Rosji (Nabiullina) · Ministerstwo Pracy FR · RSPP · SZRU · Sztab Generalny SZ Ukrainy</p>
+
+<h2 id="chinski-substytut">XI. Chiński substytut komponentowy</h2>
+
+<p>Kampania uderzeń w mikroelektronikę i chemię ma sens tylko wtedy, gdy zniszczonego ogniwa nie da się łatwo dokupić. Trzeba więc odpowiedzieć na pytanie, które w dokumentach zamrożonych zostało postawione, ale nie domknięte: <strong>czy Chiny zastępują Rosji to, co Ukraina wybija</strong>. Odpowiedź jest niuansowana i — jak się okazuje — właśnie została potwierdzona przez rosyjskie dokumenty rządowe.</p>
+
+<h3 id="skala-zastapienia">1. Skala zastąpienia</h3>
+
+<p>Zastąpienie jest realne i masowe. Chiny stały się <strong>największym dostawcą wysokich technologii do Rosji</strong> — półprzewodników, komponentów mikroelektronicznych, obrabiarek, sprzętu telekomunikacyjnego i części podwójnego zastosowania. W 2023 roku odpowiadały już za <strong>około 90% rosyjskiego importu mikroelektroniki</strong>, a demontaż rosyjskiego drona Delta z 2025 pokazał, że <em>wszystkie</em> podzespoły w środku były chińskie.</p>
+
+<p>Katalog dostaw wykracza daleko poza chipy: sprzęt nawigacyjny, technologie zakłócające, części do samolotów bojowych oraz <strong>nitroceluloza — kluczowy składnik nowoczesnej amunicji</strong>. Model operacyjny w 2025 polegał w dużej mierze na montowaniu w Rosji importowanych chińskich zestawów, co pozwalało omijać sankcje nałożone na gotowe wyroby.</p>
+
+<p>Skala potrzeby jest przy tym ogromna: sam pocisk manewrujący Kh-101 wymaga <strong>ponad pięćdziesięciu komponentów zagranicznych</strong>, w tym układów Intela, Texas Instruments i Analog Devices — firm, które od dawna nie wysyłają do Moskwy niczego.</p>
+
+<h3 id="oficjalna-kapitulacja">2. Oficjalna kapitulacja programu niezależności</h3>
+
+<p>Najmocniejszy materiał pojawił się 31 lipca 2026 i pochodzi z rosyjskich dokumentów programowych, referowanych przez estoński wywiad zagraniczny. <strong>Rosja obniżyła własny cel niezależności elektronicznej na 2030 rok z 80% do 59%</strong> — czyli oficjalnie przyznała, że planu nie wykona.</p>
+
+<p>Towarzyszą temu liczby budżetowe pokazujące, że nie chodzi o korektę ambicji, lecz o zwijanie programu:</p>
+<ul>
+<li>finansowanie flagowego programu państwowego <strong>spadło mniej więcej pięciokrotnie</strong> — z 338,4 mln dolarów w 2024 do 62,6 mln w 2026;</li>
+<li>szerszy program rozwoju inżynierii elektronicznej ma <strong>niedobór 422,7 mln dolarów na lata 2026–2028</strong>;</li>
+<li>kilka projektów sprzętowych dla mikroelektroniki <strong>anulowano całkowicie</strong>;</li>
+<li>terminy krajowych procesorów i modemów <strong>przesunięto na 2032 rok</strong>;</li>
+<li>Instytut Kurczatowa <strong>nie dotrzymał terminu</strong> opracowania zamienników układów Intela, Marvella, Broadcomu i Integrated Device Technology.</li>
+</ul>
+
+<p>I zdanie, które zamyka sprawę, wypowiedziane przez samych rosyjskich specjalistów: <strong>lokalizacja powyżej 60% jest niemożliwa bez własnej produkcji układów w technologii 28 nanometrów i niższej</strong> — a to, wobec sankcji i utraty zachodnich narzędzi produkcyjnych, pozostaje poza zasięgiem. To nie jest opinia analityka zewnętrznego; to jest ocena inżynierów pracujących w programie, przyznających, że sufit istnieje i jest niski.</p>
+
+<h3 id="irtysz">3. Irtysz — procesor, który nie jest rosyjski</h3>
+
+<p>Jeden przykład ilustruje całość lepiej niż zestawienia. Procesor <strong>Irtysz</strong>, prezentowany przez Moskwę jako rodzime rozwiązanie dla infrastruktury krytycznej, jest w istocie <strong>kopią chińskiego układu Loongson, opartą na architekturze LoongArch</strong> — a produkowaną <em>poza granicami Rosji</em>. Spółka Tramplin otrzymała na ten projekt 1,3 mld rubli.</p>
+
+<p>Rosyjski „suwerenny procesor" jest więc chiński z architektury, chiński z pochodzenia wzorca i zagraniczny z miejsca wytwarzania. <span class="kw">Suwerenność technologiczna sprowadza się tu do prawa do nadania nazwy.</span> To jest ta sama figura, którą widać w innych miejscach tego dokumentu: deklaracja zastępuje zdolność, a nazwa zastępuje rzecz.</p>
+
+<h3 id="szarej-strefy">4. Kanały szarej strefy</h3>
+
+<p>Czego nie da się kupić wprost, to się przemyca — i tu system działa sprawnie. Estoński wywiad zagraniczny raportował w lutym 2026, że <strong>rosyjski wywiad wojskowy prowadzi firmy importowo-eksportowe</strong> służące do sprowadzania sankcjonowanych towarów podwójnego zastosowania. Trasy przerzutowe biegną przez <strong>Turcję, Kazachstan i Zjednoczone Emiraty Arabskie</strong>, a chińscy pośrednicy działają przez spółki wydmuszki rejestrowane w Hongkongu, Makau i Azji Środkowej, rozliczając się w juanach, by ominąć jurysdykcję dolarową.</p>
+
+<p>Konkret pokazujący mechanizm: fabryka oleum w Bijsku, produkująca <strong>trotyl, heksogen i oktogen</strong>, otrzymała niemieckie urządzenia Siemensa <em>przez chińskich pośredników</em>. Skala rynku jest widoczna gołym okiem — na moskiewskich targach elektroniki w 2026 zarejestrowało się <strong>376 firm z Chin</strong>, w tym dziewięć z Hongkongu.</p>
+
+<p>Ten kanał jest jednak coraz węższy. Pekin wprowadził w grudniu 2024 ograniczenia na gal i german, Unia rozszerzyła kontrole eksportowe o 51 kolejnych podmiotów, a pod koniec lipca 2026 <strong>Chiny zaostrzyły własne kontrole eksportu podwójnego zastosowania</strong>. Przemyt trwa, ale koszt i czas rosną — a każde takie tarcie mnoży się przez liczbę komponentów w jednej rakiecie.</p>
+
+<h3 id="gaz-oba-kierunki">5. Gaz — oba kierunki zamknięte</h3>
+
+<p>Filar gazowy opisano szerzej w dokumentach zamrożonych; tutaj wystarczy odnotować stan na lipiec 2026, bo domyka on tezę o zależności. <strong>Kierunek zachodni jest zamknięty w większości, a kierunek chiński właśnie zamroziły Chiny.</strong></p>
+
+<p>Zachód: eksport rurociągowy do Unii spadł ze <strong>150–155 mld m³ w 2021 do około 25 mld m³</strong>, resztkowo przez TurkStream, po wygaśnięciu tranzytu przez Ukrainę 1 stycznia 2025. Gazprom zanotował pierwszą roczną stratę od 1999, przychody z gazu spadły o 40%, a dywidendy nie płaci drugi rok z rzędu.</p>
+
+<p>Wschód miał to zastąpić — i nie zastąpi. Negocjacje o Siłę Syberii 2, ciągnące się dekadę, utknęły całkowicie: <strong>Chińczycy zażądali ceny bliskiej rosyjskiej taryfie krajowej, około 50 dolarów za tysiąc metrów sześciennych</strong>, podczas gdy Moskwa uważa za konieczne mniej więcej 250, a były menedżer Gazpromu szacuje próg opłacalności na granicy chińskiej na około 125. Skala dysproporcji jest przy tym widoczna w cenach już płaconych: Chiny płacą dziś <strong>258,8 dolara, czyli 39% poniżej średniej 420,2 dolara płaconej przez pozostałych zagranicznych odbiorców Gazpromu</strong>, a rosyjskie prognozy przewidują dalszy spadek do 223,9 w przyszłym roku.</p>
+
+<p>Sposób zamrożenia jest wymowniejszy niż sama liczba. Chińscy przedstawiciele <strong>poinformowali stronę rosyjską jeszcze przed majową wizytą Putina w Pekinie, żeby tematu nie podnosić</strong> — i projekt nie znalazł się wśród czterdziestu dwóch podpisanych wtedy porozumień, mimo ogłoszonego we wrześniu 2025 „prawnie wiążącego memorandum". Kreml przyznał następnie, że projekt nie ma harmonogramu. Analitycy wskazują, że Pekin gra na czas: ma dostęp do globalnej podaży, spodziewa się szczytu własnego importu w połowie lat trzydziestych i nie chce pogłębiać zależności od dostawcy, którego przyszłość polityczną sam ocenia jako niepewną.</p>
+
+<p>Arytmetyka domyka rzecz ostatecznie: nawet zrealizowana w pełni Siła Syberii 2 przewoziłaby 50 mld m³ rocznie, czyli <strong>zastąpiłaby najwyżej jedną trzecią utraconego rynku europejskiego</strong>. <span class="kw">Rosja straciła rynek, na którym dyktowała warunki, i nie zdobyła rynku, na którym mogłaby je choćby negocjować.</span></p>
+
+<h3 id="zamiana-nie-substytucja">6. To nie substytucja, to zamiana wierzyciela</h3>
+
+<p>Wniosek analityczny jest inny niż potoczny. Rosja <strong>nie zastąpiła</strong> zachodnich komponentów własnymi — ona <strong>zamieniła jedną zależność zewnętrzną na drugą</strong>, głębszą i bardziej jednostronną. Wcześniej kupowała u wielu dostawców z krajów, które nie miały wobec niej roszczeń politycznych. Teraz kupuje u jednego, który ma.</p>
+
+<p>Cztery konsekwencje wynikają z tego wprost.</p>
+
+<p><strong>Po pierwsze, kampania uderzeń zyskuje sens tam, gdzie mogłaby go tracić.</strong> Można by sądzić, że skoro komponenty i tak przychodzą z Chin, to niszczenie rosyjskich fabryk mikroelektroniki niewiele daje. Jest odwrotnie: zakłady takie jak Kremnij El czy woroneska odlewnia krzemu są tymi nielicznymi ogniwami, które Rosja <em>ma u siebie</em> — a ich utrata przesuwa zależność od importu jeszcze wyżej, w stronę stu procent. Uderzenie nie musi zatrzymać produkcji; wystarczy, że przesunie ją za granicę i wydłuży łańcuch.</p>
+
+<p><strong>Po drugie, przepustowość przestaje zależeć od Rosji.</strong> Tempo produkcji rakiet zaczyna być funkcją decyzji podejmowanych w Pekinie i sprawności tras przez Turcję czy Kazachstan, a nie mocy własnych fabryk. To czyni z Chin realny wyłącznik — nieużywany, ale istniejący.</p>
+
+<p><strong>Po trzecie, potwierdza się teza Kasparowa o beneficjencie.</strong> Państwo, które musi kupować u jednego dostawcy, kopiować jego architektury procesorowe i rozliczać się w jego walucie, nie jest partnerem, tylko klientem. Wojna, która miała odbudować pozycję mocarstwową, zamieniła Rosję w rynek zbytu i zaplecze surowcowe sąsiada.</p>
+
+<p><strong>Po czwarte, oficjalne obniżenie celu z 80% do 59% jest dokumentem strategicznym, nie księgowym.</strong> To jest moment, w którym państwo pisemnie przyjmuje do wiadomości, że nie odzyska samodzielności technologicznej w horyzoncie planowania — a więc że każda kolejna wojna, i ta trwająca, będzie prowadzona na cudzych komponentach, za cudzą zgodą.</p>
+
+<p class="zrodla">Źródła sekcji: estoński Wywiad Zagraniczny (II i VII 2026) · Euromaidan Press (31.07.2026) · Chatham House · GIS Reports · Reuters (Bijsk / Siemens) · Dallas Analytics (ExpoElectronica 2026) · The Defense Post (28.07.2026) · Business Insider · dokumenty programowe FR<br>Gaz: Wall Street Journal (13.07.2026) · Asia Times · Pipeline Technology Journal · bne IntelliNews (16.07.2026) · Carnegie Russia Eurasia Center (Gabujew, Wakulenko) · United24 Media · UBN · IWR Online (15.07.2026) · Bloomberg / Fortune (wyniki Gazpromu) · IEA · dokumenty zamrożone (filar gazowy)</p>
+
+<h2 id="przemysl-domkniecia">XII. Przemysł zbrojeniowy — cztery domknięcia</h2>
+
+<h3 id="macierz-powtorzen">1. Macierz powtórzeń</h3>
+
+<p>Lipiec dołożył do kampanii przemysłowej nie tyle nowe cele, ile <strong>powtórzenia</strong> — i to jest właściwy pomiar. Kremnij El w Briańsku, wytwórca układów do Iskanderów i Pancyrów, został trafiony <strong>po raz trzeci</strong>: marzec, czerwiec, 7 lipca. Tej samej nocy oberwał Briański Zakład Chemiczny w Selcowie (proch, materiały wybuchowe, komponenty paliwa rakietowego) — cztery eksplozje. Wcześniej, 22 czerwca, jedna z największych rosyjskich odlewni krzemu w Woroneżu, z potwierdzonymi przez gubernatora „poważnymi uszkodzeniami" i pięcioma zabitymi. Zakład Swierdłowa w Dzierżyńsku, jeden z największych producentów materiałów wybuchowych, wraca na listę po uderzeniu z 30 kwietnia.</p>
+
+<p>Zestawione z bazą czerwcową — Azot Nowomoskowsk trzykrotnie w trzy tygodnie, Metafrax trzykrotnie w osiem miesięcy, Nevinnomyssk dwukrotnie, plus Tolyattikauczuk i Krymski Tytan — daje to <strong>tę samą sygnaturę, co przy rafineriach: nie lista trafień, lecz cykl</strong>. Interwał między uderzeniami w ten sam zakład skraca się poniżej czasu potrzebnego na naprawę. Wtedy przestaje mieć znaczenie, czy pojedynczy cios zniszczył linię — liczy się, że linia nie zdąża wrócić.</p>
+
+<h3 id="waskie-gardlo">2. Wąskim gardłem jest komponent, nie budynek</h3>
+
+<p>Z poprzedniej sekcji wynika przesunięcie całej optyki. Budynek da się odbudować, halę postawić, ludzi ściągnąć — <strong>czego nie da się zrobić, to kupić układu w technologii 28 nanometrów albo ceramiki do radaru</strong>. Dlatego liczenie „ile zakładów trafiono" jest miarą gorszą niż „które ogniwo łańcucha jest niezastępowalne".</p>
+
+<p>Konsekwencja praktyczna: <strong>uderzenie w zakład montażowy opóźnia, uderzenie w jedyne krajowe źródło komponentu przesuwa zależność za granicę na stałe</strong>. Krymski Tytan jako jedyny rosyjski producent dwutlenku tytanu i kwasu siarkowego, woroneska odlewnia krzemu, Kremnij El — to nie są fabryki wśród wielu, to są pojedyncze punkty w łańcuchu. Ich utrata nie zeruje produkcji, tylko przenosi ją do Pekinu, z całym rachunkiem opisanym w sekcji poprzedniej.</p>
+
+<h3 id="kab-trzy-ogniwa">3. KAB — jeden produkt, trzy ogniwa</h3>
+
+<p>Bomba szybująca jest dziś głównym rosyjskim środkiem rażenia na froncie: z około sześćdziesięciu tysięcy w 2025 kurs prowadzi ku ponad siedemdziesięciu pięciu tysiącom w 2026. Warto więc rozłożyć ją na części, bo <strong>składa się z trzech niezależnie uderzalnych ogniw</strong>.</p>
+
+<p><strong>Korpus</strong> — zwykła bomba lotnicza FAB, produkowana m.in. w Dzierżyńsku. <strong>Materiał wybuchowy</strong> — z łańcucha prochowo-chemicznego: Azot Nowomoskowsk, Briański Zakład Chemiczny, oleum z Bijska. <strong>Moduł UMPK</strong> — zestaw skrzydeł i nawigacji, czyli mikroelektronika i odbiorniki satelitarne, w dużej mierze chińskie lub montowane z chińskich zestawów.</p>
+
+<p>Ukraińska kampania bije równolegle we wszystkie trzy, i to jest jej logika, a nie przypadkowy dobór celów. <span class="kw">Nie trzeba zatrzymać żadnego ogniwa całkowicie — wystarczy, że każde z trzech zwolni o jedną piątą, żeby produkt końcowy stracił połowę.</span> Mnożenie ułamków działa tu na korzyść atakującego.</p>
+
+<h3 id="trojkat-o-ludzi">4. Trójkąt konkurencji o ludzi</h3>
+
+<p>Trzy sekcje tego dokumentu opisują ten sam deficyt z trzech stron, i dopiero razem pokazują pułapkę. <strong>Front</strong> potrzebuje kilkuset tysięcy ludzi i płaci za nich premiami do 5,5 mln rubli. <strong>Kolej</strong> nie może uruchomić dwustu pociągów na dobę, bo brakuje jej pięciu tysięcy techników — zabranych przez wojsko. <strong>Zbrojeniówka</strong> potrzebuje inżynierów i operatorów obrabiarek, o których konkuruje z obydwoma.</p>
+
+<p>Pula, z której wszyscy trzej czerpią, skurczyła się od 2021 o czterdzieści procent. Każde zaspokojenie jednego wierzchołka odbiera dwóm pozostałym — <strong>mobilizacja wzmacnia front kosztem produkcji tego, czym front walczy, i kosztem transportu, którym to dowozi</strong>. To jest ten sam mechanizm zamkniętej pętli, co przy budżecie, złocie i zbiorach: każde wyjście prowadzi przez ogniwo już uszkodzone.</p>
+
+<p class="zrodla">Źródła sekcji: Sztab Generalny SZ Ukrainy (7.07.2026) · Kyiv Post · Ukrainska Prawda · Kyiv Independent · Defense Express · Moscow Times (Woroneż) · Telegraph (Dzierżyńsk) · dokumenty zamrożone (baza VI 2026)</p>
+
+<h2 id="strumien-pod-obciazeniem">XIII. Strumień pod obciążeniem</h2>
+
+<p>Wszystkie poprzednie sekcje mierzą jedną stronę. To osłabia tezę w sposób, którego nie widać od środka: <strong>„zapas kontra strumień" jest twierdzeniem o relacji, a relacji nie da się sprawdzić, patrząc na jeden człon</strong>. Trzeba więc pokazać, czy strumień faktycznie płynie — i gdzie sam ma wąskie gardła. Bez tej sekcji dokument byłby kibicowaniem; z nią staje się falsyfikowalny.</p>
+
+<h3 id="strumien-jest-realny">1. Strumień jest realny — liczby</h3>
+
+<p>Skala produkcji potwierdza tryb strumienia, a nie zapasu. Ukraina wytworzyła w 2025 roku <strong>ponad cztery miliony dronów</strong> wszystkich typów, a plan na 2026 to <strong>około siedmiu milionów</strong>, przy deklarowanej zdolności branży sięgającej dziesięciu. To nie jest magazyn do wystrzelania — to linia produkcyjna, której wydajność rośnie szybciej niż zużycie.</p>
+
+<p>Po stronie pocisków: Fire Point deklarował pod koniec 2025 około trzydziestu Flamingów miesięcznie z perspektywą przekroczenia dwustu do końca 2026, a model produkcji celuje w <strong>tempo dzienne, nie miesięczne</strong> — czyli w kadencję właściwą dla dronów, nie dla zachodnich linii pocisków manewrujących. Logika przemysłowa biegnie tu <em>w górę</em>: od masowych dronów ku pociskom, a nie odwrotnie. Udział broni krajowej na froncie przekroczył czterdzieści procent, a plan na 2026 zakłada, że około połowy uzbrojenia powstanie w kraju.</p>
+
+<p>Baza jest przy tym celowo rozproszona i ponadnarodowa. Duńska wytwórnia paliwa stałego w Skrydstrup jest <strong>pierwszym ukraińskim zakładem zbrojeniowym na terytorium NATO</strong> i zasila m.in. boostery Flamingów — konstrukcja odporna na to, co Rosja robi z fabrykami w zasięgu swoich rakiet. Do tego dochodzi produkcja wspólna: piętnaście tysięcy dronów przechwytujących Striła powstało w partnerstwie ukraińsko-niemieckim, a ukraińskie firmy po raz pierwszy weszły do Europejskiego Funduszu Obronnego.</p>
+
+<h3 id="strumien-finansowany">2. Strumień finansowany, nie darmowy</h3>
+
+<p>Tu jest pierwsza korekta obrazu. Strumień płynie, ale <strong>nie jest samofinansujący się</strong> — i to, a nie moce produkcyjne, jest jego realnym wąskim gardłem.</p>
+
+<p>Liczby są jednoznaczne. Deficyt fiskalny Ukrainy bez grantów sięgnął <strong>23,6% PKB w 2025</strong> i ma pozostać na poziomie <strong>19,3% w 2026</strong>; obrona pochłania około 43% wszystkich wydatków. Luka finansowa na lata 2026–2027 to według MFW <strong>około 60–63 mld dolarów</strong>, przy czym strona ukraińska uważa tę wycenę za zaniżoną. Zełenski wskazywał, że pełne finansowanie krajowej produkcji dronów, pocisków i walki elektronicznej wymaga <strong>25 mld dolarów rocznie</strong>, a samo uruchomienie przechwytywaczy — 6 mld pilnie.</p>
+
+<p>I zdanie, które trzeba zapisać wprost, bo jest testem całej tezy: <strong>bez świeżego finansowania Ukraina będzie musiała ciąć produkcję dronów</strong> — tak Zełenski mówił europejskim przywódcom. Strumień jest więc funkcją decyzji budżetowych w Brukseli i stolicach, a nie tylko ukraińskich hal produkcyjnych.</p>
+
+<p>Po stronie zabezpieczenia: zatwierdzone finansowanie zewnętrzne na 2026–2027 przekracza <strong>110 mld euro</strong>, a unijna pożyczka wsparciowa opiewa na <strong>90 mld euro</strong>, z czego 45 mld ma trafić do Ukrainy do końca 2026. To realnie domyka krótki horyzont — ale mechanizm oparto ostatecznie na niewykorzystanych środkach budżetu UE, a nie na zamrożonych aktywach rosyjskich, bo ten wariant upadł na ryzyku prawnym i sprzeciwie Belgii. <span class="kw">Finansowanie jest zabezpieczone, ale politycznie odwracalne — i to jest jakościowa różnica wobec zniszczonej rafinerii.</span></p>
+
+<h3 id="piechota">3. Piechota — deficyt, którego nie łata technologia</h3>
+
+<p>Najpoważniejszym brakiem po stronie ukraińskiej nie są drony ani pociski, lecz <strong>wyszkolona piechota zdolna do rotacji — takiej, która wychodzi z linii, odpoczywa i wraca</strong>. Ten deficyt jest strukturalny i nie da się go zastąpić technologią, bo teren utrzymuje człowiek.</p>
+
+<p>Mechanizm sprzężenia jest przy tym brutalny i działa w obie strony: gdy spada ukraiński ogień artyleryjski, rosyjska piechota może się poruszać, a ukraińska musi pochłaniać natarcie ciałem zamiast stalą — jeden opisany epizod z końca 2024 pokazał, że ograniczenie dziennego ognia potroiło dzienne straty. To domyka rozumowanie z sekcji o mobilizacji rosyjskiej: <strong>obie strony mają deficyt ludzi, tylko rozwiązują go inaczej</strong> — Rosja przez werbunek za pieniądze i cichą mobilizację, Ukraina przez zastępowanie ludzi maszynami wszędzie, gdzie się da. Żadne z tych rozwiązań nie jest pełne.</p>
+
+<h3 id="energetyka-korekta">4. Energetyka — korekta własnej tezy</h3>
+
+<p>W dokumentach zamrożonych i we wcześniejszych sekcjach powtarza się teza: Rosja bije w cel, który się regeneruje (ukraińska sieć), Ukraina w cel, który się nie regeneruje (rafinerie). <strong>Ta teza wymaga zawężenia, i uczciwość każe je zapisać.</strong></p>
+
+<p>Sieć dystrybucyjna faktycznie regeneruje się szybko — łatana w dni, wspierana importem energii i adaptacją odbiorców. Ale <strong>głęboki sprzęt już nie</strong>. Rządowe opracowanie z kwietnia 2026 wskazuje cykle produkcyjne <strong>dwunastu do osiemnastu miesięcy dla transformatorów i autotransformatorów wysokiego napięcia</strong>, zwłaszcza w klasie 330–750 kV. Poziom 750 kV jest szczególnie wrażliwy, bo urządzenia tej klasy są specyficzne dla sieci postsowieckiej i mają niewiele zamienników; do tego dochodzi globalny niedobór transformatorów.</p>
+
+<p>Czyli: <strong>ta sama logika nieregeneracji, którą stosujemy do rosyjskich hydrokrakerów, dotyczy ukraińskich autotransformatorów</strong> — długi cykl, wąska baza dostawców, brak zamienników. Różnica jest ilościowa i dwojaka. Po pierwsze, Ukraina ma dostęp do rynku światowego, a Rosja nie — może kupić, choćby drogo i z opóźnieniem. Po drugie, ukraińska sieć ma odziedziczoną nadmiarowość i wsparcie zewnętrzne, których rosyjski przerób nie ma. Ale margines się zwęża, a łańcuch odbudowy — od zakupu przez montaż po ochronę — jest sam pod ostrzałem. <strong>Teza o asymetrii regeneracji pozostaje słuszna co do kierunku, lecz jest mniej absolutna, niż ją dotąd stawialiśmy.</strong></p>
+
+<h3 id="asymetria-ograniczen">5. Asymetria ograniczeń</h3>
+
+<p>Zestawienie obu stron daje wniosek ostrzejszy niż samo wyliczenie słabości. Obie strony mają ograniczenia — ale <strong>są one różnej natury, i to natura, a nie skala, przesądza o trajektorii</strong>.</p>
+
+<p><strong>Ograniczenia rosyjskie są fizyczne.</strong> Zniszczonej kolumny nie da się odbudować bez komponentu, którego nikt nie sprzeda; wyczerpanej puli pracowników nie da się zadekretować; złota, które sprzedano, nie ma. Te ograniczenia <em>nie odwracają się</em> — mogą jedynie postępować wolniej albo szybciej.</p>
+
+<p><strong>Ograniczenia ukraińskie są polityczne i finansowe.</strong> Luka budżetowa domyka się decyzją Rady Europejskiej; produkcja dronów rośnie, gdy pieniądze przychodzą, i spada, gdy nie przychodzą; transformator da się kupić, jeśli jest za co i skąd. Te ograniczenia <em>są odwracalne</em> — w obie strony. Mogą się pogłębić, jeśli poparcie osłabnie, i zniknąć w tydzień, jeśli zapadnie decyzja.</p>
+
+<p>To jest właściwa treść „zapasu kontra strumieniowi", precyzyjniej postawiona niż w wersji pierwotnej. Nie chodzi o to, że jedna strona ma wszystkiego pod dostatkiem, a druga nie — <strong>obie są napięte do granic</strong>. Chodzi o to, że rosyjskie ograniczenia mają charakter jednokierunkowy, a ukraińskie odwracalny. <span class="kw">Dlatego największym ryzykiem dla Ukrainy nie jest wyczerpanie zasobów, lecz zmiana decyzji — a największym ryzykiem dla Rosji jest to, że żadna decyzja jej nie pomoże.</span></p>
+
+<p class="zrodla">Źródła sekcji: Ministerstwo Obrony Ukrainy (IV 2026) · Aviation Week · Kyiv Post · Second Line of Defense · Militarnyi · Defense Express · EBRD (VI 2026) · MFW · DiXi Group / Centre for Economic Strategy · DIIS (VII 2026) · Komisja Europejska (IV 2026) · Ukrinform</p>
+
+<h2 id="adaptacja">XIV. Czego Rosja nauczyła się dobrze</h2>
+
+<p>Dokument, który wylicza wyłącznie słabości przeciwnika, jest listą, nie analizą. Ta sekcja jest testem uczciwości całej reszty: <strong>Rosja adaptuje się skutecznie w kilku obszarach i trzeba to policzyć rzetelnie</strong> — łącznie z tym, że część zachodnich narzędzi nacisku okazała się mniej skuteczna, niż zakładano.</p>
+
+<h3 id="flota-cieni">1. Flota cieni — od obejścia do instytucji</h3>
+
+<p>To jest największy sukces adaptacyjny reżimu i trzeba go nazwać wprost. Flota cieni przewozi dziś <strong>blisko 70% rosyjskiej ropy transportowanej drogą morską i generuje około 85 mld dolarów rocznie</strong>. Skala: 600–800 tankowców, czyli mniej więcej 10–15% światowej floty zbiornikowców.</p>
+
+<p>Skuteczność sankcji wobec pojedynczych jednostek okazała się ograniczona. Na przełomie lutego i marca 2026 <strong>623 tankowce były objęte co najmniej jednym reżimem sankcyjnym, a 111 z nich nadal ładowało rosyjską ropę</strong>. Na początku 2026 statki sankcjonowane przez G7+ obsługiwały około <strong>68% rosyjskiego eksportu ropy surowej</strong> — czyli sankcje podniosły koszty logistyczne, ale nie ograniczyły istotnie zdolności eksportowej. Rosyjski eksport surowców kopalnych wciąż przynosi rzędu <strong>464 mln euro dziennie</strong>.</p>
+
+<p>Co więcej, presja na rejestry bandery wywołała reakcję, która wzmocniła system zamiast go rozbić: <strong>Rosja stała się wiodącą banderą floty cieni</strong>. Od listopada 2025 przeniesiono do jej rejestru 69 sankcjonowanych statków, łącznie w latach 2025–2026 przeflagowano 98 jednostek, a liczba tankowców pod rosyjską banderą przekroczyła 213 — czyli ponad jeden na pięć sankcjonowanych zbiornikowców świata. Równolegle rosyjscy ubezpieczyciele państwowi przejęli obsługę polis, a rosyjski rejestr morski — klasyfikację statków. <span class="kw">Wypchnięcie floty cieni z zagranicznych rejestrów sprawiło, że państwo wchłonęło ją do własnej infrastruktury.</span></p>
+
+<h3 id="budowa-pod-sankcjami">2. Nowy poziom: budowa mocy pod sankcjami</h3>
+
+<p>W lipcu 2026 pojawił się dowód, że model floty cieni został rozszerzony na coś jakościowo nowego. Zdjęcia satelitarne z 19 lipca pokazują dwa chińskie statki ciężkiego ładunku — <strong>oba objęte sankcjami USA od 2024 roku</strong> — rozładowujące w stoczni Biełokamienka pod Murmańskiem pierwsze moduły konstrukcyjne dla trzeciej linii Arctic LNG 2, projektu zablokowanego od dwóch lat. Rejs trwał trzy miesiące i odbył się pod fałszywymi banderami z fikcyjnymi portami docelowymi.</p>
+
+<p>Różnica jest istotna: <strong>flota cieni przestała służyć wyłącznie do wywożenia towaru objętego sankcjami, a zaczęła obsługiwać łańcuchy dostaw budowlanych dla rozbudowy sankcjonowanych mocy</strong>. To znaczy, że Rosja nie tylko sprzedaje mimo sankcji, ale i buduje mimo sankcji. Nie należy tego lekceważyć — jest to realna zdolność, której zachodnie reżimy kontrolne nie przewidziały.</p>
+
+<h3 id="sankcje-kinetyczne">3. Kontradaptacja: sankcje kinetyczne</h3>
+
+<p>Adaptacja rosyjska napotkała kontradaptację, i to taką, której zachodnie reżimy sankcyjne nie potrafiły wykonać same. Skoro Zachód <em>wyznacza</em> statki, ale ich nie <em>zatrzymuje</em>, robi to Ukraina — dronami morskimi. RUSI nazwał to wprost <strong>„sankcjami kinetycznymi"</strong>, odnotowując, że w Kijowie <strong>przelała się frustracja brakiem egzekwowania sankcji na rosyjski eksport ropy</strong>.</p>
+
+<p>Mechanizm domyka lukę, którą opisano wyżej: sankcje objęły 623 tankowce, a 111 z nich dalej ładowało ropę, bo desygnacja jest aktem prawnym, nie fizycznym. Dron morski zamienia jedno w drugie. Od końca listopada 2025 <strong>co najmniej siedem tankowców floty cieni doznało krytycznych uszkodzeń</strong>; ukraińskie służby przyznały się do czterech, milcząc znacząco przy pozostałych.</p>
+
+<p>Lipiec pokazał skalę przemysłową. <strong>7 lipca</strong> drony dalekiego zasięgu trafiły osiem tankowców na Morzu Azowskim plus statek towarowy i prom — dowódca Sił Systemów Bezzałogowych określił wynik jako „poziom przemysłowy" i skomentował: <em>trwa bitwa o benzynę dla Krymu</em>. <strong>8 lipca</strong> Sea Baby uszkodził w klasie Suezmax tankowiec Blue u wybrzeży okupowanej Jałty, w ukraińskiej wyłącznej strefie ekonomicznej, mimo próby przechwycenia przez rosyjskie lotnictwo; tej samej nocy uderzono w kolejnych dziewięć jednostek na Azowie. Jednostkowe stawki są wysokie: jeden z wcześniej trafionych tankowców wyceniano na 30 mln dolarów przy ładunku wartym 60 mln za rejs.</p>
+
+<p>Skutki wykraczają poza uszkodzone kadłuby i uderzają w ekonomikę całego modelu. <strong>Rosną stawki czarterowe, koszty paliwa i ubezpieczenia, wydłużają się trasy</strong> — a to systematycznie zjada marżę na rejs, czyli dokładnie ten margines, dla którego flota cieni w ogóle istnieje. Po jednym z incydentów turecka grupa armatorska ogłosiła <strong>całkowite zaprzestanie operacji związanych z rosyjskimi interesami</strong>, powołując się na nieakceptowalne ryzyko. To jest efekt, którego lista sankcyjna nie osiąga: wycofanie się pośrednika z własnej woli.</p>
+
+<p>Reakcja rosyjska potwierdza wagę zjawiska: szwedzka marynarka odnotowała <strong>obecność rosyjskiego personelu wojskowego na pokładach sankcjonowanych tankowców floty cieni</strong> na Bałtyku. Jednostki traktowane dotąd jako cywilne są teraz chronione jak aktywa strategiczne — czyli Rosja sama przyznała im status wojskowy, dokładnie tak jak przy tagu „Wszystko dla SWO" na magazynach.</p>
+
+<p>Wniosek jest symetryczny do wzorca z sekcji o marketplace'ach: <strong>Zachód wyznacza, Ukraina egzekwuje, Zachód dopisuje kolejne podmioty</strong>. Podział pracy powstał nie z uzgodnienia, lecz z asymetrii możliwości — jedna strona ma instrumenty prawne bez woli ich fizycznego wymuszania, druga ma środki fizyczne i egzystencjalny powód, by ich użyć. <span class="kw">Sankcja niewyegzekwowana jest deklaracją; sankcja wyegzekwowana dronem jest faktem.</span></p>
+
+<h3 id="pozostale-adaptacje">4. Pozostałe adaptacje</h3>
+
+<p>Krócej, ale bez pomijania — Rosja opanowała także:</p>
+<ul>
+<li><strong>Import paliwa</strong> z Indii, Kazachstanu i Białorusi, wraz z przyspieszonym mechanizmem subsydiów importowych — reakcja spóźniona, ale wykonana.</li>
+<li><strong>Kanały komponentowe przez pośredników</strong> — Turcja, Kazachstan, ZEA, spółki wydmuszki w Hongkongu i Makau, rozliczenia w juanach poza jurysdykcją dolarową.</li>
+<li><strong>Lokalizację produkcji dronów uderzeniowych</strong> — z licencji na własne linie o dużej skali, przy postępującej modernizacji konstrukcji.</li>
+<li><strong>Werbunek bez mobilizacji</strong> — premie, cudzoziemcy, umorzenia długów, werbunek z aresztów, przymus administracyjny zamiast dekretu.</li>
+<li><strong>Przerzucanie kosztu na obywateli i przedsiębiorców</strong> — regulaminy platform handlowych przepisane tak, by strata z uderzeń obciążała drobnych sprzedawców, a nie spółki.</li>
+</ul>
+
+<h3 id="cena-adaptacji">5. Cena każdej adaptacji</h3>
+
+<p>Rzetelność wymaga jednak dopisania rachunku, bo każda z tych adaptacji jest kupowana, a nie darmowa.</p>
+
+<p>Flota cieni jest <strong>stara</strong>: 96% zbiornikowców do ropy surowej i 92% do produktów ma ponad piętnaście lat, co oznacza rosnące ryzyko awarii, wypadków i utraty ładunku — a każde zatrzymanie jednostki to koszt bezpowrotny. Przeniesienie ubezpieczeń i klasyfikacji do instytucji rosyjskich znaczy, że <strong>państwo przejęło na siebie ryzyko, które wcześniej rozkładało się na rynek</strong>. Import paliwa kosztuje dewizy w momencie, gdy tych brakuje. Kanały komponentowe podnoszą cenę jednostkową i wydłużają czas dostawy, a każde takie tarcie mnoży się przez liczbę części w wyrobie. Werbunek za premie zżera budżety regionalne, a przerzucenie strat na sprzedawców niszczy bazę podatkową i zaufanie do platform.</p>
+
+<p>Innymi słowy: <strong>adaptacje działają, ale każda z nich zamienia problem ostry na przewlekły i przenosi koszt z zewnątrz do środka</strong>.</p>
+
+<h3 id="dlaczego-to-wzmacnia-teze">6. Dlaczego to wzmacnia tezę, a nie osłabia</h3>
+
+<p>Można by sądzić, że skuteczna adaptacja podważa całą diagnozę zapaści. Jest odwrotnie, i to z prostego powodu logicznego.</p>
+
+<p>Wszystkie wskaźniki opisane w tym dokumencie — przerób na dnie dwudziestolecia, deficyt przekraczający roczny plan w pół roku, rekordowa wyprzedaż złota, piąty rok spadku przewozów kolejowych, załamanie werbunku, obniżenie celu niezależności elektronicznej — <strong>zostały zmierzone już PO uwzględnieniu tych adaptacji</strong>. Flota cieni działała, import paliwa szedł, kanały chińskie były drożne, premie werbunkowe wypłacano — i mimo to liczby wyszły takie, jakie wyszły.</p>
+
+<p>To znaczy, że <strong>degradacja postępuje nie z braku adaptacji, lecz pomimo adaptacji skutecznej</strong>. Gdyby Rosja nie robiła tego wszystkiego, obraz byłby dramatyczniejszy — ale też trzeba pamiętać, że możliwości adaptacyjne są w większości już wykorzystane: banderę zmieniono, ubezpieczenia znacjonalizowano, więzienia opróżniono, złoto sprzedano, cele obniżono. <span class="kw">Adaptacja kupuje czas, a nie kierunek — i jest zasobem, który też się kończy.</span></p>
+
+<p class="zrodla">Źródła sekcji: RUSI · Windward (VII 2026) · GSSC (IV 2026) · GIS Reports · Center for Maritime Strategy · Synmax Intelligence / Planet Labs (19.07.2026) · gCaptain · Global Energy Monitor · CREA  · RUSI („kinetic sanctions", I 2026) · Militarnyi · Ukrainska Prawda · Kyiv Independent · Washington Times (7.07.2026) · Forbes · sekcje wcześniejsze tego dokumentu</p>
+
+<h2 id="bankowosc">XV. Bankowość — najkrótszy zapalnik</h2>
+
+<p>Wszystkie procesy opisane wcześniej mierzą się w kwartałach albo latach: rafineria płonie i stoi miesiącami, kolej osuwa się o procent rocznie, demografia przez pokolenie. <strong>Bankowość jest jedynym mechanizmem, który potrafi zadziałać w tygodniach</strong> — i to czyni z niej najkrótszy zapalnik w całym układzie.</p>
+
+<h3 id="formalnie-juz-kryzys">1. Formalnie kryzys już trwa</h3>
+
+<p>Kluczowa liczba nie jest prognozą, lecz stanem zaszłym. <strong>Od początku 2026 udział złych aktywów w rosyjskim systemie bankowym przekroczył próg 10%</strong> — czyli poziom, od którego formalnie mówi się o kryzysie bankowym. Wolumen kredytów niepracujących wzrósł w 2025 o 19%, a w styczniu i lutym 2026 o kolejne 5,2%, sięgając <strong>13,6 bln rubli</strong>.</p>
+
+<p>Rozjazd między statystyką oficjalną a oceną zewnętrzną jest przy tym systematyczny. Bank centralny podaje udział złych kredytów korporacyjnych poniżej 5% i zapewnia, że są niemal w całości pokryte rezerwami. Europejskie oceny wywiadowcze mówią o <strong>10% portfela korporacyjnego o „wątpliwej" jakości</strong>. Dane cząstkowe wspierają raczej tę drugą wersję: przeterminowane niezabezpieczone kredyty konsumenckie sięgnęły 12,9%, a <strong>co szósta z 600 tysięcy małych i średnich firm z kredytem zalegała w maju ze spłatą</strong>; wśród mikroprzedsiębiorstw problemy ze spłatą w ciągu roku dotknęły blisko 10%.</p>
+
+<p>Do tego dochodzi bomba detaliczna: <strong>ponad trzynaście milionów obywateli spłaca równocześnie co najmniej trzy kredyty</strong>, co jest klasyczną strukturą masowego defaultu przy pierwszym poważnym szoku dochodowym.</p>
+
+<h3 id="maskowanie">2. Maskowanie przez restrukturyzację</h3>
+
+<p>Powód, dla którego kryzys ma — jak ujmuje to kremlowski ośrodek analityczny — <strong>„charakter utajony"</strong>, jest instytucjonalny. System bankowy jest zdominowany przez wielkie instytucje państwowe, co pozwala ukrywać rozkład: zamiast dopuszczać do niewypłacalności, wymusza się restrukturyzacje, które nie każą klasyfikować długu jako zagrożonego.</p>
+
+<p>Widać to w liczbach. Udział <strong>ryzykownych restrukturyzacji</strong> — takich, gdzie szansa na poprawę sytuacji dłużnika jest niska — wzrósł w 2025 półtorakrotnie, z 2,9% do 4,3% portfela korporacyjnego. Jedna piąta kredytów dla małych i średnich firm była zrestrukturyzowana już na koniec trzeciego kwartału 2025. W lipcu 2026 bank centralny <strong>polecił bankom kontynuować restrukturyzacje</strong> dla firm w „przejściowych trudnościach".</p>
+
+<p>Mechanizm działa, ale ma cenę: <strong>przenosi zobowiązanie wprost na budżet państwa</strong> — ten sam, którego półroczny deficyt przekroczył roczny plan o połowę. Zapobieżenie skutkom wymagałoby, wedle szacunków, restrukturyzacji lub nacjonalizacji ponad 10% banków albo wsparcia rzędu ponad 2% PKB. <span class="kw">Ukrycie kryzysu bankowego nie usuwa go — przesuwa go do sektora, który sam nie domyka bilansu.</span></p>
+
+<p>Sygnały ze szczytu sektora są jednoznaczne. Prezes największego banku stwierdził, że komitet kredytowy <strong>„zamienił się faktycznie w komitet do spraw aktywów problemowych"</strong> i zajmuje się głównie restrukturyzacjami. Drugi bank kraju zwiększył rezerwy o blisko jedną trzecią, a <strong>udział kredytów problemowych w jego bilansie wzrósł o niemal połowę, do 14,2%</strong>. Największy bank obniżył prognozę wzrostu PKB na 2026 do zera–pół procenta, wskazując na trudną sytuację gospodarczą, restrykcyjną politykę pieniężną i mocny rubel dławiący eksporterów.</p>
+
+<h3 id="marketplace-przyspiesznik">3. Marketplace'y jako przyspiesznik</h3>
+
+<p>Tu domyka się wątek z sekcji o handlu internetowym, i domyka go sam bank. Dyrektor finansowy największego kredytodawcy powiedział wprost, że <strong>ukraińskie uderzenia dronowe podniosły ryzyko kredytowe marketplace'ów i firm działających za ich pośrednictwem</strong>, bank otrzymał <strong>około trzystu wniosków o restrukturyzację</strong> od dotkniętych kredytobiorców, spodziewa się kolejnych, a szkody określił jako „dość znaczące". Obie platformy były wcześniej opisywane przez prezesa banku jako jego partnerzy.</p>
+
+<p>To znaczy, że kampania z połowy lipca ma udokumentowany, przyznany przez przeciwnika kanał transmisji do systemu finansowego — <strong>od płonącego magazynu, przez stratę drobnego sprzedawcy, po rezerwy banku systemowo ważnego</strong>. Nie trzeba przy tym doprowadzać do upadłości platformy: wystarczy pogorszenie jakości portfela, żeby bank musiał odłożyć kapitał, którego nie odłoży gdzie indziej.</p>
+
+<h3 id="ucieczka-gotowki">4. Ucieczka gotówki i niespłacalność</h3>
+
+<p>Dwa zachowania obserwowalne bez dostępu do ksiąg bankowych, i oba idą w tę samą stronę.</p>
+
+<p><strong>Ludzie wybierają gotówkę.</strong> Środki trzymane poza bankami urosły o ponad 17% rok do roku, przekraczając <strong>19 bln rubli</strong> — około 243 mld dolarów. To dwa problemy naraz: banki finansują akcję kredytową depozytami, więc odpływ tnie ich zdolność dokładnie wtedy, gdy gospodarka potrzebuje refinansowania; a po drugie, i ważniejsze, <strong>jest to zachowanie poprzedzające panikę, nie towarzyszące jej</strong>. Ludzie wyjmują pieniądze zawczasu, spokojnie, po jednej wypłacie — dopóki wszyscy nie zrobią tego naraz.</p>
+
+<p><strong>Ludzie i firmy coraz bardziej nie spłacają.</strong> Wolumen kredytów przeterminowanych powyżej dziewięćdziesięciu dni sięgnął <strong>2,3 bln rubli</strong> i wzrósł półtorakrotnie w dziewięć miesięcy; przeterminowane niezabezpieczone kredyty konsumenckie to <strong>12,9%</strong>, o blisko cztery punkty więcej rok do roku. Po stronie firm: <strong>co szósta z 600 tysięcy małych i średnich firm z kredytem zalegała ze spłatą</strong>, a blisko 10% mikroprzedsiębiorstw miało poważne trudności w ciągu roku. Do tego <strong>ponad trzynaście milionów obywateli obsługuje równocześnie co najmniej trzy kredyty</strong>, a upadłości konsumenckich odnotowano w 2025 około 568 tysięcy — o blisko jedną trzecią więcej niż rok wcześniej.</p>
+
+<p>Razem daje to obraz, w którym <strong>gospodarstwa domowe wycofują zaufanie do systemu i jednocześnie tracą zdolność obsługi zobowiązań</strong> — czyli bank traci pasywa i aktywa naraz. <span class="kw">To nie są dwa niezależne wskaźniki, tylko dwie strony jednej decyzji o przetrwaniu.</span></p>
+
+<h3 id="dlaczego-najkrotszy">5. Dlaczego to najkrótszy zapalnik</h3>
+
+<p>Trzy cechy odróżniają ten mechanizm od wszystkich pozostałych opisanych w tym dokumencie.</p>
+
+<p><strong>Tempo.</strong> Rafineria płonie miesiącami, ale run na bank rozgrywa się w dni. Kryzys utajony może trwać kwartałami i przejść w jawny w ciągu tygodnia — bo jego przebieg zależy od percepcji, a nie od fizyki.</p>
+
+<p><strong>Wyzwalacz zewnętrzny.</strong> W odróżnieniu od paliwa czy demografii, ten kryzys ma <strong>gotowy, dostępny detonator po stronie zachodniej</strong>. Europejskie oceny wywiadowcze mówią o tym otwarcie: restrukturyzacyjne maskowanie tworzy „iluzję dynamicznej gospodarki" skrywającą sytuację wybuchową, a Zachód ma okazję nałożyć sankcje na tyle ambitne, by wywołać szok. Przygotowywany pakiet obejmuje blisko dziewięćdziesiąt banków, po czym liczba sankcjonowanych instytucji finansowych przekroczy sto — ponad połowę rosyjskich banków z powiązaniami międzynarodowymi.</p>
+
+<p><strong>Termin zbieżny z resztą.</strong> Kremlowski ośrodek analityczny wskazał, że fala złego długu korporacyjnego może ruszyć w <strong>trzecim albo czwartym kwartale</strong>, a prawdopodobieństwo scenariusza kryzysowego w 2026 ocenił jako średnie. To jest ta sama jesień, w której zbiegają się: szczyt sezonowy zużycia paliwa, żniwa po najgorszym starcie od lat, wybory i decyzja mobilizacyjna, konstrukcja budżetu na 2027 oraz — wedle wskazań z sekcji o prognozach — okno wskazywane niezależnie przez cztery zegary.</p>
+
+<p>Rezerwa, którą można by na to rzucić, jest przy tym najcieńsza od dekady: <strong>płynne środki Funduszu Dobrobytu Narodowego stopniały do 1,8% PKB wobec 6,5% przed inwazją</strong>, a złoto z niego właśnie wyprzedano w tempie rekordowym. <span class="kw">Bankowość jest jedynym miejscem, gdzie powolna zapaść może zamienić się w nagły wypadek — i jedynym, gdzie decyzja podjęta w Brukseli może o tym przesądzić.</span></p>
+
+<p class="zrodla">Źródła sekcji: Bank Rosji · CMASF/CMAKP (kremlowski ośrodek analityczny) · Moscow Times (17.07 i 29.07.2026) · Reuters · Interfax · Re: Russia · Kyiv Post · Scoring Bureau · europejskie oceny wywiadowcze cytowane przez Reuters  · Ministerstwo Rozwoju Gospodarczego FR<br>Gotówka i niespłacalność: Bank Rosji (dane o gotówce w obiegu) · Scoring Bureau · Moscow Times (17.07.2026) · CMASF · CPD · Re: Russia</p>
+
+<h2 id="zima">XVI. Zima 2026/27 — zbieg wektorów</h2>
+
+<p>Każdy proces opisany w tym dokumencie ma własny zegar. Rzecz w tym, że <strong>niemal wszystkie wskazują to samo okno</strong> — i nie dlatego, że ktoś je tam ustawił, lecz dlatego, że jesień i zima są w Rosji strukturalnie momentem, w którym rachunki przychodzą jednocześnie.</p>
+
+<h3 id="kalendarz-zbieznosci">1. Kalendarz zbieżności</h3>
+
+<p>Zestawienie terminów, każdy udokumentowany osobno we wcześniejszych sekcjach:</p>
+
+<ul>
+<li><strong>Wrzesień</strong> — wybory parlamentarne, po których odblokowuje się przestrzeń na decyzje niepopularne.</li>
+<li><strong>Październik</strong> — wskazywany termin możliwego ogłoszenia nowej fali mobilizacji.</li>
+<li><strong>III–IV kwartał</strong> — okno, w którym kremlowski ośrodek analityczny umieszcza początek fali złego długu korporacyjnego.</li>
+<li><strong>Jesień</strong> — szczyt sezonowego zużycia paliwa nakładający się na przerób na dnie dwudziestolecia, plus rozliczenie żniw po najgorszym starcie od lat i przełożenie tego na ceny żywności.</li>
+<li><strong>Jesień</strong> — konstruowanie budżetu na 2027, czyli moment, w którym trzeba zapisać na papierze, skąd wziąć pieniądze, których nie ma.</li>
+<li><strong>Zima</strong> — sezon grzewczy przy zużyciu infrastruktury sięgającym 70% i finansowaniu ciętym przez trzy lata.</li>
+<li><strong>Zima 2026</strong> — granica okna negocjacyjnego wskazywana niezależnie przez Zełenskiego i Budanowa.</li>
+<li><strong>Wrzesień–październik</strong> — horyzont prognozy estońskiego wywiadu o znaczącym osłabieniu pozycji Rosji.</li>
+<li><strong>Jesień 2026</strong> — okno wskazywane przez rosyjską opozycję systemową oraz przez model sezonowości z Kolumbryny.</li>
+<li><strong>Początek 2027</strong> — gotowość operacyjna wynikająca z rosyjskich dokumentów planistycznych, wskazywanych przez Budanowa.</li>
+</ul>
+
+<p>Dziesięć wskazań, wywiedzionych z niezależnych metod i różnych źródeł, mieści się w oknie czterech miesięcy. To nie dowodzi, że coś się wydarzy — ale oznacza, że <strong>jeśli cokolwiek ma się wydarzyć, to prawdopodobnie właśnie wtedy</strong>.</p>
+
+<h3 id="cieplownictwo">2. Ciepłownictwo — zużycie 70% przy budżecie ciętym 2,3 raza</h3>
+
+<p>Sezon grzewczy jest w Rosji odrębnym testem państwa, bo dotyka wszystkich naraz i nie da się go przełożyć. Stan wyjściowy: <strong>zużycie sieci ciepłowniczych w wielu rosyjskich miastach sięga 70%</strong>, a łączne zużycie infrastruktury komunalnej — ciepła, wody, kanalizacji — przekroczyło ten poziom już kilka lat temu.</p>
+
+<p>Równolegle biegnie cięcie finansowania. Federalne wydatki na mieszkalnictwo i gospodarkę komunalną zmniejszono w 2025 o 43% do 506 mld rubli, a w 2026 o kolejne 25% do 381 mld — <strong>w trzy lata skurczyły się 2,3 raza, do sześcioletniego minimum</strong>. Lukę próbowano zasypać taryfami: indeksacja z lipca 2025 wyniosła 11,9%, czyli ponad dwukrotność inflacji ogólnej. Rosyjscy eksperci mówią wprost, że <strong>zasób walki ze zużyciem sieci przez podnoszenie taryf został wyczerpany</strong> — dalsze podwyżki przenoszą ciężar na ludność, która już nie płaci.</p>
+
+<p>Skutki widać przed sezonem, nie w nim: awarie komunalne dotknęły <strong>co siódmego regionu</strong> Rosji, a charakter zjawiska określa się jako systemowy, nie pogodowy — zasoby idą nie na modernizację podstawowej infrastruktury, lecz na inne zadania. W tle rekord upadłości konsumenckich: około 568 tysięcy w 2025, o blisko jedną trzecią więcej niż rok wcześniej.</p>
+
+<h3 id="przyznanie-w-dokumencie">3. Przyznanie wpisane w dokument rządowy</h3>
+
+<p>Najciekawszy dowód pochodzi z komunikatu rosyjskiego rządu o przygotowaniach do sezonu 2026–2027. Przy programie prac wartym 2,5 bln rubli pada sformułowanie o budowaniu <strong>wzmocnionych zapasów awaryjnych dla spółek energetycznych „z uwzględnieniem większej intensywności incydentów oddziaływania zewnętrznego"</strong>, ze wskazaniem priorytetu na sieci magistralne, główne podstacje i elektrociepłownie.</p>
+
+<p>„Incydenty oddziaływania zewnętrznego" to eufemizm na uderzenia dronowe — i to eufemizm wpisany do oficjalnego dokumentu planistycznego. <strong>Państwo, które publicznie utrzymuje, że sytuacja jest opanowana, w tym samym czasie planuje sezon grzewczy pod założenie regularnego ostrzału własnej energetyki.</strong> To jest odczyt przez absencję w odwrotnej postaci: nie brak sygnału, lecz sygnał ukryty w języku administracyjnym. <span class="kw">Nie mówią, że boli — mówią, ile bandaży zamawiają.</span></p>
+
+<h3 id="dlaczego-splot-mnozy">4. Dlaczego splot mnoży, a nie sumuje</h3>
+
+<p>Kluczowe jest to, że wektory nie są niezależne — <strong>wzmacniają się nawzajem, i to w sposób policzalny</strong>.</p>
+
+<p>Deficyt paliwa zabiera zbiory, słabsze zbiory podnoszą ceny żywności i obniżają wpływy eksportowe, niższe wpływy pogłębiają deficyt budżetu, głębszy deficyt zmniejsza zdolność ratowania banków, słabsze banki tną kredyt firmom, słabsze firmy zwalniają ludzi i nie spłacają długu — a wszystko to dzieje się w sezonie, w którym awaria ciepłownictwa zamienia problem gospodarczy w problem uliczny. Do tego mobilizacja, jeśli zapadnie, wyjmuje ludzi z tej samej gospodarki i dodaje bodziec do emigracji.</p>
+
+<p>Każde z tych ogniw osobno jest do przetrwania. <strong>Splot różni się od sumy tym, że zamyka drogi ucieczki</strong>: nie ma sektora, do którego dałoby się przerzucić zasoby, bo wszystkie są napięte równocześnie. To jest ta sama struktura, którą opisano wcześniej przy budżecie, złocie, zbiorach i kolei — każde wyjście prowadzi przez ogniwo już uszkodzone — tylko rozciągnięta na całe państwo i skoncentrowana w czasie.</p>
+
+<h3 id="co-musialoby-pojsc-dobrze">5. Co musiałoby pójść dobrze</h3>
+
+<p>Uczciwość analityczna wymaga postawienia pytania odwrotnego: <strong>co musiałoby się wydarzyć, żeby ta zima minęła bez wstrząsu</strong>. Lista jest krótka i mierzalna, co czyni ją użyteczną.</p>
+
+<ul>
+<li><strong>Ceny ropy wracają wysoko i utrzymują się</strong> — przy czym paradoks naftowy pokazał, że nawet rekordowe ceny nie przełożyły się na wpływy, dopóki nie działa eksport.</li>
+<li><strong>Ukraińska kampania traci tempo</strong> — na przykład przez cięcie finansowania zachodniego, co jest jedynym realnym mechanizmem, bo zdolności produkcyjne rosną.</li>
+<li><strong>Łagodna zima</strong> — zmienna czysto losowa, ale przy zużyciu sieci 70% naprawdę istotna.</li>
+<li><strong>Chiny zwiększają wsparcie</strong> zamiast zaostrzać kontrole eksportowe.</li>
+<li><strong>Bank centralny utrzymuje maskowanie</strong> złych kredytów bez zewnętrznego szoku sankcyjnego.</li>
+<li><strong>Rezygnacja z mobilizacji</strong> przy jednoczesnym utrzymaniu frontu — czyli werbunek odbija bez podnoszenia kosztu.</li>
+</ul>
+
+<p>Żaden z tych warunków nie jest niemożliwy. Ale <strong>musiałyby zajść w większości naraz</strong>, a kilka z nich zależy od decyzji podejmowanych poza Rosją — w Brukseli, Pekinie i Waszyngtonie. To jest właściwa miara sytuacji: nie „upadek jest pewny", lecz <strong>„przetrwanie tej zimy bez wstrząsu wymaga zbiegu okoliczności, na który Rosja w większości nie ma wpływu"</strong>.</p>
+
+<p>I stąd ostrożne domknięcie, spójne z dyscypliną przyjętą w sekcji o prognozach: jesień 2026 nie jest datą upadku. Jest <strong>oknem, w którym proces zmienia widoczność</strong> — z pełzającego na jawny. Co się w nim wydarzy, zależy od czterech osi opisanych w dokumentach zamrożonych, z których trzy schodzą, a czwarta — lojalność aparatu — pozostaje niemierzalna aż do momentu, w którym pęka.</p>
+
+<p class="zrodla">Źródła sekcji: Rząd FR (komunikat o przygotowaniach do sezonu 2026–2027) · Izwiestia · Moscow Times · CMASF/CMAKP · CPD · Mezha · wywiad estoński · Kolumbryna v3.5 (model sezonowości) · sekcje wcześniejsze tego dokumentu</p>
+
+<h2 id="tryb-wojenny">XVII. Tryb wojenny i cofnięcie się w czasie</h2>
+
+<p>Jeśli wszystkie ścieżki finansowe są zamknięte, zostaje ta, która finansów nie potrzebuje. <strong>Pełny tryb wojenny — przypisanie ludzi do frontu i do zakładów dekretem — zamienia problem pieniężny w problem przymusu</strong>, a przymus jest jedynym zasobem, którego reżimowi nie brakuje. To jest realna opcja, dostępniejsza niż wszystkie manewry fiskalne, i trzeba ją policzyć rzetelnie.</p>
+
+<h3 id="co-tryb-rozwiazuje">1. Co tryb wojenny faktycznie rozwiązuje</h3>
+
+<p>Rozwiązuje jednym cięciem cały splot monetarny opisany w tym dokumencie. Robotnikowi przypisanemu do zakładu i żołnierzowi z poboru <strong>nie trzeba płacić rynkowej stawki</strong> — a wraz z płacami znika presja inflacyjna, znika licytacja premiami werbunkowymi sięgającymi pięciu i pół miliona rubli, znika problem stóp procentowych i w dużej mierze znika kwestia niespłacanych kredytów, bo kredyt przestaje być mechanizmem organizującym gospodarkę.</p>
+
+<p>Rozwiązuje też deficyt rąk, o którym mowa w sekcji o trójkącie konkurencji: front, kolej i zbrojeniówka przestają ze sobą konkurować, bo alokację ustala dekret, a nie rynek pracy. To jest model radziecki i on <em>działał</em> — w tym sensie, że pozwolił wyprodukować sprzęt w skali, która zdecydowała o wyniku wojny.</p>
+
+<h3 id="drzwi-zamkniete">2. Drzwi zamknięto przed decyzją</h3>
+
+<p>Naturalną odpowiedzią ludzi na taki dekret byłaby ucieczka — jak w 2022, gdy z kraju wyjechały setki tysięcy. <strong>Ta droga jest już w dużej mierze zamknięta, i zamknięto ją zawczasu.</strong></p>
+
+<p>Elektroniczny rejestr wojskowy uruchomiony w sierpniu 2025 generuje <strong>zakaz wyjazdu automatycznie, w momencie pojawienia się wezwania</strong> — bez decyzji urzędnika. Od 2026 pobór jest całoroczny, więc wezwanie może przyjść każdego dnia, a zakaz wywołuje <em>każde</em> wezwanie, także wystawione wyłącznie w celu aktualizacji danych. Dane trafiają wprost do wszystkich baz kontroli granicznej, a pogranicznicy FSB mają bezpośredni dostęp do rejestru. Do tego sankcje cywilne: utrata prawa jazdy, brak dostępu do kredytu, oznaczenie jako uchylającego się po dwudziestu siedmiu dniach.</p>
+
+<p>Wykonanie bywa nierówne — niezależni prawnicy odnotowują, że relacje osób, które mimo zakazu wyjechały, bywały liczniejsze niż doniesienia o zatrzymaniach. Ale <strong>infrastruktura istnieje, jest przetestowana i można ją zacisnąć w jeden dzień, bez zmiany prawa</strong>. Kolejność jest tu wymowna: <span class="kw">najpierw zamknięto drzwi, dopiero potem rozważa się ogłoszenie.</span></p>
+
+<p>To odbiera trybowi wojennemu trzy koszty, które intuicyjnie by mu się przypisało. Protesty — aparat represji jest nietknięty, opłacany priorytetowo i strukturalnie oddzielny od armii frontowej. Wizerunek — rama narracyjna jest darmowa, bo propaganda nie żywi się faktem, lecz mitem, a przejście od „operacji specjalnej" do „wojny ojczyźnianej" nie wymaga przyznania, że poprzednia rama była fałszywa; wystarczy oskarżenie w lustrze. Emigracja — drzwi zamknięte. <strong>Zostają wyłącznie koszty materialne.</strong></p>
+
+<h3 id="brak-lend-lease">3. Czego nie ma: dostaw sojuszniczych</h3>
+
+<p>Tu jest dysanalogia, która podcina całe porównanie z lat 1941–45. Model radziecki nie stał wyłącznie na przymusie — <strong>stał na masowych dostawach sojuszniczych</strong>, obejmujących nie tylko sprzęt i surowce, ale w szczytowym okresie także znaczną część kalorii, transportu ciężarowego, paliw lotniczych i komponentów przemysłowych. Przymus organizował pracę; zewnętrzne zaopatrzenie organizowało jej możliwość.</p>
+
+<p>Dzisiejsza Rosja odpowiednika nie ma. Teoretycznie jego rolę mogłyby odegrać <strong>Chiny i Indie</strong> — i warto to rozważyć niezależnie od prawdopodobieństwa, bo to jedyny strukturalnie możliwy zamiennik. Tyle że zachowanie obu wskazuje w przeciwną stronę: Pekin właśnie zażądał za gaz ceny ośmiokrotnie niższej niż płacą inni i kazał nie wracać do tematu, zaostrzył własne kontrole eksportu podwójnego zastosowania i — wedle doniesień — przygotowuje się prywatnie na erę po obecnej ekipie. Delhi kupuje z dyskontem, nie subsydiuje. <strong>Obaj są kupcami wykorzystującymi przewagę negocjacyjną, nie patronami dotującymi wojnę.</strong></p>
+
+<p>Różnica jest jakościowa: sojusznik dostarcza, żeby druga strona wygrała; kupiec dostarcza, żeby zarobić, i przestaje, gdy przestaje się to opłacać albo gdy rośnie ryzyko wtórne. Tryb wojenny bez zaplecza zewnętrznego to <strong>model radziecki pozbawiony połowy, która go utrzymała przy życiu</strong>.</p>
+
+<h3 id="trzy-warstwy-czasowe">4. Trzy warstwy czasowe jednej gospodarki</h3>
+
+<p>I stąd obraz, który najlepiej oddaje kierunek: pod naciskiem tych ograniczeń rosyjska gospodarka nie cofa się równomiernie, tylko <strong>rozwarstwia w czasie</strong>. Jedna jej część wraca do lat czterdziestych, druga do siedemdziesiątych, a tylko wąski wycinek zostaje w dwudziestym pierwszym wieku.</p>
+
+<p><strong>Warstwa lat czterdziestych</strong> — tam, gdzie zastępuje się technologię pracą i przymusem. Rolnictwo na uproszczonych technologiach, gorszych nasionach i bez nawozów. Kanibalizacja samolotów zamiast części zamiennych. Kartki na paliwo i limity na osobę. Praca przypisana dekretem, bez negocjacji płacowej. Racjonowanie jako narzędzie dystrybucji.</p>
+
+<p><strong>Warstwa lat siedemdziesiątych</strong> — tam, gdzie działa jeszcze odziedziczony majątek trwały. Sieci ciepłownicze zbudowane w tamtym okresie i zużyte w siedemdziesięciu procentach. Tabor kolejowy i podstacje trakcyjne z tej samej epoki. Sowieckie zapasy rakiet i amunicji. Zakłady chemiczne i metalurgiczne postawione za planów pięcioletnich. Ta warstwa nie jest odtwarzana — jest dojadana.</p>
+
+<p><strong>Warstwa dwudziestego pierwszego wieku</strong> — wąska i w większości importowana. Precyzyjny ogień zależny od komponentów zza granicy. Drony montowane z chińskich zestawów. Systemy nawigacji satelitarnej. I — o czym niżej — cyfrowy aparat kontroli.</p>
+
+<p>Kluczowe jest to, że <strong>warstwy są niekompatybilne</strong>. Bronią z warstwy nowoczesnej nie da się wyprodukować metodami z warstwy archaicznej: przymusowo przypisany robotnik nie wytworzy matrycy w technologii dwudziestu ośmiu nanometrów ani autotransformatora wysokiego napięcia. Praca zastępuje technologię tylko tam, gdzie produkt jest prosty — przy zbożu, węglu, okopie i pocisku artyleryjskim. Przy wszystkim, co decyduje o przewadze na współczesnym polu walki, <span class="kw">przymus jest bezradny, bo wiązaniem nie jest wysiłek, lecz dostęp.</span></p>
+
+<h3 id="przymus-nowoczesny">5. Przymus nowoczesny, produkcja archaiczna</h3>
+
+<p>Jest w tym rozwarstwieniu jeden element uderzająco nowoczesny, i nie jest nim produkcja. <strong>Najbardziej zaawansowaną technologicznie częścią rosyjskiego państwa stał się aparat kontroli obywateli</strong>: zintegrowany rejestr wojskowy sprzężony z bazami granicznymi, elektroniczne wezwania, automatyczne blokady bankowe i administracyjne, dostęp służb w czasie rzeczywistym.</p>
+
+<p>To jest jedyny obszar, który dostał inwestycję i działa bez zarzutu — podczas gdy zakład nawozowy pracuje na sprzęcie sprzed pół wieku, a linia lotnicza rozbiera jedne samoloty na części do drugich. <strong>Państwo zmodernizowało przymus i zdemodernizowało wytwarzanie.</strong></p>
+
+<p>To domyka tezę całego dokumentu w najostrzejszej postaci. Reżim skutecznie zamknął wszystkie drzwi polityczne i społeczne: ulica jest opanowana, narracja niezniszczalna, granica zamknięta, elita zablokowana, informacja filtrowana. Wygrał wszystkie te walki — <strong>i został sam na sam z ograniczeniami fizycznymi, wobec których żadne z tych zwycięstw nic nie znaczy</strong>. Można zadekretować pracę, ale nie plon. Można zamknąć granicę, ale nie kupić litografu. Można ogłosić wojnę ojczyźnianą i zostać uwierzonym — a rafineria nadal będzie stała.</p>
+
+<p class="zrodla">Źródła sekcji: Meduza (7.04.2026) · IStories · Moscow Times · United24 Media (4.03.2026) · National Security Journal · Baza / Mash · Wall Street Journal (13.07.2026) · Carnegie Russia Eurasia Center · sekcje wcześniejsze tego dokumentu · dokumenty zamrożone (dark legitimacy, disinfolklore)</p>
+
+<h2 id="inwentarz-opcji">XVIII. Inwentarz opcji — co Rosji zostaje</h2>
+
+<p>Po przejściu przez wszystkie osie warto zebrać, co pozostaje reżimowi do dyspozycji — i oddzielić rzeczy, które brzmią jak wyjście, od tych, które nim są.</p>
+
+<h3 id="opcje-puste">1. Opcje pozorne</h3>
+
+<p><strong>Bailout chiński.</strong> Wymieniany odruchowo, a najmniej prawdopodobny. Pekin właśnie pokazał, jak postępuje: zażądał za gaz ceny ośmiokrotnie niższej niż płacą inni odbiorcy i polecił nie wracać do tematu. Nie ratuje, bo im dłużej czeka, tym taniej kupuje. <strong>Wasal nie dostaje kredytu, wasal dostaje warunki.</strong></p>
+
+<p><strong>Konfiskata majątku.</strong> Wygląda na szybkie źródło pieniędzy, a nie produkuje niczego. Willa nie ma wartości produkcyjnej, a spieniężyć ją można wyłącznie wobec tej samej elity, której się zabiera — kupcy zagraniczni odpadli razem z sankcjami. Zakład metalurgiczny po nacjonalizacji wytwarza dokładnie tyle samo stali co przedtem; zmienia się nazwisko na papierze. Gorzej: skoro najwięksi hutnicy są nierentowni, państwo przejmuje aktywo przynoszące stratę <em>wraz z obowiązkiem jego finansowania</em>. Funkcja konfiskaty jest dyscyplinująca, nie fiskalna.</p>
+
+<p><strong>Sztuczki monetarne.</strong> Dewaluacja, dodruk, kontrola kapitału, zamrożenie depozytów — wszystkie dostępne natychmiast i wszystkie puste, bo <strong>nie organizują nabojów, żywności, nawozów ani bomb</strong>. Rosji nie brakuje rubli na autotransformator 750 kV; brakuje jej sprzedawcy. Nie brakuje rubli na matrycę w technologii dwudziestu ośmiu nanometrów; nikt jej nie sprzeda za żadną cenę. Dewaluacja podnosi rublową wartość eksportu, ale ograniczeniem jest przepustowość portów i stan rafinerii, nie kurs. Dodruk przyspiesza wyłącznie to, co już trwa: inflację, defaulty i ucieczkę gotówki.</p>
+
+<p><strong>Zamrożenie frontu.</strong> Zamknięte od strony rosyjskiej — analiza w dokumentach zamrożonych; wymaga pozycji siły, której nie ma.</p>
+
+<h3 id="opcje-realne">2. Opcje realne</h3>
+
+<p>Po odsianiu pozornych zostaje jedna kategoria główna i trzy pomniejsze — wszystkie polegające na przesuwaniu rzeczy fizycznych, nie zapisów.</p>
+
+<p><strong>Przesuwanie zasobów z gospodarki cywilnej do wojska.</strong> To działa i jest widoczne w każdej sekcji tego dokumentu: paliwo na front zamiast na stacje, technicy do wojska zamiast na kolej, pierwszeństwo pociągów wojskowych przed węglem, diesel do czołgów zamiast do kombajnów. Jest realne, materialne i dostępne — i jest <strong>kanibalistyczne</strong>: każde przesunięcie odbiera zdolność wytwarzania tego, co się przesuwa.</p>
+
+<p><strong>Obniżanie standardów.</strong> Niedoceniana dźwignia, która faktycznie zwiększa liczbę sztuk: mniej kontroli jakości, gorsza stal, pominięte dyrektywy zdatności, zawyżone wskaźniki sprawności taboru, fałszowane dzienniki obsługi. Cena płacona jest w awaryjności i w gorszym efekcie na celu — dokładnie tak, jak widać w statystyce lotniczej i kolejowej.</p>
+
+<p><strong>Dostawy sojusznicze w naturze.</strong> Jedyny kanał dostarczający rzeczy, a nie pieniądze: amunicja i ludzie z Korei Północnej, konstrukcje dronów z Iranu, komponenty z Chin. Właśnie dlatego ważniejszy niż wszystkie manewry fiskalne razem wzięte.</p>
+
+<p><strong>Import po cenie premium.</strong> Działa tam, gdzie sprzedawca istnieje — paliwo z Indii i Kazachstanu, elektronika przez Turcję i Emiraty. Ograniczony kanałami i płatnościami, nie ilością rubli.</p>
+
+<p>Do tego dochodzą dwie opcje o innym charakterze, opisane osobno: <strong>tryb wojenny</strong> (sekcja poprzednia) oraz <strong>gambit NATO</strong> (dokumenty zamrożone). Pierwsza rozwiązuje problem płacowo-monetarny i nie rozwiązuje żadnego materialnego; druga jest ruchem resztkowym zapędzonego decydenta.</p>
+
+<h3 id="pieniadz-nie-jest-wiazaniem">3. Pieniądz przestał być wiązaniem</h3>
+
+<p>Wniosek z tego inwentarza jest jedną zdaniem, i przestawia całą optykę: <strong>pieniądz przestał być ograniczeniem, a stał się nim dostęp.</strong></p>
+
+<p>Przez trzy lata analizy rosyjskiej gospodarki wojennej krążyły wokół pytania, czy Kremlowi wystarczy pieniędzy. Odpowiedź brzmi: pieniędzy sobie zorganizuje — dodrukiem, konfiskatą, dewaluacją, wyprzedażą złota, przymusem zamiast płac. <strong>Za żadną z tych rzeczy nie kupi jednak ani jednego autotransformatora wysokiego napięcia, ani jednej matrycy krzemowej, ani jednego litografu.</strong></p>
+
+<p>To samo dotyczy warstwy narracyjnej. Rama „wojny ojczyźnianej" jest darmowa i zostanie uwierzona, bo propaganda nie żywi się faktem, lecz mitem — archetypy odporne na dane nie rejestrują sprzeczności między „operacją specjalną" a wojną totalną, a ujawniona niekonsekwencja nie osłabia systemu opartego na ciemnej legitymizacji, tylko potwierdza jego naturę, którą odbiorca już przyjął.</p>
+
+<p>Stąd formuła domykająca: <span class="kw">wszystkie rzeczy darmowe są dla reżimu dostępne, i żadna z nich nie jest materialna.</span> Deklaracja, dekret, konfiskata i dodruk — wszystkie na wyciągnięcie ręki. Transformator, nasiona, katalizator, komponent radaru — żadne z nich.</p>
+
+<h2 id="co-jeszcze-splonie">XIX. Co jeszcze może spłonąć</h2>
+
+<p>Dwudziestego szóstego lipca, po tygodniu uderzeń w magazyny handlowe, Zełenski ogłosił <strong>zaktualizowaną listę celów priorytetowych</strong> — bez podania nazw, z jawnym kryterium: ile dany obiekt odbiera zdolności prowadzenia wojny. Zasięg przekracza trzy tysiące kilometrów i jest dalej rozszerzany. Poniżej kategorie nietknięte albo ledwo napoczęte, uszeregowane wedle tego samego kryterium.</p>
+
+<p><strong>Gaz — tłocznie i przerób.</strong> Największa niewykorzystana kategoria. Zakłady przerobu gazu, stacje kompresorowe, terminale skroplonego gazu. Efekt podwójny: przychód eksportowy plus zaopatrzenie krajowe przed sezonem grzewczym.</p>
+
+<p><strong>Podstacje trakcyjne kolei.</strong> Najlepszy stosunek efektu do nakładu w całym zestawie, bo jedno uderzenie tnie równocześnie fracht cywilny i logistykę wojskową — a przy brakujących pięciu tysiącach techników naprawy idą wolniej niż przed rokiem.</p>
+
+<p><strong>Autotransformatory wysokiego napięcia.</strong> Dokładne lustro tego, co Rosja robi ukraińskiej sieci, z jedną różnicą: <strong>Rosja nie może ich kupić</strong>. Cykl produkcyjny dwunastu do osiemnastu miesięcy, wąska baza dostawców, brak dostępu do rynku — a rosyjski rząd sam wpisał ten scenariusz do przygotowań na sezon grzewczy.</p>
+
+<p><strong>Infrastruktura płatnicza i systemy bankowe.</strong> Najkrótszy zapalnik ze wszystkich: przy trzynastu i pół biliona rubli złych kredytów i dziewiętnastu bilionach gotówki wyjętej z banków, zakłócenie rozliczeń działa w godzinach, nie w miesiącach.</p>
+
+<p><strong>Zaplecze remontowe lotnictwa.</strong> Nie samoloty, lecz bazy obsługi technicznej i magazyny części — przyspiesza zapaść już trwającą i uderza w spójność państwa o jedenastu strefach czasowych.</p>
+
+<p><strong>Porty zbożowe.</strong> Przychód eksportowy po najgorszym starcie żniw od lat, przy szacunkach mówiących o pięciu do dziesięciu milionów ton pszenicy mniej niż zakładano.</p>
+
+<p><strong>Metalurgia i nawozy.</strong> Zakłady już nierentowne, więc uszkodzenie może przesądzić o zamknięciu zamiast naprawy — a przy nawozach efekt przenosi się wprost na przyszłoroczny plon.</p>
+
+<p class="zrodla">Źródła sekcji XVIII–XIX: SZRU (ocena „zarządzanego upadku") · UNN · online.ua · Kyiv Independent (26.07.2026) · Euromaidan Press · United24 Media · Wall Street Journal · sekcje wcześniejsze tego dokumentu · dokumenty zamrożone (ciemna legitymizacja, disinfolklor, gambit NATO, zamrożenie frontu)</p>
+
+<h2 id="granica-materii">XX. Granica analizy materialnej</h2>
+
+<p>Wszystko powyżej liczy baryłki, tony, ruble i wagony. Ma to zaletę sprawdzalności i wadę, którą trzeba wypowiedzieć na końcu, żeby nie udawać, że jej nie ma: <strong>samą materią wojny się nie wygrywa</strong>. Zwłaszcza nie takiej.</p>
+
+<h3 id="zalozenie-jawne">1. Założenie wypowiedziane wprost</h3>
+
+<p>Uczciwość wymaga oznaczenia statusu tego twierdzenia. <strong>Nie jest ono ani obalalne, ani udowadnialne</strong> — nie da się przeprowadzić eksperymentu, w którym ta sama wojna toczy się raz z sensem, a raz bez. Jest to założenie wyjściowe, przyjmowane świadomie, a nie wniosek z danych. Zapisuję je tu jako założenie, a nie jako ustalenie.</p>
+
+<p>Ma ono jednak konsekwencje sprawdzalne, i to je ratuje od bycia wyłącznie deklaracją. Jeśli jest trafne, to <strong>ilościowe wskaźniki degradacji nie wystarczą do przewidzenia momentu przełomu</strong> — a więc wszystkie prognozy oparte wyłącznie na nich będą systematycznie chybiać co do daty, nawet trafiając co do kierunku. To jest testowalne obserwacją.</p>
+
+<p>Drugie założenie, równie jawne: <strong>to jest Wielka Wojna, nie konflikt lokalny</strong>. Różnica nie leży w liczbie ofiar ani w obszarze, lecz w tym, że stawką jest porządek, a nie terytorium. Konflikt lokalny kończy się, gdy jednej stronie zabraknie środków. Wojna tej klasy kończy się, gdy jednej stronie <strong>rozsypie się opowieść o sobie samej</strong> — a to może nastąpić przy pełnych magazynach albo nie nastąpić przy pustych.</p>
+
+<h3 id="warunki-i-moment">2. Materia daje warunki, sens daje moment</h3>
+
+<p>Najprecyzyjniejsza formuła, jaką da się z tego wyprowadzić, brzmi tak: <strong>oś materialna wytwarza warunki, oś symboliczna wytwarza moment.</strong></p>
+
+<p>Historia dwóch rosyjskich rozpadów mówi to samo. Rok 1917 nie nastąpił, gdy skończyły się zasoby — Imperium miało jeszcze armię, przemysł i sojuszników; nastąpił, gdy przestano wierzyć, po co to wszystko, a kolejka po chleb w stolicy stała się dowodem, nie przyczyną. Rok 1991 nie nastąpił po klęsce militarnej ani po wyczerpaniu surowców — nastąpił, gdy elita i społeczeństwo przestały uznawać opowieść za prawdziwą, a państwo rozwiązało się bez wystrzału. <strong>W obu przypadkach materia dostarczyła warunków, a rozstrzygnięcie przyszło z porządku znaczeń.</strong></p>
+
+<p>To nie unieważnia poprzednich dziewiętnastu sekcji — przeciwnie, umieszcza je we właściwej roli. Wyczerpanie paliwa, pieniędzy, ludzi i komponentów tworzy <em>warunki możliwości</em> przełomu. Ale sam przełom jest zdarzeniem z innego rejestru i nie da się go odczytać z bilansu.</p>
+
+<h3 id="asymetria-symboliczna">3. Asymetria symboliczna</h3>
+
+<p>Na tej osi strony też nie są symetryczne, tylko inaczej niż na materialnej — i to jest rzecz najciekawsza.</p>
+
+<p><strong>Rosja ma narrację obronną.</strong> Maszyna propagandowa jest praktycznie niezniszczalna, bo nie żywi się faktem, lecz mitem; archetypy odporne na dane nie rejestrują sprzeczności, a ciemna legitymizacja zamienia ujawnioną korupcję w potwierdzenie natury systemu zamiast w jego podważenie. Ta narracja skutecznie <em>zapobiega załamaniu poparcia</em>. Czego nie robi: nie wytwarza celu, dla którego ktoś w garażu buduje coś nowego. Immunizuje wobec rzeczywistości, ale nie inspiruje tworzenia.</p>
+
+<p><strong>Ukraina ma sens wytwórczy.</strong> Wojna toczy się o istnienie, i to nie jest formuła retoryczna, lecz warunek, w którym powstają rzeczy: tajne hale z drukarkami 3D i włóknem węglowym, inżynierowie wymyślający konstrukcje szybciej, niż działa procedura zamówieniowa, ochotnicza sieć wytwórcza rozproszona po kraju. Cztery miliony dronów rocznie nie są produktem planu pięcioletniego — są produktem tysięcy osobnych decyzji ludzi, którzy uznali, że muszą.</p>
+
+<p>Do tego dochodzi rzecz, o której mowa w sekcji o genezie hurtu: <strong>dwa motory pchające w tę samą stronę</strong> — kalkulacja strategiczna i odpowiedź na barbarzyństwo. Gdy racja moralna i rachunek wskazują ten sam cel, decyzja jest szybka, a wykonanie konsekwentne, bo nie trzeba niczego przehandlowywać między racjami.</p>
+
+<h6 id="uwaga-o-moralnosci">o uzasadnieniach moralnych</h6>
+<p>Trzeba przy tym odnotować rzecz, którą łatwo pominąć: <strong>każda strona ma własne uzasadnienie moralne i nie musi ono być moralne w rozumieniu strony przeciwnej</strong>. Rosyjska rama „wojny obronnej z Zachodem" jest dla jej odbiorców autentyczna, nie cyniczna. To nie znaczy, że obie ramy są równoważne co do faktów — znaczy, że analiza opisująca wyłącznie własną jako prawdziwą przestaje być analizą. Rozstrzyga nie to, która strona ma słuszność w cudzych oczach, lecz która opowieść wytrzyma zderzenie z doświadczeniem własnych ludzi.</p>
+
+<h3 id="cele-symboliczne">4. Cele symboliczne — inna logika</h3>
+
+<p>Z tego wynika, dlaczego pewne cele mają wartość nieprzekładalną na tony i baryłki. Most kerczeński, uderzenia w Moskwę, Sewastopol, spalony dach Ławry — żaden z nich nie zmienia bilansu paliwowego, a wszystkie zmieniają coś innego: <strong>percepcję nietykalności</strong>.</p>
+
+<p>Skrajnym przypadkiem są obiekty związane z jednym człowiekiem — rezydencje, jacht, sam Kreml. Wedle kryterium ogłoszonego 26 lipca, mierzącego ile obiekt odbiera zdolności prowadzenia wojny, plasują się na samym dole; spalony jacht nie zmniejsza produkcji rakiet o sztukę. Ale jeśli teza „Rosja = Putin" jest trafna, a jego funkcją celu jest przetrwanie osobiste, to <strong>cel nieodbierający państwu żadnej zdolności może odebrać decydentowi poczucie bezpieczeństwa</strong> — czyli jedyną walutę, którą on liczy, i argument fizyczny dla otoczenia ważącego koszt trwania przy nim.</p>
+
+<p>Koszty idą jednak w przeciwną stronę i są poważne: najgęstsza obrona powietrzna kraju pochłonęłaby zasoby wyłączające gdzie indziej rafinerię; uderzenie w rezydencję głowy państwa jest jedyną kategorią, której nie da się obronić kryterium logistyki wojskowej — a więc wzorzec „powód, nie pretekst" przestaje działać; i wreszcie próba fizycznej eliminacji przywódcy aktywuje paradoks zapędzenia w najostrzejszej postaci. <span class="kw">Dopóki liczy się materia, rozsądnego celu w tej kategorii nie ma. Gdy zacznie się liczyć kalkulacja otoczenia — przestanie to być żartem.</span></p>
+
+<h3 id="czego-ten-dokument-nie-mierzy">5. Czego ten dokument nie mierzy</h3>
+
+<p>Na koniec lista własnych ślepych plam, bo jest krótsza i uczciwsza niż zapewnienia o kompletności.</p>
+
+<ul>
+<li><strong>Wola trwania po obu stronach</strong> — niemierzalna z zewnątrz, decydująca o wszystkim.</li>
+<li><strong>Moment pęknięcia lojalności aparatu</strong> — czwarta oś z dokumentów zamrożonych, jedyna, której nie da się obserwować aż do chwili, gdy pęka.</li>
+<li><strong>Sens i mit</strong> — to, co sprawia, że ktoś projektuje dron w garażu albo przestaje wierzyć w telewizor.</li>
+<li><strong>Zdarzenia jednostkowe</strong> — zamach, wypadek, katastrofa, decyzja jednego człowieka w jednej chwili. Nie mają rozkładu, a bywają rozstrzygające.</li>
+</ul>
+
+<p>Dlatego właściwa formuła zamykająca całość brzmi ostrożniej, niż chciałaby tego długość poprzednich sekcji. <strong>Ten dokument opisuje, jak kurczy się przestrzeń możliwości jednej ze stron. Nie opisuje — bo nie potrafi — kiedy i w jaki sposób ta przestrzeń zamknie się do zera.</strong> Materia mówi, że warunki dojrzewają. O momencie zdecyduje coś, czego nie da się zważyć.</p>
+
+<p class="zrodla">Źródła i podstawy sekcji: założenia wyjściowe przyjęte jawnie · dokumenty zamrożone (ciemna legitymizacja, disinfolklor, cztery osie, paradoks zapędzenia) · Kyiv Independent (26.07.2026) · Christian Science Monitor (28.07.2026, wytwórnie dronowe) · sekcje wcześniejsze tego dokumentu</p>
+
+<div class="sygnatura" id="sygnatura-pliku-dolna">
+  <div class="syg-label">sygnatura pliku</div>
+  <div class="syg-main">lipiec-2026-przejscie-na-hurt · v20.11 · 2026-08-01 · 10:25 (Europe/Warsaw)</div>
+</div>
+
+<script>
+function setTheme(t){
+  document.body.setAttribute('data-theme', t);
+  var bs = document.querySelectorAll('.theme-switch button');
+  for (var i = 0; i < bs.length; i++) {
+    bs[i].classList.toggle('active', bs[i].getAttribute('data-theme') === t);
+  }
+}
+</script>
+</body>
+</html>

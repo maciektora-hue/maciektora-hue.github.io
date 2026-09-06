@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMROZONE · Jałta 3.0 — Analiza Strategiczna · v01.00</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fafafa;
+    color: #1a1a1a;
+    line-height: 1.8;
+  }
+  
+  .cover {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 40%, #1a1a2e 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .cover h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 3em;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+  }
+  
+  .cover .subtitle {
+    font-size: 1.3em;
+    color: #a0c4e8;
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+  
+  .cover .meta-line {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 5px;
+  }
+  
+  .cover .classification {
+    display: inline-block;
+    border: 1px solid #e94560;
+    color: #e94560;
+    padding: 5px 20px;
+    font-size: 0.8em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 30px;
+  }
+  
+  .container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 50px 30px;
+  }
+  
+  h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.8em;
+    color: #0f3460;
+    margin: 50px 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0f3460;
+  }
+  
+  h3 {
+    font-size: 1.2em;
+    color: #16213e;
+    margin: 30px 0 12px 0;
+    font-weight: 600;
+  }
+  
+  h4 {
+    font-size: 1em;
+    color: #333;
+    margin: 20px 0 8px 0;
+    font-weight: 600;
+  }
+  
+  p {
+    margin-bottom: 14px;
+    font-size: 0.95em;
+    color: #333;
+  }
+  
+  .vision-box {
+    background: linear-gradient(135deg, #f0f4f8, #e8eef5);
+    border-left: 5px solid #0f3460;
+    padding: 30px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .vision-box p {
+    font-size: 1.05em;
+    color: #1a1a1a;
+    line-height: 1.9;
+  }
+  
+  .actor-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    margin: 15px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  
+  .actor-card .actor-name {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #0f3460;
+    margin-bottom: 5px;
+  }
+  
+  .actor-card .driver-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    margin: 2px 3px;
+  }
+  
+  .tag.gain { background: #e6f4ea; color: #1e7e34; }
+  .tag.risk { background: #fce8e6; color: #c62828; }
+  .tag.neutral { background: #fff3e0; color: #e65100; }
+  
+  .analysis-section {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin: 20px 0;
+  }
+  
+  .analysis-section h4 {
+    color: #0f3460;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  
+  .strength { border-left: 4px solid #1e7e34; }
+  .weakness { border-left: 4px solid #c62828; }
+  .opportunity { border-left: 4px solid #0f3460; }
+  .wildcard { border-left: 4px solid #e65100; }
+  
+  .verdict {
+    background: #16213e;
+    color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    margin: 30px 0;
+  }
+  
+  .verdict h3 { color: #a0c4e8; margin-top: 0; }
+  .verdict p { color: #d0d0d0; }
+  
+  .toc {
+    background: #f5f5f5;
+    padding: 25px 30px;
+    border-radius: 8px;
+    margin: 30px 0;
+  }
+  
+  .toc h3 { margin-top: 0; color: #0f3460; }
+  
+  .toc ol {
+    padding-left: 20px;
+  }
+  
+  .toc li {
+    padding: 5px 0;
+    font-size: 0.9em;
+    color: #444;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 40px 0;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 0.8em;
+  }
+  
+  @media print {
+    .cover { min-height: 100vh; page-break-after: always; }
+    h2 { page-break-before: always; }
+    .actor-card, .analysis-section { break-inside: avoid; }
+  }
+
+  .preambula {
+    max-width: 820px;
+    margin: 40px auto;
+    padding: 28px 32px;
+    background: #ffffff;
+    border-left: 4px solid #0f3460;
+    border-top: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 1.02em;
+  }
+  .preambula .pre-label {
+    font-size: 0.72em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  .preambula p { margin-bottom: 0; }
+  .preambula-sep {
+    max-width: 820px;
+    margin: 0 auto 40px;
+    border: 0;
+    border-top: 1px solid #d8d8d8;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+
+<!-- NOTA WSTEPNA -->
+<div class="preambula">
+  <div class="pre-label">nota wstępna &middot; dodana 2026-08-12</div>
+  <p>Ten dokument powstał 8 marca 2026 roku, w trakcie czterogodzinnej sesji analitycznej prowadzonej w drugim tygodniu wojny irańskiej, i jest zapisem stanu wiedzy oraz wizji z tamtego dnia. Opisuje scenariusz, w którym rozpad państwowości irańskiej &mdash; rozumiany jako proces, nie jako zdarzenie &mdash; otwiera okno na przebudowę porządku regionalnego od Kaukazu po Zatokę Perską, powstającą bez konferencji pokojowej i bez architekta, z samej konwergencji egoistycznych interesów lokalnych aktorów. Model tego porządku nazwano tu Hanzą 2.0: siecią handlową z funkcjami bezpieczeństwa, opartą na korytarzach transportowych i energetycznych, a nie na imperium ani sojuszu militarnym. Wszystko, co następuje poniżej, to tekst z 8 marca 2026 w postaci niezmienionej &mdash; wraz z predykcjami, które od tamtej pory czekają na weryfikację.</p>
+</div>
+<hr class="preambula-sep">
+
+<div class="cover">
+  <h1>Jałta 3.0</h1>
+  <div class="subtitle">Nowy porządek regionalny od Kaukazu po Zatokę Perską<br>w kontekście rozpadu irańskiej państwowości</div>
+  <div class="meta-line">Analiza strategiczna &bull; 8 marca 2026</div>
+  <div class="meta-line">Sesja analityczna: 4 godziny</div>
+  <div class="classification">Dokument Roboczy</div>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h3>Spis treści</h3>
+  <ol>
+    <li>Wizja — Synteza</li>
+    <li>Koncepcja operacyjna</li>
+    <li>Mapa driverów — aktor po aktorze</li>
+    <li>Analizy przeprowadzone — SWOT wizji</li>
+    <li>Zidentyfikowane dziury i ryzyka</li>
+    <li>Werdykt końcowy</li>
+  </ol>
+</div>
+
+<!-- SECTION 1: VISION -->
+<h2>1. Wizja — Synteza</h2>
+
+<div class="vision-box">
+  <p><strong>Teza główna:</strong> 8 marca 2026 roku rozpoczyna się proces przesilenia w wojnie irańskiej, który uruchamia kaskadę zdarzeń prowadzących do przebudowy porządku regionalnego od Kaukazu po Zatokę Perską. Rozpad irańskiej państwowości — nie nagły, ale stopniowy — tworzy okno możliwości, w którym lokalni aktorzy, działając we własnym interesie (chciwość, strach, ambicja), generują nowy porządek bez formalnej konferencji pokojowej.</p>
+  <p><strong>Model:</strong> Jałta bez konferencji. Porządek bez architekta. Podział bez traktatu. Hanza 2.0 — sieć handlowa z funkcjami bezpieczeństwa, napędzana korytarzami transportowymi i energetycznymi.</p>
+  <p><strong>Kluczowa innowacja koncepcyjna:</strong> Nie "budujmy demokrację" (błąd Iraku 2003), lecz "usuńmy blokady, a ludzie sami ją zbudują". Nie narzucony podział (Sykes-Picot), lecz organiczny — podążający za liniami etnicznymi, geograficznymi i historycznymi.</p>
+</div>
+
+<h3>Filary wizji</h3>
+
+<p><strong>Filar 1 — Rozpad jako proces, nie zdarzenie.</strong> Iran przetrwał dekapitację (śmierć Chameneiego), ale traci zdolność koordynacji: blackout internetowy 100+ godzin, zniszczenie instytucji sukcesji (Zgromadzenie Ekspertów zbombardowane w trakcie sesji), utrata monopolu na przemoc (Pezeshkian wydaje rozkazy, których nikt nie wykonuje). IRGC traci najważniejszą broń — aurę strachu. Sieć proxy (Hezbollah, Hamas, Huti) jest zdziesiątkowana.</p>
+
+<p><strong>Filar 2 — Naturalny podział stref.</strong> Pas północny (Aras, 30 km za rzeką): Azerbejdżan — misja humanitarna i stabilizacyjna, zabezpieczenie rurociągów, kontrola wody. Pas zachodni (Zagros): Kurdowie (irańscy, iraccy, syryjscy) — ich historyczne tereny. Nie trzeba im tego dawać, trzeba im nie przeszkadzać. Przestrzeń pomiędzy: chaos stabilizujący się organicznie, bo każdy aktor ma interes w utrzymaniu swojego kawałka.</p>
+
+<p><strong>Filar 3 — Konwergencja interesów.</strong> Każdy aktor dostaje coś kosztem Iranu (i Rosji), co eliminuje potrzebę formalnego porozumienia. Chciwość i żądza władzy jako siła napędowa porządku, nie chaosu.</p>
+
+<p><strong>Filar 4 — Szok jako akcelerator.</strong> Każdy wielki kryzys (1973, dot.com, subprime, COVID, Ukraina) przyspieszył transformację, którą blokował status quo. Szok irański 2026 czyni inwestycje w alternatywne korytarze koniecznością egzystencjalną i niszczy obrońców starego porządku.</p>
+
+<p><strong>Filar 5 — Finansowanie przez "old money".</strong> Nie budżety państwowe (powolne, polityczne), lecz europejski kapitał prywatny — cierpliwy (horyzont pokoleniowy), sieciowy (dyplomacja równoległa), ideologiczny (handel tworzy pokój). Suez, kolej bagdadzka, BTC — wielkie korytarze zawsze finansowało "old money".</p>
+
+<!-- SECTION 2: OPERATIONAL CONCEPT -->
+<h2>2. Koncepcja operacyjna</h2>
+
+<h3>2.1 Rzeka Aras — klucz do operacji azerskiej</h3>
+
+<p><strong>Materialna wartość:</strong> Tama z 1971 roku, zbiornik 1,35 mld m³, infrastruktura irygacyjna po obu stronach. Kontrola wody = broń strategiczna w regionie suszy.</p>
+
+<p><strong>Symboliczna wartość:</strong> Traktat z Turkmańczaju (1828) wyznaczył Aras jako granicę rozdzielającą naród azerski. "Przekroczyć Aras" = zjednoczyć naród w azerskiej wyobraźni politycznej.</p>
+
+<p><strong>Religijna/historyczna wartość:</strong> Klasztor Św. Stefana (UNESCO), mosty Chodafarinskie (XI–XIII w.), starożytne sanktuaria. Niektóre tradycje wiążą dolinę Arasu z biblijnym Ogrodem Eden.</p>
+
+<h3>2.2 Pas 30 km — logika operacyjna</h3>
+
+<p>Kto zajmuje prowincję — bierze odpowiedzialność za 15–20 mln ludzi, administrację, powstanie. Kto bierze pas 30 km — bierze naturalną barierę obronną. Rzeka zmienia się z granicy w fosę. Teren przygraniczny, wiejski, rzadko zaludniony — nie wymaga "wyzwalania" milionów.</p>
+
+<p><strong>Pretekst:</strong> Misja humanitarna i stabilizacyjna. Narracja jest już budowana — azerskie wojsko wydaje uchodźcom wodę i herbatę na przejściu w Astarze. Model turecki w północnej Syrii.</p>
+
+<p><strong>Cel strategiczny:</strong> Zabezpieczenie rurociągu BTC (europejskie bezpieczeństwo energetyczne), demonstracja sprawczości, kontrola korytarza arazyjskiego (alternatywa/uzupełnienie TRIPP).</p>
+
+<h3>2.3 Zagros — domena kurdyjska</h3>
+
+<p>Kurdyjskie ugrupowania zbrojne już rozpoczęły ofensywę 2 marca. Nie potrzebują zaproszenia — to ich moment historyczny. Trzy próby państwowości w XX w. (Mahabad 1946, lata 80., PJAK) — za każdym razem Iran miażdżył. Teraz Iran nie ma czym miażdżyć.</p>
+
+<p><strong>Problem:</strong> Kurdowie nie są jednością. KDP Barzaniego ≠ PKK/PYD ≠ PJAK. Prowincja Azerbejdżan Zachodni jest mieszana. Turcja uważa PKK za organizację terrorystyczną.</p>
+
+<h3>2.4 Wielki deal — Władywostok za Kaukaz</h3>
+
+<p>Propozycja na najwyższym poziomie: Trump sygnalizuje Xi brak sprzeciwu wobec chińskich aspiracji na Dalekim Wschodzie Rosji w zamian za chińskie wycofanie się z Kaukazu i Bliskiego Wschodu. Nie formalna transakcja, lecz sygnał — groźba skierowana do Rosji i marchewka dla Chin jednocześnie.</p>
+
+<p><strong>Uzasadnienie:</strong> Chińskie roszczenia do Władywostoku (od 1860) silniejsze niż wobec Tajwanu. Wyciekły dokument FSB potwierdza rosyjskie obawy. Xi zyskuje korekję "stulecia upokorzenia" bez ryzyka inwazji na Tajwan. Traci tanią irańską ropę — zyskuje port, Morze Japońskie, Drogę Północną.</p>
+
+<h3>2.5 Model końcowy — Hanza 2.0</h3>
+
+<p>Nie imperium, nie sojusz militarny — sieć handlowa z funkcjami bezpieczeństwa. Europa odpowiedzialna za zachodni Kaukaz (Gruzja, Armenia). Turcja za wschodni (Azerbejdżan, korytarz). Izrael za bezpieczeństwo od dronów/rakiet. USA jako ubezpieczyciel ostateczny — daleko, nie angażują się w codzienność, ale wszyscy wiedzą, że flota jest. Model brytyjski wobec Zatoki Perskiej XIX w.</p>
+
+<!-- SECTION 3: ACTOR DRIVERS -->
+<h2>3. Mapa driverów — aktor po aktorze</h2>
+
+<div class="actor-card">
+  <div class="actor-name">Azerbejdżan (Ilham Aliyev)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Demonstracja sprawczości po ataku na Nachiczewan (casus belli z 5 marca). Zabezpieczenie rurociągów. Kontrola wody i korytarza arazyjskiego jako alternatywy/uzupełnienia TRIPP. Nacjonalistyczna narracja "przekroczenia Arasu". Wieczny projekt zamiast wiecznego zagrożenia — uzasadnienie dalszej władzy.</p>
+  <p><span class="tag gain">Ziemia</span> <span class="tag gain">Bezpieczeństwo energetyczne</span> <span class="tag gain">Legitymacja władzy</span> <span class="tag gain">Korytarz do Nachiczewanu</span></p>
+  <p><span class="tag risk">Mission creep</span> <span class="tag risk">Reakcja irańskich Azerów</span> <span class="tag risk">Skala operacji</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Turcja (Recep Tayyip Erdogan)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Turkijski łuk od Stambułu do Azji Centralnej — brakujący element. Zyski tranzytowe z przesyłu węglowodorów. Pas 30 km po irańskiej stronie daje alternatywę, która czyni Turcję mniej zależną od armeńskiej dobrej woli w TRIPP. Wzmocnienie pozycji bez wydawania tureckiej krwi — Azerowie robią robotę.</p>
+  <p><span class="tag gain">Panturkizm</span> <span class="tag gain">Tranzyt/kasa</span> <span class="tag gain">Korytarz do Azji Centralnej</span></p>
+  <p><span class="tag risk">Kwestia kurdyjska</span> <span class="tag risk">Artykuł 5 NATO</span> <span class="tag risk">Problemy wewnętrzne</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Izrael</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Bufor na północy Iranu. Eliminacja irańskiego zagrożenia nuklearnego. Potwierdzenie wartości sojuszu z Azerbejdżanem. Zabezpieczenie dostaw ropy z BTC. Cicha pomoc: wywiad, dane satelitarne, sprzęt, szkolenie.</p>
+  <p><span class="tag gain">Bufor strategiczny</span> <span class="tag gain">Denuklearyzacja</span> <span class="tag gain">Bezpieczeństwo energetyczne</span></p>
+  <p><span class="tag risk">Gospodarka wojenna</span> <span class="tag risk">Front libański</span> <span class="tag risk">Kontrola nad uranem</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">USA (Donald Trump / JD Vance)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Regime change w Iranie jako demonstracja siły. TRIPP (74% udziałów, 99 lat). Redukcja wpływów Rosji, Chin, Iranu na Kaukazie. Branding ("Trump Zagros Highway"). Przejście do koncentracji na zachodniej półkuli po "załatwieniu" Iranu — izolacjonizm Vance'a. Rola ubezpieczyciela ostatecznego, nie policjanta.</p>
+  <p><span class="tag gain">Wpływy regionalne</span> <span class="tag gain">TRIPP</span> <span class="tag gain">Branding</span> <span class="tag gain">Minerały krytyczne</span></p>
+  <p><span class="tag risk">Koszt operacji</span> <span class="tag risk">Midterms 2026</span> <span class="tag risk">Sprzeczność TRIPP vs korytarz arazyski</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Armenia (Nikol Paszynian)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Paradoksalna ulga: jeśli Azerbejdżan ma alternatywne połączenie z Nachiczewanie, presja TRIPP spada. Paszynian może sprzedać wyborcom TRIPP jako projekt ekonomiczny, nie szantaż. Koniec użerania się o wioski w górach. Dywersyfikacja od Rosji (porozumienie nuklearne "123" z USA, drony V-BAT). Zachowanie suwerenności nad Sjunikiem.</p>
+  <p><span class="tag gain">Odblokowanie granic</span> <span class="tag gain">Zachód zamiast Rosji</span> <span class="tag gain">Spadek presji</span></p>
+  <p><span class="tag risk">Wybory czerwiec 2026</span> <span class="tag risk">Rosyjska ingerencja</span> <span class="tag risk">59% sprzeciw wobec TRIPP</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Unia Europejska</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Bezpieczeństwo energetyczne — dywersyfikacja od Rosji (pełny zakaz importu rosyjskiego gazu). Azerski gaz już dociera do Austrii i Niemiec (od stycznia 2026). Korytarz Transkaspijski jako alternatywna droga do Azji Centralnej. Rule of law i demokratyzacja jako wartości eksportowe. Komisarz ds. energii w Baku 2 marca — w trzecim dniu wojny.</p>
+  <p><span class="tag gain">Bezpieczeństwo energetyczne</span> <span class="tag gain">Korytarz handlowy</span> <span class="tag gain">Demokratyzacja regionu</span></p>
+  <p><span class="tag risk">Szok naftowy / recesja</span> <span class="tag risk">Brak przywództwa strategicznego</span> <span class="tag risk">Powolność decyzyjna</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Chiny (Xi Jinping)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Utrzymanie władzy — priorytet nadrzędny. Władywostok jako korekta "stulecia upokorzenia" — historycznie większe niż Tajwan, a bez ryzyka inwazji. Dostęp do Morza Japońskiego, Arktyki, Drogi Północnej. Cena: utrata taniej irańskiej ropy i elementu antyamerykańskiej koalicji. Bilans na plus.</p>
+  <p><span class="tag gain">Władywostok</span> <span class="tag gain">Stabilność władzy</span> <span class="tag gain">Arktyka</span></p>
+  <p><span class="tag risk">Utrata irańskiej ropy</span> <span class="tag neutral">Nie myśli transakcyjnie</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Kurdowie (PJAK / KDP / inne)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Historyczny moment — trzecia próba autonomii w irańskim Kurdystanie, tym razem bez irańskiej siły do zmiażdżenia. Zagros to ich tereny, ich góry, ich ludzie. Demokratyzacja jako waluta wejścia do wspólnoty międzynarodowej (model Rożawy). Nie potrzebują zaproszenia — potrzebują, żeby im nie przeszkadzać.</p>
+  <p><span class="tag gain">Autonomia/państwowość</span> <span class="tag gain">Historyczne tereny</span></p>
+  <p><span class="tag risk">Fragmentacja (KDP≠PKK≠PJAK)</span> <span class="tag risk">Tureckie veto na PKK</span> <span class="tag risk">Mieszane tereny z Azerami</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">GCC (Arabia Saudyjska, Katar, ZEA, Bahrajn)</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Święty spokój kosztem mniejszych zysków z węglowodorów. Eliminacja irańskiego zagrożenia — drony na Shaybah, rakiety na Bahrajn. Stabilizacja regionu. Dywersyfikacja własnych gospodarek (Vision 2030). Potencjalny inwestor w infrastrukturę korytarzową.</p>
+  <p><span class="tag gain">Bezpieczeństwo</span> <span class="tag gain">Stabilność</span></p>
+  <p><span class="tag risk">Szok naftowy</span> <span class="tag risk">Irańskie ataki na infrastrukturę</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Rosja (Vladimir Putin)</div>
+  <div class="driver-label">Status: Danie w karcie</div>
+  <p>Traci wpływy wszędzie jednocześnie: Ukraina zjada armię, Kaukaz wpływy (Kommiersant: "bezradność"), Syria upadła, Iran bombardowany, Arktyka przechodzi w chińskie ręce. Mocarstwo z bronią nuklearną i prawie niczym innym. Nie jest przy stole — jest na talerzu.</p>
+  <p><span class="tag risk">Utrata Kaukazu</span> <span class="tag risk">Utrata Iranu</span> <span class="tag risk">Chiny na Dalekim Wschodzie</span> <span class="tag risk">Potencjalna awaria nuklearna</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">Gruzja</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Konieczna dla każdego wariantu korytarza (SCP-X przechodzi przez Gruzję). Nowy porządek daje Tbilisi powód do powrotu na zachodnią orbitę. UE próbuje ponowne zaangażować Gruzję przez format czterostronny. Kryzys polityczny wewnętrzny jako zmienna.</p>
+  <p><span class="tag gain">Węzeł tranzytowy</span> <span class="tag gain">Zachodni zwrot</span></p>
+  <p><span class="tag risk">Kryzys polityczny</span> <span class="tag risk">Rosyjska ingerencja</span></p>
+</div>
+
+<div class="actor-card">
+  <div class="actor-name">"Old Money" / "Very Old Money" Europy</div>
+  <div class="driver-label">Główny driver</div>
+  <p>Kapitał cierpliwy (horyzont pokoleniowy). Sieci niewidoczne (dyplomacja równoległa — Zurych, Londyn, Frankfurt do Baku, Ankary, Erbilu). Motywacja ideologiczna: handel tworzy pokój (filozofia od XIX w.). Historyczny wzorzec: Suez, kolej bagdadzka, BTC — wielkie korytarze zawsze finansowało "old money".</p>
+  <p><span class="tag gain">Zyski długoterminowe</span> <span class="tag gain">Stabilizacja regionu</span> <span class="tag gain">Wpływy</span></p>
+  <p><span class="tag neutral">Wymaga stabilizacji przed inwestycją</span></p>
+</div>
+
+<!-- SECTION 4: ANALYSES -->
+<h2>4. Analizy przeprowadzone</h2>
+
+<h3>4.1 Analiza rozpadu irańskiej państwowości</h3>
+
+<div class="analysis-section strength">
+  <h4>Argumenty za rozpoczęciem rozpadu</h4>
+  <p>Blackout internetowy 100+ godzin — utrata systemu nerwowego państwa. Zniszczenie instytucji sukcesji — Iran bez Najwyższego Przywódcy i bez mechanizmu wyboru następcy. Utrata monopolu na przemoc — Pezeshkian wydaje rozkazy, których nikt nie wykonuje. Spadek zdolności odwetowych o 83–90% w ciągu tygodnia. Zniszczenie infrastruktury instytucjonalnej (IRIB, parlament, posterunki policji). Kontekst: protesty z przełomu 2025/2026 z tysiącami zabitych już pękły kontrakt społeczny.</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>Argumenty przeciw</h4>
+  <p>Iran to nie Libia — 2500 lat tradycji państwowej, 85 mln ludzi, silna biurokracja, tożsamość narodowa przekraczająca podziały polityczne. Perska państwowość przetrwała inwazję arabską, mongolską i wiele innych. Amerykański raport wywiadowczy sprzed tygodnia: masowy atak raczej nie doprowadzi do upadku reżimu. Możliwy scenariusz: nie rozpad, ale adaptacja do trybu rozproszonego (model Hezbollah).</p>
+</div>
+
+<h3>4.2 Analiza utraty aury strachu przez IRGC</h3>
+
+<div class="analysis-section strength">
+  <h4>Wnioski</h4>
+  <p>IRGC zbudowało przez 40 lat "reputation cost" — system proxy działał na zasadzie franczyzy strachu. Lokalni aktorzy mieli autonomię, ale siła wynikała z gwaranta ostatecznego (Teheran). Teraz: Hezbollah zdziesiątkowany (2024), Hamas nieistniejący, Huti strzelają sami, milicje irackie kłują szpilką. Prezydent przeprasza sąsiadów = odsłonięcie brzucha w języku Bliskiego Wschodu. 43 okręty zniszczone. Strach działał też do wewnątrz — bariera strachu przed kolejną rewolucją znika.</p>
+  <p><strong>Werdykt:</strong> Utrata aury jest nieodwracalna. Jak bankructwo u Hemingwaya — już nastąpiło "nagle".</p>
+</div>
+
+<h3>4.3 Analiza operacji azerskiej</h3>
+
+<div class="analysis-section opportunity">
+  <h4>Feasibility</h4>
+  <p><strong>Casus belli:</strong> Atak na Nachiczewan (5 marca) + brak irańskich przeprosin. <strong>Mobilizacja:</strong> Armia w gotowości od 3 marca, systemy antydronowe na granicy, urlopy odwołane. <strong>Kontakt z USA:</strong> Ambasador w Waszyngtonie: "kalkulujemy i podejmujemy decyzje" — Baku i Washington w bliskim kontakcie. <strong>Infrastruktura:</strong> Korytarz arazyski (alternatywa TRIPP) częściowo już budowany. <strong>Pretekst:</strong> Narracja humanitarna gotowa. <strong>Timing:</strong> 7 marca — Trump żąda bezwarunkowej kapitulacji + Kurdistan mówi o operacji lądowej.</p>
+</div>
+
+<h3>4.4 Analiza konwergencji interesów sojuszników</h3>
+
+<div class="analysis-section strength">
+  <h4>Zbieżności</h4>
+  <p>Wszyscy aktorzy (Azerbejdżan, Turcja, Izrael, USA, UE, Armenia, GCC) zyskują kosztem Iranu. Rosja nie ma zdolności do blokowania — rozciągnięta Ukrainą, Kommiersant przyznaje "bezradność". Chiny można potencjalnie wyłączyć z gry ofertą Władywostoku. Korytarze transportowe/energetyczne jako wspólny interes = spoiwo koalicji.</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>Sprzeczności</h4>
+  <p>TRIPP (interes USA, 74% udziałów) vs korytarz arazyski (interes Azerbejdżanu) — wzajemnie się podważają. Turcja chce korytarza, ale nie kurdyjskiego państwa. USA chcą "trochę" rozpadu Iranu, ale nie "za dużo". Wszyscy są głodni, nie wyczerpani — głodni się kłócą o porcje. Brak architekta (Trump jest stroną, nie arbitrem).</p>
+</div>
+
+<h3>4.5 Analiza roli Rosji</h3>
+
+<div class="analysis-section strength">
+  <h4>Dlaczego Rosja się nie liczy</h4>
+  <p>Rosyjski Kommiersant po wizycie Vance'a: "rozczarowanie, frustracja, bezradność — Ukraina wiąże ręce we wszystkich obszarach." Armenia odchodzi od CSTO, kupuje amerykańskie drony, podpisała porozumienie nuklearne z USA. Rosyjskie źródła: "nie ma nikogo, kto mógłby mówić w imieniu Rosji w Armenii." Próby ingerencji w armeńskie wybory (czerwiec 2026) — gra miękka, nie twarda. Rosja dostarcza Iranowi wywiad, ale to nie zmienia bilansu.</p>
+</div>
+
+<h3>4.6 Analiza modelu finansowania</h3>
+
+<div class="analysis-section opportunity">
+  <h4>Źródła kapitału</h4>
+  <p><strong>UE:</strong> Południowy Korytarz Gazowy (3500 km), azerski gaz do 16 krajów (13 mld m³/rok do UE), handel na Korytarzu Transkaspijskim poczwórił się od 2022, meta-studium KE identyfikujące luki inwestycyjne. <strong>Izrael:</strong> Kontrakty energetyczne i zbrojeniowe z Azerbejdżanem, infrastruktura bezpieczeństwa. <strong>"Old money":</strong> Kapitał cierpliwy, sieci niewidoczne, motywacja ideologiczna. <strong>GCC:</strong> Dywersyfikacja gospodarek, inwestor infrastrukturalny. <strong>USA:</strong> TRIPP (74%), kontrakty mineralne.</p>
+</div>
+
+<h3>4.7 Analiza szoku jako akceleratora</h3>
+
+<div class="analysis-section opportunity">
+  <h4>Precedensy historyczne</h4>
+  <p>1973 → japońska efektywność energetyczna. Dot.com 2000 → infrastruktura dla GAFA. Subprime 2008 → regulacje + fintech. COVID 2020 → dekada cyfryzacji w 10 miesięcy. Ukraina 2022 → europejska dywersyfikacja w 18 miesięcy. Wzorzec: szok niszczy obrońców starego porządku i czyni transformację koniecznością egzystencjalną, nie opcją. Szok irański 2026 przyspiesza odejście od węglowodorów, elektryfikację, i inwestycje w korytarze alternatywne.</p>
+</div>
+
+<!-- SECTION 5: RISKS -->
+<h2>5. Zidentyfikowane dziury i ryzyka</h2>
+
+<div class="analysis-section wildcard">
+  <h4>RYZYKO KRYTYCZNE 1: 440 kg uranu w rozpadającym się państwie</h4>
+  <p>MAEA straciła ciągłość wiedzy nad materiałem jądrowym (440 kg uranu 60%, na 10+ głowic). Chamenei autoryzował miniaturyzację głowic (październik 2025). Trzy warianty koszmarów: watażka z brudną bombą, czarny rynek, desperackie przyspieszenie programu. Luźny uran = potencjalne weto na cały nowy porządek.</p>
+  <p><strong>Kontra-argument (szefa):</strong> Uran staje się pretekstem do protektoratu. Koalicja chętnych zwołana do zabezpieczenia materiału → de facto zarząd tymczasowy. Model mandatów Ligi Narodów. Awaria w rosyjskiej elektrowni + luźny uran = globalny moment paniki nuklearnej wymuszający współpracę.</p>
+</div>
+
+<div class="analysis-section wildcard">
+  <h4>RYZYKO KRYTYCZNE 2: Globalny szok naftowy</h4>
+  <p>Katarski minister energii: eksport z Zatoki może ustać w ciągu tygodni. Operacja kosztuje 891 mln USD/dzień. Recesja podważa zdolność płatniczą sponsorów (UE, GCC, USA). Paradoks: warunki tworzące okno możliwości niszczą bazę finansową inwestycji.</p>
+  <p><strong>Kontra-argument (szefa):</strong> Szok to akcelerator, nie przeszkoda. Panika czyni inwestycje w alternatywne korytarze koniecznością egzystencjalną. Plus: "old money" nie zależy od budżetów państwowych — kapitał cierpliwy czeka na takie momenty.</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>RYZYKO 3: Pakistan i Beludżystan</h4>
+  <p>Beludżystan irański na granicy z mocarstwem nuklearnym. Beludżowie po obu stronach z aspiracjami separatystycznymi. Chaos = potencjalna eskalacja Pakistan-Indie. Pakistan ma relacje z Chinami (CPEC, Gwadar). Blind spot na południowo-wschodniej flance Iranu.</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>RYZYKO 4: Tożsamość irańskich Azerów</h4>
+  <p>Na meczach reprezentacji kibicują Iranowi. Większość zasymilowana. W 1945 sowiecka republika upadła bez poparcia. Freedom House: Azerbejdżan mniej wolny niż Iran. "Wyzwalanie" z jednej dyktatury w imię drugiej — trudna sprzedaż. Kontra: pas 30 km to tereny przygraniczne, nie Tabryz — nie wymaga masowego "wyzwalania".</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>RYZYKO 5: Mission creep i eskalacja</h4>
+  <p>30 km wzdłuż 700 km = ogromne terytorium. Artyleria 40 km, rakiety 100 km — pas daje złudzenie bezpieczeństwa. Turcja w Syrii miała być tymczasowa (od 2016). Nawet osłabiony IRGC z moździerzami = piekło. Iran może odpowiedzieć asymetrycznie (dron na BTC). Aliyev: inwazja czy "Afryn"?</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>RYZYKO 6: Fragmentacja kurdyjska</h4>
+  <p>KDP Barzaniego (Irak) ≠ PKK/PYD (Syria) ≠ PJAK (Iran). Wrogowie, nie sojusznicy. Turcja popiera Barzaniego, ale PKK = organizacja terrorystyczna. Prowincja Azerbejdżan Zachodni mieszana (Azerowie + Kurdowie). Barzani wyraził zastrzeżenia wobec zaangażowania Peszmergi. Kluczowe pytanie: którzy Kurdowie?</p>
+</div>
+
+<div class="analysis-section weakness">
+  <h4>RYZYKO 7: Sekwencja zdarzeń</h4>
+  <p>Wszystko musi się wydarzyć w określonej kolejności. Kurdowie przed Azerami = turecka panika. Azerowie przed konsultacją z USA = Waszyngton wściekły. UE przed stabilizacją = pieniądze znikają. Jałta trwała tydzień — ta Jałta wymaga orkiestracji trwającej miesiące/lata. Ale: Jałta nie musi być konferencją — może być procesem.</p>
+</div>
+
+<!-- SECTION 6: VERDICT -->
+<h2>6. Werdykt końcowy</h2>
+
+<div class="verdict">
+  <h3>Ocena analityka</h3>
+  <p>Wizja jest wewnętrznie spójna do stopnia uniemożliwiającego łatwe odrzucenie. Podstawowa dynamika — rozpad Iranu jako katalizator przebudowy od Kaukazu po Zatokę, napędzany chciwością i strachem lokalnych aktorów — <strong>już się dzieje</strong>. Nie dlatego, że ktoś to zaplanował, ale dlatego, że każdy aktor, działając racjonalnie w swoim interesie, popycha w tym samym kierunku.</p>
+  <p>Wizja wymaga, żeby bardzo dużo rzeczy poszło dobrze jednocześnie. Historia rzadko jest tak łaskawa. Ale historia też rzadko oferuje momenty takiej jednoczesnej destabilizacji wielu porządków.</p>
+  <p>Historyczne porządki regionalne nie powstają z planów — powstają z chaosu, który wymusza improwizację, a improwizacja z czasem krzepnie w struktury.</p>
+  <p><strong>8 marca 2026: punkt, po którym nic nie wraca do normy.</strong></p>
+</div>
+
+<hr class="divider">
+
+<p style="text-align:center; color:#999; font-size:0.85em; margin-top:30px;"><em>Konwergencja katastrof twórczych: rozpad Iranu + wyczerpanie Rosji + szok naftowy + przesunięcie USA na zachodnią półkulę = okno, w którym nowy porządek może powstać organicznie.</em></p>
+
+<p style="text-align:center; color:#999; font-size:0.85em;"><em>Jałta nie musi być konferencją. Może być procesem.</em></p>
+
+</div>
+
+<div class="footer">
+  <p>Jałta 3.0 — Analiza Strategiczna &bull; 8 marca 2026 &bull; Dokument roboczy</p>
+  <p>Opracowanie na podstawie sesji analitycznej (~4 godziny) z wykorzystaniem danych OSINT z dnia 8.03.2026</p>
+</div>
+
+</body>
+</html>

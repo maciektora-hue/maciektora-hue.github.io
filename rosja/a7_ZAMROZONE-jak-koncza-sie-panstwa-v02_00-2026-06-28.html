@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMROZONE · jak koncza sie panstwa · v02.00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root, html[data-theme="dark"] {
+ --bg: #0d1117;
+ --bg2: #161b22;
+ --bg3: #1c2129;
+ --border: #30363d;
+ --text: #e6edf3;
+ --fg: #e6edf3;
+ --muted: #8b949e;
+ --ua: #4a9eff;
+ --ru: #ff5555;
+ --orange: #ff9d3a;
+ --yellow: #f0c674;
+ --green: #56d364;
+ --purple: #c099ff;
+}
+/* —— motyw jasny —— */
+html[data-theme="light"] {
+ --bg: #dde1e6;
+ --bg2: #eef0f3;
+ --bg3: #d4d8dd;
+ --border: #b8bfc7;
+ --text: #1b1f24;
+ --fg: #1b1f24;
+ --muted: #545b63;
+ --ua: #0a5db0;
+ --ru: #c41f1f;
+ --orange: #a85200;
+ --yellow: #8a5c00;
+ --green: #166e30;
+ --purple: #6f3fbd;
+}
+/* —— motyw biało-czarny (wysoki kontrast, monochrom) —— */
+html[data-theme="bw"] {
+ --bg: #ffffff;
+ --bg2: #ffffff;
+ --bg3: #f2f2f2;
+ --border: #000000;
+ --text: #000000;
+ --fg: #000000;
+ --muted: #333333;
+ --ua: #000000;
+ --ru: #000000;
+ --orange: #000000;
+ --yellow: #000000;
+ --green: #000000;
+ --purple: #000000;
+}
+/* —— przełącznik motywu —— */
+.theme-switch {
+ display: flex;
+ gap: 0.4rem;
+ flex-wrap: wrap;
+ margin: 0.6rem 0 1rem;
+}
+.theme-switch button {
+ font-family: inherit;
+ font-size: 0.8rem;
+ padding: 0.35rem 0.75rem;
+ border: 1px solid var(--border);
+ border-radius: 6px;
+ background: var(--bg2);
+ color: var(--muted);
+ cursor: pointer;
+ transition: all 0.15s;
+}
+.theme-switch button:hover { color: var(--text); border-color: var(--ua); }
+.theme-switch button[aria-pressed="true"] {
+ background: var(--ua);
+ color: var(--bg);
+ border-color: var(--ua);
+ font-weight: 600;
+}
+html[data-theme="bw"] .theme-switch button[aria-pressed="true"] {
+ background: #000000; color: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+ background: var(--bg);
+ color: var(--text);
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+ line-height: 1.55;
+ padding: 1rem;
+ max-width: 1100px;
+ margin: 0 auto;
+ font-size: 15px;
+}
+h1 {
+ font-size: 1.9rem;
+ color: var(--ua);
+ margin-bottom: 0.4rem;
+ border-bottom: 2px solid var(--ua);
+ padding-bottom: 0.4rem;
+}
+h2 {
+ font-size: 1.62rem;
+ margin: 1.6rem 0 0.7rem;
+ color: var(--orange);
+}
+h3 {
+ font-size: 1.42rem;
+ color: var(--muted);
+ margin-bottom: 0.6rem;
+ font-weight: 600;
+ letter-spacing: 0.02em;
+}
+.intro {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-radius: 6px;
+ padding: 0.9rem;
+ margin-bottom: 1.2rem;
+ font-size: 0.92rem;
+ color: var(--muted);
+}
+.intro strong { color: var(--text); }
+.stat-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.6rem;
+ margin: 0.8rem 0;
+}
+.stat {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-radius: 6px;
+ padding: 0.5rem 0.8rem;
+ min-width: 110px;
+ flex: 1;
+}
+.stat-num {
+ font-size: 1.4rem;
+ font-weight: 700;
+ color: var(--orange);
+}
+.stat-num.ua { color: var(--ua); }
+.stat-num.ru { color: var(--ru); }
+.stat-label {
+ font-size: 0.75rem;
+ color: var(--muted);
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+}
+.period {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-radius: 8px;
+ padding: 0.9rem;
+ margin-bottom: 1rem;
+}
+.period-head {
+ display: flex;
+ justify-content: space-between;
+ align-items: baseline;
+ flex-wrap: wrap;
+ gap: 0.5rem;
+ padding-bottom: 0.5rem;
+ border-bottom: 1px solid var(--border);
+ margin-bottom: 0.7rem;
+}
+.period-title {
+ font-size: 1.05rem;
+ color: var(--ua);
+ font-weight: 600;
+}
+h3.period-title {
+ margin: 0;
+ padding: 0;
+ font-size: 1.48rem;
+ font-weight: 600;
+ line-height: 1.4;
+ scroll-margin-top: 80px;
+}
+h3#matryca-kategorie,
+h3#matryca-geograficzna {
+ color: var(--ua);
+ margin-top: 1rem;
+}
+h3#matryca-geograficzna {
+ margin-top: 1.4rem;
+}
+.period-count {
+ font-size: 0.85rem;
+ color: var(--muted);
+}
+.event {
+ background: var(--bg3);
+ border-left: 3px solid var(--border);
+ border-radius: 4px;
+ padding: 0.55rem 0.7rem;
+ margin-bottom: 0.45rem;
+ transition: border-color 0.15s;
+}
+.event:hover { border-left-color: var(--ua); }
+.event-head {
+ display: flex;
+ justify-content: space-between;
+ align-items: baseline;
+ flex-wrap: wrap;
+ gap: 0.4rem;
+ margin-bottom: 0.25rem;
+}
+.event-date {
+ color: var(--muted);
+ font-size: 0.8rem;
+ font-variant-numeric: tabular-nums;
+ white-space: nowrap;
+}
+.event-name {
+ font-weight: 600;
+ color: var(--text);
+ flex: 1;
+ min-width: 180px;
+}
+.event-loc {
+ font-size: 0.85rem;
+ color: var(--muted);
+ margin-bottom: 0.25rem;
+}
+.event-note {
+ font-size: 0.88rem;
+ color: var(--text);
+}
+.tags {
+ display: inline-flex;
+ flex-wrap: wrap;
+ gap: 0.25rem;
+ margin-top: 0.3rem;
+}
+.tag {
+ font-size: 0.68rem;
+ padding: 0.12rem 0.45rem;
+ border-radius: 10px;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ font-weight: 600;
+}
+/* Tagi: trzy grupy funkcjonalne zamiast jedenastu kolorów */
+.t-ener, .t-wojsk, .t-infra, .t-cyw, .t-trans, .t-sabot,
+.t-chem, .t-petro, .t-elek, .t-gaz {
+ background: rgba(255,157,58,0.14); color: var(--orange);
+}
+.t-pal, .t-spal, .t-usz {
+ background: rgba(255,85,85,0.14); color: var(--ru);
+}
+.t-typ, .t-d1, .t-d2, .t-d3 {
+ background: transparent; border: 1px solid var(--border); color: var(--muted);
+}
+/* Tagi meta-komunikacyjne — wydzielone semantycznie, nie używają klas funkcjonalnych */
+.t-meta-comm, .t-sygnal, .t-intel, .t-nowa-bron {
+ background: rgba(192,153,255,0.16); color: var(--purple);
+}
+/* === FRONTY: ortogonalny wymiar — wektor (niebieski) vs domena (zielony), v14.01 === */
+.tags.fronty { margin-top: 0.2rem; }
+.t-fv, .t-fd { padding-left: 0.38rem; }
+.t-fv::before, .t-fd::before { content: "\25B8\00A0"; opacity: 0.65; }
+.t-fv { background: rgba(74,158,255,0.15); color: var(--ua); }
+.t-fd { background: rgba(86,211,100,0.13); color: var(--green); }
+.t-flam { background: rgba(255,121,198,0.16); color: #ff79c6; }
+.t-ciagle { background: rgba(240,198,116,0.16); color: var(--yellow); }
+.event.event-ciagle { border-left-color: var(--yellow); }
+.t-behe { background: rgba(45,212,191,0.16); color: #2dd4bf; }
+/* === REJESTR PREDYKCJI === */
+.pred { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem 0.9rem; margin: 0.7rem 0; border-left: 3px solid var(--muted); }
+.pred-trafiona { border-left-color: var(--green); }
+.pred-otwarta { border-left-color: var(--yellow); }
+.pred-head { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.3rem; }
+.pred-id { display: inline-block; font-family: monospace; background: rgba(255,255,255,0.06); padding: 0.05rem 0.4rem; border-radius: 3px; margin-right: 0.5rem; color: var(--muted); }
+.pred-status { float: right; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.pred-status.s-traf { color: var(--green); }
+.pred-status.s-otw { color: var(--yellow); }
+.pred p { font-size: 0.88rem; margin: 0.25rem 0 0; }
+/* Klasy pomocnicze — konsolidacja powtarzających się inline-style */
+.subtle { font-weight: 400; font-size: 0.7rem; }
+.note-inline { color: var(--muted); margin-left: 0.5rem; }
+.note-block { margin: 0.4rem 0 0.4rem 1.2rem; font-size: 0.85rem; }
+.spaced { margin-top: 0.4rem; }
+.spaced-big { margin-top: 0.8rem; }
+.warn { color: var(--orange); font-weight: 700; }
+.event.event-meta { border-left-color: var(--ua); }
+/* Klasy z v10.00 — wyrzucenie inline-styles z nie-nagłówków */
+.muted { color: var(--muted); }
+.kluczowe-daty { background: rgba(192,153,255,0.1); border: 1px solid rgba(192,153,255,0.3); border-radius: 6px; padding: 0.6rem 0.8rem; margin-bottom: 0.8rem; font-size: 0.85rem; }
+.kluczowe-daty strong.lead { color: var(--purple); }
+.dystans-opis { font-size: 0.8rem; color: var(--muted); margin: -0.4rem 0 1.2rem; line-height: 1.5; }
+.dist-low { color: var(--green); }
+.dist-mid { color: var(--yellow); }
+.dist-high { color: var(--purple); }
+.long-distance { color: var(--orange); }
+.matrix-help { color: var(--muted); font-size: 0.88rem; margin-bottom: 0.8rem; }
+.matrix-help .dot { color: var(--ua); font-weight: 600; }
+.evo-wnioski { margin-top: 1rem; font-size: 0.93rem; }
+.evo-lista { margin: 0.4rem 1.2rem; font-size: 0.93rem; }
+.evo-kalendarz { margin-top: 0.9rem; font-size: 0.93rem; }
+.evo-debiuty { margin-top: 0.7rem; font-size: 0.93rem; }
+.sygnatura-gorna { color: var(--muted); margin-bottom: 0.3rem; font-size: 0.82rem; font-family: monospace; }
+.sygnatura-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 0.2rem; }
+.sygnatura-stats { font-size: 0.7rem; opacity: 0.55; margin-top: 0.3rem; }
+.sygnatura-kolofon { font-size: 15px; color: var(--text); line-height: 1.55; margin: 0.6rem 0; }
+.period-bilans { margin: 0.8rem 0 0.4rem; padding: 0.7rem 0.9rem; border: 1px solid var(--border); border-left: 3px solid var(--orange); border-radius: 6px; background: var(--bg2); }
+.pb-tytul { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 0.55rem; font-weight: 600; }
+.pb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem 0.9rem; }
+.pb-poz { display: flex; align-items: baseline; gap: 0.45rem; }
+.pb-num { font-size: 1.15rem; font-weight: 700; color: var(--orange); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pb-lab { font-size: 0.85rem; color: var(--text); line-height: 1.3; }
+.pb-sub { display: block; font-size: 0.72rem; color: var(--muted); }
+.pb-nota { margin-top: 0.6rem; font-size: 0.74rem; color: var(--muted); line-height: 1.4; font-style: italic; }
+.sygnatura-dolna-label { font-size: 0.7rem; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 0.3rem; }
+.sygnatura-dolna-stats { font-size: 0.75rem; opacity: 0.7; margin: 0.3rem 0 0.6rem; font-family: monospace; }
+.callout-spaced { margin-top: 0.5rem; }
+.budanov-przedmowa { font-style: italic; color: var(--muted); }
+/* === AUDYT KOLUMBRYNY === */
+.audyt-wrap { overflow-x: auto; margin: 1rem 0; -webkit-overflow-scrolling: touch; }
+table.audyt { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 580px; }
+table.audyt th, table.audyt td { border: 1px solid var(--border); padding: 0.45rem 0.5rem; text-align: left; vertical-align: top; }
+table.audyt th { background: var(--bg3); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+table.audyt td.a-nr { text-align: center; font-family: monospace; font-weight: 700; color: var(--muted); width: 2.4rem; }
+.a-stat { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; }
+.a-potw { background: rgba(63,185,80,0.16); color: var(--green); }
+.a-przesk { background: rgba(255,140,40,0.16); color: #ff8c28; }
+.a-wtoku { background: rgba(214,180,61,0.16); color: var(--yellow); }
+.a-niezm { background: rgba(255,255,255,0.06); color: var(--muted); }
+.audyt-akapit { margin: 0.55rem 0; padding-left: 0.8rem; border-left: 2px solid var(--border); font-size: 0.9rem; line-height: 1.5; }
+.a-num { font-family: monospace; font-weight: 700; color: var(--muted); margin-right: 0.3rem; }
+.a-arrow { color: var(--orange); font-weight: 700; padding: 0 0.2rem; }
+.a-prob { color: var(--muted); font-size: 0.82rem; }
+.audyt-akapit .a-stat { margin-right: 0.4rem; }
+/* Akapity adresatów (komunikat wielo-adresatowy) i kampanii ujawnienia */
+.adr-akapit, .kamp-akapit { margin: 0.55rem 0; padding-left: 0.8rem; border-left: 2px solid var(--border); font-size: 0.9rem; line-height: 1.5; }
+.adr-name, .kamp-date { font-weight: 700; color: var(--fg); margin-right: 0.4rem; }
+.kamp-nad { color: var(--orange); font-weight: 600; }
+.adr-status { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; padding: 0.08rem 0.4rem; border-radius: 3px; }
+.status-główny { background: rgba(255,157,58,0.16); color: var(--orange); }
+.status-accepted-risk { background: rgba(255,85,85,0.14); color: var(--ru); }
+.status-secondary, .status-collateral { background: rgba(255,255,255,0.06); color: var(--muted); }
+/* Akapity asymetrii opcjonalności (UA vs RU) */
+.asym-akapit { margin: 0.6rem 0; padding-left: 0.8rem; border-left: 2px solid var(--border); font-size: 0.9rem; line-height: 1.5; }
+.asym-dim { font-weight: 700; color: var(--fg); text-transform: uppercase; font-size: 0.82rem; letter-spacing: 0.03em; }
+.asym-ua { color: var(--ua); font-weight: 600; }
+.asym-ru { color: var(--ru); font-weight: 600; }
+.summary {
+ background: linear-gradient(135deg, rgba(74,158,255,0.08), rgba(255,157,58,0.08));
+ border: 1px solid var(--border);
+ border-left: 4px solid var(--ua);
+ border-radius: 8px;
+ padding: 1rem;
+ margin: 1.5rem 0 1rem;
+}
+.summary h3 {
+ color: var(--ua);
+ font-size: 1.42rem;
+ margin-bottom: 0.6rem;
+}
+.summary p { margin-bottom: 0.5rem; font-size: 0.92rem; }
+.summary ul { margin-left: 1.2rem; font-size: 0.9rem; }
+.summary li { margin-bottom: 0.3rem; }
+.legend {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.4rem;
+ margin: 0.5rem 0 1rem;
+ font-size: 0.8rem;
+}
+footer {
+ margin-top: 2rem;
+ padding-top: 1rem;
+ border-top: 1px solid var(--border);
+ font-size: 0.75rem;
+ color: var(--muted);
+ text-align: center;
+}
+.disclaim {
+ border-left: 2px solid var(--border);
+ padding: 0.4rem 0.9rem;
+ margin: 0.7rem 0;
+ font-size: 0.85rem;
+ color: var(--muted);
+}
+.easter {
+ display: inline-block;
+ background: rgba(192,153,255,0.15);
+ border: 1px solid rgba(192,153,255,0.4);
+ border-radius: 4px;
+ padding: 0.15rem 0.5rem;
+ font-size: 0.8rem;
+ color: var(--purple);
+ margin: 0.3rem 0;
+}
+.matrix-wrap {
+ overflow-x: auto;
+ margin: 1rem 0;
+ -webkit-overflow-scrolling: touch;
+ border-radius: 6px;
+}
+.matrix-wrap::-webkit-scrollbar {
+ height: 6px;
+}
+.matrix-wrap::-webkit-scrollbar-thumb {
+ background: var(--border);
+ border-radius: 3px;
+}
+table.matrix {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 0.78rem;
+ min-width: 560px;
+ table-layout: fixed;
+}
+table.matrix col.cat-col { width: 32%; }
+table.matrix col.period-col { width: 6.8%; }
+table.matrix th, table.matrix td {
+ border: 1px solid var(--border);
+ padding: 0.35rem 0.3rem;
+ text-align: center;
+ vertical-align: middle;
+ overflow: hidden;
+}
+table.matrix th {
+ background: var(--bg2);
+ color: var(--muted);
+ font-weight: 600;
+ font-size: 0.72rem;
+ line-height: 1.2;
+}
+table.matrix th.cat {
+ text-align: left;
+ background: var(--bg3);
+ color: var(--text);
+ white-space: normal;
+ font-size: 0.78rem;
+}
+table.matrix td.cat {
+ text-align: left;
+ background: var(--bg3);
+ color: var(--text);
+ font-weight: 500;
+ font-size: 0.78rem;
+ padding: 0.4rem 0.45rem;
+ white-space: normal;
+ word-wrap: break-word;
+}
+.cell-y { background: rgba(74,158,255,0.18); color: var(--ua); font-weight: 700; }
+.cell-n { color: var(--muted); }
+.cell-new { background: rgba(255,157,58,0.25); color: var(--orange); font-weight: 700; }
+.cell-pause { background: rgba(192,153,255,0.15); color: var(--purple); font-style: italic; font-size: 0.7rem; }
+.matrix tr.matrix-blok td.blok { text-align: left; background: var(--bg2); color: var(--text); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.02em; text-transform: uppercase; padding: 0.45rem 0.5rem; border-top: 2px solid var(--border); }
+.evo {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-left: 4px solid var(--orange);
+ border-radius: 8px;
+ padding: 1rem;
+ margin: 1.2rem 0;
+}
+.evo h3 {
+ color: var(--orange);
+ font-size: 1.42rem;
+ margin-bottom: 0.6rem;
+}
+.evo-step {
+ margin-bottom: 0.7rem;
+ padding-left: 0.6rem;
+ border-left: 2px solid var(--border);
+}
+.evo-step strong { color: var(--ua); }
+.evo-step.delta {
+ display: inline-block;
+ background: rgba(255,157,58,0.2);
+ color: var(--orange);
+ padding: 0.05rem 0.4rem;
+ border-radius: 3px;
+ font-size: 0.78rem;
+ margin-left: 0.3rem;
+}
+.analysis-section {
+ background: linear-gradient(135deg, rgba(192,153,255,0.06), rgba(74,158,255,0.06));
+ border: 1px solid var(--border);
+ border-radius: 8px;
+ padding: 1.2rem;
+ margin: 1.5rem 0;
+}
+.analysis-section h2 {
+ margin-top: 0;
+ color: var(--orange);
+}
+.analysis-section h3 {
+ color: var(--muted);
+ font-size: 1.42rem;
+ margin: 1rem 0 0.5rem;
+ font-weight: 600;
+ letter-spacing: 0.02em;
+}
+.analysis-section h4 {
+ color: var(--orange);
+ font-size: 1.28rem;
+ margin: 0.9rem 0 0.4rem;
+ font-weight: 600;
+}
+.analysis-section h5 {
+ color: var(--text);
+ font-size: 1.16rem;
+ margin: 0.8rem 0 0.35rem;
+ font-weight: 700;
+ letter-spacing: 0.02em;
+}
+.analysis-section h6 {
+ color: var(--orange);
+ font-size: 1.05rem;
+ margin: 0.7rem 0 0.3rem;
+ font-weight: 700;
+ letter-spacing: 0.06em;
+}
+.analysis-section p {
+ margin-bottom: 0.6rem;
+ font-size: 0.92rem;
+}
+.analysis-section ul {
+ margin: 0.3rem 0 0.6rem 1.2rem;
+ font-size: 0.9rem;
+}
+.analysis-section li {
+ margin-bottom: 0.25rem;
+}
+.callout {
+ border-left: 2px solid var(--muted);
+ padding: 0.5rem 0.9rem;
+ margin: 0.8rem 0;
+ font-size: 0.9rem;
+ color: var(--fg);
+}
+.callout strong { color: var(--orange); }
+/* === GALERIA CELÓW === */
+.target-card {
+ background: var(--bg3);
+ border: 1px solid var(--border);
+ border-left: 3px solid var(--ua);
+ border-radius: 6px;
+ padding: 0.8rem 1rem;
+ margin: 0.8rem 0;
+}
+.target-card .tc-name {
+ font-size: 0.98rem;
+ font-weight: 700;
+ color: var(--ua);
+ margin-bottom: 0.15rem;
+}
+.target-card .tc-tagline {
+ font-size: 0.82rem;
+ color: var(--orange);
+ font-style: italic;
+ margin-bottom: 0.5rem;
+}
+.target-card p {
+ font-size: 0.9rem;
+ margin-bottom: 0.4rem;
+}
+.target-card .tc-why {
+ font-size: 0.86rem;
+ color: var(--muted);
+ border-top: 1px dashed var(--border);
+ padding-top: 0.4rem;
+ margin-top: 0.5rem;
+}
+.target-card .tc-why strong { color: var(--green); }
+table.interpretacja {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 0.82rem;
+ margin: 0.8rem 0;
+ table-layout: fixed;
+}
+table.interpretacja col.col-adr { width: 22%; }
+table.interpretacja col.col-interpretacja { width: 56%; }
+table.interpretacja col.col-status { width: 22%; }
+table.interpretacja.interpretacja-3day col.col-day { width: 17%; }
+table.interpretacja.interpretacja-3day col.col-nadawca { width: 23%; }
+table.interpretacja.interpretacja-3day col.col-content { width: 60%; }
+table.interpretacja th, table.interpretacja td {
+ border: 1px solid var(--border);
+ padding: 0.45rem 0.5rem;
+ text-align: left;
+ vertical-align: top;
+ word-wrap: break-word;
+ overflow-wrap: break-word;
+}
+table.interpretacja th {
+ background: var(--bg2);
+ color: var(--muted);
+ font-weight: 600;
+ font-size: 0.76rem;
+}
+table.interpretacja td.adressee {
+ background: var(--bg3);
+ color: var(--text);
+ font-weight: 600;
+ font-size: 0.8rem;
+ word-wrap: break-word;
+}
+.status-główny { color: var(--ua); font-weight: 700; font-size: 0.78rem; }
+.status-secondary { color: var(--muted); font-size: 0.78rem; }
+.status-accepted-risk { color: var(--orange); font-weight: 600; font-size: 0.78rem; }
+.status-collateral { color: var(--green); font-size: 0.78rem; }
+table.asym {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 0.82rem;
+ margin: 0.8rem 0;
+ table-layout: fixed;
+}
+table.asym col.col-dim { width: 22%; }
+table.asym col.col-ua { width: 39%; }
+table.asym col.col-ru { width: 39%; }
+table.asym th, table.asym td {
+ border: 1px solid var(--border);
+ padding: 0.45rem 0.5rem;
+ text-align: left;
+ vertical-align: top;
+ word-wrap: break-word;
+ overflow-wrap: break-word;
+}
+table.asym th {
+ background: var(--bg2);
+ color: var(--muted);
+ font-weight: 600;
+ font-size: 0.76rem;
+}
+table.asym td.dim {
+ background: var(--bg3);
+ color: var(--text);
+ font-weight: 600;
+ font-size: 0.8rem;
+ word-wrap: break-word;
+}
+table.asym td.ua-col {
+ background: rgba(74,158,255,0.06);
+ color: var(--text);
+ font-size: 0.8rem;
+}
+table.asym td.ru-col {
+ background: rgba(255,85,85,0.06);
+ color: var(--text);
+ font-size: 0.8rem;
+}
+.value-box {
+ background: var(--bg3);
+ border: 1px solid var(--border);
+ border-radius: 6px;
+ padding: 0.6rem 0.8rem;
+ margin: 0.4rem 0;
+ font-size: 0.88rem;
+}
+.value-box.val {
+ color: var(--orange);
+ font-weight: 700;
+}
+
+/* === TABLE OF CONTENTS (TOC) === */
+/* === BOX WERYFIKACJI === */
+.verify-box {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-left: 4px solid var(--ua);
+ border-radius: 8px;
+ padding: 0.9rem 1.1rem;
+ margin: 1.2rem 0;
+ font-size: 0.9rem;
+ line-height: 1.55;
+}
+.verify-box .vb-head {
+ font-size: 0.78rem;
+ font-weight: 700;
+ color: var(--ua);
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ margin-bottom: 0.4rem;
+}
+.verify-box .vb-date {
+ color: var(--muted);
+ font-size: 0.82rem;
+}
+
+nav.toc {
+ background: var(--bg2);
+ border: 1px solid var(--border);
+ border-left: 4px solid var(--ua);
+ border-radius: 8px;
+ padding: 1rem 1.1rem;
+ margin: 1.2rem 0 1.5rem;
+}
+nav.toc.toc-title {
+ font-size: 0.85rem;
+ font-weight: 700;
+ color: var(--ua);
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ margin-bottom: 0.7rem;
+ padding-bottom: 0.4rem;
+ border-bottom: 1px solid var(--border);
+}
+nav.toc ul {
+ list-style: none;
+ padding-left: 0;
+ margin: 0;
+}
+nav.toc > ul > li {
+ margin-bottom: 0.55rem;
+}
+nav.toc > ul > li > a {
+ display: block;
+ color: var(--text);
+ font-weight: 600;
+ font-size: 0.95rem;
+ text-decoration: none;
+ padding: 0.15rem 0;
+ border-radius: 3px;
+ transition: color 0.15s;
+}
+nav.toc > ul > li > a:hover {
+ color: var(--orange);
+}
+nav.toc li ul {
+ margin: 0.25rem 0 0.4rem 0.95rem;
+ padding-left: 0.65rem;
+ border-left: 1px dashed var(--border);
+}
+nav.toc li ol {
+ margin: 0.25rem 0 0.4rem 0.95rem;
+ padding-left: 1.7rem;
+ border-left: 1px dashed var(--border);
+ list-style: decimal;
+}
+nav.toc li ol > li::marker {
+ color: var(--muted);
+ font-weight: 600;
+}
+nav.toc li li {
+ margin-bottom: 0.18rem;
+}
+nav.toc li li a {
+ display: block;
+ color: var(--muted);
+ font-size: 0.85rem;
+ font-weight: 400;
+ text-decoration: none;
+ padding: 0.1rem 0;
+ transition: color 0.15s;
+}
+nav.toc li li a:hover {
+ color: var(--ua);
+}
+/* TOC — gradacja poziomow h3 -> h6 (h3 = lista numerowana OL TYLKO w TOC; glebsze UL) */
+nav.toc > ul > li > ol > li > a { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+nav.toc > ul > li > ol > li > ul > li > a { font-size: 0.84rem; color: var(--muted); font-weight: 400; }
+nav.toc > ul > li > ol > li > ul > li > ul > li > a { font-size: 0.81rem; color: var(--muted); font-weight: 400; }
+nav.toc > ul > li > ol > li > ul > li > ul > li > ul > li > a { font-size: 0.78rem; color: var(--muted); font-weight: 400; }
+@media (max-width: 600px) {
+ body { padding: 0.6rem; font-size: 14px; }
+ h1 { font-size: 1.6rem; }
+ h2 { font-size: 1.48rem; }
+.period { padding: 0.7rem; }
+.event { padding: 0.5rem 0.55rem; }
+ table.interpretacja, table.asym { font-size: 0.76rem; }
+ table.interpretacja th, table.interpretacja td,
+ table.asym th, table.asym td { padding: 0.35rem 0.35rem; }
+ table.matrix { font-size: 0.7rem; }
+ table.matrix th, table.matrix td { padding: 0.25rem 0.2rem; }
+.analysis-section { padding: 0.8rem; }
+}
+
+.toc a.toc-new { background: #f5c518; color: #0d1117; font-weight: 600; border-radius: 3px; padding: 0 3px; }
+.toc a.toc-prev1 { background: rgba(154,138,58,0.45); border-radius: 3px; padding: 0 3px; }
+.toc a.toc-prev2 { background: rgba(168,96,46,0.42); border-radius: 3px; padding: 0 3px; }
+
+/* fonty tytulowe (Google Fonts) */
+h1 { font-family: 'Black Ops One', 'Impact', 'Arial Narrow', sans-serif; font-weight: 400; }
+h2 { font-family: 'Cinzel Decorative', 'Georgia', 'Times New Roman', serif; font-weight: 700; }
+
+/* ozdobnik-wyroznik: akapit zaraz po h6 (dawne callouty) */
+.analysis-section h6 + p { border-left: 2px solid var(--orange); padding-left: 0.85rem; }
+.analysis-section h6 + p::before { content: "❧  "; color: var(--orange); font-weight: 700; }
+/* === AUDYT DWÓCH REWIZJI (karty 31.05 vs 23.06) === */
+.reading-key { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; margin: 1rem 0 1.4rem; }
+.rk-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.6rem; }
+.rk-row { margin: 0.45rem 0; font-size: 0.86rem; display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.rk-row .lab { color: var(--muted); min-width: 7.5rem; font-size: 0.8rem; }
+.licznik { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 1rem 0 1.6rem; background: var(--bg2); }
+.licznik-naglowek { background: var(--bg3); padding: 0.6rem 0.9rem; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); border-bottom: 1px solid var(--border); }
+table.lt { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+table.lt th, table.lt td { padding: 0.5rem 0.6rem; text-align: center; border-bottom: 1px solid var(--border); }
+table.lt th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 700; }
+table.lt td.data-kol { text-align: left; font-family: monospace; font-weight: 700; color: var(--text); white-space: nowrap; }
+table.lt td.suma { font-weight: 700; color: var(--text); }
+table.lt tr:last-child td { border-bottom: none; }
+.lt-czeka { color: var(--muted); font-style: italic; font-size: 0.78rem; }
+.audyt-row { display: grid; grid-template-columns: 2.3rem 1fr; gap: 0.5rem; padding: 0.7rem 0.8rem; border: 1px solid var(--border); border-left: 2px solid var(--border); border-radius: 6px; margin: 0.5rem 0; background: var(--bg2); }
+.audyt-row.is-awans { border-left-color: var(--green); box-shadow: inset 3px 0 0 var(--green); }
+html[data-theme="bw"] .audyt-row.is-awans { box-shadow: inset 3px 0 0 #000; border-left-color: #000; }
+.ar-num { font-family: monospace; font-weight: 700; color: var(--muted); font-size: 0.9rem; padding-top: 0.05rem; }
+.ar-title { font-weight: 700; font-size: 0.92rem; line-height: 1.35; }
+.ar-stany { display: flex; align-items: flex-end; gap: 0.6rem; margin: 0.5rem 0 0.1rem; flex-wrap: wrap; }
+.stat-dated { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.18rem; }
+.sd-date { font-size: 0.62rem; font-family: monospace; color: var(--muted); letter-spacing: 0.05em; }
+.ar-then { color: var(--muted); font-weight: 700; font-size: 0.95rem; padding: 0 0.1rem 0.1rem; align-self: flex-end; }
+.is-awans .ar-then { color: var(--green); }
+html[data-theme="bw"] .is-awans .ar-then { color: #000; }
+.ar-awans-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; color: var(--green); padding: 0.12rem 0.4rem; border: 1px solid var(--green); border-radius: 3px; align-self: flex-end; }
+html[data-theme="bw"] .ar-awans-tag { color: #000; border-color: #000; }
+.ar-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.45; }
+.etap-nota { border: 1px dashed var(--border); border-radius: 8px; padding: 0.8rem 1rem; margin: 1.4rem 0; background: var(--bg2); font-size: 0.86rem; color: var(--muted); }
+.etap-nota strong { color: var(--text); }
+/* === MINI TOC (tylko sekcje h2) === */
+nav.toc-mini { background: var(--bg2); border: 1px solid var(--border); border-left: 4px solid var(--orange); border-radius: 8px; padding: 0.8rem 1.1rem; margin: 1.2rem 0 0.8rem; }
+nav.toc-mini .toc-mini-title { font-size: 0.78rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.55rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+nav.toc-mini ul { list-style: none; padding-left: 0; margin: 0; columns: 2; column-gap: 1.6rem; }
+nav.toc-mini li { margin: 0.2rem 0; font-size: 0.82rem; line-height: 1.32; break-inside: avoid; -webkit-column-break-inside: avoid; }
+nav.toc-mini a { color: var(--text); text-decoration: none; }
+nav.toc-mini a:hover { color: var(--ua); text-decoration: underline; }
+@media (max-width: 640px) { nav.toc-mini ul { columns: 1; } }
+</style>
+</head>
+<body>
+
+<h1 id="jak-koncza-sie-panstwa">jak kończą się państwa — fenomenologia, typologia, rachunek rosyjski</h1>
+<div class="theme-switch" role="group" aria-label="Wybór motywu kolorystycznego">
+ <button type="button" data-set-theme="dark" aria-pressed="true">po ciemnemu</button>
+ <button type="button" data-set-theme="light" aria-pressed="false">po jasnemu</button>
+ <button type="button" data-set-theme="bw" aria-pressed="false">biało-czarne</button>
+</div>
+<div id="sygnatura-pliku-gorna" class="sygnatura-gorna">
+<div class="sygnatura-label">sygnatura pliku</div>
+ZAMROZONE · jak-koncza-sie-panstwa · v02.00 · 2026-06-28 · 12:12 (Europe/Warsaw)
+<div class="sygnatura-stats">4 319 słów · 30 136 zn · 27 paragrafów · H2:10 · H3:17</div>
+<div class="sygnatura-kolofon">Zapis rozmowy analitycznej: fenomenologia upadku państwa → typologia trybów → rachunek rosyjski. Autor i redaktor merytoryczny: Maciej Tora · rozwinięcie mechanizmów i advocatus diaboli: Klaudiusz. Metoda: hipoteza kompresowana → rozwinięcie → korekta. Obalone ujęcia zostawione widoczne celowo.</div>
+</div>
+<nav class="toc" aria-label="Spis treści">
+<ul>
+<li><a href="#ramy">I. Ramy — fenomenologia, nie etiologia</a></li>
+<li><a href="#iii-rzesza">II. Jak wyglądał upadek III Rzeszy</a>
+<ol>
+<li><a href="#rzesza-markery">Dziesięć markerów</a></li>
+<li><a href="#rzesza-bieguny">Dwa bieguny — 1945 vs 1918</a></li>
+</ol></li>
+<li><a href="#typologia">III. Typologia trybów końca państwa</a>
+<ol>
+<li><a href="#osiem-trybow">Osiem trybów</a></li>
+<li><a href="#dwustopniowy">Wzorzec poprzeczny — śmierć i odrodzenie z rdzenia</a></li>
+<li><a href="#osie">Osie rozróżniające</a></li>
+</ol></li>
+<li><a href="#filtr-rosyjski">IV. Filtr rosyjski</a>
+<ol>
+<li><a href="#ktore-odpadaja">Które tryby odpadają</a></li>
+<li><a href="#dwa-silniki">Dwa silniki samorozwiązania — ZSRR vs Austro-Węgry</a></li>
+<li><a href="#liczba-armii">Liczba 1,1 mln — armia frontu vs aparat trzymania</a></li>
+<li><a href="#monopol-przekonanie">Monopol na przemoc jako przekonanie o sobie</a></li>
+</ol></li>
+<li><a href="#hierarchia">V. Hierarchia zewnętrzna — z patrona w klienta</a></li>
+<li><a href="#kto-chce">VI. Kto chce jakiej Rosji</a>
+<ol>
+<li><a href="#trzy-stany">Trzy stany — całość, siła, siła bez federacji</a></li>
+<li><a href="#chiny-integralnosc">Chiny i norma integralności (vide Ukraina)</a></li>
+<li><a href="#iran-proliferacja">Iran na osi proliferacyjnej</a></li>
+<li><a href="#musk-thiel">Kategoria IV — Musk i Thiel</a></li>
+<li><a href="#bilans-kto">Bilans — kto realnie po której stronie</a></li>
+</ol></li>
+<li><a href="#uchodzcy">VII. Rozbrojenie straszaka uchodźczego</a></li>
+<li><a href="#spoiwo">VIII. Spoiwo wewnętrzne — trzy warstwy</a>
+<ol>
+<li><a href="#warstwa-silowicy">Warstwa I — siłowicy jako czujnik siły</a></li>
+<li><a href="#warstwa-inercja">Warstwa II — biurokracja jako inercja</a></li>
+<li><a href="#warstwa-oligarchowie">Warstwa III — oligarchowie jako zakładnicy</a></li>
+</ol></li>
+<li><a href="#synteza">IX. Synteza — spoiwo to kalkulacja na dwóch zmiennych</a></li>
+<li><a href="#otwarte">X. Otwarte — peryferie vs rdzeń</a></li>
+</ul>
+</nav>
+
+<div class="analysis-section">
+<h2 id="ramy">I. Ramy — fenomenologia, nie etiologia</h2>
+<p class="intro">To jest zapis rozmowy analitycznej, nie esej z tezą z góry. Pytanie wyjściowe było wąskie i celowe: <strong>jak wyglądał</strong> upadek państwa, nie <strong>z czego wynikał</strong> — fenomenologia końca, nie jego przyczyny. Od III Rzeszy, przez typologię trybów rozpadu, do rachunku rosyjskiego.</p>
+<p>Metoda była dialektyczna: hipoteza kompresowana, rozwinięcie mechanizmu, korekta, wyostrzenie. Wiele najmocniejszych zwrotów w tym dokumencie to <strong>obalenia pierwszych ujęć</strong> — momenty, w których wstępna rama padała pod naciskiem advocatus diaboli. Zostawiam je widoczne, bo to one są metodą, nie ozdobą. Tam, gdzie argument upadł, jest to zaznaczone, a nie zamiecione.</p>
+<div class="callout">Kręgosłup całości jest jeden i pochodzi wprost z tytułu kroniki: <strong>erozja latami, rozpad w tygodniach</strong>. „Gradually" trwa długo i wygląda jak stabilność; „suddenly" jest krótkie i nieodwracalne. To samo tempo wraca w każdym trybie i w rachunku rosyjskim.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="iii-rzesza">II. Jak wyglądał upadek III Rzeszy</h2>
+<p>Obwód kurczył się około dwóch lat (od Stalingradu, luty 1943), ale rozłożenie samego <em>państwa</em> to około 16 tygodni — od ofensywy wiślańsko-odrzańskiej (12 stycznia 1945) do 8 maja. Do jesieni 1944 to wciąż wyglądało jak mocarstwo; potem pion w dół. „Gradually" trwało dwa lata, „suddenly" cztery miesiące.</p>
+
+<h3 id="rzesza-markery">Dziesięć markerów</h3>
+<p>Mniej więcej w kolejności, w jakiej stawały się widoczne:</p>
+<ul>
+<li><strong>Kurczący się obwód, dwa fronty do środka.</strong> Po Bagrationie i Normandii terytorium maleje monotonicznie, fronty zwierają się ku Berlinowi. Odcięte kotły (Kurlandia, porty kanału) zostawione, by „uschły na gałęzi". Mapa jako jednokierunkowy wektor — nic się nie cofa.</li>
+<li><strong>Dno beczki z ludźmi — widoczne gołym okiem.</strong> Volkssturm (16–60 lat, panzerfaust i broń muzealna), Hitlerjugend przy działach Flak, potem na ulicach. Stolicy bronią dzieci i starcy.</li>
+<li><strong>Paradoks materiałowy: pełne magazyny, martwe silniki.</strong> Produkcja zbrojeniowa szczytuje w 1944 — ale synteza paliw i transport zaduszone. Samoloty stoją bez paliwa, czołgi porzucane na sucho. Sprzęt JEST i nie może się ruszyć. To <em>capacity ≠ przerób</em>, w metalu i z 1945.</li>
+<li><strong>Rozjazd narracji z rzeczywistością — wojna-widmo.</strong> Endsieg i Wunderwaffe, a w bunkrze przesuwa się po mapie armie, których już nie ma (Steiner, Wenck). Reżim opowiadający zwycięstwo nad własnym trupem.</li>
+<li><strong>Przemoc obrócona do wewnątrz.</strong> Lotne sądy, „defetyści" na latarniach, fantazja o Werwolfie, rozkaz Nerona (spalona ziemia na własnej infrastrukturze) — a równolegle marsze śmierci przyśpieszają. Maszyna zabijania kręci się szybciej im bliżej końca.</li>
+<li><strong>Pęknięcie centrum (rozpad patrymonialny).</strong> Dowodzenie odklejone od realu, gauleiterzy na własną rękę, najbliżsi lejtnanci zdradzają w finale (Göring, Himmler) — i lecą za to. Rdzeń personalistyczny pęka, gdy patron słabnie.</li>
+<li><strong>Masowa ucieczka ludności.</strong> Miliony na zachód przed Armią Czerwoną, trekki w mróz, ewakuacja Bałtykiem, Wilhelm Gustloff. Fizyczne „rozmieszanie" populacji jako krajobraz.</li>
+<li><strong>Dekapitacja przez samobójstwo, nie obalenie.</strong> Bunkier, samobójstwo Hitlera, fala samobójstw (Demmin). Załamanie ideologiczne jako samowymazanie.</li>
+<li><strong>Brak rewolucji wewnętrznej — wygaszenie przez podbój.</strong> Inaczej niż 1918: żadnego buntu. Wehrmacht walczy do dosłownego zajęcia Berlina dom po domu. Państwo trzeba <em>fizycznie</em> zniszczyć i okupować do ostatniego metra.</li>
+<li><strong>Państwo po prostu przestaje istnieć.</strong> Kapitulacja całkowita i bezwarunkowa (Reims / Karlshorst), kadłubowy rząd Dönitza aresztowany, Stunde Null, okupacja, podział. Nie państwo-pokonane-ale-trwające, lecz państwo-<em>wygaszone</em>.</li>
+</ul>
+
+<h3 id="rzesza-bieguny">Dwa bieguny — 1945 vs 1918</h3>
+<div class="tc-why"><strong>Co z tego wynika:</strong> III Rzesza to czysty biegun <strong>„1945" — brak wewnętrznego pęknięcia, ekstynkcja przez podbój</strong>. Drugi biegun to <strong>„1918" — wewnętrzny rozpad/rewolucja, państwo trwa w zmienionej formie</strong>. Każdy autorytarny endgame leży gdzieś między tymi dwoma. Ale — jak się okaże w sekcji III — te dwa bieguny to nie cała przestrzeń, tylko dwa z ośmiu trybów.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="typologia">III. Typologia trybów końca państwa</h2>
+<p>Rozszerzenie pytania o Japonię 1945 i Austro-Węgry 1918 natychmiast pokazało, że bieguny 1945/1918 nie wystarczają — Japonia i A-W to <em>osobne</em> tryby, nie warianty tamtych. Rozkład po formie końca (jak wyglądał, nie z czego wynikał):</p>
+
+<h3 id="osiem-trybow">Osiem trybów</h3>
+<ul>
+<li><strong>1. Ekstynkcja przez podbój</strong> — walka do fizycznego zniszczenia, gaszenie z zewnątrz. III Rzesza 1945, Bizancjum 1453, Konfederacja 1865. Dekapitacja przez śmierć lub kapitulację pod lufą; potem okupacja/wchłonięcie.</li>
+<li><strong>2. Kapitulacja totalna z zachowaną ciągłością — dekapitacja UNIKNIĘTA.</strong> Japonia 1945. Nominalnie bezwarunkowa, ale bez inwazji wysp; cesarz zostaje, aparat przeżywa, okupacja pośrednia przez istniejącą biurokrację. Biegun-bliźniak #1: identyczna „totalna klęska", przeciwna <em>forma</em> końca. Najczystszy kontrast w zbiorze.</li>
+<li><strong>3. Wewnętrzny rozpad / rewolucja — państwo trwa, przekształcone.</strong> Niemcy 1918, Rosja luty 1917, Francja 1789, Qing 1911, Iran 1979. Reżim pada od środka, zanim wróg wejdzie na ziemię rdzeniową.</li>
+<li><strong>4. Dezintegracja odśrodkowa — wielonarodowe państwo pęka wzdłuż szwów.</strong> Podwariant administracyjny: ZSRR 1991 (rozwiązany telegramem), Austro-Węgry 1918 (kawałki ogłaszają się same), Czechosłowacja 1993. Podwariant krwawy: Jugosławia 1991 — ten sam mechanizm przez wojny secesyjne.</li>
+<li><strong>5. Rozbiór z zewnątrz bez rozstrzygającej wojny — salami.</strong> Polska 1772–95. Sąsiedzi odcinają płatami, wewnętrzny paraliż wyzyskany, znika z map na 123 lata.</li>
+<li><strong>6. Implozja państwa-protezy po odcięciu patrona.</strong> Wietnam Płd. 1975, Afganistan 2021, Afganistan Nadżibullaha 1992. Dopóki płynie zewnętrzne podtrzymanie — stoi; po odcięciu armia topnieje region po regionie w tygodnie, stolica pada bez walki. Czyste „gradually → suddenly".</li>
+<li><strong>7. Pęknięcie + zmiana stron + podział terytorialny.</strong> Włochy 1943 (król/Badoglio vs RSI Salò), Vichy 1940. Państwo rozłazi się na wrogie fragmenty pod różnymi patronami.</li>
+<li><strong>8. Dobrowolne samorozwiązanie / absorpcja.</strong> NRD 1990 — akcesja do RFN. Państwo kończy się przez przyłączenie, bez klęski i podboju.</li>
+</ul>
+
+<h3 id="dwustopniowy">Wzorzec poprzeczny — śmierć i odrodzenie z rdzenia</h3>
+<p>Binarność „koniec = trwale" psuje osobny wzorzec dwustopniowy: Osmanie 1918–23 (rdzeń okupowany i rozczłonkowany w Sèvres → ruch Atatürka buntuje się przeciw rozbiorowi i rekonstytuuje jako państwo narodowe w Lozannie) oraz Rosja 1917 → ZSRR (rozpad → odbudowa większości terytorium pod nową ideologią). Państwo „upada", a rdzeń odrasta.</p>
+
+<h3 id="osie">Osie rozróżniające</h3>
+<ul>
+<li><strong>kapitulacja (akt) vs rozpad (proces)</strong> — część ma moment podpisu (Niemcy, Japonia), część nie ma żadnej kapitulacji, tylko dezintegrację (ZSRR, A-W, Polska-rozbiory)</li>
+<li><strong>sprawczość</strong> — wewnętrzna vs zewnętrzna</li>
+<li><strong>los państwa</strong> — ekstynkcja / przekształcenie / fragmentacja / wchłonięcie</li>
+<li><strong>forma dekapitacji</strong> — śmierć · ucieczka · abdykacja · obalenie · podpis · rezygnacja</li>
+<li><strong>tempo finału</strong> — bitwa do ostatniego metra vs wygaśnięcie administracyjne</li>
+<li><strong>ciągłość instytucji vs Stunde Null</strong></li>
+</ul>
+</div>
+
+<div class="analysis-section">
+<h2 id="filtr-rosyjski">IV. Filtr rosyjski</h2>
+<p>Reguła redukcji: nie ugrzęznąć w nadmiarze. Większość trybów odpada wobec Rosji twardo, i to samo w sobie jest ustaleniem.</p>
+
+<h3 id="ktore-odpadaja">Które tryby odpadają</h3>
+<ul>
+<li><strong>#1 (ekstynkcja przez podbój) i #5 (rozbiór z zewnątrz):</strong> wielkość plus atom — wykluczone. Nikt nie okupuje jedenastu stref czasowych „do ostatniego metra". Intuicja o niemożliwości jest poprawna, ale dotyczy <em>tylko tych dwóch</em>.</li>
+<li><strong>#6 (implozja protezy):</strong> początkowo wykreślony („Rosja nie ma patrona") — ale to ujęcie padło w sekcji V. Skoro FR realnie staje się klientem Chin, #6 wraca jako <em>modyfikator ekonomiczny</em>: patron, który nie podtrzymuje państwa, lecz trzyma za gardło gospodarkę.</li>
+<li><strong>#8, #2-japoński:</strong> wymagają warunków, których tu nie ma.</li>
+</ul>
+<div class="callout">Zostają realnie dwa, spięte mostkiem: <strong>#3 (przewrót/rewolucja — państwo TRWA, następca)</strong> ↔ <strong>#4 (dezintegracja odśrodkowa — państwo PĘKA)</strong>. A #7 (rywalizujące ośrodki) to nie osobny tryb, lecz <em>mechanizm przejścia</em>: sporna sukcesja #3 przelewa się w #4. Wyzwalacz = załamanie/upokorzenie frontu. Zawias = elity regionalne. Atom przechyla wszystkich ku #3 (przewidywalny następca, nie pęknięty sąsiad z bronią jądrową).</div>
+
+<h3 id="dwa-silniki">Dwa silniki samorozwiązania — ZSRR vs Austro-Węgry</h3>
+<p>Pod jedną etykietą „samorozwiązanie" siedzą dwa różne silniki, dające inny rozpad:</p>
+<ul>
+<li><strong>ZSRR 1991 — elita-góra, lud bierny.</strong> Republikańscy bossowie chwytają suwerenność jako zasób (Białowieża = podpis trzech liderów, nie rewolucja ludowa). Defekcja odgórna, transakcyjna.</li>
+<li><strong>Austro-Węgry 1918 — lud-dół plus elity peryferii naraz.</strong> Czesi, Polacy, Węgrzy, Słowianie chcą własnych państw oddolnie; centrum nie ma czego trzymać, bo zniknęła <em>wola bycia trzymanym</em>.</li>
+</ul>
+<div class="tc-why"><strong>Co z tego wynika dla Rosji:</strong> ma silnik ZSRR, nie ma silnika A-W. Nie ma masowej oddolnej woli secesji w większości regionów — Tatarstan, Baszkiria, Jakucja to nie Czechy 1918. Realnych ognisk oddolnych jest kilka (Kaukaz Płn., peryferyjnie może Tuwa/Buriacja). Więc rosyjski #4, jeśli przyjdzie, byłby <strong>defekcją elit jak 1991, nie przebudzeniem narodów jak 1918</strong> — co czyni go <em>bardziej odwracalnym</em>: elity da się przekupić z powrotem, przebudzonego ludu nie.</div>
+
+<h3 id="liczba-armii">Liczba 1,1 mln — armia frontu vs aparat trzymania</h3>
+<p>Liczba „1,1 mln, w tym ~0,8 mln w Ukrainie" mówi mniej, niż się wydaje, bo skleja dwie pule. 0,8 mln w UA to wojsko <em>frontowe</em> — wyczerpane, ale to nie ono trzyma regiony. Kontrolę wewnętrzną trzyma osobna pula, zbudowana wprost pod coup-proofing i nietknięta przez front: Rosgwardia (~340 tys.), FSB, MWD, OMON. Więc „0,8 z 1,1 na froncie" nie wydrąża zdolności <em>represyjnej centrum</em>, tylko zdolność <em>frontu</em>.</p>
+<p>Wniosek: upadek frontu jest najprawdopodobniejszym <strong>wyzwalaczem</strong>, nie samym mechanizmem rozpadu. Test drugiej puli już był — marsz Prigożyna (czerwiec 2023): kolumna jedzie na Moskwę dobę i prawie nikt nie strzela. To jest realny data point o kruchości monopolu na przemoc, nie liczebność etatowa.</p>
+
+<h3 id="monopol-przekonanie">Monopol na przemoc jako przekonanie o sobie</h3>
+<div class="callout">Aparat represji trzyma populację — ale jego lojalność jest <strong>funkcją postrzeganej siły centrum, nie odwrotnie</strong>. Rosgwardia nie trzyma regionu z przekonania; trzyma, dopóki kalkuluje, że centrum wygra. Wejście obcych wojsk do którejś republiki — albo nawet wiarygodna <em>demonstracja</em>, że centrum nie panuje (drugi marsz Prigożyna, który tym razem nie zawraca) — przewraca kalkulację, i aparat z trzymającego staje się uciekającym. Monopol na przemoc to <strong>przekonanie o sobie samym</strong>, nie zasób fizyczny. Pęka w głowach, zanim pęknie w polu.</div>
+<p>Pełny łańcuch, zwięźle: <strong>wyzwalacz = załamanie/upokorzenie frontu → sygnał „centrum nie panuje" → kalkulacja aparatu się przewraca → defekcja elit regionalnych (silnik 1991) → #4 transakcyjny, odwracalny, bez przebudzenia ludów.</strong></p>
+</div>
+
+<div class="analysis-section">
+<h2 id="hierarchia">V. Hierarchia zewnętrzna — z patrona w klienta</h2>
+<p>Twardszy sygnał strukturalny niż większość rzeczy na froncie, bo dotyczy <em>pozycji w hierarchii</em>, nie chwilowej koniunktury. Rosja przeszła z <strong>patrona bloku</strong> (ZSRR: kilkanaście klientów), przez <strong>mocarstwo regionalne</strong> (lata 2010: Syria, Armenia, Azja Centralna, Białoruś, enklawy), do <strong>klienta jednego patrona plus suzerena jednego wasala</strong>. Saldo relacji się odwróciło — spadek o dwa szczeble w dekadę. Degradacja monotoniczna, ten sam jednokierunkowy wektor co w kronice, tylko mierzony w walucie suwerenności zewnętrznej.</p>
+<ul>
+<li><strong>Klient Chin — mechanizm, nie metafora.</strong> Asymetria jednostronna i rosnąca: ~⅓ rosyjskiego handlu zawiązana na Chiny, juanizacja rozliczeń, energia z dyskontem, bo nie ma gdzie indziej. Chiny nie potrzebują Rosji symetrycznie. Definicja relacji klient–patron: jeden może odejść bez bólu, drugi nie.</li>
+<li><strong>Patron już chyba tylko Białorusi — i ta jedna relacja właśnie się degraduje.</strong> Łukaszenka był klientem bezpieczeństwa (2020), ale w kronice jest ślad: 22.06 przekaźniki wyłączone, ugięcie pod presją. Nawet ostatni klient zaczyna kalkulować, że patron słabnie. Mińsk jest papierkiem lakmusowym: gdy zacznie otwarcie hedżować ku Pekinowi lub Zachodowi, będzie to sygnał, że rynek wycenił centrum Moskwy jako już-nie-gwaranta.</li>
+</ul>
+<div class="tc-why"><strong>Paradoks klientelizmu:</strong> im głębiej FR jest klientem, tym bardziej jej <em>centrum</em> jest podpierane z zewnątrz (Pekin chce przewidywalnego dłużnika) — a tym bardziej <em>peryferie</em> mogą czuć, że Moskwa to już ekspozytura, nie metropolia. Klientelizm stabilizuje górę i podgryza spójność dołu jednocześnie.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="kto-chce">VI. Kto chce jakiej Rosji</h2>
+<p>Większość błądzenia brała się z mieszania trzech różnych stanów. „Silna" i „w całości" to osie ortogonalne — trzeba je rozsprzęgnąć.</p>
+
+<h3 id="trzy-stany">Trzy stany — całość, siła, siła bez federacji</h3>
+<ul>
+<li><strong>(g) FR w całości</strong> — mapa nienaruszona, niezależnie od siły. Może być cała-i-słaba (wydmuszka). Realnie chcą jej: Putin (egzystencjalnie), wąski aparat nuklearno-ostrożny (jeden łańcuch dowodzenia nad arsenałem), Trump personalnie. Lista cienka.</li>
+<li><strong>(h) silna FR</strong> — mocna i federacyjna, status quo ante 2022. Chcą jej gracze anty-zachodni: Putin (to jego marzenie), Iran, KRLD, oportunistycznie Globalne Południe. Chiny — z zastrzeżeniem: chcą FR <em>dość-groźnej-by-wiązać-USA, dość-słabej-by-być-klientem</em>, czyli wąskiego okna bliżej (i) niż (h).</li>
+<li><strong>(i) silna Rosja bez federacji</strong> — mocne, zwarte państwo rdzeniowe, które zrzuciło peryferie. Najmniej omawiany stan, a ma zaskakująco szeroką cichą koalicję: rosyjscy etnonacjonaliści („Rosja dla Rosjan" — republiki jako ciężar do dotowania, Kaukaz jako koszt), zachodni realiści (post-imperialne „normalne państwo narodowe"), i funkcjonalnie Chiny (rdzeń z guzikami + Daleki Wschód w chińskiej strefie).</li>
+</ul>
+<div class="callout">Korekta całego toku: spór szedł „całość vs rozpad" (g vs #4), a faktyczny atraktor — ten, ku któremu pcha najwięcej niezależnych interesów — leży <em>między</em> nimi: <strong>nie rozpad chaotyczny, nie integralne imperium, lecz zrzucenie peryferii przy zachowanym, silnym, bezpiecznym-atomowo rdzeniu (i)</strong>. Z zastrzeżeniem: (i) to atrakcyjny <em>stan</em>, ale ryzykowna <em>droga</em> — mechanizm zrzucania (defekcja elit) jest ten sam, który grozi zsunięciem w rdzeń.</div>
+<p><strong>„Kontrolowane" zrzucenie to nie cecha procesu, lecz preferencja jednej grupy</strong> — zachodnich polityków (horyzont kadencji: gładko, bez uchodźców i paniki). Reszcie kontrola jest obojętna (Chiny: byle Daleki Wschód wpadł w strefę) albo niewygodna (nacjonaliści: byle peryferia odeszła, krwawo czy gładko; elity regionalne: defekcja jest oportunistyczna, nie planowana). Historycznie kontrolowane były tylko rozpady, gdzie <em>centrum samo zarządziło rozejście</em> (ZSRR, Czechosłowacja, NRD). Rosja Putina to przypadek, w którym centrum z definicji się nie zgodzi (zgoda = samobójstwo mitu) — czyli ścieżka „kontrolowana" jest zablokowana od strony jedynego aktora, który mógłby ją otworzyć. Statystycznie: jeśli (i), to raczej żywiołowo niż gładko.</p>
+
+<h3 id="chiny-integralnosc">Chiny i norma integralności (vide Ukraina)</h3>
+<p>Tu padło moje całe ujęcie. Twierdziłem, że Chiny bronią całości FR, bo chronią normę integralności terytorialnej dla Tajwanu. Trzy razy obalone:</p>
+<ul>
+<li><strong>Chiny nie wyznają normy integralności — wyznają ją instrumentalnie.</strong> Test empiryczny: Ukraina. Gdyby norma była wiążąca, Pekin potępiłby aneksję Krymu i obwodów. Nie potępił, osłania, kupuje ropę. To nie norma, to fasada normy zdejmowana, gdy niewygodna.</li>
+<li><strong>Tajwan działa odwrotnie.</strong> To casus <em>inkorporacji</em> („przyłączyć odszczepioną prowincję"), nie secesji. Chiny nie boją się <em>utraty</em> Tajwanu — chcą jego <em>zdobycia</em>. Precedens „granice wielkich mocarstw są płynne, siła je przepisuje" jest dla doktryny tajwańskiej potencjalnie <em>pomocny</em>, nie groźny.</li>
+<li><strong>„Separatyzm" ≠ rozpad federacji.</strong> Xinjiang/Tybet to anektowane prowincje w państwie unitarnym, dawno spacyfikowane — Pekin się o nie nie boi operacyjnie. Republiki FR to podmioty federacji. To różne zwierzęta prawne; automatyczne przejście „bo Xinjiang" było słabe.</li>
+</ul>
+<div class="tc-why"><strong>Co zostaje:</strong> chiński stosunek do całości FR jest <strong>czysto transakcyjny, zero normatywny</strong>. A wtedy rachunek materialny wygrywa: Daleki Wschód i Syberia z zasobami — Chiny wolą bezpośredni dostęp bez moskiewskiego pośrednika (precedens: Azja Centralna po 1991, gdzie skorzystały na fragmentacji sąsiada); słabszy regionalny boss negocjuje gorzej dla siebie niż dumny Putin. Jedyne, co zostaje po stronie „całości", to unikanie chaosu na 7000 km granicy — interes w <em>stabilności</em>, który Pekin realizuje najlepiej przez <strong>fragmentację funkcjonalną</strong> (wydrążyć Daleki Wschód ekonomicznie, mapę zostawić), nie przez obronę formalnej integralności. „Po co obcinać, skoro można wydrążyć."</div>
+<p>Argument „chaos na granicy" też okazał się wytrychem: nie ma presji migracyjnej Jakutów do Chin — jest <em>odwrotny</em> kierunek (chiński kapitał i ludność wchodzą na wyludniony Daleki Wschód: ~6 mln Rosjan vs ~100 mln w sąsiednich prowincjach). Kolonizacja już trwa (dzierżawy, drewno, wydobycie, juan, Władywostok jako zaplecze). Jedyna broniąca się wersja „problemu granicznego" jest wąska i krótkotrwała: niejasność, kto kontroluje konkretne obiekty wojskowe w chwili pęknięcia.</p>
+
+<h3 id="iran-proliferacja">Iran na osi proliferacyjnej</h3>
+<div class="callout">Iran ma interes <strong>prostopadły</strong> do całej osi „całość vs rozpad" — nie zależy mu na <em>kształcie</em> FR, lecz na <em>zawartości magazynów</em> w chaosie. I obserwacja o rakietach jest precyzyjna: Iran ma dojrzały, samodzielny program rakietowy (Shahab, Sejjil, Fattah — nośniki własne, często lepiej dopasowane niż cokolwiek z rosyjskiego inwentarza). Czyli <em>nośniki go nie interesują</em>. Brakuje mu — i to mógłby dostarczyć rosyjski rozpad w oknie chaosu — <strong>tego, co na czubku</strong>: materiał rozszczepialny, gotowe głowice/komponenty, wiedza (naukowcy, dokumentacja), skrót przez najtrudniejszy etap. Iran jako jedyny mógłby chcieć, by FR <em>pękła</em> — nie z wrogości do kształtu, lecz dla okna dostępu.</div>
+<p>Dwa zastrzeżenia trzeźwiące: operacyjnie to ekstremalnie trudne i krótkookienne — te same służby, które „wywiozą atom w dwa tygodnie" (HUR, Mossad, CIA), będą fizycznie zabezpieczać obiekty; a sam fizyczny dostęp i zdolność odpalenia są wyłącznie w Moskwie. Atom siedzi na <em>tej osobnej osi</em> — i właśnie dlatego nie jest argumentem przeciw #4 jako takiemu, tylko nakazem pilnowania, <em>kto trzyma Moskwę</em> (oś #3), niezależnie od tego, czy peryferie odpadają (oś #4).</p>
+
+<h3 id="musk-thiel">Kategoria IV — Musk i Thiel</h3>
+<p>Czwarta kategoria, której wcześniej nie było: <strong>prywatni aktorzy z motywem ideologiczno-biznesowym, nie geopolitycznym</strong>.</p>
+<ul>
+<li><strong>Thiel — spójniejszy kandydat.</strong> Cała linia (anty-establishment, „upadek instytucji", network states, Palantir kwitnący w niestabilności) jest strukturalnie przychylna fragmentacji „skostniałych" wielkich państw. Rozpad FR to dla tej szkoły teza potwierdzona, nie koszmar.</li>
+<li><strong>Musk — chaotyczny, wewnętrznie sprzeczny.</strong> Starlink (infrastruktura wojny, rynek na łączność w próżni), zasoby Syberii (lit, nikiel, ziemie rzadkie pod baterie), ego „rozwiązywania" geopolityki — ale zarazem rozmowy z Putinem i niestałość. „Może chcieć" wszystkiego naraz w zależności od tygodnia.</li>
+</ul>
+<div class="tc-why"><strong>Co realnie dodają:</strong> chcieć ≠ móc. Nie mają sprawczości, by <em>spowodować</em> rozpad (to robią elity regionalne). ALE są <strong>pierwszymi na całej liście, którzy chcieliby raczej fragmentacji niż całości ORAZ mają dźwignię na ciężkiego gracza (USA)</strong> — przez bliskość Trumpa/aparatu i kontrolę realnej infrastruktury. Iran chce dezintegracji, ale dźwigni na USA nie ma; politycy UE mają dźwignię, ale chcą przeciwnie. Musk/Thiel są jedynym połączeniem „preferuje rozpad + kanał wpływu na supermocarstwo". Nie kierowcy rozpadu, lecz <em>erodatorzy domyślnego zachodniego instynktu stabilizacyjnego</em> — który był jedynym poważnym czynnikiem trzymającym USA po stronie integralności. Zastrzeżenie: ich interes też może być <em>funkcjonalny</em> (lit, kontrakty Palantira w niestabilności), nie <em>formalny</em> — czyli i oni, jak Chiny, mogą ciążyć ku wydrążeniu, nie rozcięciu.</div>
+
+<h3 id="bilans-kto">Bilans — kto realnie po której stronie</h3>
+<div class="callout">Sama lista jest wynikiem, bo jest <strong>krótka, słaba i pozbawiona ciężkich graczy</strong> po stronie integralności. Integralności FR nie broni żadna silna, spójna koalicja — broni jej <strong>kadencyjny lęk części polityków UE/USA plus atomowy aparat</strong>. Po stronie „niech pęknie" zbiera się dziwna mieszanka bez wspólnego celu, ale ze wspólnym <em>kierunkiem</em>: jastrzębie państw frontowych, Iran (oś proliferacyjna), Musk/Thiel (ideologicznie), Chiny (funkcjonalnie). To dużo słabszy fundament „całości", niż wydawało się na początku.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="uchodzcy">VII. Rozbrojenie straszaka uchodźczego</h2>
+<p>„Fala uchodźcza z FR" jako powód, by bać się rozpadu, rozłaziła się pod naciskiem punkt po punkcie:</p>
+<ul>
+<li><strong>Precedens zdejmuje zaskoczenie.</strong> PL/LT/LV przetestowały 2021–22 (kryzys graniczny + przyjęcie milionów Ukraińców) — infrastruktura, procedury, odporność polityczna wyćwiczone, wiadomo, że to przeżywalne. Zastrzeżenie: obywatele państwa-agresora to inna polityka przyjęcia niż „swoi" Ukraińcy — logistycznie przetestowane, politycznie nie identyczne.</li>
+<li><strong>Nie wojna i nie bieda są pchaczem.</strong> Bieda to stan stały (unieruchamia, nie wypycha), front jest daleko od rdzenia. Pchaczami są: mobilizacja (wrzesień 2022: ~0,7–1 mln wyjechało w tygodnie — przed poborem, nie biedą), wewnętrzne bezpaństwo/przemoc frakcyjna, i ukierunkowanie (uciekają ci z zasobami i konkretnym zagrożeniem, nie najubożsi).</li>
+<li><strong>Pobór znika z państwem.</strong> Korekta sekwencji: mobilizacja to pchacz <em>funkcjonującego</em> centrum (faza przed rozpadem, trigger), nie <em>w trakcie</em> — w pęknięciu nie ma kto poborować. Pobór należy do kolumny „wyzwalacz", nie „skutek".</li>
+<li><strong>Mniejszości przestają być mniejszościami.</strong> Tatar w niepodległym Tatarstanie, Czeczen w niezależnej Iczkerii — stają się narodem tytularnym, więc nie uciekają. Operacja tworzy za to <em>mniejszości lustrzane</em>: Rosjanie w secesjonujących republikach. Ale oni idą <em>do rdzenia</em> (powrót do macierzy, jak Rosjanie z Azji Centralnej po 1991), nie na Zachód.</li>
+<li><strong>„Dokąd uciekają Rosjanie z Kaukazu?" — zła próbka.</strong> Na Kaukazie Płn. Rosjan jest dziś mało (większość wyjechała w latach 90.) — ten obszar nie generuje drenu. Tam, gdzie Rosjanie są gęsto (płn. Kazachstan, Daleki Wschód, Syberia), są <em>lokalną większością</em> i <strong>zostają</strong> — zmienia się tylko patron nad głową (de facto chiński na Dalekim Wschodzie, kazachski na północy). Do Armenii/Gruzji bez sensu (niechęć, brak więzi); do Kazachstanu — bez sensu, bo to sama sporna strefa rosyjska; do UE — niedostępne dla mas (wizy, sankcje, odległość).</li>
+<li><strong>Brak haweni w rdzeniu.</strong> Jakościowa różnica z 1991: wtedy RFSRR była zwartym rdzeniem, który przyjął ~3 mln repatriantów. W rozpadzie <em>samej FR</em> rdzeń jest przedmiotem kryzysu, nie przystanią. Atraktor „powrót do macierzy" działa tylko, gdy macierz stabilna.</li>
+</ul>
+<div class="tc-why"><strong>Co z tego wynika:</strong> straszak uchodźczy <em>na Zachód</em> rozbrojony niemal do zera. Dominujący wynik to nie migracja, lecz <strong>zmiana zwierzchnictwa nad osiadłą ludnością bez jej ruchu</strong> — wielka <em>wewnętrzna</em> rearanżacja przestrzeni postsowieckiej (rdzeń↔peryferie), nie ciśnienie na zachodnią granicę. Realny dren — cienki, miejski, z zasobami, w różnych kierunkach (Stambuł, Gruzja tranzytowo, Bałkany, część do UE) — jest wyjątkiem, nie regułą. Po raz kolejny zostaje uparcie to samo: jedyne twarde zachodnie zmartwienie to <strong>centrum i arsenał</strong>, nie ludzie na granicy.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="spoiwo">VIII. Spoiwo wewnętrzne — trzy warstwy</h2>
+<p>Cała poprzednia lista była <em>zewnętrzna</em> (komu na świecie zależy). To jest pytanie o wewnętrzny mechanizm trzymania — bo zewnętrzni tylko przechylają; trzyma albo puszcza <em>to</em>. Trzy warstwy to nie przypadkowa lista, lecz struktura patrymonialnej lojalności, warstwa po warstwie. Każdą przez jedno pytanie: lojalna wobec czego — osoby, instytucji, czy wypłaty?</p>
+
+<h3 id="warstwa-silowicy">Warstwa I — siłowicy jako czujnik siły (~300 tys. + rodziny)</h3>
+<ul>
+<li><strong>Rosgwardia/OMON/policja</strong> — lojalni wobec <em>tego, kto wygra</em>, nie Putina ani „państwa". Najemny monopol, którego lojalność jest funkcją postrzeganej siły centrum (Prigożyn: nikt nie strzela, bo nikt nie wie, kto wygra — wszyscy czekają). Chorągiewka na wietrze siły, nie spoiwo.</li>
+<li><strong>FSB</strong> — bliżej rdzenia (Putin z nich wyszedł, najwięcej do stracenia), najbardziej lojalni z trójki, ale wobec <em>układu</em>, nie abstrakcyjnej „Rosji"; przy pęknięciu rozszczepiają się na frakcje (już dziś są frakcje).</li>
+<li><strong>Rodziny</strong> — nie dodatek, lecz mnożnik: ten sam podwójny powód, by nie ryzykować, jest podwójnym powodem, by <em>zwiać/przeczekać</em>, a nie ginąć za przegrywające centrum. Amortyzują w stronę przetrwania własnego.</li>
+</ul>
+<p><strong>Werdykt:</strong> nie spoiwo lojalnościowe — czujnik siły. Trzyma, póki centrum wygląda na wygrywające. Skutek postrzeganej siły, nie jej źródło.</p>
+
+<h3 id="warstwa-inercja">Warstwa II — biurokracja jako inercja (X mln federalnych i quasi-federalnych)</h3>
+<p>Gazprom, RŻD/koleje, Rosatom, budżetówka — najbardziej niedoceniana warstwa, i działa odwrotnie, niż się wydaje. To nie warstwa <em>lojalna</em>, lecz <strong>inercyjna</strong>:</p>
+<ul>
+<li>Maszynista jeździ, urzędniczka stempluje, inżynier pompuje gaz — <em>niezależnie</em> od tego, kto siedzi na Kremlu. Ci ludzie nie trzymają reżimu — trzymają <em>funkcjonowanie państwa</em>. Dokładnie różnica ze zbioru: Niemcy 1945 walczyły do końca (rdzeń ideologiczny), ale Japonia/większość — aparat przeżył zmianę władzy i działał dalej, bo biurokracja jest lojalna wobec <em>bycia biurokracją</em>, nie konkretnego pana.</li>
+<li>To siła <strong>anty-#4 (anty-rozpad)</strong>, ale <strong>obojętna na #3 (zmiana ekipy)</strong> — przetrwa Putina i będzie służyć następcy tak samo. Czyni rdzeń-Rosję trwałą jako <em>państwo</em>, nawet jeśli kruchą jako <em>reżim</em>. Najsilniejszy realny argument przeciw #4.</li>
+<li>Warunek: <strong>wypłacalność.</strong> Inercja działa, póki pensje wpływają. Załamanie fiskalne (1991 strajki górników, 1998) zamienia warstwę z trzymającej funkcjonowanie w generator niepokoju. To czujnik najczulszy na Proces B.</li>
+</ul>
+<p><strong>Werdykt:</strong> nie lojalność — inercja. Trzyma <em>państwo</em>, nie <em>reżim</em>. Działa, póki centrum płaci.</p>
+
+<h3 id="warstwa-oligarchowie">Warstwa III — oligarchowie jako zakładnicy</h3>
+<ul>
+<li><strong>Złamani jako niezależna siła już w latach 2000</strong> (Chodorkowski jako pokazówka). Dzisiejsi „oligarchowie" to w większości klienci, nie patroni — bogactwo trzymają z łaski systemu i tracą z dnia na dzień (sankcje pokazały szybkość: jachty, wille, konta — odbieralne). Zakładnicy, nie filary.</li>
+<li>Lojalność <em>wymuszona</em> — więc przy pęknięciu <strong>pierwsi kalkulują przejście</strong> (do następcy? Chin? Zachodu w zamian za zdjęcie sankcji?). Historycznie klasa, która zdradza w finale (lejtnanci wokół każdego padającego patrona).</li>
+<li>Niuans: najbardziej zrośnięci z systemem (Sieczin, Rotenbergowie — których cały majątek <em>jest</em> systemem) trzymają do końca, bo poza systemem są nikim. Ale „nowi" oligarchowie wojenni i ci z płynnymi aktywami — flip przy pierwszej okazji.</li>
+</ul>
+<p><strong>Werdykt:</strong> nie spoiwo — zakładnicy. Trzymani siłą, nie trzymający. Liczą się jako <em>wskaźnik wyprzedzający</em>: gdy oligarchowie zaczynają hedżować/wywozić/milczeć — centrum już się chwieje.</p>
+</div>
+
+<div class="analysis-section">
+<h2 id="synteza">IX. Synteza — spoiwo to kalkulacja na dwóch zmiennych</h2>
+<p>Żadna z trzech warstw nie jest spoiwem <em>lojalnościowym</em>. Wszystkie trzy są spoiwami <strong>warunkowymi</strong>, a warunek jest jeden i ten sam: <strong>postrzegana siła plus wypłacalność centrum.</strong></p>
+<ul>
+<li>Siłowicy trzymają, póki centrum wygląda na wygrywające — czujnik <strong>siły</strong>.</li>
+<li>Biurokracja/inercja trzyma, póki centrum płaci — czujnik <strong>wypłacalności</strong>.</li>
+<li>Oligarchowie trzymają, póki centrum może ich ukarać/nagrodzić — czujnik <strong>siły i kasy</strong> naraz.</li>
+</ul>
+<p>Rosyjskie spoiwo wewnętrzne nie jest <em>przekonaniem</em> (jak ideologiczny rdzeń Rzeszy 1945) ani <em>wolą bycia razem</em> (jak brakło A-W) — jest <strong>transakcyjną kalkulacją trzech warstw, z których każda czyta ten sam sygnał: czy centrum jest silne i wypłacalne</strong>. Stąd struktura jest (a) zaskakująco <em>stabilna</em>, póki centrum trzyma fasadę siły i płaci — bo nikt nie chce być pierwszy; ale (b) zaskakująco <em>krucha</em> na <em>jednoczesne</em> załamanie obu sygnałów — bo wtedy kalkulacja odwraca się we wszystkich trzech warstwach naraz, i szybko.</p>
+<div class="callout"><strong>Domknięcie całej rozmowy w jeden punkt:</strong> te dwie zmienne — siła centrum i wypłacalność centrum — to dokładnie <strong>Proces A</strong> (interdykcja/militarne duszenie → upokorzenie → sygnał słabości) i <strong>Proces B</strong> (duszenie gospodarcze → niewypłacalność). Spoiwo wewnętrzne FR i dwa wektory ataku projektu to <em>ta sama oś</em>. Dlatego monotoniczność degradacji jest istotna nie sama w sobie, lecz dlatego, że <strong>jest odczytywana wewnętrznie</strong> — każda kolejna sygnatura słabości/niewypłacalności to jeden stopień bliżej momentu, w którym trzy warstwy przeliczają lojalność naraz. Procesy A i B nie atakują „Rosji" abstrakcyjnie — atakują dwa sygnały, które trzymają wszystkie trzy warstwy w ryzach.</div>
+</div>
+
+<div class="analysis-section">
+<h2 id="otwarte">X. Otwarte — peryferie vs rdzeń</h2>
+<p>Jeśli proces będzie raczej żywiołowy niż gładki (sekcja VI), to pytanie, które zostaje nierozstrzygnięte i jest jedynym miejscem, gdzie brak kontroli realnie waży na <em>wyniku</em>, a nie tylko na czyichś życzeniach:</p>
+<div class="note"><strong>Co odróżnia żywiołowe-ale-ograniczone-do-peryferii od żywiołowego-które-zżera-rdzeń?</strong> To jest różnica między ograniczonym #4 / atraktorem (i) a pełnym chaosem #4. Ona ustawia wszystko, co dalej: czy fala ludnościowa jest selektywnym drenem klas z zasobami, czy jugosłowiańskim potopem; czy arsenał zostaje pod kontrolą jednego centrum, czy trafia w okno proliferacyjne; czy następca przejmuje rdzeń (#3), czy rdzeń też pęka. Na to pytanie ten dokument odpowiedzi jeszcze nie ma — i to jest właściwy punkt wyjścia do następnej rozmowy.</div>
+</div>
+
+<div id="sygnatura-pliku-dolna" class="sygnatura-dolna">
+<div class="sygnatura-label">sygnatura pliku</div>
+ZAMROZONE · jak-koncza-sie-panstwa · v02.00 · 2026-06-28 · 12:12 (Europe/Warsaw)
+<div class="sygnatura-stats">4 319 słów · 30 136 zn · 27 paragrafów · H2:10 · H3:17</div>
+<div class="sygnatura-kolofon">Zapis rozmowy analitycznej: fenomenologia upadku państwa → typologia trybów → rachunek rosyjski. Autor i redaktor merytoryczny: Maciej Tora · rozwinięcie mechanizmów i advocatus diaboli: Klaudiusz. Metoda: hipoteza kompresowana → rozwinięcie → korekta. Obalone ujęcia zostawione widoczne celowo.</div>
+</div>
+<script>
+(function () {
+ var root = document.documentElement;
+ var btns = document.querySelectorAll('.theme-switch button[data-set-theme]');
+ function apply(theme) {
+ root.setAttribute('data-theme', theme);
+ btns.forEach(function (b) {
+ b.setAttribute('aria-pressed', b.getAttribute('data-set-theme') === theme ? 'true' : 'false');
+ });
+ }
+ btns.forEach(function (b) {
+ b.addEventListener('click', function () { apply(b.getAttribute('data-set-theme')); });
+ });
+})();
+</script>
+</body>
+</html>

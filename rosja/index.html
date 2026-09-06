@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#03110c">
+  <meta name="description" content="Rosyjska Kolumbryna Macieja Tory — mapa publicznego korpusu analiz rozpadu zdolności systemu rosyjskiego, kampanii uderzeniowej, logistyki, energii, legitymizacji i końca państw.">
+  <title>Rosyjska Kolumbryna — mapa korpusu Macieja Tory</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #03110c;
+      --ink-2: #061b14;
+      --ink-3: #0a291e;
+      --bottle: #0d3829;
+      --line: #245b45;
+      --line-soft: #173f30;
+      --gold: #e2bc58;
+      --gold-hot: #f0cf76;
+      --gold-dim: #b69b57;
+      --paper: #eadfae;
+      --paper-dim: #bcb28a;
+      --lapis: #5d8fd0;
+      --lapis-dim: #345f98;
+      --danger: #c96f52;
+      --max: 1240px;
+      --serif: Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia, Times New Roman, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      min-width: 300px;
+      color: var(--paper);
+      background: var(--ink);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.62;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--lapis);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--gold-hot);
+      font-family: var(--sans);
+      font-weight: 800;
+      transform: translateY(-180%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(3, 17, 12, .96);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      min-height: 62px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand strong {
+      color: var(--gold-hot);
+      font-family: var(--sans);
+      font-size: .92rem;
+      letter-spacing: .18em;
+    }
+
+    .brand span {
+      color: var(--paper-dim);
+      font-family: var(--mono);
+      font-size: .69rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: var(--sans);
+      font-size: .74rem;
+      font-weight: 750;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      color: var(--paper-dim);
+      text-decoration: none;
+    }
+
+    .nav a:hover { color: var(--gold-hot); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line-soft);
+      background: var(--ink-2);
+    }
+
+    .hero::after {
+      position: absolute;
+      right: -1.2rem;
+      bottom: -5.2rem;
+      content: "SNAPSHOT";
+      color: rgba(226, 188, 88, .045);
+      font-family: var(--sans);
+      font-size: clamp(5.5rem, 17vw, 14rem);
+      font-weight: 950;
+      letter-spacing: -.08em;
+      line-height: .8;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr);
+      gap: clamp(42px, 7vw, 92px);
+      align-items: end;
+      padding: 76px 0 66px;
+    }
+
+    .eyebrow,
+    .section-kicker,
+    .micro {
+      margin: 0;
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .72rem;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: var(--gold);
+      font-weight: 600;
+      line-height: 1.06;
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin-top: 17px;
+      font-size: clamp(3.1rem, 8vw, 7rem);
+      letter-spacing: -.06em;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--paper);
+      font-size: .31em;
+      font-style: italic;
+      letter-spacing: -.015em;
+      line-height: 1.25;
+    }
+
+    .hero-lead {
+      max-width: 790px;
+      margin: 29px 0 0;
+      color: var(--paper);
+      font-size: clamp(1.14rem, 2vw, 1.42rem);
+      line-height: 1.48;
+    }
+
+    .hero-lead em { color: var(--gold-hot); }
+
+    .nonlinear-note {
+      max-width: 790px;
+      margin-top: 25px;
+      padding: 17px 20px;
+      border-left: 5px solid var(--lapis);
+      background: #09251b;
+    }
+
+    .nonlinear-note strong {
+      display: block;
+      color: var(--gold-hot);
+      font-size: 1.05rem;
+    }
+
+    .nonlinear-note p {
+      margin: 4px 0 0;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .84rem;
+      line-height: 1.5;
+    }
+
+    .metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 34px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metrics li {
+      min-width: 145px;
+      padding: 13px 23px 13px 0;
+      font-family: var(--sans);
+    }
+
+    .metrics li + li {
+      padding-left: 23px;
+      border-left: 1px solid var(--line);
+    }
+
+    .metrics strong {
+      display: block;
+      color: var(--gold-hot);
+      font-size: 1.12rem;
+      letter-spacing: -.025em;
+    }
+
+    .metrics span {
+      display: block;
+      margin-top: 2px;
+      color: var(--paper-dim);
+      font-family: var(--mono);
+      font-size: .66rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 45px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      background: var(--gold);
+      font-family: var(--sans);
+      font-size: .76rem;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .button:hover { background: var(--gold-hot); }
+
+    .button.secondary {
+      color: var(--gold);
+      background: transparent;
+    }
+
+    .button.secondary:hover {
+      color: var(--ink);
+      background: var(--gold);
+    }
+
+    .start-panel {
+      border-top: 5px solid var(--gold);
+      background: var(--ink-3);
+      box-shadow: 18px 18px 0 #020c09;
+    }
+
+    .start-panel header {
+      padding: 22px 24px 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .start-panel h2 {
+      margin-top: 4px;
+      font-size: 1.45rem;
+    }
+
+    .start-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .start-list li + li { border-top: 1px solid var(--line-soft); }
+
+    .start-list a {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 17px 22px;
+      text-decoration: none;
+    }
+
+    .start-list a:hover { background: var(--bottle); }
+
+    .start-no {
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .67rem;
+    }
+
+    .start-title {
+      display: block;
+      color: var(--paper);
+      font-size: .96rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .start-desc {
+      display: block;
+      margin-top: 3px;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .69rem;
+      line-height: 1.35;
+    }
+
+    .arrow {
+      color: var(--gold);
+      font-family: var(--sans);
+      font-size: 1.2rem;
+    }
+
+    .freeze-strip {
+      border-bottom: 1px solid var(--line-soft);
+      background: #041610;
+    }
+
+    .freeze-inner {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 34px;
+      padding: 24px 0;
+    }
+
+    .freeze-label {
+      color: var(--danger);
+      font-family: var(--sans);
+      font-size: .73rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .freeze-inner p {
+      max-width: 970px;
+      margin: 0;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .87rem;
+      line-height: 1.55;
+    }
+
+    .freeze-inner strong { color: var(--paper); }
+
+    main section {
+      padding: 86px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .7fr) minmax(320px, 1.3fr);
+      gap: 64px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .section-head h2 {
+      margin-top: 12px;
+      font-size: clamp(2.25rem, 5vw, 4.5rem);
+      letter-spacing: -.045em;
+    }
+
+    .section-intro {
+      margin: 0;
+      color: var(--paper-dim);
+      font-size: 1.04rem;
+    }
+
+    .section-intro strong { color: var(--paper); }
+
+    .paths {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .path {
+      min-height: 290px;
+      padding: 25px 23px 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--ink-2);
+    }
+
+    .path:hover { background: var(--ink-3); }
+
+    .path-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .path h3 {
+      margin-top: 36px;
+      font-size: 1.54rem;
+      line-height: 1.12;
+    }
+
+    .path p {
+      margin: 15px 0 19px;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+
+    .path a {
+      color: var(--gold-hot);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      text-transform: uppercase;
+    }
+
+    .catalogue {
+      background: var(--ink-2);
+    }
+
+    .catalogue .shell { position: relative; }
+
+    .catalogue-tools {
+      display: grid;
+      grid-template-columns: minmax(250px, 1fr) minmax(0, 2fr);
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 45px 10px 15px;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      color: var(--paper);
+      background: var(--ink);
+      font: 700 .82rem/1.3 var(--sans);
+    }
+
+    .search::placeholder { color: #7f7a60; }
+
+    .search-key {
+      position: absolute;
+      top: 12px;
+      right: 13px;
+      min-width: 23px;
+      padding: 1px 6px;
+      border: 1px solid var(--line);
+      color: var(--paper-dim);
+      font-family: var(--mono);
+      font-size: .67rem;
+      text-align: center;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 7px;
+    }
+
+    .filter {
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      color: var(--paper-dim);
+      background: var(--ink);
+      font-family: var(--sans);
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .filter:hover,
+    .filter[aria-pressed="true"] {
+      border-color: var(--gold);
+      color: var(--ink);
+      background: var(--gold);
+    }
+
+    .result-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 0 0 15px;
+      color: var(--paper-dim);
+      font-family: var(--mono);
+      font-size: .69rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .result-line strong { color: var(--gold-hot); }
+
+    .documents {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .doc {
+      position: relative;
+      display: flex;
+      min-height: 330px;
+      flex-direction: column;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #061a13;
+    }
+
+    .doc::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 4px;
+      content: "";
+      background: var(--gold);
+      transition: width .22s ease;
+    }
+
+    .doc:hover { background: var(--ink-3); }
+    .doc:hover::before { width: 100%; }
+    .doc[hidden] { display: none; }
+    .doc.featured { background: #0a2a1f; }
+
+    .doc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .doc-code {
+      color: var(--gold-hot);
+      font-family: var(--sans);
+      font-size: .74rem;
+      font-weight: 950;
+      letter-spacing: .1em;
+    }
+
+    .doc-state {
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .doc h3 {
+      margin-top: 26px;
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+      letter-spacing: -.018em;
+    }
+
+    .doc p {
+      margin: 15px 0 20px;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+
+    .doc p strong { color: var(--paper); }
+
+    .doc-sections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 13px;
+      margin: 0 0 20px;
+      padding: 14px 0 0;
+      border-top: 1px solid var(--line-soft);
+      font-family: var(--sans);
+      font-size: .7rem;
+      line-height: 1.35;
+    }
+
+    .doc-sections span {
+      flex-basis: 100%;
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .doc-sections a {
+      color: var(--paper-dim);
+      text-decoration-color: var(--line);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .doc-sections a:hover { color: var(--gold-hot); }
+
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      margin-top: auto;
+      padding-top: 19px;
+      border-top: 1px solid var(--line-soft);
+      color: #948d70;
+      font-family: var(--mono);
+      font-size: .63rem;
+      letter-spacing: .025em;
+    }
+
+    .doc-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 20px -24px -24px;
+      padding: 15px 24px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--gold-hot);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .07em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .doc-link:hover { background: var(--bottle); }
+
+    .no-results {
+      display: none;
+      padding: 40px 26px;
+      border: 1px solid var(--danger);
+      color: var(--paper);
+      background: #21140f;
+    }
+
+    .no-results.show { display: block; }
+
+    .no-results strong { color: var(--gold-hot); }
+
+    .loops {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .loop {
+      min-height: 260px;
+      padding: 26px;
+      background: var(--ink);
+    }
+
+    .loop-number {
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .07em;
+    }
+
+    .loop h3 {
+      margin-top: 30px;
+      font-size: 1.44rem;
+    }
+
+    .loop-flow {
+      margin: 16px 0 13px;
+      color: var(--gold-hot);
+      font-family: var(--mono);
+      font-size: .72rem;
+      font-weight: 750;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .loop p:last-child {
+      margin: 0;
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .79rem;
+      line-height: 1.55;
+    }
+
+    .thesis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      margin-top: 32px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .thesis blockquote,
+    .thesis div {
+      margin: 0;
+      padding: 34px;
+      background: var(--ink-3);
+    }
+
+    .thesis blockquote {
+      color: var(--gold-hot);
+      font-size: clamp(1.35rem, 2.6vw, 2rem);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    .thesis div {
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .88rem;
+    }
+
+    .thesis strong { color: var(--paper); }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 145px 1fr;
+      margin-top: 8px;
+    }
+
+    .moment {
+      display: contents;
+    }
+
+    .moment time {
+      padding: 20px 23px 20px 0;
+      border-top: 1px solid var(--line);
+      color: var(--lapis);
+      font-family: var(--mono);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .moment div {
+      padding: 17px 0 18px 24px;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .86rem;
+    }
+
+    .moment strong { color: var(--paper); }
+
+    .timeline-note {
+      margin: 32px 0 0 145px;
+      padding: 21px 24px;
+      border-left: 5px solid var(--danger);
+      color: var(--paper-dim);
+      background: #15150e;
+      font-family: var(--sans);
+      font-size: .84rem;
+    }
+
+    .timeline-note strong { color: var(--gold-hot); }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .method-grid > article,
+    .method-grid > aside {
+      padding: clamp(26px, 4vw, 46px);
+      background: var(--ink-2);
+    }
+
+    .method-grid h3 {
+      margin-bottom: 22px;
+      font-size: 1.75rem;
+    }
+
+    .method-grid p,
+    .method-grid li {
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: .87rem;
+    }
+
+    .method-grid strong { color: var(--paper); }
+
+    .method-grid ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .method-grid li { margin-bottom: 11px; }
+
+    .method-grid li::marker { color: var(--gold); }
+
+    details {
+      margin-top: 23px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    summary {
+      padding: 15px 0;
+      color: var(--gold-hot);
+      font-family: var(--sans);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    details p { margin: 0 0 18px; }
+
+    .credits {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .credits li {
+      padding: 15px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .credits li:last-child { border-bottom: 1px solid var(--line-soft); }
+
+    .credits b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--gold-hot);
+      font-family: var(--mono);
+      font-size: .69rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .closing {
+      position: relative;
+      overflow: hidden;
+      padding: 92px 0;
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .closing::after {
+      position: absolute;
+      right: 3vw;
+      bottom: -2.1rem;
+      content: "🐙";
+      opacity: .1;
+      font-size: clamp(8rem, 20vw, 17rem);
+      line-height: 1;
+      filter: grayscale(1);
+    }
+
+    .closing .shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
+      gap: 70px;
+      align-items: center;
+    }
+
+    .closing h2 {
+      max-width: 820px;
+      color: var(--ink);
+      font-size: clamp(2.2rem, 5vw, 4.6rem);
+      letter-spacing: -.05em;
+    }
+
+    .closing p {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: .93rem;
+      font-weight: 650;
+    }
+
+    .closing a {
+      display: inline-flex;
+      margin-top: 18px;
+      padding-bottom: 2px;
+      border-bottom: 2px solid var(--ink);
+      font-family: var(--sans);
+      font-size: .76rem;
+      font-weight: 950;
+      letter-spacing: .06em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 25px 0 40px;
+      color: #827c63;
+      background: #020b08;
+      font-family: var(--mono);
+      font-size: .66rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid { grid-template-columns: 1fr; align-items: start; }
+      .start-panel { max-width: 670px; }
+      .paths { grid-template-columns: repeat(2, 1fr); }
+      .documents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .loops { grid-template-columns: repeat(2, 1fr); }
+      .section-head { grid-template-columns: 1fr; gap: 22px; }
+    }
+
+    @media (max-width: 760px) {
+      body { font-size: 16px; }
+      .shell { width: min(100% - 26px, var(--max)); }
+      .topbar-inner { min-height: 55px; }
+      .brand span { display: none; }
+      .nav { gap: 13px; }
+      .nav a:nth-child(3) { display: none; }
+      .hero-grid { padding: 54px 0 48px; }
+      h1 { font-size: clamp(3rem, 17vw, 5.5rem); }
+      .metrics { display: grid; grid-template-columns: 1fr 1fr; }
+      .metrics li { padding: 12px 10px 12px 0; }
+      .metrics li + li { padding-left: 10px; }
+      .metrics li:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .metrics li:nth-child(4) { border-top: 1px solid var(--line); }
+      .freeze-inner { grid-template-columns: 1fr; gap: 8px; }
+      main section { padding: 62px 0; }
+      .paths,
+      .documents,
+      .loops,
+      .thesis,
+      .method-grid,
+      .closing .shell { grid-template-columns: 1fr; }
+      .path { min-height: 0; }
+      .doc { min-height: 0; }
+      .catalogue-tools { grid-template-columns: 1fr; }
+      .timeline { grid-template-columns: 104px 1fr; }
+      .timeline-note { margin-left: 0; }
+      .closing { padding: 68px 0; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (max-width: 470px) {
+      .nav a:nth-child(2) { display: none; }
+      .hero-actions { display: grid; }
+      .button { width: 100%; }
+      .start-list a { grid-template-columns: 30px 1fr auto; padding-inline: 16px; }
+      .metrics { grid-template-columns: 1fr; }
+      .metrics li + li,
+      .metrics li:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+      .timeline { grid-template-columns: 1fr; }
+      .moment { display: block; }
+      .moment time { display: block; padding-bottom: 5px; }
+      .moment div { padding: 6px 0 18px; border-top: 0; border-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+
+    @media print {
+      :root { color-scheme: light; }
+      body { color: #201b10; background: #f5efda; font-size: 11pt; }
+      .topbar, .catalogue-tools, .hero-actions, .closing, .skip-link { display: none; }
+      .hero, .freeze-strip, main section, .catalogue, footer { color: #201b10; background: transparent; }
+      .hero-grid, main section { padding: 26px 0; }
+      h1, h2, h3, .doc-code, .doc-link { color: #164b38; }
+      .hero-lead, .section-intro, .path p, .doc p, .loop p:last-child, .method-grid p, .method-grid li { color: #433c2b; }
+      .start-panel, .path, .doc, .loop, .thesis blockquote, .thesis div, .method-grid > article, .method-grid > aside { color: #201b10; background: transparent; box-shadow: none; }
+      .documents { grid-template-columns: 1fr 1fr; }
+      .doc { min-height: 0; break-inside: avoid; }
+      .doc-link { color: #164b38; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#start" aria-label="Rosyjska Kolumbryna — początek strony">
+        <strong>SOL</strong>
+        <span>publiczna brama korpusu</span>
+      </a>
+      <nav class="nav" aria-label="Główna nawigacja">
+        <a href="#sciezki">Ścieżki</a>
+        <a href="#dokumenty">Dokumenty</a>
+        <a href="#sprzezenia">Sprzężenia</a>
+        <a href="#metoda">Metoda</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="start">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">Maciej Tora · prywatna praca OSINT · 2026</p>
+        <h1>Rosyjska<br>Kolumbryna <span>Anatomia rozpadu zdolności systemu</span></h1>
+        <p class="hero-lead">Nie prognoza z kryształowej kuli, tylko <em>model układu</em>: paliwo, logistyka, OPL, finanse, ludzie, elity, język i sens — obserwowane w chwili, gdy powolne awarie zaczynają umawiać się na ten sam wtorek.</p>
+
+        <div class="nonlinear-note">
+          <strong>Nie trzeba czytać liniowo.</strong>
+          <p>To sieć, nie procesja pierwszomajowa. Dokumenty mają odsyłacze wewnętrzne, a ten indeks prowadzi zarówno do całych plików, jak i bezpośrednio do wybranych rozdziałów. Zacznij tam, gdzie akurat żyje pytanie; kolejność numerów nie jest religią państwową.</p>
+        </div>
+
+        <ul class="metrics" aria-label="Parametry korpusu">
+          <li><strong>16 + 1</strong><span>dokumentów i mapa</span></li>
+          <li><strong>1,77 MB</strong><span>tekstu bez waty cukrowej</span></li>
+          <li><strong>≈173 tys.</strong><span>słów w korpusie</span></li>
+          <li><strong>31.03–31.07</strong><span>zakres snapshotów 2026</span></li>
+        </ul>
+
+        <div class="hero-actions">
+          <a class="button" href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Najpierw mapa <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html">Od razu A1 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <aside class="start-panel" aria-label="Szybki start">
+        <header>
+          <p class="micro">Zacznij bez ceremonii</p>
+          <h2>Cztery drzwi wejściowe</h2>
+        </header>
+        <ol class="start-list">
+          <li><a href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html"><span class="start-no">01</span><span><b class="start-title">Mapa wszystkiego</b><small class="start-desc">Co tu siedzi, bez obowiązku nurkowania po rurę wydechową.</small></span><span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html"><span class="start-no">02</span><span><b class="start-title">Kolumbryna właściwa</b><small class="start-desc">Synteza systemowa zamrożona 31 marca.</small></span><span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html"><span class="start-no">03</span><span><b class="start-title">Kronika kampanii</b><small class="start-desc">Jak gradually przestało udawać, że nie jest suddenly.</small></span><span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html"><span class="start-no">04</span><span><b class="start-title">Model, który gryzie</b><small class="start-desc">Spare capacity = 0 i dalsze nieuprzejmości matematyki.</small></span><span class="arrow" aria-hidden="true">→</span></a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <div class="freeze-strip">
+    <div class="shell freeze-inner">
+      <div class="freeze-label">Korpus zamrożony</div>
+      <p><strong>To nie jest kanał aktualności.</strong> A1 jest snapshotem na 31 marca 2026; następne dokumenty były zamrażane audytowo w miarę narastania materiału, żeby autor wreszcie przestał dopisywać „jeszcze tylko jedną rzecz”. Stan analityczny kończy się na końcu lipca. Mapa i ten indeks z 3 września organizują korpus — nie przemycają do niego późniejszej wiedzy tylnymi drzwiami.</p>
+    </div>
+  </div>
+
+  <main id="main">
+    <section id="sciezki">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Nawigacja dla istot skończonych</p>
+            <h2>Wybierz własną katastrofę</h2>
+          </div>
+          <p class="section-intro">Korpus jest za duży na grzeczne „proszę czytać od początku”. Poniżej osiem sensownych ścieżek — od <strong>dziesięciu minut orientacji</strong> po pełną wycieczkę do maszynowni, gdzie kilka czerwonych lampek właśnie zakłada związek zawodowy.</p>
+        </div>
+
+        <div class="paths">
+          <article class="path">
+            <div class="path-top"><span>10 minut</span><span>orientacja</span></div>
+            <h3>Co tu właściwie jest?</h3>
+            <p>Mapa 33 głównych tematów, najlepszych drobnych znalezisk i odnóg, które wyrosły korpusowi mimo braku pozwolenia na budowę.</p>
+            <a href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Otwórz mapę →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 46 minut</span><span>rdzeń</span></div>
+            <h3>Model całego systemu</h3>
+            <p>A1: front, paliwo, finanse, infrastruktura, demografia, informacja, elity i bestiariusz ryzyka w jednym, niepokojąco spójnym organizmie.</p>
+            <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html">Czytaj A1 →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>tryb pełny</span><span>kampania</span></div>
+            <h3>Od punktów do hurtu</h3>
+            <p>A2 → A3 → A4: kronika uderzeń, geometria celów, ewolucja typologii i moment, gdy prognoza zaczyna doganiać rzeczywistość z łomem.</p>
+            <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html">Wejdź w A2 →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 37 minut</span><span>falsyfikacja</span></div>
+            <h3>Czy model przeżył?</h3>
+            <p>A5 → A6: rewizje, sygnały za i przeciw, rozdzielenie zapasu od strumienia oraz niezależne dojście do zaniku wolnych mocy rafineryjnych.</p>
+            <a href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html">Zacznij audyt →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 25 minut</span><span>koniec państwa</span></div>
+            <h3>Fenomenologia śmierci</h3>
+            <p>A7 → D5: osiem trybów końca państw, rosyjskie spoiwa lojalności i funkcja celu człowieka, który nie ma już bezpiecznego „potem”.</p>
+            <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html">Czytaj A7 →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 46 minut</span><span>narzędzia</span></div>
+            <h3>Legitymizacja i memetyka</h3>
+            <p>D1 → D2 → D3: Dark Legitimacy, Disinfolklore i kontrolowane przesłuchanie teorii, zanim metafizyczny paw zdąży przejąć laboratorium.</p>
+            <a href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html">Otwórz D1 →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 22 minuty</span><span>Jałta / Iran</span></div>
+            <h3>Od rozpadu do porządku</h3>
+            <p>D6 → D7: Iran, Aras, Zagros, Kurdowie, Azerowie, Hanza 2.0 i nieufność potraktowana jako stabilizator, a nie wada charakteru.</p>
+            <a href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html">Wejdź w Jałtę →</a>
+          </article>
+          <article class="path">
+            <div class="path-top"><span>≈ 18 minut</span><span>energia</span></div>
+            <h3>Baryłka kontra panel</h3>
+            <p>Dwie odnogi o topologii władzy, monopolu, substytucji, moralnym hazardzie i transformacji, która przypadkiem odbiera komuś pilot do świata.</p>
+            <a href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html">Czytaj o energii →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalogue" id="dokumenty">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Pełny spis treści</p>
+            <h2>Wszystkie pliki</h2>
+          </div>
+          <p class="section-intro">Szesnaście właściwych dokumentów i jedna mapa. Można filtrować, szukać po temacie albo po prostu kliknąć największy plik i sprawdzić, czy ciekawość jest cechą adaptacyjną.</p>
+        </div>
+
+        <div class="catalogue-tools">
+          <div class="search-wrap">
+            <label for="search">Szukaj w opisach dokumentów</label>
+            <input class="search" id="search" type="search" autocomplete="off" placeholder="Szukaj: paliwo, elity, Budanow, Iran…">
+            <span class="search-key" aria-hidden="true">/</span>
+          </div>
+          <div class="filters" role="group" aria-label="Filtr typu dokumentu">
+            <button class="filter" type="button" data-filter="all" aria-pressed="true">Wszystko</button>
+            <button class="filter" type="button" data-filter="mapa" aria-pressed="false">Mapa</button>
+            <button class="filter" type="button" data-filter="system" aria-pressed="false">System</button>
+            <button class="filter" type="button" data-filter="kampania" aria-pressed="false">Kampania</button>
+            <button class="filter" type="button" data-filter="audyt" aria-pressed="false">Audyt</button>
+            <button class="filter" type="button" data-filter="narzedzia" aria-pressed="false">Narzędzia</button>
+            <button class="filter" type="button" data-filter="koniec" aria-pressed="false">Koniec państwa</button>
+            <button class="filter" type="button" data-filter="jalta" aria-pressed="false">Jałta / Iran</button>
+            <button class="filter" type="button" data-filter="energia" aria-pressed="false">Energia</button>
+          </div>
+        </div>
+
+        <div class="result-line" aria-live="polite">
+          <span id="result-count"><strong>17</strong> widocznych pozycji</span>
+          <span>skrót: /</span>
+        </div>
+
+        <div class="documents" id="document-grid">
+          <article class="doc featured" data-groups="mapa system" data-search="mapa tematów całego korpusu rozpad rosji 33 tematy przewodnik nawigacja synteza">
+            <div class="doc-head"><span class="doc-code">MAPA</span><span class="doc-state">SOL · 03.09.2026</span></div>
+            <h3>Co właściwie siedzi w „Rozpadzie Rosji”</h3>
+            <p>Najlepsze wejście dla nowego czytelnika: <strong>33 kontynenty i wyspy tematyczne</strong>, od paliwa po legitymizację, od Nyquista po windy. Luwr przestaje być „budynkiem z panią bez brwi”.</p>
+            <div class="doc-meta"><span>17 KB</span><span>przewodnik</span><span>v01.01</span></div>
+            <a class="doc-link" href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html"><span>Otwórz mapę</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="system kampania koniec" data-search="A1 kolumbryna synteza system rosja front opl rafinerie paliwo finanse infrastruktura demografia elity bestiariusz nuklearny klimat chiny putin">
+            <div class="doc-head"><span class="doc-code">A1</span><span class="doc-state">zamrożone · 31.03.2026</span></div>
+            <h3>Kolumbryna</h3>
+            <p>Rdzeń całego przedsięwzięcia. Wielka synteza <strong>materialnych, poznawczych i politycznych ograniczeń systemu</strong>: od spirali OPL i rafinerii po elity, atom i 24 szare nosorożce.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały A1">
+              <span>Skocz do rozdziału</span>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r1">Front i OPL</a>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r5">Infrastruktura</a>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r7">Bestiariusz</a>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r13">Elity</a>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r19">Legitymizacja i folklor</a>
+              <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html#r23">Mapa, nie GPS</a>
+            </nav>
+            <div class="doc-meta"><span>133 KB</span><span>11,5 tys. słów</span><span>v3.5</span></div>
+            <a class="doc-link" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html"><span>Czytaj A1</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="kampania system" data-search="A2 maj gradually suddenly kronika uderzeń Ukraina Rosja cele rafinerie OPL Krym Budanow język sygnalizacja strategia Nyquist OODA klimat logistyka">
+            <div class="doc-head"><span class="doc-code">A2</span><span class="doc-state">zamrożone · 25.06.2026</span></div>
+            <h3>Gradually stało się suddenly</h3>
+            <p>Kronika kampanii uderzeniowej i jej anatomia. <strong>Nie kolejna lista pożarów</strong>, tylko odtwarzanie intencji przez tempo, geografię, dobór klas celów, absencje i odpowiedzi przeciwnika.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały A2">
+              <span>Skocz do rozdziału</span>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#nota-metodologiczna">Metoda</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#krym-efekt-uboczny">Krym</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#budanov-gramatyka">Budanov</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#sygnalizacja-i-asymetria">Sygnalizacja</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#rejestr-predykcji">Predykcje</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#rynek-paliw-siedem-brakow">Paliwo</a>
+              <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html#energetyka-siec-bez-redundancji">Energetyka</a>
+            </nav>
+            <div class="doc-meta"><span>680 KB</span><span>73,1 tys. słów</span><span>v25.00</span></div>
+            <a class="doc-link" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html"><span>Czytaj A2</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="kampania" data-search="A3 lista celów uderzenia daty miejsca infrastruktura baza danych kampania geografia Ukraina Rosja">
+            <div class="doc-head"><span class="doc-code">A3</span><span class="doc-state">zamrożone · 25.06.2026</span></div>
+            <h3>Lista celów</h3>
+            <p>Warstwa ewidencyjna kampanii: daty, lokalizacje, klasy i sekwencje uderzeń. Ten plik robi za <strong>kręgosłup obserwacyjny</strong>, żeby teoria nie odleciała na miotle z własnego zachwytu.</p>
+            <nav class="doc-sections" aria-label="Wybrane okresy A3">
+              <span>Skocz do okresu</span>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#lista-wstep">Klucz i statystyki</a>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#okres-1">04–17.01</a>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#okres-5">01–14.03</a>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#okres-9">26.04–09.05</a>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#okres-13">31.05–06.06</a>
+              <a href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html#okres-16">Od 21.06</a>
+            </nav>
+            <div class="doc-meta"><span>271 KB</span><span>22,0 tys. słów</span><span>v19.00</span></div>
+            <a class="doc-link" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html"><span>Czytaj A3</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="kampania system" data-search="A4 lipiec przejście na hurt marketplace banki milczenie strategiczne Zachodu Budanow Zełenski Kasparow zapaść materia sens Chiny">
+            <div class="doc-head"><span class="doc-code">A4</span><span class="doc-state">stan 31.07 · edycja 01.08</span></div>
+            <h3>Lipiec 2026. Przejście na hurt</h3>
+            <p>Moment, gdy kampania przestaje skubać elementy i zaczyna obrabiać całe klasy zdolności. Marketplace’y, banki, język przywódców, milczenie Zachodu i <strong>zapaść w czasie teraźniejszym ciągłym</strong>.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały A4">
+              <span>Skocz do rozdziału</span>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#skala-hurtu">Skala hurtu</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#marketplace-jako-cel">Marketplace</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#milczenie-strategiczne">Milczenie Zachodu</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#budanow-zelenski">Budanow i Zełenski</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#zapasc">Zapaść teraz</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#bankowosc">Bankowość</a>
+              <a href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html#granica-materii">Materia i sens</a>
+            </nav>
+            <div class="doc-meta"><span>206 KB</span><span>23,7 tys. słów</span><span>v20.11</span></div>
+            <a class="doc-link" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html"><span>Czytaj A4</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="audyt system" data-search="A5 audyt dwie rewizje model kontra rzeczywistość sygnały falsyfikacja 24 nosorożce stan 31 maja">
+            <div class="doc-head"><span class="doc-code">A5</span><span class="doc-state">zamrożone · 23.06.2026</span></div>
+            <h3>Kolumbryna kontra rzeczywistość</h3>
+            <p>Dwie rewizje modelu i licznik nosorożców. Dokument sprawdza, <strong>co zostało potwierdzone, co wymaga korekty, a co nadal siedzi pod stołem</strong> i udaje, że nie istnieje.</p>
+            <div class="doc-meta"><span>51 KB</span><span>4,3 tys. słów</span><span>v03.00</span></div>
+            <a class="doc-link" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html"><span>Czytaj A5</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="audyt system kampania" data-search="A6 zapas kontra strumień paliwo rafinerie wolne moce spare capacity zero decyzje Putin elity strategia przepływ">
+            <div class="doc-head"><span class="doc-code">A6</span><span class="doc-state">zamrożone · 03.07.2026</span></div>
+            <h3>Zapas kontra strumień</h3>
+            <p>Dwie połówki jednego problemu: układ paliwowy oraz pułapka jedynego decydenta. Tu model dochodzi do chwili, w której <strong>wyłączone moce rafineryjne zjadają całą rezerwę</strong> — bez czekania, aż telewizja poda gotowy wynik.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały A6">
+              <span>Skocz do rozdziału</span>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#czesc-materia">Układ paliwowy</a>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#zapasy-magazynowe">Zapas / strumień</a>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#offline-slack">Offline ≈ slack</a>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#czesc-strategia">Strategia</a>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#odczyt-absencja">Detekcja absencji</a>
+              <a href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html#rosja-rowna-putin">Rosja = Putin</a>
+            </nav>
+            <div class="doc-meta"><span>54 KB</span><span>5,0 tys. słów</span><span>v02.00</span></div>
+            <a class="doc-link" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html"><span>Czytaj A6</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="koniec system" data-search="A7 jak kończą się państwa fenomenologia typologia III Rzesza ZSRR Austro Węgry Rosja patron klient uchodźcy spoiwo elity rozpad">
+            <div class="doc-head"><span class="doc-code">A7</span><span class="doc-state">zamrożone · 28.06.2026</span></div>
+            <h3>Jak kończą się państwa</h3>
+            <p>Fenomenologia zamiast jednej magicznej przyczyny: osiem trybów końca, filtr rosyjski, hierarchia patron–klient, trzy warstwy spoiwa i <strong>rozpad jako przeliczenie kalkulacji</strong>.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały A7">
+              <span>Skocz do rozdziału</span>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#iii-rzesza">III Rzesza</a>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#typologia">Typologia</a>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#filtr-rosyjski">Filtr rosyjski</a>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#hierarchia">Patron → klient</a>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#uchodzcy">Uchodźcy</a>
+              <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html#spoiwo">Trzy spoiwa</a>
+            </nav>
+            <div class="doc-meta"><span>67 KB</span><span>4,2 tys. słów</span><span>v02.00</span></div>
+            <a class="doc-link" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html"><span>Czytaj A7</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="narzedzia system" data-search="D1 dark legitimacy Roman Horbyk autorytaryzm legitymizacja Rosja Ukraina korupcja okrucieństwo słabość władza">
+            <div class="doc-head"><span class="doc-code">D1</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <h3>Dark Legitimacy</h3>
+            <p>Tekst Romana Horbyka i klucz do systemu, w którym zło nie kompromituje władzy, bo jest oczekiwane. <strong>Kompromituje ją dopiero słabość</strong>. Bardzo niewygodny śrubokręt; pasuje do zbyt wielu śrub.</p>
+            <div class="doc-meta"><span>44 KB</span><span>6,1 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html"><span>Czytaj D1</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="narzedzia" data-search="D2 Disinfolklore Stephen Douglas memy archetypy trolle folklor accusation mirror prowokacja witch switch mana modele odporne na dane">
+            <div class="doc-head"><span class="doc-code">D2</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <h3>Disinfolklore — kompilacja tez</h3>
+            <p>Dwanaście narzędzi, archetypy, oskarżenie w lustrze, Witch Switch i modele odporne na dane. Obok użytecznych ostrzy leży też <strong>mana i metafizyczny paw</strong>, dlatego istnieje D3.</p>
+            <nav class="doc-sections" aria-label="Wybrane rozdziały D2">
+              <span>Skocz do rozdziału</span>
+              <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s3">12 narzędzi</a>
+              <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s4">Archetypy</a>
+              <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s6">Oskarżenie w lustrze</a>
+              <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s7">Witch Switch</a>
+              <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s11">Obrona</a>
+            </nav>
+            <div class="doc-meta"><span>32 KB</span><span>2,4 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html"><span>Czytaj D2</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="narzedzia audyt" data-search="D3 Disinfolklore SWOT advocatus diaboli przesłuchanie krytyka test teoria falsyfikacja Stephen Douglas">
+            <div class="doc-head"><span class="doc-code">D3</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <h3>Disinfolklore na przesłuchaniu</h3>
+            <p>SWOT, advocatus diaboli i przesłuchanie biegłego. Czyli etap, w którym fascynująca koncepcja zostaje <strong>posadzona pod lampą i pozbawiona prawa do własnej muzyki wejściowej</strong>.</p>
+            <div class="doc-meta"><span>36 KB</span><span>2,9 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html"><span>Czytaj D3</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="narzedzia system" data-search="D4 taksonomia rosyjskich samobójstw defenestracja okna broń trucizny więzienie samolot śmierć elity sektory budżet niepewność Monty Python">
+            <div class="doc-head"><span class="doc-code">D4</span><span class="doc-state">zamrożone · 13.06.2026</span></div>
+            <h3>Taksonomia rosyjskiego „samobójstwa”</h3>
+            <p>65 przypadków z ponad 75 szacowanych: okna, broń, trucizny, katastrofy i kombinacje, których Monty Python nie przyjąłby bez poprawek. Sednem są <strong>sektory, pieniądze, timing i niepewność jako narzędzie władzy</strong>.</p>
+            <div class="doc-meta"><span>64 KB</span><span>6,0 tys. słów</span><span>v08.01</span></div>
+            <a class="doc-link" href="d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html"><span>Czytaj D4</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="koniec system" data-search="D5 Putin cornered animal szczur narożnik elity majątek scenariusze desperacji sukcesja nuklearne NATO śmierć">
+            <div class="doc-head"><span class="doc-code">D5</span><span class="doc-state">zamrożone · 24.03.2026</span></div>
+            <h3>Putin — cornered animal</h3>
+            <p>Nie biografia i nie rachunek konta. Analiza opcji człowieka, dla którego porażka państwa i osobiste przeżycie rozchodzą się w przeciwne strony. <strong>Dziewięć scenariuszy desperacji</strong> oraz pytanie o odłączenie elit.</p>
+            <div class="doc-meta"><span>24 KB</span><span>2,1 tys. słów</span><span>v03.00</span></div>
+            <a class="doc-link" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html"><span>Czytaj D5</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="jalta koniec" data-search="D6 Jałta 3 Iran rozpad państwowości IRGC Aras Zagros Kurdowie Azerowie Hanza 2 koncepcja operacyjna aktorzy ryzyka">
+            <div class="doc-head"><span class="doc-code">D6</span><span class="doc-state">zamrożone · 08.03.2026</span></div>
+            <h3>Jałta 3.0 — analiza strategiczna</h3>
+            <p>Rozpad irańskiej państwowości, geografia operacyjna, strefy wpływu, aktorzy, ryzyka i <strong>porządek wyłaniający się bez jednej konferencji oraz jednego wszechmocnego architekta</strong>.</p>
+            <div class="doc-meta"><span>32 KB</span><span>2,7 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html"><span>Czytaj D6</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="jalta narzedzia" data-search="D7 Jałta 3 apendyks AuDHD styl decyzyjny tożsamość narody bez państwa nieufność stabilizator równowaga Nasha epistemologia">
+            <div class="doc-head"><span class="doc-code">D7</span><span class="doc-state">zamrożone · 08.03.2026</span></div>
+            <h3>Jałta 3.0 — apendyks</h3>
+            <p>Warstwa kognitywna, tożsamościowa, matematyczna i epistemologiczna. Najbardziej przewrotna teza: <strong>nieufność może stabilizować sojusz</strong>, jeśli każdy projektuje przetrwanie bez patrona.</p>
+            <div class="doc-meta"><span>28 KB</span><span>2,6 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html"><span>Czytaj D7</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="energia system" data-search="ropa gaz geopolityka popyt substytucja Ormuz inflacja głód energia topologia władzy monopole Arabia Saudyjska Chiny etyka">
+            <div class="doc-head"><span class="doc-code">E1</span><span class="doc-state">edycja końcowa · 17.03.2026</span></div>
+            <h3>Ropa, gaz i geopolityka</h3>
+            <p>Popyt, substytucja, scenariusz Ormuz, trwałość monopoli i kluczowe rozróżnienie: baryłka podtrzymuje codzienną zależność, a <strong>panel po sprzedaży może usunąć klienta na trzy dekady</strong>.</p>
+            <div class="doc-meta"><span>26 KB</span><span>2,4 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html"><span>Czytaj E1</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="doc" data-groups="energia narzedzia" data-search="monopole moralność transformacja źródła Arabia Saudyjska cena ropa Chiny REE lit Wandel durch Handel moralny hazard solidarność substytut instytucje">
+            <div class="doc-head"><span class="doc-code">E2</span><span class="doc-state">edycja końcowa · 17.03.2026</span></div>
+            <h3>Monopole, moralność i transformacja</h3>
+            <p>Saudyjska dźwignia jako autoimmunologia, chiński monopol z zegarem erozji, Wandel durch Handel i pytanie, <strong>kiedy szok tworzy solidarność, a kiedy wyłącznie kolejkę do szalup</strong>.</p>
+            <div class="doc-meta"><span>21 KB</span><span>1,9 tys. słów</span><span>v01.00</span></div>
+            <a class="doc-link" href="monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html"><span>Czytaj E2</span><span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+
+        <p class="no-results" id="no-results"><strong>Nic nie znaleziono.</strong> Albo temat naprawdę nie istnieje, albo rosyjski system informacyjny właśnie odniósł swój pierwszy bezsporny sukces. Spróbuj krótszego hasła.</p>
+      </div>
+    </section>
+
+    <section id="sprzezenia">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Nie suma. Układ.</p>
+            <h2>Synergie i sprzężenia</h2>
+          </div>
+          <p class="section-intro">Najważniejsze w korpusie nie są osobne tematy, tylko chwile, gdy jeden proces <strong>zaczyna karmić następny</strong>. Rosja nie psuje się w kolumnach Excela. Psuje się sieciowo, co jest bardzo nieuprzejme wobec analityków lubiących jedną przyczynę i spokojny sen.</p>
+        </div>
+
+        <div class="loops">
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 01</span>
+            <h3>Kocyk OPL</h3>
+            <p class="loop-flow">OPL → rafinerie → paliwo → front → większa presja na OPL</p>
+            <p>Geografia wymusza wybór osłanianych zasobów. Każda koncentracja obrony tworzy gdzie indziej rachunek do zapłacenia — i rachunek ma drona.</p>
+          </article>
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 02</span>
+            <h3>Naprawa przegrywa wyścig</h3>
+            <p class="loop-flow">trafienie → remont → brak części → dłuższy przestój → kolejne trafienie</p>
+            <p>Nie trzeba niszczyć wszystkiego. Wystarczy, by tempo uszkodzeń stale przekraczało tempo odtwarzania, a system sam dopisze resztę w rubryce „zużycie naturalne”.</p>
+          </article>
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 03</span>
+            <h3>Bankowy wtorek</h3>
+            <p class="loop-flow">towar → marketplace → kredyt → złe aktywa → gotówka → panika</p>
+            <p>Długie zużywanie gospodarki może nagle dostać krótki zapalnik. Bankowość tłumaczy degradację infrastruktury na język, który nawet elita rozumie bez napisów.</p>
+          </article>
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 04</span>
+            <h3>Materia spotyka sens</h3>
+            <p class="loop-flow">awaria → widoczna słabość → korekta lojalności → słabsze centrum → więcej awarii</p>
+            <p>Dark Legitimacy toleruje korupcję i brutalność. Nie toleruje nieskuteczności. Gdy centrum przestaje wyglądać na silne, elity odkrywają nagle talent do arytmetyki.</p>
+          </article>
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 05</span>
+            <h3>Klimat bez Telegramu</h3>
+            <p class="loop-flow">susza / powódź / pożar → energia i kolej → budżet → gorsze utrzymanie</p>
+            <p>Klimat nie musi koordynować się z Ukrainą. Wystarczy, że atakuje te same bufory, z których wojna już wypiła smar, ludzi i pieniądze.</p>
+          </article>
+          <article class="loop">
+            <span class="loop-number">SPRZĘŻENIE 06</span>
+            <h3>Substytucja suwerenności</h3>
+            <p class="loop-flow">sankcje → Chiny → zależność technologiczna → warunki Pekinu → mniej opcji</p>
+            <p>Adaptacja działa i właśnie dlatego jest podstępna: ratuje przepływ dziś, sprzedając kawałek swobody jutro. Suwerenność zostaje, tylko instrukcja obsługi przychodzi po mandaryńsku.</p>
+          </article>
+        </div>
+
+        <div class="thesis">
+          <blockquote>„Materia daje warunki. Sens daje moment.”</blockquote>
+          <div><strong>Najkrótszy werdykt:</strong> właściwym tematem całości jest rozpad zdolności systemu — materialnych, poznawczych, narracyjnych i koalicyjnych — oraz rozpoznawanie chwili, kiedy wiele wolnych awarii staje się jednym zdarzeniem historycznym. Nie eksplozja. Przemiana fazowa z bardzo złym działem PR.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chronologia">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Daty są kotwami, nie genealogią</p>
+            <h2>Chronologia zamrożeń</h2>
+          </div>
+          <p class="section-intro">Kolejne pliki zatrzymywano, gdy osiągały użyteczny stan audytowy. Dzięki temu można sprawdzić, <strong>co model wiedział w danej chwili</strong>, zamiast oglądać dokument wiecznie poprawny, bo wiecznie przepisywany po fakcie. Genialna sztuczka: nie oszukiwać własnej pamięci.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="moment"><time datetime="2026-03-08">08.03.2026</time><div><strong>D6 i D7</strong> — Jałta 3.0: analiza strategiczna i apendyks.</div></div>
+          <div class="moment"><time datetime="2026-03-17">17.03.2026</time><div><strong>E1 i E2</strong> — końcowe edycje dwóch odnóg energetycznych.</div></div>
+          <div class="moment"><time datetime="2026-03-24">24.03.2026</time><div><strong>D5</strong> — Putin, cornered animal edition.</div></div>
+          <div class="moment"><time datetime="2026-03-25">25.03.2026</time><div><strong>D1–D3</strong> — Dark Legitimacy i pakiet Disinfolklore wraz z przesłuchaniem.</div></div>
+          <div class="moment"><time datetime="2026-03-31">31.03.2026</time><div><strong>A1</strong> — Kolumbryna właściwa zamrożona jako marcowy snapshot.</div></div>
+          <div class="moment"><time datetime="2026-06-13">13.06.2026</time><div><strong>D4</strong> — taksonomia rosyjskich „samobójstw”.</div></div>
+          <div class="moment"><time datetime="2026-06-23">23.06.2026</time><div><strong>A5</strong> — dwie rewizje modelu.</div></div>
+          <div class="moment"><time datetime="2026-06-25">25.06.2026</time><div><strong>A2 i A3</strong> — kronika kampanii oraz lista celów.</div></div>
+          <div class="moment"><time datetime="2026-06-28">28.06.2026</time><div><strong>A7</strong> — fenomenologia końca państw.</div></div>
+          <div class="moment"><time datetime="2026-07-03">03.07.2026</time><div><strong>A6</strong> — zapas kontra strumień.</div></div>
+          <div class="moment"><time datetime="2026-07-31">31.07.2026</time><div><strong>A4</strong> — stan na koniec lipca; plik domknięty redakcyjnie 1 sierpnia.</div></div>
+          <div class="moment"><time datetime="2026-09-03">03.09.2026</time><div><strong>SOL</strong> — mapa korpusu i publiczny indeks. Nawigacja, nie aktualizacja analizy.</div></div>
+        </div>
+
+        <p class="timeline-note"><strong>Ważne:</strong> data zamrożenia nie jest datą poczęcia dokumentu. D1 i D7 były rozwijane <em>w trakcie</em> budowy A1, nie przed nią. Próba ułożenia całego procesu wyłącznie po nazwach plików dałaby bardzo elegancką i kompletnie fałszywą historię — czyli produkt klasy premium.</p>
+      </div>
+    </section>
+
+    <section id="metoda">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Skąd to się wzięło</p>
+            <h2>Metoda i autorstwo</h2>
+          </div>
+          <p class="section-intro">Punktem wyjścia nie było „napiszmy dużo o Rosji”, lecz brak jawnych danych dla pytań, które były istotne. Zamiast czekać na tabelę, która być może nigdy nie powstanie, autor <strong>zbudował model zależności i szukał obserwowalnych proxy</strong>.</p>
+        </div>
+
+        <div class="method-grid">
+          <article>
+            <h3>Jak czytać ten korpus</h3>
+            <ul>
+              <li><strong>Proces przed wydarzeniem.</strong> Pojedyncze trafienie jest interesujące dopiero wtedy, gdy zmienia zdolność, tempo odtwarzania albo kalkulację przeciwnika.</li>
+              <li><strong>Proxy zamiast nieistniejącej liczby.</strong> Jeśli Rosja nie publikuje wolnych mocy rafineryjnych, liczy się je przez przepływy, wyłączenia, sezonowość, import i zachowanie systemu.</li>
+              <li><strong>Absencja jest daną.</strong> Brak nazwiska, liczby, reakcji albo spodziewanego komunikatu może być sygnałem, jeśli wcześniej wiadomo, dlaczego powinien się pojawić.</li>
+              <li><strong>Sprzeczności zostają na stole.</strong> System może adaptować się skutecznie i jednocześnie tracić kierunek. Może mieć zapasy i nie mieć przepływu. To nie błąd modelu; to Rosja odmawia bycia slajdem.</li>
+              <li><strong>Snapshot umożliwia audyt.</strong> Zamrożone wersje zachowują prognozy i pomyłki. Rzeczywistość dostaje prawo odpowiedzi, nawet gdy zachowuje się grubiańsko.</li>
+            </ul>
+            <details>
+              <summary>Nota o charakterze materiału</summary>
+              <p>To prywatna praca OSINT i analiza hipotez, nie urzędowy raport ani bezbłędna kronika. Dokumenty powstawały w różnym celu, mają różny poziom rygoru i zachowują stan wiedzy z daty zamrożenia. Krytyczne uwagi, korekty i wskazanie słabych miejsc są funkcją, nie obrazą majestatu.</p>
+            </details>
+          </article>
+
+          <aside>
+            <h3>Kto zrobił co</h3>
+            <ul class="credits">
+              <li><b>Maciej Tora</b><strong>Autor koncepcji i modeli.</strong> Pytania, ramy analityczne, odkrywanie zależności, selekcja i weryfikacja źródeł, interpretacja oraz decyzje redakcyjne.</li>
+              <li><b>Claude</b><strong>Notatnik, kalkulator i partner roboczy.</strong> Liczenie, porządkowanie, research, redakcja i rozwijanie materiału. Pomoc w warsztacie, nie biologiczny właściciel odkryć.</li>
+              <li><b>SOL</b><strong>Kartografia i wejście publiczne.</strong> Mapa tematów, architektura serwera oraz ten indeks; warstwa z 3 września 2026.</li>
+              <li><b>Ramy cudze — jawnie podpisane</b>Roman Horbyk: Dark Legitimacy. Stephen Douglas: Disinfolklore. Kamil Galeev: patrimonial grid lock. Pożyczone narzędzia mają tabliczki znamionowe; nie udają, że same wyrosły w piwnicy.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="shell">
+      <div>
+        <h2 id="closing-title">Rozważ wszystkie procesy. Pozwól sprzecznościom się pozagryzać. Z tego, co ocaleje, zbuduj model.</h2>
+      </div>
+      <div>
+        <p>Jeżeli nie wiesz, gdzie zacząć, mapa jest wejściem. Jeżeli już wiesz — prawdopodobnie i tak skończysz w A2, bo ma 680 KB i ambicje drobnego kontynentu.</p>
+        <a href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Do mapy tematów →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="shell footer-inner">
+      <span>SOL · Rosyjska Kolumbryna · index v01.01 · 2026-09-03</span>
+      <span>Korpus zamrożony. Autor biologiczny nadal reaguje na bodźce.</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var search = document.getElementById('search');
+      var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter'));
+      var docs = Array.prototype.slice.call(document.querySelectorAll('.doc'));
+      var result = document.getElementById('result-count');
+      var empty = document.getElementById('no-results');
+      var activeFilter = 'all';
+
+      function normalise(value) {
+        return value
+          .toLocaleLowerCase('pl')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/ł/g, 'l');
+      }
+
+      function update() {
+        var query = normalise(search.value.trim());
+        var shown = 0;
+
+        docs.forEach(function (card) {
+          var groups = card.getAttribute('data-groups').split(' ');
+          var haystack = normalise(card.getAttribute('data-search') + ' ' + card.textContent);
+          var groupMatch = activeFilter === 'all' || groups.indexOf(activeFilter) !== -1;
+          var textMatch = !query || haystack.indexOf(query) !== -1;
+          var visible = groupMatch && textMatch;
+          card.hidden = !visible;
+          if (visible) shown += 1;
+        });
+
+        result.innerHTML = '<strong>' + shown + '</strong> ' + (shown === 1 ? 'widoczna pozycja' : shown < 5 ? 'widoczne pozycje' : 'widocznych pozycji');
+        empty.classList.toggle('show', shown === 0);
+      }
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          activeFilter = button.getAttribute('data-filter');
+          buttons.forEach(function (item) {
+            item.setAttribute('aria-pressed', String(item === button));
+          });
+          update();
+        });
+      });
+
+      search.addEventListener('input', update);
+
+      document.addEventListener('keydown', function (event) {
+        var tag = document.activeElement && document.activeElement.tagName;
+        var typing = tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable);
+
+        if (event.key === '/' && !typing) {
+          event.preventDefault();
+          search.focus();
+        }
+
+        if (event.key === 'Escape' && document.activeElement === search) {
+          search.value = '';
+          search.blur();
+          update();
+        }
+      });
+    }());
+  </script>
+</body>
+</html>
