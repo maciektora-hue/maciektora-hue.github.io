@@ -213,14 +213,33 @@
       text-align: right;
       letter-spacing: 0.02em;
     }
-  </style>
+  
+.section-link {
+  margin-left: .45em;
+  color: inherit;
+  opacity: .32;
+  font-size: .72em;
+  font-weight: 400;
+  text-decoration: none;
+  vertical-align: .08em;
+  transition: opacity .15s ease;
+}
+h1:hover .section-link, h2:hover .section-link, h3:hover .section-link, h4:hover .section-link,
+h5:hover .section-link, h6:hover .section-link,
+.section-link:focus-visible { opacity: 1; }
+.legacy-anchor { display: block; height: 0; overflow: hidden; }
+@media (hover: none) { .section-link { opacity: .52; } }
+
+</style>
+
+<link rel="canonical" href="https://maciektora-hue.github.io/cv/cv/">
 </head>
 <body>
-  <!-- Version 07.11 · 2026-09-01 08:13 -->
+  <!-- Version 07.12 · 2026-09-07 -->
 
   <header>
     <div class="hero-copy">
-      <h1>Maciej Tora</h1>
+      <h1 id="maciej-tora">Maciej Tora</h1>
       <p class="tagline">AI Enablement &loz; PhD in Mathematics &loz; Founder &amp; CEO</p>
       <div class="contact">
         <div>+48 601 441 298</div>
@@ -233,7 +252,7 @@
 
   <main>
 <section>
-      <h2>PROFILE</h2>
+      <h2 id="profile">PROFILE</h2>
       <p>
         AI enablement specialist with a PhD in Mathematics and a background spanning financial
         modelling, risk and compliance (AML/CFT, UBO, KYC), business development and technology. Experienced in turning complex,
@@ -241,7 +260,7 @@
       </p>
     </section>
 <section>
-      <h2>CORE AI SKILLS</h2>
+      <h2 id="core-ai-skills">CORE AI SKILLS</h2>
         <p class="b">Agentic AI workflow design, prompt engineering and spec-driven development</p>
         <p class="b">AI fit assessment: applying AI where it creates real operational value — and not where it does not</p>
         <p class="b">Human-in-the-loop verification, audit trails and AI governance</p>
@@ -251,9 +270,9 @@
         <p class="b">Business–technology translation, stakeholder management and C-level communication</p>
     </section>
 <section>
-      <h2>EXPERIENCE</h2>
+      <h2 id="experience">EXPERIENCE</h2>
 
-      <h3>Independent AI practice</h3>
+      <h3 id="independent-ai-practice">Independent AI practice</h3>
       <p class="role">October 2025 – Present | AI enablement &amp; knowledge-work architecture</p>
         <p class="b">Designed and operate a specification-driven workflow for agentic AI work: a written rulebook governing file structure, versioning, formatting and process, used to steer model behaviour consistently across sessions and tools.</p>
         <p class="b"><strong>A multi-volume analytical work on the Russian state-economic system under war pressure</strong> — <span class="lnum">7</span> volumes, <span class="lnum">146,000</span> words (<span class="lnum">590</span> standard pages), written over five months. Contains a <span class="lnum">24</span>-item systemic risk register with explicit dependency mapping, a <span class="lnum">142</span>-record event database under a <span class="lnum">26</span>-class taxonomy across three independent axes, a register of falsifiable predictions with dated self-audit, and a stated method for reasoning under missing data.</p>
@@ -261,33 +280,33 @@
         <p class="b">Work across multiple frontier models with a declared split of roles and per-artefact attribution. <strong>Deliberately through conversational interfaces</strong> — Claude and ChatGPT — rather than their coding-agent counterparts (Claude Code, Codex). The choice is methodological, not a limitation: every step stays visible, reviewable and attributable — the written specification does the steering, not an agent out of sight.</p>
         <p class="b">Python tooling for bulk edits, assertion-checked replacements and validation. Unapologetic fan of C, PHP and SQL; avoid JavaScript wherever I possibly can.</p>
 
-      <h3><span class="lnum">2</span>loop Tech S.A.</h3>
+      <h3 id="2loop-tech"><span class="lnum">2</span>loop Tech S.A.</h3>
       <p class="role">2020 – Present | Founder &amp; CEO</p>
               <p class="b">Built and developed a technology startup focused on PV and wind turbine blade recycling.</p>
         <p class="b">Led business modelling, finance and fundraising; raised PLN 2.1 million in two Pre-IPO rounds.</p>
         <p class="b">Company honoured with the &ldquo;Zielona Planeta&rdquo; (Green Planet) award in the &ldquo;Eko Tw&oacute;rca Biznesu&rdquo; (Eco Business Creator) category &mdash; the most recent of <span class="lnum">4</span> awards received by <span class="lnum">2</span>loop Tech.</p>
         <p class="b">Worked across technology, regulation, operations and strategy in a highly uncertain environment.</p>
 
-      <h3>Open Life Towarzystwo Ubezpieczeń Życie S.A.</h3>
+      <h3 id="open-life-life-insurance">Open Life Towarzystwo Ubezpieczeń Życie S.A.</h3>
       <p class="role">2011 – 2016 | Product Expert</p>
               <p class="b">Designed investment products and financial models across multiple asset classes.</p>
         <p class="b">Negotiated with international investment banks; products represented approximately EUR 750 million in assets.</p>
 
-      <h3>BMM Inwestycje / KDR Księgi i Administracja</h3>
+      <h3 id="bmm-investments-kdr-accounting-administration">BMM Inwestycje / KDR Księgi i Administracja</h3>
       <p class="role">2008 – 2011 &amp; 2016 – 2021 | Managing Director / Financial Specialist</p>
               <p class="b">Prepared financial forecasts, profitability analyses, business assessments and M&amp;A analyses.</p>
         <p class="b">Proficient in full-scope accounting, with a deep understanding of accounting fundamentals, principles and practical solutions.</p>
         <p class="b">Advised on AML/CFT, UBO and KYC compliance and cross-border business processes.</p>
 
-      <h3>PZU Asset Management S.A. / PZU S.A.</h3>
+      <h3 id="pzu-asset-management-pzu">PZU Asset Management S.A. / PZU S.A.</h3>
       <p class="role">2004 – 2008 | Portfolio Manager / Financial Investment Specialist</p>
               <p class="b">Modelled derivatives and structured products using Bloomberg and Mathematica, managed portfolios and performed quantitative risk analysis.</p>
         <p class="b">Developed in-house analytical tools; managed approximately EUR 250 million in assets at PZU Asset Management.</p>
     </section>
 <section>
-      <h2>EDUCATION</h2>
+      <h2 id="education">EDUCATION</h2>
 
-      <h3>PhD in Mathematics — VSB Technical University of Ostrava, 2013</h3>
+      <h3 id="phd-mathematics-vsb-technical-university-ostrava">PhD in Mathematics — VSB Technical University of Ostrava, 2013</h3>
       <p>
         Applied mathematics research using Computational Fluid Dynamics (CFD)
         to model dense-medium flow in a cyclone used for coal beneficiation.
@@ -298,14 +317,14 @@
         </a>.
       </p>
 
-      <h3>MSc Mathematics — AGH University of Science and Technology, 2004</h3>
+      <h3 id="msc-mathematics-agh-university-science-technology">MSc Mathematics — AGH University of Science and Technology, 2004</h3>
       <p>
         Thesis on valuation and optimal exercise of American-style options
         in a jump-diffusion model.
       </p>
     </section>
 <section>
-      <h2>PATENTS &amp; TRADEMARKS</h2>
+      <h2 id="patents-trademarks">PATENTS &amp; TRADEMARKS</h2>
 
       <p>
         <strong>Polish patent Pat.249938 — in force</strong> —
@@ -330,7 +349,7 @@
       </p>
     </section>
 <section class="pubs">
-      <h2>SCIENTIFIC PUBLICATIONS &amp; ACADEMIC OUTPUT</h2>
+      <h2 id="scientific-publications-academic-output">SCIENTIFIC PUBLICATIONS &amp; ACADEMIC OUTPUT</h2>
 
       <p><strong>1997</strong> — Maciej Tora,
         <em>What can crossratio be used for</em>.
@@ -454,6 +473,22 @@
   <footer class="mini-credit">
     Created by Maciej Tora with ChatGPT GPT-5.6 (Sol), Claude Opus 5 and Claude Fable 5 (Anthropic)
   </footer>
+
+
+<script>
+(() => {
+  document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]').forEach((heading) => {
+    if (heading.querySelector('.section-link')) return;
+    const link = document.createElement('a');
+    link.className = 'section-link';
+    link.href = '#' + heading.id;
+    link.textContent = '#';
+    link.title = 'Link to this section';
+    link.setAttribute('aria-label', 'Link to this section');
+    heading.appendChild(link);
+  });
+})();
+</script>
 
 </body>
 </html>
