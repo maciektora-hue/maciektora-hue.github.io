@@ -49,27 +49,27 @@ jobs:
           if missing:
               raise SystemExit('Brak plikow docelowych: ' + ', '.join(missing))
 
-          # Stabilny URL to katalog z index.html przekierowujacym do aktualnej wersji.
-          # JavaScript zachowuje fragment #anchor; meta refresh jest fallbackiem.
           for alias, target in mapping.items():
               d = root / alias.rstrip('/')
               d.mkdir(parents=True, exist_ok=True)
               rel = '../' + target
-              html = f'''<!doctype html>
-<html lang="pl">
-<head>
-  <meta charset="utf-8">
-  <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url={rel}">
-  <title>Przekierowanie</title>
-  <script>location.replace({rel!r} + location.hash);</script>
-</head>
-<body>
-  <p><a href="{rel}">Przejdź do tekstu</a></p>
-</body>
-</html>
-'''
-              (d / 'index.html').write_text(html, encoding='utf-8')
+              lines = [
+                  '<!doctype html>',
+                  '<html lang="pl">',
+                  '<head>',
+                  '  <meta charset="utf-8">',
+                  '  <meta name="robots" content="noindex">',
+                  f'  <meta http-equiv="refresh" content="0; url={rel}">',
+                  '  <title>Przekierowanie</title>',
+                  f'  <script>location.replace({rel!r} + location.hash);</script>',
+                  '</head>',
+                  '<body>',
+                  f'  <p><a href="{rel}">Przejdź do tekstu</a></p>',
+                  '</body>',
+                  '</html>',
+                  '',
+              ]
+              (d / 'index.html').write_text('\n'.join(lines), encoding='utf-8')
 
           replacements = {target: alias for alias, target in mapping.items()}
 
@@ -86,7 +86,6 @@ jobs:
           index_text, index_changed = rewire(index)
           mapa_text, mapa_changed = rewire(mapa)
 
-          # Audyt: w publicznej nawigacji nie zostaja stare wersjonowane href-y.
           leftovers = []
           for label, text in [('index', index_text), ('mapa', mapa_text)]:
               for href in re.findall(r'href="([^"]+)"', text):
@@ -96,14 +95,12 @@ jobs:
           if leftovers:
               raise SystemExit('Zostaly stare URL-e: ' + ', '.join(leftovers))
 
-          # Audyt aliasow.
           for alias, target in mapping.items():
               p = root / alias / 'index.html'
               txt = p.read_text(encoding='utf-8')
               if ('../' + target) not in txt:
                   raise SystemExit(f'Bledny alias {alias} -> {target}')
 
-          # Audyt lokalnych linkow z indexu i mapy po przepieciu.
           broken = []
           for source, text in [(index, index_text), (mapa, mapa_text)]:
               for href in re.findall(r'href="([^"]+)"', text):
