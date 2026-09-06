@@ -1,0 +1,33 @@
+STATUS TECHNICZNY — AuDHD
+Data: 2026-09-06
+
+Repozytorium: maciektora-hue/maciektora-hue.github.io
+Katalog publikacyjny: audhd/
+Adres publiczny: https://maciektora-hue.github.io/audhd/
+
+STAN PO LIFTINGU INDEX.HTML
+
+1. Autorstwo w nagłówku
+- lewy górny róg: Maciej Tora · AuDHD
+- SOL nie występuje jako główny autor serwisu
+
+2. Nawigacja i linkowanie
+- tytuły tekstów w index.html są klikalne
+- dodane są linki „Powiązane” między sensownie łączącymi się tekstami
+- sekcja „Dwa regulatory” ma linki do rozwinięć tematów m.in. rutyna/nowość, porządek/chaos, wypalenia, pamięć, maskowanie
+
+3. Poprawki techniczne linków
+- „20 prac naukowych” prowadzi bezpośrednio do właściwego pliku: apendyks1-po-ludzku-02_01-2026-08-26.html
+- link do ESEJ_architektury-pamieci... został zapisany normalną nazwą pliku zamiast kodowania %45%53%45%4A...
+
+4. Wyszukiwarka
+- usunięta z audhd/index.html
+- usunięte także: komunikat braku wyników, JS wyszukiwarki i CSS należący wyłącznie do niej
+
+5. Sposób wykonywania zmian
+- lifting był robiony etapami, osobny zapis po każdym punkcie
+- używane jednorazowe workflowy zakończyły się SUCCESS
+- jednorazowe workflowy po wykonaniu zostały usunięte
+
+UWAGA
+Ten plik jest techniczną notatką stanu, żeby przy kolejnych poprawkach nie rekonstruować historii zmian z archeologii commitów.
