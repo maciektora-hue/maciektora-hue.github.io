@@ -199,7 +199,6 @@ jobs:
               assert not missing_refs, f'Martwe fragmenty: {missing_refs}'
               return len(heads), len(ids), len(refs)
 
-          # 17x17: bump wersji i semantyczne angielskie anchory.
           t17 = old_17.read_text(encoding='utf-8')
           assert 'v08.03' in t17
           t17 = t17.replace('v08.03', 'v08.04')
@@ -208,7 +207,6 @@ jobs:
           assert n17 == 100
           assert len(legacy17) > 0
 
-          # CV: bump wersji i semantyczne angielskie anchory.
           tcv = old_cv.read_text(encoding='utf-8')
           assert '07.11' in tcv
           tcv = tcv.replace('07.11', '07.12')
@@ -217,29 +215,24 @@ jobs:
           tcv = add_permalink_ui(tcv)
           assert ncv == 14
 
-          # Wersjonowane pliki są źródłami roboczymi, ale nie publicznymi adresami kanonicznymi.
-          def source_meta(text, canonical):
-              marker = '<meta name="viewport"'
-              pos = text.find(marker)
-              assert pos >= 0
-              line_end = text.find('>', pos) + 1
-              inject = f'\n<meta name="robots" content="noindex">\n<link rel="canonical" href="{canonical}">'
-              return text[:line_end] + inject + text[line_end:]
+          def inject_head_meta(text, lines):
+              assert '</head>' in text
+              return text.replace('</head>', '\n' + '\n'.join(lines) + '\n</head>', 1)
 
-          source17 = source_meta(t17, 'https://maciektora-hue.github.io/cv/seventeen-and-seventeen/')
-          sourcecv = source_meta(tcv, 'https://maciektora-hue.github.io/cv/cv/')
-
-          # Publiczne kopie mają stabilne, niewersjonowane URL-e i są kanoniczne.
-          def public_meta(text, canonical):
-              marker = '<meta name="viewport"'
-              pos = text.find(marker)
-              assert pos >= 0
-              line_end = text.find('>', pos) + 1
-              inject = f'\n<link rel="canonical" href="{canonical}">'
-              return text[:line_end] + inject + text[line_end:]
-
-          public17_text = public_meta(t17, 'https://maciektora-hue.github.io/cv/seventeen-and-seventeen/')
-          publiccv_text = public_meta(tcv, 'https://maciektora-hue.github.io/cv/cv/')
+          source17 = inject_head_meta(t17, [
+              '<meta name="robots" content="noindex">',
+              '<link rel="canonical" href="https://maciektora-hue.github.io/cv/seventeen-and-seventeen/">',
+          ])
+          sourcecv = inject_head_meta(tcv, [
+              '<meta name="robots" content="noindex">',
+              '<link rel="canonical" href="https://maciektora-hue.github.io/cv/cv/">',
+          ])
+          public17_text = inject_head_meta(t17, [
+              '<link rel="canonical" href="https://maciektora-hue.github.io/cv/seventeen-and-seventeen/">',
+          ])
+          publiccv_text = inject_head_meta(tcv, [
+              '<link rel="canonical" href="https://maciektora-hue.github.io/cv/cv/">',
+          ])
 
           new_17.write_text(source17, encoding='utf-8')
           new_cv.write_text(sourcecv, encoding='utf-8')
@@ -248,7 +241,6 @@ jobs:
           public_17.write_text(public17_text, encoding='utf-8')
           public_cv.write_text(publiccv_text, encoding='utf-8')
 
-          # Landing page: żadnych wersjonowanych nazw w publicznych linkach.
           x = landing.read_text(encoding='utf-8')
           old17href = 'CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_03-2026-09-07.html'
           oldcvhref = 'CLAUDE_Maciej-Tora-AI-CV-v07_11-2026-09-01-1.html'
@@ -258,7 +250,6 @@ jobs:
           x = x.replace(oldcvhref, 'cv/')
           landing.write_text(x, encoding='utf-8')
 
-          # Audyt po zapisie, PRZED skasowaniem poprzednich wersji.
           for p, expected in ((new_17,100),(public_17,100),(new_cv,14),(public_cv,14)):
               reread = p.read_text(encoding='utf-8')
               h, ids, refs = audit_document(reread, expected)
@@ -273,7 +264,6 @@ jobs:
           assert '<meta name="robots" content="noindex">' not in public_17.read_text(encoding='utf-8')
           assert '<meta name="robots" content="noindex">' not in public_cv.read_text(encoding='utf-8')
 
-          # Dopiero po pełnej weryfikacji nowych wersji usuwamy bezpośrednio poprzednie.
           old_17.unlink()
           old_cv.unlink()
 
