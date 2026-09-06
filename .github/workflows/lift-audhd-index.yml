@@ -1,4 +1,4 @@
-name: AuDHD lifting 3 - linki z dwoch regulatorow
+name: AuDHD lifting 4 - bezposredni link do 20 prac
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Dodaj wyjscia z sekcji Dwa regulatory
+      - name: Zamien redirect na plik docelowy
         shell: bash
         run: |
           python - <<'PY'
@@ -22,31 +22,20 @@ jobs:
 
           p = Path('audhd/index.html')
           s = p.read_text(encoding='utf-8')
-
-          needle = '<p class="result">Wynikiem nie jest średnia. Bywa nim cykl: bezpieczeństwo → nuda → skok → przeciążenie → powrót. Otoczenie widzi niekonsekwencję. Od środka widać dwa poprawne polecenia wykonujące się naraz.</p>'
-          addition = needle + '\n        <nav class="model-links" aria-label="Czytaj dalej o dwóch regulatorach">\n          <span>Czytaj dalej:</span>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#3-wewnetrzny-konflikt-rutyna-vs-nowosc">Rutyna i nowość</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#18-paradoks-porzadku-i-chaosu">Porządek i chaos</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#9-cykliczne-wypalenia-przypominajace-depresje">Wypalenia</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#32-pamiec-%65%6E%63%79%6B%6C%6F%70%65%64%79%63%7A%6E%61-obok-pamieci-zlotej-rybki">Dwie pamięci</a>\n          <a href="63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html">Rdzeń czy maskowanie</a>\n          <a href="audhd-po-ludzku-v02_02-2026-07-09.html">AuDHD po ludzku</a>\n        </nav>'
-
-          if 'class="model-links"' in s:
-              raise SystemExit('Linki modelu juz istnieja')
-          if needle not in s:
-              raise SystemExit('Nie znaleziono sekcji Dwa regulatory')
-          s2 = s.replace(needle, addition, 1)
-
-          css = "\n    .model-links {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 8px 12px;\n      align-items: baseline;\n      margin-top: 20px;\n      font-size: 0.9rem;\n    }\n\n    .model-links span {\n      color: var(--gold-soft);\n    }\n\n    .model-links a {\n      padding: 4px 8px;\n      border: 1px solid var(--line);\n      text-decoration: none;\n    }\n\n    .model-links a:hover {\n      border-color: var(--gold);\n    }\n"
-          marker = '    .search-box {'
-          pos = s2.find(marker)
-          if pos == -1:
-              raise SystemExit('Nie znaleziono miejsca na CSS')
-          s2 = s2[:pos] + css + '\n' + s2[pos:]
-
-          p.write_text(s2, encoding='utf-8')
+          old = 'opis-po-ludzku-20-prac-naukowych.html'
+          new = 'apendyks1-po-ludzku-02_01-2026-08-26.html'
+          count = s.count(old)
+          if count == 0:
+              raise SystemExit('Nie znaleziono starego linku')
+          p.write_text(s.replace(old, new), encoding='utf-8')
+          print(f'Zamieniono linkow: {count}')
           PY
 
-      - name: Zapisz punkt 3
+      - name: Zapisz punkt 4
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add audhd/index.html
           git diff --cached --quiet && exit 0
-          git commit -m "AuDHD: dodaj wyjscia z modelu dwoch regulatorow"
+          git commit -m "AuDHD: linkuj 20 prac bezposrednio"
           git push
