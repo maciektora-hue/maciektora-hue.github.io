@@ -1,0 +1,43 @@
+ROSJA — TODO: AUDYT ANCHORÓW
+Plan roboczy: poniedziałek, 2026-09-07
+
+ZASADA GŁÓWNA
+W Rosji NIE robimy automatycznego dorabiania anchorów jak w AuDHD.
+Pliki są w dużej części zamrożone, więc najpierw tylko AUDYT.
+Nie zmieniać treści ani istniejących anchorów bez późniejszego, osobnego polecenia.
+
+ETAP 1 — AUDYT PLIKÓW
+Przejrzeć wszystkie merytoryczne pliki HTML w katalogu rosja/ po jednym pliku.
+Dla każdego pliku ustalić:
+- czy ma anchory / atrybuty id,
+- czy nie ma anchorów,
+- ile ma nagłówków H1–H6,
+- ile z tych nagłówków ma id,
+- ile nagłówków nie ma id.
+
+Wynik etapu 1: lista plików w trzech grupach:
+1. anchory wyglądają na kompletne,
+2. anchory są, ale wymagają audytu kompletności,
+3. anchorów brak lub prawie brak.
+
+ETAP 2 — AUDYT KOMPLETNOŚCI
+Dla każdego pliku, który ma anchory, sprawdzić osobno i cierpliwie:
+- każdy występujący nagłówek H1, H2, H3, H4, H5, H6,
+- czy każdy nagłówek/sekcja ma id,
+- czy id jest unikalne w pliku,
+- czy nie ma pustych id,
+- czy nie ma powielonych id,
+- czy istniejące linki #anchor prowadzą do istniejących id,
+- czy nie ma oczywistych braków w ciągu sekcji.
+
+WAŻNE
+- To jest audyt, NIE operacja naprawcza.
+- Nie dorabiać anchorów w plikach Rosji bez osobnej decyzji po audycie.
+- Nie zmieniać już istniejących sensownych anchorów.
+- Nie robić hurtowych zmian w zamrożonych plikach.
+- Raportować wynik plik po pliku, tak żeby później można było zdecydować, które pliki w ogóle ruszamy.
+
+KONTEKST TECHNICZNY
+Stałe publiczne URL-e Rosji zachowują dowolny #fragment przez location.hash.
+Audyt generycznego przekazywania anchorów zakończył się SUCCESS dla 17/17 stałych URL-i.
+Problemem do sprawdzenia nie jest więc mechanizm URL-i, tylko kompletność anchorów wewnątrz poszczególnych plików.
