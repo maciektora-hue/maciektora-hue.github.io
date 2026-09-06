@@ -15,8 +15,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Zamien pozostale kody na ladne linki
-        shell: python
+        shell: bash
         run: |
+          python - <<'PY'
           from pathlib import Path
           import re
 
@@ -162,6 +163,7 @@ jobs:
               raise SystemExit('Brak zmian')
 
           p.write_text(s2, encoding='utf-8')
+          PY
 
       - name: Zapisz poprawki
         run: |
