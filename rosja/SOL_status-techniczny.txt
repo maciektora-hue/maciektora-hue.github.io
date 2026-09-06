@@ -10,4 +10,34 @@ Stan po audycie rosja/index.html:
 - audyt GitHub Actions zakończony SUCCESS,
 - jednorazowy workflow audytowy usunięty po wykonaniu.
 
-Wniosek roboczy: rosja/index.html po poprawkach wygląda i działa prawidłowo; użytkownik potwierdził: „chyba działa”.
+Wniosek roboczy po audycie: rosja/index.html po poprawkach wygląda i działa prawidłowo; użytkownik potwierdził: „chyba działa”.
+
+STABILNE PUBLICZNE URL-E — ETAP 1
+- utworzono 17 stałych, krótkich adresów niezależnych od wersjonowanych nazw plików,
+- przepięto rosja/index.html na stałe adresy: 146 linków,
+- przepięto mapę tematów na stałe adresy: 101 linków,
+- fragmenty #anchor są zachowywane przez przekierowania,
+- po zmianie: 0 starych wersjonowanych hrefów objętych mapowaniem w indexie i mapie,
+- po zmianie: 0 uszkodzonych lokalnych linków w indexie i mapie,
+- właściwy run workflow zakończony SUCCESS.
+
+Stałe adresy obejmują m.in.:
+- /rosja/mapa/
+- /rosja/kolumbryna/
+- /rosja/gradually-suddenly/
+- /rosja/lista-celow/
+- /rosja/przejscie-na-hurt/
+- /rosja/audyt/
+- /rosja/zapas-kontra-strumien/
+- /rosja/jak-koncza-sie-panstwa/
+- /rosja/dark-legitimacy/
+- /rosja/disinfolklore/
+- /rosja/disinfolklore-swot/
+- /rosja/rosyjskie-samobojstwa/
+- /rosja/putin-cornered/
+- /rosja/jalta-3/
+- /rosja/jalta-3-apendyks/
+- /rosja/ropa-gaz/
+- /rosja/monopole/
+
+Uwaga techniczna: pierwszy run workflow nie wystartował poprawnie przez sposób zapisania wieloliniowego HTML-a wewnątrz YAML. Workflow został poprawiony, drugi run zakończył się SUCCESS; zmiany publikacyjne pochodzą z udanego runu.
