@@ -1,4 +1,4 @@
-name: AuDHD lifting 2 - linki kontekstowe
+name: AuDHD lifting 3 - linki z dwoch regulatorow
 
 on:
   push:
@@ -14,123 +14,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Dodaj powiazania miedzy tekstami
+      - name: Dodaj wyjscia z sekcji Dwa regulatory
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
 
           p = Path('audhd/index.html')
           s = p.read_text(encoding='utf-8')
 
-          related = {
-              'co-to-znaczy-audhd-v03_01-2026-07-09-2.html': [
-                  ('audhd-po-ludzku-v02_02-2026-07-09.html', 'AuDHD po ludzku'),
-                  ('audhd_opracowanie_v6_0_2026-07-01-2.html', 'Pełna mapa cech'),
-              ],
-              'audhd-po-ludzku-v02_02-2026-07-09.html': [
-                  ('audhd_opracowanie_v6_0_2026-07-01-2.html', 'Pełna mapa cech'),
-                  ('63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html', 'Rdzeń czy maskowanie'),
-              ],
-              'audhd_opracowanie_v6_0_2026-07-01-2.html': [
-                  ('63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html', 'Rdzeń czy maskowanie'),
-                  ('CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html', 'Po późnej diagnozie'),
-              ],
-              '63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html': [
-                  ('audhd_opracowanie_v6_0_2026-07-01-2.html', 'Pełna mapa cech'),
-                  ('CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html', 'Po późnej diagnozie'),
-              ],
-              'opis-po-ludzku-20-prac-naukowych.html': [
-                  ('dluga-lista-publikacji-4.01-2026-08-26.html', 'Długa lista publikacji'),
-              ],
-              'CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html': [
-                  ('co-to-znaczy-audhd-v03_01-2026-07-09-2.html', 'Najkrótsze wyjaśnienie'),
-                  ('63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html', 'Rdzeń czy maskowanie'),
-              ],
-              'ilu-nas-jest-audhd-polska-wstep-v03_00-2026-08-10.html': [
-                  ('apendyks1-po-ludzku-02_01-2026-08-26.html', '20 prac naukowych'),
-                  ('dluga-lista-publikacji-4.01-2026-08-26.html', 'Publikacje'),
-              ],
-              'dluga-lista-publikacji-4.01-2026-08-26.html': [
-                  ('apendyks1-po-ludzku-02_01-2026-08-26.html', '20 prac po ludzku'),
-              ],
-              'adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html': [
-                  ('piec-jezykow-milosci-nd-v01.00-2026-05-18.html', 'Języki miłości ND'),
-              ],
-              'autyzm-regulacja-mowienia-v01.00-2026-05-14.html': [
-                  ('piec-jezykow-milosci-nd-v01.00-2026-05-18.html', 'Języki miłości ND'),
-                  ('co-to-znaczy-audhd-v03_01-2026-07-09-2.html', 'Wyjaśnienie AuDHD'),
-              ],
-              'obiektywnosc-autyzm-v01.00-2026-05-14.html': [
-                  ('kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html', 'Błędy poznawcze i AI'),
-              ],
-              'piec-jezykow-milosci-nd-v01.00-2026-05-18.html': [
-                  ('autyzm-regulacja-mowienia-v01.00-2026-05-14.html', 'Regulacja mówienia'),
-                  ('adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html', 'Pomaganie kosztem siebie'),
-              ],
-              'audhd-fundatorzy-it-1_00-2026-04-27.html': [
-                  ('ESEJ_architektury-pamieci-1_02-2026-04-28.html', 'Architektury pamięci'),
-                  ('POWIESC_architektury-pamieci-2_00-2026-04-29.html', 'Opowieść o pamięci'),
-              ],
-              'ESEJ_architektury-pamieci-1_02-2026-04-28.html': [
-                  ('POWIESC_architektury-pamieci-2_00-2026-04-29.html', 'Wersja opowieściowa'),
-                  ('kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html', 'Kognitywistyka i AI'),
-              ],
-              'POWIESC_architektury-pamieci-2_00-2026-04-29.html': [
-                  ('ESEJ_architektury-pamieci-1_02-2026-04-28.html', 'Wersja analityczna'),
-                  ('audhd-fundatorzy-it-1_00-2026-04-27.html', 'Osoby fundatorskie w IT'),
-              ],
-              'kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html': [
-                  ('ESEJ_architektury-pamieci-1_02-2026-04-28.html', 'Architektury pamięci'),
-                  ('obiektywnosc-autyzm-v01.00-2026-05-14.html', 'Obiektywność i kalibracja'),
-              ],
-          }
+          needle = '<p class="result">Wynikiem nie jest średnia. Bywa nim cykl: bezpieczeństwo → nuda → skok → przeciążenie → powrót. Otoczenie widzi niekonsekwencję. Od środka widać dwa poprawne polecenia wykonujące się naraz.</p>'
+          addition = '''<p class="result">Wynikiem nie jest średnia. Bywa nim cykl: bezpieczeństwo → nuda → skok → przeciążenie → powrót. Otoczenie widzi niekonsekwencję. Od środka widać dwa poprawne polecenia wykonujące się naraz.</p>
+        <nav class="model-links" aria-label="Czytaj dalej o dwóch regulatorach">
+          <span>Czytaj dalej:</span>
+          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#3-wewnetrzny-konflikt-rutyna-vs-nowosc">Rutyna i nowość</a>
+          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#18-paradoks-porzadku-i-chaosu">Porządek i chaos</a>
+          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#9-cykliczne-wypalenia-przypominajace-depresje">Wypalenia</a>
+          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#32-pamiec-%65%6E%63%79%6B%6C%6F%70%65%64%79%63%7A%6E%61-obok-pamieci-zlotej-rybki">Dwie pamięci</a>
+          <a href="63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html">Rdzeń czy maskowanie</a>
+          <a href="audhd-po-ludzku-v02_02-2026-07-09.html">AuDHD po ludzku</a>
+        </nav>'''
 
-          pattern = re.compile(r'(<article class="entry"[^>]*>)(.*?)(</article>)', re.S)
-          changed = 0
+          if 'class="model-links"' in s:
+              raise SystemExit('Linki modelu juz istnieja')
+          if needle not in s:
+              raise SystemExit('Nie znaleziono sekcji Dwa regulatory')
+          s2 = s.replace(needle, addition, 1)
 
-          def patch_article(m):
-              global changed
-              start, body, end = m.groups()
-              title_match = re.search(r'<h3><a class="entry-title-link" href="([^"]+)">', body)
-              if not title_match:
-                  return m.group(0)
-              href = title_match.group(1)
-              items = related.get(href)
-              if not items or 'class="related-links"' in body:
-                  return m.group(0)
-              links = ' '.join(f'<a href="{u}">{label}</a>' for u, label in items)
-              block = f'<div class="related-links"><span>Powiązane:</span> {links}</div>\n            '
-              main_link = re.search(r'\n\s*<a href="[^"]+">[^<]+(?:↗)?</a>\s*$', body)
-              if not main_link:
-                  return m.group(0)
-              body2 = body[:main_link.start()] + '\n            ' + block + body[main_link.start():]
-              changed += 1
-              return start + body2 + end
-
-          s2 = pattern.sub(patch_article, s)
-
-          css = "\n    .related-links {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 7px 12px;\n      align-items: baseline;\n      margin: 16px 0 8px;\n      color: var(--gold-soft);\n      font-size: 0.88rem;\n    }\n\n    .related-links span {\n      color: var(--gold-soft);\n    }\n\n    .related-links a {\n      padding: 2px 7px;\n      border: 1px solid var(--line);\n      text-decoration: none;\n    }\n\n    .related-links a:hover {\n      border-color: var(--gold);\n    }\n"
-          if '.related-links {' not in s2:
-              marker = '    .subsections {'
-              pos = s2.find(marker)
-              if pos == -1:
-                  raise SystemExit('Nie znaleziono miejsca na CSS')
-              s2 = s2[:pos] + css + '\n' + s2[pos:]
-
-          if changed == 0:
-              raise SystemExit('Nie dodano zadnych powiazan')
+          css = "\n    .model-links {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 8px 12px;\n      align-items: baseline;\n      margin-top: 20px;\n      font-size: 0.9rem;\n    }\n\n    .model-links span {\n      color: var(--gold-soft);\n    }\n\n    .model-links a {\n      padding: 4px 8px;\n      border: 1px solid var(--line);\n      text-decoration: none;\n    }\n\n    .model-links a:hover {\n      border-color: var(--gold);\n    }\n"
+          marker = '    .search-box {'
+          pos = s2.find(marker)
+          if pos == -1:
+              raise SystemExit('Nie znaleziono miejsca na CSS')
+          s2 = s2[:pos] + css + '\n' + s2[pos:]
 
           p.write_text(s2, encoding='utf-8')
-          print(f'Powiazania dodane do {changed} wpisow')
           PY
 
-      - name: Zapisz punkt 2
+      - name: Zapisz punkt 3
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add audhd/index.html
           git diff --cached --quiet && exit 0
-          git commit -m "AuDHD: dodaj linki kontekstowe miedzy tekstami"
+          git commit -m "AuDHD: dodaj wyjscia z modelu dwoch regulatorow"
           git push
