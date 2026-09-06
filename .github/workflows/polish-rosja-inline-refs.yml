@@ -91,73 +91,75 @@ jobs:
 
           s2 = ''.join(parts)
 
-          css = '''
-
-    .inline-ref {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 2.05em;
-      margin: 0 .08em;
-      padding: .08em .34em;
-      border: 1px solid var(--line);
-      color: var(--gold-hot);
-      background: rgba(226, 188, 88, .055);
-      font-family: var(--mono);
-      font-size: .82em;
-      font-weight: 850;
-      line-height: 1.35;
-      text-decoration: none;
-      vertical-align: .06em;
-      transition: color .15s ease, background .15s ease, border-color .15s ease, transform .15s ease;
-    }
-
-    .inline-ref:hover,
-    .inline-ref:focus-visible {
-      border-color: var(--gold);
-      color: var(--ink);
-      background: var(--gold);
-      transform: translateY(-1px);
-    }
-
-    .doc-code .inline-ref {
-      min-width: 0;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      color: inherit;
-      background: transparent;
-      font: inherit;
-      letter-spacing: inherit;
-      vertical-align: baseline;
-    }
-
-    .doc-code .inline-ref:hover,
-    .doc-code .inline-ref:focus-visible {
-      color: var(--paper);
-      background: transparent;
-      transform: none;
-    }
-
-    .ref-range {
-      display: inline-flex;
-      gap: .16em;
-      align-items: center;
-      white-space: nowrap;
-    }
-
-    .ref-dot {
-      color: var(--gold-dim);
-      font-size: .72em;
-    }
-'''
+          css_lines = [
+              '',
+              '    .inline-ref {',
+              '      display: inline-flex;',
+              '      align-items: center;',
+              '      justify-content: center;',
+              '      min-width: 2.05em;',
+              '      margin: 0 .08em;',
+              '      padding: .08em .34em;',
+              '      border: 1px solid var(--line);',
+              '      color: var(--gold-hot);',
+              '      background: rgba(226, 188, 88, .055);',
+              '      font-family: var(--mono);',
+              '      font-size: .82em;',
+              '      font-weight: 850;',
+              '      line-height: 1.35;',
+              '      text-decoration: none;',
+              '      vertical-align: .06em;',
+              '      transition: color .15s ease, background .15s ease, border-color .15s ease, transform .15s ease;',
+              '    }',
+              '',
+              '    .inline-ref:hover,',
+              '    .inline-ref:focus-visible {',
+              '      border-color: var(--gold);',
+              '      color: var(--ink);',
+              '      background: var(--gold);',
+              '      transform: translateY(-1px);',
+              '    }',
+              '',
+              '    .doc-code .inline-ref {',
+              '      min-width: 0;',
+              '      margin: 0;',
+              '      padding: 0;',
+              '      border: 0;',
+              '      color: inherit;',
+              '      background: transparent;',
+              '      font: inherit;',
+              '      letter-spacing: inherit;',
+              '      vertical-align: baseline;',
+              '    }',
+              '',
+              '    .doc-code .inline-ref:hover,',
+              '    .doc-code .inline-ref:focus-visible {',
+              '      color: var(--paper);',
+              '      background: transparent;',
+              '      transform: none;',
+              '    }',
+              '',
+              '    .ref-range {',
+              '      display: inline-flex;',
+              '      gap: .16em;',
+              '      align-items: center;',
+              '      white-space: nowrap;',
+              '    }',
+              '',
+              '    .ref-dot {',
+              '      color: var(--gold-dim);',
+              '      font-size: .72em;',
+              '    }',
+              '',
+          ]
+          css = '\n'.join(css_lines)
 
           if '.inline-ref {' not in s2:
               marker = '    @media (max-width:'
               pos = s2.find(marker)
               if pos == -1:
                   raise SystemExit('Nie znaleziono miejsca na CSS')
-              s2 = s2[:pos] + css + '\n' + s2[pos:]
+              s2 = s2[:pos] + css + s2[pos:]
 
           if s2 == s:
               raise SystemExit('Brak zmian')
