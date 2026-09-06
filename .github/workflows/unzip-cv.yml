@@ -1,0 +1,33 @@
+name: Rozpakuj CV ZIP
+
+on:
+  push:
+    paths:
+      - 'cv_do_wgrania.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rozpakuj ZIP do repozytorium
+        shell: bash
+        run: |
+          unzip -o cv_do_wgrania.zip -d .
+          rm cv_do_wgrania.zip
+          test -f 'cv/CLAUDE_Maciej-Tora-AI-CV-v07_11-2026-09-01-1.html'
+          test -f 'cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_02-2026-08-30-2.html'
+
+      - name: Zapisz pliki CV
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A cv cv_do_wgrania.zip
+          git diff --cached --quiet && exit 0
+          git commit -m "CV: dodaj CV i Seventeen and Seventeen"
+          git push
