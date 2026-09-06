@@ -1,0 +1,42 @@
+name: CV - audyt headingow
+
+on:
+  push:
+    paths:
+      - '.github/workflows/audit-cv-headings.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wypisz H1-H6 i ich ID
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, html
+
+          files = [
+            Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_03-2026-09-07.html'),
+            Path('cv/CLAUDE_Maciej-Tora-AI-CV-v07_11-2026-09-01-1.html'),
+          ]
+          for p in files:
+              print('\nFILE:', p)
+              text = p.read_text(encoding='utf-8')
+              headings = re.findall(r'<h([1-6])\b([^>]*)>(.*?)</h\1>', text, flags=re.S|re.I)
+              print('TOTAL:', len(headings))
+              missing = 0
+              seen = {}
+              for i,(level,attrs,body) in enumerate(headings,1):
+                  m = re.search(r'\bid=["\']([^"\']+)["\']', attrs, flags=re.I)
+                  ident = m.group(1) if m else ''
+                  if not ident: missing += 1
+                  if ident: seen[ident] = seen.get(ident,0)+1
+                  label = html.unescape(re.sub(r'<[^>]+>', '', body))
+                  label = re.sub(r'\s+', ' ', label).strip()
+                  print(f'{i:03d} H{level} id={ident!r} :: {label}')
+              dups = [k for k,v in seen.items() if v>1]
+              print('MISSING_ID:', missing)
+              print('DUPLICATE_IDS:', dups)
+          PY
