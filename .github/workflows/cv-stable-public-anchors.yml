@@ -1,0 +1,293 @@
+name: CV - semantyczne anchory i stale URL-e
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cv-stable-public-anchors.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dodaj angielskie anchory i zbuduj stale publiczne adresy
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, html, unicodedata
+
+          ROOT = Path('cv')
+          old_17 = ROOT / 'CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_03-2026-09-07.html'
+          new_17 = ROOT / 'CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_04-2026-09-07.html'
+          old_cv = ROOT / 'CLAUDE_Maciej-Tora-AI-CV-v07_11-2026-09-01-1.html'
+          new_cv = ROOT / 'CLAUDE_Maciej-Tora-AI-CV-v07_12-2026-09-07.html'
+          public_17 = ROOT / 'seventeen-and-seventeen' / 'index.html'
+          public_cv = ROOT / 'cv' / 'index.html'
+          landing = ROOT / 'index.html'
+
+          for p in (old_17, old_cv, landing):
+              assert p.exists(), p
+          for p in (new_17, new_cv):
+              assert not p.exists(), p
+
+          def label_of(body):
+              s = html.unescape(re.sub(r'<[^>]+>', '', body))
+              return re.sub(r'\s+', ' ', s).strip()
+
+          def slugify(s):
+              s = html.unescape(s)
+              s = re.sub(r'^\s*\d+\.\s*', '', s)
+              s = s.replace('&', ' and ')
+              s = s.replace('’', '').replace("'", '')
+              s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('ascii')
+              s = s.lower()
+              s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+              return s
+
+          PERMALINK_CSS = '''
+          .section-link {
+            margin-left: .45em;
+            color: inherit;
+            opacity: .32;
+            font-size: .72em;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: .08em;
+            transition: opacity .15s ease;
+          }
+          h1:hover .section-link, h2:hover .section-link, h3:hover .section-link, h4:hover .section-link,
+          h5:hover .section-link, h6:hover .section-link,
+          .section-link:focus-visible { opacity: 1; }
+          .legacy-anchor { display: block; height: 0; overflow: hidden; }
+          @media (hover: none) { .section-link { opacity: .52; } }
+          '''
+
+          PERMALINK_JS = '''
+          <script>
+          (() => {
+            document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]').forEach((heading) => {
+              if (heading.querySelector('.section-link')) return;
+              const link = document.createElement('a');
+              link.className = 'section-link';
+              link.href = '#' + heading.id;
+              link.textContent = '#';
+              link.title = 'Link to this section';
+              link.setAttribute('aria-label', 'Link to this section');
+              heading.appendChild(link);
+            });
+          })();
+          </script>
+          '''
+
+          def add_permalink_ui(text):
+              assert '</style>' in text and '</body>' in text
+              text = text.replace('</style>', PERMALINK_CSS + '\n</style>', 1)
+              text = text.replace('</body>', PERMALINK_JS + '\n</body>', 1)
+              return text
+
+          cv_manual = {
+              'Maciej Tora': 'maciej-tora',
+              'PROFILE': 'profile',
+              'CORE AI SKILLS': 'core-ai-skills',
+              'EXPERIENCE': 'experience',
+              'Independent AI practice': 'independent-ai-practice',
+              '2loop Tech S.A.': '2loop-tech',
+              'Open Life Towarzystwo Ubezpieczeń Życie S.A.': 'open-life-life-insurance',
+              'BMM Inwestycje / KDR Księgi i Administracja': 'bmm-investments-kdr-accounting-administration',
+              'PZU Asset Management S.A. / PZU S.A.': 'pzu-asset-management-pzu',
+              'EDUCATION': 'education',
+              'PhD in Mathematics — VSB Technical University of Ostrava, 2013': 'phd-mathematics-vsb-technical-university-ostrava',
+              'MSc Mathematics — AGH University of Science and Technology, 2004': 'msc-mathematics-agh-university-science-technology',
+              'PATENTS & TRADEMARKS': 'patents-trademarks',
+              'SCIENTIFIC PUBLICATIONS & ACADEMIC OUTPUT': 'scientific-publications-academic-output',
+          }
+
+          top_17 = {
+              'Seventeen & Seventeen — AI concepts from the postings and from the corpora': 'seventeen-and-seventeen',
+              'Table of Contents': 'table-of-contents',
+              'Short history: what the three of us actually did': 'history',
+              'How the ordering works': 'ordering',
+              'The First Seventeen — concepts from the postings [Klaudiusz]': 'first-seventeen',
+              'The Second Seventeen — core concepts of the corpora [Klaudiusz]': 'second-seventeen',
+              'Cross-links — the two seventeens as a many-to-many [Klaudiusz]': 'cross-links',
+              'The tables, in SQL': 'tables-in-sql',
+              'Band aggregate: where the weight sits': 'band-aggregate',
+              'Which corpus concepts carry the most weight': 'corpus-concepts-by-weight',
+              'The join, unrolled': 'join-unrolled',
+              "Band 1–3 · the market's names": 'band-market-names',
+              'Band 4–11 · the workshop': 'band-workshop',
+              'Band 12–17 · organization and business': 'band-organization-business',
+              'The constellation — all sixty-six links at once [Klaudiusz]': 'constellation',
+          }
+
+          def rewrite_headings(text, kind):
+              pattern = re.compile(r'<h([1-6])\b([^>]*)>(.*?)</h\1>', flags=re.S|re.I)
+              old_to_new = {}
+              used = set()
+              current_h3 = None
+              count = 0
+
+              def repl(m):
+                  nonlocal current_h3, count
+                  level, attrs, body = m.group(1), m.group(2), m.group(3)
+                  label = label_of(body)
+                  oldm = re.search(r'\bid=["\']([^"\']+)["\']', attrs, flags=re.I)
+                  oldid = oldm.group(1) if oldm else None
+
+                  if kind == 'cv':
+                      assert label in cv_manual, f'Nieznany heading CV: {label}'
+                      newid = cv_manual[label]
+                  else:
+                      if label in top_17:
+                          newid = top_17[label]
+                      elif level == '3':
+                          newid = slugify(label)
+                      elif level == '4':
+                          if label.startswith('Po polsku'):
+                              assert current_h3
+                              newid = current_h3 + '-plain-language-polish'
+                          elif label == 'The jargon-forward cut':
+                              assert current_h3
+                              newid = current_h3 + '-jargon-forward'
+                          elif label == 'How the three of us worked this one':
+                              assert current_h3
+                              newid = current_h3 + '-how-we-worked'
+                          else:
+                              newid = slugify(label)
+                      else:
+                          newid = slugify(label)
+
+                  assert newid and re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', newid), (label, newid)
+                  assert newid not in used, f'Duplikat nowego ID: {newid}'
+                  used.add(newid)
+                  if level == '3':
+                      current_h3 = newid
+
+                  attrs2 = re.sub(r'\s+id=["\'][^"\']+["\']', '', attrs, flags=re.I)
+                  attrs2 = attrs2.rstrip() + f' id="{newid}"'
+                  alias = ''
+                  if oldid and oldid != newid:
+                      old_to_new[oldid] = newid
+                      alias = f'<span id="{oldid}" class="legacy-anchor" aria-hidden="true"></span>'
+                  count += 1
+                  return f'{alias}<h{level}{attrs2}>{body}</h{level}>'
+
+              out = pattern.sub(repl, text)
+              for oldid, newid in old_to_new.items():
+                  out = out.replace(f'href="#{oldid}"', f'href="#{newid}"')
+                  out = out.replace(f"href='#{oldid}'", f"href='#{newid}'")
+              return out, count, old_to_new
+
+          def audit_document(text, expected_headings):
+              heads = re.findall(r'<h([1-6])\b([^>]*)>(.*?)</h\1>', text, flags=re.S|re.I)
+              assert len(heads) == expected_headings, (len(heads), expected_headings)
+              ids = []
+              for level, attrs, body in heads:
+                  m = re.search(r'\bid=["\']([^"\']+)["\']', attrs, flags=re.I)
+                  assert m, label_of(body)
+                  ident = m.group(1)
+                  assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ident), ident
+                  ids.append(ident)
+              assert len(ids) == len(set(ids)), 'Duplikaty heading ID'
+              all_ids = set(re.findall(r'\bid=["\']([^"\']+)["\']', text, flags=re.I))
+              refs = re.findall(r'href=["\']#([^"\']+)["\']', text, flags=re.I)
+              missing_refs = sorted(set(refs) - all_ids)
+              assert not missing_refs, f'Martwe fragmenty: {missing_refs}'
+              return len(heads), len(ids), len(refs)
+
+          # 17x17: bump wersji i semantyczne angielskie anchory.
+          t17 = old_17.read_text(encoding='utf-8')
+          assert 'v08.03' in t17
+          t17 = t17.replace('v08.03', 'v08.04')
+          t17, n17, legacy17 = rewrite_headings(t17, '17')
+          t17 = add_permalink_ui(t17)
+          assert n17 == 100
+          assert len(legacy17) > 0
+
+          # CV: bump wersji i semantyczne angielskie anchory.
+          tcv = old_cv.read_text(encoding='utf-8')
+          assert '07.11' in tcv
+          tcv = tcv.replace('07.11', '07.12')
+          tcv = re.sub(r'<!--\s*Version 07\.12\s*·\s*2026-09-01[^>]*-->', '<!-- Version 07.12 · 2026-09-07 -->', tcv, count=1)
+          tcv, ncv, legacycv = rewrite_headings(tcv, 'cv')
+          tcv = add_permalink_ui(tcv)
+          assert ncv == 14
+
+          # Wersjonowane pliki są źródłami roboczymi, ale nie publicznymi adresami kanonicznymi.
+          def source_meta(text, canonical):
+              marker = '<meta name="viewport"'
+              pos = text.find(marker)
+              assert pos >= 0
+              line_end = text.find('>', pos) + 1
+              inject = f'\n<meta name="robots" content="noindex">\n<link rel="canonical" href="{canonical}">'
+              return text[:line_end] + inject + text[line_end:]
+
+          source17 = source_meta(t17, 'https://maciektora-hue.github.io/cv/seventeen-and-seventeen/')
+          sourcecv = source_meta(tcv, 'https://maciektora-hue.github.io/cv/cv/')
+
+          # Publiczne kopie mają stabilne, niewersjonowane URL-e i są kanoniczne.
+          def public_meta(text, canonical):
+              marker = '<meta name="viewport"'
+              pos = text.find(marker)
+              assert pos >= 0
+              line_end = text.find('>', pos) + 1
+              inject = f'\n<link rel="canonical" href="{canonical}">'
+              return text[:line_end] + inject + text[line_end:]
+
+          public17_text = public_meta(t17, 'https://maciektora-hue.github.io/cv/seventeen-and-seventeen/')
+          publiccv_text = public_meta(tcv, 'https://maciektora-hue.github.io/cv/cv/')
+
+          new_17.write_text(source17, encoding='utf-8')
+          new_cv.write_text(sourcecv, encoding='utf-8')
+          public_17.parent.mkdir(parents=True, exist_ok=True)
+          public_cv.parent.mkdir(parents=True, exist_ok=True)
+          public_17.write_text(public17_text, encoding='utf-8')
+          public_cv.write_text(publiccv_text, encoding='utf-8')
+
+          # Landing page: żadnych wersjonowanych nazw w publicznych linkach.
+          x = landing.read_text(encoding='utf-8')
+          old17href = 'CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_03-2026-09-07.html'
+          oldcvhref = 'CLAUDE_Maciej-Tora-AI-CV-v07_11-2026-09-01-1.html'
+          assert x.count(old17href) == 1
+          assert x.count(oldcvhref) == 1
+          x = x.replace(old17href, 'seventeen-and-seventeen/')
+          x = x.replace(oldcvhref, 'cv/')
+          landing.write_text(x, encoding='utf-8')
+
+          # Audyt po zapisie, PRZED skasowaniem poprzednich wersji.
+          for p, expected in ((new_17,100),(public_17,100),(new_cv,14),(public_cv,14)):
+              reread = p.read_text(encoding='utf-8')
+              h, ids, refs = audit_document(reread, expected)
+              print(f'OK {p}: headings={h}, heading_ids={ids}, fragment_links={refs}')
+
+          assert 'v08_03' not in x and 'v07_11' not in x
+          assert 'CLAUDE_' not in re.search(r'<section class="routes".*?</section>', x, flags=re.S).group(0)
+          assert 'href="cv/"' in x
+          assert 'href="seventeen-and-seventeen/"' in x
+          assert '<meta name="robots" content="noindex">' in new_17.read_text(encoding='utf-8')
+          assert '<meta name="robots" content="noindex">' in new_cv.read_text(encoding='utf-8')
+          assert '<meta name="robots" content="noindex">' not in public_17.read_text(encoding='utf-8')
+          assert '<meta name="robots" content="noindex">' not in public_cv.read_text(encoding='utf-8')
+
+          # Dopiero po pełnej weryfikacji nowych wersji usuwamy bezpośrednio poprzednie.
+          old_17.unlink()
+          old_cv.unlink()
+
+          print('17x17 legacy aliases preserved:', len(legacy17))
+          print('CV legacy aliases preserved:', len(legacycv))
+          print('PUBLIC CV: /cv/cv/')
+          print('PUBLIC 17x17: /cv/seventeen-and-seventeen/')
+          print('DEEP LINK example: /cv/cv/#experience')
+          print('DEEP LINK example: /cv/seventeen-and-seventeen/#ai-enablement')
+          print('SUCCESS')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cv/
+          git commit -m "CV: dodaj semantyczne anchory i stale publiczne URL-e"
+          git push
