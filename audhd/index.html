@@ -34,7 +34,7 @@
 
     a { color: var(--gold); }
     a:hover { color: #f2d98d; }
-    a:focus-visible, input:focus-visible {
+    a:focus-visible {
       outline: 3px solid var(--gold);
       outline-offset: 4px;
     }
@@ -200,31 +200,7 @@
     .model-links a:hover {
       border-color: var(--gold);
     }
-
-    .search-box {
-      margin: 30px 0 10px;
-    }
-
-    .search-box label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--gold-soft);
-      font-size: 0.92rem;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 13px 15px;
-      border: 1px solid var(--line);
-      border-radius: 0;
-      background: var(--green-deep);
-      color: var(--paper);
-      font: inherit;
-    }
-
-    .search-box input::placeholder { color: #aa9c76; }
-
-    .group {
+.group {
       padding-top: 48px;
     }
 
@@ -267,11 +243,7 @@
       font-weight: 700;
       text-underline-offset: 4px;
     }
-
-    .entry[hidden], .group[hidden] { display: none; }
-
-
-    .related-links {
+.related-links {
       display: flex;
       flex-wrap: wrap;
       gap: 7px 12px;
@@ -309,16 +281,7 @@
       content: "Bezpośrednio:";
       color: var(--gold-soft);
     }
-
-    .no-results {
-      display: none;
-      padding: 28px 0;
-      color: var(--gold);
-    }
-
-    .no-results.show { display: block; }
-
-    .credits {
+.credits {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 28px;
@@ -450,13 +413,7 @@
       <div class="page">
         <h2>Teksty i ich pytania</h2>
         <p class="section-note">Każdy opis mówi, po co otwierać dany plik, co jest w środku i gdzie leży jego właściwy ciężar. Nazwa sama tego nie załatwia. Nazwy są wyjątkowo dzielne dopiero wtedy, gdy ktoś wcześniej przeczytał wszystko za nie.</p>
-
-        <div class="search-box">
-          <label for="search">Szukaj w tytułach i opisach</label>
-          <input id="search" type="search" autocomplete="off" placeholder="Np. maskowanie, pamięć, relacje, diagnoza, IT">
-        </div>
-
-        <div class="group" data-group>
+<div class="group" data-group>
           <h3>Najpierw: czym to jest i jak działa</h3>
 
           <article class="entry" data-entry>
@@ -615,9 +572,7 @@
             <a href="CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html">Czytaj ↗</a>
           </article>
         </div>
-
-        <p class="no-results" id="no-results">Nic nie znaleziono. Albo tego tu nie ma, albo wyszukiwarka właśnie wystawiła pokaz literalizmu stosowanego.</p>
-      </div>
+</div>
     </section>
 
     <section id="autorzy">
@@ -644,38 +599,5 @@
   <footer>
     <div class="page">AuDHD · mapa tekstów</div>
   </footer>
-
-  <script>
-    (() => {
-      const search = document.querySelector('#search');
-      const entries = [...document.querySelectorAll('[data-entry]')];
-      const groups = [...document.querySelectorAll('[data-group]')];
-      const empty = document.querySelector('#no-results');
-
-      const normalize = value => value
-        .toLocaleLowerCase('pl')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
-
-      const update = () => {
-        const query = normalize(search.value.trim());
-        let anythingVisible = false;
-
-        entries.forEach(entry => {
-          const visible = !query || normalize(entry.textContent).includes(query);
-          entry.hidden = !visible;
-          anythingVisible ||= visible;
-        });
-
-        groups.forEach(group => {
-          group.hidden = ![...group.querySelectorAll('[data-entry]')].some(entry => !entry.hidden);
-        });
-
-        empty.classList.toggle('show', !anythingVisible);
-      };
-
-      search.addEventListener('input', update);
-    })();
-  </script>
 </body>
 </html>
