@@ -1,0 +1,29 @@
+name: Rozpakuj AuDHD ZIP
+
+on:
+  push:
+    paths:
+      - '.github/workflows/unzip-audhd.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rozpakuj ZIP
+        run: unzip -o audhd/audhd_do_wgrania.zip -d .
+
+      - name: Zapisz rozpakowany plik
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/audhd_opracowanie_v6_0_2026-07-01-2.html
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Rozpakuj duzy plik AuDHD"
+          git push
