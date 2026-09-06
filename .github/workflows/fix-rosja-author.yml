@@ -15,22 +15,27 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Popraw podpis w lewym gornym rogu
-        shell: python
+        shell: bash
         run: |
+          python - <<'PY'
           from pathlib import Path
           p = Path('rosja/index.html')
           s = p.read_text(encoding='utf-8')
           old = '''      <a class="brand" href="#start" aria-label="Rosyjska Kolumbryna — początek strony">
-        <strong>SOL</strong>
-        <span>publiczna brama korpusu</span>
-      </a>'''
+                  <strong>SOL</strong>
+                  <span>publiczna brama korpusu</span>
+                </a>'''
           new = '''      <a class="brand" href="#start" aria-label="Rosyjska Kolumbryna — początek strony">
-        <strong>Maciej Tora</strong>
-        <span>Rosyjska Kolumbryna</span>
-      </a>'''
+                  <strong>Maciej Tora</strong>
+                  <span>Rosyjska Kolumbryna</span>
+                </a>'''
+          if old not in s:
+              old = old.replace('                  ', '        ')
+              new = new.replace('                  ', '        ')
           if old not in s:
               raise SystemExit('Nie znaleziono starego podpisu')
           p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
 
       - name: Zapisz poprawke
         run: |
