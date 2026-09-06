@@ -1026,6 +1026,64 @@
       gap: 20px;
     }
 
+
+    .inline-ref {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.05em;
+      margin: 0 .08em;
+      padding: .08em .34em;
+      border: 1px solid var(--line);
+      color: var(--gold-hot);
+      background: rgba(226, 188, 88, .055);
+      font-family: var(--mono);
+      font-size: .82em;
+      font-weight: 850;
+      line-height: 1.35;
+      text-decoration: none;
+      vertical-align: .06em;
+      transition: color .15s ease, background .15s ease, border-color .15s ease, transform .15s ease;
+    }
+
+    .inline-ref:hover,
+    .inline-ref:focus-visible {
+      border-color: var(--gold);
+      color: var(--ink);
+      background: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .doc-code .inline-ref {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      font: inherit;
+      letter-spacing: inherit;
+      vertical-align: baseline;
+    }
+
+    .doc-code .inline-ref:hover,
+    .doc-code .inline-ref:focus-visible {
+      color: var(--paper);
+      background: transparent;
+      transform: none;
+    }
+
+    .ref-range {
+      display: inline-flex;
+      gap: .16em;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .ref-dot {
+      color: var(--gold-dim);
+      font-size: .72em;
+    }
     @media (max-width: 1040px) {
       .hero-grid { grid-template-columns: 1fr; align-items: start; }
       .start-panel { max-width: 670px; }
@@ -1163,7 +1221,7 @@
   <div class="freeze-strip">
     <div class="shell freeze-inner">
       <div class="freeze-label">Korpus zamrożony</div>
-      <p><strong>To nie jest kanał aktualności.</strong> A1 jest snapshotem na 31 marca 2026; następne dokumenty były zamrażane audytowo w miarę narastania materiału, żeby autor wreszcie przestał dopisywać „jeszcze tylko jedną rzecz”. Stan analityczny kończy się na końcu lipca. Mapa i ten indeks z 3 września organizują korpus — nie przemycają do niego późniejszej wiedzy tylnymi drzwiami.</p>
+      <p><strong>To nie jest kanał aktualności.</strong> <a class="inline-ref" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otworz A1">A1</a> jest snapshotem na 31 marca 2026; następne dokumenty były zamrażane audytowo w miarę narastania materiału, żeby autor wreszcie przestał dopisywać „jeszcze tylko jedną rzecz”. Stan analityczny kończy się na końcu lipca. Mapa i ten indeks z 3 września organizują korpus — nie przemycają do niego późniejszej wiedzy tylnymi drzwiami.</p>
     </div>
   </div>
 
@@ -1188,37 +1246,37 @@
           <article class="path">
             <div class="path-top"><span>≈ 46 minut</span><span>rdzeń</span></div>
             <h3>Model całego systemu</h3>
-            <p>A1: front, paliwo, finanse, infrastruktura, demografia, informacja, elity i bestiariusz ryzyka w jednym, niepokojąco spójnym organizmie.</p>
+            <p><a class="inline-ref" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otworz A1">A1</a>: front, paliwo, finanse, infrastruktura, demografia, informacja, elity i bestiariusz ryzyka w jednym, niepokojąco spójnym organizmie.</p>
             <a href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html">Czytaj A1 →</a>
           </article>
           <article class="path">
             <div class="path-top"><span>tryb pełny</span><span>kampania</span></div>
             <h3>Od punktów do hurtu</h3>
-            <p>A2 → A3 → A4: kronika uderzeń, geometria celów, ewolucja typologii i moment, gdy prognoza zaczyna doganiać rzeczywistość z łomem.</p>
+            <p><a class="inline-ref" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otworz A2">A2</a> → <a class="inline-ref" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html" title="Otworz A3">A3</a> → <a class="inline-ref" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otworz A4">A4</a>: kronika uderzeń, geometria celów, ewolucja typologii i moment, gdy prognoza zaczyna doganiać rzeczywistość z łomem.</p>
             <a href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html">Wejdź w A2 →</a>
           </article>
           <article class="path">
             <div class="path-top"><span>≈ 37 minut</span><span>falsyfikacja</span></div>
             <h3>Czy model przeżył?</h3>
-            <p>A5 → A6: rewizje, sygnały za i przeciw, rozdzielenie zapasu od strumienia oraz niezależne dojście do zaniku wolnych mocy rafineryjnych.</p>
+            <p><a class="inline-ref" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otworz A5">A5</a> → <a class="inline-ref" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otworz A6">A6</a>: rewizje, sygnały za i przeciw, rozdzielenie zapasu od strumienia oraz niezależne dojście do zaniku wolnych mocy rafineryjnych.</p>
             <a href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html">Zacznij audyt →</a>
           </article>
           <article class="path">
             <div class="path-top"><span>≈ 25 minut</span><span>koniec państwa</span></div>
             <h3>Fenomenologia śmierci</h3>
-            <p>A7 → D5: osiem trybów końca państw, rosyjskie spoiwa lojalności i funkcja celu człowieka, który nie ma już bezpiecznego „potem”.</p>
+            <p><a class="inline-ref" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otworz A7">A7</a> → <a class="inline-ref" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html" title="Otworz D5">D5</a>: osiem trybów końca państw, rosyjskie spoiwa lojalności i funkcja celu człowieka, który nie ma już bezpiecznego „potem”.</p>
             <a href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html">Czytaj A7 →</a>
           </article>
           <article class="path">
             <div class="path-top"><span>≈ 46 minut</span><span>narzędzia</span></div>
             <h3>Legitymizacja i memetyka</h3>
-            <p>D1 → D2 → D3: Dark Legitimacy, Disinfolklore i kontrolowane przesłuchanie teorii, zanim metafizyczny paw zdąży przejąć laboratorium.</p>
+            <p><a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz D1">D1</a> → <a class="inline-ref" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otworz D2">D2</a> → <a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz D3">D3</a>: Dark Legitimacy, Disinfolklore i kontrolowane przesłuchanie teorii, zanim metafizyczny paw zdąży przejąć laboratorium.</p>
             <a href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html">Otwórz D1 →</a>
           </article>
           <article class="path">
             <div class="path-top"><span>≈ 22 minuty</span><span>Jałta / Iran</span></div>
             <h3>Od rozpadu do porządku</h3>
-            <p>D6 → D7: Iran, Aras, Zagros, Kurdowie, Azerowie, Hanza 2.0 i nieufność potraktowana jako stabilizator, a nie wada charakteru.</p>
+            <p><a class="inline-ref" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otworz D6">D6</a> → <a class="inline-ref" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otworz D7">D7</a>: Iran, Aras, Zagros, Kurdowie, Azerowie, Hanza 2.0 i nieufność potraktowana jako stabilizator, a nie wada charakteru.</p>
             <a href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html">Wejdź w Jałtę →</a>
           </article>
           <article class="path">
@@ -1275,7 +1333,7 @@
           </article>
 
           <article class="doc" data-groups="system kampania koniec" data-search="A1 kolumbryna synteza system rosja front opl rafinerie paliwo finanse infrastruktura demografia elity bestiariusz nuklearny klimat chiny putin">
-            <div class="doc-head"><span class="doc-code">A1</span><span class="doc-state">zamrożone · 31.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otworz A1">A1</a></span><span class="doc-state">zamrożone · 31.03.2026</span></div>
             <h3>Kolumbryna</h3>
             <p>Rdzeń całego przedsięwzięcia. Wielka synteza <strong>materialnych, poznawczych i politycznych ograniczeń systemu</strong>: od spirali OPL i rafinerii po elity, atom i 24 szare nosorożce.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały A1">
@@ -1292,7 +1350,7 @@
           </article>
 
           <article class="doc" data-groups="kampania system" data-search="A2 maj gradually suddenly kronika uderzeń Ukraina Rosja cele rafinerie OPL Krym Budanow język sygnalizacja strategia Nyquist OODA klimat logistyka">
-            <div class="doc-head"><span class="doc-code">A2</span><span class="doc-state">zamrożone · 25.06.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otworz A2">A2</a></span><span class="doc-state">zamrożone · 25.06.2026</span></div>
             <h3>Gradually stało się suddenly</h3>
             <p>Kronika kampanii uderzeniowej i jej anatomia. <strong>Nie kolejna lista pożarów</strong>, tylko odtwarzanie intencji przez tempo, geografię, dobór klas celów, absencje i odpowiedzi przeciwnika.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały A2">
@@ -1310,7 +1368,7 @@
           </article>
 
           <article class="doc" data-groups="kampania" data-search="A3 lista celów uderzenia daty miejsca infrastruktura baza danych kampania geografia Ukraina Rosja">
-            <div class="doc-head"><span class="doc-code">A3</span><span class="doc-state">zamrożone · 25.06.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html" title="Otworz A3">A3</a></span><span class="doc-state">zamrożone · 25.06.2026</span></div>
             <h3>Lista celów</h3>
             <p>Warstwa ewidencyjna kampanii: daty, lokalizacje, klasy i sekwencje uderzeń. Ten plik robi za <strong>kręgosłup obserwacyjny</strong>, żeby teoria nie odleciała na miotle z własnego zachwytu.</p>
             <nav class="doc-sections" aria-label="Wybrane okresy A3">
@@ -1327,7 +1385,7 @@
           </article>
 
           <article class="doc" data-groups="kampania system" data-search="A4 lipiec przejście na hurt marketplace banki milczenie strategiczne Zachodu Budanow Zełenski Kasparow zapaść materia sens Chiny">
-            <div class="doc-head"><span class="doc-code">A4</span><span class="doc-state">stan 31.07 · edycja 01.08</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otworz A4">A4</a></span><span class="doc-state">stan 31.07 · edycja 01.08</span></div>
             <h3>Lipiec 2026. Przejście na hurt</h3>
             <p>Moment, gdy kampania przestaje skubać elementy i zaczyna obrabiać całe klasy zdolności. Marketplace’y, banki, język przywódców, milczenie Zachodu i <strong>zapaść w czasie teraźniejszym ciągłym</strong>.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały A4">
@@ -1345,7 +1403,7 @@
           </article>
 
           <article class="doc" data-groups="audyt system" data-search="A5 audyt dwie rewizje model kontra rzeczywistość sygnały falsyfikacja 24 nosorożce stan 31 maja">
-            <div class="doc-head"><span class="doc-code">A5</span><span class="doc-state">zamrożone · 23.06.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otworz A5">A5</a></span><span class="doc-state">zamrożone · 23.06.2026</span></div>
             <h3>Kolumbryna kontra rzeczywistość</h3>
             <p>Dwie rewizje modelu i licznik nosorożców. Dokument sprawdza, <strong>co zostało potwierdzone, co wymaga korekty, a co nadal siedzi pod stołem</strong> i udaje, że nie istnieje.</p>
             <div class="doc-meta"><span>51 KB</span><span>4,3 tys. słów</span><span>v03.00</span></div>
@@ -1353,7 +1411,7 @@
           </article>
 
           <article class="doc" data-groups="audyt system kampania" data-search="A6 zapas kontra strumień paliwo rafinerie wolne moce spare capacity zero decyzje Putin elity strategia przepływ">
-            <div class="doc-head"><span class="doc-code">A6</span><span class="doc-state">zamrożone · 03.07.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otworz A6">A6</a></span><span class="doc-state">zamrożone · 03.07.2026</span></div>
             <h3>Zapas kontra strumień</h3>
             <p>Dwie połówki jednego problemu: układ paliwowy oraz pułapka jedynego decydenta. Tu model dochodzi do chwili, w której <strong>wyłączone moce rafineryjne zjadają całą rezerwę</strong> — bez czekania, aż telewizja poda gotowy wynik.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały A6">
@@ -1370,7 +1428,7 @@
           </article>
 
           <article class="doc" data-groups="koniec system" data-search="A7 jak kończą się państwa fenomenologia typologia III Rzesza ZSRR Austro Węgry Rosja patron klient uchodźcy spoiwo elity rozpad">
-            <div class="doc-head"><span class="doc-code">A7</span><span class="doc-state">zamrożone · 28.06.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otworz A7">A7</a></span><span class="doc-state">zamrożone · 28.06.2026</span></div>
             <h3>Jak kończą się państwa</h3>
             <p>Fenomenologia zamiast jednej magicznej przyczyny: osiem trybów końca, filtr rosyjski, hierarchia patron–klient, trzy warstwy spoiwa i <strong>rozpad jako przeliczenie kalkulacji</strong>.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały A7">
@@ -1387,7 +1445,7 @@
           </article>
 
           <article class="doc" data-groups="narzedzia system" data-search="D1 dark legitimacy Roman Horbyk autorytaryzm legitymizacja Rosja Ukraina korupcja okrucieństwo słabość władza">
-            <div class="doc-head"><span class="doc-code">D1</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz D1">D1</a></span><span class="doc-state">zamrożone · 25.03.2026</span></div>
             <h3>Dark Legitimacy</h3>
             <p>Tekst Romana Horbyka i klucz do systemu, w którym zło nie kompromituje władzy, bo jest oczekiwane. <strong>Kompromituje ją dopiero słabość</strong>. Bardzo niewygodny śrubokręt; pasuje do zbyt wielu śrub.</p>
             <div class="doc-meta"><span>44 KB</span><span>6,1 tys. słów</span><span>v01.00</span></div>
@@ -1395,9 +1453,9 @@
           </article>
 
           <article class="doc" data-groups="narzedzia" data-search="D2 Disinfolklore Stephen Douglas memy archetypy trolle folklor accusation mirror prowokacja witch switch mana modele odporne na dane">
-            <div class="doc-head"><span class="doc-code">D2</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otworz D2">D2</a></span><span class="doc-state">zamrożone · 25.03.2026</span></div>
             <h3>Disinfolklore — kompilacja tez</h3>
-            <p>Dwanaście narzędzi, archetypy, oskarżenie w lustrze, Witch Switch i modele odporne na dane. Obok użytecznych ostrzy leży też <strong>mana i metafizyczny paw</strong>, dlatego istnieje D3.</p>
+            <p>Dwanaście narzędzi, archetypy, oskarżenie w lustrze, Witch Switch i modele odporne na dane. Obok użytecznych ostrzy leży też <strong>mana i metafizyczny paw</strong>, dlatego istnieje <a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz D3">D3</a>.</p>
             <nav class="doc-sections" aria-label="Wybrane rozdziały D2">
               <span>Skocz do rozdziału</span>
               <a href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html#s3">12 narzędzi</a>
@@ -1411,7 +1469,7 @@
           </article>
 
           <article class="doc" data-groups="narzedzia audyt" data-search="D3 Disinfolklore SWOT advocatus diaboli przesłuchanie krytyka test teoria falsyfikacja Stephen Douglas">
-            <div class="doc-head"><span class="doc-code">D3</span><span class="doc-state">zamrożone · 25.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz D3">D3</a></span><span class="doc-state">zamrożone · 25.03.2026</span></div>
             <h3>Disinfolklore na przesłuchaniu</h3>
             <p>SWOT, advocatus diaboli i przesłuchanie biegłego. Czyli etap, w którym fascynująca koncepcja zostaje <strong>posadzona pod lampą i pozbawiona prawa do własnej muzyki wejściowej</strong>.</p>
             <div class="doc-meta"><span>36 KB</span><span>2,9 tys. słów</span><span>v01.00</span></div>
@@ -1419,7 +1477,7 @@
           </article>
 
           <article class="doc" data-groups="narzedzia system" data-search="D4 taksonomia rosyjskich samobójstw defenestracja okna broń trucizny więzienie samolot śmierć elity sektory budżet niepewność Monty Python">
-            <div class="doc-head"><span class="doc-code">D4</span><span class="doc-state">zamrożone · 13.06.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html" title="Otworz D4">D4</a></span><span class="doc-state">zamrożone · 13.06.2026</span></div>
             <h3>Taksonomia rosyjskiego „samobójstwa”</h3>
             <p>65 przypadków z ponad 75 szacowanych: okna, broń, trucizny, katastrofy i kombinacje, których Monty Python nie przyjąłby bez poprawek. Sednem są <strong>sektory, pieniądze, timing i niepewność jako narzędzie władzy</strong>.</p>
             <div class="doc-meta"><span>64 KB</span><span>6,0 tys. słów</span><span>v08.01</span></div>
@@ -1427,7 +1485,7 @@
           </article>
 
           <article class="doc" data-groups="koniec system" data-search="D5 Putin cornered animal szczur narożnik elity majątek scenariusze desperacji sukcesja nuklearne NATO śmierć">
-            <div class="doc-head"><span class="doc-code">D5</span><span class="doc-state">zamrożone · 24.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html" title="Otworz D5">D5</a></span><span class="doc-state">zamrożone · 24.03.2026</span></div>
             <h3>Putin — cornered animal</h3>
             <p>Nie biografia i nie rachunek konta. Analiza opcji człowieka, dla którego porażka państwa i osobiste przeżycie rozchodzą się w przeciwne strony. <strong>Dziewięć scenariuszy desperacji</strong> oraz pytanie o odłączenie elit.</p>
             <div class="doc-meta"><span>24 KB</span><span>2,1 tys. słów</span><span>v03.00</span></div>
@@ -1435,7 +1493,7 @@
           </article>
 
           <article class="doc" data-groups="jalta koniec" data-search="D6 Jałta 3 Iran rozpad państwowości IRGC Aras Zagros Kurdowie Azerowie Hanza 2 koncepcja operacyjna aktorzy ryzyka">
-            <div class="doc-head"><span class="doc-code">D6</span><span class="doc-state">zamrożone · 08.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otworz D6">D6</a></span><span class="doc-state">zamrożone · 08.03.2026</span></div>
             <h3>Jałta 3.0 — analiza strategiczna</h3>
             <p>Rozpad irańskiej państwowości, geografia operacyjna, strefy wpływu, aktorzy, ryzyka i <strong>porządek wyłaniający się bez jednej konferencji oraz jednego wszechmocnego architekta</strong>.</p>
             <div class="doc-meta"><span>32 KB</span><span>2,7 tys. słów</span><span>v01.00</span></div>
@@ -1443,7 +1501,7 @@
           </article>
 
           <article class="doc" data-groups="jalta narzedzia" data-search="D7 Jałta 3 apendyks AuDHD styl decyzyjny tożsamość narody bez państwa nieufność stabilizator równowaga Nasha epistemologia">
-            <div class="doc-head"><span class="doc-code">D7</span><span class="doc-state">zamrożone · 08.03.2026</span></div>
+            <div class="doc-head"><span class="doc-code"><a class="inline-ref" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otworz D7">D7</a></span><span class="doc-state">zamrożone · 08.03.2026</span></div>
             <h3>Jałta 3.0 — apendyks</h3>
             <p>Warstwa kognitywna, tożsamościowa, matematyczna i epistemologiczna. Najbardziej przewrotna teza: <strong>nieufność może stabilizować sojusz</strong>, jeśli każdy projektuje przetrwanie bez patrona.</p>
             <div class="doc-meta"><span>28 KB</span><span>2,6 tys. słów</span><span>v01.00</span></div>
@@ -1538,21 +1596,21 @@
         </div>
 
         <div class="timeline">
-          <div class="moment"><time datetime="2026-03-08">08.03.2026</time><div><strong>D6 i D7</strong> — Jałta 3.0: analiza strategiczna i apendyks.</div></div>
+          <div class="moment"><time datetime="2026-03-08">08.03.2026</time><div><strong><a class="inline-ref" href="d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html" title="Otworz D6">D6</a> i <a class="inline-ref" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otworz D7">D7</a></strong> — Jałta 3.0: analiza strategiczna i apendyks.</div></div>
           <div class="moment"><time datetime="2026-03-17">17.03.2026</time><div><strong>E1 i E2</strong> — końcowe edycje dwóch odnóg energetycznych.</div></div>
-          <div class="moment"><time datetime="2026-03-24">24.03.2026</time><div><strong>D5</strong> — Putin, cornered animal edition.</div></div>
-          <div class="moment"><time datetime="2026-03-25">25.03.2026</time><div><strong>D1–D3</strong> — Dark Legitimacy i pakiet Disinfolklore wraz z przesłuchaniem.</div></div>
-          <div class="moment"><time datetime="2026-03-31">31.03.2026</time><div><strong>A1</strong> — Kolumbryna właściwa zamrożona jako marcowy snapshot.</div></div>
-          <div class="moment"><time datetime="2026-06-13">13.06.2026</time><div><strong>D4</strong> — taksonomia rosyjskich „samobójstw”.</div></div>
-          <div class="moment"><time datetime="2026-06-23">23.06.2026</time><div><strong>A5</strong> — dwie rewizje modelu.</div></div>
-          <div class="moment"><time datetime="2026-06-25">25.06.2026</time><div><strong>A2 i A3</strong> — kronika kampanii oraz lista celów.</div></div>
-          <div class="moment"><time datetime="2026-06-28">28.06.2026</time><div><strong>A7</strong> — fenomenologia końca państw.</div></div>
-          <div class="moment"><time datetime="2026-07-03">03.07.2026</time><div><strong>A6</strong> — zapas kontra strumień.</div></div>
-          <div class="moment"><time datetime="2026-07-31">31.07.2026</time><div><strong>A4</strong> — stan na koniec lipca; plik domknięty redakcyjnie 1 sierpnia.</div></div>
+          <div class="moment"><time datetime="2026-03-24">24.03.2026</time><div><strong><a class="inline-ref" href="d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html" title="Otworz D5">D5</a></strong> — Putin, cornered animal edition.</div></div>
+          <div class="moment"><time datetime="2026-03-25">25.03.2026</time><div><strong><span class="ref-range"><a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz <a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz D1">D1</a>"><a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz D1">D1</a></a><span class="ref-dot">·</span><a class="inline-ref" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otworz <a class="inline-ref" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otworz D2">D2</a>"><a class="inline-ref" href="d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html" title="Otworz D2">D2</a></a><span class="ref-dot">·</span><a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz <a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz D3">D3</a>"><a class="inline-ref" href="d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html" title="Otworz D3">D3</a></a></span></strong> — Dark Legitimacy i pakiet Disinfolklore wraz z przesłuchaniem.</div></div>
+          <div class="moment"><time datetime="2026-03-31">31.03.2026</time><div><strong><a class="inline-ref" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otworz A1">A1</a></strong> — Kolumbryna właściwa zamrożona jako marcowy snapshot.</div></div>
+          <div class="moment"><time datetime="2026-06-13">13.06.2026</time><div><strong><a class="inline-ref" href="d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html" title="Otworz D4">D4</a></strong> — taksonomia rosyjskich „samobójstw”.</div></div>
+          <div class="moment"><time datetime="2026-06-23">23.06.2026</time><div><strong><a class="inline-ref" href="a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html" title="Otworz A5">A5</a></strong> — dwie rewizje modelu.</div></div>
+          <div class="moment"><time datetime="2026-06-25">25.06.2026</time><div><strong><a class="inline-ref" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otworz A2">A2</a> i <a class="inline-ref" href="a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html" title="Otworz A3">A3</a></strong> — kronika kampanii oraz lista celów.</div></div>
+          <div class="moment"><time datetime="2026-06-28">28.06.2026</time><div><strong><a class="inline-ref" href="a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html" title="Otworz A7">A7</a></strong> — fenomenologia końca państw.</div></div>
+          <div class="moment"><time datetime="2026-07-03">03.07.2026</time><div><strong><a class="inline-ref" href="a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html" title="Otworz A6">A6</a></strong> — zapas kontra strumień.</div></div>
+          <div class="moment"><time datetime="2026-07-31">31.07.2026</time><div><strong><a class="inline-ref" href="a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html" title="Otworz A4">A4</a></strong> — stan na koniec lipca; plik domknięty redakcyjnie 1 sierpnia.</div></div>
           <div class="moment"><time datetime="2026-09-03">03.09.2026</time><div><strong>SOL</strong> — mapa korpusu i publiczny indeks. Nawigacja, nie aktualizacja analizy.</div></div>
         </div>
 
-        <p class="timeline-note"><strong>Ważne:</strong> data zamrożenia nie jest datą poczęcia dokumentu. D1 i D7 były rozwijane <em>w trakcie</em> budowy A1, nie przed nią. Próba ułożenia całego procesu wyłącznie po nazwach plików dałaby bardzo elegancką i kompletnie fałszywą historię — czyli produkt klasy premium.</p>
+        <p class="timeline-note"><strong>Ważne:</strong> data zamrożenia nie jest datą poczęcia dokumentu. <a class="inline-ref" href="d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html" title="Otworz D1">D1</a> i <a class="inline-ref" href="d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html" title="Otworz D7">D7</a> były rozwijane <em>w trakcie</em> budowy <a class="inline-ref" href="a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html" title="Otworz A1">A1</a>, nie przed nią. Próba ułożenia całego procesu wyłącznie po nazwach plików dałaby bardzo elegancką i kompletnie fałszywą historię — czyli produkt klasy premium.</p>
       </div>
     </section>
 
@@ -1602,7 +1660,7 @@
         <h2 id="closing-title">Rozważ wszystkie procesy. Pozwól sprzecznościom się pozagryzać. Z tego, co ocaleje, zbuduj model.</h2>
       </div>
       <div>
-        <p>Jeżeli nie wiesz, gdzie zacząć, mapa jest wejściem. Jeżeli już wiesz — prawdopodobnie i tak skończysz w A2, bo ma 680 KB i ambicje drobnego kontynentu.</p>
+        <p>Jeżeli nie wiesz, gdzie zacząć, mapa jest wejściem. Jeżeli już wiesz — prawdopodobnie i tak skończysz w <a class="inline-ref" href="a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html" title="Otworz A2">A2</a>, bo ma 680 KB i ambicje drobnego kontynentu.</p>
         <a href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Do mapy tematów →</a>
       </div>
     </div>
