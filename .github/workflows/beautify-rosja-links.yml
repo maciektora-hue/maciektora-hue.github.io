@@ -1,0 +1,119 @@
+name: Ulepsz linki Rosja
+
+on:
+  push:
+    paths:
+      - '.github/workflows/beautify-rosja-links.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ulepsz linki w index i mapie
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('rosja')
+          idxp = root / 'index.html'
+          mapp = root / 'SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html'
+
+          # INDEX
+          idx = idxp.read_text(encoding='utf-8')
+          old = '''      <nav class="nav" aria-label="Główna nawigacja">\n        <a href="#sciezki">Ścieżki</a>\n        <a href="#dokumenty">Dokumenty</a>'''
+          new = '''      <nav class="nav" aria-label="Główna nawigacja">\n        <a class="nav-map" href="SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html">Mapa tematów ↗</a>\n        <a href="#sciezki">Ścieżki</a>\n        <a href="#dokumenty">Dokumenty</a>'''
+          if old in idx:
+              idx = idx.replace(old, new, 1)
+
+          old_css = '''    .nav a:hover { color: var(--gold-hot); }'''
+          new_css = '''    .nav a:hover { color: var(--gold-hot); }\n\n    .nav .nav-map {\n      padding: 7px 10px;\n      border: 1px solid var(--gold-dim);\n      color: var(--gold-hot);\n      background: rgba(226, 188, 88, .06);\n    }\n\n    .nav .nav-map:hover {\n      color: var(--ink);\n      background: var(--gold);\n    }'''
+          if old_css in idx:
+              idx = idx.replace(old_css, new_css, 1)
+
+          old_css2 = '''    .doc-sections a {\n      color: var(--paper-dim);\n      text-decoration-color: var(--line);\n      text-decoration-thickness: 1px;\n      text-underline-offset: 3px;\n    }\n\n    .doc-sections a:hover { color: var(--gold-hot); }'''
+          new_css2 = '''    .doc-sections a {\n      display: inline-flex;\n      align-items: center;\n      min-height: 28px;\n      padding: 4px 8px;\n      border: 1px solid var(--line-soft);\n      color: var(--paper-dim);\n      background: rgba(13, 56, 41, .22);\n      text-decoration: none;\n      transition: border-color .16s ease, color .16s ease, background .16s ease, transform .16s ease;\n    }\n\n    .doc-sections a:hover {\n      border-color: var(--gold-dim);\n      color: var(--gold-hot);\n      background: var(--bottle);\n      transform: translateY(-1px);\n    }'''
+          if old_css2 in idx:
+              idx = idx.replace(old_css2, new_css2, 1)
+
+          old_css3 = '''    .doc-link:hover { background: var(--bottle); }'''
+          new_css3 = '''    .doc-link { transition: background .16s ease, color .16s ease; }\n    .doc-link span:last-child { transition: transform .16s ease; }\n    .doc-link:hover { background: var(--bottle); }\n    .doc-link:hover span:last-child { transform: translateX(4px); }'''
+          if old_css3 in idx:
+              idx = idx.replace(old_css3, new_css3, 1)
+
+          idxp.write_text(idx, encoding='utf-8')
+
+          # MAPA
+          text = mapp.read_text(encoding='utf-8')
+          if '.map-nav {' not in text:
+              nav_css = '''\n    .map-nav {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 9px;\n      margin: 0 0 34px;\n      padding: 0 0 22px;\n      border-bottom: 1px solid var(--green-line);\n      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n      font-size: .76rem;\n      font-weight: 800;\n      letter-spacing: .045em;\n      text-transform: uppercase;\n    }\n\n    .map-nav a,\n    .ref-chip,\n    .footer-link {\n      color: var(--amber);\n      text-decoration: none;\n    }\n\n    .map-nav a {\n      padding: 8px 11px;\n      border: 1px solid var(--green-line);\n      background: rgba(8, 35, 26, .62);\n    }\n\n    .map-nav a:first-child {\n      border-color: var(--amber-soft);\n      background: rgba(212, 170, 67, .08);\n    }\n\n    .map-nav a:hover,\n    .map-nav a:focus-visible {\n      border-color: var(--amber);\n      color: var(--green-abyss);\n      background: var(--amber);\n    }\n\n    .refs {\n      display: inline-flex;\n      flex-wrap: wrap;\n      gap: 5px;\n      align-items: baseline;\n      margin-left: .28em;\n      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n      font-size: .73rem;\n      font-style: normal;\n      vertical-align: baseline;\n    }\n\n    .refs-label {\n      color: var(--text-muted);\n      font-size: .68rem;\n      letter-spacing: .035em;\n      text-transform: uppercase;\n    }\n\n    .ref-chip {\n      display: inline-flex;\n      align-items: center;\n      min-width: 31px;\n      justify-content: center;\n      padding: 2px 6px;\n      border: 1px solid var(--green-line);\n      background: rgba(8, 35, 26, .7);\n      font-weight: 850;\n      line-height: 1.45;\n      transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease;\n    }\n\n    .ref-chip:hover,\n    .ref-chip:focus-visible {\n      border-color: var(--amber);\n      color: var(--green-abyss);\n      background: var(--amber);\n      transform: translateY(-1px);\n    }\n\n    .footer-link {\n      display: inline-block;\n      margin-top: 12px;\n      padding-bottom: 2px;\n      border-bottom: 1px solid var(--amber-soft);\n      font-size: .86rem;\n      font-weight: 700;\n    }\n'''
+              text = text.replace('    @media (max-width: 620px) {', nav_css + '\n    @media (max-width: 620px) {', 1)
+
+          if 'class="map-nav"' not in text:
+              text = text.replace('<main>', '''<main>\n  <nav class="map-nav" aria-label="Nawigacja między mapą a indeksem">\n    <a href="index.html">← Strona główna</a>\n    <a href="index.html#dokumenty">Wszystkie dokumenty</a>\n    <a href="index.html#sciezki">Ścieżki czytania</a>\n  </nav>''', 1)
+
+          mapping = {
+            'A1':'a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html',
+            'A2':'a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html',
+            'A3':'a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html',
+            'A4':'a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html',
+            'A5':'a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html',
+            'A6':'a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html',
+            'A7':'a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html',
+            'D1':'d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html',
+            'D2':'d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html',
+            'D3':'d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html',
+            'D4':'d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html',
+            'D5':'d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html',
+            'D6':'d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html',
+            'D7':'d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html',
+            'E1':'ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html',
+            'E2':'monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html',
+          }
+
+          def expand_token(tok):
+              tok = tok.strip().replace('Ropa…','E1').replace('Monopole…','E2')
+              m = re.fullmatch(r'([AD])(\d)[–-]([AD])?(\d)', tok)
+              if m:
+                  p1,n1,p2,n2 = m.groups(); p2 = p2 or p1
+                  if p1 == p2:
+                      return [f'{p1}{i}' for i in range(int(n1), int(n2)+1)]
+              return [tok]
+
+          def repl(m):
+              toks = []
+              for part in m.group(1).split(','):
+                  toks.extend(expand_token(part))
+              toks = [t for t in toks if t in mapping]
+              if not toks:
+                  return m.group(0)
+              seen = []
+              for t in toks:
+                  if t not in seen: seen.append(t)
+              links = ''.join(f'<a class="ref-chip" href="{mapping[t]}" title="Otwórz {t}">{t}</a>' for t in seen)
+              return f'<span class="refs" aria-label="Dokumenty źródłowe"><span class="refs-label">Dokumenty:</span>{links}</span>'
+
+          if 'class="ref-chip"' not in text:
+              text = re.sub(r'<em>\(([^<]+)\)</em>', repl, text)
+
+          if 'Wróć do strony głównej Rosyjskiej Kolumbryny' not in text:
+              text = text.replace('  </footer>\n</main>', '    <a class="footer-link" href="index.html">← Wróć do strony głównej Rosyjskiej Kolumbryny</a>\n  </footer>\n</main>', 1)
+
+          mapp.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Zapisz zmiany
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rosja/index.html rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Ulepsz linki w indeksie i mapie Rosji"
+          git push
