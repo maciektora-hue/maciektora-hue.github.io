@@ -1,0 +1,73 @@
+name: Usun wyszukiwarke z indexu AuDHD
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-audhd-search.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  remove-search:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Usun wyszukiwarke i jej kod
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('audhd/index.html')
+          s = p.read_text(encoding='utf-8')
+          original = s
+
+          s = s.replace('a:focus-visible, input:focus-visible {', 'a:focus-visible {')
+
+          s, n_css = re.subn(
+              r'\n\s*\.search-box \{.*?\.search-box input::placeholder \{[^}]*\}\s*',
+              '\n', s, flags=re.S
+          )
+          s, n_hidden = re.subn(
+              r'\n\s*\.entry\[hidden\], \.group\[hidden\] \{ display: none; \}\s*',
+              '\n', s
+          )
+          s, n_no_css = re.subn(
+              r'\n\s*\.no-results \{.*?\.no-results\.show \{ display: block; \}\s*',
+              '\n', s, flags=re.S
+          )
+          s, n_box = re.subn(
+              r'\n\s*<div class="search-box">.*?</div>\s*',
+              '\n', s, flags=re.S
+          )
+          s, n_no_html = re.subn(
+              r'\n\s*<p class="no-results" id="no-results">.*?</p>\s*',
+              '\n', s, flags=re.S
+          )
+          s, n_script = re.subn(
+              r'\n\s*<script>.*?</script>\s*',
+              '\n', s, flags=re.S
+          )
+
+          if n_box != 1:
+              raise SystemExit(f'Nie znaleziono dokladnie jednej wyszukiwarki: {n_box}')
+          if n_script != 1:
+              raise SystemExit(f'Nie znaleziono dokladnie jednego skryptu wyszukiwarki: {n_script}')
+          if s == original:
+              raise SystemExit('Brak zmian')
+
+          p.write_text(s, encoding='utf-8')
+          print('Usunieto wyszukiwarke, komunikat braku wynikow, JS i powiazany CSS.')
+          PY
+
+      - name: Zapisz zmiane
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "AuDHD: usun wyszukiwarke z indexu"
+          git push
