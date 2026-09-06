@@ -24,16 +24,7 @@ jobs:
           s = p.read_text(encoding='utf-8')
 
           needle = '<p class="result">Wynikiem nie jest średnia. Bywa nim cykl: bezpieczeństwo → nuda → skok → przeciążenie → powrót. Otoczenie widzi niekonsekwencję. Od środka widać dwa poprawne polecenia wykonujące się naraz.</p>'
-          addition = '''<p class="result">Wynikiem nie jest średnia. Bywa nim cykl: bezpieczeństwo → nuda → skok → przeciążenie → powrót. Otoczenie widzi niekonsekwencję. Od środka widać dwa poprawne polecenia wykonujące się naraz.</p>
-        <nav class="model-links" aria-label="Czytaj dalej o dwóch regulatorach">
-          <span>Czytaj dalej:</span>
-          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#3-wewnetrzny-konflikt-rutyna-vs-nowosc">Rutyna i nowość</a>
-          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#18-paradoks-porzadku-i-chaosu">Porządek i chaos</a>
-          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#9-cykliczne-wypalenia-przypominajace-depresje">Wypalenia</a>
-          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#32-pamiec-%65%6E%63%79%6B%6C%6F%70%65%64%79%63%7A%6E%61-obok-pamieci-zlotej-rybki">Dwie pamięci</a>
-          <a href="63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html">Rdzeń czy maskowanie</a>
-          <a href="audhd-po-ludzku-v02_02-2026-07-09.html">AuDHD po ludzku</a>
-        </nav>'''
+          addition = needle + '\n        <nav class="model-links" aria-label="Czytaj dalej o dwóch regulatorach">\n          <span>Czytaj dalej:</span>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#3-wewnetrzny-konflikt-rutyna-vs-nowosc">Rutyna i nowość</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#18-paradoks-porzadku-i-chaosu">Porządek i chaos</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#9-cykliczne-wypalenia-przypominajace-depresje">Wypalenia</a>\n          <a href="audhd_opracowanie_v6_0_2026-07-01-2.html#32-pamiec-%65%6E%63%79%6B%6C%6F%70%65%64%79%63%7A%6E%61-obok-pamieci-zlotej-rybki">Dwie pamięci</a>\n          <a href="63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html">Rdzeń czy maskowanie</a>\n          <a href="audhd-po-ludzku-v02_02-2026-07-09.html">AuDHD po ludzku</a>\n        </nav>'
 
           if 'class="model-links"' in s:
               raise SystemExit('Linki modelu juz istnieja')
