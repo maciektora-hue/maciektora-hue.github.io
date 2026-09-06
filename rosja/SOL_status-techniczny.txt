@@ -1,0 +1,13 @@
+ROSJA — STATUS TECHNICZNY
+Data: 2026-09-06
+
+Stan po audycie rosja/index.html:
+- poprawione kapsulki / pudełka dla A1–A7, D1–D7, E1–E2,
+- linki w sekcji „Synergie i sprzężenia” mają jednolity wygląd inline-ref,
+- 0 gołych widocznych kodów A1–A7 / D1–D7 / E1–E2 poza linkami,
+- 0 błędnych celów kapsulek,
+- 0 lokalnych linków HTML do nieistniejących plików,
+- audyt GitHub Actions zakończony SUCCESS,
+- jednorazowy workflow audytowy usunięty po wykonaniu.
+
+Wniosek roboczy: rosja/index.html po poprawkach wygląda i działa prawidłowo; użytkownik potwierdził: „chyba działa”.
