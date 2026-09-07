@@ -1,0 +1,43 @@
+name: ROSJA - ekstrakt tresci sekcji
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'rosja/SOL_wyciagnij-tresc-sekcji-do-opisu.py'
+      - '.github/workflows/rosja-wyciagnij-tresc-sekcji.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  ekstrakt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Wyciagnij tresc sekcji
+        run: python rosja/SOL_wyciagnij-tresc-sekcji-do-opisu.py
+
+      - name: Zapisz ekstrakt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --hard origin/main
+          python rosja/SOL_wyciagnij-tresc-sekcji-do-opisu.py
+          git add rosja/SOL_tresc-sekcji-do-opisu.tsv
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Brak zmian."
+            exit 0
+          fi
+          git commit -m "ROSJA: ekstrakt tresci 620 sekcji do opisu"
+          git push origin HEAD:main
