@@ -1,7 +1,9 @@
+import csv
+import io
 import os
 
 import libsql
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 from flask_cors import CORS
 
 from content_store import (
@@ -60,6 +62,41 @@ def initialize_content_storage():
         return state
     finally:
         conn.close()
+
+
+def content_tsv(conn, collection_id):
+    if collection_id == "rosja":
+        view = "v_rosja_mapa_sekcji"
+        filename = "SOL_mapa-sekcji-z-opisami-SQL.tsv"
+        columns = [
+            "dokument_kod", "dokument_plik", "dokument_tytul", "url_stabilny",
+            "poziom", "glebokosc", "kolejnosc", "sekcja_tytul", "anchor",
+            "anchor_status", "deep_link", "opis",
+        ]
+        expected = 620
+    elif collection_id == "audhd":
+        view = "v_audhd_mapa_sekcji"
+        filename = "SOL_mapa-sekcji-i-anchorow-audhd-SQL.tsv"
+        columns = [
+            "dokument_kod", "dokument_plik", "dokument_tytul", "url_zrodlowy",
+            "poziom", "glebokosc", "kolejnosc", "sekcja_tytul", "anchor",
+            "anchor_status", "deep_link",
+        ]
+        expected = 338
+    else:
+        return None
+
+    rows = conn.execute(f"SELECT {', '.join(columns)} FROM {view}").fetchall()
+    if len(rows) != expected:
+        raise RuntimeError(
+            f"{collection_id}: eksport TSV: oczekiwano {expected} rekordów, jest {len(rows)}"
+        )
+
+    out = io.StringIO(newline="")
+    writer = csv.writer(out, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(columns)
+    writer.writerows(rows)
+    return filename, out.getvalue()
 
 
 CONTENT_STORAGE_STATE = initialize_content_storage()
@@ -146,6 +183,28 @@ def api_content_collection_status(collection_id):
         if status is None:
             return jsonify(status="not_found", collection_id=collection_id), 404
         return jsonify(status), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/content/<collection_id>/export.tsv")
+def api_content_collection_tsv(collection_id):
+    conn = None
+    try:
+        conn = get_connection()
+        exported = content_tsv(conn, collection_id)
+        if exported is None:
+            return jsonify(status="not_found", collection_id=collection_id), 404
+        filename, body = exported
+        return Response(
+            body,
+            status=200,
+            content_type="text/tab-separated-values; charset=utf-8",
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        )
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
     finally:
