@@ -105,7 +105,9 @@ def content_tsv(conn, collection_id):
     return filename, out.getvalue()
 
 
-CONTENT_STORAGE_STATE = initialize_content_storage()
+# WAŻNE: nie otwieramy połączenia libsql podczas importu modułu Gunicorna.
+# Inicjalizacja/migracje są wykonywane osobno; requesty otwierają własne połączenia.
+CONTENT_STORAGE_STATE = None
 
 
 @app.get("/health")
