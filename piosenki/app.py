@@ -6,6 +6,7 @@ import libsql
 from flask import Flask, Response, jsonify, render_template, request
 from flask_cors import CORS
 
+from analizy13 import build_13_analyses
 from content_store import (
     ensure_content_storage,
     fetch_content_rows,
@@ -266,6 +267,11 @@ def statystyki_kierunek():
 @app.get("/statystyki/relacje")
 def statystyki_relacje():
     return render_template("relacje.html", data=build_relations_page(load_stats_model(), chunk_size=80))
+
+
+@app.get("/statystyki/13")
+def statystyki_13():
+    return render_template("analizy13.html", data=build_13_analyses(load_stats_model(), chunk_size=80))
 
 
 if __name__ == "__main__":
