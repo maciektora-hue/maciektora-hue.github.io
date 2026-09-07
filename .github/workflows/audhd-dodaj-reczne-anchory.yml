@@ -1,0 +1,59 @@
+name: AUDHD - dodaj reczne anchory
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'audhd/SOL_reczne-anchory-audhd.tsv'
+      - 'audhd/SOL_dodaj-reczne-anchory.py'
+      - '.github/workflows/audhd-dodaj-reczne-anchory.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  anchory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dodaj anchory i aktualizuj TSV
+        run: python audhd/SOL_dodaj-reczne-anchory.py
+
+      - name: Zapisz wynik
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+
+            if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+              echo "main zmienil sie podczas operacji; ponawiam na aktualnym stanie"
+              git reset --hard origin/main
+              python audhd/SOL_dodaj-reczne-anchory.py
+            fi
+
+            git add audhd/*.html audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv
+            if git diff --cached --quiet; then
+              echo "Brak zmian do zapisania."
+              exit 0
+            fi
+
+            git commit -m "AUDHD: dodaj reczne anchory"
+            if git push origin main; then
+              exit 0
+            fi
+
+            echo "Push odrzucony, ponawiam na najnowszym main (proba $attempt/3)."
+          done
+
+          echo "Nie udalo sie zapisac wyniku po 3 probach."
+          exit 1
