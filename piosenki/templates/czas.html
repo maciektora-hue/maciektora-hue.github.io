@@ -4,7 +4,7 @@
 <section class="hero">
   <p class="kicker">warstwa 1</p>
   <h1>Czas zdarzeniowy</h1>
-  <p>Oś X nie jest kalendarzem. Jednostką czasu jest kolejne polubienie. Zakres danych: 1–{{ data.max_order }}. Aktualnie: okno {{ data.window_size }} tików, krok {{ data.step }} tików, kierunek {{ data.direction_label }}.</p>
+  <p>Oś X nie jest kalendarzem. Jednostką czasu jest kolejne polubienie. Zakres danych: 1–{{ data.max_order }}. Aktualnie: okno {{ data.window_size }} tików, krok {{ data.step }} tików, kierunek {{ data.direction_label }}. Domyślnie: przeszłość po lewej, teraz po prawej.</p>
 </section>
 
 <section class="panel">
@@ -18,13 +18,13 @@
     </label>
     <label>Kierunek
       <select name="kierunek">
-        <option value="teraz" {% if data.direction == 'teraz' %}selected{% endif %}>od teraz w przeszłość</option>
-        <option value="przeszlosc" {% if data.direction == 'przeszlosc' %}selected{% endif %}>od przeszłości do teraz</option>
+        <option value="teraz" {% if data.direction == 'teraz' %}selected{% endif %}>od przeszłości do teraz</option>
+        <option value="przeszlosc" {% if data.direction == 'przeszlosc' %}selected{% endif %}>od teraz w przeszłość</option>
       </select>
     </label>
     <button type="submit">Przelicz</button>
   </form>
-  <p class="muted">Przykład: okno 80, krok 30 daje 1–80, 31–110, 61–140… Łącznie teraz: {{ data.window_count }} okien.</p>
+  <p class="muted">Przykład: okno 80, krok 30 daje nakładające się okna po 80 polubień. Domyślny przebieg osi: starsze okna → nowsze okna → teraz. Łącznie teraz: {{ data.window_count }} okien.</p>
 </section>
 
 <section class="panel"><h2>Rodziny w czasie</h2><p class="muted">Udział nadań rodziny wśród wszystkich nadań tagów w danym oknie.</p>{{ data.family_legend|safe }}{{ data.family_chart|safe }}</section>
