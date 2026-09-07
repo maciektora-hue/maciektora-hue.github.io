@@ -89,33 +89,13 @@ mark{background:#8d6a1d;color:#fff4d2;padding:0 1px;border-radius:2px}
 </header>
 <main id="app"></main>
 <script>
-const TSV='SOL_mapa-sekcji-z-opisami.tsv';
+const API='https://piosenki-api.onrender.com/api/content/rosja';
 const KEEP=['dokument_kod','poziom','glebokosc','kolejnosc','sekcja_tytul','anchor','anchor_status','deep_link','opis'];
 const app=document.getElementById('app');
 const search=document.getElementById('search');
 const stats=document.getElementById('stats');
 let docs=[];
 
-function parseTSV(text){
-  const rows=[]; let row=[], field='', quoted=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(quoted){
-      if(c==='"'){
-        if(text[i+1]==='"'){field+='"'; i++;}
-        else quoted=false;
-      } else field+=c;
-    } else {
-      if(c==='"') quoted=true;
-      else if(c==='\t'){row.push(field); field='';}
-      else if(c==='\n'){row.push(field.replace(/\r$/,'')); rows.push(row); row=[]; field='';}
-      else field+=c;
-    }
-  }
-  if(field.length||row.length){row.push(field.replace(/\r$/,'')); rows.push(row);}
-  const head=rows.shift();
-  return rows.filter(r=>r.length>1).map(r=>Object.fromEntries(head.map((h,i)=>[h,r[i]??''])));
-}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function depthNum(r){const n=parseInt(r.glebokosc,10);return Number.isFinite(n)?n:1;}
 function hasChildren(rows,i){const d=depthNum(rows[i]);return i+1<rows.length && depthNum(rows[i+1])>d;}
@@ -192,7 +172,7 @@ function applySearch(){
     doc.style.display=docHits?'':'none';
     if(q && docHits)doc.open=true;
   });
-  stats.textContent=q?`${visible} / ${total} sekcji`:`${total} sekcji · ${docs.length} dokumentów`;
+  stats.textContent=q?`${visible} / ${total} sekcji`:`${total} sekcji · ${docs.length} dokumentów · SQL`;
 }
 function updateStats(){applySearch();}
 
@@ -202,14 +182,15 @@ document.getElementById('openBranches').onclick=()=>setAllBranches(false);
 document.getElementById('closeBranches').onclick=()=>setAllBranches(true);
 search.addEventListener('input',applySearch);
 
-fetch(TSV,{cache:'no-store'})
-  .then(r=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.text();})
-  .then(text=>{
-    const rows=parseTSV(text);
-    if(rows.length!==620)console.warn(`Oczekiwano 620 rekordów, jest ${rows.length}.`);
+fetch(API,{cache:'no-store'})
+  .then(r=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json();})
+  .then(data=>{
+    const rows=Array.isArray(data.rows)?data.rows:[];
+    if(rows.length!==620)throw new Error(`SQL/API: oczekiwano 620 rekordów, jest ${rows.length}`);
+    if(data.status?.documents!==16)throw new Error(`SQL/API: oczekiwano 16 dokumentów, jest ${data.status?.documents}`);
     render(rows);
   })
-  .catch(err=>{app.innerHTML=`<div class="error"><strong>Nie udało się wczytać TSV.</strong><br>${esc(err.message)}<br><small>${esc(TSV)}</small></div>`;stats.textContent='błąd';});
+  .catch(err=>{app.innerHTML=`<div class="error"><strong>Nie udało się wczytać mapy z SQL/API.</strong><br>${esc(err.message)}<br><small>${esc(API)}</small></div>`;stats.textContent='błąd';});
 </script>
 </body>
 </html>
