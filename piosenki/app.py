@@ -17,8 +17,9 @@ from content_structure import (
     fetch_content_status_v2,
     fetch_content_structure,
 )
-from czas_okna import build_time_page_sliding
-from statystyki import build_direction_page, build_relations_page, load_model
+from czas_okna import DEFAULT_STEP, DEFAULT_WINDOW_SIZE, build_time_page_sliding
+from relacje_okna import build_relations_page
+from statystyki import build_direction_page, load_model
 
 
 app = Flask(__name__)
@@ -245,8 +246,8 @@ def statystyki_index():
 
 @app.get("/statystyki/czas")
 def statystyki_czas():
-    window_size = query_int("okno", 80)
-    step = query_int("krok", 30)
+    window_size = query_int("okno", DEFAULT_WINDOW_SIZE)
+    step = query_int("krok", DEFAULT_STEP)
     direction = request.args.get("kierunek", "teraz")
     if direction not in {"teraz", "przeszlosc"}:
         direction = "teraz"
@@ -266,12 +267,26 @@ def statystyki_kierunek():
 
 @app.get("/statystyki/relacje")
 def statystyki_relacje():
-    return render_template("relacje.html", data=build_relations_page(load_stats_model(), chunk_size=80))
+    return render_template(
+        "relacje.html",
+        data=build_relations_page(
+            load_stats_model(),
+            window_size=DEFAULT_WINDOW_SIZE,
+            step=DEFAULT_STEP,
+        ),
+    )
 
 
 @app.get("/statystyki/13")
 def statystyki_13():
-    return render_template("analizy13.html", data=build_13_analyses(load_stats_model(), chunk_size=80))
+    return render_template(
+        "analizy13.html",
+        data=build_13_analyses(
+            load_stats_model(),
+            chunk_size=DEFAULT_WINDOW_SIZE,
+            step=DEFAULT_STEP,
+        ),
+    )
 
 
 if __name__ == "__main__":
