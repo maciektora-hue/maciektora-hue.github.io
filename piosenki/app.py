@@ -4,6 +4,12 @@ import libsql
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
+from content_store import (
+    ensure_content_storage,
+    fetch_content_collections,
+    fetch_content_rows,
+    fetch_content_status,
+)
 from czas_okna import build_time_page_sliding
 from statystyki import build_direction_page, build_relations_page, load_model
 
@@ -18,7 +24,9 @@ TURSO_ADMIN_TOKEN = os.environ.get("TURSO_ADMIN_TOKEN")
 def get_connection():
     if not TURSO_ADMIN_TOKEN:
         raise RuntimeError("Brak TURSO_ADMIN_TOKEN")
-    return libsql.connect(database=TURSO_DATABASE_URL, auth_token=TURSO_ADMIN_TOKEN)
+    conn = libsql.connect(database=TURSO_DATABASE_URL, auth_token=TURSO_ADMIN_TOKEN)
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
 
 
 def fetch_rows(conn, sql, columns):
@@ -40,6 +48,19 @@ def query_int(name, default):
     except (TypeError, ValueError):
         value = default
     return max(1, min(value, 5000))
+
+
+def initialize_content_storage():
+    conn = get_connection()
+    try:
+        state = ensure_content_storage(conn)
+        print(f"CONTENT SQL: {state}", flush=True)
+        return state
+    finally:
+        conn.close()
+
+
+CONTENT_STORAGE_STATE = initialize_content_storage()
 
 
 @app.get("/health")
@@ -77,6 +98,52 @@ def api_piosenki():
             "lyrics": fetch_rows(conn, "SELECT lyrics_id FROM lyrics ORDER BY lyrics_id", ["lyrics_id"]),
         }
         return jsonify(data), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/content")
+def api_content_collections():
+    conn = None
+    try:
+        conn = get_connection()
+        return jsonify(collections=fetch_content_collections(conn)), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/content/<collection_id>")
+def api_content_collection(collection_id):
+    conn = None
+    try:
+        conn = get_connection()
+        status = fetch_content_status(conn, collection_id)
+        if status is None:
+            return jsonify(status="not_found", collection_id=collection_id), 404
+        rows = fetch_content_rows(conn, collection_id)
+        return jsonify(collection_id=collection_id, status=status, rows=rows), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/content/<collection_id>/status")
+def api_content_collection_status(collection_id):
+    conn = None
+    try:
+        conn = get_connection()
+        status = fetch_content_status(conn, collection_id)
+        if status is None:
+            return jsonify(status="not_found", collection_id=collection_id), 404
+        return jsonify(status), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
     finally:
