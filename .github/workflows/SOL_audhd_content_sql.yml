@@ -6,6 +6,7 @@ on:
       - sql-audhd-content
     paths:
       - '.github/workflows/SOL_audhd_content_sql.yml'
+      - 'audhd/SOL_import-content-sql.js'
 
 permissions:
   contents: read
