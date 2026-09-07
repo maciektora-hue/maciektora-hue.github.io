@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}13 analiz{% endblock %}
+{% macro ranking(rows) -%}
+<div class="ranking">
+  {% for row in rows %}<div><strong>{{ row.label }}</strong><span>{{ row.count }}</span></div>{% endfor %}
+</div>
+{%- endmacro %}
+{% block content %}
+<section class="hero">
+  <p class="kicker">13 analiz</p>
+  <h1>Tagi, osie, walencja, kierunek i czas</h1>
+  <p>Jedna strona, trzynaście prostych przekrojów tych samych danych. Bez dorabiania trzynastu osobnych kokpitów do jednego samolotu.</p>
+  <p class="muted">Analizy czasowe używają okien po {{ data.chunk_size }} zdarzeń.</p>
+</section>
+
+<section class="panel"><h2>1. Tagowość</h2>{{ ranking(data.top_tags) }}</section>
+<section class="panel"><h2>2. Osiowość</h2>{{ ranking(data.top_axes) }}</section>
+<section class="panel"><h2>3. Rodziny osi</h2>{{ ranking(data.families) }}</section>
+
+<section class="panel">
+  <h2>4. Walencja</h2>
+  <div class="metrics">
+    <div><span>nieprzyjemne</span><strong>{{ data.valence.negative }}</strong></div>
+    <div><span>neutralne</span><strong>{{ data.valence.neutral }}</strong></div>
+    <div><span>przyjemne</span><strong>{{ data.valence.positive }}</strong></div>
+    <div><span>nierozstrzygnięte</span><strong>{{ data.valence.unresolved }}</strong></div>
+  </div>
+  <p class="muted">Pokrycie jawnie sklasyfikowaną walencją: {{ '%.1f'|format(data.valence.coverage_pct) }}%. Brak klasyfikacji nie jest neutralnością.</p>
+</section>
+
+<section class="panel"><h2>5. Kierunek</h2><p class="muted">Tylko jawne tagi kierunkowe: do/ku/od siebie, innych, świata i czasu.</p>{{ ranking(data.directions) }}</section>
+
+<section class="panel"><h2>6. Tagowość w czasie</h2>{{ data.tag_time_legend|safe }}{{ data.tag_time_chart|safe }}</section>
+<section class="panel"><h2>7. Osiowość w czasie</h2>{{ data.axis_time_legend|safe }}{{ data.axis_time_chart|safe }}</section>
+<section class="panel"><h2>8. Walencja w czasie</h2>{{ data.valence_time_legend|safe }}{{ data.valence_time_chart|safe }}</section>
+<section class="panel"><h2>9. Kierunek w czasie</h2>{{ data.direction_time_legend|safe }}{{ data.direction_time_chart|safe }}</section>
+
+<section class="panel">
+  <h2>10. Najmocniejsze zmiany w czasie</h2>
+  <div class="ranking">
+    {% for row in data.changes %}<div><strong>{{ row.tag }}</strong><span>{{ '%+.2f'|format(row.delta) }} pp</span></div>{% endfor %}
+  </div>
+  <p class="muted">Różnica udziału między najnowszym i najstarszym oknem.</p>
+</section>
+
+<section class="panel">
+  <h2>11. Współwystępowanie tagów</h2>
+  <div class="ranking">
+    {% for row in data.tag_pairs %}<div><strong>{{ row.a }} + {{ row.b }}</strong><span>{{ row.count }}</span></div>{% endfor %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2>12. Współwystępowanie osi</h2>
+  <div class="ranking">
+    {% for row in data.axis_pairs %}<div><strong>{{ row.a }} + {{ row.b }}</strong><span>{{ row.count }}</span></div>{% endfor %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2>13. Walencja × oś × kierunek, ale bez mnożenia</h2>
+  <p class="muted">Dla każdego okna pokazujemy po prostu trzy dominujące cechy obok siebie.</p>
+  <div class="relation-grid">
+    {% for row in data.relations %}
+    <div><strong>{{ row.label }}</strong><span>{{ row.valence }}</span><span>{{ row.axis }}</span><span>{{ row.direction }}</span></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
