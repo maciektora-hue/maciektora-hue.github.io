@@ -54,7 +54,9 @@ def initialize_content_storage():
     conn = get_connection()
     try:
         state = ensure_content_storage(conn)
+        collections = fetch_content_collections(conn)
         print(f"CONTENT SQL: {state}", flush=True)
+        print(f"CONTENT SQL STATUS: {collections}", flush=True)
         return state
     finally:
         conn.close()
