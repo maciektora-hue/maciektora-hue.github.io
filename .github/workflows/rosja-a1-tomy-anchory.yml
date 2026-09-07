@@ -1,10 +1,11 @@
-name: "ROSJA A1 tomy anchory"
+name: ROSJA - A1 anchory tomow
 
 on:
+  workflow_dispatch:
   push:
     paths:
-      - ".github/workflows/rosja-a1-tomy-anchory.yml"
-  workflow_dispatch:
+      - 'rosja/SOL_dodaj-anchory-tomow-a1.py'
+      - '.github/workflows/rosja-a1-tomy-anchory.yml'
 
 permissions:
   contents: write
@@ -17,93 +18,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: "Synchronizuj main"
-        run: |
-          git fetch origin main
-          git reset --hard origin/main
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: "Dodaj reczne anchory tomow i notatke"
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
+      - name: Dodaj reczne anchory tomow A1
+        run: python rosja/SOL_dodaj-anchory-tomow-a1.py
 
-          html = Path("rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html")
-          status = Path("rosja/SOL_status-techniczny.txt")
-          s = html.read_text(encoding="utf-8")
-
-          pairs = [
-              ("Tom I", "Front, OPL i arsenał", "front-opl-arsenal"),
-              ("Tom II", "Gospodarka, finanse i eksport", "gospodarka-finanse-eksport"),
-              ("Tom III", "Infrastruktura i społeczeństwo", "infrastruktura-spoleczenstwo"),
-              ("Tom IV", "Synteza i prognoza", "synteza-prognoza"),
-              ("Tom V", "Projekt życia mu nie wyszedł", "projekt-zycia-mu-nie-wyszedl"),
-              ("Tom VI", "Od Kaukazu po Zatokę", "od-kaukazu-po-zatoke"),
-              ("Tom VII", "Od Ormuzu do panelu słonecznego", "od-ormuzu-do-panelu-slonecznego"),
-              ("Tom VIII", "Disinfolklore, Dark Legitimacy i etyka", "disinfolklore-dark-legitimacy-etyka"),
-              ("Tom IX", "Korekta i przesłuchanie", "korekta-przesluchanie"),
-          ]
-
-          for _, title, ident in pairs:
-              if f'id="{ident}"' in s:
-                  raise SystemExit(f"STOP: id juz istnieje: {ident}")
-              old = f'<div class="volume-title">{title}</div>'
-              new = f'<div class="volume-title" id="{ident}">{title}</div>'
-              if s.count(old) != 1:
-                  raise SystemExit(f"STOP: tytul tomu nie wystepuje dokladnie raz: {title}")
-              s = s.replace(old, new, 1)
-
-          for i in range(1, 10):
-              if s.count(f'id="tom{i}"') != 1:
-                  raise SystemExit(f"STOP: stary anchor tom{i} nie wystepuje dokladnie raz")
-
-          for _, _, ident in pairs:
-              if s.count(f'id="{ident}"') != 1:
-                  raise SystemExit(f"STOP: nowy anchor nie jest unikalny: {ident}")
-
-          html.write_text(s, encoding="utf-8")
-
-          st = status.read_text(encoding="utf-8")
-          marker = "A1 — STRUKTURA TOMÓW I HIERARCHIA H"
-          if marker in st:
-              raise SystemExit("STOP: notatka o strukturze A1 juz istnieje")
-          note = """
-
-A1 — STRUKTURA TOMÓW I HIERARCHIA H
-- A1 ma 9 TOMÓW jako osobną warstwę strukturalną ponad rozdziałami.
-- TOMY nie są nagłówkami H1–H6: każdy tom jest <section class=\"volume\" id=\"tomN\">, a jego nazwa jest w <div class=\"volume-title\">.
-- Zachowano techniczne anchory tom1–tom9 i dodano dodatkowe ręcznie nazwane anchory słowne do nazw tomów.
-- Skoki w hierarchii H wykazane przez audyt są CELOWE i nie są błędem do naprawy.
-"""
-          status.write_text(st.rstrip() + note + "\n", encoding="utf-8")
-          print("OK: 9 tomow, 9 recznych anchorow; tom1..tom9 zachowane; status dopisany")
-          PY
-
-      - name: "Walidacja"
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          s = Path("rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html").read_text(encoding="utf-8")
-          ids = [
-            "front-opl-arsenal",
-            "gospodarka-finanse-eksport",
-            "infrastruktura-spoleczenstwo",
-            "synteza-prognoza",
-            "projekt-zycia-mu-nie-wyszedl",
-            "od-kaukazu-po-zatoke",
-            "od-ormuzu-do-panelu-slonecznego",
-            "disinfolklore-dark-legitimacy-etyka",
-            "korekta-przesluchanie",
-          ]
-          assert all(s.count(f'id="{x}"') == 1 for x in ids)
-          assert all(s.count(f'id="tom{i}"') == 1 for i in range(1, 10))
-          print("OK: walidacja anchorow tomow")
-          PY
-          git diff --check
-
-      - name: "Commit"
+      - name: Zapisz zmiany
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html rosja/SOL_status-techniczny.txt
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Brak zmian do zapisania."
+            exit 0
+          fi
           git commit -m "ROSJA A1: slowne anchory 9 tomow i notatka strukturalna"
-          git push origin HEAD:main
+          git push origin main
