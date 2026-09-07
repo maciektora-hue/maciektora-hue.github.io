@@ -215,3 +215,152 @@ Dzięki temu płaski wynik osi nie musi oznaczać braku zmiany. Łączna liczba 
 - wykresy powstają jako SVG generowane po stronie serwera,
 - brak własnego JavaScriptu,
 - zmiany w repo mogą uruchamiać deploy Rendera; przy pracy równoległej w kilku czatach należy uważać na wzajemne nadpisywanie lub nakładanie deployów.
+
+## 5. Praca równoległa w wielu czatach
+
+### Dlaczego ten problem występuje
+
+W praktyce projekt może być rozwijany równocześnie w kilku rozmowach. Jest to naturalne w bardzo szybkim trybie pracy, kiedy tempo kolejnych decyzji, pytań i odczytu odpowiedzi jest większe niż przepustowość pojedynczego wątku rozmowy.
+
+Samo rozdzielenie pracy na kilka czatów nie jest problemem. Problem pojawia się wtedy, gdy kilka czatów **modyfikuje te same zasoby**: to samo repozytorium GitHub, ten sam serwis Render albo tę samą bazę Turso.
+
+Każdy czat posiada własny lokalny kontekst roboczy. Może więc działać na podstawie stanu, który kilka sekund wcześniej był poprawny, ale po zapisie wykonanym w innym czacie jest już nieaktualny.
+
+To jest klasyczny problem współbieżności.
+
+### Typowy scenariusz wyścigu
+
+Przykładowa sekwencja:
+
+```text
+czat A odczytuje stan X
+czat B odczytuje stan X
+czat A zapisuje zmianę A → stan X+A
+czat B nadal uważa X za aktualny
+czat B zapisuje zmianę B
+Render zaczyna deploy A
+GitHub ma już zmianę B
+Render zaczyna lub kończy inny deploy
+Turso jest w tym samym czasie używane przez oba procesy
+```
+
+Na poziomie użytkownika objawem może być „strona się nie otwiera”, „wróciła stara wersja”, „deploy jest niby live, ale kod wygląda inaczej” albo „przed chwilą działało”.
+
+Na poziomie technicznym mogą wystąpić:
+
+- zapis na podstawie nieaktualnego SHA pliku,
+- nadpisanie zmiany z innego czatu,
+- deploy commita starszego niż aktualny `main`,
+- kilka deployów Rendera nakładających się w czasie,
+- restart procesu w trakcie obsługi żądania,
+- blokada, timeout albo konflikt połączeń do bazy,
+- diagnozowanie błędu w komponencie, który faktycznie jest niewinny,
+- różnica między stanem GitHuba, stanem wdrożonym na Renderze i stanem widocznym w przeglądarce.
+
+### Zasada podstawowa
+
+Najważniejsza reguła:
+
+> **Przed każdą modyfikacją współdzielonego zasobu należy ponownie odczytać jego aktualny stan.**
+
+Nie wystarcza stan odczytany na początku rozmowy ani kilka minut wcześniej.
+
+Dla GitHuba oznacza to pobranie aktualnej wersji pliku i jego SHA bezpośrednio przed zapisem. Dla Rendera oznacza sprawdzenie, jaki commit faktycznie jest wdrażany i jaki jest `LIVE`. Dla Turso oznacza unikanie równoległych zmian strukturalnych i transakcji, które mogą sobie wzajemnie przeszkadzać.
+
+### Jeden właściciel zapisu
+
+Dla prac wymagających wielu równoległych czatów przyjmujemy zasadę **jednego właściciela zapisu**.
+
+W danym momencie jeden czat jest właścicielem operacji zapisu dla określonego współdzielonego zasobu. Pozostałe czaty mogą w tym czasie:
+
+- analizować dane,
+- projektować rozwiązanie,
+- przygotowywać treść lub kod,
+- sprawdzać logikę,
+- wykonywać odczyty,
+- proponować kolejne kroki.
+
+Nie powinny jednak równolegle wykonywać zapisu do tego samego zasobu.
+
+Własność można rozdzielić bardziej szczegółowo. Przykładowo jeden czat może być właścicielem `piosenki/statystyki`, a drugi pracować nad innym, niezależnym katalogiem. Problemem nie jest liczba czatów, tylko nakładanie się zakresów zapisu.
+
+### Reguły dla GitHuba
+
+Przy pracy równoległej:
+
+1. przed zmianą istniejącego pliku pobrać jego najnowszą treść i SHA,
+2. nie zakładać, że SHA sprzed kilku minut jest nadal aktualne,
+3. po konflikcie nie wymuszać zapisu na siłę,
+4. po zmianie sprawdzić aktualny `main`,
+5. przy kilku powiązanych zmianach sprawdzić, czy pomiędzy nimi nie pojawiły się obce commity,
+6. nie traktować sukcesu pojedynczego zapisu jako dowodu, że cały projekt jest w oczekiwanym stanie.
+
+### Reguły dla Rendera
+
+Po zmianie kodu:
+
+1. sprawdzić, czy Render zauważył nowy commit,
+2. sprawdzić identyfikator commita wdrażanego przez deploy,
+3. nie zakładać, że `autoDeploy=yes` oznacza, że wdrożenie rzeczywiście wystartowało,
+4. nie odpalać ręcznego deploya bez sprawdzenia istniejących deployów,
+5. po zakończeniu potwierdzić status `LIVE`,
+6. przy równoległej pracy upewnić się, że `LIVE` odpowiada aktualnemu `main`, a nie wcześniejszemu commitowi.
+
+### Reguły dla Turso
+
+Baza jest najbardziej wrażliwym współdzielonym zasobem.
+
+Przy pracy równoległej:
+
+1. nie wykonywać z kilku czatów równocześnie zmian schematu,
+2. nie zakładać, że stan tabel sprzed chwili jest nadal aktualny,
+3. preferować operacje read-only tam, gdzie jest to możliwe,
+4. operacje modyfikujące wykonywać możliwie krótko i jawnie,
+5. przed zmianą strukturalną ustalić właściciela zapisu,
+6. po operacji zweryfikować stan bazy, zamiast wnioskować o nim tylko z sukcesu komendy.
+
+### Stan repo, stan deployu i stan aplikacji to trzy różne rzeczy
+
+W projekcie trzeba rozróżniać trzy poziomy:
+
+```text
+GitHub main
+    ↓
+commit wdrożony przez Render
+    ↓
+proces, który faktycznie odpowiada na żądania użytkownika
+```
+
+Te trzy stany zwykle są zgodne, ale podczas równoległych zmian albo kolejnych deployów mogą przez pewien czas być różne.
+
+Dlatego komunikat „kod jest już na GitHubie” nie oznacza jeszcze „strona działa na tym kodzie”. Analogicznie `deploy live` nie wystarcza, jeśli wdrożony został wcześniejszy commit.
+
+### Objawy sugerujące problem współbieżności
+
+Szczególnie podejrzane są sytuacje, gdy:
+
+- zmiana jest widoczna w repo, ale nie na stronie,
+- po odświeżeniu pojawia się wcześniejsza wersja,
+- chwilę po poprawnym deployu uruchamia się następny,
+- działająca strona zaczyna nagle wisieć bez zmiany w jej własnym kodzie,
+- logi pokazują restarty workerów, timeouty albo kilka deployów w krótkim czasie,
+- jeden czat twierdzi, że stan jest poprawny, a drugi przed chwilą wykonał zapis w tym samym obszarze.
+
+W takim przypadku pierwszym krokiem nie powinno być automatyczne poprawianie ostatnio edytowanego pliku. Najpierw trzeba odtworzyć chronologię: aktualny `main` → kolejne commity → deploye → logi → aktualnie działający proces.
+
+### Cel tej zasady
+
+Nie chodzi o ograniczanie liczby równoległych rozmów. Równoległość może być bardzo efektywna i pozwala utrzymać wysokie tempo pracy.
+
+Ograniczamy jedynie **równoległe zapisy do tego samego stanu zewnętrznego**.
+
+Można więc prowadzić cztery równoległe analizy, projektować cztery części systemu albo przygotowywać kilka zmian jednocześnie. W momencie zapisu do wspólnego repozytorium, deployu albo bazy musi jednak istnieć świadoma synchronizacja.
+
+W skrócie:
+
+```text
+równoległe myślenie: TAK
+równoległe odczyty: TAK
+równoległe przygotowywanie zmian: TAK
+równoległe zapisy do tego samego zasobu: OSTROŻNIE / JEDEN WŁAŚCICIEL
+```
