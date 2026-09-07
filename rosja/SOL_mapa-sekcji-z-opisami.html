@@ -48,10 +48,10 @@ tbody tr:hover td{background:#1b2a23}
 .c-level{width:38px;min-width:38px;max-width:38px;padding-left:4px;padding-right:4px;text-align:center;color:var(--green);font-weight:700;white-space:nowrap}
 .c-depth{width:48px;min-width:48px;max-width:48px;padding-left:4px;padding-right:4px;text-align:center;color:var(--muted);white-space:nowrap}
 .c-order{width:50px;min-width:50px;max-width:50px;padding-left:4px;padding-right:5px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
-th:nth-child(1){width:42px;min-width:42px;max-width:42px;padding-left:5px;padding-right:5px}
-th:nth-child(2){width:38px;min-width:38px;max-width:38px;padding-left:4px;padding-right:4px;text-align:center}
-th:nth-child(3){width:48px;min-width:48px;max-width:48px;padding-left:4px;padding-right:4px;text-align:center}
-th:nth-child(4){width:50px;min-width:50px;max-width:50px;padding-left:4px;padding-right:5px;text-align:right}
+th:nth-child(6){width:42px;min-width:42px;max-width:42px;padding-left:5px;padding-right:5px}
+th:nth-child(7){width:38px;min-width:38px;max-width:38px;padding-left:4px;padding-right:4px;text-align:center}
+th:nth-child(8){width:48px;min-width:48px;max-width:48px;padding-left:4px;padding-right:4px;text-align:center}
+th:nth-child(9){width:50px;min-width:50px;max-width:50px;padding-left:4px;padding-right:5px;text-align:right}
 .c-title{min-width:330px;max-width:560px}
 .c-anchor{min-width:190px;max-width:300px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;color:#bfd4c5;overflow-wrap:anywhere}
 .c-status{width:82px;text-align:center}
@@ -133,21 +133,21 @@ function render(rows){
     det.innerHTML=`<summary><span class="doc-code">${esc(code)}</span><span class="doc-title">${esc(title)}</span><span class="doc-count">${items.length} sekcji</span></summary>`;
     const wrap=document.createElement('div'); wrap.className='table-wrap';
     const table=document.createElement('table');
-    table.innerHTML=`<thead><tr><th>ID</th><th>H</th><th>poziom</th><th>nr</th><th>sekcja_tytul</th><th>anchor</th><th>anchor_status</th><th>deep_link</th><th>opis</th></tr></thead><tbody></tbody>`;
+    table.innerHTML=`<thead><tr><th>sekcja_tytul</th><th>anchor</th><th>anchor_status</th><th>deep_link</th><th>opis</th><th>ID</th><th>H</th><th>poziom</th><th>nr</th></tr></thead><tbody></tbody>`;
     const tb=table.querySelector('tbody');
     items.forEach((r,i)=>{
       const tr=document.createElement('tr'); tr.dataset.depth=depthNum(r); tr.dataset.index=i; tr.className=(r.poziom||'').toLowerCase();
       const child=hasChildren(items,i);
       tr.innerHTML=`
-        <td class="c-code">${esc(r.dokument_kod)}</td>
-        <td class="c-level">${esc(r.poziom)}</td>
-        <td class="c-depth">${esc(r.glebokosc)}</td>
-        <td class="c-order">${esc(r.kolejnosc)}</td>
         <td class="c-title"><div class="title-line"><button class="branch-btn ${child?'':'leaf'}" type="button" aria-label="Zwiń lub rozwiń gałąź">▼</button><span class="indent" style="width:${Math.max(0,(depthNum(r)-1)*14)}px"></span><span class="section-title">${esc(r.sekcja_tytul)}</span></div></td>
         <td class="c-anchor">${esc(r.anchor)}</td>
         <td class="c-status ${r.anchor_status==='OK'?'ok':'bad'}">${esc(r.anchor_status)}</td>
         <td class="c-link">${r.deep_link?`<a href="${esc(r.deep_link)}" target="_blank" rel="noopener">otwórz</a>`:''}</td>
-        <td class="c-desc">${esc(r.opis)}</td>`;
+        <td class="c-desc">${esc(r.opis)}</td>
+        <td class="c-code">${esc(r.dokument_kod)}</td>
+        <td class="c-level">${esc(r.poziom)}</td>
+        <td class="c-depth">${esc(r.glebokosc)}</td>
+        <td class="c-order">${esc(r.kolejnosc)}</td>`;
       if(child){tr.querySelector('.branch-btn').addEventListener('click',()=>toggleBranch(tb,tr));}
       tr.dataset.search=[...KEEP.map(k=>r[k]||'')].join(' ').toLocaleLowerCase('pl');
       tb.appendChild(tr);
