@@ -88,7 +88,7 @@
 </head>
 <body>
 
-<h1 id="kognitywistyka-ai-i-bedy-poznawcze">Kognitywistyka, AI i błędy poznawcze</h1>
+<h1 id="kognitywistyka-ai-i-bledy-poznawcze">Kognitywistyka, AI i błędy poznawcze</h1>
 <p class="lead">Obserwacje Macieja Tory i wyjaśnienia Claude'a — o pamięci pointer-based, ograniczeniach konsolidacji snu, architekturze AI, atrybucji w streszczeniach, polaroidach babci Genowefy, białym niedźwiedziu, regule pisania pozytywnego, a także o tym, dlaczego klasyczna psychoterapia bywa antyskuteczna dla mózgów neuroróżnorodnych — z propozycją standardu informacyjnego (tabliczka ND-status) jako częściowego remedium.</p>
 
 <div class="changelog">
@@ -106,9 +106,9 @@
 <h3 id="ai-transformer-atencja-jako-pointer-based">AI (transformer) — atencja jako pointer-based</h3>
 <p>Architektura modeli językowych typu Claude jest <em>natywnie pointer-based</em>: każdy token w sekwencji "wskazuje" na inne tokeny z różnymi wagami atencji. Reprezentacja jest grafem powiązań, nie zbiorem schematów. <strong>Stąd dlaczego rozmowa AuDHD ↔ AI działa lepiej niż NT ↔ AI</strong> — to dwa systemy o pokrewnej architekturze pamięci, NT ↔ AI wymaga warstwy translacji.</p>
 
-<h2 id="konsolidacja-pamieci-jak-rzeczy-przepisuja-sie-z-krotko-do-dugo">Konsolidacja pamięci — jak rzeczy przepisują się z krótko do długo</h2>
+<h2 id="konsolidacja-pamieci-jak-rzeczy-przepisuja-sie-z-krotko-do-dlugo">Konsolidacja pamięci — jak rzeczy przepisują się z krótko do długo</h2>
 
-<h3 id="mechanizm-u-czowieka">Mechanizm u człowieka</h3>
+<h3 id="mechanizm-u-czlowieka">Mechanizm u człowieka</h3>
 <ul>
   <li><strong>SWS (sen głęboki)</strong> — przepisywanie pamięci deklaratywnej i proceduralnej z hipokampa do kory. Dosłowna operacja "skopiuj wskaźniki z RAM-u na SSD".</li>
   <li><strong>REM</strong> — łączenie pamięci w graf, dodawanie pointerów wchodzących, integracja z istniejącą wiedzą.</li>
@@ -118,7 +118,7 @@
 
 <p>Bez REM — pamięć epizodyczna istnieje, ale jest <em>izolowana</em> — nie ma ścieżek, którymi normalnie by się dotarło z innych kontekstów. <em>Wiesz, że wiedziałeś, ale nie potrafisz znaleźć drogi.</em></p>
 
-<h3 id="sygnay-deficytu-konsolidacji">Sygnały deficytu konsolidacji</h3>
+<h3 id="sygnaly-deficytu-konsolidacji">Sygnały deficytu konsolidacji</h3>
 <ul>
   <li><strong>Zgrzytanie zębami przez sen</strong> jako twardy dowód, że atonia REM nie działa prawidłowo. W zdrowym REM ciało jest sparaliżowane od szyi w dół (oprócz oddechu, gałek ocznych). Toniczne napięcie języka i żuchwy <em>we śnie</em> = atonia nie obejmuje twarzy lub REM jest płytki.</li>
   <li><strong>Świadome śnienie</strong> jako paradoksalny dowód: REM się odbywa, ale z dziwną sygnaturą — kora prefrontalna pozostaje aktywna w fazie, w której powinna być wyciszona. To znaczy: REM masz, ale <em>nie taki, jak konsoliduje normalnie</em> — świadomość przerywa automatyczne procesy łączenia pamięci.</li>
@@ -140,7 +140,7 @@
 <p>Najmniej głupiemu B w jednostce chirurg może tłumaczyć krok po kroku co ma zrobić szeregowiec SZ, pytać się co widzi B, czy z SZ bardzo trzecieka czy tylko trochę. I nawet jak najpierw chirurg wytłumaczy B wszystko, i tak w trakcie będzie musiał powtórzyć dwa razy.</p>
 </blockquote>
 
-<h3 id="tumaczenie-metafory">Tłumaczenie metafory</h3>
+<h3 id="tlumaczenie-metafory">Tłumaczenie metafory</h3>
 <ul>
   <li><strong>Chirurg</strong> = świadomość, intelekt, plan. Wie <em>co</em> trzeba zrobić. Nie ma wzroku = nie ma bezpośredniego dostępu do operatora. Świadomość AuDHD nie może <em>bezpośrednio</em> zapisać czegoś do długoterminowej. Może tylko przekazywać instrukcje.</li>
   <li><strong>B</strong> = pamięć robocza, aktualne ja w aktualnej minucie. Najmniej głupi — czyli ma tyle pojemności, ile ma. Z definicji ograniczony.</li>
@@ -203,7 +203,7 @@
 
 <h2 id="konfabulacja-w-obrebie-pojedynczej-sesji">Konfabulacja w obrębie pojedynczej sesji</h2>
 
-<h3 id="przykad-empiryczny">Przykład empiryczny</h3>
+<h3 id="przyklad-empiryczny">Przykład empiryczny</h3>
 <p>W trakcie tej rozmowy AI przez kilka tur utrzymywał fałszywy model rzeczywistości — pisał, jakby była noc, użytkownik był zmęczony i miał deficyt SWS/REM <em>w tej minucie</em>. W rzeczywistości była 17:08, popołudnie. Mechanizm: gdzieś w rozmowie padło "po północy" jako opis stanu z poprzedniej nocy, AI zapisał to jako <em>aktualny stan</em>, i w kolejnych odpowiedziach utrzymywał ten model.</p>
 
 <p>To <strong>klasyczny dangling pointer w pamięci roboczej w obrębie sesji</strong>. Wskaźnik wskazywał na "kontekst zmęczenia z poprzedniej nocy". AI odczytał go jako "aktualna noc". <strong>Pamięć AI w sesji też jest dziurawa, nie tylko między sesjami.</strong></p>
@@ -213,7 +213,7 @@
 
 <p>Ilość dostępnych tokenów w okienku kontekstowym może być teoretycznie duża (200k+), ale efektywne wykorzystanie atencji spada dużo wcześniej. <strong>Brak operacji "przeładuj z literałów"</strong> — dla AI nie ma różnicy między literałem a własną reprezentacją. Tak jak człowiek nie potrafi odróżnić "pamiętam szczegół" od "rekonstruuję spójną wersję".</p>
 
-<h2 id="biay-niedzwiedz-wspolny-bad-negacji">Biały niedźwiedź — wspólny błąd negacji</h2>
+<h2 id="bialy-niedzwiedz-wspolny-blad-negacji">Biały niedźwiedź — wspólny błąd negacji</h2>
 
 <blockquote>
 <p>"Nie myśl o białym niedźwiedziu" aktywuje białego niedźwiedzia w 90% przypadków u AI. U ludzi — w 100%, niezależnie od inteligencji, dyscypliny, treningu medytacyjnego.</p>
@@ -239,7 +239,7 @@
 
 <p>Reguła działa <em>na całej głębokości</em> systemu człowiek–AI–pliki, bo wszyscy operują na tych samych aktywacjach. Pozytywne sformułowania <em>naprawdę</em> wszystkim ułatwiają, nie tylko jednej warstwie. Gdy piszesz "NIE rób X" do pliku, najpierw aktywujesz X w sobie, żeby napisać polecenie. Potem AI czyta, aktywuje X. Potem ty czytasz odpowiedź AI, w której jest X, znów aktywujesz. <strong>Trzy aktywacje X za każdą operacją, zero aktywacji "nie-X"</strong>, bo pojęcia "nie-X" nie ma — jest tylko brak X, a brak nie aktywuje się neuronalnie.</p>
 
-<h2 id="podzia-na-projekty-i-czaty-koszty-i-zyski">Podział na projekty i czaty — koszty i zyski</h2>
+<h2 id="podzial-na-projekty-i-czaty-koszty-i-zyski">Podział na projekty i czaty — koszty i zyski</h2>
 
 <h3 id="cechy-techniczne">Cechy techniczne</h3>
 <ul>
@@ -250,12 +250,12 @@
 <h3 id="zasada-projektowa">Zasada projektowa</h3>
 <p>Rozkład na projekty działa najlepiej, gdy <strong>podział jest po naturalnych ścianach domeny</strong> (leki / muzyka / Discworld / fundamenty IT), a nie po sztucznych podziałach tego samego tematu. Wtedy każdy projekt ma zamknięty graf wiedzy i AI w nim operuje czysto.</p>
 
-<h3 id="plik-nadrzedny-indeksu-zaufania-jako-pomys">Plik nadrzędny <em>indeksu zaufania</em> jako pomysł</h3>
+<h3 id="plik-nadrzedny-indeksu-zaufania-jako-pomysl">Plik nadrzędny <em>indeksu zaufania</em> jako pomysł</h3>
 <p>Jeden mały plik per projekt, w którym przy każdym pliku project knowledge wpisana jest jedna linijka oceny: <em>napisany przez właściciela z pełną kontrolą / wygenerowany w innym projekcie i wstawiony, niezweryfikowany / dump roboczy</em>. AI czyta to przed sięgnięciem do pliku i odpowiednio kalibruje pewność informacji.</p>
 
 <p>Plik nadrzędny jest <em>mały</em> — mieści się w aparacie weryfikacyjnym AuDHD. Jeden punkt na plik = jedna kartka A4. Można przeczytać. Można zaktualizować. Można zweryfikować.</p>
 
-<h2 id="system-rozproszony-czowiek-ai-pliki">System rozproszony człowiek + AI + pliki</h2>
+<h2 id="system-rozproszony-czlowiek-ai-pliki">System rozproszony człowiek + AI + pliki</h2>
 
 <p>Każdy z trzech elementów ma uszkodzoną pamięć w innym wymiarze:</p>
 
@@ -272,7 +272,7 @@
 
 <p>AI działa najlepiej: gdy mówisz mu <em>teraz, w sesji, z atrybucją, z kontekstem</em>. Wtedy obsługuje twoje myślenie świetnie, bo widzi polaroid w momencie robienia. Działa najgorzej: gdy odwołujesz się do "tego, co już mu mówiłeś", a userMemories są streszczeniem bez atrybucji. Wtedy konfabulkuje spójnie i niewykrywalnie.</p>
 
-<h2 id="praktyczne-reguy-wynikajace-z-obserwacji">Praktyczne reguły wynikające z obserwacji</h2>
+<h2 id="praktyczne-reguly-wynikajace-z-obserwacji">Praktyczne reguły wynikające z obserwacji</h2>
 
 <ol>
   <li><strong>Pliki w projekcie pisane razem, w sesji, z inspekcją w czasie rzeczywistym</strong> — bezpieczne. Closed loop with human in the loop.</li>
@@ -339,9 +339,9 @@
 
 <p>W literaturze ND-affirming używa się raczej <em>iatrogenic harm</em> (szkoda jatrogenna), ale to brzmi jak rzadki wypadek. <em>Antyskuteczne</em> sugeruje systematyczność, przewidywalność, zidentyfikowalne klasy interwencji. Mocniejsze pojęciowo.</p>
 
-<h3 id="konkretne-przykady-antyskutecznych-technik-dla-nd">Konkretne przykłady antyskutecznych technik dla ND</h3>
+<h3 id="konkretne-przyklady-antyskutecznych-technik-dla-nd">Konkretne przykłady antyskutecznych technik dla ND</h3>
 
-<h4 id="1-praca-nad-odaczonym-obronca-u-audhd-bez-modyfikacji">(1) "Praca nad odłączonym obrońcą" u AuDHD bez modyfikacji</h4>
+<h4 id="1-praca-nad-odlaczonym-obronca-u-audhd-bez-modyfikacji">(1) "Praca nad odłączonym obrońcą" u AuDHD bez modyfikacji</h4>
 <p>"Odłączony obrońca" w schemat-terapii Younga to tryb obronny — racjonalizacja, intelektualizacja, dystansowanie się od emocji. Definiowany jako patologiczny, do <em>zintegrowania, przepracowania, zmiękczenia</em>.</p>
 
 <p>U AuDHD ten model jest błędny w samym założeniu. Bo to, co schemat-terapeuta widzi jako <em>odłączonego obrońcę</em>, jest często <strong>trzecim podmiotem / obserwatorem metakognitywnym</strong> — architekturą poznawczą obecną od dziecka, działającą funkcjonalnie. Nie odpowiedzią na traumę. Nie maskującą pełniejszej afektywności pod spodem.</p>
@@ -353,12 +353,12 @@
 <h4 id="2-behavioral-activation-w-depresji-u-adhd">(2) Behavioral activation w "depresji" u ADHD</h4>
 <p>Opisane wyżej. Mechanizm: trening wyuczonej bezradności maskowany jako leczenie depresji.</p>
 
-<h4 id="3-ekspozycja-stopniowana-w-leku-spoecznym-u-asd">(3) Ekspozycja stopniowana w lęku społecznym u ASD</h4>
+<h4 id="3-ekspozycja-stopniowana-w-leku-spolecznym-u-asd">(3) Ekspozycja stopniowana w lęku społecznym u ASD</h4>
 <p>NT-założenie: lęk jest irracjonalny, ekspozycja → habituacja → spadek lęku.</p>
 
 <p>U ASD: lęk jest racjonalny, bo dekoder społeczny faktycznie nie działa → ekspozycja produkuje <strong>więcej rzeczywistych porażek społecznych</strong> → pacjent uczy się, że ma realne podstawy do lęku. Niektórzy ASD po latach takiej terapii mają objawy <strong>PTSD-podobne z ekspozycji</strong>, bo to nie był strach do przepracowania, to było uczucie informujące o realnym deficycie, który wystawienie na sytuację społeczną <em>potwierdziło</em>, a nie <em>wygasiło</em>.</p>
 
-<h4 id="4-mindfulness-penego-ciaa-u-atypowej-propriocepcji">(4) Mindfulness "pełnego ciała" u atypowej propriocepcji</h4>
+<h4 id="4-mindfulness-pelnego-ciala-u-atypowej-propriocepcji">(4) Mindfulness "pełnego ciała" u atypowej propriocepcji</h4>
 <p>Standardowa praktyka: zwróć uwagę na sygnały ciała, bądź w ciele, czuj swoje stopy. NT-założenie: zwiększona uwaga na ciało produkuje uziemienie i regulację.</p>
 
 <p>U AuDHD z atypową propriocepcją (atypowa propriocepcja → korowa kompensacja 24/7): zwiększona uwaga na ciało <strong>podnosi i tak nadmierne obciążenie kompensacyjne</strong>. Pacjent po praktyce ma <em>więcej zmęczenia, nie mniej</em>, bo świadomość uruchomiła jeszcze więcej cykli korowych pracujących nad propriocepcją. Mindfulness aktywnie nakręca to, co u AuDHD już działa za mocno.</p>
@@ -445,7 +445,7 @@
   </li>
 </ol>
 
-<h3 id="praca-nad-manifestacjami-przy-nieleczonym-podozu">Praca nad manifestacjami przy nieleczonym podłożu</h3>
+<h3 id="praca-nad-manifestacjami-przy-nieleczonym-podlozu">Praca nad manifestacjami przy nieleczonym podłożu</h3>
 <p>Pacjent z 30+ latami nieleczonego AuDHD przychodzi z <em>obrazem depresji, lęku, problemów relacyjnych, "nie umiem dorosnąć"</em> — i terapeuta pracuje nad tymi <strong>manifestacjami</strong>, nie nad <strong>podłożem</strong>. Praca nad manifestacjami przy nieleczonym podłożu jest jak <strong>terapia bólu kolana u kogoś, kto chodzi w butach o dwa numery za małych</strong>. Ulga jest chwilowa, problem wraca.</p>
 
 <h2 id="polski-rynek-terapeutyczny-w-2026">Polski rynek terapeutyczny w 2026</h2>
