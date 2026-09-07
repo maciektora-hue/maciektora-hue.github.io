@@ -1,0 +1,27 @@
+name: SOL AuDHD - import tresci do SQL
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_audhd_content_sql.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import-audhd-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Importuj 338 sekcji AuDHD do content_sections.content_html
+        run: node audhd/SOL_import-content-sql.js
