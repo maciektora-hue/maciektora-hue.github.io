@@ -20,8 +20,22 @@ def build_relations_page(model, window_size=DEFAULT_WINDOW_SIZE, step=DEFAULT_ST
     )
     labels = [window["label"] for window in windows]
     available = Counter(event["tag_key"] for event in model["events"])
-    pairs = []
 
+    trio_tags = ["frustracja", "bezsilnosc", "gniew"]
+    trio = None
+    if all(available[tag] for tag in trio_tags):
+        trio_values = count_series(windows, "tags", trio_tags)
+        trio_series = [
+            {"name": tag, "label": tag, "values": trio_values[tag]}
+            for tag in trio_tags
+        ]
+        trio_colors = _series_colors(trio_series)
+        trio = {
+            "chart": svg_chart(labels, trio_series, trio_colors),
+            "legend": legend(trio_series, trio_colors),
+        }
+
+    pairs = []
     for a, b in [
         ("czulosc", "strach"),
         ("bezsilnosc", "frustracja"),
@@ -49,5 +63,6 @@ def build_relations_page(model, window_size=DEFAULT_WINDOW_SIZE, step=DEFAULT_ST
     return {
         "window_size": window_size,
         "step": step,
+        "trio": trio,
         "pairs": pairs[:3],
     }
