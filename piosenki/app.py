@@ -8,9 +8,13 @@ from flask_cors import CORS
 
 from content_store import (
     ensure_content_storage,
-    fetch_content_collections,
     fetch_content_rows,
-    fetch_content_status,
+)
+from content_structure import (
+    ensure_content_structure_v2,
+    fetch_content_collections_v2,
+    fetch_content_status_v2,
+    fetch_content_structure,
 )
 from czas_okna import build_time_page_sliding
 from statystyki import build_direction_page, build_relations_page, load_model
@@ -56,10 +60,12 @@ def initialize_content_storage():
     conn = get_connection()
     try:
         state = ensure_content_storage(conn)
-        collections = fetch_content_collections(conn)
+        structure_state = ensure_content_structure_v2(conn)
+        collections = fetch_content_collections_v2(conn)
         print(f"CONTENT SQL: {state}", flush=True)
+        print(f"CONTENT STRUCTURE: {structure_state}", flush=True)
         print(f"CONTENT SQL STATUS: {collections}", flush=True)
-        return state
+        return {"content": state, "structure": structure_state}
     finally:
         conn.close()
 
@@ -149,7 +155,7 @@ def api_content_collections():
     conn = None
     try:
         conn = get_connection()
-        return jsonify(collections=fetch_content_collections(conn)), 200
+        return jsonify(collections=fetch_content_collections_v2(conn)), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
     finally:
@@ -162,10 +168,27 @@ def api_content_collection(collection_id):
     conn = None
     try:
         conn = get_connection()
-        status = fetch_content_status(conn, collection_id)
+        status = fetch_content_status_v2(conn, collection_id)
         if status is None:
             return jsonify(status="not_found", collection_id=collection_id), 404
         rows = fetch_content_rows(conn, collection_id)
+        return jsonify(collection_id=collection_id, status=status, rows=rows), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/content/<collection_id>/structure")
+def api_content_collection_structure(collection_id):
+    conn = None
+    try:
+        conn = get_connection()
+        status = fetch_content_status_v2(conn, collection_id)
+        if status is None:
+            return jsonify(status="not_found", collection_id=collection_id), 404
+        rows = fetch_content_structure(conn, collection_id)
         return jsonify(collection_id=collection_id, status=status, rows=rows), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
@@ -179,7 +202,7 @@ def api_content_collection_status(collection_id):
     conn = None
     try:
         conn = get_connection()
-        status = fetch_content_status(conn, collection_id)
+        status = fetch_content_status_v2(conn, collection_id)
         if status is None:
             return jsonify(status="not_found", collection_id=collection_id), 404
         return jsonify(status), 200
