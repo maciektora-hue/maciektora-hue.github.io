@@ -1,0 +1,47 @@
+name: AUDHD - popraw transliteracje anchorow
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'audhd/SOL_popraw-transliteracje-anchorow.py'
+      - '.github/workflows/audhd-popraw-transliteracje-anchorow.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  popraw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Popraw transliteracje
+        run: python audhd/SOL_popraw-transliteracje-anchorow.py
+
+      - name: Audyt po korekcie
+        run: |
+          python audhd/SOL_audyt-anchorow.py
+          grep -F 'H1–H6 sprawdzone: 338' audhd/SOL_raport-audyt-anchorow-audhd.txt
+          grep -F 'Nagłówki bez id: 0' audhd/SOL_raport-audyt-anchorow-audhd.txt
+          grep -F 'Powielone wartości id (grupy): 0' audhd/SOL_raport-audyt-anchorow-audhd.txt
+          grep -F 'Puste id: 0' audhd/SOL_raport-audyt-anchorow-audhd.txt
+          grep -F 'Niedziałające sprawdzalne linki #fragment: 0' audhd/SOL_raport-audyt-anchorow-audhd.txt
+
+      - name: Zapisz
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/*.html audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv audhd/SOL_raport-audyt-anchorow-audhd.txt
+          if git diff --cached --quiet; then
+            echo 'Brak zmian.'
+            exit 0
+          fi
+          git commit -m 'AUDHD: popraw transliteracje anchorow'
+          git push origin main
