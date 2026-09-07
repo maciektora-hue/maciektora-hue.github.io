@@ -78,12 +78,22 @@ def load_model(conn):
         "SELECT family_name, label, color_hex, description, sort_order FROM families ORDER BY sort_order",
         ["family_name", "label", "color_hex", "description", "sort_order"],
     )
+    valence_rows = fetch(
+        conn,
+        "SELECT tag, valence, status FROM tag_valence ORDER BY tag",
+        ["tag", "valence", "status"],
+    )
 
     song_by_lyrics = {row["lyrics_id"]: row for row in songs if row.get("lyrics_id")}
     axes_by_tag = defaultdict(list)
     for row in tag_axes:
         axes_by_tag[key(row["tag"])].append(row["axis_name"])
     family_by_axis = {row["axis_name"]: row["family_name"] for row in axes}
+    valence_by_tag = {
+        key(row["tag"]): int(row["valence"])
+        for row in valence_rows
+        if row.get("status") == "resolved" and row.get("valence") in (-1, 0, 1)
+    }
 
     events = []
     tags_by_song = defaultdict(set)
@@ -119,6 +129,7 @@ def load_model(conn):
         "tags_by_song": dict(tags_by_song),
         "axes": axes,
         "families": families,
+        "valence_by_tag": valence_by_tag,
         "max_order": max_order,
     }
 
@@ -248,10 +259,10 @@ def build_direction_page(model):
     tag_counts = Counter(event["tag_key"] for event in model["events"])
     valence_counts = Counter()
     mapped = 0
-    for tag, spec in config.get("tags", {}).items():
-        count = tag_counts[key(tag)]
-        if count and spec.get("valence") is not None:
-            valence_counts[int(spec["valence"])] += count
+    for tag_key, valence_value in model.get("valence_by_tag", {}).items():
+        count = tag_counts[tag_key]
+        if count:
+            valence_counts[int(valence_value)] += count
             mapped += count
     denom = sum(valence_counts.values()) or 1
     contrasts = []
