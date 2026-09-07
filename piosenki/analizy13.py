@@ -1,7 +1,8 @@
 from collections import Counter, defaultdict
 from itertools import combinations
 
-from statystyki import build_chunks, legend, svg_chart
+from czas_okna import build_windows
+from statystyki import legend, svg_chart
 
 
 DIRECTION_TAGS = [
@@ -25,14 +26,6 @@ def _top(counter, limit=10, labels=None):
     ]
 
 
-def _chunk_index(order, chunk_size, n):
-    try:
-        i = (int(order) - 1) // chunk_size
-    except (TypeError, ValueError):
-        return None
-    return i if 0 <= i < n else None
-
-
 def _pair_counts(sets, limit=12):
     counts = Counter()
     for values in sets:
@@ -46,7 +39,7 @@ def _pair_counts(sets, limit=12):
 
 def _time_chart(labels, series):
     # spotify_order=1 oznacza najnowsze polubienie. Na wykresie czas ma płynąć
-    # tradycyjnie od lewej do prawej, więc przeszłość jest po lewej, teraz po prawej.
+    # od przeszłości po lewej do teraz po prawej.
     ordered_series = [
         {**item, "values": list(reversed(item["values"]))}
         for item in series
@@ -54,8 +47,10 @@ def _time_chart(labels, series):
     return svg_chart(list(reversed(labels)), ordered_series)
 
 
-def build_13_analyses(model, chunk_size=80):
-    chunks = build_chunks(model, chunk_size)
+def build_13_analyses(model, chunk_size=80, step=30):
+    # To samo okno czasowe co w osobnym widoku czasu: 80 zdarzeń,
+    # przesunięcie domyślnie o 30 zdarzeń. Okna zachodzą na siebie.
+    chunks = build_windows(model, size=chunk_size, step=step, direction="teraz")
     labels = [c["label"] for c in chunks]
     n = len(chunks)
 
@@ -120,14 +115,15 @@ def build_13_analyses(model, chunk_size=80):
     per_chunk_valence = [Counter() for _ in chunks]
     per_chunk_direction = [Counter() for _ in chunks]
     for event in model["events"]:
-        i = _chunk_index(event["spotify_order"], chunk_size, n)
-        if i is None:
-            continue
-        valence_value = valence_by_tag.get(event["tag_key"])
-        if valence_value is not None:
-            per_chunk_valence[i][valence_value] += 1
-        if event["tag_key"] in DIRECTION_TAGS:
-            per_chunk_direction[i][event["tag_key"]] += 1
+        order = event["spotify_order"]
+        for i, chunk in enumerate(chunks):
+            if not (chunk["start"] <= order <= chunk["end"]):
+                continue
+            valence_value = valence_by_tag.get(event["tag_key"])
+            if valence_value is not None:
+                per_chunk_valence[i][valence_value] += 1
+            if event["tag_key"] in DIRECTION_TAGS:
+                per_chunk_direction[i][event["tag_key"]] += 1
 
     for i in range(n):
         valence_series[0]["values"][i] = per_chunk_valence[i][-1]
@@ -172,6 +168,7 @@ def build_13_analyses(model, chunk_size=80):
 
     return {
         "chunk_size": chunk_size,
+        "step": step,
         "top_tags": _top(tag_counts, 12),
         "top_axes": _top(axis_counts, 12, axis_labels),
         "families": _top(family_counts, 10, family_labels),
