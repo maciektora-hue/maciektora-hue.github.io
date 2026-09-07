@@ -1,5 +1,5 @@
 {
-  "note": "Warstwa demonstracyjna. Wartości nie pochodzą z SQL. Są interpretacją wybranych tagów i mają pokazać mechanikę, nie zamykać ontologii.",
+  "note": "Warstwa interpretacyjna oparta na aktualnej ontologii tagów i opisach osi. Do bilansu wchodzą tylko tagi, dla których kierunek na danej osi jest wystarczająco jednoznaczny. Brak wpisu oznacza nierozstrzygnięte, a nie neutralne.",
   "tags": {
     "milosc": {"valence": 1},
     "czulosc": {"valence": 1},
@@ -7,20 +7,53 @@
     "spokoj": {"valence": 1},
     "ulga": {"valence": 1},
     "nadzieja": {"valence": 1},
+    "duma": {"valence": 1},
     "smutek": {"valence": -1},
+    "melancholia": {"valence": -1},
+    "lek": {"valence": -1},
     "strach": {"valence": -1},
-    "rozpacz": {"valence": -1},
-    "bezsilnosc": {"valence": -1},
-    "frustracja": {"valence": -1},
+    "wstyd": {"valence": -1},
     "wstret": {"valence": -1},
-    "droga-podroz": {"valence": 0},
-    "czas": {"valence": 0},
-    "woda": {"valence": 0},
-    "taniec": {"valence": 0}
+    "zazdrosc": {"valence": -1},
+    "rozpacz": {"valence": -1},
+    "frustracja": {"valence": -1},
+    "nuda": {"valence": -1},
+    "zal": {"valence": -1},
+    "bezsilnosc": {"valence": -1},
+    "gniew": {"valence": -1}
   },
   "contrasts": [
-    {"label":"sprawczość","description":"Przykład kierunku: od braku skutecznego wpływu do działania i kontroli.","left_label":"bezsilność","right_label":"działanie / kontrola","left":["bezsilnosc"],"right":["sprawczosc","kontrola","frustracja"]},
-    {"label":"ruch / cel","description":"Przykład kierunku ruchu, nie ocena moralna.","left_label":"ucieczka / brak celu","right_label":"pogoń / cel","left":["ucieczka","cel-nieosiagniety"],"right":["pogon","cel"]},
-    {"label":"afekt","description":"Bardzo uproszczony pokaz wartościowania przyjemne ↔ nieprzyjemne.","left_label":"nieprzyjemne","right_label":"przyjemne","left":["smutek","strach","rozpacz","frustracja","wstret"],"right":["radosc","czulosc","spokoj","ulga","milosc","nadzieja"]}
+    {
+      "label": "regulacja / bezpieczeństwo",
+      "description": "Od dysregulacji, alarmu i utraty ulgi do faktycznej regulacji, spokoju i bezpieczeństwa. Pominięte są mechanizmy, których skuteczności nie da się rozstrzygnąć z samego tagu.",
+      "left_label": "dysregulacja / brak bezpieczeństwa",
+      "right_label": "regulacja / bezpieczeństwo",
+      "left": ["sensoryka-przytloczenie", "shutdown-meltdown", "bezsennosc-restless", "emocjonalna-dysregulacja", "ulga-odroczona", "ulga-utracona", "dosc-przesyt", "potrzeba-zapewnienia"],
+      "right": ["samotnosc-preferowana", "ulga", "spokoj", "ulga-z-zewnatrz", "schronienie"]
+    },
+    {
+      "label": "ruch / cel",
+      "description": "Kierunek ruchu: od czegoś, blokada albo niedotarcie kontra ruch ku czemuś i osiągnięcie celu. Neutralne motywy ruchu, jak droga/podróż, nie są wciskane w żaden biegun.",
+      "left_label": "od / brak dotarcia",
+      "right_label": "ku / dotarcie",
+      "left": ["ucieczka", "cel-nieosiagniety", "unikanie-z-leku"],
+      "right": ["dotarcie", "pogon", "powrot-do"]
+    },
+    {
+      "label": "sprawczość / przyczynowość",
+      "description": "Od braku skutecznego wpływu, blokady i zewnętrznej przyczyny do jawnego działania i kontroli. Ten sam tag może mieć inny kierunek na innej osi, np. ulga-z-zewnatrz jest regulacją, ale źródło sprawczości pozostaje zewnętrzne.",
+      "left_label": "brak wpływu / zewnętrzne",
+      "right_label": "działanie / kontrola",
+      "left": ["dysfunkcja-wykonawcza", "ulga-z-zewnatrz", "przez-szczescie", "bezsilnosc", "zamrozenie", "zablokowanie", "rozpad"],
+      "right": ["kontrola", "kontrola-wizerunku", "sprawczosc"]
+    },
+    {
+      "label": "dostęp do emocji",
+      "description": "Najbardziej jednoznaczne końce skali: brak rozpoznania własnego stanu kontra bezpośrednia wiedza, co się czuje. Pośrednie drogi dostępu przez ciało, skutek, opóźnienie lub inną osobę pozostają poza bilansem zamiast udawać środek z definicji.",
+      "left_label": "brak / utrata rozpoznania",
+      "right_label": "bezpośredni dostęp",
+      "left": ["alexithymia", "nie-wiem-co-czuje", "nierozpoznanie-siebie"],
+      "right": ["wiem-co-czuje"]
+    }
   ]
 }
