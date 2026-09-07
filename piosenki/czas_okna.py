@@ -4,6 +4,45 @@ from collections import Counter, defaultdict
 from statystyki import count_series, legend, percent_series, svg_chart, top_names
 
 
+FAMILY_PALETTE = [
+    "#1565C0",
+    "#00897B",
+    "#EF6C00",
+    "#7B1FA2",
+    "#C62828",
+    "#00ACC1",
+    "#7CB342",
+    "#D81B60",
+]
+AXIS_PALETTE = [
+    "#0066FF",
+    "#FF6D00",
+    "#00BFA5",
+    "#AA00FF",
+    "#FF1744",
+    "#00B0FF",
+    "#64DD17",
+    "#FFD600",
+]
+TAG_PALETTE = [
+    "#0057FF",
+    "#FF3D00",
+    "#00C853",
+    "#D500F9",
+    "#FFAB00",
+    "#00B8D4",
+    "#FF1744",
+    "#6200EA",
+]
+
+
+def _series_colors(series, palette):
+    return {
+        item["name"]: palette[i % len(palette)]
+        for i, item in enumerate(series)
+    }
+
+
 def build_windows(model, size=80, step=30, direction="teraz"):
     max_order = model["max_order"]
     if max_order <= 0:
@@ -95,10 +134,7 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
         }
         for name in family_names
     ]
-    family_colors = {
-        row["family_name"]: row.get("color_hex") or "#555"
-        for row in model["families"]
-    }
+    family_colors = _series_colors(family_series, FAMILY_PALETTE)
 
     axis_names = top_names(windows, "axes", 6)
     axis_meta = {row["axis_name"]: row for row in model["axes"]}
@@ -111,6 +147,7 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
         }
         for name in axis_names
     ]
+    axis_colors = _series_colors(axis_series, AXIS_PALETTE)
 
     available = Counter(event["tag_key"] for event in model["events"])
     pair = next(
@@ -138,8 +175,9 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
             }
             for tag in pair
         ]
-        pair_chart = svg_chart(labels, pair_series)
-        pair_legend = legend(pair_series)
+        pair_colors = _series_colors(pair_series, TAG_PALETTE)
+        pair_chart = svg_chart(labels, pair_series, pair_colors)
+        pair_legend = legend(pair_series, pair_colors)
 
     return {
         "window_size": window_size,
@@ -154,8 +192,8 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
         "window_count": len(windows),
         "family_chart": svg_chart(labels, family_series, family_colors),
         "family_legend": family_legend_with_axes(model, family_series, family_colors),
-        "axis_chart": svg_chart(labels, axis_series),
-        "axis_legend": legend(axis_series),
+        "axis_chart": svg_chart(labels, axis_series, axis_colors),
+        "axis_legend": legend(axis_series, axis_colors),
         "pair_chart": pair_chart,
         "pair_legend": pair_legend,
     }
