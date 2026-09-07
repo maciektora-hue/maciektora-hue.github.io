@@ -1,0 +1,144 @@
+name: Apply manual PL EN switches
+
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-manual-lang-switches.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zastosuj reczne PL EN bez automatyki
+        shell: bash
+        run: |
+          git pull --rebase origin main
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          CSS = '''
+          .lang-switch {
+            display:inline-flex;align-items:center;justify-content:center;
+            padding:7px 11px;border:1px solid currentColor;border-radius:999px;
+            color:inherit;background:rgba(0,0,0,.10);font:800 .74rem/1 system-ui,sans-serif;
+            letter-spacing:.04em;text-decoration:none;white-space:nowrap;
+          }
+          .lang-switch:hover,.lang-switch:focus-visible{opacity:.82}
+          '''
+
+          def add_css(t):
+              if '.lang-switch {' not in t:
+                  assert '</style>' in t
+                  t=t.replace('</style>',CSS+'\n</style>',1)
+              return t
+
+          def add_alt(t):
+              if 'hreflang="pl"' not in t:
+                  assert '</head>' in t
+                  t=t.replace('</head>','  <link rel="alternate" hreflang="pl" href="index.html">\n  <link rel="alternate" hreflang="en" href="index-en.html">\n</head>',1)
+              return t
+
+          def add_nav_switch(t, href, label):
+              t=add_css(t)
+              m=re.search(r'<nav\b[^>]*>.*?</nav>',t,re.S|re.I)
+              assert m
+              block=m.group(0)
+              assert 'class="lang-switch"' not in block
+              lang='en' if label=='English' else 'pl'
+              block=block.replace('</nav>',f'  <a class="lang-switch" href="{href}" lang="{lang}">{label}</a>\n      </nav>',1)
+              return t[:m.start()]+block+t[m.end():]
+
+          def repl_all(t,pairs):
+              for a,b in pairs:
+                  assert a in t,a
+                  t=t.replace(a,b)
+              return t
+
+          # ROOT
+          p=Path('index.html'); src=p.read_text(encoding='utf-8')
+          en=src.replace('<html lang="pl">','<html lang="en">',1)
+          en=en.replace('<title>Maciej Tora — wejście główne</title>','<title>Maciej Tora — main entrance</title>',1)
+          en=en.replace('<meta name="description" content="Maciej Tora — CV, równania, Rosyjska Kolumbryna i AuDHD.">','<meta name="description" content="Maciej Tora — CV, equations, Russian Kolumbryna and AuDHD.">',1)
+          en=en.replace('href="cv/"','href="cv/index-en.html"',1).replace('href="audhd/rownania/"','href="audhd/rownania/index-en.html"',1).replace('href="rosja/"','href="rosja/index-en.html"',1).replace('href="audhd/"','href="audhd/index-en.html"',1)
+          en=add_css(en)
+          en=en.replace('<div class="top-note">Four doors. No menu maze.</div>','<div class="top-note">Four doors. No menu maze.</div>\n      <a class="lang-switch" href="index.html" lang="pl">Polski</a>',1)
+          en=add_alt(en)
+          Path('index-en.html').write_text(en,encoding='utf-8')
+
+          pl=repl_all(src,[
+            ('<div class="brand"><strong>Maciej Tora</strong> public entrance</div>','<div class="brand"><strong>Maciej Tora</strong> wejście publiczne</div>'),
+            ('<div class="top-note">Four doors. No menu maze.</div>','<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>'),
+            ('Work · Mathematics · Strategy · Neurodivergence','Praca · Matematyka · Strategia · Neuroróżnorodność'),
+            ('Four ways<br>into the same head.','Cztery drogi<br>do tej samej głowy.'),
+            ('A professional profile, a handful of equations worth keeping, strategic writing about Russia, and the architecture of AuDHD. Different doors, same machinery underneath.','Profil zawodowy, kilka równań wartych zachowania, teksty strategiczne o Rosji i architektura AuDHD. Różne wejścia, ta sama maszynownia pod spodem.'),
+            ('Start wherever the question is.','Zacznij tam, gdzie jest pytanie.'),
+            ('The order below is intentional: work first, then mathematics, then geopolitics, then the operating system underneath the operator.','Kolejność jest celowa: najpierw praca, potem matematyka, geopolityka, a na końcu system operacyjny operatora.'),
+            ('<div class="door-kicker">Professional</div>','<div class="door-kicker">Zawodowe</div>'),
+            ('The direct route: experience, AI enablement, mathematics, business, and a deeper 17×17 companion piece for anyone who wants the machinery, not only the timeline.','Droga bezpośrednia: doświadczenie, AI enablement, matematyka, biznes oraz głębsze 17×17 dla tych, których interesuje maszynownia, a nie tylko chronologia.'),
+            ('Best first stop','Najlepsze pierwsze wejście'),('>ENTER <','>WEJDŹ <'),
+            ('<div class="door-kicker">Mathematics</div>','<div class="door-kicker">Matematyka</div>'),('<h2>The equations</h2>','<h2>Równania</h2>'),
+            ('The most beautiful and useful equations in the room. A small monument to the fact that reality occasionally consents to being written compactly.','Najpiękniejsze i najbardziej użyteczne równania w pokoju. Mały pomnik faktu, że rzeczywistość czasem zgadza się zostać zapisana zwięźle.'),
+            ('Beauty with units','Piękno z jednostkami'),('>OPEN <','>OTWÓRZ <'),
+            ('<div class="door-kicker">Strategy</div>','<div class="door-kicker">Strategia</div>'),
+            ('Strategic writing, maps, mechanisms and cross-links around Russia, state failure, legitimacy, resources, pressure and the strange persistence of systems that should have fallen over already.','Teksty strategiczne, mapy, mechanizmy i połączenia wokół Rosji: rozpad zdolności państwa, legitymizacja, zasoby, presja i dziwna trwałość systemów, które już dawno powinny się przewrócić.'),
+            ('Long-form strategic work','Długie analizy strategiczne'),
+            ('<div class="door-kicker">Architecture of mind</div>','<div class="door-kicker">Architektura umysłu</div>'),
+            ('Late diagnosis, traits, regulation, masking, memory, burnout, cognition and the attempt to describe a nervous system without turning a person into a checklist.','Późna diagnoza, cechy, regulacja, maskowanie, pamięć, wypalenie, poznanie i próba opisania układu nerwowego bez zamieniania człowieka w checklistę.'),
+            ('Maps, essays, explanations','Mapy, eseje, wyjaśnienia'),('One repository · four public entrances','Jedno repozytorium · cztery publiczne wejścia')])
+          pl=add_css(pl).replace('<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>','<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>\n      <a class="lang-switch" href="index-en.html" lang="en">English</a>',1)
+          p.write_text(add_alt(pl),encoding='utf-8')
+
+          # CV
+          p=Path('cv/index.html'); src=p.read_text(encoding='utf-8')
+          Path('cv/index-en.html').write_text(add_alt(add_nav_switch(src,'index.html','Polski')),encoding='utf-8')
+          pl=src.replace('<html lang="en">','<html lang="pl">',1)
+          pl=repl_all(pl,[
+            ('aria-label="Quick links"','aria-label="Szybkie linki"'),('>Two ways in</a>','>Dwa wejścia</a>'),('>What connects them</a>','>Co je łączy</a>'),
+            ('Two ways<br>in.','Dwa wejścia<br>do środka.'),
+            ('One profile, read at two different depths: the concise professional route, or the machinery underneath it.','Jeden profil czytany na dwóch głębokościach: krótka droga zawodowa albo maszynownia pod spodem.'),
+            ('Start with what you need.','Zacznij od tego, czego potrzebujesz.'),
+            ('The CV is the direct route. Seventeen &amp; Seventeen is the deeper one: concepts, methods and the logic behind the work.','CV jest drogą bezpośrednią. Seventeen &amp; Seventeen schodzi głębiej: pojęcia, metody i logika stojąca za pracą.'),
+            ('aria-label="Two ways to read the profile"','aria-label="Dwa sposoby czytania profilu"'),('The short route','Krótka droga'),
+            ('Experience, skills, education and the work I actually did.','Doświadczenie, umiejętności, wykształcenie i praca, którą rzeczywiście robiłem.'),
+            ('For recruiters, hiring managers and people who want the professional picture first: AI enablement, agentic workflows, governance, adoption, business value and the experience behind them.','Dla rekruterów, hiring managerów i osób, które najpierw chcą zobaczyć obraz zawodowy: AI enablement, agentic workflows, governance, adoption, wartość biznesową i doświadczenie stojące za nimi.'),
+            ('Best first read','Najlepsze pierwsze czytanie'),('READ THE CV','CZYTAJ CV'),('The long route','Długa droga'),
+            ('17 concepts from the AI job market. 17 concepts from the work behind the CV.','17 pojęć z rynku pracy AI. 17 pojęć z pracy stojącej za CV.'),
+            ('For people who want to know how I think, not only where I worked: the vocabulary of the market set against the methods, constraints and ideas developed in practice.','Dla osób, które chcą wiedzieć, jak myślę, a nie tylko gdzie pracowałem: słownik rynku zestawiony z metodami, ograniczeniami i pomysłami wypracowanymi w praktyce.'),
+            ('Deeper evidence','Głębszy dowód'),('GO DEEPER','IDŹ GŁĘBIEJ'),('What connects them','Co je łączy'),
+            ('The CV says what I have done. <em>Seventeen &amp; Seventeen</em> shows how the machinery underneath it works.','CV mówi, co zrobiłem. <em>Seventeen &amp; Seventeen</em> pokazuje, jak działa maszynownia pod spodem.'),('Public CV gateway','Publiczna brama CV')])
+          p.write_text(add_alt(add_nav_switch(pl,'index-en.html','English')),encoding='utf-8')
+
+          # POLSKIE indeksy Rosja/AuDHD: jawny link do EN.
+          for name in ['rosja/index.html','audhd/index.html']:
+              p=Path(name); t=p.read_text(encoding='utf-8')
+              p.write_text(add_alt(add_nav_switch(t,'index-en.html','English')),encoding='utf-8')
+
+          # RÓWNANIA: pełne PL i EN pod stabilnymi adresami, bez redirectów.
+          def pub(src,href,label):
+              t=add_alt(add_css(Path(src).read_text(encoding='utf-8')))
+              lang='en' if label=='English' else 'pl'
+              bar=f'<div style="display:flex;justify-content:flex-end;margin:0 0 22px"><a class="lang-switch" href="{href}" lang="{lang}">{label}</a></div>'
+              assert '<main>' in t
+              return t.replace('<main>','<main>\n    '+bar,1)
+          Path('audhd/rownania/index.html').write_text(pub('audhd/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html','index-en.html','English'),encoding='utf-8')
+          Path('audhd/rownania/index-en.html').write_text(pub('audhd/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html','index.html','Polski'),encoding='utf-8')
+
+          pairs=[('index.html','index-en.html'),('cv/index.html','cv/index-en.html'),('rosja/index.html','rosja/index-en.html'),('audhd/index.html','audhd/index-en.html'),('audhd/rownania/index.html','audhd/rownania/index-en.html')]
+          for a,b in pairs:
+              x=Path(a).read_text(encoding='utf-8'); y=Path(b).read_text(encoding='utf-8')
+              assert 'English' in x and 'Polski' in y
+              assert 'navigator.language' not in x+y and 'location.replace' not in x+y and 'http-equiv="refresh"' not in x+y
+              print('OK',a,'<->',b)
+          print('SUCCESS')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html index-en.html cv/index.html cv/index-en.html rosja/index.html audhd/index.html audhd/rownania/index.html audhd/rownania/index-en.html
+          git commit -m "Dodaj reczne przelaczniki PL EN"
+          git pull --rebase origin main
+          git push
