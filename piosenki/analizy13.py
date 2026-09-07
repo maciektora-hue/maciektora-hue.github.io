@@ -1,13 +1,9 @@
-import json
 from collections import Counter, defaultdict
 from itertools import combinations
-from pathlib import Path
 
-from statystyki import build_chunks, key, legend, svg_chart
+from statystyki import build_chunks, legend, svg_chart
 
 
-ROOT = Path(__file__).resolve().parent
-VALUES_PATH = ROOT / "dane-analityczne" / "tag-wartosci.json"
 DIRECTION_TAGS = [
     "do-siebie",
     "do-innych",
@@ -63,12 +59,7 @@ def build_13_analyses(model, chunk_size=80):
         axis_counts.update(event["axis_names"])
         family_counts.update(event["family_names"])
 
-    config = json.loads(VALUES_PATH.read_text(encoding="utf-8"))
-    valence_by_tag = {
-        key(tag): int(spec["valence"])
-        for tag, spec in config.get("tags", {}).items()
-        if spec.get("valence") in (-1, 0, 1)
-    }
+    valence_by_tag = model.get("valence_by_tag", {})
 
     valence_counts = Counter()
     unresolved = 0
