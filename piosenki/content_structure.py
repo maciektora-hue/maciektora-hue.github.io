@@ -244,7 +244,8 @@ def fetch_content_structure(conn, collection_id: str) -> list[dict]:
                 WHEN s.anchor IS NULL OR trim(s.anchor)='' THEN ''
                 ELSE rtrim(d.canonical_url,'#') || '#' || s.anchor
             END,
-            COALESCE(s.description,'')
+            COALESCE(s.description,''),
+            COALESCE(s.content_html,'')
         FROM content_sections s
         JOIN content_documents d ON d.document_id=s.document_id
         WHERE d.collection_id=?
@@ -256,7 +257,7 @@ def fetch_content_structure(conn, collection_id: str) -> list[dict]:
         "collection_id", "dokument_kod", "dokument_tytul", "canonical_url",
         "dokument_plik", "source_url", "document_sort_order", "section_kind", "poziom",
         "glebokosc", "kolejnosc", "source_order", "sekcja_tytul", "anchor",
-        "anchor_status", "deep_link", "opis",
+        "anchor_status", "deep_link", "opis", "content_html",
     ]
     return [dict(zip(columns, row)) for row in rows]
 

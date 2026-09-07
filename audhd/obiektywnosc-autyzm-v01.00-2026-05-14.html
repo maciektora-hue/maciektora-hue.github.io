@@ -1,270 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Obiektywność osoby autystycznej — teza i mechanizm</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AuDHD</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #f5efe6;
-    color: #3b2a1a;
-    font-family: 'Anivers', 'Ubuntu', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    line-height: 1.7;
-    padding: 40px 20px 80px;
-  }
-
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .meta-header {
-    font-size: 12px;
-    color: #8a7a6a;
-    margin-bottom: 40px;
-    line-height: 1.8;
-  }
-
-  h1 {
-    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-
-  .subtitle {
-    font-size: 16px;
-    color: #6a5a4a;
-    margin-bottom: 40px;
-    font-style: italic;
-  }
-
-  h2 {
-    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
-    font-size: 22px;
-    font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 16px;
-  }
-
-  h3 {
-    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-top: 28px;
-    margin-bottom: 10px;
-  }
-
-  p {
-    margin-bottom: 16px;
-  }
-
-  ol, ul {
-    margin: 12px 0 20px 24px;
-  }
-
-  li {
-    margin-bottom: 8px;
-  }
-
-  .teza-box {
-    background: #ece5da;
-    padding: 24px 28px;
-    border-left: 4px solid #6a5a4a;
-    margin: 24px 0 32px 0;
-    font-size: 17px;
-  }
-
-  .teza-box p:last-child {
-    margin-bottom: 0;
-  }
-
-  .teza-box ol {
-    margin: 8px 0 8px 22px;
-  }
-
-  .nb {
-    background: #f0e8db;
-    padding: 14px 18px;
-    border-left: 3px solid #a89a8a;
-    margin: 16px 0;
-    font-size: 16px;
-  }
-
-  .section-divider {
-    border: none;
-    border-top: 1px solid #d4c4b0;
-    margin: 40px 0;
-  }
-
-  .zrodla {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .zrodla li {
-    margin-bottom: 14px;
-  }
-
-  .zrodla a {
-    color: #4a3a2a;
-    text-decoration: underline;
-    word-break: break-all;
-  }
-
-  .footer-meta {
-    font-size: 11px;
-    color: #8a7a6a;
-    margin-top: 50px;
-    padding-top: 20px;
-    border-top: 1px solid #d4c4b0;
-    line-height: 1.8;
-  }
+:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
+main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
+h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
+p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
+ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
+pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
+#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
+@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="meta-header">
-  dokument: obiektywnosc-autyzm-v01.00-2026-05-14.html<br>
-  wersja: 01.00<br>
-  data: 2026-05-14, 16:36 CEST<br>
-  stworzony z pomocą: Claude (Anthropic) · model: Claude Opus 4.7 (claude-opus-4-7)<br>
-  rodzaj: notatka konceptualna — teza o obiektywności poznawczej osób autystycznych
-</div>
-
-<h1 id="obiektywnosc-osoby-autystycznej">Obiektywność osoby autystycznej</h1>
-<p class="subtitle">Teza, mechanizm, ograniczenia</p>
-
-<!-- ═══════════════════════════════════════════ -->
-<h2 id="teza-w-postaci-kompaktowej">Teza w postaci kompaktowej</h2>
-<!-- ═══════════════════════════════════════════ -->
-
-<div class="teza-box">
-<p>Osoba autystyczna jest w danej sytuacji bardziej obiektywna niż neurotypowa — nie absolutnie obiektywna, tylko bardziej.</p>
-
-<p>Dotyczy to trzech wymiarów:</p>
-<ol>
-<li>faktów percepcyjnych,</li>
-<li>oceny sytuacji (bez automatycznego ramowania),</li>
-<li>odporności na presję grupy.</li>
-</ol>
-
-<p>W czwartym wymiarze:</p>
-<ol start="4">
-<li>wobec własnych biasów — jest bardziej zakotwiczona we własnym modelu, z tego samego mechanizmu, który chroni przed presją grupy.</li>
-</ol>
-
-<p>Punkty 1–4 występują zawsze w zestawie. Nie da się „używać" wybiórczo. Punkt 4 można częściowo kompensować metakognicją, kosztem energetycznym.</p>
-</div>
-
-<hr class="section-divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<h2 id="rozwiniecie">Rozwinięcie</h2>
-<!-- ═══════════════════════════════════════════ -->
-
-<h3 id="jeden-mechanizm-cztery-konsekwencje">Jeden mechanizm, cztery konsekwencje</h3>
-
-<p>Cała teza redukuje się do jednego parametru neurologicznego: <strong>niskiej wrażliwości na zewnętrzną korektę wewnętrznego modelu</strong>. To samo, co u części osób autystycznych opisywane bywa jako przewaga przetwarzania bottom-up nad top-down — najpierw konkret, dopiero potem ramowanie.</p>
-
-<p>U osób neurotypowych ten kierunek zwykle jest odwrotny: kontekst i ramowanie wchodzą najpierw, modyfikując to, jak są odbierane dane. Stąd silniejszy wpływ tego, jak coś zostało opakowane, kto to mówi, jak reaguje reszta grupy, jaki jest emocjonalny ton sytuacji.</p>
-
-<p>Trzy pierwsze punkty tezy są skutkiem tego samego filtru działającego na korzyść trafności. Czwarty jest skutkiem tego samego filtru działającego przeciwko trafności.</p>
-
-<h3 id="punkty-13-filtr-odcina-bias-zewnetrzny-od-oceny">Punkty 1–3: filtr odcina bias zewnętrzny od oceny</h3>
-
-<p><strong>Punkt 1 — fakty percepcyjne.</strong> Mniejszy wpływ oczekiwań i kontekstu na to, co jest faktycznie widziane lub słyszane. Klasyczne badanie Happé (1996) pokazało, że dzieci autystyczne są mniej podatne na klasyczne iluzje wzrokowe (Müller-Lyer, Ponzo, Titchener) — czyli mózg mniej „dorabia" do surowych danych to, co mu sugeruje kontekst. Mottron i wsp. (2006) ujęli to jako enhanced perceptual functioning: większa autonomia niskich poziomów przetwarzania względem wyższych. Ważne zastrzeżenie: część późniejszych replikacji (Ropar i Mitchell, 1999) nie potwierdziła tak czystego efektu — sam fenomen istnieje, ale jest słabszy i bardziej kontekstowo zależny niż początkowo wyglądało.</p>
-
-<p><strong>Punkt 2 — ocena sytuacji bez automatycznego ramowania.</strong> Najlepiej udokumentowane badaniem De Martino i wsp. (2008): osoby autystyczne wyraźnie mniej podlegają framing effect w decyzjach finansowych. Ta sama informacja podana jako „80% przeżyje" i „20% umrze" wywołuje u nich istotnie mniejszą zmianę decyzji niż u grupy kontrolnej. To znaczy, że oceniają liczby, a nie opakowanie. To rozszerza się poza decyzje finansowe — działa na ramowanie statystyczne, medyczne, prawne, na ocenę prawdopodobieństw i ryzyka.</p>
-
-<p><strong>Punkt 3 — odporność na presję grupy.</strong> Badanie Yafai i wsp. (2014), zaadaptowana wersja klasycznego eksperymentu Ascha: dzieci autystyczne istotnie rzadziej zmieniają zdanie pod presją większości. Mechanizm jest tu prostszy niż w punktach 1 i 2: mniejsza wrażliwość na społeczne sygnały korygujące (kto co mówi, jak reaguje grupa) plus mniejsza motywacja do uzyskania akceptacji społecznej. To nie jest opór ani upór — to brak automatycznego przesunięcia oceny w stronę konsensusu.</p>
-
-<h3 id="punkt-4-ten-sam-filtr-przeciwko-trafnosci">Punkt 4: ten sam filtr przeciwko trafności</h3>
-
-<p>Jeśli filtr blokuje wpływ zewnętrznych sygnałów na wewnętrzny model, to robi to bez rozróżnienia, czy te sygnały niosą bias (presja grupy, ramowanie), czy faktyczną korektę (nowe dane, uzasadniona krytyka). Mechanizm nie wie, co przychodzi z zewnątrz — filtruje wszystko tak samo.</p>
-
-<p>Konsekwencja: osoba autystyczna jest bardziej zakotwiczona w raz przyjętym modelu. Zmiana zdania pod wpływem nowych danych wymaga większego wysiłku i większej masy dowodów niż u osoby neurotypowej. To, co z zewnątrz wygląda jak „upór" albo „brak elastyczności poznawczej", jest dokładnie tym samym zjawiskiem, które w punkcie 3 nazywa się „odpornością na presję grupy". To jedna cecha, dwa kierunki interpretacji.</p>
-
-<h3 id="niemozliwosc-rozdzielenia">Niemożliwość rozdzielenia</h3>
-
-<p>Z tej diagnozy wynika rzecz nieoczywista: pakietu 1+2+3+4 nie da się rozdzielić. Kto chce mieć siłę punktów 1–3 (analityk, audytor, śledczy, recenzent naukowy, świadek, diagnosta), musi zaakceptować koszt punktu 4. Kto chce uniknąć kosztu 4 (większa elastyczność, łatwiejsza zmiana zdania pod wpływem informacji zwrotnej), traci punkty 1–3.</p>
-
-<p>To nie są cztery niezależne cechy charakteru, które dałyby się selektywnie wyłączać. To jeden parametr neurologiczny z czterema konsekwencjami. Trzy razy zaleta, raz wada — w tych samych okolicznościach, u tej samej osoby, w tym samym momencie.</p>
-
-<h3 id="kompensacja-metakognicja">Kompensacja metakognicją</h3>
-
-<p>Punkt 4 daje się częściowo korygować — nie przez wyłączenie mechanizmu, tylko przez nałożenie na niego świadomego filtru drugiego stopnia. Praktycznie: wyrobiony nawyk zatrzymywania się przy nowych danych i zadawania sobie pytania „czy te informacje faktycznie obalają mój model, czy tylko mi się nie podobają, bo nie pasują do mojego modelu". To korowa nakładka na automatyzm.</p>
-
-<p>Trzy ograniczenia tej kompensacji:</p>
-<ol>
-<li>działa tylko dopóki się o niej pamięta — w zmęczeniu, stresie albo szybkiej wymianie zdań wraca tryb domyślny,</li>
-<li>kosztuje energię, której u osób z AuDHD jest strukturalnie mniej (korowa kompensacja jest już używana do innych rzeczy),</li>
-<li>nie zmienia mechanizmu bazowego — dokłada do niego warstwę, nie usuwa go.</li>
-</ol>
-
-<p>Innymi słowy: kompensacja istnieje i jest realna, ale nie czyni z osoby autystycznej osoby, której punkt 4 nie dotyczy. Czyni z niej osobę, która o punkcie 4 wie i potrafi nad nim częściowo pracować, kiedy ma na to zasób.</p>
-
-<div class="nb">
-<strong>Co nie jest częścią tej tezy.</strong> Trafność w odczytywaniu cudzych stanów emocjonalnych i myślowych nie należy do wymiaru obiektywności — to, co druga osoba czuje, jest jej subiektywnym stanem, a nie obiektywnym faktem o świecie. Pytanie „co czuje X" to inne pytanie niż „jakie są fakty". Teoria umysłu jest osobnym wymiarem, w którym osoby autystyczne mają inną kalibrację niż neurotypowe (zob. double empathy problem, Milton 2012) — ale nie wchodzi to do dyskusji o obiektywności.
-</div>
-
-<hr class="section-divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<h2 id="zrodla">Źródła</h2>
-<!-- ═══════════════════════════════════════════ -->
-
-<ol class="zrodla">
-
-<li>
-<strong>De Martino, B., Harrison, N. A., Knafo, S., Bird, G., &amp; Dolan, R. J. (2008).</strong> Explaining enhanced logical consistency during decision making in autism. <em>The Journal of Neuroscience</em>, 28(42), 10746–10750.<br>
-DOI: <a href="https://doi.org/10.1523/JNEUROSCI.2895-08.2008">10.1523/JNEUROSCI.2895-08.2008</a><br>
-[do punktu 2 tezy — framing effect]
-</li>
-
-<li>
-<strong>Yafai, A.-F., Verrier, D., &amp; Reidy, L. (2014).</strong> Social conformity and autism spectrum disorder: A child-friendly take on a classic study. <em>Autism</em>, 18(8), 1007–1013.<br>
-DOI: <a href="https://doi.org/10.1177/1362361313508023">10.1177/1362361313508023</a><br>
-[do punktu 3 tezy — konformizm typu Ascha]
-</li>
-
-<li>
-<strong>Happé, F. G. E. (1996).</strong> Studying weak central coherence at low levels: Children with autism do not succumb to visual illusions. A research note. <em>Journal of Child Psychology and Psychiatry</em>, 37(7), 873–877.<br>
-DOI: <a href="https://doi.org/10.1111/j.1469-7610.1996.tb01483.x">10.1111/j.1469-7610.1996.tb01483.x</a><br>
-[do punktu 1 tezy — iluzje wzrokowe, słaba centralna spójność]
-</li>
-
-<li>
-<strong>Ropar, D., &amp; Mitchell, P. (1999).</strong> Are individuals with autism and Asperger's syndrome susceptible to visual illusions? <em>Journal of Child Psychology and Psychiatry</em>, 40(8), 1283–1293.<br>
-DOI: <a href="https://doi.org/10.1111/1469-7610.00544">10.1111/1469-7610.00544</a><br>
-[replikacja problemowa Happé 1996 — efekt istnieje, ale jest słabszy i bardziej kontekstowo zależny]
-</li>
-
-<li>
-<strong>Mottron, L., Dawson, M., Soulières, I., Hubert, B., &amp; Burack, J. (2006).</strong> Enhanced Perceptual Functioning in Autism: An Update, and Eight Principles of Autistic Perception. <em>Journal of Autism and Developmental Disorders</em>, 36(1), 27–43.<br>
-DOI: <a href="https://doi.org/10.1007/s10803-005-0040-7">10.1007/s10803-005-0040-7</a><br>
-[do punktu 1 tezy — autonomia niskich poziomów przetwarzania percepcyjnego względem wyższych]
-</li>
-
-<li>
-<strong>Milton, D. E. M. (2012).</strong> On the ontological status of autism: the „double empathy problem". <em>Disability &amp; Society</em>, 27(6), 883–887.<br>
-DOI: <a href="https://doi.org/10.1080/09687599.2012.710008">10.1080/09687599.2012.710008</a><br>
-[kontekst dla ramki „co nie jest częścią tezy" — trafność społeczna jako osobny wymiar, nie tożsamy z obiektywnością]
-</li>
-
-</ol>
-
-<div class="footer-meta">
-  obiektywnosc-autyzm-v01.00-2026-05-14.html · wersja 01.00 · 2026-05-14, 16:36 CEST<br>
-  stworzony z pomocą Claude (Anthropic) · Claude Opus 4.7 (claude-opus-4-7)<br>
-  rodzaj: notatka konceptualna (teza + rozwinięcie + źródła)
-</div>
-
-</div>
+<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
+<script>
+const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
+const doc=document.getElementById('doc');
+const filename=decodeURIComponent(location.pathname.split('/').pop());
+const isEnglish=/EN|equations-metaphysics/i.test(filename);
+document.documentElement.lang=isEnglish?'en':'pl';
+if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
+function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
+function addMathJax(){
+  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
+  document.head.appendChild(s);
+}
+fetch(API,{cache:'no-store'})
+.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
+.then(data=>{
+  const rows=(Array.isArray(data.rows)?data.rows:[])
+    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
+    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
+  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
+  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
+  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
+  doc.innerHTML='';
+  for(const r of rows){
+    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
+    const h=document.createElement('h'+level);
+    h.id=r.anchor||'';
+    h.textContent=r.sekcja_tytul||'';
+    doc.appendChild(h);
+    if(r.content_html){
+      const body=document.createElement('div');
+      body.className='section-content';
+      body.innerHTML=r.content_html;
+      doc.appendChild(body);
+    }
+  }
+  addMathJax();
+  if(location.hash){
+    requestAnimationFrame(()=>{
+      const id=decodeURIComponent(location.hash.slice(1));
+      document.getElementById(id)?.scrollIntoView();
+    });
+  }
+})
+.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
+</script>
 </body>
 </html>
