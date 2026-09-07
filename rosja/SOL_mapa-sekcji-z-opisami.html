@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa sekcji z opisami</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101a16;
+  --panel:#16231d;
+  --panel2:#1b2c24;
+  --line:#33493d;
+  --text:#e7d8ad;
+  --muted:#a9b9ac;
+  --amber:#e5ad42;
+  --green:#8cc7a0;
+  --link:#9fd6c8;
+  --bad:#f3a6a6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.4}
+header{position:sticky;top:0;z-index:20;background:rgba(16,26,22,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 14px}
+.head{max-width:1800px;margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+h1{font-size:18px;margin:0 10px 0 0;color:var(--amber);font-weight:800}
+input[type=search]{flex:1;min-width:230px;max-width:620px;background:#0d1612;border:1px solid var(--line);color:var(--text);padding:9px 11px;border-radius:8px;font:inherit}
+button{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:8px 10px;border-radius:8px;font:inherit;cursor:pointer}
+button:hover{border-color:var(--amber);color:#fff}
+#stats{color:var(--muted);font-size:13px;margin-left:auto}
+main{max-width:1800px;margin:0 auto;padding:14px}
+.doc{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:0 0 12px;overflow:hidden}
+.doc>summary{cursor:pointer;list-style:none;padding:12px 14px;background:var(--panel2);display:flex;gap:12px;align-items:baseline;position:sticky;top:58px;z-index:10;border-bottom:1px solid transparent}
+.doc[open]>summary{border-bottom-color:var(--line)}
+.doc>summary::-webkit-details-marker{display:none}
+.doc>summary::before{content:'▶';font-size:11px;color:var(--amber);transition:.15s transform}
+.doc[open]>summary::before{transform:rotate(90deg)}
+.doc-code{font-weight:900;color:var(--amber);font-size:17px;min-width:30px}
+.doc-title{font-weight:650;color:var(--text)}
+.doc-count{margin-left:auto;color:var(--muted);font-size:13px;white-space:nowrap}
+.table-wrap{overflow:auto;max-height:72vh}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:1240px;background:var(--panel)}
+th,td{border-bottom:1px solid #2a3b32;border-right:1px solid #25372e;padding:7px 8px;vertical-align:top;text-align:left}
+th{position:sticky;top:0;z-index:5;background:#203128;color:var(--amber);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+th:last-child,td:last-child{border-right:0}
+tbody tr:hover td{background:#1b2a23}
+.c-code{width:62px;font-weight:800;color:var(--amber)}
+.c-level{width:62px;text-align:center;color:var(--green);font-weight:700}
+.c-depth{width:72px;text-align:center;color:var(--muted)}
+.c-order{width:82px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.c-title{min-width:330px;max-width:560px}
+.c-anchor{min-width:190px;max-width:300px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;color:#bfd4c5;overflow-wrap:anywhere}
+.c-status{width:82px;text-align:center}
+.c-link{width:70px;text-align:center}
+.c-desc{min-width:360px;max-width:700px;color:#efe5c8}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+.ok{color:#9ed69e;font-weight:800}.bad{color:var(--bad);font-weight:800}
+.title-line{display:flex;align-items:flex-start;gap:7px}
+.branch-btn{border:0;background:transparent;padding:0 2px;color:var(--amber);font-weight:900;line-height:1.4;min-width:17px;cursor:pointer}
+.branch-btn.leaf{visibility:hidden}
+.indent{display:inline-block;flex:0 0 auto}
+.section-title{font-weight:650}
+.h1 .section-title{font-size:16px;color:#ffd779;font-weight:900}
+.h2 .section-title{color:#f1c96f;font-weight:800}
+.h3 .section-title{color:#e8d39d}
+.hidden-by-branch{display:none}
+mark{background:#8d6a1d;color:#fff4d2;padding:0 1px;border-radius:2px}
+.error{border:1px solid #7a3434;background:#321d1d;color:#ffd2d2;padding:14px;border-radius:8px}
+@media(max-width:700px){
+  header{position:static}.head{display:grid;grid-template-columns:1fr 1fr}.head h1,.head input,#stats{grid-column:1/-1}.doc>summary{position:static}.table-wrap{max-height:none}main{padding:8px}.doc>summary{padding:10px}.doc-title{font-size:13px}body{font-size:14px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <h1>Mapa sekcji z opisami</h1>
+    <input id="search" type="search" placeholder="Szukaj w tytule, anchorze, opisie…" autocomplete="off">
+    <button id="openAll" type="button">Rozwiń dokumenty</button>
+    <button id="closeAll" type="button">Zwiń dokumenty</button>
+    <button id="openBranches" type="button">Rozwiń gałęzie</button>
+    <button id="closeBranches" type="button">Zwiń gałęzie</button>
+    <span id="stats">Ładowanie…</span>
+  </div>
+</header>
+<main id="app"></main>
+<script>
+const TSV='SOL_mapa-sekcji-z-opisami.tsv';
+const KEEP=['dokument_kod','poziom','glebokosc','kolejnosc','sekcja_tytul','anchor','anchor_status','deep_link','opis'];
+const app=document.getElementById('app');
+const search=document.getElementById('search');
+const stats=document.getElementById('stats');
+let docs=[];
+
+function parseTSV(text){
+  const rows=[]; let row=[], field='', quoted=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(quoted){
+      if(c==='"'){
+        if(text[i+1]==='"'){field+='"'; i++;}
+        else quoted=false;
+      } else field+=c;
+    } else {
+      if(c==='"') quoted=true;
+      else if(c==='\t'){row.push(field); field='';}
+      else if(c==='\n'){row.push(field.replace(/\r$/,'')); rows.push(row); row=[]; field='';}
+      else field+=c;
+    }
+  }
+  if(field.length||row.length){row.push(field.replace(/\r$/,'')); rows.push(row);}
+  const head=rows.shift();
+  return rows.filter(r=>r.length>1).map(r=>Object.fromEntries(head.map((h,i)=>[h,r[i]??''])));
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function depthNum(r){const n=parseInt(r.glebokosc,10);return Number.isFinite(n)?n:1;}
+function hasChildren(rows,i){const d=depthNum(rows[i]);return i+1<rows.length && depthNum(rows[i+1])>d;}
+function groupRows(rows){
+  const m=new Map();
+  for(const r of rows){if(!m.has(r.dokument_kod))m.set(r.dokument_kod,[]);m.get(r.dokument_kod).push(r);}
+  return [...m.entries()];
+}
+function render(rows){
+  docs=groupRows(rows);
+  app.innerHTML='';
+  for(const [code,items] of docs){
+    const title=(items.find(r=>r.poziom==='H1')||items[0]).sekcja_tytul||code;
+    const det=document.createElement('details'); det.className='doc'; det.open=true; det.dataset.code=code;
+    det.innerHTML=`<summary><span class="doc-code">${esc(code)}</span><span class="doc-title">${esc(title)}</span><span class="doc-count">${items.length} sekcji</span></summary>`;
+    const wrap=document.createElement('div'); wrap.className='table-wrap';
+    const table=document.createElement('table');
+    table.innerHTML=`<thead><tr><th>dokument_kod</th><th>poziom</th><th>glebokosc</th><th>kolejnosc</th><th>sekcja_tytul</th><th>anchor</th><th>anchor_status</th><th>deep_link</th><th>opis</th></tr></thead><tbody></tbody>`;
+    const tb=table.querySelector('tbody');
+    items.forEach((r,i)=>{
+      const tr=document.createElement('tr'); tr.dataset.depth=depthNum(r); tr.dataset.index=i; tr.className=(r.poziom||'').toLowerCase();
+      const child=hasChildren(items,i);
+      tr.innerHTML=`
+        <td class="c-code">${esc(r.dokument_kod)}</td>
+        <td class="c-level">${esc(r.poziom)}</td>
+        <td class="c-depth">${esc(r.glebokosc)}</td>
+        <td class="c-order">${esc(r.kolejnosc)}</td>
+        <td class="c-title"><div class="title-line"><button class="branch-btn ${child?'':'leaf'}" type="button" aria-label="Zwiń lub rozwiń gałąź">▼</button><span class="indent" style="width:${Math.max(0,(depthNum(r)-1)*14)}px"></span><span class="section-title">${esc(r.sekcja_tytul)}</span></div></td>
+        <td class="c-anchor">${esc(r.anchor)}</td>
+        <td class="c-status ${r.anchor_status==='OK'?'ok':'bad'}">${esc(r.anchor_status)}</td>
+        <td class="c-link">${r.deep_link?`<a href="${esc(r.deep_link)}" target="_blank" rel="noopener">otwórz</a>`:''}</td>
+        <td class="c-desc">${esc(r.opis)}</td>`;
+      if(child){tr.querySelector('.branch-btn').addEventListener('click',()=>toggleBranch(tb,tr));}
+      tr.dataset.search=[...KEEP.map(k=>r[k]||'')].join(' ').toLocaleLowerCase('pl');
+      tb.appendChild(tr);
+    });
+    wrap.appendChild(table); det.appendChild(wrap); app.appendChild(det);
+  }
+  updateStats();
+}
+function toggleBranch(tb,tr,forceCollapse=null){
+  const rows=[...tb.rows], idx=rows.indexOf(tr), d=+tr.dataset.depth;
+  const btn=tr.querySelector('.branch-btn');
+  const collapse=forceCollapse===null ? btn.textContent==='▼' : forceCollapse;
+  btn.textContent=collapse?'▶':'▼';
+  for(let i=idx+1;i<rows.length;i++){
+    const rd=+rows[i].dataset.depth;
+    if(rd<=d)break;
+    if(collapse) rows[i].classList.add('hidden-by-branch');
+    else rows[i].classList.remove('hidden-by-branch');
+  }
+  applySearch();
+}
+function setAllDocs(open){document.querySelectorAll('.doc').forEach(d=>d.open=open);}
+function setAllBranches(collapse){
+  document.querySelectorAll('tbody').forEach(tb=>{
+    [...tb.rows].forEach(tr=>{const b=tr.querySelector('.branch-btn:not(.leaf)');if(b){b.textContent=collapse?'▶':'▼';}});
+    [...tb.rows].forEach(tr=>tr.classList.toggle('hidden-by-branch',collapse && +tr.dataset.depth>1));
+  });
+  applySearch();
+}
+function applySearch(){
+  const q=search.value.trim().toLocaleLowerCase('pl');
+  let visible=0,total=0;
+  document.querySelectorAll('.doc').forEach(doc=>{
+    let docHits=0;
+    doc.querySelectorAll('tbody tr').forEach(tr=>{
+      total++;
+      const match=!q || tr.dataset.search.includes(q);
+      const branchHidden=tr.classList.contains('hidden-by-branch');
+      tr.style.display=(match && (!branchHidden || q))?'':'none';
+      if(match){docHits++;visible++;}
+    });
+    doc.style.display=docHits?'':'none';
+    if(q && docHits)doc.open=true;
+  });
+  stats.textContent=q?`${visible} / ${total} sekcji`:`${total} sekcji · ${docs.length} dokumentów`;
+}
+function updateStats(){applySearch();}
+
+document.getElementById('openAll').onclick=()=>setAllDocs(true);
+document.getElementById('closeAll').onclick=()=>setAllDocs(false);
+document.getElementById('openBranches').onclick=()=>setAllBranches(false);
+document.getElementById('closeBranches').onclick=()=>setAllBranches(true);
+search.addEventListener('input',applySearch);
+
+fetch(TSV,{cache:'no-store'})
+  .then(r=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.text();})
+  .then(text=>{
+    const rows=parseTSV(text);
+    if(rows.length!==620)console.warn(`Oczekiwano 620 rekordów, jest ${rows.length}.`);
+    render(rows);
+  })
+  .catch(err=>{app.innerHTML=`<div class="error"><strong>Nie udało się wczytać TSV.</strong><br>${esc(err.message)}<br><small>${esc(TSV)}</small></div>`;stats.textContent='błąd';});
+</script>
+</body>
+</html>
