@@ -1,0 +1,35 @@
+name: SOL AuDHD - opisy sekcji TXT
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_audhd_opisy_txt.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sql-audhd-content
+          fetch-depth: 0
+
+      - name: Generuj opisy z normalnych HTML AuDHD
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp audhd/SOL_generuj-opisy-sekcji.py /tmp/SOL_generuj-opisy-sekcji.py
+          git checkout --detach 6a07a377bdd8b3e1f2128b384d29055a1a37132f
+          python3 /tmp/SOL_generuj-opisy-sekcji.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SOL_opisy-sekcji-audhd
+          path: SOL_opisy-sekcji-audhd.txt
+          if-no-files-found: error
+          retention-days: 1
