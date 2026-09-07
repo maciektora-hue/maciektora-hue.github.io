@@ -1,0 +1,62 @@
+name: AUDHD - audyt anchorow
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'audhd/SOL_audyt-anchorow.py'
+      - '.github/workflows/audhd-audyt-anchorow.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audyt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Uruchom audyt anchorow
+        run: python audhd/SOL_audyt-anchorow.py
+
+      - name: Zapisz wyniki audytu
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+
+            if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+              echo "main zmienil sie podczas audytu; ponawiam audyt na aktualnym stanie"
+              git reset --hard origin/main
+              python audhd/SOL_audyt-anchorow.py
+            fi
+
+            git add audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv audhd/SOL_raport-audyt-anchorow-audhd.txt
+            if git diff --cached --quiet; then
+              echo "Brak zmian w wynikach audytu."
+              exit 0
+            fi
+
+            git commit -m "AUDHD: wyniki audytu anchorow"
+            if git push origin main; then
+              exit 0
+            fi
+
+            echo "Push odrzucony, ponawiam na najnowszym main (proba $attempt/3)."
+          done
+
+          echo "Nie udalo sie zapisac wynikow po 3 probach."
+          exit 1
+
+      - name: Pokaz raport w podsumowaniu runu
+        if: always()
+        run: cat audhd/SOL_raport-audyt-anchorow-audhd.txt >> "$GITHUB_STEP_SUMMARY"
