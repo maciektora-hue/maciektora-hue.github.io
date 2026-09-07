@@ -1,0 +1,112 @@
+name: SOL jednorazowy import danych do Turso
+
+on:
+  push:
+    paths:
+      - '.github/workflows/turso-import-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Import existing SQL data into existing Turso tables
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import sqlite3
+          from pathlib import Path
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          specs = {
+              'tag_catalog': ['tag', 'definition'],
+              'families': ['family_name', 'label', 'color_hex', 'description', 'sort_order'],
+              'tag_groups': ['group_name', 'label'],
+              'axes': ['axis_name', 'label', 'description', 'family_name', 'sort_order'],
+              'tag_group': ['tag', 'group_name'],
+              'tag_axis': ['tag', 'axis_name'],
+              'lyrics': ['lyrics_id', 'lyrics_text'],
+              'middle_end': [
+                  'utwu_id', 'lyrics_id', 'spotify_id', 'spotify_order',
+                  'title_original', 'title_normalized', 'title_parsed',
+                  'artist_original', 'artist_normalized', 'artist_parsed',
+                  'album_original', 'match_status', 'match_candidates',
+                  'match_note', 'lyrics_status'
+              ],
+              'tag_snapshots': ['lyrics_id', 'tagged_at', 'tags'],
+          }
+
+          local = sqlite3.connect(':memory:')
+          local.executescript(Path('piosenki/schema.sql').read_text(encoding='utf-8'))
+          local.executescript(Path('piosenki/SOL-import-danych.sql').read_text(encoding='utf-8'))
+
+          expected = {
+              table: local.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
+              for table in specs
+          }
+          print('LOCAL_COUNTS=' + repr(expected))
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+
+          before = {
+              table: conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
+              for table in specs
+          }
+          print('TURSO_BEFORE=' + repr(before))
+
+          nonempty = {k: v for k, v in before.items() if v != 0}
+          if nonempty:
+              raise RuntimeError('IMPORT PRZERWANY: tabele nie sa puste: ' + repr(nonempty))
+
+          try:
+              conn.execute('PRAGMA foreign_keys = ON')
+              conn.execute('BEGIN TRANSACTION')
+
+              for table, columns in specs.items():
+                  cols = ', '.join(columns)
+                  rows = local.execute(f'SELECT {cols} FROM {table}').fetchall()
+                  placeholders = ', '.join('?' for _ in columns)
+                  conn.executemany(
+                      f'INSERT INTO {table} ({cols}) VALUES ({placeholders})',
+                      rows,
+                  )
+                  print(f'IMPORTED {table}={len(rows)}')
+
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          after = {
+              table: conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
+              for table in specs
+          }
+          print('TURSO_AFTER=' + repr(after))
+
+          if after != expected:
+              raise RuntimeError(
+                  'BLEDNE LICZBY PO IMPORCIE: expected=' + repr(expected) + ' actual=' + repr(after)
+              )
+
+          print('TURSO_IMPORT_OK')
+          conn.close()
+          local.close()
+          PY
