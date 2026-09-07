@@ -28,10 +28,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add rosja/SOL_mapa-sekcji-z-opisami-bez-A1.tsv rosja/SOL_mapa-sekcji-z-opisami.tsv
+          git add \
+            rosja/SOL_opisy-sekcji-A2.tsv \
+            rosja/SOL_opisy-sekcji-A3.tsv \
+            rosja/SOL_mapa-sekcji-z-opisami-bez-A1.tsv \
+            rosja/SOL_mapa-sekcji-z-opisami.tsv
           if git diff --cached --quiet; then
             echo "Brak zmian."
             exit 0
           fi
-          git commit -m "ROSJA: dopisz reczne opisy sekcji"
+          git commit -m "ROSJA: odzyskaj A2 A3 i zapisz pelna mape opisow"
           git push origin HEAD:main
