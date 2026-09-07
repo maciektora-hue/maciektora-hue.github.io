@@ -1,0 +1,39 @@
+name: Link Russian topic map EN
+on:
+  push:
+    paths:
+      - '.github/workflows/link-rosja-topic-map-en.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          pl = Path('rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html')
+          t = pl.read_text(encoding='utf-8')
+          old = '    <a href="index.html#sciezki">Ścieżki czytania</a>\n'
+          new = old + '    <a href="mapa/index-en.html" lang="en">English</a>\n'
+          assert old in t
+          assert 'mapa/index-en.html' not in t
+          pl.write_text(t.replace(old, new, 1), encoding='utf-8')
+
+          idx = Path('rosja/index-en.html')
+          s = idx.read_text(encoding='utf-8')
+          old_card = '<a class="card" href="mapa/"><span class="no">01</span><span class="badge">PL</span><h2>Topic map</h2>'
+          new_card = '<a class="card" href="mapa/index-en.html"><span class="no">01</span><span class="badge">EN</span><h2>Topic map</h2>'
+          assert old_card in s
+          idx.write_text(s.replace(old_card, new_card, 1), encoding='utf-8')
+
+          print('SUCCESS')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html rosja/index-en.html
+          git commit -m "Rosja: polacz polska i angielska mape tematow"
+          git push
