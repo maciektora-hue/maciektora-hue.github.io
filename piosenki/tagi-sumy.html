@@ -11,6 +11,9 @@
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; }
     th:last-child, td:last-child { text-align: right; width: 140px; }
+    tr.tag-glowny td { font-weight: 700; border-top: 2px solid #bbb; }
+    tr.wariant td:first-child { padding-left: 34px; color: #555; }
+    tr.wariant td:last-child { color: #555; }
   </style>
 </head>
 <body>
@@ -18,7 +21,7 @@
   <div id="status">Ładowanie…</div>
   <table id="tabela" hidden>
     <thead>
-      <tr><th>Tag</th><th>Liczba wystąpień</th></tr>
+      <tr><th>Tag / wariant</th><th>Liczba wystąpień</th></tr>
     </thead>
     <tbody></tbody>
   </table>
@@ -45,6 +48,15 @@
         .filter(Boolean);
     }
 
+    function rozdzielTag(tag) {
+      const i = tag.indexOf(':');
+      if (i === -1) return { nazwa: tag.trim(), wariant: 'bez wariantu' };
+      return {
+        nazwa: tag.slice(0, i).trim(),
+        wariant: tag.slice(i + 1).trim() || 'bez wariantu'
+      };
+    }
+
     async function start() {
       const status = document.getElementById('status');
       const table = document.getElementById('tabela');
@@ -55,24 +67,49 @@
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
 
-        const counts = new Map();
+        const grupy = new Map();
+
         for (const row of data.tag_snapshots || []) {
-          for (const tag of parseTags(row.tags)) {
-            counts.set(tag, (counts.get(tag) || 0) + 1);
+          for (const pelnyTag of parseTags(row.tags)) {
+            const { nazwa, wariant } = rozdzielTag(pelnyTag);
+            if (!nazwa) continue;
+
+            if (!grupy.has(nazwa)) {
+              grupy.set(nazwa, { razem: 0, warianty: new Map() });
+            }
+
+            const grupa = grupy.get(nazwa);
+            grupa.razem += 1;
+            grupa.warianty.set(wariant, (grupa.warianty.get(wariant) || 0) + 1);
           }
         }
 
-        const rows = [...counts.entries()]
-          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pl'));
+        const rows = [...grupy.entries()]
+          .sort((a, b) => b[1].razem - a[1].razem || a[0].localeCompare(b[0], 'pl'));
 
-        for (const [tag, count] of rows) {
+        for (const [nazwa, grupa] of rows) {
           const tr = document.createElement('tr');
+          tr.className = 'tag-glowny';
           const tdTag = document.createElement('td');
           const tdCount = document.createElement('td');
-          tdTag.textContent = tag;
-          tdCount.textContent = count;
+          tdTag.textContent = nazwa;
+          tdCount.textContent = grupa.razem;
           tr.append(tdTag, tdCount);
           tbody.appendChild(tr);
+
+          const warianty = [...grupa.warianty.entries()]
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pl'));
+
+          for (const [wariant, count] of warianty) {
+            const sub = document.createElement('tr');
+            sub.className = 'wariant';
+            const tdWariant = document.createElement('td');
+            const tdWariantCount = document.createElement('td');
+            tdWariant.textContent = '↳ ' + wariant;
+            tdWariantCount.textContent = count;
+            sub.append(tdWariant, tdWariantCount);
+            tbody.appendChild(sub);
+          }
         }
 
         status.textContent = 'Liczba różnych tagów: ' + rows.length;
