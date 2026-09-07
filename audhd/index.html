@@ -309,7 +309,18 @@
       .path { grid-template-columns: 1fr; gap: 4px; }
       .regulators, .credits { grid-template-columns: 1fr; gap: 22px; }
     }
-  </style>
+  
+.lang-switch {
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:7px 11px;border:1px solid currentColor;border-radius:999px;
+  color:inherit;background:rgba(0,0,0,.10);font:800 .74rem/1 system-ui,sans-serif;
+  letter-spacing:.04em;text-decoration:none;white-space:nowrap;
+}
+.lang-switch:hover,.lang-switch:focus-visible{opacity:.82}
+
+</style>
+  <link rel="alternate" hreflang="pl" href="index.html">
+  <link rel="alternate" hreflang="en" href="index-en.html">
 </head>
 <body>
   <header>
@@ -320,6 +331,7 @@
         <a href="#model">Dwa regulatory</a>
         <a href="#teksty">Teksty</a>
         <a href="#autorzy">Autorzy</a>
+        <a class="lang-switch" href="index-en.html" lang="en">English</a>
       </nav>
     </div>
   </header>

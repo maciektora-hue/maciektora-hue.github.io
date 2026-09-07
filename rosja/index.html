@@ -1144,7 +1144,18 @@
       .doc-link { color: #164b38; }
       a { text-decoration: none; }
     }
-  </style>
+  
+.lang-switch {
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:7px 11px;border:1px solid currentColor;border-radius:999px;
+  color:inherit;background:rgba(0,0,0,.10);font:800 .74rem/1 system-ui,sans-serif;
+  letter-spacing:.04em;text-decoration:none;white-space:nowrap;
+}
+.lang-switch:hover,.lang-switch:focus-visible{opacity:.82}
+
+</style>
+  <link rel="alternate" hreflang="pl" href="index.html">
+  <link rel="alternate" hreflang="en" href="index-en.html">
 </head>
 <body>
   <a class="skip-link" href="#main">Przejdź do treści</a>
@@ -1161,6 +1172,7 @@
         <a href="#dokumenty">Dokumenty</a>
         <a href="#sprzezenia">Sprzężenia</a>
         <a href="#metoda">Metoda</a>
+        <a class="lang-switch" href="index-en.html" lang="en">English</a>
       </nav>
     </div>
   </header>
