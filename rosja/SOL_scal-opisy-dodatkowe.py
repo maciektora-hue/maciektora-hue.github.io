@@ -15,20 +15,34 @@ RECOVERY_REF = '4c0b8ab3ff58870fef0aef5e23ca669e20905ea2'
 RECOVERY_PATH = 'rosja/SOL_mapa-sekcji-z-opisami-bez-A1.tsv'
 RECOVERY_CODES = {'A2', 'A3'}
 
+EXPECTED_MASTER = 620
 EXPECTED_BEZ_A1 = 596
 EXPECTED_ALL = 620
 
 with MASTER.open('r', encoding='utf-8', newline='') as f:
     master = list(csv.DictReader(f, delimiter='\t'))
 
+if len(master) != EXPECTED_MASTER:
+    raise SystemExit(
+        f'STOP: master ma {len(master)} sekcji, oczekiwano {EXPECTED_MASTER}'
+    )
+
+master_keys_list = [(row['dokument_kod'], row['anchor']) for row in master]
+master_keys = set(master_keys_list)
+if len(master_keys) != len(master_keys_list):
+    raise SystemExit('STOP: duplikat klucza (dokument_kod, anchor) w master mapie')
+
 extra = {}
 for path in sorted(Path('rosja').glob(EXTRA_GLOB)):
     with path.open('r', encoding='utf-8', newline='') as f:
         for row in csv.DictReader(f, delimiter='\t'):
             key = (row['dokument_kod'], row['anchor'])
+            opis = (row.get('opis') or '').strip()
+            if not opis:
+                raise SystemExit(f'STOP: pusty opis w {path}: {key}')
             if key in extra:
                 raise SystemExit(f'STOP: duplikat opisu w plikach dodatkowych: {key}')
-            extra[key] = row['opis']
+            extra[key] = opis
 
 # A2 i A3 powstały wcześniej bez osobnych plików opisów. Jeśli nadal ich
 # brakuje, odzyskaj je z kompletnej historycznej mapy i utwórz pliki źródłowe.
@@ -55,13 +69,16 @@ if missing_recovery_codes:
         if code not in missing_recovery_codes:
             continue
         key = (code, row['anchor'])
+        opis = (row.get('opis') or '').strip()
+        if not opis:
+            raise SystemExit(f'STOP: pusty odzyskany opis: {key}')
         if key in extra:
             raise SystemExit(f'STOP: konflikt podczas odzysku opisu: {key}')
-        extra[key] = row['opis']
+        extra[key] = opis
         recovered_by_code[code].append({
             'dokument_kod': code,
             'anchor': row['anchor'],
-            'opis': row['opis'],
+            'opis': opis,
         })
 
     for code, rows in recovered_by_code.items():
@@ -79,10 +96,15 @@ if missing_recovery_codes:
             w.writerows(rows)
         print(f'OK: odzyskano {len(rows)} opisów {code} do {out_path}')
 
-master_keys = {(row['dokument_kod'], row['anchor']) for row in master}
 unknown = set(extra) - master_keys
 if unknown:
     raise SystemExit(f'STOP: opis bez odpowiadającej sekcji w master mapie: {sorted(unknown)}')
+
+missing = master_keys - set(extra)
+if missing:
+    raise SystemExit(
+        f'STOP: brakuje {len(missing)} opisów dla sekcji z master mapy: {sorted(missing)}'
+    )
 
 fields = list(master[0].keys()) + ['opis']
 
@@ -95,7 +117,7 @@ def build(exclude_a1=False):
             continue
         key = (row['dokument_kod'], row['anchor'])
         if key not in extra:
-            continue
+            raise SystemExit(f'STOP: brak opisu podczas budowy mapy: {key}')
         if key in seen:
             raise SystemExit(f'STOP: duplikat klucza w mapie źródłowej: {key}')
         seen.add(key)
@@ -127,5 +149,7 @@ if len(all_rows) != EXPECTED_ALL:
 write(OUT_BEZ_A1, bez_a1)
 write(OUT_ALL, all_rows)
 
+print(f'OK: master ma {len(master)} unikalnych sekcji')
+print('OK: wszystkie opisy są niepuste i odpowiadają dokładnie sekcjom z master mapy')
 print(f'OK: mapa bez A1 ma {len(bez_a1)} opisanych sekcji')
 print(f'OK: pełna mapa ma {len(all_rows)} opisanych sekcji')
