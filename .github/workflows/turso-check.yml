@@ -1,4 +1,4 @@
-name: Turso check
+name: Turso connection test
 
 on:
   workflow_dispatch:
@@ -6,43 +6,82 @@ on:
     paths:
       - '.github/workflows/turso-check.yml'
 
+permissions:
+  contents: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install libsql
         run: pip install libsql
 
-      - name: Check Turso schema
+      - name: Test read and write on Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
-          TURSO_ADMIN_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
           import os
-          import sys
-          import libsql
+          from datetime import datetime, timezone
+          from pathlib import Path
 
-          token = os.environ.get('TURSO_ADMIN_TOKEN')
-          if not token:
-              print('BRAK SECRETU: TURSO_ADMIN_TOKEN')
-              sys.exit(2)
+          status_path = Path('piosenki/SOL-turso-status.txt')
+          stamp = datetime.now(timezone.utc).isoformat()
 
-          conn = libsql.connect(
-              database=os.environ['TURSO_DATABASE_URL'],
-              auth_token=token,
-          )
+          try:
+              import libsql
 
-          rows = conn.execute("""
-              SELECT name, sql
-              FROM sqlite_master
-              WHERE type = 'table'
-                AND name NOT LIKE 'sqlite_%'
-              ORDER BY name
-          """).fetchall()
+              token = os.environ.get('TURSO_AUTH_TOKEN')
+              if not token:
+                  raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
 
-          print(f'TABLE_COUNT={len(rows)}')
-          for name, ddl in rows:
-              print(f'\n=== {name} ===')
-              print(ddl)
+              conn = libsql.connect(
+                  database=os.environ['TURSO_DATABASE_URL'],
+                  auth_token=token,
+              )
+
+              ping = conn.execute('SELECT 1').fetchone()
+              if not ping or ping[0] != 1:
+                  raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
+
+              conn.execute('CREATE TEMP TABLE __sol_connection_test (a TEXT, b TEXT, c TEXT)')
+              conn.execute(
+                  'INSERT INTO __sol_connection_test (a, b, c) VALUES (?, ?, ?)',
+                  ('dupa', 'dupa', 'chuj'),
+              )
+              row = conn.execute(
+                  'SELECT a, b, c FROM __sol_connection_test LIMIT 1'
+              ).fetchone()
+
+              if tuple(row) != ('dupa', 'dupa', 'chuj'):
+                  raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
+
+              status_path.write_text(
+                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ={row[0]} | {row[1]} | {row[2]}\n',
+                  encoding='utf-8',
+              )
+              print('TURSO_OK')
+              print(row)
+          except Exception as exc:
+              status_path.write_text(
+                  f'FAIL\nUTC={stamp}\nERROR={type(exc).__name__}: {exc}\n',
+                  encoding='utf-8',
+              )
+              print(f'TURSO_FAIL: {type(exc).__name__}: {exc}')
           PY
+
+      - name: Save test result to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/SOL-turso-status.txt
+          git diff --cached --quiet || git commit -m "Turso connection test result"
+          git push
+
+      - name: Fail workflow if Turso test failed
+        run: |
+          grep -q '^OK$' piosenki/SOL-turso-status.txt
