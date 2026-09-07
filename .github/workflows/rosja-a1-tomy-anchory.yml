@@ -1,10 +1,10 @@
-name: ROSJA A1 - slowniki anchorow tomow
+name: "ROSJA A1 tomy anchory"
 
 on:
-  workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/rosja-a1-tomy-anchory.yml'
+      - ".github/workflows/rosja-a1-tomy-anchory.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,92 +17,93 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Synchronizuj main
+      - name: "Synchronizuj main"
         run: |
           git fetch origin main
           git reset --hard origin/main
 
-      - name: Dodaj 9 recznie wskazanych anchorow tomow
-        shell: python
+      - name: "Dodaj reczne anchory tomow i notatke"
         run: |
+          python3 - <<'PY'
           from pathlib import Path
 
-          p = Path('rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html')
-          s = p.read_text(encoding='utf-8')
+          html = Path("rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html")
+          status = Path("rosja/SOL_status-techniczny.txt")
+          s = html.read_text(encoding="utf-8")
 
-          replacements = [
-              ('<div class="volume-header"><div class="volume-number c-red">Tom I</div><div class="volume-title">Front, OPL i arsenał</div></div>',
-               '<div class="volume-header"><div class="volume-number c-red">Tom I</div><div class="volume-title" id="front-opl-arsenal">Front, OPL i arsenał</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-red">Tom II</div><div class="volume-title">Gospodarka, finanse i eksport</div></div>',
-               '<div class="volume-header"><div class="volume-number c-red">Tom II</div><div class="volume-title" id="gospodarka-finanse-eksport">Gospodarka, finanse i eksport</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-red">Tom III</div><div class="volume-title">Infrastruktura i społeczeństwo</div></div>',
-               '<div class="volume-header"><div class="volume-number c-red">Tom III</div><div class="volume-title" id="infrastruktura-spoleczenstwo">Infrastruktura i społeczeństwo</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-red">Tom IV</div><div class="volume-title">Synteza i prognoza</div></div>',
-               '<div class="volume-header"><div class="volume-number c-red">Tom IV</div><div class="volume-title" id="synteza-prognoza">Synteza i prognoza</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-purple">Tom V</div><div class="volume-title">Projekt życia mu nie wyszedł</div></div>',
-               '<div class="volume-header"><div class="volume-number c-purple">Tom V</div><div class="volume-title" id="projekt-zycia-mu-nie-wyszedl">Projekt życia mu nie wyszedł</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-orange">Tom VI</div><div class="volume-title">Od Kaukazu po Zatokę</div></div>',
-               '<div class="volume-header"><div class="volume-number c-orange">Tom VI</div><div class="volume-title" id="od-kaukazu-po-zatoke">Od Kaukazu po Zatokę</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-yellow">Tom VII</div><div class="volume-title">Od Ormuzu do panelu słonecznego</div></div>',
-               '<div class="volume-header"><div class="volume-number c-yellow">Tom VII</div><div class="volume-title" id="od-ormuzu-do-panelu-slonecznego">Od Ormuzu do panelu słonecznego</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-blue">Tom VIII</div><div class="volume-title">Disinfolklore, Dark Legitimacy i etyka</div></div>',
-               '<div class="volume-header"><div class="volume-number c-blue">Tom VIII</div><div class="volume-title" id="disinfolklore-dark-legitimacy-etyka">Disinfolklore, Dark Legitimacy i etyka</div></div>'),
-              ('<div class="volume-header"><div class="volume-number c-green">Tom IX</div><div class="volume-title">Korekta i przesłuchanie</div></div>',
-               '<div class="volume-header"><div class="volume-number c-green">Tom IX</div><div class="volume-title" id="korekta-przesluchanie">Korekta i przesłuchanie</div></div>'),
+          pairs = [
+              ("Tom I", "Front, OPL i arsenał", "front-opl-arsenal"),
+              ("Tom II", "Gospodarka, finanse i eksport", "gospodarka-finanse-eksport"),
+              ("Tom III", "Infrastruktura i społeczeństwo", "infrastruktura-spoleczenstwo"),
+              ("Tom IV", "Synteza i prognoza", "synteza-prognoza"),
+              ("Tom V", "Projekt życia mu nie wyszedł", "projekt-zycia-mu-nie-wyszedl"),
+              ("Tom VI", "Od Kaukazu po Zatokę", "od-kaukazu-po-zatoke"),
+              ("Tom VII", "Od Ormuzu do panelu słonecznego", "od-ormuzu-do-panelu-slonecznego"),
+              ("Tom VIII", "Disinfolklore, Dark Legitimacy i etyka", "disinfolklore-dark-legitimacy-etyka"),
+              ("Tom IX", "Korekta i przesłuchanie", "korekta-przesluchanie"),
           ]
 
-          new_ids = [
-              'front-opl-arsenal', 'gospodarka-finanse-eksport', 'infrastruktura-spoleczenstwo',
-              'synteza-prognoza', 'projekt-zycia-mu-nie-wyszedl', 'od-kaukazu-po-zatoke',
-              'od-ormuzu-do-panelu-slonecznego', 'disinfolklore-dark-legitimacy-etyka',
-              'korekta-przesluchanie'
-          ]
-
-          for ident in new_ids:
+          for _, title, ident in pairs:
               if f'id="{ident}"' in s:
-                  raise SystemExit(f'STOP: id juz istnieje przed zmiana: {ident}')
-
-          for old, new in replacements:
+                  raise SystemExit(f"STOP: id juz istnieje: {ident}")
+              old = f'<div class="volume-title">{title}</div>'
+              new = f'<div class="volume-title" id="{ident}">{title}</div>'
               if s.count(old) != 1:
-                  raise SystemExit(f'STOP: oczekiwany fragment wystepuje {s.count(old)} razy: {old[:100]}')
+                  raise SystemExit(f"STOP: tytul tomu nie wystepuje dokladnie raz: {title}")
               s = s.replace(old, new, 1)
-
-          for ident in new_ids:
-              if s.count(f'id="{ident}"') != 1:
-                  raise SystemExit(f'STOP: po zmianie id nie jest unikalne: {ident}')
 
           for i in range(1, 10):
               if s.count(f'id="tom{i}"') != 1:
-                  raise SystemExit(f'STOP: stary id tom{i} nie zachowany dokladnie raz')
+                  raise SystemExit(f"STOP: stary anchor tom{i} nie wystepuje dokladnie raz")
 
-          p.write_text(s, encoding='utf-8')
-          print('OK: 9 tomow, 9 nowych slowych anchorow; tom1..tom9 zachowane.')
+          for _, _, ident in pairs:
+              if s.count(f'id="{ident}"') != 1:
+                  raise SystemExit(f"STOP: nowy anchor nie jest unikalny: {ident}")
 
-      - name: Dopisz notatke do statusu technicznego
-        shell: python
-        run: |
-          from pathlib import Path
-          p = Path('rosja/SOL_status-techniczny.txt')
-          s = p.read_text(encoding='utf-8')
-          marker = '\nA1 — STRUKTURA TOMÓW I HIERARCHIA H\n'
-          note = '''
+          html.write_text(s, encoding="utf-8")
+
+          st = status.read_text(encoding="utf-8")
+          marker = "A1 — STRUKTURA TOMÓW I HIERARCHIA H"
+          if marker in st:
+              raise SystemExit("STOP: notatka o strukturze A1 juz istnieje")
+          note = """
+
 A1 — STRUKTURA TOMÓW I HIERARCHIA H
 - A1 ma 9 TOMÓW jako osobną warstwę strukturalną ponad rozdziałami.
-- TOMY nie są nagłówkami H1–H6: każdy tom jest <section class="volume" id="tomN">, a jego nazwa jest w <div class="volume-title">.
+- TOMY nie są nagłówkami H1–H6: każdy tom jest <section class=\"volume\" id=\"tomN\">, a jego nazwa jest w <div class=\"volume-title\">.
 - Zachowano techniczne anchory tom1–tom9 i dodano dodatkowe ręcznie nazwane anchory słowne do nazw tomów.
 - Skoki w hierarchii H wykazane przez audyt są CELOWE i nie są błędem do naprawy.
-'''
-          if marker not in s:
-              s = s.rstrip() + '\n' + note
-              p.write_text(s, encoding='utf-8')
-          else:
-              raise SystemExit('STOP: sekcja statusu A1 juz istnieje; nie duplikuje jej')
+"""
+          status.write_text(st.rstrip() + note + "\n", encoding="utf-8")
+          print("OK: 9 tomow, 9 recznych anchorow; tom1..tom9 zachowane; status dopisany")
+          PY
 
-      - name: Commit
+      - name: "Walidacja"
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s = Path("rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html").read_text(encoding="utf-8")
+          ids = [
+            "front-opl-arsenal",
+            "gospodarka-finanse-eksport",
+            "infrastruktura-spoleczenstwo",
+            "synteza-prognoza",
+            "projekt-zycia-mu-nie-wyszedl",
+            "od-kaukazu-po-zatoke",
+            "od-ormuzu-do-panelu-slonecznego",
+            "disinfolklore-dark-legitimacy-etyka",
+            "korekta-przesluchanie",
+          ]
+          assert all(s.count(f'id="{x}"') == 1 for x in ids)
+          assert all(s.count(f'id="tom{i}"') == 1 for i in range(1, 10))
+          print("OK: walidacja anchorow tomow")
+          PY
+          git diff --check
+
+      - name: "Commit"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html rosja/SOL_status-techniczny.txt
-          git diff --cached --check
-          git commit -m "ROSJA A1: słowne anchory 9 tomów i notatka strukturalna"
+          git commit -m "ROSJA A1: slowne anchory 9 tomow i notatka strukturalna"
           git push origin HEAD:main
