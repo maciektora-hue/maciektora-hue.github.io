@@ -44,6 +44,16 @@ def _pair_counts(sets, limit=12):
     ]
 
 
+def _time_chart(labels, series):
+    # spotify_order=1 oznacza najnowsze polubienie. Na wykresie czas ma płynąć
+    # tradycyjnie od lewej do prawej, więc przeszłość jest po lewej, teraz po prawej.
+    ordered_series = [
+        {**item, "values": list(reversed(item["values"]))}
+        for item in series
+    ]
+    return svg_chart(list(reversed(labels)), ordered_series)
+
+
 def build_13_analyses(model, chunk_size=80):
     chunks = build_chunks(model, chunk_size)
     labels = [c["label"] for c in chunks]
@@ -167,13 +177,13 @@ def build_13_analyses(model, chunk_size=80):
         "families": _top(family_counts, 10, family_labels),
         "valence": valence,
         "directions": _top(direction_counts, 12),
-        "tag_time_chart": svg_chart(labels, tag_series),
+        "tag_time_chart": _time_chart(labels, tag_series),
         "tag_time_legend": legend(tag_series),
-        "axis_time_chart": svg_chart(labels, axis_series),
+        "axis_time_chart": _time_chart(labels, axis_series),
         "axis_time_legend": legend(axis_series),
-        "valence_time_chart": svg_chart(labels, valence_series),
+        "valence_time_chart": _time_chart(labels, valence_series),
         "valence_time_legend": legend(valence_series),
-        "direction_time_chart": svg_chart(labels, direction_series),
+        "direction_time_chart": _time_chart(labels, direction_series),
         "direction_time_legend": legend(direction_series),
         "changes": changes,
         "tag_pairs": _pair_counts(tag_sets, 12),
