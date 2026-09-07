@@ -1,0 +1,48 @@
+name: Turso check
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/turso-check.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check Turso schema
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_ADMIN_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          import libsql
+
+          token = os.environ.get('TURSO_ADMIN_TOKEN')
+          if not token:
+              print('BRAK SECRETU: TURSO_ADMIN_TOKEN')
+              sys.exit(2)
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+
+          rows = conn.execute("""
+              SELECT name, sql
+              FROM sqlite_master
+              WHERE type = 'table'
+                AND name NOT LIKE 'sqlite_%'
+              ORDER BY name
+          """).fetchall()
+
+          print(f'TABLE_COUNT={len(rows)}')
+          for name, ddl in rows:
+              print(f'\n=== {name} ===')
+              print(ddl)
+          PY
