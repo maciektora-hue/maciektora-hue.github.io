@@ -1,8 +1,33 @@
 {% extends "base.html" %}
 {% block title %}Czas zdarzeniowy{% endblock %}
 {% block content %}
-<section class="hero"><p class="kicker">warstwa 1</p><h1>Czas zdarzeniowy</h1><p>Oś X nie jest kalendarzem. Jednostką czasu jest kolejne polubienie. Lewa strona to najnowsze utwory, prawa coraz dalsza przeszłość. Okna: po {{ data.chunk_size }} piosenek. Zakres: 1–{{ data.max_order }}.</p></section>
+<section class="hero">
+  <p class="kicker">warstwa 1</p>
+  <h1>Czas zdarzeniowy</h1>
+  <p>Oś X nie jest kalendarzem. Jednostką czasu jest kolejne polubienie. Zakres danych: 1–{{ data.max_order }}. Aktualnie: okno {{ data.window_size }} tików, krok {{ data.step }} tików, kierunek {{ data.direction_label }}.</p>
+</section>
+
+<section class="panel">
+  <h2>Parametry</h2>
+  <form method="get" class="controls">
+    <label>Okno
+      <input type="number" name="okno" min="1" max="5000" value="{{ data.window_size }}">
+    </label>
+    <label>Krok
+      <input type="number" name="krok" min="1" max="5000" value="{{ data.step }}">
+    </label>
+    <label>Kierunek
+      <select name="kierunek">
+        <option value="teraz" {% if data.direction == 'teraz' %}selected{% endif %}>od teraz w przeszłość</option>
+        <option value="przeszlosc" {% if data.direction == 'przeszlosc' %}selected{% endif %}>od przeszłości do teraz</option>
+      </select>
+    </label>
+    <button type="submit">Przelicz</button>
+  </form>
+  <p class="muted">Przykład: okno 80, krok 30 daje 1–80, 31–110, 61–140… Łącznie teraz: {{ data.window_count }} okien.</p>
+</section>
+
 <section class="panel"><h2>Rodziny w czasie</h2><p class="muted">Udział nadań rodziny wśród wszystkich nadań tagów w danym oknie.</p>{{ data.family_legend|safe }}{{ data.family_chart|safe }}</section>
 <section class="panel"><h2>Najczęstsze osie w czasie</h2><p class="muted">Sześć osi o największej liczbie nadań w aktualnych danych.</p>{{ data.axis_legend|safe }}{{ data.axis_chart|safe }}</section>
-{% if data.pair_chart %}<section class="panel"><h2>Przykładowy pojedynek tagów</h2><p class="muted">Surowa liczba wystąpień w oknach po {{ data.chunk_size }} piosenek.</p>{{ data.pair_legend|safe }}{{ data.pair_chart|safe }}</section>{% endif %}
+{% if data.pair_chart %}<section class="panel"><h2>Przykładowy pojedynek tagów</h2><p class="muted">Surowa liczba wystąpień w przesuwanych oknach po {{ data.window_size }} tików, przesuwanych co {{ data.step }}.</p>{{ data.pair_legend|safe }}{{ data.pair_chart|safe }}</section>{% endif %}
 {% endblock %}
