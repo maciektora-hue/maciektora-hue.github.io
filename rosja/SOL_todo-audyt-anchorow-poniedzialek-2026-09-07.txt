@@ -39,30 +39,51 @@ Dla każdego pliku sprawdzić osobno i cierpliwie:
 UWAGA O H1
 Spodziewamy się, że w części dokumentów może brakować anchorów przy H1, ale audyt ma to POTWIERDZIĆ, a nie założyć z góry.
 
-ETAP 3 — JEDEN KATALOG SEKCJI CAŁEJ ROSJI
-W ramach audytu ma powstać JEDEN plik obejmujący wszystkie merytoryczne dokumenty Rosji.
-Format pliku zostanie wskazany później przez użytkownika. Na razie ustalamy zawartość, nie wygląd.
+ETAP 3 — JEDEN TSV DLA CAŁEJ ROSJI
+W ramach audytu ma powstać JEDEN plik TSV obejmujący wszystkie merytoryczne dokumenty Rosji.
 
-Dla KAŻDEGO dokumentu katalog ma zawierać, w kolejności występowania w dokumencie:
-- nazwę / identyfikator dokumentu,
-- stabilny publiczny URL dokumentu, jeśli istnieje,
-- poziom nagłówka: H1, H2, H3, H4, H5 albo H6,
-- pełną, dokładną nazwę sekcji taką, jaka występuje w dokumencie,
-- anchor / id tej sekcji,
-- jeżeli anchoru brak: jawne oznaczenie BRAK,
-- zachowaną hierarchię zagłębienia sekcji.
+Docelowa nazwa:
+rosja/SOL_mapa-sekcji-i-anchorow-rosja.tsv
 
-Przykład LOGIKI danych, nie docelowego wyglądu:
-DOKUMENT A2
-H1  Gradually, then suddenly                         #...
-  H2  Pełna nazwa sekcji                             #...
-    H3  Pełna nazwa podsekcji                        BRAK
-      H4  Pełna nazwa niższego poziomu               #...
+JEDEN WIERSZ = JEDEN NAGŁÓWEK / SEKCJA.
+Kolejność wierszy ma zachowywać:
+1. kolejność dokumentów,
+2. kolejność sekcji wewnątrz każdego dokumentu.
 
-Katalog ma być:
+Kolumny TSV:
+- dokument_kod        — np. A1, A2, D4, E2; jeśli brak kodu, czytelny identyfikator,
+- dokument_plik       — dokładna nazwa pliku źródłowego HTML,
+- dokument_tytul      — tytuł dokumentu,
+- url_stabilny        — stabilny publiczny URL dokumentu, jeśli istnieje,
+- poziom              — H1, H2, H3, H4, H5 albo H6,
+- glebokosc           — liczba 1–6 odpowiadająca poziomowi nagłówka,
+- kolejnosc           — numer nagłówka w kolejności występowania w danym dokumencie,
+- sekcja_tytul        — PEŁNA, dokładna nazwa sekcji tak jak w dokumencie,
+- anchor              — dokładna wartość id bez znaku #,
+- anchor_status       — OK albo BRAK,
+- deep_link           — pełny stabilny URL + #anchor, jeśli anchor istnieje; inaczej puste.
+
+Przykład LOGIKI TSV:
+dokument_kod\tdokument_plik\tdokument_tytul\turl_stabilny\tpoziom\tglebokosc\tkolejnosc\tsekcja_tytul\tanchor\tanchor_status\tdeep_link
+A2\ta2_....html\tGradually, then suddenly\thttps://.../rosja/gradually-suddenly/\tH1\t1\t1\tGradually, then suddenly\tgradually-then-suddenly\tOK\thttps://.../rosja/gradually-suddenly/#gradually-then-suddenly
+A2\ta2_....html\tGradually, then suddenly\thttps://.../rosja/gradually-suddenly/\tH2\t2\t2\tPełna nazwa sekcji\t\tBRAK\t
+
+ZASADY TSV
+- separator: TAB, nie przecinki i nie średniki,
+- kodowanie: UTF-8,
+- bez dekoracyjnych pustych wierszy,
+- nazwy sekcji dokładnie 1:1 z HTML, bez parafrazowania,
+- nie usuwać polskich znaków z nazw sekcji,
+- anchor zapisywać dokładnie tak, jak jest w id,
+- brak anchoru: pusta kolumna anchor + anchor_status=BRAK,
+- jeśli nagłówek zawiera HTML wewnętrzny, do sekcja_tytul trafia czytelny tekst nagłówka, bez tagów, ale bez skracania treści,
+- wszystkie pliki Rosji trafiają do TEGO SAMEGO TSV.
+
+TSV ma być:
 - kompletny,
-- czytelny dla człowieka,
-- użyteczny później do budowania deep-linków i cross-linków,
+- jednoznaczny,
+- łatwy do filtrowania i sortowania,
+- użyteczny później do budowania deep-linków, cross-linków i ewentualnych map/nawigacji,
 - oparty wyłącznie na faktycznej strukturze HTML, bez wymyślania nazw sekcji.
 
 ETAP 4 — RAPORT DECYZYJNY
@@ -83,7 +104,7 @@ WAŻNE
 - Nie zmieniać już istniejących sensownych anchorów.
 - Nie robić hurtowych zmian w zamrożonych plikach.
 - Raportować wynik plik po pliku, tak żeby później można było zdecydować, które pliki w ogóle ruszamy.
-- Plik katalogu sekcji powstaje jako WYNIK AUDYTU, ale nie może sam zmieniać dokumentów źródłowych.
+- TSV powstaje jako WYNIK AUDYTU, ale nie może sam zmieniać dokumentów źródłowych.
 
 PO CO NAM TE ANCHORY
 Anchory są potrzebne przede wszystkim do:
