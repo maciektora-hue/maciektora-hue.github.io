@@ -65,6 +65,7 @@ a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
 .indent{display:inline-block;flex:0 0 auto}
 .section-title{font-weight:650}
 .h1 .section-title{font-size:16px;color:#ffd779;font-weight:900}
+.tom .section-title{color:var(--green);font-weight:900}
 .h2 .section-title{color:#f1c96f;font-weight:800}
 .h3 .section-title{color:#e8d39d}
 .hidden-by-branch{display:none}
@@ -89,7 +90,7 @@ mark{background:#8d6a1d;color:#fff4d2;padding:0 1px;border-radius:2px}
 </header>
 <main id="app"></main>
 <script>
-const API='https://piosenki-api.onrender.com/api/content/rosja';
+const API='https://piosenki-api.onrender.com/api/content/rosja/structure';
 const KEEP=['dokument_kod','poziom','glebokosc','kolejnosc','sekcja_tytul','anchor','anchor_status','deep_link','opis'];
 const app=document.getElementById('app');
 const search=document.getElementById('search');
@@ -172,7 +173,9 @@ function applySearch(){
     doc.style.display=docHits?'':'none';
     if(q && docHits)doc.open=true;
   });
-  stats.textContent=q?`${visible} / ${total} sekcji`:`${total} sekcji · ${docs.length} dokumentów · SQL`;
+  const volumes=document.querySelectorAll('tbody tr.tom').length;
+  const headings=total-volumes;
+  stats.textContent=q?`${visible} / ${total} pozycji`:`${headings} sekcji H · ${volumes} TOMÓW · ${docs.length} dokumentów · SQL`;
 }
 function updateStats(){applySearch();}
 
@@ -186,8 +189,11 @@ fetch(API,{cache:'no-store'})
   .then(r=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json();})
   .then(data=>{
     const rows=Array.isArray(data.rows)?data.rows:[];
-    if(rows.length!==620)throw new Error(`SQL/API: oczekiwano 620 rekordów, jest ${rows.length}`);
+    if(rows.length!==629)throw new Error(`SQL/API: oczekiwano 629 rekordów struktury, jest ${rows.length}`);
     if(data.status?.documents!==16)throw new Error(`SQL/API: oczekiwano 16 dokumentów, jest ${data.status?.documents}`);
+    if(data.status?.sections!==620)throw new Error(`SQL/API: oczekiwano 620 sekcji H, jest ${data.status?.sections}`);
+    if(data.status?.volumes!==9)throw new Error(`SQL/API: oczekiwano 9 TOMÓW, jest ${data.status?.volumes}`);
+    if(data.status?.structure_nodes!==629)throw new Error(`SQL/API: oczekiwano 629 węzłów, jest ${data.status?.structure_nodes}`);
     render(rows);
   })
   .catch(err=>{app.innerHTML=`<div class="error"><strong>Nie udało się wczytać mapy z SQL/API.</strong><br>${esc(err.message)}<br><small>${esc(API)}</small></div>`;stats.textContent='błąd';});
