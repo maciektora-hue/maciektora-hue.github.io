@@ -123,15 +123,15 @@
 </head>
 <body>
 
-<h1>Architektury pamięci jako mapa poznawcza</h1>
+<h1 id="architektury-pamieci-jako-mapa-poznawcza">Architektury pamięci jako mapa poznawcza</h1>
 <p class="lead">Od pamięci komputerowej lat 80. przez paradygmaty języków programowania, systemy big data, aż po pamięć neurotypową i neuroróżnorodną. Esej badawczo-rozwojowy o tym, że ograniczenia projektowe maszyn i ograniczenia projektowe mózgów rozwiązują ten sam problem informacyjny w sposób strukturalnie analogiczny — i o tym, jakie konsekwencje ma ta analogia dla zrozumienia, kto buduje fundamenty informatyki.</p>
 
 <div class="abstract">
-<h3>Streszczenie</h3>
+<h3 id="streszczenie">Streszczenie</h3>
 <p>Esej argumentuje, że historia pamięci komputerowej — od drogiego, fizycznie ograniczonego DRAM-u lat 80., przez ewolucję paradygmatów zarządzania pamięcią w językach programowania, do współczesnych systemów rozproszonych obsługujących petabajty danych — jest empirycznym katalogiem rozwiązań problemu strukturalnie tego samego, z którym mózg ludzki radzi sobie od urodzenia: <em>zawartość świata jest większa niż dostępna pamięć</em>. Twierdzimy dalej, że różnica między mózgiem neurotypowym a neuroróżnorodnym dotyczy nie <em>jakości</em> pamięci, lecz <em>strategii projektowej</em> — i że strategia neuroróżnorodna (pamięć pointer-based, indeksowanie po anomalii, leniwe wartościowanie, brak garbage collectora w pamięci roboczej) jest natywną architekturą, której analogi pojawiają się w niskopoziomowych językach programowania i w systemach big data, ale nie w językach skalowania społecznego. Konkluzja: dziedziny techniczne wymagające architektur pointer-based filtrują pozytywnie pod osoby z natywnie pointer-based pamięcią. To jest jedna z możliwych odpowiedzi na pytanie, dlaczego obserwuje się wysoki prior neuroróżnorodności wśród twórców fundamentów informatyki.</p>
 </div>
 
-<h2><span class="section-num">§1</span> Wprowadzenie — jeden problem, wiele rozwiązań</h2>
+<h2 id="1-wprowadzenie-jeden-problem-wiele-rozwiazan"><span class="section-num">§1</span> Wprowadzenie — jeden problem, wiele rozwiązań</h2>
 
 <p>Każdy system, który ma <em>pamiętać</em>, mierzy się z tym samym strukturalnym ograniczeniem: dostępna pamięć jest skończona, a strumień napływających danych — w praktyce nieskończony. To jest twierdzenie informatyczne o teoretycznej trywialności i praktycznej fundamentalności. Stosuje się ono do układu DRAM, do bazy danych, do systemu plików, do mózgu szczura uczącego się labiryntu, do mózgu człowieka pamiętającego rozmowę z dzieciństwa.</p>
 
@@ -141,7 +141,7 @@
 
 <p>Teza jest podwójna. Po pierwsze, opisana analogia ma moc wyjaśniającą — pozwala mówić o pamięci ND w języku precyzyjnie technicznym, a o pamięci komputerowej w języku poznawczym, bez zubożenia żadnej z tych dziedzin. Po drugie, obserwacyjny wzorzec, w którym fundamenty informatyki (kompilatory, jądra systemów, języki niskopoziomowe, systemy rozproszone) są budowane głównie przez osoby ND, jest <em>konsekwencją tej analogii</em> — bo dziedziny te wymagają natywnej kompetencji w architekturach, które ND mózg ma wbudowaną, a NT mózg musi symulować przez warstwę translacji.</p>
 
-<h2><span class="section-num">§2</span> Pamięć komputerowa lat 80. i wczesnych 90. — fizyka jako ramy projektowe</h2>
+<h2 id="2-pamiec-komputerowa-lat-80-i-wczesnych-90-fizyka-jako-ramy-projektowe"><span class="section-num">§2</span> Pamięć komputerowa lat 80. i wczesnych 90. — fizyka jako ramy projektowe</h2>
 
 <p>W latach 80. XX wieku pamięć RAM była drogim, deficytowym, fizycznie wymiernym zasobem. Komputer Apple II (1977) miał standardowo 4 KB pamięci. IBM PC (1981) — 16 KB w wersji bazowej, do 256 KB w wersji rozszerzonej. Commodore 64, wprowadzony w styczniu 1982, miał 64 KB pamięci w teorii, ale po załadowaniu BASIC-a i rezerwacjach systemowych <strong>dla użytkownika dostępne było 38 911 bajtów</strong> — to liczba znana każdemu, kto kiedykolwiek włączył to urządzenie i zobaczył komunikat startowy <code>38911 BASIC BYTES FREE</code>. Reszta była zajęta przez ROM BASIC-a ($A000–$BFFF), Kernal ($E000–$FFFF), obszar I/O i pamięć ekranu. Każdy bajt miał konkretny adres, konkretne miejsce na płytce drukowanej, konkretną cenę.</p>
 
@@ -156,7 +156,7 @@
 </div>
 
 <div class="sources">
-<h4>Źródła do §2</h4>
+<h4 id="zroda-do-2">Źródła do §2</h4>
 <ul>
   <li><a href="https://en.wikipedia.org/wiki/Commodore_64">Wikipedia: Commodore 64</a> — pełen opis architektury, 64 KB RAM, 38 911 bajtów dla BASIC-a, mechanizm bank switching</li>
   <li><a href="https://www.c64-wiki.com/wiki/Memory_Map">C64-Wiki: Memory Map</a> — szczegółowa mapa pamięci, granice obszarów, $0800–$9FFF dla BASIC-a</li>
@@ -164,7 +164,7 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§3</span> Pamięć w języku C — manualne zarządzanie jako paradygmat</h2>
+<h2 id="3-pamiec-w-jezyku-c-manualne-zarzadzanie-jako-paradygmat"><span class="section-num">§3</span> Pamięć w języku C — manualne zarządzanie jako paradygmat</h2>
 
 <p>Język C, zaprojektowany w latach 1972–1973 przez Dennisa Ritchiego w Bell Labs, jako rozwinięcie języka B Kena Thompsona, jest bezpośrednim semantycznym odzwierciedleniem etosu pierwotnego. C nie zarządza pamięcią <em>za</em> programistę. C dostarcza programiście narzędzia do zarządzania pamięcią ręcznie, w sposób, który zakłada, że programista wie, co robi, i ponosi pełną odpowiedzialność za błędy. Język powstał w kontekście budowy systemu Unix — pierwsze wersje Uniksa były pisane w asemblerze, ale Ritchie i Thompson uznali, że potrzebują języka wyższego poziomu, który pozwoli zachować <em>bezpośredni dostęp do sprzętu</em>. C jest tej decyzji bezpośrednim wynikiem.</p>
 
@@ -179,7 +179,7 @@
 <p>Konsekwencja kognitywna jest podstawowa: kompetencja w C wymaga natywnej zdolności do trzymania dużego, zagnieżdżonego, wielokrotnie powiązanego grafu w pamięci roboczej. Nie chodzi o naukę składni — składnia C jest minimalistyczna, można jej nauczyć w tydzień. Chodzi o zdolność do <em>jednoczesnego utrzymywania w głowie</em> stanu wszystkich aktywnych alokacji, ich okresów życia, ich wzajemnych referencji, ich relacji z aktualnie wykonywaną funkcją. Programista, którego pamięć robocza jest <em>schemat-based</em> (kompresuje detale do streszczeń), będzie nieustannie tracił trakcję, popełniał błędy zarządzania pamięcią, produkował segmentation faults. Programista, którego pamięć robocza jest <em>pointer-based</em> (trzyma adresy do pełnych obiektów, leniwie dereferencjowane gdy potrzebne), pisze C natywnie.</p>
 
 <div class="sources">
-<h4>Źródła do §3</h4>
+<h4 id="zroda-do-3">Źródła do §3</h4>
 <ul>
   <li><a href="https://en.wikipedia.org/wiki/C_(programming_language)">Wikipedia: C (programming language)</a> — historia, projekt, relacja z Uniksem</li>
   <li><a href="https://en.wikipedia.org/wiki/Dennis_Ritchie">Wikipedia: Dennis Ritchie</a> — biografia twórcy, Turing Award 1983</li>
@@ -189,7 +189,7 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§4</span> Pamięć w Pythonie — referencje, garbage collector, abstrakcja</h2>
+<h2 id="4-pamiec-w-pythonie-referencje-garbage-collector-abstrakcja"><span class="section-num">§4</span> Pamięć w Pythonie — referencje, garbage collector, abstrakcja</h2>
 
 <p>Python, zaprojektowany w grudniu 1989 roku przez Guida van Rossuma w Centrum Wiskunde &amp; Informatica w Amsterdamie, reprezentuje paradygmat odwrotny do C. Van Rossum, jak sam wspomina, szukał wówczas projektu programistycznego "który by go zajął przez tydzień Świąt Bożego Narodzenia" — biuro było zamknięte, miał komputer w domu, postanowił napisać interpreter dla nowego języka skryptowego. Pierwsza publiczna wersja, Python 0.9.0, ukazała się w lutym 1991 roku. Od początku Python był projektowany jako następca języka ABC, z naciskiem na czytelność kodu i prostą składnię.</p>
 
@@ -206,7 +206,7 @@
 <p>Pamięć w Pythonie z perspektywy programisty <em>nie istnieje jako problem do rozwiązania</em>. Istnieją obiekty. Istnieje stos i sterta, ale są zarządzane przez interpreter. Programista myśli w abstrakcjach domeny problemu, nie w kategoriach maszyny. To jest świadoma decyzja projektowa van Rossuma — i okazała się komercyjnie i edukacyjnie ogromnym sukcesem. Dla kogoś, kogo pamięć robocza naturalnie operuje na schematach i streszczeniach, Python jest językiem natywnym. Dla kogoś, kogo pamięć operuje na adresach i wskaźnikach, Python jest językiem wygodnym, ale <em>obcym architektonicznie</em> — wszystko jest schowane pod warstwą, której nie można przebić bez zejścia do CPython-a w C.</p>
 
 <div class="sources">
-<h4>Źródła do §4</h4>
+<h4 id="zroda-do-4">Źródła do §4</h4>
 <ul>
   <li><a href="https://gvanrossum.github.io/bio.html">Guido van Rossum — Brief Bio</a> — oficjalna strona twórcy</li>
   <li><a href="https://www.unixmen.com/guido-van-rossum-python-creator/">Unixmen: Guido van Rossum — cytat z 1996 r.</a> — oryginalny opis powstania Pythona w grudniu 1989</li>
@@ -215,7 +215,7 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§5</span> Pamięć w JavaScript — przypadkowy język ery przeglądarek</h2>
+<h2 id="5-pamiec-w-javascript-przypadkowy-jezyk-ery-przegladarek"><span class="section-num">§5</span> Pamięć w JavaScript — przypadkowy język ery przeglądarek</h2>
 
 <p>JavaScript powstał w maju 1995 roku w firmie Netscape Communications. Brendan Eich, świeżo zatrudniony programista, otrzymał zadanie zaprojektowania języka skryptowego dla przeglądarki Netscape Navigator 2.0 i — jak sam mówi — "spędził dziesięć kolejnych dni w maju 1995 prototypując pierwszą implementację". Język nazywał się początkowo Mocha, potem LiveScript, a w grudniu 1995 — w wyniku marketingowej umowy z Sun Microsystems — został przemianowany na JavaScript. Eich w wywiadach przyznawał: "byłem pod presją działu marketingu, żeby [JavaScript] wyglądał jak Java, ale nie urósł zbyt wielki dla swojej rangi… miał być głupim młodszym braciszkiem".</p>
 
@@ -232,7 +232,7 @@
 <p>Dla AuDHD-mózgu, którego pamięć indeksuje po anomaliach i wymaga deterministycznej semantyki, JavaScript jest <em>aktywnie nieprzyjemny w pracy</em>. Nie chodzi o ideologiczną niechęć — chodzi o architektoniczne niedopasowanie między mózgiem operującym na adresach i regułach a językiem, który celowo ukrywa adresy i ma reguły niedeterministyczne.</p>
 
 <div class="sources">
-<h4>Źródła do §5</h4>
+<h4 id="zroda-do-5">Źródła do §5</h4>
 <ul>
   <li><a href="https://en.wikipedia.org/wiki/JavaScript">Wikipedia: JavaScript</a> — pełna historia, ECMAScript, statystyki użycia</li>
   <li><a href="https://en.wikipedia.org/wiki/Brendan_Eich">Wikipedia: Brendan Eich</a> — biografia, kontekst projektowania języka</li>
@@ -241,7 +241,7 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§6</span> Pamięć w big data — Hadoop, MapReduce i ekonomia rozproszenia</h2>
+<h2 id="6-pamiec-w-big-data-hadoop-mapreduce-i-ekonomia-rozproszenia"><span class="section-num">§6</span> Pamięć w big data — Hadoop, MapReduce i ekonomia rozproszenia</h2>
 
 <p>W ciągu pierwszej dekady XXI wieku stanął przed informatyką nowy problem: skala danych przekroczyła pojemność pojedynczej maszyny. Google indeksujący sieć w 2003 roku, Facebook obsługujący setki milionów użytkowników, telekomunikacja zbierająca petabajty logów — żaden z tych problemów nie mieścił się w pamięci pojedynczego serwera. Klasyczna hierarchia pamięci (cache → RAM → SSD → archiwum) nadal obowiązuje, ale doszedł kolejny poziom: <em>klaster maszyn</em>.</p>
 
@@ -264,7 +264,7 @@
 <p>Po roku 2014 sam Google odszedł od MapReduce jako głównej metody przetwarzania danych — zastąpiły go nowsze frameworki (Apache Spark z 2010, system Cloud Dataflow / Beam, BigQuery), które oferują bardziej elastyczne modele obliczeniowe i lepsze wykorzystanie pamięci. Ale fundamentalna zasada pozostaje: dane są rozproszone, obliczenia idą do danych, pamięć jest hierarchiczna i wskaźnikowa.</p>
 
 <div class="sources">
-<h4>Źródła do §6</h4>
+<h4 id="zroda-do-6">Źródła do §6</h4>
 <ul>
   <li><a href="https://en.wikipedia.org/wiki/MapReduce">Wikipedia: MapReduce</a> — pełen opis paradygmatu, historia, krytyka</li>
   <li><a href="https://en.wikipedia.org/wiki/Apache_Hadoop">Wikipedia: Apache Hadoop</a> — architektura HDFS i MapReduce, geneza w 2006</li>
@@ -273,11 +273,11 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§7</span> Pamięć ludzka — schemat, hipokamp, kora, sen</h2>
+<h2 id="7-pamiec-ludzka-schemat-hipokamp-kora-sen"><span class="section-num">§7</span> Pamięć ludzka — schemat, hipokamp, kora, sen</h2>
 
 <p>Mózg ludzki radzi sobie z tym samym strukturalnym problemem, co komputer: zawartość świata jest większa niż dostępna pamięć. Rozwiązania, które ewolucja wypracowała, są jakościowo podobne do tych, które informatyka wynalazła — ale poprzedzają je o kilkadziesiąt tysięcy lat.</p>
 
-<h3>Hierarchia pamięci u człowieka</h3>
+<h3 id="hierarchia-pamieci-u-czowieka">Hierarchia pamięci u człowieka</h3>
 
 <p>Klasyczny model pamięci ludzkiej, sformułowany w drugiej połowie XX wieku, wyróżnia kilka systemów:</p>
 
@@ -289,7 +289,7 @@
 
 <p>Kluczowy moment w funkcjonowaniu pamięci ludzkiej to <em>konsolidacja</em> — proces, w którym informacje z hipokampa (jakby krótkoterminowej "stacji pośredniej") są przepisywane do kory mózgowej, gdzie zostają na długo. Ten proces zachodzi <em>głównie podczas snu</em>, a nie w trakcie czuwania.</p>
 
-<h3>Sen głęboki (SWS) i sen REM jako fazy konsolidacji</h3>
+<h3 id="sen-geboki-sws-i-sen-rem-jako-fazy-konsolidacji">Sen głęboki (SWS) i sen REM jako fazy konsolidacji</h3>
 
 <p>Współczesna neurobiologia snu — opisywana w licznych pracach Jana Borna z Uniwersytetu w Tübingen i innych badaczy — wyróżnia dwie fazy snu jako kluczowe dla konsolidacji pamięci, każdą o nieco innej funkcji.</p>
 
@@ -299,14 +299,14 @@
 
 <p>Mechanizm techniczny: w SWS dochodzi do trójkierunkowej koordynacji <em>fal wolnych korowych</em>, <em>wrzecion snu thalamokortykalnych</em> oraz <em>hipokampalnych ripples</em>. Synchronizacja tych trzech rytmów decyduje o tym, czy konsolidacja zachodzi efektywnie. Eksperymenty z 2023 roku (publikacja w Nature Medicine) pokazały, że stymulacja głęboka mózgu zsynchronizowana z aktywną fazą fal wolnych w przyśrodkowym płacie skroniowym <em>poprawia dokładność rozpoznawania wspomnień</em>, podczas gdy ta sama stymulacja bez precyzyjnego zsynchronizowania nie ma efektu, a czasem nawet pogarsza wyniki.</p>
 
-<h3>Pamięć ludzka jako kompresor stratny</h3>
+<h3 id="pamiec-ludzka-jako-kompresor-stratny">Pamięć ludzka jako kompresor stratny</h3>
 
 <p>Pamięć neurotypowa jest, w terminach informatycznych, <em>kompresorem stratnym z ekstrakcją gistu</em>. Detale są wyrzucane, schematy zostają. To jest świadoma decyzja "projektowa" ewolucji — bo przechowywanie pełnych szczegółów wszystkich epizodów byłoby pamięciowo niewykonalne, a większość detali jest redundantna w środowisku, w którym podobne sytuacje powtarzają się wielokrotnie. NT pamięć działa świetnie, jeśli zadanie jest powtarzalne — pozwala szybko klasyfikować nowe sytuacje przez podobieństwo do schematów już wykształconych.</p>
 
 <p>Ten mechanizm jest jednak <em>specyficzny dla NT-architektury</em>. Jak zobaczymy w §8, ND mózgi (zwłaszcza ASD) wykazują systematycznie inne wzorce — z silniejszym indeksowaniem detali, słabszą abstrakcją gistu, dłuższym przechowywaniem rozdzielczości sensorycznej.</p>
 
 <div class="sources">
-<h4>Źródła do §7</h4>
+<h4 id="zroda-do-7">Źródła do §7</h4>
 <ul>
   <li><a href="https://pubmed.ncbi.nlm.nih.gov/20509828/">Diekelmann &amp; Born (2010): "Slow-wave sleep and the consolidation of long-term memory"</a> — klasyczny przegląd</li>
   <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12364950/">"Slow-wave sleep as a key player in offline memory processing" (2024)</a> — najnowsze EEG-owe badania o koordynacji fal wolnych, wrzecion i ripples</li>
@@ -316,11 +316,11 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§8</span> Pamięć neurotypowa vs neuroróżnorodna — różnica strategii projektowej</h2>
+<h2 id="8-pamiec-neurotypowa-vs-neuroroznorodna-roznica-strategii-projektowej"><span class="section-num">§8</span> Pamięć neurotypowa vs neuroróżnorodna — różnica strategii projektowej</h2>
 
 <p>Nie istnieje jedna "ND-architektura pamięci", podobnie jak nie istnieje jedna "NT-architektura". Spektrum jest szerokie, i w obrębie tego spektrum można wyróżnić kilka systematycznie odmiennych wzorców, które empirycznie odróżniają osoby ze spektrum autyzmu (ASD), z ADHD, oraz z ich współwystępowaniem (AuDHD) od populacji ogólnej.</p>
 
-<h3>Monotropizm — teoria uwagi w autyzmie</h3>
+<h3 id="monotropizm-teoria-uwagi-w-autyzmie">Monotropizm — teoria uwagi w autyzmie</h3>
 
 <p>Najważniejszą teorią ostatnich dwóch dekad, próbującą zunifikować obraz autystycznego funkcjonowania poznawczego, jest <strong>monotropizm</strong> (monotropism) — koncepcja zaproponowana w 1992 roku przez Dinah Murray, a w pełni rozwinięta w artykule Murray, Lessera i Lawson z 2005 roku <em>Attention, Monotropism and the Diagnostic Criteria for Autism</em>, opublikowanym w czasopiśmie <em>Autism</em>. Wszystkie trzy autorki/autorzy są autystyczne; teoria została opracowana z perspektywy wewnętrznej, nie zewnętrznej, co jest cechą ją wyróżniającą wśród teorii autyzmu.</p>
 
@@ -330,7 +330,7 @@
 
 <p>Fergus Murray (syn Dinah Murray) w artykule z 2023 roku zaproponował rozszerzenie monotropizmu na ADHD: cechy takie jak impulsywność, nieuwaga i hiperaktywność u ADHD mogą leżeć na <em>kontinuum</em> z autystyczną sztywnością, hyperfokusem i bezwładem (autistic inertia), wszystkie kształtowane przez ten sam podstawowy styl monotropowej alokacji uwagi. Z tej perspektywy ADHD i ASD są <em>różnymi punktami na osi monotropizmu</em>, a AuDHD — pełnym wyrażeniem cechy.</p>
 
-<h3>Słaba spójność centralna (weak central coherence) — teoria szczegółu</h3>
+<h3 id="saba-spojnosc-centralna-weak-central-coherence-teoria-szczegou">Słaba spójność centralna (weak central coherence) — teoria szczegółu</h3>
 
 <p>Druga klasyczna teoria autystycznego stylu poznawczego to <strong>słaba spójność centralna</strong> (weak central coherence, WCC), wprowadzona przez Utę Frith w jej książce <em>Autism: Explaining the Enigma</em> z 1989 roku. Frith zauważyła, że osoby autystyczne typowo myślą o rzeczach <em>w najmniejszych możliwych częściach</em> — postrzegają detale lepiej niż osoby nieautystyczne, ale mają trudność z "widzeniem lasu, nie tylko drzew".</p>
 
@@ -340,7 +340,7 @@
 
 <p>Temple Grandin, autystyczna badaczka i pisarka, w swojej książce <em>Thinking in Pictures</em> (2006) opisuje, jak tłumaczy wszystkie słowa mówione i pisane na "pełnokolorowe filmy" w głowie — to jest klasyczny opis pamięci kodowanej obrazowo, z zachowaniem rozdzielczości sensorycznej, charakterystyczny dla części populacji autystycznej.</p>
 
-<h3>Pamięć robocza w ADHD — deficyt wykonawczy</h3>
+<h3 id="pamiec-robocza-w-adhd-deficyt-wykonawczy">Pamięć robocza w ADHD — deficyt wykonawczy</h3>
 
 <p>ADHD ma inny profil pamięciowy niż ASD. Russell Barkley, jeden z najważniejszych badaczy ADHD ostatniego półwiecza, sformułował model w pracy <em>Behavioral Inhibition, Sustained Attention, and Executive Functions</em> z 1997 roku, w którym <strong>pamięć robocza jest jedną z czterech głównych funkcji wykonawczych deficytowych u ADHD</strong>. Inne to: hamowanie behawioralne, samoregulacja afektu i motywacji, internalizacja mowy, oraz "rekonstytucja" (analiza i synteza behawioralna).</p>
 
@@ -350,7 +350,7 @@
 
 <p>Barkley sam, w swoich praktycznych zaleceniach z ostatnich lat, podkreśla użyteczność <em>zewnętrznych pomocy pamięciowych</em> — papierowych notatników, wizualnych przypomnień. To jest, w terminach informatycznych, <em>externalizacja stanu</em> — zwiększenie dostępnej pamięci roboczej przez delegację do zewnętrznego nośnika.</p>
 
-<h3>Synteza — pamięć ND jako pointer-based</h3>
+<h3 id="synteza-pamiec-nd-jako-pointer-based">Synteza — pamięć ND jako pointer-based</h3>
 
 <p>Łącząc te trzy linie badań — monotropizm, weak central coherence, deficyt pamięci roboczej w ADHD — można zarysować strukturalny obraz pamięci AuDHD jako:</p>
 
@@ -365,7 +365,7 @@
 <p>To nie jest <em>uszkodzona NT-pamięć</em>. To jest <em>inna strategia projektowa</em>, optymalizująca inne wymiary. Strategia, której ślady widać wyraźnie w niskopoziomowych językach programowania (C, Rust, asembler), w architekturach systemów rozproszonych (Hadoop, Spark) i w architekturach AI (transformer-based language models — gdzie attention mechanism jest dosłownie systemem ważonych wskaźników między tokenami).</p>
 
 <div class="sources">
-<h4>Źródła do §8</h4>
+<h4 id="zroda-do-8">Źródła do §8</h4>
 
 <p><strong>Monotropizm:</strong></p>
 <ul>
@@ -393,7 +393,7 @@
 </ul>
 </div>
 
-<h2><span class="section-num">§9</span> Konsekwencje — kto buduje fundamenty informatyki</h2>
+<h2 id="9-konsekwencje-kto-buduje-fundamenty-informatyki"><span class="section-num">§9</span> Konsekwencje — kto buduje fundamenty informatyki</h2>
 
 <p>Główna teza tego eseju jest następująca: <strong>jeśli niskopoziomowe języki programowania, jądra systemów operacyjnych, kompilatory, bazy danych i systemy rozproszone wymagają natywnej zdolności do operowania na pamięci pointer-based — i jeśli ta zdolność jest cechą architektoniczną ND-mózgów, a NT-mózgi muszą ją symulować przez warstwę translacji — to można oczekiwać, że osoby budujące te fundamenty będą statystycznie mocno reprezentowane wśród ND</strong>.</p>
 
@@ -416,7 +416,7 @@
   <li><strong>Badania nad wpływem akomodacji środowiskowej</strong> — czy NT programiści w środowisku z dobrymi zewnętrznymi pomocami pamięciowymi (IDE z wizualizacją grafów zależności, rich debuggers, narzędzia statycznej analizy) zbliżają się produktywnością do ND? Czy wręcz odwrotnie, ND tracą przewagę, gdy externalizacja staje się powszechna?</li>
 </ol>
 
-<h2><span class="section-num">§10</span> Konkluzja</h2>
+<h2 id="10-konkluzja"><span class="section-num">§10</span> Konkluzja</h2>
 
 <p>Pamięć — w komputerze, w mózgu, w klastrze, w języku programowania — jest rozwiązaniem tego samego strukturalnego problemu: zawartość świata przekracza pojemność systemu. Rozwiązań kanonicznych jest skończenie wiele. Wybór, którego dokonano, decyduje o charakterze całego systemu.</p>
 
