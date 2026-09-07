@@ -6,6 +6,11 @@ W Rosji NIE robimy automatycznego dorabiania anchorów jak w AuDHD.
 Pliki są w dużej części zamrożone, więc najpierw tylko AUDYT.
 Nie zmieniać treści ani istniejących anchorów bez późniejszego, osobnego polecenia.
 
+CEL AUDYTU
+1. Ustalić rzeczywisty stan anchorów we wszystkich merytorycznych dokumentach Rosji.
+2. Wykryć brakujące anchory, zwłaszcza przy H1–H6, ale niczego jeszcze nie naprawiać.
+3. Zbudować jeden wspólny katalog sekcji całej Rosji: dokument → hierarchia nagłówków → pełna nazwa sekcji → anchor.
+
 ETAP 1 — AUDYT PLIKÓW
 Przejrzeć wszystkie merytoryczne pliki HTML w katalogu rosja/ po jednym pliku.
 Dla każdego pliku ustalić:
@@ -21,14 +26,56 @@ Wynik etapu 1: lista plików w trzech grupach:
 3. anchorów brak lub prawie brak.
 
 ETAP 2 — AUDYT KOMPLETNOŚCI
-Dla każdego pliku, który ma anchory, sprawdzić osobno i cierpliwie:
+Dla każdego pliku sprawdzić osobno i cierpliwie:
 - każdy występujący nagłówek H1, H2, H3, H4, H5, H6,
 - czy każdy nagłówek/sekcja ma id,
 - czy id jest unikalne w pliku,
 - czy nie ma pustych id,
 - czy nie ma powielonych id,
 - czy istniejące linki #anchor prowadzą do istniejących id,
-- czy nie ma oczywistych braków w ciągu sekcji.
+- czy nie ma oczywistych braków w ciągu sekcji,
+- czy poziomy H1–H6 tworzą sensowną hierarchię dokumentu.
+
+UWAGA O H1
+Spodziewamy się, że w części dokumentów może brakować anchorów przy H1, ale audyt ma to POTWIERDZIĆ, a nie założyć z góry.
+
+ETAP 3 — JEDEN KATALOG SEKCJI CAŁEJ ROSJI
+W ramach audytu ma powstać JEDEN plik obejmujący wszystkie merytoryczne dokumenty Rosji.
+Format pliku zostanie wskazany później przez użytkownika. Na razie ustalamy zawartość, nie wygląd.
+
+Dla KAŻDEGO dokumentu katalog ma zawierać, w kolejności występowania w dokumencie:
+- nazwę / identyfikator dokumentu,
+- stabilny publiczny URL dokumentu, jeśli istnieje,
+- poziom nagłówka: H1, H2, H3, H4, H5 albo H6,
+- pełną, dokładną nazwę sekcji taką, jaka występuje w dokumencie,
+- anchor / id tej sekcji,
+- jeżeli anchoru brak: jawne oznaczenie BRAK,
+- zachowaną hierarchię zagłębienia sekcji.
+
+Przykład LOGIKI danych, nie docelowego wyglądu:
+DOKUMENT A2
+H1  Gradually, then suddenly                         #...
+  H2  Pełna nazwa sekcji                             #...
+    H3  Pełna nazwa podsekcji                        BRAK
+      H4  Pełna nazwa niższego poziomu               #...
+
+Katalog ma być:
+- kompletny,
+- czytelny dla człowieka,
+- użyteczny później do budowania deep-linków i cross-linków,
+- oparty wyłącznie na faktycznej strukturze HTML, bez wymyślania nazw sekcji.
+
+ETAP 4 — RAPORT DECYZYJNY
+Po audycie zrobić krótkie podsumowanie plik po pliku:
+- KOMPLETNE,
+- BRAKI DO ROZWAŻENIA,
+- PRAKTYCZNIE BRAK ANCHORÓW.
+
+Osobno wskazać:
+- ile nagłówków H1–H6 łącznie sprawdzono,
+- ile ma anchor,
+- ile nie ma anchoru,
+- w których dokumentach braki są największe.
 
 WAŻNE
 - To jest audyt, NIE operacja naprawcza.
@@ -36,6 +83,15 @@ WAŻNE
 - Nie zmieniać już istniejących sensownych anchorów.
 - Nie robić hurtowych zmian w zamrożonych plikach.
 - Raportować wynik plik po pliku, tak żeby później można było zdecydować, które pliki w ogóle ruszamy.
+- Plik katalogu sekcji powstaje jako WYNIK AUDYTU, ale nie może sam zmieniać dokumentów źródłowych.
+
+PO CO NAM TE ANCHORY
+Anchory są potrzebne przede wszystkim do:
+- bezpośrednich linków do konkretnej sekcji dokumentu,
+- trwałych deep-linków z indeksów i map tematów,
+- cross-linków między dokumentami,
+- linków PL/EN do odpowiadających sobie miejsc tam, gdzie takie pary istnieją,
+- późniejszego budowania nawigacji bez odwoływania się do wersjonowanych nazw plików.
 
 KONTEKST TECHNICZNY
 Stałe publiczne URL-e Rosji zachowują dowolny #fragment przez location.hash.
