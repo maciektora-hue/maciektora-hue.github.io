@@ -31,6 +31,11 @@ def get_connection():
     )
 
 
+def fetch_rows(conn, sql, columns):
+    rows = conn.execute(sql).fetchall()
+    return [dict(zip(columns, row)) for row in rows]
+
+
 @app.get("/health")
 def health():
     try:
@@ -47,33 +52,89 @@ def api_piosenki():
     conn = None
     try:
         conn = get_connection()
-        rows = conn.execute(
-            """
-            SELECT
-                utwu_id,
-                spotify_id,
-                spotify_order,
-                title_original,
-                artist_original,
-                album_original,
-                lyrics_status
-            FROM middle_end
-            ORDER BY spotify_order, utwu_id
-            """
-        ).fetchall()
 
-        data = [
-            {
-                "utwu_id": row[0],
-                "spotify_id": row[1],
-                "spotify_order": row[2],
-                "title": row[3],
-                "artist": row[4],
-                "album": row[5],
-                "lyrics_status": row[6],
-            }
-            for row in rows
-        ]
+        data = {
+            "middle_end": fetch_rows(
+                conn,
+                """
+                SELECT
+                    utwu_id,
+                    lyrics_id,
+                    spotify_id,
+                    spotify_order,
+                    title_original,
+                    title_normalized,
+                    title_parsed,
+                    artist_original,
+                    artist_normalized,
+                    artist_parsed,
+                    album_original,
+                    match_status,
+                    match_candidates,
+                    match_note,
+                    lyrics_status
+                FROM middle_end
+                ORDER BY spotify_order, utwu_id
+                """,
+                [
+                    "utwu_id",
+                    "lyrics_id",
+                    "spotify_id",
+                    "spotify_order",
+                    "title_original",
+                    "title_normalized",
+                    "title_parsed",
+                    "artist_original",
+                    "artist_normalized",
+                    "artist_parsed",
+                    "album_original",
+                    "match_status",
+                    "match_candidates",
+                    "match_note",
+                    "lyrics_status",
+                ],
+            ),
+            "tag_snapshots": fetch_rows(
+                conn,
+                "SELECT lyrics_id, tagged_at, tags FROM tag_snapshots ORDER BY tagged_at, lyrics_id",
+                ["lyrics_id", "tagged_at", "tags"],
+            ),
+            "tag_catalog": fetch_rows(
+                conn,
+                "SELECT tag, definition FROM tag_catalog ORDER BY tag",
+                ["tag", "definition"],
+            ),
+            "families": fetch_rows(
+                conn,
+                "SELECT family_name, label, color_hex, description, sort_order FROM families ORDER BY sort_order",
+                ["family_name", "label", "color_hex", "description", "sort_order"],
+            ),
+            "tag_groups": fetch_rows(
+                conn,
+                "SELECT group_name, label FROM tag_groups ORDER BY group_name",
+                ["group_name", "label"],
+            ),
+            "axes": fetch_rows(
+                conn,
+                "SELECT axis_name, label, description, family_name, sort_order FROM axes ORDER BY sort_order",
+                ["axis_name", "label", "description", "family_name", "sort_order"],
+            ),
+            "tag_group": fetch_rows(
+                conn,
+                "SELECT tag, group_name FROM tag_group ORDER BY tag, group_name",
+                ["tag", "group_name"],
+            ),
+            "tag_axis": fetch_rows(
+                conn,
+                "SELECT tag, axis_name FROM tag_axis ORDER BY tag, axis_name",
+                ["tag", "axis_name"],
+            ),
+            "lyrics": fetch_rows(
+                conn,
+                "SELECT lyrics_id FROM lyrics ORDER BY lyrics_id",
+                ["lyrics_id"],
+            ),
+        }
 
         return jsonify(data), 200
     except Exception as exc:
