@@ -1,0 +1,111 @@
+name: AUDHD - anchory seria AU03-AU18
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/audhd-dodaj-anchory-seria.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  anchory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dodaj anchory plik po pliku
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for code in AU03 AU04 AU05 AU06 AU07 AU08 AU09 AU10 AU11 AU12 AU13 AU14 AU15 AU16 AU17 AU18; do
+            echo "===== $code ====="
+            done_one=0
+            for attempt in 1 2 3; do
+              git fetch origin main
+              git reset --hard origin/main
+
+              python audhd/SOL_dodaj-reczne-anchory.py --code "$code"
+              git add audhd/*.html audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv
+
+              if git diff --cached --quiet; then
+                echo "$code: brak zmian, traktuję jako już wykonane."
+                done_one=1
+                break
+              fi
+
+              git commit -m "AUDHD: anchory $code"
+              if git push origin main; then
+                done_one=1
+                break
+              fi
+              echo "$code: push odrzucony, próba $attempt/3"
+            done
+
+            if [ "$done_one" -ne 1 ]; then
+              echo "STOP: nie udało się zapisać $code"
+              exit 1
+            fi
+          done
+
+      - name: Finalny audyt 338 sekcji
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+          python audhd/SOL_audyt-anchorow.py
+
+          python - <<'PY'
+          import csv
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          p = Path('audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv')
+          with p.open(encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+
+          assert len(rows) == 338, f'STOP: mapa ma {len(rows)} zamiast 338 wierszy'
+          missing = [r for r in rows if not r['anchor'] or r['anchor_status'] != 'OK']
+          assert not missing, f'STOP: brakujące anchory: {len(missing)}'
+
+          by_doc = defaultdict(list)
+          for r in rows:
+              by_doc[r['dokument_kod']].append(r['anchor'])
+          dup = {k:[a for a,c in Counter(v).items() if c>1] for k,v in by_doc.items()}
+          dup = {k:v for k,v in dup.items() if v}
+          assert not dup, f'STOP: duplikaty anchorów: {dup}'
+
+          report = Path('audhd/SOL_raport-audyt-anchorow-audhd.txt').read_text(encoding='utf-8')
+          for expected in [
+              'H1–H6 sprawdzone: 338',
+              'Nagłówki bez id: 0',
+              'Powielone wartości id (grupy): 0',
+              'Puste id: 0',
+              'Niedziałające sprawdzalne linki #fragment: 0',
+          ]:
+              assert expected in report, f'STOP: raport nie zawiera: {expected}'
+          print('OK FINAL: 338/338 anchorów, 0 duplikatów, 0 pustych, 0 błędnych #fragment')
+          PY
+
+      - name: Zapisz finalny raport
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audhd/SOL_mapa-sekcji-i-anchorow-audhd.tsv audhd/SOL_raport-audyt-anchorow-audhd.txt
+          if git diff --cached --quiet; then
+            echo "Brak zmian w finalnym audycie."
+            exit 0
+          fi
+          git commit -m "AUDHD: finalny audyt anchorow"
+          git push origin main
