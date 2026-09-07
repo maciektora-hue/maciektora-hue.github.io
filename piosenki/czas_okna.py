@@ -1,4 +1,5 @@
-from collections import Counter
+import html
+from collections import Counter, defaultdict
 
 from statystyki import count_series, legend, percent_series, svg_chart, top_names
 
@@ -47,6 +48,34 @@ def build_windows(model, size=80, step=30, direction="teraz"):
                     window["families"][family_name] += 1
 
     return windows
+
+
+def family_legend_with_axes(model, family_series, colors):
+    axes_by_family = defaultdict(list)
+    for row in sorted(model["axes"], key=lambda x: x.get("sort_order") or 0):
+        family_name = row.get("family_name")
+        if not family_name:
+            continue
+        axes_by_family[family_name].append(row.get("label") or row.get("axis_name") or "")
+
+    out = ['<div class="family-legend">']
+    for item in family_series:
+        name = item["name"]
+        label = item["label"]
+        color = colors.get(name) or "#555"
+        axes = [axis for axis in axes_by_family.get(name, []) if axis]
+        axes_text = " · ".join(axes) if axes else "brak przypisanych osi"
+        out.append(
+            '<div class="family-legend-item">'
+            f'<i style="background:{html.escape(color)}"></i>'
+            '<div>'
+            f'<strong>{html.escape(label)}</strong>'
+            f'<span class="family-axes">{html.escape(axes_text)}</span>'
+            '</div>'
+            '</div>'
+        )
+    out.append("</div>")
+    return "".join(out)
 
 
 def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
@@ -122,7 +151,7 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
         "max_order": model["max_order"],
         "window_count": len(windows),
         "family_chart": svg_chart(labels, family_series, family_colors),
-        "family_legend": legend(family_series, family_colors),
+        "family_legend": family_legend_with_axes(model, family_series, family_colors),
         "axis_chart": svg_chart(labels, axis_series),
         "axis_legend": legend(axis_series),
         "pair_chart": pair_chart,
