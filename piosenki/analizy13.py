@@ -5,6 +5,32 @@ from czas_okna import build_windows
 from statystyki import legend, svg_chart
 
 
+TAG_PALETTE = [
+    "#0057FF",
+    "#FF3D00",
+    "#00C853",
+    "#D500F9",
+    "#FFAB00",
+    "#00B8D4",
+    "#FF1744",
+    "#6200EA",
+]
+AXIS_PALETTE = [
+    "#0066FF",
+    "#FF6D00",
+    "#00BFA5",
+    "#AA00FF",
+    "#FF1744",
+    "#00B0FF",
+    "#64DD17",
+    "#FFD600",
+]
+VALENCE_COLORS = {
+    "negative": "#FF1744",
+    "neutral": "#FFD600",
+    "positive": "#00C853",
+}
+
 DIRECTION_TAGS = [
     "do-siebie",
     "do-innych",
@@ -37,14 +63,21 @@ def _pair_counts(sets, limit=12):
     ]
 
 
-def _time_chart(labels, series):
+def _series_colors(series, palette):
+    return {
+        item["name"]: palette[i % len(palette)]
+        for i, item in enumerate(series)
+    }
+
+
+def _time_chart(labels, series, colors=None):
     # spotify_order=1 oznacza najnowsze polubienie. Na wykresie czas ma płynąć
     # od przeszłości po lewej do teraz po prawej.
     ordered_series = [
         {**item, "values": list(reversed(item["values"]))}
         for item in series
     ]
-    return svg_chart(list(reversed(labels)), ordered_series)
+    return svg_chart(list(reversed(labels)), ordered_series, colors)
 
 
 def build_13_analyses(model, chunk_size=80, step=30):
@@ -93,12 +126,14 @@ def build_13_analyses(model, chunk_size=80, step=30):
     for name in top_tags:
         values = [chunk["tags"].get(name, 0) for chunk in chunks]
         tag_series.append({"name": name, "label": name.replace("-", " "), "values": values})
+    tag_colors = _series_colors(tag_series, TAG_PALETTE)
 
     top_axes = [name for name, _ in axis_counts.most_common(6)]
     axis_series = []
     for name in top_axes:
         values = [chunk["axes"].get(name, 0) for chunk in chunks]
         axis_series.append({"name": name, "label": axis_labels.get(name, name), "values": values})
+    axis_colors = _series_colors(axis_series, AXIS_PALETTE)
 
     valence_series = [
         {"name": "negative", "label": "nieprzyjemne", "values": [0] * n},
@@ -110,6 +145,7 @@ def build_13_analyses(model, chunk_size=80, step=30):
         {"name": name, "label": name.replace("-", " "), "values": [0] * n}
         for name in direction_top
     ]
+    direction_colors = _series_colors(direction_series, TAG_PALETTE)
     direction_series_by_name = {item["name"]: item for item in direction_series}
 
     per_chunk_valence = [Counter() for _ in chunks]
@@ -174,14 +210,14 @@ def build_13_analyses(model, chunk_size=80, step=30):
         "families": _top(family_counts, 10, family_labels),
         "valence": valence,
         "directions": _top(direction_counts, 12),
-        "tag_time_chart": _time_chart(labels, tag_series),
-        "tag_time_legend": legend(tag_series),
-        "axis_time_chart": _time_chart(labels, axis_series),
-        "axis_time_legend": legend(axis_series),
-        "valence_time_chart": _time_chart(labels, valence_series),
-        "valence_time_legend": legend(valence_series),
-        "direction_time_chart": _time_chart(labels, direction_series),
-        "direction_time_legend": legend(direction_series),
+        "tag_time_chart": _time_chart(labels, tag_series, tag_colors),
+        "tag_time_legend": legend(tag_series, tag_colors),
+        "axis_time_chart": _time_chart(labels, axis_series, axis_colors),
+        "axis_time_legend": legend(axis_series, axis_colors),
+        "valence_time_chart": _time_chart(labels, valence_series, VALENCE_COLORS),
+        "valence_time_legend": legend(valence_series, VALENCE_COLORS),
+        "direction_time_chart": _time_chart(labels, direction_series, direction_colors),
+        "direction_time_legend": legend(direction_series, direction_colors),
         "changes": changes,
         "tag_pairs": _pair_counts(tag_sets, 12),
         "axis_pairs": _pair_counts(list(axes_by_song.values()), 12),
