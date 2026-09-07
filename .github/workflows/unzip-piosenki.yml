@@ -1,0 +1,42 @@
+name: Rozpakuj Piosenki ZIP
+
+on:
+  push:
+    paths:
+      - '.github/workflows/unzip-piosenki.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rozpakuj ZIP
+        shell: bash
+        run: |
+          unzip -o piosenki_do_wgrania.zip -d .
+          rm piosenki_do_wgrania.zip
+          test -f 'piosenki/SOL-audyt-danych-2026-09-07.html'
+          test -f 'piosenki/sol-HISTORYCZNE-memento-HTML-v10-09.html'
+          test -f 'piosenki/sol-definicje-tagow-CSV-v01-02.csv'
+          test -f 'piosenki/sol-middleend-CSV-v08-11.csv'
+          test -f 'piosenki/sol-o-co-kaman-HTML-v01-00.html'
+          test -f 'piosenki/sol-ontologia-tagow-TXT-v01-03.txt'
+          test -f 'piosenki/sol-piosenki-slowa-CSV-v07-00.csv'
+          test -f 'piosenki/sol-piosenki-slowa-kontynuacja-CSV-v01-08.csv'
+          test -f 'piosenki/sol-piosenki-tagi-CSV-v09-14.csv'
+          test -f 'piosenki/sol-pobierz-slowa-standalone-PY-v02-03.py'
+          test -f 'piosenki/sol-sprawdz-integralnosc-PY-v01-03.py'
+
+      - name: Zapisz rozpakowane pliki
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A piosenki piosenki_do_wgrania.zip
+          git diff --cached --quiet && exit 0
+          git commit -m "Piosenki: rozpakuj aktualny zestaw"
+          git push
