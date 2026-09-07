@@ -1,6 +1,6 @@
 -- SOL — schema Turso / SQLite
 -- Źródła: sol-o-co-kaman-HTML-v01-00.html, aktywne CSV oraz sol-ontologia-tagow-TXT-v01-03.txt
--- Bez zmiany nazw kluczy i bez dokładania nowej logiki danych.
+-- Walencja i biegunowość są osobnymi warstwami semantycznymi.
 
 PRAGMA foreign_keys = ON;
 
@@ -47,6 +47,34 @@ CREATE TABLE tag_axis (
   tag TEXT NOT NULL REFERENCES tag_catalog(tag),
   axis_name TEXT NOT NULL REFERENCES axes(axis_name),
   PRIMARY KEY (tag, axis_name)
+);
+
+CREATE TABLE tag_valence (
+  tag TEXT PRIMARY KEY REFERENCES tag_catalog(tag),
+  valence INTEGER,
+  status TEXT NOT NULL,
+  CHECK (valence IN (-1, 0, 1) OR valence IS NULL),
+  CHECK (status IN ('resolved', 'contextual', 'unresolved')),
+  CHECK (
+    (status = 'resolved' AND valence IS NOT NULL)
+    OR
+    (status IN ('contextual', 'unresolved') AND valence IS NULL)
+  )
+);
+
+CREATE TABLE tag_axis_polarity (
+  tag TEXT NOT NULL REFERENCES tag_catalog(tag),
+  axis_name TEXT NOT NULL REFERENCES axes(axis_name),
+  polarity INTEGER,
+  status TEXT NOT NULL,
+  PRIMARY KEY (tag, axis_name),
+  CHECK (polarity IN (-1, 0, 1) OR polarity IS NULL),
+  CHECK (status IN ('resolved', 'contextual', 'unresolved')),
+  CHECK (
+    (status = 'resolved' AND polarity IS NOT NULL)
+    OR
+    (status IN ('contextual', 'unresolved') AND polarity IS NULL)
+  )
 );
 
 CREATE TABLE middle_end (
