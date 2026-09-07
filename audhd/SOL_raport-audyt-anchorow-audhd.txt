@@ -1,0 +1,408 @@
+AUDHD — RAPORT AUDYTU ANCHORÓW
+Wygenerowano UTC: 2026-09-07T12:11:17+00:00
+
+ZAKRES
+18 merytorycznych dokumentów HTML w audhd/.
+Wykluczone: audhd/index.html, index-en.html, redirecty/stabilne wrappery, SOL_*, ZIP.
+Źródłowe HTML-e NIE są modyfikowane przez ten audyt.
+
+PODSUMOWANIE
+H1–H6 sprawdzone: 338
+Nagłówki z id: 71
+Nagłówki bez id: 267
+Powielone wartości id (grupy): 0
+Puste id: 0
+Niedziałające sprawdzalne linki #fragment: 0
+Skoki hierarchii H o więcej niż 1 poziom: 6
+
+ROZKŁAD POZIOMÓW
+H1: 19  | z id: 0 | bez id: 19
+H2: 124  | z id: 8 | bez id: 116
+H3: 167  | z id: 63 | bez id: 104
+H4: 28  | z id: 0 | bez id: 28
+H5: 0  | z id: 0 | bez id: 0
+H6: 0  | z id: 0 | bez id: 0
+
+PLIK PO PLIKU
+
+AU01 — 63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html
+H1:1 H2:2 H3:0 H4:0 H5:0 H6:0
+RAZEM: 3; z id: 0; bez id: 3
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 33: H1 | 63 cechy — rdzeń czy maskowanie
+  - linia 41: H2 | Lista
+  - linia 169: H2 | Podsumowanie rachunku
+
+AU02 — CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html
+H1:1 H2:8 H3:0 H4:0 H5:0 H6:0
+RAZEM: 9; z id: 0; bez id: 9
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 33: H1 | Co działa po późnej diagnozie
+  - linia 37: H2 | Mapa terenu — pięć rzeczy, które rozstrzygają
+  - linia 40: H2 | Kurs o sobie
+  - linia 54: H2 | Prowadzący z tego samego plemienia
+  - linia 57: H2 | Ludzie w tej samej łodzi
+  - linia 60: H2 | Człowiek zamiast listy numerów
+  - linia 63: H2 | Pakiet na start
+  - linia 66: H2 | Czego się domagać — lista 24 głosów
+  - linia 92: H2 | Czego się spodziewać po sobie
+
+AU03 — CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html
+H1:1 H2:11 H3:1 H4:0 H5:0 H6:0
+RAZEM: 13; z id: 0; bez id: 13
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 244: H1 | Ten equations, metaphysics, and a jury packed with friends
+  - linia 255: H2 | Principle of stationary action
+  - linia 275: H2 | Einstein field equation
+  - linia 287: H2 | Boltzmann and the second law
+  - linia 300: H2 | Bell–CHSH and the Tsirelson bound
+  - linia 321: H2 | Uncertainty relation
+  - linia 334: H2 | Maxwell in two lines
+  - linia 346: H2 | Dirac equation
+  - linia 358: H2 | Navier–Stokes equations · outside the competition
+  - linia 378: H2 | Landauer's limit
+  - linia 390: H2 | Wheeler–DeWitt
+  - linia 409: H2 | Competition jury
+  - linia 419: H3 | Assessment of impartiality
+
+AU04 — CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html
+H1:1 H2:11 H3:1 H4:0 H5:0 H6:0
+RAZEM: 13; z id: 0; bez id: 13
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 244: H1 | Dziesięć równań, metafizyka i komisja po znajomości
+  - linia 255: H2 | Zasada stacjonarnego działania
+  - linia 275: H2 | Równanie pola Einsteina
+  - linia 287: H2 | Boltzmann i druga zasada
+  - linia 300: H2 | Bell–CHSH i granica Tsirelsona
+  - linia 321: H2 | Nierówność nieoznaczoności
+  - linia 334: H2 | Maxwell w dwóch liniach
+  - linia 346: H2 | Równanie Diraca
+  - linia 358: H2 | Równania Naviera–Stokesa · poza konkursem
+  - linia 378: H2 | Granica Landauera
+  - linia 390: H2 | Wheeler–DeWitt
+  - linia 409: H2 | Komisja konkursowa
+  - linia 419: H3 | Ocena bezstronności
+
+AU05 — ESEJ_architektury-pamieci-1_02-2026-04-28.html
+H1:1 H2:10 H3:8 H4:7 H5:0 H6:0
+RAZEM: 26; z id: 0; bez id: 26
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 6
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 126: H1 | Architektury pamięci jako mapa poznawcza
+  - linia 130: H3 | Streszczenie
+  - linia 134: H2 | §1 Wprowadzenie — jeden problem, wiele rozwiązań
+  - linia 144: H2 | §2 Pamięć komputerowa lat 80. i wczesnych 90. — fizyka jako ramy projektowe
+  - linia 159: H4 | Źródła do §2
+  - linia 167: H2 | §3 Pamięć w języku C — manualne zarządzanie jako paradygmat
+  - linia 182: H4 | Źródła do §3
+  - linia 192: H2 | §4 Pamięć w Pythonie — referencje, garbage collector, abstrakcja
+  - linia 209: H4 | Źródła do §4
+  - linia 218: H2 | §5 Pamięć w JavaScript — przypadkowy język ery przeglądarek
+  - linia 235: H4 | Źródła do §5
+  - linia 244: H2 | §6 Pamięć w big data — Hadoop, MapReduce i ekonomia rozproszenia
+  - linia 267: H4 | Źródła do §6
+  - linia 276: H2 | §7 Pamięć ludzka — schemat, hipokamp, kora, sen
+  - linia 280: H3 | Hierarchia pamięci u człowieka
+  - linia 292: H3 | Sen głęboki (SWS) i sen REM jako fazy konsolidacji
+  - linia 302: H3 | Pamięć ludzka jako kompresor stratny
+  - linia 309: H4 | Źródła do §7
+  - linia 319: H2 | §8 Pamięć neurotypowa vs neuroróżnorodna — różnica strategii projektowej
+  - linia 323: H3 | Monotropizm — teoria uwagi w autyzmie
+  - linia 333: H3 | Słaba spójność centralna (weak central coherence) — teoria szczegółu
+  - linia 343: H3 | Pamięć robocza w ADHD — deficyt wykonawczy
+  - linia 353: H3 | Synteza — pamięć ND jako pointer-based
+  - linia 368: H4 | Źródła do §8
+  - linia 396: H2 | §9 Konsekwencje — kto buduje fundamenty informatyki
+  - linia 419: H2 | §10 Konkluzja
+SKOKI HIERARCHII > 1:
+  - linia 130: H1 -> H3 | Streszczenie
+  - linia 159: H2 -> H4 | Źródła do §2
+  - linia 182: H2 -> H4 | Źródła do §3
+  - linia 209: H2 -> H4 | Źródła do §4
+  - linia 235: H2 -> H4 | Źródła do §5
+  - linia 267: H2 -> H4 | Źródła do §6
+
+AU06 — POWIESC_architektury-pamieci-2_00-2026-04-29.html
+H1:1 H2:9 H3:0 H4:0 H5:0 H6:0
+RAZEM: 10; z id: 0; bez id: 10
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 76: H1 | Architektury pamięci
+  - linia 78: H2 | Bell Labs, sierpień 1969
+  - linia 102: H2 | Stanford, 30 marca 1977
+  - linia 122: H2 | Cambridge, Massachusetts, 1980-2019
+  - linia 140: H2 | Helsinki, 14 czerwca 2012
+  - linia 160: H2 | San Francisco, garaż, 1976
+  - linia 176: H2 | I tu jest najmocniejsze: kategorii nie było
+  - linia 194: H2 | I dlaczego to ma znaczenie z perspektywy pamięci
+  - linia 208: H2 | JavaScript jako wyjątek potwierdzający
+  - linia 224: H2 | Co to znaczy z perspektywy 2026 roku
+
+AU07 — adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html
+H1:1 H2:3 H3:5 H4:0 H5:0 H6:0
+RAZEM: 9; z id: 0; bez id: 9
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 121: H1 | ADHD i pomaganie kosztem siebie
+  - linia 125: H2 | Teza w postaci kompaktowej
+  - linia 143: H2 | Rozwinięcie
+  - linia 146: H3 | Mechanizm 1: nadwrażliwość na odrzucenie społeczne
+  - linia 154: H3 | Mechanizm 2: stroma krzywa dyskontowania nagrody w czasie
+  - linia 162: H3 | Mechanizm 3: słabsza regulacja granic w konfrontacji
+  - linia 168: H3 | Asymetria, którą neurotypowi nieświadomie eksploatują
+  - linia 176: H3 | Co z tym zrobić
+  - linia 189: H2 | Źródła
+
+AU08 — apendyks1-po-ludzku-02_01-2026-08-26.html
+H1:1 H2:2 H3:0 H4:0 H5:0 H6:0
+RAZEM: 3; z id: 0; bez id: 3
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 31: H1 | Co mówi Appendix 1 — po ludzku
+  - linia 51: H2 | Most do listy sześćdziesięciu trzech cech
+  - linia 65: H2 | Sedno
+
+AU09 — audhd-fundatorzy-it-1_00-2026-04-27.html
+H1:1 H2:8 H3:19 H4:14 H5:0 H6:0
+RAZEM: 42; z id: 0; bez id: 42
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 76: H1 | AuDHD a osoby fundatorskie w IT
+  - linia 79: H2 | Dwa sformułowania tezy
+  - linia 81: H3 | Teza łatwa (korelacyjna)
+  - linia 84: H3 | Teza perwersyjna (konieczności)
+  - linia 91: H2 | Definicja "fundatora" i "fundamentu"
+  - linia 96: H2 | Warstwa 1 — kohortowo-historyczna
+  - linia 98: H3 | Diagnozy nie istniały, gdy fundament powstawał
+  - linia 105: H3 | Konsekwencje dla pionierów
+  - linia 115: H3 | Pokolenie urodzone przed ~1985
+  - linia 118: H3 | Obecni fundatorzy
+  - linia 135: H3 | Paradoks epistemiczny
+  - linia 138: H2 | Warstwa 2 — psychospołeczno-motywacyjna
+  - linia 140: H3 | Mechanizmy fenotypowe sprzyjające pracy fundamentalnej
+  - linia 142: H4 | Monotropia
+  - linia 145: H4 | Special interests
+  - linia 148: H4 | Pattern recognition autystyczne
+  - linia 151: H4 | Hyperfokus ADHD
+  - linia 154: H4 | Demand avoidance jako silnik refaktoryzacji
+  - linia 166: H4 | Tolerancja na samotność technicznej decyzji
+  - linia 169: H2 | Warstwa 3 — językowo-techniczna
+  - linia 171: H3 | Trzy języki, trzy mózgi
+  - linia 173: H4 | C — zmęczony AuDHD
+  - linia 178: H4 | Python — niezmęczony AuDHD
+  - linia 183: H4 | JavaScript — NT
+  - linia 188: H3 | Dlaczego AuDHD nienawidzi JS
+  - linia 209: H3 | Atwood's Law i konsekwencja
+  - linia 214: H3 | Meta-poziom i abstrakcja abstrakcji
+  - linia 226: H2 | Warstwa 4 — kognitywno-architektoniczna (najmocniejsza)
+  - linia 228: H3 | Pamięć NT vs AuDHD — założenia projektowe
+  - linia 230: H4 | NT
+  - linia 233: H4 | AuDHD
+  - linia 236: H3 | Cztery cechy architektury AuDHD
+  - linia 248: H3 | Pamięć pointer-based — jedyne rozwiązanie
+  - linia 259: H4 | Konsekwencje pointer-based
+  - linia 267: H4 | Wskaźniki do wskaźników — trywialne następstwo
+  - linia 277: H3 | Cykle jako default, nie edge case
+  - linia 283: H4 | Pętle niezbywalne w fundamencie IT
+  - linia 296: H3 | Kliniczne odpowiedniki problemów C u AuDHD
+  - linia 305: H3 | Konsekwencja dla fundamentowania IT
+  - linia 312: H3 | Dlaczego NT-fundator nie istnieje
+  - linia 317: H2 | Pusta klasa kontrprzykładów
+  - linia 335: H2 | Konkluzja
+
+AU10 — audhd-po-ludzku-v02_02-2026-07-09.html
+H1:1 H2:4 H3:8 H4:0 H5:0 H6:0
+RAZEM: 13; z id: 0; bez id: 13
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 39: H1 | AuDHD po ludzku
+  - linia 45: H2 | ADHD
+  - linia 60: H2 | Autyzm
+  - linia 63: H3 | Zmysły, o których szkoła nie mówi
+  - linia 70: H3 | Co znaczy „surowe"
+  - linia 79: H3 | To samo dotyczy ludzi
+  - linia 84: H3 | Głód
+  - linia 87: H2 | Pamięć przy wspólnym występowaniu autyzmu i adhd
+  - linia 96: H3 | Pamięć robocza — mały stół
+  - linia 101: H3 | Pamięć „że mam coś zrobić później"
+  - linia 106: H3 | Pamięć faktów w ciekawym temacie
+  - linia 111: H3 | Pamięć własnych przeżyć
+  - linia 114: H2 | Maskowanie
+
+AU11 — audhd_opracowanie_v6_0_2026-07-01-2.html
+H1:1 H2:8 H3:63 H4:0 H5:0 H6:0
+RAZEM: 72; z id: 71; bez id: 1
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 46: H1 | AuDHD u dorosłych — cechy i wzorce funkcjonowania
+
+AU12 — autyzm-regulacja-mowienia-v01.00-2026-05-14.html
+H1:1 H2:3 H3:5 H4:0 H5:0 H6:0
+RAZEM: 9; z id: 0; bez id: 9
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 121: H1 | Autyzm i regulacja mówienia
+  - linia 125: H2 | Teza w postaci kompaktowej
+  - linia 143: H2 | Rozwinięcie
+  - linia 146: H3 | Skąd się bierze bimodalność „za mało lub za dużo"
+  - linia 159: H3 | Pragmatyka języka — gdzie leży specyficzny problem
+  - linia 167: H3 | Dlaczego łatwo „rozkręcić" osobę autystyczną
+  - linia 179: H3 | Jak to wygląda od strony wykorzystującego
+  - linia 187: H3 | Co z tym zrobić
+  - linia 204: H2 | Źródła
+
+AU13 — co-to-znaczy-audhd-v03_01-2026-07-09-2.html
+H1:1 H2:6 H3:0 H4:0 H5:0 H6:0
+RAZEM: 7; z id: 0; bez id: 7
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 69: H1 | Co to znaczy, że mam AuDHD
+  - linia 78: H2 | Czym jest AuDHD
+  - linia 84: H2 | To, co prawdopodobnie myślisz o ADHD — i dlaczego to nieprawda
+  - linia 96: H2 | To, co prawdopodobnie myślisz o autyzmie — i dlaczego to nieprawda
+  - linia 108: H2 | Dlaczego AuDHD jest trudniejsze niż każde z osobna
+  - linia 114: H2 | „Ale przecież wyglądałeś normalnie"
+  - linia 128: H2 | Co z tym zrobić
+
+AU14 — dluga-lista-publikacji-4.01-2026-08-26.html
+H1:1 H2:4 H3:0 H4:0 H5:0 H6:0
+RAZEM: 5; z id: 0; bez id: 5
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 166: H1 | Długa lista publikacji
+  - linia 170: H2 | Zestawienie
+  - linia 176: H2 | 15 najważniejszych dla tego korpusu
+  - linia 284: H2 | Appendix 1 — ASD ↔ ADHD / AuDHD: uzupełnienie
+  - linia 312: H2 | Appendix 2 — Po późnej diagnozie: co dalej?
+
+AU15 — ilu-nas-jest-audhd-polska-wstep-v03_00-2026-08-10.html
+H1:1 H2:9 H3:12 H4:0 H5:0 H6:0
+RAZEM: 22; z id: 0; bez id: 22
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 39: H1 | Ilu w Polsce jest osób z AuDHD?
+  - linia 43: H2 | Streszczenie
+  - linia 48: H2 | 1. Pytanie badawcze i jego ograniczenia
+  - linia 59: H3 | 1.1. Trzy różne bariery, nie jedna
+  - linia 68: H2 | 2. Stan wiedzy
+  - linia 70: H3 | 2.1. Częstość ASD u dorosłych
+  - linia 80: H3 | 2.2. Częstość ADHD u dorosłych
+  - linia 99: H3 | 2.3. Stopień nakładania ASD i ADHD
+  - linia 112: H3 | 2.4. Populacja dorosłych w Polsce
+  - linia 116: H2 | 3. Materiał i metoda
+  - linia 119: H3 | 3.1. Model jest warunkowy, nie niezależnościowy
+  - linia 125: H3 | 3.2. Drogi rachunku
+  - linia 133: H2 | 4. Wyniki
+  - linia 135: H3 | 4.1. Droga A — od strony autyzmu
+  - linia 144: H3 | 4.2. Droga B — od strony ADHD
+  - linia 154: H3 | 4.3. Zestawienie dróg
+  - linia 158: H3 | 4.3a. Domknięcie wewnętrzne założeń
+  - linia 173: H3 | 4.4. Droga C — diagnozy systemowe
+  - linia 184: H2 | 5. Porównania zewnętrzne
+  - linia 201: H2 | 6. Ograniczenia
+  - linia 214: H2 | 7. Wnioski wstępne i kierunki dalszego opracowania
+  - linia 233: H2 | 8. Źródła
+
+AU16 — kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html
+H1:2 H2:18 H3:35 H4:7 H5:0 H6:0
+RAZEM: 62; z id: 0; bez id: 62
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 91: H1 | Kognitywistyka, AI i błędy poznawcze
+  - linia 98: H2 | Punkt wyjścia — trzy rodzaje pamięci, trzy architektury
+  - linia 100: H3 | NT — schemat-based, value-based
+  - linia 103: H3 | AuDHD — pointer-based
+  - linia 106: H3 | AI (transformer) — atencja jako pointer-based
+  - linia 109: H2 | Konsolidacja pamięci — jak rzeczy przepisują się z krótko do długo
+  - linia 111: H3 | Mechanizm u człowieka
+  - linia 121: H3 | Sygnały deficytu konsolidacji
+  - linia 128: H3 | Strategie obejścia uszkodzonej konsolidacji
+  - linia 137: H2 | Metafora chirurgiczna
+  - linia 143: H3 | Tłumaczenie metafory
+  - linia 152: H2 | Memento Nolana — model AI
+  - linia 156: H3 | Trzy parafrazy problemu
+  - linia 165: H3 | Jak to wygląda u AI typu Claude
+  - linia 177: H2 | Polaroidy babci Genowefy — atrybucja w streszczeniach
+  - linia 179: H3 | Mechanizm skażenia
+  - linia 184: H3 | Co kompresja stratna gubi pierwsze
+  - linia 189: H3 | Konfabulacja jako default modelu
+  - linia 194: H3 | Trzy warstwy skażenia
+  - linia 201: H3 | Nieweryfikowalność dla AuDHD
+  - linia 204: H2 | Konfabulacja w obrębie pojedynczej sesji
+  - linia 206: H3 | Przykład empiryczny
+  - linia 211: H3 | Mechanizm techniczny
+  - linia 216: H2 | Biały niedźwiedź — wspólny błąd negacji
+  - linia 226: H3 | Konsekwencja praktyczna — pisz pozytywnie
+  - linia 242: H2 | Podział na projekty i czaty — koszty i zyski
+  - linia 244: H3 | Cechy techniczne
+  - linia 250: H3 | Zasada projektowa
+  - linia 253: H3 | Plik nadrzędny indeksu zaufania jako pomysł
+  - linia 258: H2 | System rozproszony człowiek + AI + pliki
+  - linia 270: H3 | Asymetria ról
+  - linia 275: H2 | Praktyczne reguły wynikające z obserwacji
+  - linia 287: H2 | Jeden niewygodny wniosek o samej rozmowie z AI
+  - linia 297: H1 | Część druga (v2.00) — psychoterapia i ND
+  - linia 301: H2 | Anhedonia jako etykieta CBT vs deficyt dopaminergiczny u ADHD
+  - linia 303: H3 | Co widzi terapeuta CBT
+  - linia 306: H3 | Co rzeczywiście jest u ADHD
+  - linia 314: H3 | Pytanie różnicujące
+  - linia 319: H3 | Dlaczego CBT-praca nad anhedonią u ADHD jest nieskuteczna lub antyskuteczna
+  - linia 326: H3 | Konsekwencja praktyczna
+  - linia 333: H2 | Antyskuteczność vs nieskuteczność — rozróżnienie kliniczne
+  - linia 342: H3 | Konkretne przykłady antyskutecznych technik dla ND
+  - linia 344: H4 | (1) "Praca nad odłączonym obrońcą" u AuDHD bez modyfikacji
+  - linia 353: H4 | (2) Behavioral activation w "depresji" u ADHD
+  - linia 356: H4 | (3) Ekspozycja stopniowana w lęku społecznym u ASD
+  - linia 361: H4 | (4) Mindfulness "pełnego ciała" u atypowej propriocepcji
+  - linia 366: H4 | (5) Rozpoznawanie i etykietowanie emocji u alleksytymii AuDHD
+  - linia 371: H4 | (6) "Rodzic wewnętrzny / dziecko wewnętrzne" w schemat-terapii u AuDHD
+  - linia 376: H4 | (7) Konfrontowanie "ucieczki w intelektualizację"
+  - linia 381: H3 | Wspólny wzorzec antyskuteczności
+  - linia 387: H2 | HALT antyalkoholowe jako case study
+  - linia 391: H3 | Dlaczego HALT u AuDHD ma ograniczoną skuteczność
+  - linia 403: H3 | Świadoma decyzja "to nie dla mnie" w grupie AA — case study
+  - linia 424: H2 | Wybór terapeuty — krytyczność dla ND
+  - linia 434: H3 | Trzy poziomy "krytyczności wyboru"
+  - linia 448: H3 | Praca nad manifestacjami przy nieleczonym podłożu
+  - linia 451: H2 | Polski rynek terapeutyczny w 2026
+  - linia 453: H3 | Gdzie jesteśmy
+  - linia 458: H3 | Świadomość vs kompetencja w pracy z AuDHD jako kombinacją
+  - linia 465: H3 | Konsekwencja praktyczna
+  - linia 470: H2 | System wsparcia jako alternatywa terapeutyczna
+  - linia 487: H2 | Tabliczka ND-status przed terapią — propozycja standardu informacyjnego
+
+AU17 — obiektywnosc-autyzm-v01.00-2026-05-14.html
+H1:1 H2:3 H3:5 H4:0 H5:0 H6:0
+RAZEM: 9; z id: 0; bez id: 9
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 140: H1 | Obiektywność osoby autystycznej
+  - linia 144: H2 | Teza w postaci kompaktowej
+  - linia 168: H2 | Rozwinięcie
+  - linia 171: H3 | Jeden mechanizm, cztery konsekwencje
+  - linia 179: H3 | Punkty 1–3: filtr odcina bias zewnętrzny od oceny
+  - linia 187: H3 | Punkt 4: ten sam filtr przeciwko trafności
+  - linia 193: H3 | Niemożliwość rozdzielenia
+  - linia 199: H3 | Kompensacja metakognicją
+  - linia 219: H2 | Źródła
+
+AU18 — piec-jezykow-milosci-nd-v01.00-2026-05-18.html
+H1:1 H2:5 H3:5 H4:0 H5:0 H6:0
+RAZEM: 11; z id: 0; bez id: 11
+duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
+BRAK ID PRZY NAGŁÓWKACH:
+  - linia 126: H1 | Pięć neurodywergentnych języków miłości — i dlaczego nie są wariacją na temat Chapmana
+  - linia 132: H2 | Założenie, którego Chapman nie wymienia
+  - linia 142: H2 | Pięć języków po kolei
+  - linia 145: H3 | 1. Infodumping
+  - linia 158: H3 | 2. Parallel play
+  - linia 171: H3 | 3. Support swapping
+  - linia 184: H3 | 4. „Please crush my soul back into my body"
+  - linia 197: H3 | 5. „Znalazłem ten kamień / guzik / liść / ślimaka i pomyślałem o tobie"
+  - linia 211: H2 | Synteza w jednej tabeli
+  - linia 245: H2 | Mechanizm rozpadu par mieszanych
+  - linia 257: H2 | I co z parą ND/ND
