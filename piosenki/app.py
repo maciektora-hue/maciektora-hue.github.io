@@ -18,6 +18,7 @@ from content_structure import (
     fetch_content_structure,
 )
 from czas_okna import DEFAULT_STEP, DEFAULT_WINDOW_SIZE, build_time_page_sliding
+from hipotezy_okna import build_hypotheses_page
 from relacje_okna import build_relations_page
 from statystyki import build_direction_page, load_model
 
@@ -270,6 +271,18 @@ def statystyki_relacje():
     return render_template(
         "relacje.html",
         data=build_relations_page(
+            load_stats_model(),
+            window_size=DEFAULT_WINDOW_SIZE,
+            step=DEFAULT_STEP,
+        ),
+    )
+
+
+@app.get("/statystyki/hipotezy")
+def statystyki_hipotezy():
+    return render_template(
+        "hipotezy.html",
+        data=build_hypotheses_page(
             load_stats_model(),
             window_size=DEFAULT_WINDOW_SIZE,
             step=DEFAULT_STEP,
