@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sumy wystąpień po rodzinach</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 32px auto; padding: 0 16px; background: #fff; color: #111; }
+    h1 { margin-bottom: 8px; }
+    #status { margin: 12px 0 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    th:last-child, td:last-child { text-align: right; width: 140px; }
+  </style>
+</head>
+<body>
+  <h1>Sumy wystąpień po rodzinach</h1>
+  <div id="status">Ładowanie…</div>
+  <table id="tabela" hidden>
+    <thead>
+      <tr><th>Rodzina</th><th>Liczba wystąpień</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const API = 'https://piosenki-api.onrender.com/api/piosenki';
+
+    function parseTags(value) {
+      if (value == null) return [];
+      if (Array.isArray(value)) return value.map(String);
+      const text = String(value).trim();
+      if (!text) return [];
+      try {
+        const parsed = JSON.parse(text);
+        if (Array.isArray(parsed)) return parsed.map(String);
+      } catch (_) {}
+      const cleaned = text.replace(/^\s*[\[({]/, '').replace(/[\])}]\s*$/, '');
+      return cleaned
+        .split(/[,;|\n]+/)
+        .map(x => x.trim().replace(/^['"]|['"]$/g, ''))
+        .filter(Boolean);
+    }
+
+    function baseTag(tag, knownTags) {
+      if (knownTags.has(tag)) return tag;
+      const i = tag.lastIndexOf(':');
+      if (i > 0) {
+        const candidate = tag.slice(0, i);
+        if (knownTags.has(candidate)) return candidate;
+      }
+      return tag;
+    }
+
+    async function start() {
+      const status = document.getElementById('status');
+      const table = document.getElementById('tabela');
+      const tbody = table.querySelector('tbody');
+
+      try {
+        const response = await fetch(API, { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+
+        const tagToAxes = new Map();
+        for (const row of data.tag_axis || []) {
+          if (!tagToAxes.has(row.tag)) tagToAxes.set(row.tag, new Set());
+          tagToAxes.get(row.tag).add(row.axis_name);
+        }
+        const knownTags = new Set(tagToAxes.keys());
+
+        const axisToFamily = new Map();
+        for (const row of data.axes || []) {
+          if (row.family_name) axisToFamily.set(row.axis_name, row.family_name);
+        }
+
+        const familyLabels = new Map();
+        for (const row of data.families || []) {
+          familyLabels.set(row.family_name, row.label || row.family_name);
+        }
+
+        const counts = new Map();
+        for (const row of data.tag_snapshots || []) {
+          for (const rawTag of parseTags(row.tags)) {
+            const tag = baseTag(rawTag, knownTags);
+            const axes = tagToAxes.get(tag);
+            if (!axes) continue;
+
+            const families = new Set();
+            for (const axis of axes) {
+              const family = axisToFamily.get(axis);
+              if (family) families.add(family);
+            }
+
+            for (const family of families) {
+              counts.set(family, (counts.get(family) || 0) + 1);
+            }
+          }
+        }
+
+        const rows = [...counts.entries()]
+          .sort((a, b) => b[1] - a[1] || (familyLabels.get(a[0]) || a[0]).localeCompare(familyLabels.get(b[0]) || b[0], 'pl'));
+
+        for (const [family, count] of rows) {
+          const tr = document.createElement('tr');
+          const tdName = document.createElement('td');
+          const tdCount = document.createElement('td');
+          tdName.textContent = familyLabels.get(family) || family;
+          tdCount.textContent = count;
+          tr.append(tdName, tdCount);
+          tbody.appendChild(tr);
+        }
+
+        status.textContent = 'Liczba rodzin: ' + rows.length;
+        table.hidden = false;
+      } catch (error) {
+        status.textContent = 'Błąd: ' + error.message;
+      }
+    }
+
+    start();
+  </script>
+</body>
+</html>
