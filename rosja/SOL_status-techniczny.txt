@@ -41,3 +41,9 @@ Stałe adresy obejmują m.in.:
 - /rosja/monopole/
 
 Uwaga techniczna: pierwszy run workflow nie wystartował poprawnie przez sposób zapisania wieloliniowego HTML-a wewnątrz YAML. Workflow został poprawiony, drugi run zakończył się SUCCESS; zmiany publikacyjne pochodzą z udanego runu.
+
+A1 — STRUKTURA TOMÓW I HIERARCHIA H
+- A1 ma 9 TOMÓW jako osobną warstwę strukturalną ponad rozdziałami.
+- TOMY nie są nagłówkami H1–H6: każdy tom jest <section class="volume" id="tomN">, a jego nazwa jest w <div class="volume-title">.
+- Zachowano techniczne anchory tom1–tom9 i dodano dodatkowe ręcznie nazwane anchory słowne do nazw tomów.
+- Skoki w hierarchii H wykazane przez audyt są CELOWE i nie są błędem do naprawy.
