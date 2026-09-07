@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Statystyki piosenek{% endblock %}
+{% block content %}
+<section class="hero"><p class="kicker">wersja demonstracyjna</p><h1>Co można wyciągnąć z playlisty poza liczeniem szczurów</h1><p>Trzy przykładowe warstwy analizy. Dane pochodzą z Turso, obliczenia robi Python, a przeglądarka dostaje już gotowy HTML.</p></section>
+<section class="cards"><a class="card" href="{{ url_for('statystyki_czas') }}"><h2>1. Czas zdarzeniowy</h2><p>Numer na liście jako zegar: 1 = teraz, większy numer = dalej w przeszłość.</p></a><a class="card" href="{{ url_for('statystyki_kierunek') }}"><h2>2. Kierunek i wartość</h2><p>Nie tylko ile razy wystąpiła oś, ale który jej koniec dominuje.</p></a><a class="card" href="{{ url_for('statystyki_relacje') }}"><h2>3. Relacje</h2><p>Przykładowe pary tagów: przebieg w czasie, korelacja i współwystępowanie.</p></a></section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "note": "Warstwa demonstracyjna. Wartości nie pochodzą z SQL. Są interpretacją wybranych tagów i mają pokazać mechanikę, nie zamykać ontologii.",
+  "tags": {
+    "milosc": {"valence": 1},
+    "czulosc": {"valence": 1},
+    "radosc": {"valence": 1},
+    "spokoj": {"valence": 1},
+    "ulga": {"valence": 1},
+    "nadzieja": {"valence": 1},
+    "smutek": {"valence": -1},
+    "strach": {"valence": -1},
+    "rozpacz": {"valence": -1},
+    "bezsilnosc": {"valence": -1},
+    "frustracja": {"valence": -1},
+    "wstret": {"valence": -1},
+    "droga-podroz": {"valence": 0},
+    "czas": {"valence": 0},
+    "woda": {"valence": 0},
+    "taniec": {"valence": 0}
+  },
+  "contrasts": [
+    {"label":"sprawczość","description":"Przykład kierunku: od braku skutecznego wpływu do działania i kontroli.","left_label":"bezsilność","right_label":"działanie / kontrola","left":["bezsilnosc"],"right":["sprawczosc","kontrola","frustracja"]},
+    {"label":"ruch / cel","description":"Przykład kierunku ruchu, nie ocena moralna.","left_label":"ucieczka / brak celu","right_label":"pogoń / cel","left":["ucieczka","cel-nieosiagniety"],"right":["pogon","cel"]},
+    {"label":"afekt","description":"Bardzo uproszczony pokaz wartościowania przyjemne ↔ nieprzyjemne.","left_label":"nieprzyjemne","right_label":"przyjemne","left":["smutek","strach","rozpacz","frustracja","wstret"],"right":["radosc","czulosc","spokoj","ulga","milosc","nadzieja"]}
+  ]
+}

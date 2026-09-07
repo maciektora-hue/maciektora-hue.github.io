@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Statystyki piosenek{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='statystyki.css') }}">
+</head>
+<body>
+  <header>
+    <a class="brand" href="{{ url_for('statystyki_index') }}">STATYSTYKI PIOSENEK</a>
+    <nav><a href="{{ url_for('statystyki_czas') }}">czas</a><a href="{{ url_for('statystyki_kierunek') }}">kierunek</a><a href="{{ url_for('statystyki_relacje') }}">relacje</a></nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>Turso → Python / Flask → gotowy HTML. Bez JavaScriptu.</footer>
+</body>
+</html>
