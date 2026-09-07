@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Ustaw Python
         uses: actions/setup-python@v5
@@ -24,17 +26,37 @@ jobs:
       - name: Uruchom audyt anchorow
         run: python rosja/SOL_audyt-anchorow.py
 
-      - name: Pokaz raport w podsumowaniu runu
-        run: cat rosja/SOL_raport-audyt-anchorow-rosja.txt >> "$GITHUB_STEP_SUMMARY"
-
       - name: Zapisz wyniki audytu
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add rosja/SOL_mapa-sekcji-i-anchorow-rosja.tsv rosja/SOL_raport-audyt-anchorow-rosja.txt
-          if git diff --cached --quiet; then
-            echo "Brak zmian w wynikach audytu."
-            exit 0
-          fi
-          git commit -m "ROSJA: wyniki audytu anchorow"
-          git push
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+
+            if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+              echo "main zmienil sie podczas audytu; ponawiam audyt na aktualnym stanie"
+              git reset --hard origin/main
+              python rosja/SOL_audyt-anchorow.py
+            fi
+
+            git add rosja/SOL_mapa-sekcji-i-anchorow-rosja.tsv rosja/SOL_raport-audyt-anchorow-rosja.txt
+            if git diff --cached --quiet; then
+              echo "Brak zmian w wynikach audytu."
+              exit 0
+            fi
+
+            git commit -m "ROSJA: wyniki audytu anchorow"
+            if git push origin main; then
+              exit 0
+            fi
+
+            echo "Push odrzucony, ponawiam na najnowszym main (proba $attempt/3)."
+          done
+
+          echo "Nie udalo sie zapisac wynikow po 3 probach."
+          exit 1
+
+      - name: Pokaz raport w podsumowaniu runu
+        if: always()
+        run: cat rosja/SOL_raport-audyt-anchorow-rosja.txt >> "$GITHUB_STEP_SUMMARY"
