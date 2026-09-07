@@ -1,5 +1,5 @@
 ROSJA — RAPORT AUDYTU ANCHORÓW
-Wygenerowano UTC: 2026-09-07T02:50:34+00:00
+Wygenerowano UTC: 2026-09-07T03:10:39+00:00
 
 ZAKRES
 16 merytorycznych dokumentów: A1–A7, D1–D7, E1–E2.
@@ -7,8 +7,8 @@ ZAKRES
 
 PODSUMOWANIE
 H1–H6 sprawdzone: 620
-Nagłówki z id: 378
-Nagłówki bez id: 242
+Nagłówki z id: 620
+Nagłówki bez id: 0
 Powielone wartości id (grupy): 0
 Puste id: 0
 Niedziałające audytowalne linki #fragment: 0
@@ -16,35 +16,10 @@ Skoki hierarchii H o więcej niż 1 poziom: 19
 
 PLIK PO PLIKU
 
-A1 — a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 24; z id: 0; bez id: 24
+A1 — a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 24; z id: 24; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 189: H1 | Kolumbryna 🐙
-  - linia 460: H2 | Rozdział 1. Front i spirala OPL — trójkąt spalania
-  - linia 497: H2 | Rozdział 2. Arsenał nuklearny — odstraszanie na papierze
-  - linia 517: H2 | Rozdział 3. Budżet, NWF i paradoks Hormuz
-  - linia 549: H2 | Rozdział 4. Eksport, dewizy i majątek — co jeszcze działa
-  - linia 573: H2 | Rozdział 5. Infrastruktura się sypie — kolej, rury, samoloty
-  - linia 593: H2 | Rozdział 6. Społeczeństwo na krawędzi — brain drain, pensje, policja
-  - linia 617: H2 | Rozdział 7. Bestiariusz — 24 szare nosorożce i ich sprzężenia
-  - linia 658: H2 | Rozdział 8. Patologia informacyjna i dlaczego nie Korea Północna
-  - linia 682: H2 | Rozdział 9. Chemia pożarów, uzależnienie i sezonowość
-  - linia 713: H2 | Rozdział 10. Jest już za późno — konkluzja Części I
-  - linia 752: H2 | Rozdział 11. Dlaczego to nie jest pytanie o pieniądze
-  - linia 768: H2 | Rozdział 12. Zasoby, skreślenia i dziewięć scenariuszy desperacji
-  - linia 817: H2 | Rozdział 13. Kiedy elity odłączą się od Putina?
-  - linia 855: H2 | Rozdział 14. Rozpad irańskiej państwowości i koncepcja operacyjna
-  - linia 880: H2 | Rozdział 15. Mapa aktorów i ryzyka krytyczne
-  - linia 899: H2 | Rozdział 16. Hanza 2.0 — porządek bez architekta
-  - linia 931: H2 | Rozdział 17. Od Ormuzu do panelu — struktura, szok i substytucja
-  - linia 948: H2 | Rozdział 18. Monopole i topologia władzy
-  - linia 980: H2 | Rozdział 19. Disinfolklore i Dark Legitimacy — trucizna i ciemna strona
-  - linia 1004: H2 | Rozdział 20. Źródła, etyka i granice poznania
-  - linia 1036: H2 | Rozdział 21. Steelmanning systemu — Chiny, inercja, zmęczenie Zachodu
-  - linia 1053: H2 | Rozdział 22. Disinfolklore pod lupą — SWOT i przesłuchanie sądowe
-  - linia 1068: H2 | Rozdział 23. Zrewidowana konkluzja — mapa, nie GPS
 
 A2 — a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html
 STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
@@ -75,15 +50,10 @@ SKOKI HIERARCHII:
   - linia 398: H3 -> H6 | o cenie ropy
   - linia 1353: H3 -> H6 | o uzasadnieniach moralnych
 
-A5 — a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 4; z id: 0; bez id: 4
+A5 — a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 4; z id: 4; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 111: H1 | Kolumbryna kontra rzeczywistość — dwie rewizje
-  - linia 122: H2 | Jak czytać
-  - linia 135: H2 | Licznik rewizji
-  - linia 157: H2 | 24 nosorożce — stan na 31.05
 
 A6 — a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html
 STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
@@ -97,292 +67,59 @@ STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
 H1–H6: 28; z id: 28; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
 
-D1 — d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 10; z id: 0; bez id: 10
+D1 — d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 10; z id: 10; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 10: H1 | Dark legitimacy: What Russia and Ukraine reveal about authoritarianism
-  - linia 15: H2 | Abstract
-  - linia 22: H2 | An affirmative concept of legitimacy
-  - linia 28: H2 | Governmentality: Affirmative legitimacy beyond democracy
-  - linia 32: H2 | Legitimacy crisis in the Soviet and post-Soviet context
-  - linia 40: H2 | Dark legitimacy: Bad is good
-  - linia 50: H2 | Russia-Ukraine: The war over legitimacy
-  - linia 58: H2 | Consequences of dark legitimacy
-  - linia 65: H2 | Acknowledgments
-  - linia 67: H2 | References
 
-D2 — d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 34; z id: 0; bez id: 34
+D2 — d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 34; z id: 34; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 2
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 291: H1 | DISINFOLKLORE
-  - linia 296: H2 | Spis treści
-  - linia 314: H2 | IGeneza: most, trolle i folklor
-  - linia 321: H2 | IICzym jest Disinfolklore — definicja i zakres
-  - linia 332: H2 | IIIDwanaście narzędzi metody analitycznej
-  - linia 336: H4 | Archetypal Disinfolklore Literacy
-  - linia 340: H4 | Incoming-Outgoing Troll Radars
-  - linia 344: H4 | Look for the Mana in the Meme!
-  - linia 348: H4 | Archetypal Structures
-  - linia 352: H4 | Trigger → Experience → Reaction
-  - linia 356: H4 | Code of Positive Trolls
-  - linia 360: H4 | Accusation in a Mirror
-  - linia 364: H4 | Provocation Logic Cycle
-  - linia 368: H4 | Witch Switch
-  - linia 372: H4 | Coercive Control
-  - linia 376: H4 | Re-Archetyping
-  - linia 380: H4 | Understanding Rashist Construction
-  - linia 387: H2 | IVTrzy archetypy: Druidy Don, Duncey Putin, Komik
-  - linia 392: H4 | Druidy Don (Trump)
-  - linia 397: H4 | Duncey Putin
-  - linia 402: H4 | Komik (Zełenski)
-  - linia 410: H2 | VMana — energia w memach
-  - linia 421: H2 | VIAccusation in a Mirror i Provocation Logic
-  - linia 423: H3 | Oskarżenie w lustrze (Accusation in a Mirror)
-  - linia 426: H3 | Cykl logiki prowokacji (Provocation Logic Cycle)
-  - linia 432: H2 | VIIWitch Switch — przełącznik czarownicy
-  - linia 441: H2 | VIIIData Resistant Archetypes — mentalne modele oporne na fakty
-  - linia 449: H2 | IXFinding Manuland — indoeuropejskie fundamenty
-  - linia 451: H3 | Główne tezy Finding Manuland
-  - linia 462: H2 | XDisinfolklore a FIMI UE — komplementarność ram
-  - linia 464: H3 | Co FIMI robi dobrze
-  - linia 466: H3 | Czego FIMI nie widzi — a Disinfolklore tak
-  - linia 472: H2 | XICounter-Disinfolklore — narzędzia obrony
-  - linia 483: H2 | XIIWnioski i kierunki dalszych badań
 SKOKI HIERARCHII:
   - linia 336: H2 -> H4 | Archetypal Disinfolklore Literacy
   - linia 392: H2 -> H4 | Druidy Don (Trump)
 
-D3 — d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 31; z id: 0; bez id: 31
+D3 — d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 31; z id: 31; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 2
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 295: H1 | Disinfolklore: SWOT,Advocatus Diaboli,Przesłuchanie
-  - linia 303: H2 | Analiza SWOT
-  - linia 309: H3 | Strengths — Siły
-  - linia 333: H3 | Weaknesses — Słabości
-  - linia 357: H3 | Opportunities — Szanse
-  - linia 381: H3 | Threats — Zagrożenia
-  - linia 407: H3 | Synteza strategiczna
-  - linia 417: H2 | Advocatus Diaboli
-  - linia 425: H4 | Jeśli archetypowanie jest bronią — to czy re-archetypowanie nie jest tą samą bronią z odwróconym ostrzem?
-  - linia 431: H4 | Obserwator w polu bitwy: czy można badać zaklęcia, nie będąc samemu zaczarowanym?
-  - linia 437: H4 | Mana: czy pojęcie niefalsyfikowalne zachowuje moc analityczną?
-  - linia 443: H4 | Czy twierdzenie „Ukraina to cywilizacja źródłowa Zachodu" nie jest samo w sobie aktem Disinfolklore?
-  - linia 449: H4 | Indoeuropocentryzm jako ślepy punkt: co z umysłami, które ukształtowały inne matryce?
-  - linia 455: H4 | Problem skali: 1,5 miliona słów vs. 15-sekundowy TikTok. Czy antywirusem na snajpera jest encyklopedia?
-  - linia 461: H4 | Granica między narzędziem a systemem wierzeń: kiedy analityk staje się kapłanem?
-  - linia 467: H4 | Czy demokratyczna broń może przetrwać kontakt z demokratycznym wyborcą?
-  - linia 473: H4 | Fabuła o trzech postaciach: czy redukcja geopolityki do bajki nie jest formą tego, co Pan krytykuje?
-  - linia 479: H4 | Ostateczna aporia: czy można zbudować post-narracyjne narzędzie wyłącznie z narracji?
-  - linia 489: H2 | Przesłuchanie informacyjne biegłegow trybie art. 278 i nast. k.p.c.
-  - linia 503: H4 | Panie biegły, proszę wskazać, w jakim recenzowanym piśmie naukowym opublikował Pan pełny opis metody Disinfolklore, wraz z recenzjami zewnętrznymi.
-  - linia 509: H4 | Czy dwóch niezależnych analityków, stosujących Pana dwunastoelementowy algorytm do tego samego memu, dojdzie do identycznej konkluzji co do jego klasyfikacji jako Disinfolklore?
-  - linia 515: H4 | Panie biegły, Pan posługuje się pojęciem „mana" jako kluczowym wskaźnikiem analitycznym. Proszę wskazać, jaki wynik empiryczny sfalsyfikowałby twierdzenie, że dany mem „zawiera silną manę".
-  - linia 521: H4 | Pana wykształcenie formalne i doświadczenie zawodowe to dyplomacja i mediacja w kontekście OBWE. Proszę wskazać Pana kwalifikacje w zakresie lingwistyki porównawczej, folklorystyki, psychologii poznawczej i archeogenetyki — dyscyplin, na których opiera Pan swoją metodę.
-  - linia 527: H4 | Pan jest publicznie zaangażowanym obrońcą sprawy ukraińskiej. Prowadzi Pan fundację Volya, współpracuje z NAFO, określa Rosję terminem „Ruschia". Jak Pan zapewnia sąd o swojej bezstronności jako biegłego w sprawie, w której jedną ze stron jest podmiot powiązany z Federacją Rosyjską?
-  - linia 533: H4 | Proszę podać precyzyjną, operacyjną definicję pojęcia „archetyp" w Pana metodzie, odróżniającą je od definicji Junga, Campbella i Proppa — na tyle ścisłą, by dwóch prawników mogło niezależnie zastosować ją do tego samego stanu faktycznego.
-  - linia 539: H4 | Czy Pan dysponuje danymi empirycznymi — w formie badań eksperymentalnych, quasi-eksperymentalnych lub choćby studium przypadku z grupą kontrolną — potwierdzającymi, że zastosowanie metody Disinfolklore zwiększa odporność odbiorców na dezinformację?
-  - linia 545: H4 | Pan twierdzi, że dźwięk M-N stanowi „najistotniejsze odkrycie w lingwistyce indoeuropejskiej od czasów de Saussure'a". Proszę wskazać, ilu profesorów lingwistyki indoeuropejskiej — choćby jeden — publicznie poparło to twierdzenie.
-  - linia 551: H4 | Proszę wskazać konkretny przypadek, w którym Pana metoda dałaby wynik fałszywie pozytywny — tj. zidentyfikowałaby jako Disinfolklore komunikat, który nim nie jest.
-  - linia 557: H4 | Pan twierdzi, że „Accusation in a Mirror" jest strukturą wspólną dla wszystkich ludobójstw — sprawca oskarża ofiarę o to, co sam planuje. Ale wzajemne oskarżenia są codziennością polityki. Proszę podać precyzyjne kryterium, na podstawie którego sąd mógłby odróżnić autentyczne oskarżenie od „Accusation in a Mirror".
-  - linia 563: H4 | W jakim typie postępowania cywilnego — o ochronę dóbr osobistych, o naruszenie praw autorskich, o zadośćuczynienie — Pana metoda miałaby walor dowodowy? Proszę wskazać konkretny przepis k.c. lub k.p.c., który dopuszczałby opinię opartą na tej metodzie.
-  - linia 569: H4 | Panie biegły, ostatnie pytanie: czy Pan, jako twórca tej metody, jest w stanie wskazać warunki, w których sam uznałby ją za obaloną?
 SKOKI HIERARCHII:
   - linia 425: H2 -> H4 | Jeśli archetypowanie jest bronią — to czy re-archetypowanie nie jest tą samą bronią z odwróconym ostrzem?
   - linia 503: H2 -> H4 | Panie biegły, proszę wskazać, w jakim recenzowanym piśmie naukowym opublikował Pan pełny opis metody Disinfolklore, wraz z recenzjami zewnętrznymi.
 
-D4 — d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 13; z id: 0; bez id: 13
+D4 — d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 13; z id: 13; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 210: H1 | ☠️ Taksonomia rosyjskiego samobójstwa
-  - linia 251: H2 | I. Defenestracja (upadek z okna)
-  - linia 320: H2 | II. Broń palna
-  - linia 375: H2 | III. Powieszenie / uduszenie
-  - linia 405: H2 | IV. Utonięcie / upadek z jednostki pływającej
-  - linia 419: H2 | V. Nagły zawał / „ostre niewydolności"
-  - linia 450: H2 | VI. Trucizny i substancje egzotyczne
-  - linia 470: H2 | VII. Śmierć w więzieniu / kolonii karnej
-  - linia 482: H2 | VIII. Znaleziony martwy (bez wyjaśnienia)
-  - linia 526: H2 | IX. Katastrofa lotnicza (cel = grupa)
-  - linia 538: H2 | X. Dekapitacja
-  - linia 551: H2 | XI. Metoda podwójna (combo)
-  - linia 567: H2 | XII. Metaanaliza — co mówi taksonomia
 
-D5 — d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 8; z id: 0; bez id: 8
+D5 — d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 8; z id: 8; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 57: H1 | 🐀 Putin — cornered animal edition (v3)
-  - linia 78: H2 | 0. Dlaczego to nie jest pytanie o pieniądze
-  - linia 88: H2 | I. Co mu realnie zostaje (po wszystkich korektach)
-  - linia 116: H2 | II. Co nie działa (skreślone)
-  - linia 157: H2 | III. Ukryty majątek — $1 bln dark money
-  - linia 168: H2 | IV. Cornered animal — scenariusze desperacji
-  - linia 230: H2 | V. Kluczowe pytanie: kiedy elity odłączą się od Putina?
-  - linia 253: H3 | Synteza v3: Projekt życia mu nie wyszedł
 
-D6 — d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 38; z id: 0; bez id: 38
+D6 — d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 38; z id: 38; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 2
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 254: H1 | Jałta 3.0
-  - linia 265: H3 | Spis treści
-  - linia 277: H2 | 1. Wizja — Synteza
-  - linia 285: H3 | Filary wizji
-  - linia 298: H2 | 2. Koncepcja operacyjna
-  - linia 300: H3 | 2.1 Rzeka Aras — klucz do operacji azerskiej
-  - linia 308: H3 | 2.2 Pas 30 km — logika operacyjna
-  - linia 316: H3 | 2.3 Zagros — domena kurdyjska
-  - linia 322: H3 | 2.4 Wielki deal — Władywostok za Kaukaz
-  - linia 328: H3 | 2.5 Model końcowy — Hanza 2.0
-  - linia 333: H2 | 3. Mapa driverów — aktor po aktorze
-  - linia 431: H2 | 4. Analizy przeprowadzone
-  - linia 433: H3 | 4.1 Analiza rozpadu irańskiej państwowości
-  - linia 436: H4 | Argumenty za rozpoczęciem rozpadu
-  - linia 441: H4 | Argumenty przeciw
-  - linia 445: H3 | 4.2 Analiza utraty aury strachu przez IRGC
-  - linia 448: H4 | Wnioski
-  - linia 453: H3 | 4.3 Analiza operacji azerskiej
-  - linia 456: H4 | Feasibility
-  - linia 460: H3 | 4.4 Analiza konwergencji interesów sojuszników
-  - linia 463: H4 | Zbieżności
-  - linia 468: H4 | Sprzeczności
-  - linia 472: H3 | 4.5 Analiza roli Rosji
-  - linia 475: H4 | Dlaczego Rosja się nie liczy
-  - linia 479: H3 | 4.6 Analiza modelu finansowania
-  - linia 482: H4 | Źródła kapitału
-  - linia 486: H3 | 4.7 Analiza szoku jako akceleratora
-  - linia 489: H4 | Precedensy historyczne
-  - linia 494: H2 | 5. Zidentyfikowane dziury i ryzyka
-  - linia 497: H4 | RYZYKO KRYTYCZNE 1: 440 kg uranu w rozpadającym się państwie
-  - linia 503: H4 | RYZYKO KRYTYCZNE 2: Globalny szok naftowy
-  - linia 509: H4 | RYZYKO 3: Pakistan i Beludżystan
-  - linia 514: H4 | RYZYKO 4: Tożsamość irańskich Azerów
-  - linia 519: H4 | RYZYKO 5: Mission creep i eskalacja
-  - linia 524: H4 | RYZYKO 6: Fragmentacja kurdyjska
-  - linia 529: H4 | RYZYKO 7: Sekwencja zdarzeń
-  - linia 534: H2 | 6. Werdykt końcowy
-  - linia 537: H3 | Ocena analityka
 SKOKI HIERARCHII:
   - linia 265: H1 -> H3 | Spis treści
   - linia 497: H2 -> H4 | RYZYKO KRYTYCZNE 1: 440 kg uranu w rozpadającym się państwie
 
-D7 — d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 43; z id: 0; bez id: 43
+D7 — d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 43; z id: 43; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 237: H1 | Jałta 3.0
-  - linia 251: H2 | 1 Warstwa kognitywna — AuDHD jako styl decyzyjny
-  - linia 253: H3 | Hipoteza
-  - linia 257: H4 | Trump — podręcznikowy profil ADHD
-  - linia 263: H4 | Aliyev — AuDHD w trybie strategicznym
-  - linia 272: H4 | Izrael — państwo z AuDHD
-  - linia 284: H2 | 2 Warstwa tożsamościowa — trzy narody bez państwa
-  - linia 286: H3 | Fundament koalicji
-  - linia 290: H4 | Wspólna cecha 1: Państwo jako projekt, nie dana
-  - linia 296: H4 | Wspólna cecha 2: Wzajemne rozpoznanie
-  - linia 301: H4 | Wspólna cecha 3: Samowystarczalność jako imperatyw przetrwania
-  - linia 305: H3 | Trzy tysiące lat wspólnej historii
-  - linia 313: H3 | Abraham w górach Zagros
-  - linia 322: H2 | 3 Warstwa paradoksu — nieufność jako stabilizator
-  - linia 324: H3 | Teza
-  - linia 327: H3 | Precedensy zdrady
-  - linia 330: H3 | Pięć mechanizmów, przez które nieufność wzmacnia projekt
-  - linia 333: H4 | Mechanizm 1: Autonomia działania
-  - linia 338: H4 | Mechanizm 2: Struktury niepodległe od patrona
-  - linia 343: H4 | Mechanizm 3: Uniezależnienie od attention spanu Trumpa
-  - linia 348: H4 | Mechanizm 4: Eliminacja pułapki zależności
-  - linia 353: H4 | Mechanizm 5: Budowa legitymacji wewnętrznej, nie zewnętrznej
-  - linia 362: H2 | 4 Warstwa matematyczna — równowagi Nasha
-  - linia 364: H3 | Definicja
-  - linia 367: H3 | Test Nasha: trójkąt Żydzi — Azerowie — Kurdowie
-  - linia 370: H4 | Izrael defektuje?
-  - linia 375: H4 | Azerbejdżan defektuje?
-  - linia 380: H4 | Kurdowie defektują?
-  - linia 386: H3 | Test Nasha: czworokąt z USA
-  - linia 389: H4 | USA defektują?
-  - linia 394: H4 | Trójkąt defektuje wobec USA?
-  - linia 398: H3 | Test Nasha: pełny system
-  - linia 401: H4 | Turcja defektuje? → irracjonalne
-  - linia 406: H4 | Armenia defektuje? → irracjonalne
-  - linia 411: H4 | UE defektuje? → irracjonalne
-  - linia 416: H4 | GCC defektuje? → irracjonalne
-  - linia 421: H4 | Chiny defektują? → irracjonalne (jeśli deal Władywostok)
-  - linia 425: H3 | Trzy zagnieżdżone równowagi
-  - linia 441: H2 | 5 Warstwa epistemologiczna — dlaczego ta analiza wygląda tak, jak wygląda
-  - linia 443: H3 | Odwrócona metoda naukowa
-  - linia 456: H2 | Synteza: dlaczego to zadziała(ć może)
-  - linia 459: H3 | Pięć warstw = pięć powodów
-  - linia 468: H3 | Ostatnie zdanie
 
-E1 — ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 25; z id: 0; bez id: 25
+E1 — ropa-gaz-geopolityka-analiza-v01_00-2026-03-17-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 25; z id: 25; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 122: H1 | Ropa, gaz i geopolityka
-  - linia 126: H2 | 1. Struktura globalnego popytu na ropę i gaz (2024)
-  - linia 141: H3 | 1.1. Transport — podział wewnętrzny
-  - linia 165: H2 | 2. Substytucja: co można zastąpić „już teraz"?
-  - linia 167: H3 | 2.1. Transport drogowy + generacja prądu i ciepła (~267 EJ, 78%)
-  - linia 176: H3 | 2.2. Surowiec do procesów przemysłowych (~35 EJ, 10%)
-  - linia 185: H3 | 2.3. Nawozy — szczególny przypadek feedstocku
-  - linia 202: H2 | 3. Scenariusz Ormuz: inflacja ≠ głód
-  - linia 206: H3 | 3.1. Kluczowa dystynkcja: szok cenowy vs. fizyczny brak
-  - linia 214: H3 | 3.2. Skala szoku: porównanie z Lehman Brothers / dot-com
-  - linia 223: H3 | 3.3. Paradoks szybkiego szoku
-  - linia 242: H2 | 4. Geopolityka energii: substytucja jako zmiana topologii władzy
-  - linia 244: H3 | 4.1. Gdyby a.1 + b były zelektryfikowane
-  - linia 248: H3 | 4.2. Stary paradygmat vs. nowy: centralizacja vs. decentralizacja
-  - linia 257: H3 | 4.3. Panel to capital good, baryłka to consumable
-  - linia 271: H2 | 5. Monopole surowcowe: trwałość saudyjska vs. chińska
-  - linia 273: H3 | 5.1. Saudyjska dźwignia cenowa: autoimmunologia
-  - linia 279: H3 | 5.2. Chiński monopol na surowce krytyczne: aktywny i czasowy
-  - linia 285: H3 | 5.3. Dlaczego chiński „OPEC na surowce krytyczne" ma wbudowany zegar samozniszczenia
-  - linia 309: H2 | 6. Wymiar etyczny: kryzysy, moralność i transformacja
-  - linia 311: H3 | 6.1. Tani surowiec od dyktatorów jako moralny hazard
-  - linia 317: H3 | 6.2. Kryzysy nie zawsze moralizują — warunek: substytut
-  - linia 323: H3 | 6.3. Kto przyspieszył dekarbonizację?
-  - linia 327: H3 | 6.4. Energia jako narzędzie sprawiedliwości
-  - linia 340: H2 | 7. Podsumowanie tez
 
-E2 — monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html
-STATUS: ANCHORÓW BRAK LUB PRAWIE BRAK
-H1–H6: 12; z id: 0; bez id: 12
+E2 — monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17-anchory.html
+STATUS: ANCHORY WYGLĄDAJĄ NA KOMPLETNE
+H1–H6: 12; z id: 12; bez id: 0
 duplikaty id: 0; puste id: 0; błędne #fragment: 0; skoki H: 0
-BRAK ID PRZY NAGŁÓWKACH:
-  - linia 27: H1 | Monopole, moralność i transformacja
-  - linia 31: H2 | 1. Saudyjska dźwignia cenowa: anatomia samolikwidacji
-  - linia 54: H2 | 2. Chiński monopol na REE i lit: strategia, mechanizm, erozja
-  - linia 58: H3 | 2.1. Strategia: „nie geologia, lecz processing"
-  - linia 66: H3 | 2.2. Erozja: czy zegar samozniszczenia naprawdę tyka?
-  - linia 86: H2 | 3. Wandel durch Handel: anatomia moralnego hazardu energetycznego
-  - linia 90: H3 | 3.1. Niemiecka zależność od rosyjskiego gazu jako case study
-  - linia 98: H3 | 3.2. „Nowe kraje członkowskie" vs. „stare"
-  - linia 118: H2 | 4. Kryzysy a moralność: kiedy szok prowadzi do solidarności, a kiedy do sauve qui peut?
-  - linia 122: H3 | 4.1. 1973 vs. 2022: dwa tryby reakcji
-  - linia 132: H3 | 4.2. Asymetria kosztów: kto płaci za transformację?
-  - linia 146: H2 | 5. Podsumowanie korekt
 
 NAJWIĘKSZE BRAKI ID
-- D7: 43 | d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html
-- D6: 38 | d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html
-- D2: 34 | d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html
-- D3: 31 | d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html
-- E1: 25 | ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html
-- A1: 24 | a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html
-- D4: 13 | d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html
-- E2: 12 | monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html
-- D1: 10 | d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html
-- D5: 8 | d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html
-- A5: 4 | a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html
+- brak

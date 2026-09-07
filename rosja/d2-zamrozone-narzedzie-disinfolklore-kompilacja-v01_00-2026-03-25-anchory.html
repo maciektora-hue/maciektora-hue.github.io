@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZAMROZONE · Disinfolklore — Kompilacja Głównych Tez · v01.00</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&amp;family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --parchment: #f5f0e8;
+    --accent: #c0392b;
+    --accent2: #2c3e50;
+    --gold: #d4a852;
+    --muted: #7f8c8d;
+    --border: #d5cfc3;
+    --highlight: #fef9e7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
+    color: #f5f0e8;
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero .subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    opacity: 0.85;
+    max-width: 680px;
+    margin: 0 auto 30px;
+    font-style: italic;
+    position: relative;
+  }
+  .hero .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    position: relative;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* TOC */
+  .toc {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 32px 36px;
+    margin: 48px auto;
+    max-width: 820px;
+  }
+  .toc h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    padding: 0;
+  }
+  .toc li {
+    counter-increment: toc;
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--border);
+  }
+  .toc li:last-child { border-bottom: none; }
+  .toc li::before {
+    content: counter(toc, upper-roman) ".";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-right: 10px;
+    font-weight: 600;
+  }
+  .toc a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  section {
+    margin: 56px auto;
+    max-width: 820px;
+    padding: 0 32px;
+  }
+  section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--accent2);
+    margin-bottom: 8px;
+    padding-top: 20px;
+    border-top: 3px solid var(--accent);
+  }
+  section h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.12em;
+  }
+  section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin: 28px 0 10px;
+  }
+  section p {
+    margin-bottom: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* CONCEPT BOX */
+  .concept {
+    background: var(--highlight);
+    border-left: 3px solid var(--gold);
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 0.95rem;
+  }
+  .concept strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  /* QUOTE BLOCK */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 14px 22px;
+    margin: 24px 0;
+    background: #fff;
+    font-style: italic;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    font-style: normal;
+    color: var(--muted);
+  }
+
+  /* TOOL LIST */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 24px 0;
+  }
+  @media(max-width: 600px) {
+    .tool-grid { grid-template-columns: 1fr; }
+  }
+  .tool-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 16px 18px;
+    position: relative;
+  }
+  .tool-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .tool-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .tool-card p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    text-align: left;
+    margin-bottom: 0;
+  }
+
+  /* THREE CHARACTERS */
+  .characters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 28px 0;
+  }
+  @media(max-width: 600px) {
+    .characters { grid-template-columns: 1fr; }
+  }
+  .char-card {
+    text-align: center;
+    padding: 24px 16px;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .char-card .emoji { font-size: 2.5rem; margin-bottom: 8px; }
+  .char-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+    color: var(--accent2);
+  }
+  .char-card p {
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    text-align: center;
+    margin: 48px 0;
+    color: var(--gold);
+    font-size: 1.4rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: #999;
+    text-align: center;
+    padding: 36px 20px;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.8;
+    margin-top: 64px;
+  }
+  footer a { color: var(--gold); }
+
+  @media print {
+    .hero { padding: 40px 20px; }
+    section { break-inside: avoid; }
+    body { font-size: 11pt; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+<h1 id="disinfolklore">DISIN<span>FOLK</span>LORE</h1>
+<p class="subtitle">Kompilacja głównych tez nowej metody analitycznej parsowania dezinformacji — autorstwa Stephena Douglasa</p>
+<p class="meta">Synteza na podstawie disinfolklore.eu / disinfolklore.net • Marzec 2026</p>
+</header>
+<nav class="toc">
+<h2 id="spis-tresci">Spis treści</h2>
+<ol>
+<li><a href="#s1">Geneza: most, trolle i folklor</a></li>
+<li><a href="#s2">Czym jest Disinfolklore — definicja i zakres</a></li>
+<li><a href="#s3">Dwanaście narzędzi metody analitycznej</a></li>
+<li><a href="#s4">Trzy archetypy: Druidy Don, Duncey Putin, Komik</a></li>
+<li><a href="#s5">Mana — energia w memach</a></li>
+<li><a href="#s6">Accusation in a Mirror i Provocation Logic</a></li>
+<li><a href="#s7">Witch Switch — przełączenie ofiary</a></li>
+<li><a href="#s8">Data Resistant Archetypes — mentalne modele oporne na fakty</a></li>
+<li><a href="#s9">Finding Manuland — indoeuropejskie fundamenty</a></li>
+<li><a href="#s10">Disinfolklore a FIMI UE — komplementarność ram</a></li>
+<li><a href="#s11">Counter-Disinfolklore — narzędzia obrony</a></li>
+<li><a href="#s12">Wnioski i kierunki dalszych badań</a></li>
+</ol>
+</nav>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s1">
+<h2 id="geneza-most-trolle-folklor"><span class="num">I</span>Geneza: most, trolle i folklor</h2>
+<p>Koncepcja Disinfolklore narodziła się z bezpośredniego doświadczenia dyplomatycznego. W latach 2015–2018 Stephen Douglas pełnił funkcję dyplomaty-mediatora na drewniano-stalowym moście nad rzeką Doniec w Stanicy Ługańskiej we wschodniej Ukrainie. Most ten był jedynym przejściem pieszym między okupowanym przez Rosję Ługańskiem a resztą Ukrainy — codziennie przekraczało go ok. 10 tysięcy cywilów: głównie starsze kobiety, dzieci i osoby nie zagrożone poborem do sił zbrojnych okupanta.</p>
+<p>Douglas negocjował codziennie z uzbrojonymi rosyjskimi „trollami mostowymi" po jednej stronie i ukraińskimi żołnierzami po drugiej. Zestaw postaci — dyplomaci, handlarze, żołnierze, szpiedzy, zwykli mieszkańcy — przypominał mu zbiór archetypowych bohaterów z nieskończenie zmiennej, ale tematycznie spójnej opery mydlanej lub baśni ludowej. To właśnie folklorystyczny charakter tej sytuacji — stary most, trolle strzegące przejścia, cywile-pielgrzymi — zrodził intuicję, która doprowadziła do sformułowania nowej metody.</p>
+<p>W lutym 2020 roku Douglas założył na swoim komputerze folder o nazwie „Folklore" — gromadził w nim teksty o trollingu i trollach, śledząc etymologię tych pojęć z powrotem do nordyckiej mitologii. W lutym 2023 roku, szukając neologizmu łączącego dezinformację z folklorem, wykuł termin <em>Disinfolklore</em>: słowo-portmanteau z „disinformation" i „folklore", oddające odkrycie, że współczesna dezinformacja rosyjska i MAGA operuje tymi samymi strukturami narracyjnymi, co praindoeuropejski folklor.</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s2">
+<h2 id="definicja-i-zakres"><span class="num">II</span>Czym jest Disinfolklore — definicja i zakres</h2>
+<p>Disinfolklore to jednocześnie trzy rzeczy: (1) <strong>nowa forma narracji</strong> — współczesna odmiana opowieści ludowej, w której dezinformacja przybiera postać emocjonalnie rezonujących memów; (2) <strong>teoria analityczna</strong> — sposób widzenia i parsowania przychodzących i wychodzących trolli informacyjnych; oraz (3) <strong>metoda kontrdziałania</strong> — zbiór narzędzi pozwalających budować odporność poznawczą na manipulację archetypową.</p>
+<div class="concept">
+<strong>DEFINICJA ROBOCZA:</strong> Disinfolklore to szczególna forma opowieści, która komunikuje <em>złośliwą manę / energię</em> bezpośrednio do naszych strumieni świadomości. Wpływa na nasze Nastroje, Postawy, Intencje i Motywacje (MAIM: Moods, Attitudes, Intentions, Motivations) poprzez wizualne, dźwiękowe lub sensoryczne memy, zwykle przekazywane za pośrednictwem opowieści.
+  </div>
+<p>Cel disinfolklorystów: skłonić nas do rezygnacji, utraty nadziei, porzucenia Ukrainy — a wraz z nią całego porządku prawnego i społecznego wypracowanego po II wojnie światowej: Unii Europejskiej, Europejskiej Konwencji Praw Człowieka, praw człowieka chronionych jako prawo, równości. Po drugiej stronie barykady stoi anty-woke'owa, pro-oligarchiczna, tradycyjno-konserwatywna próba odtworzenia warunków społecznych Niemiec lat 20. i 30. XX wieku.</p>
+<p>Douglas podkreśla, że Disinfolklore nie jest metaforą wojny — jest <strong>głównym polem bitwy</strong> w realnej wojnie o nasze umysły. Przestrzeń informacyjna to nie teatr pomocniczy, lecz decydujące pole starcia, na którym przesądza się los demokracji, suwerenności i bezpieczeństwa naszych społeczności.</p>
+</section>
+<div class="divider">♦ ♦ ♦</div>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s3">
+<h2 id="dwanascie-narzedzi"><span class="num">III</span>Dwanaście narzędzi metody analitycznej</h2>
+<p>Metoda Disinfolklore to dwunastoelementowy algorytm interpretacyjny — zestaw narzędzi przeznaczony do analizy dowolnej jednostki informacyjnej (memu), niezależnie od tego, czy jest to fotografia, nagranie wideo, tekst czy całokształt retoryki polityka. Douglas rozwijał go od 2016 roku instynktownie, a od 2023 — systematycznie. Poniżej kluczowe narzędzia:</p>
+<div class="tool-grid">
+<div class="tool-card" data-num="01">
+<h4 id="archetypal-disinfolklore-literacy">Archetypal Disinfolklore Literacy</h4>
+<p>Umiejętność rozpoznawania archetypów folklorystycznych ukrytych w codziennych memach informacyjnych. Fundament całej metody — bez literackości archetypowej nie zobaczymy manipulacji.</p>
+</div>
+<div class="tool-card" data-num="02">
+<h4 id="troll-radars">Incoming-Outgoing Troll Radars</h4>
+<p>Radary trolli przychodzących i wychodzących — mechanizm filtrowania, który pozwala rozróżnić, co wpuszczamy do naszego „Wewnętrznego Umysłu", a co sami emitujemy dalej.</p>
+</div>
+<div class="tool-card" data-num="03">
+<h4 id="mana-in-the-meme">Look for the Mana in the Meme!</h4>
+<p>Szukaj many (energii) w memie — ustal, jaka energia emocjonalna jest osadzona w danej jednostce informacyjnej i jaki jest jej kierunek oddziaływania.</p>
+</div>
+<div class="tool-card" data-num="04">
+<h4 id="archetypal-structures">Archetypal Structures</h4>
+<p>Struktury archetypowe: przełączanie sfery wewnętrznej/zewnętrznej (inner-outer realm switching), metamorfozy tożsamości, archetypowanie abstrakcji jako postaci.</p>
+</div>
+<div class="tool-card" data-num="05">
+<h4 id="trigger-experience-reaction">Trigger → Experience → Reaction</h4>
+<p>Model zaczerpnięty od Dalajlamy i psychologa Paula Ekmana (Atlas of Emotions). Każda podróż emocjonalna rozbita na trzy fazy — kluczowe jest oddzielenie doświadczenia od reakcji.</p>
+</div>
+<div class="tool-card" data-num="06">
+<h4 id="code-of-positive-trolls">Code of Positive Trolls</h4>
+<p>Kodeks pozytywnych trolli: hojność, słuszność, cierpliwość, mana (energia), skupienie, wgląd. Filtr do oceny, czy dany komunikat jest counter-disinfolklore.</p>
+</div>
+<div class="tool-card" data-num="07">
+<h4 id="accusation-in-a-mirror">Accusation in a Mirror</h4>
+<p>Oskarżenie w lustrze — strukturę tę Douglas przejął z badań nad ludobójstwem: sprawca oskarża ofiarę dokładnie o to, co sam planuje.</p>
+</div>
+<div class="tool-card" data-num="08">
+<h4 id="provocation-logic-cycle">Provocation Logic Cycle</h4>
+<p>Cykl logiki prowokacji — Rosja fabrykuje fikcyjne zagrożenie, następnie „reaguje" na nie, uzasadniając własną agresję.</p>
+</div>
+<div class="tool-card" data-num="09">
+<h4 id="witch-switch">Witch Switch</h4>
+<p>Przełącznik czarownicy — mechanizm przekierowania autentycznych lęków społecznych z realnego zagrożenia na sfabrykowany cel (np. imigranci, osoby trans).</p>
+</div>
+<div class="tool-card" data-num="10">
+<h4 id="coercive-control">Coercive Control</h4>
+<p>Kontrola przymusowa — model władzy przenikający wszystkie szczeble rosyjskich relacji: mikro (rodzina), mezo (organizacje), makro (polityka państwa).</p>
+</div>
+<div class="tool-card" data-num="11">
+<h4 id="re-archetyping">Re-Archetyping</h4>
+<p>Re-archetypowanie: świadome przeformatowanie mentalnych modeli — np. Ukrainy z „ofiary" na „cywilizację źródłową" kultury zachodniej.</p>
+</div>
+<div class="tool-card" data-num="12">
+<h4 id="rashist-construction">Understanding Rashist Construction</h4>
+<p>Zrozumienie, jak raszystowscy disinfolkloryści konstruują swój output: wektory, temniki (tematy dnia), fabryki trolli, struktury dystrybucji.</p>
+</div>
+</div>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s4">
+<h2 id="trzy-archetypy"><span class="num">IV</span>Trzy archetypy: Druidy Don, Duncey Putin, Komik</h2>
+<p>Douglas operuje trzema centralnymi postaciami-archetypami, które strukturyzują współczesne pole informacyjne. W ich nazwach celowo umieścił dźwięk DN — jeden z trzech „krypto-semantycznych systemów sygnalizacyjnych" (obok RT i MN), które, jak twierdzi, są osadzone w językach indoeuropejskich od czasów kultury Jamna.</p>
+<div class="characters">
+<div class="char-card">
+<div class="emoji">🧙</div>
+<h4 id="druidy-don">Druidy Don (Trump)</h4>
+<p>Nazwany od druidów — magiczno-religijnej kasty celtyckiej kultury indoeuropejskiej. Archetypowy trickster-szaman, współczesny P.T. Barnum, który archetypuje rzeczywistość na skalę masową.</p>
+</div>
+<div class="char-card">
+<div class="emoji">🤡</div>
+<h4 id="duncey-putin">Duncey Putin</h4>
+<p>Folklorystyczny tępak, który każdego ranka wyrusza w świat, nie wyciągnąwszy żadnych wniosków z porażek dnia poprzedniego. Pozornie groźny, ale fundamentalnie niekompetentny.</p>
+</div>
+<div class="char-card">
+<div class="emoji">🎭</div>
+<h4 id="komik-zelenski">Komik (Zełenski)</h4>
+<p>XXI-wieczny troll, który opanował zarówno jurydyczny, jak i magiczny wymiar suwerenności. Magister, magus — i w odróżnieniu od dwóch pozostałych używa swojej mocy (many) ku dobru.</p>
+</div>
+</div>
+<p>Douglas podkreśla, że zdolność do archetypowania na skalę masową należy do każdego z nas, ale kto kontroluje środki dystrybucji — ten może re-inżynierować umysły ludzkości. MAGA i Kreml posiadają tę kontrolę i aktywnie z niej korzystają, zamieniając codzienne wiadomości w bajki tricksterskie, które media głównego nurtu relacjonują jako „politykę" lub „dyplomację", zamiast rozpoznać je jako narzędzia manipulacji narracyjnej.</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s5">
+<h2 id="mana-energia-w-memach"><span class="num">V</span>Mana — energia w memach</h2>
+<p>Pojęcie <em>many</em> stanowi rdzeń koncepcji Douglasa. Mem w jego rozumieniu to dowolna jednostka informacyjna — obraz, dźwięk, tekst, film, całe dzieło — a mana to energia emocjonalna w nim osadzona, wpływająca na nasze nastroje, postawy, intencje i motywacje. Douglas używa terminów „mana" i „energia" wymiennie.</p>
+<div class="concept">
+<strong>MANA:</strong> Subtelna energia, którą wymieniamy z ludźmi i zwierzętami w każdej interakcji. Mana, Woden, Nous, Duch Święty, Prana, Ch'i, Ki, Libido, Synchroniczność, Anima Mundi, Orenda, Manitu — to wszystko przejawy tego samego fenomenu, obecnego w umysłach Jamna, jak i wszystkich współczesnych ludzi.
+  </div>
+<p>Akt poszukiwania many w memie — samo postawienie pytania „jaka energia jest osadzona w tej jednostce informacyjnej?" — już stanowi akt obrony poznawczej. Pozwala na świadome filtrowanie tego, co wpuszczamy do naszego „Wewnętrznego Umysłu", zanim trolle zdążą zanieczyścić naszą własną manę.</p>
+<p>W kontekście rosyjskiej dezinformacji Douglas identyfikuje sześć składowych many: kontrola przymusowa, mizoginizm, usprawiedliwianie ludobójstwa, oskarżenie w lustrze, pragnienie zniszczenia porządku powojennego i wyższość prawa wewnętrznego nad międzynarodowym. Jeśli mem zawiera te składowe — to Disinfolklore.</p>
+</section>
+<div class="divider">♦ ♦ ♦</div>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s6">
+<h2 id="accusation-in-a-mirror-i-provocation-logic"><span class="num">VI</span>Accusation in a Mirror i Provocation Logic</h2>
+<p>Dwie powiązane struktury, które Douglas uważa za kluczowe mechanizmy rosyjskiej (i MAGA) dezinformacji:</p>
+<h3 id="oskarzenie-w-lustrze">Oskarżenie w lustrze (Accusation in a Mirror)</h3>
+<p>Sprawca oskarża przyszłą ofiarę dokładnie o te zbrodnie, które sam planuje lub realizuje. Mechanizm ten jest wspólny praktycznie wszystkim ludobójstwom w historii — służy jako pretekst i moralnie „usprawiedliwia" działania sprawcy. Douglas nauczył się tej struktury z pierwszego raportu New Lines Institute, opublikowanego miesiąc po rosyjskiej inwazji pełnoskalowej w 2022 roku.</p>
+<p>Praktyczny przykład: Rosja oskarża Ukrainę o nazizm, podczas gdy to rosyjskie siły posługują się neonazistowską symboliką (grupa Wagnera). Kiedy rosyjskojęzyczne matki z Mariupola zginęły pod bombardowaniem Teatru Dramatycznego, w rosyjskiej przestrzeni informacyjnej natychmiast przemieniono je z „matek i córek" w „martwych ukraińskich nazistów".</p>
+<h3 id="cykl-logiki-prowokacji">Cykl logiki prowokacji (Provocation Logic Cycle)</h3>
+<p>Rosja fabrykuje fikcyjne zagrożenie, a następnie „reaguje" na nie, traktując sfabrykowany pretekst jako uzasadnienie agresji. Douglas postrzega ten cykl jako rdzenną procedurę mentalną rosyjskiej dezinformacji i uważa się za pierwszą osobę, która zwróciła na ten wzorzec uwagę z perspektywy disinfolklorystycznej.</p>
+<p>Kluczowe spostrzeżenie: osoby śledzące ukraińską przestrzeń informacyjną przeszły „mistrzowską klasę" w rozpoznawaniu tego cyklu. Są w stanie czytać rosyjskie oskarżenia jako dane predykcyjne — to, o co Rosja oskarża Ukrainę, jest wskaźnikiem tego, co Rosja zamierza zrobić.</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s7">
+<h2 id="witch-switch-przelacznik-czarownicy"><span class="num">VII</span>Witch Switch — przełącznik czarownicy</h2>
+<p>Witch Switch to mechanizm, za pomocą którego disinfolklorysta przekierowuje strach i gniew społeczeństwa z realnego zagrożenia na sfabrykowany cel. Termin nie jest przypadkowy — odwołuje się do europejskich polowań na czarownice, gdzie wzorzec był zawsze ten sam:</p>
+<div class="concept">
+<strong>STRUKTURA WITCH SWITCH:</strong> Autentyczne społeczne lęki (nieurodzaj, choroby, stagnacja ekonomiczna) → przekierowanie na niewinny cel → niewinny cel zostaje „przełączony" na miejsce prawdziwej przyczyny lęku → lęk jest realny, cel jest sfabrykowany, przełączenie to Disinfolklore.
+  </div>
+<p>Douglas wskazuje, że Trump „przełączył" realne przyczyny amerykańskiego niepokoju — stagnację ekonomiczną, koszty opieki zdrowotnej, wojny, degradację infrastruktury — na osoby transpłciowe, imigrantów i „woke". Rosja robi to samo: realne rosyjskie lęki o depopulację, stagnację gospodarczą, niewydolność państwa zostają przełączone na Ukrainę, Zachód, NATO.</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s8">
+<h2 id="data-resistant-archetypes"><span class="num">VIII</span>Data Resistant Archetypes — mentalne modele oporne na fakty</h2>
+<p>Jedną z centralnych tez Douglasa jest koncepcja <em>Data Resistant Archetypes</em> (archetypów odpornych na dane) — głęboko zakorzenionych mentalnych modeli, które wydają się niepodatne na empiryczne dowody. Głównym takim archetypem jest postrzeganie Rosji jako niezwyciężonej, potężnej, wyrafinowanej — i Ukrainy jako słabej, bezradnej, „panny w tarapatach".</p>
+<p>Douglas argumentuje, że te archetypowe percepcje nie są neutralnymi przekonaniami — są aktywnie podtrzymywanymi strukturami informacyjnymi, które Rosja celowo osadza w umysłach zarówno swoich obywateli, jak i Zachodu. Nawet osoby niesprzyjające Rosji nieświadomie reprodukują ten archetypowy schemat, gdy mówią o potrzebie „nie prowokowania niedźwiedzia" czy o „małym państwie" walczącym z „wielkim mocarstwem".</p>
+<p>Punkt zwrotny: operacja kurska z sierpnia 2024 roku, gdy Ukraina najechała Rosję, pokazała, że mózgi wielu Rosjan „były bliskie pęknięcia" — archetypowy model niezwyciężonej Rosji zderzył się z danymi empirycznymi. Douglas widzi w tym praktyczny dowód na to, że archetypowe modele, choć wydają się niezwyciężone, mogą zostać złamane przez wystarczająco dramatyczne kontr-dane.</p>
+</section>
+<div class="divider">♦ ♦ ♦</div>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s9">
+<h2 id="finding-manuland"><span class="num">IX</span>Finding Manuland — indoeuropejskie fundamenty</h2>
+<p>Finding Manuland to drugi, komplementarny program badawczy Douglasa — mitologiczny fundament pod ramą Disinfolklore. Projekt ten śledzi korzenie struktur narracyjnych i archetypowych na przestrzeni 6000 lat kultury indoeuropejskiej, od społeczności Jamna (Yamnaya) z południowej Ukrainy (ok. 4100 p.n.e.) po współczesność.</p>
+<h3 id="finding-manuland-glowne-tezy">Główne tezy Finding Manuland</h3>
+<p><strong>Manuland</strong> to kontr-geografia wobec eurazjatyzmu Dugina — przestrzeń od Irlandii do Indii, centrowana na Ukrainie, obejmująca cały obszar, na który rozprzestrzenił się język, religia i struktury społeczne potomków Jamna. Douglas ukuł ten termin 21 sierpnia 2022 roku.</p>
+<p><strong>Ukraina jako cywilizacja źródłowa:</strong> Douglas argumentuje, że starożytna Ukraina jest źródłem wszystkich żywych języków indoeuropejskich, religii, struktur rodzinnych, patriarchalnych modeli organizacji społecznej i trójdzielnego systemu kastowego (suwerenność, bezpieczeństwo, płodność/dobrobyt). Kiedy Rosja archetypuje Ukrainę jako „słabą" — kontr-archetypem nie jest jedynie pokazanie obecnej siły militarnej Ukrainy, lecz ukazanie, że Ukraina jest fundamentem cywilizacji zachodniej.</p>
+<p><strong>Dźwięk M-N jako krypto-semantyczny system sygnalizacyjny:</strong> Douglas twierdzi, że odkrył trzy fundamentalne dźwiękowe wzorce (MN, DN, RT/RCH) obecne w rdzennych słowach wszystkich żywych języków indoeuropejskich, powiązane z kluczowymi polami semantycznymi. Dźwięk M-N pojawia się w: meaning (znaczenie), mana, money (pieniądz), man (człowiek), mind (umysł), moon (księżyc), communication, communal — i w nazwie samych Jamna. Douglas uważa to za najistotniejsze odkrycie w lingwistyce indoeuropejskiej od czasów de Saussure'a.</p>
+<blockquote>
+    Ponad połowa ludzkości posługuje się dziś dźwiękami i znaczeniami wykutymi po raz pierwszy na ukraińskim stepie. W genomie większości ludzi zamieszkujących Manuland obecne jest mitochondrialne DNA przodków z Jamna.
+    <cite>— Stephen Douglas, Finding Manuland</cite>
+</blockquote>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s10">
+<h2 id="disinfolklore-fimi"><span class="num">X</span>Disinfolklore a FIMI UE — komplementarność ram</h2>
+<p>Douglas pozycjonuje swoją metodę jako komplementarną wobec unijnego systemu FIMI (Foreign Information Manipulation and Interference), którego czwarty raport EEAS opublikował w marcu 2026 roku, dokumentując 540 incydentów, 10 500 kanałów dezinformacji i 43 000 elementów treści na 19 platformach.</p>
+<h3 id="fimi-co-robi-dobrze">Co FIMI robi dobrze</h3>
+<p>UE dysponuje zasobami i metodologią do dokumentowania dziesiątek tysięcy incydentów rosyjskiej (a w mniejszym stopniu chińskiej i irańskiej) dezinformacji. System FIMI zapewnia wspólny język i ramy analityczne dla 27 państw członkowskich i sojuszników.</p>
+<h3 id="fimi-czego-nie-widzi">Czego FIMI nie widzi — a Disinfolklore tak</h3>
+<p>FIMI definiuje zagrożenie jako „zagraniczne" — manipulacja informacyjna jest w tym modelu problematyczna tylko wtedy, gdy pochodzi spoza UE. Rosja z łatwością obchodzi tę ramę, po prostu rekrutując obywateli UE do propagowania swojej dezinformacji. Ponadto FIMI kataloguje kanały i obserwowalne — ale nigdy nie pyta: <em>jaka jest energia wewnątrz memu?</em> Jakie ładunek emocjonalny sprawia, że jeden element treści rezonuje, a inny nie?</p>
+<p>Douglas proponuje fuzję: FIMI widzi „hydraulikę" (plumbing) systemu — kanały, atrybucję, infrastrukturę. Disinfolklore dostrzega „truciznę" (poison) — archetypową energię, struktury narracyjne i mechanizmy poznawcze, które pozwalają dezinformacji hakować umysły indoeuropejskie. Razem — pełny obraz.</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s11">
+<h2 id="counter-disinfolklore"><span class="num">XI</span>Counter-Disinfolklore — narzędzia obrony</h2>
+<p>Douglas nie ogranicza się do diagnozy — proponuje sześcioetapowy algorytm interwencji wobec podejrzanego memu:</p>
+<div class="concept">
+<strong>ALGORYTM INTERWENCJI:</strong><br/>
+    1. Rozpoznaj Disinfolklore → 2. Zidentyfikuj wdrażany archetyp → 3. Scharakteryzuj używane narzędzie (Provocation Logic? Accusation in a Mirror? Witch Switch?) → 4. Oceń źródło i łańcuch dystrybucji → 5. Podejmij decyzję: czy to Disinfolklore? Jaka jest jego intencja operacyjna? → 6. Interweniuj: wdróż kontr-archetyp. Zaangażuj się w świadomą wojnę memetyczną.
+  </div>
+<p>Douglas podkreśla rolę <strong>Kodeksu Pozytywnych Trolli</strong> — zestawu wartości oceniających, czy dany komunikat służy obronie, czy atakowi: hojność, słuszność, cierpliwość, mana, skupienie, wgląd. Jeśli mem zawiera te cechy — jest counter-disinfolklore. Jeśli nie — jest podejrzany.</p>
+<p>Ambicja długoterminowa: Douglas wizualizuje zespoły nauczycieli uczących w biurach premierów i szkołach podstawowych w całej kulturze indoeuropejskiej, budując powszechną odporność komunikacyjną — „uniwersalną literacką komunikacyjność" (universal communications literacy).</p>
+</section>
+<!-- ═══════════════════════════════════════════ -->
+<section id="s12">
+<h2 id="wnioski-i-kierunki"><span class="num">XII</span>Wnioski i kierunki dalszych badań</h2>
+<p>Disinfolklore Stephena Douglasa to ambitna próba stworzenia interdyscyplinarnej ramy łączącej lingwistykę indoeuropejską, folklorystykę, psychologię poznawczą, prawo międzynarodowe, studia nad ludobójstwem i analizę dezinformacji w jeden spójny system interpretacyjny. Jego centralny postulat: <strong>współczesna dezinformacja nie jest nowym zjawiskiem — jest zaktualizowaną wersją tego samego mechanizmu narracyjnego, który kształtuje umysły indoeuropejskie od 6000 lat.</strong></p>
+<p>Kluczowe wektory dalszego rozwoju:</p>
+<p><strong>AI i Disinfolklore.</strong> Douglas aktywnie eksploruje zastosowanie AI (w szczególności modeli Claude/Anthropic) w analizie i kontr-disinfolklore, widząc w narzędziach takich jak Claude Code potencjał do skalowania metody. Jednocześnie ostrzega przed „syndromem Mesjasza" — algorytmy mogą trollować użytkowników w przekonanie o własnej wyjątkowości, co wymaga stosowania Kodeksu Pozytywnych Trolli także w relacjach z AI.</p>
+<p><strong>Prawne zastosowania.</strong> Douglas widzi potencjał metody w procesach sądowych — Disinfolklore Analytical Method mógłby służyć jako dowodowe narzędzie oceny, czy dany mem publicznie podżega do ludobójstwa lub podważa porządek prawny.</p>
+<p><strong>Re-archetypowanie Ukrainy.</strong> Projekt najbardziej ambitny: przeformatowanie mentalnego modelu Ukrainy w umysłach ludzkości — nie jako „małego państwa w tarapatach", lecz jako cywilizacji źródłowej, z której wyrosła cała kultura zachodnia. Pocisk Neptune, który zatopił rosyjski krążownik Moskwa, nosi imię wykute w praindoeuropejskim — „starożytnym ukraińskim". Mitologiczne koło się zamyka.</p>
+</section>
+<footer>
+<p>Kompilacja opracowana na podstawie materiałów z <a href="https://www.disinfolklore.eu">disinfolklore.eu</a> / <a href="https://www.disinfolklore.net">disinfolklore.net</a> (Substack: Decoding Trolls)</p>
+<p>Autor metody: Stephen Douglas • Kompilacja: marzec 2026</p>
+<p>Niniejszy dokument jest syntezą i parafrazą — nie stanowi reprodukcji źródłowych tekstów.</p>
+</footer>
+</body>
+</html>

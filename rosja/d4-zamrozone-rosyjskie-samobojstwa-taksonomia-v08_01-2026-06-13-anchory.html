@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMROZONE · Taksonomia rosyjskiego samobójstwa — katalog metod · v08.01</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-muted: #8b949e;
+    --blood: #8b0000;
+    --blood-light: #cc2936;
+    --window-blue: #58a6ff;
+    --poison-green: #3fb950;
+    --gold: #ffd500;
+    --accent: #ff6b35;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    padding: 2rem 1rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    color: var(--blood-light);
+    border-bottom: 2px solid var(--blood);
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .epigraph {
+    font-style: italic;
+    color: var(--text-muted);
+    border-left: 3px solid var(--blood);
+    padding: 0.5rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--blood-light);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    padding-left: 0.8rem;
+    border-left: 4px solid var(--blood);
+  }
+
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.7rem;
+  }
+  .method-card:hover { border-color: var(--blood-light); }
+
+  .method-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .case {
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+  }
+  .case strong { color: var(--gold); font-weight: 600; }
+  .case em { color: var(--text-muted); }
+
+  .commentary {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.4rem;
+  }
+
+  .ver {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+  .ver-ok2 { background: #1a4d2e; color: #4ade80; border: 1px solid #2d6a4f; }
+  .ver-ok  { background: #3d3d1a; color: #d4d44a; border: 1px solid #5a5a2d; }
+  .ver-warn{ background: #4d3a1a; color: #fbbf24; border: 1px solid #6a4f2d; }
+  .ver-err { background: #4d1a1a; color: #f87171; border: 1px solid #6a2d2d; }
+  .ver-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem 1.2rem;
+    margin: 1.2rem 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .ver-box code { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
+
+  .stats-box {
+    background: var(--surface2);
+    border: 2px solid var(--blood);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .stats-big {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--blood-light);
+  }
+  .stats-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.8rem 0 1.5rem;
+  }
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.7rem 0.5rem;
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--blood-light);
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  p { margin-bottom: 0.7rem; }
+
+  .sygnatura {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.3rem;
+  }
+  .sygnatura-tresc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.9;
+  }
+</style>
+</head>
+<body>
+
+<h1 id="taksonomia-rosyjskiego-samobojstwa">☠️ Taksonomia rosyjskiego samobójstwa</h1>
+<div class="sygnatura" id="sygnatura-pliku-gorna">sygnatura pliku</div>
+<div class="sygnatura-tresc">d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13 · v08.01 · 2026-06-13 · 11:11 (Europe/Warsaw)</div>
+<div class="subtitle">Katalog metod wraz z udokumentowanymi przypadkami</div>
+<div class="subtitle">Znane również jako: Sudden Russian Death Syndrome · Sudden Oligarch Death Syndrome</div>
+
+<div class="epigraph">
+  „Każdy może popełnić morderstwo, ale trzeba mieć rozum, żeby popełnić samobójstwo."<br>
+  — David Satter, korespondent moskiewski
+</div>
+
+<div class="stats-box">
+  <div class="stats-big">75+</div>
+  <div class="stats-label">prominentnych Rosjan zmarłych w podejrzanych okolicznościach od II.2022 do VII.2025 — szacunek całego fenomenu (Sarajevo Times, na podstawie agencji zachodnich i rosyjskich aktywistów; nie liczba przypadków w tym katalogu).<br><br>Zjawisko jest na tyle ugruntowane, że ma własne hasło w Wikipedii — w 12 wersjach językowych (m.in. angielskiej, rosyjskiej, ukraińskiej, japońskiej i hebrajskiej).</div>
+</div>
+
+<p class="commentary">Poniżej: liczba przypadków <em>skatalogowanych w tym dokumencie</em> według roku śmierci — 65 osób (plus ofiary rodzinne). To podzbiór całego fenomenu: najlepiej udokumentowane lub najbardziej charakterystyczne przypadki, czyli 65 z szacowanych ponad 75.</p>
+
+<div class="stat-row">
+  <div class="stat-box"><div class="stat-number">23</div><div class="stat-label">2022<br>rok inwazji — fala założycielska (energia)</div></div>
+  <div class="stat-box"><div class="stat-number">16</div><div class="stat-label">2023<br>w tym Prigożyn (10 ofiar)</div></div>
+  <div class="stat-box"><div class="stat-number">8</div><div class="stat-label">2024<br>w tym Nawalny (IK-3)</div></div>
+  <div class="stat-box"><div class="stat-number">11</div><div class="stat-label">2025<br>przesunięcie na infrastrukturę i wojsko</div></div>
+  <div class="stat-box"><div class="stat-number">3</div><div class="stat-label">2026<br>Sklar (I), Dżabraiłow (III), Sokołenko (VI)</div></div>
+</div>
+
+<p class="commentary">Plus trzy precedensy sprzed pełnoskalowej inwazji, ujęte dla kompletności taksonomii metod: Litwinienko (2006, polon), Skripal + Głuszkow (2018, nowiczok + „samobójstwo" potwierdzone jako morderstwo), Kaganski (2020, dźgnięcie + okno). Rok 2022 to fala „czystek energetycznych" (Gazprom, Łukoil, Novatek). Rok 2025 — przesunięcie profilu na Transneft, MON i komisariaty wojskowe. Liczby przybliżone; obejmują tylko przypadki udokumentowane w mediach zachodnich — rzeczywista liczba jest wyższa.</p>
+
+<div class="ver-box">
+  <strong>System weryfikacji źródeł.</strong> Każdy przypadek oznaczono statusem wiarygodności na podstawie kontroli źródłowej (czerwiec 2026):<br>
+  <code>POTWIERDZONE</code> — ≥2 niezależne wiarygodne źródła (Reuters, AP, Moscow Times, RFE/RL, Novaya Gazeta Europe, Wikipedia z cytowaniami).<br>
+  <code>WIARYGODNE</code> — solidne źródło, część szczegółów niepewna lub jednoźródłowa.<br>
+  <code>OSTROŻNIE</code> — głównie kanały Telegram/tabloidy, fakt śmierci pewny, okoliczności spekulatywne.<br>
+  Status dotyczy <em>faktów</em> (kto, kiedy, jak), nie interpretacji „samobójstwo vs. zabójstwo" — ta pozostaje otwarta z definicji.
+</div>
+
+
+<p class="commentary" style="border-left:3px solid #6e7681;padding-left:12px">Trzy zastrzeżenia, bez których ta lista wprowadzałaby w błąd. Po pierwsze: część zebranych tu przypadków to z pewnością nieszczęśliwe wypadki albo zgony w pełni naturalne — przy tej liczbie nazwisk i podeszłym wieku niektórych osób to statystyczna oczywistość. Po drugie: nigdy nie dowiem się, które dokładnie — i działa to w obie strony, bo równie pewne jest, że nie wszystkie zgony „wątpliwe" są w istocie podejrzane. Po trzecie: zestawienie nie rości sobie kompletności — to dobór przypadków udokumentowanych, nie zupełny rejestr; rzeczywista liczba jest wyższa, a sam dobór z konieczności odzwierciedla to, co przedostało się do mediów.</p>
+
+<!-- ===== KATEGORIE ===== -->
+
+<h2 id="defenestracja">I. Defenestracja (upadek z okna)</h2>
+<p>Klasyka gatunku. Statystycznie najczęstsza metoda „samobójstwa" rosyjskich elit od 2022. Okna w Rosji są najbardziej niebezpiecznym elementem architektury mieszkalnej.</p>
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna szpitala</div>
+  <div class="case"><strong>Ravil Maganov</strong>, prezes zarządu Łukoilu (IX.2022) — wypadł z 6. piętra moskiewskiego szpitala (Centralny Szpital Kliniczny). Łukoil jako jedna z nielicznych dużych firm rosyjskich publicznie wezwał do zakończenia wojny (III.2022). Dwie osoby znające Maganowa powiedziały Reutersowi, że samobójstwo jest „wysoce nieprawdopodobne".<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna mieszkania</div>
+  <div class="case"><strong>Andriej Badałow</strong>, wiceprezes Transneftu (VII.2025) — wypadł z 17. piętra budynku przy Rublowskim Szosie w Moskwie, mimo że mieszkał na 10. TASS: „wstępna przyczyna — samobójstwo". 62 lata, nadzorował transformację cyfrową; wcześniej szef Instytutu Naukowego Woschod (systemy m.in. wyborcze).<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="case"><strong>Michaił Rogaczow</strong>, b. wiceprezes Jukosu (do 2007), później Norylski Nikiel i ONEXIM (X.2024) — znaleziony pod swoim domem na Protopopowskim Zaułku w Moskwie, 64 lata. List pożegnalny + SMS do siostry; według źródeł miał zaawansowanego raka. Bliscy kwestionują wersję samobójczą.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">motyw polityczny słaby — Jukos sprzed lat, choroba realna</span></div>
+  <div class="case"><strong>Marina Jankina</strong>, szefowa zaopatrzenia finansowego Zachodniego Okręgu Wojskowego MON (II.2023) — wypadła z 16. piętra w Petersburgu, 58 lat.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="case"><strong>Paweł Antow</strong>, „król kiełbas", deputowany Zgromadzenia Ustawodawczego obwodu włodzimierskiego (Jedna Rosja), b. najbogatszy urzędnik wg „Forbesa" (XII.2022) — wypadł z hotelu w Rayagada w Indiach podczas obchodów własnych urodzin. Wcześniej krytykował ostrzał Kijowa. Dzień–dwa wcześniej w tym samym hotelu zmarł „nagle" jego towarzysz podróży Władimir Budanow (oficjalnie udar/alkohol).<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna mieszkalnego — polityk i bankierka (2023)</div>
+  <div class="case"><strong>Władimir Jegorow</strong>, proputinowski polityk regionalny z Tobolska, prawnik z interesami biznesowymi, najzamożniejszy lokalny deputowany (XII.2023) — zginął 27 grudnia po upadku z okna 3. piętra domu przy ul. Kedrowej. W 2016 odszedł z administracji miasta po skandalu korupcyjnym (nieskazany). Zapowiedziano autopsję.<span class="ver ver-ok">wiarygodne</span></div>
+  <div class="case"><strong>Kristina Bajkowa</strong>, wiceprezes banku Loko-Bank (VI.2023) — zginęła 24 czerwca po upadku z 11. piętra mieszkania przy bulwarze Chodynskim w Moskwie, nad ranem. 28 lat.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">młody wiek i pozycja zwiększają podejrzliwość, ale okoliczności nieustalone</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Upadek z okna hotelu</div>
+  <div class="case"><strong>Aleksandr Fiedotow</strong>, 49 lat, b. szef Komitetu Rozwoju Infrastruktury Transportowej Petersburga (IX.2025) — znaleziony 24 września pod oknem hotelu przy lotnisku Szeremietiewo (źródła podają Sheraton lub Skypoint Luxe), w tranzycie do Wołgogradu. Za jego kadencji podpisano kontrakt na budowę Wielkiego Mostu Smoleńskiego przez Newę (pierwszy nowy most zwodzony w Petersburgu od ~40 lat) o wartości 40 mld rubli. Zrezygnował ze stanowiska na własną prośbę w IV.2024, co media wiązały ze śledztwem FSB. Wszczęto śledztwo karne; listu pożegnalnego nie znaleziono.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna/budynku urzędowego</div>
+  <div class="case"><strong>Artur Priakhin</strong>, szef Federalnej Służby Antymonopolowej (FAS) w Karelii (II.2025) — znaleziony martwy przy swoim biurze 4 lutego, oficjalnie samobójstwo. Pozostawił notatkę z przeprosinami dla żony, instrukcjami finansowymi i prośbą, by nikogo nie obwiniać.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z wieżowca mieszkalnego — komisarz wojskowy</div>
+  <div class="case"><strong>Oleg Sokołenko</strong>, komisarz wojskowy rejonów Pierwomaiskij i Awiacjonnyj Rostowa nad Donem (VI.2026) — znaleziony martwy pod wieżowcem. Władze twierdzą, że „później znaleziono w jego mieszkaniu notatkę, w której napisał, że podjął tę decyzję sam i prosił, by nikogo nie winić". Stanowisko natychmiast wykazane jako wakujące na stronie komisariatu.<span class="ver ver-warn">ostrożnie</span> <span class="commentary" style="display:inline">jedno źródło OSINT (@LXSummer1), brak potwierdzenia w mediach instytucjonalnych — stan na 13.VI.2026</span></div>
+  <div class="commentary">Kontekst: w osobnej sprawie b. komisarz wojskowy Dmitrij Biełocerkowiec został aresztowany w kwietniu za łapówkarstwo. Wzorzec: korupcja w komisariatach mobilizacyjnych → ktoś zaczyna sypać → okno się otwiera. Notatka „znaleziona później" to klasyk — nieweryfikowalna, ale zamyka sprawę.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna — muzyk proukraiński</div>
+  <div class="case"><strong>Wadim Strojkin</strong>, bard, proukraiński muzyk (II.2025) — wypadł z 10. piętra swojego mieszkania w Petersburgu 6 lutego, dokładnie podczas przeszukania FSB. Śledztwo dotyczyło rzekomych wpłat na ukraińskie wojsko (groziło do 20 lat za „udział w organizacji terrorystycznej"). 58/59 lat.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Upadek z budynku — za granicą</div>
+  <div class="case"><strong>Dan Rapoport</strong>, bankier inwestycyjny, krytyk Kremla, zwolennik Nawalnego (VIII.2022) — zginął 14 sierpnia, znaleziony na chodniku pod luksusowym apartamentowcem w Waszyngtonie. Na sobie miał pomarańczowe klapki i czarną czapkę. Przy nim $2620 w gotówce, pęknięty telefon, słuchawki — ale ani portfela, ani kart kredytowych.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">okoliczności (skok/upadek) niejednoznaczne, śledztwo USA bez rozstrzygnięcia</span></div>
+  <div class="commentary">Okoliczności tak specyficzne, że wyglądają jak inscenizacja lub wiadomość.</div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Upadek z okna podczas przesłuchania w Komitecie Śledczym</div>
+  <div class="case"><strong>Aleksandr Łapin</strong>, b. szef zarządu zieleni miejskiej i budownictwa krajobrazowego Krasnojarska (XII.2022) — zginął 11 grudnia, wypadając z okna 7. piętra biura Komitetu Śledczego podczas przesłuchania w sprawie korupcyjnej. Nagranie monitoringu rzekomo pokazuje go siedzącego na parapecie tuż przed upadkiem.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">czysty wzorzec „okno w trakcie czynności śledczych" — śmierć następuje w gmachu organów ścigania, w toku przesłuchania, co czyni wersję wypadku/samobójstwa szczególnie problematyczną</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Upadek z balkonu podczas przeszukania mieszkania</div>
+  <div class="case"><strong>Grigorij Koczenow</strong>, 41 lat, dyrektor kreatywny firmy IT Agima (XII.2022) — spadł z balkonu mieszkania w Niżnym Nowogrodzie 9 grudnia w trakcie policyjnego przeszukania. Wg lokalnych mediów otworzył drzwi funkcjonariuszom, podpisał nakaz, wpuścił ich, wyszedł na balkon i runął w dół. Był przeciwnikiem wojny; część doniesień wskazywała, że postępowanie oparto na wątpliwych zarzutach.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">bliźniaczy wzorzec do śmierci Łapina — upadek następuje w obecności organów ścigania, w trakcie czynności</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Skok z wieżowca po przesłuchaniach służb (Białoruś)</div>
+  <div class="case"><strong>Dzianis Sidarenka</strong>, ambasador Białorusi w Niemczech (2016–2024), 48 lat (VI.2024) — zginął 23 czerwca, skacząc z mińskiego wieżowca; wg „Naszej Niwy" samobójstwo, którego miał nie wytrzymać po przesłuchaniach KGB. MZS poinformowało lakonicznie dopiero 26 czerwca, po doniesieniach mediów niezależnych. Nie otrzymał nowej posady po powrocie z Niemiec.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">drugi po Makieju wątek białoruski; w Mińsku dyplomaci karierowi wracający z UE stają się obiektem operacyjnego rozpracowania służb</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Upadek z balkonu — premier baletu</div>
+  <div class="case"><strong>Władimir Szklarow</strong>, 39 lat, premier (pierwszy tancerz) Teatru Maryjskiego w Petersburgu, krytyk inwazji (XI.2024) — zginął 16 listopada, spadając z balkonu 5. piętra. Władze uznały to za wypadek: wyszedł zapalić na wąski balkon, biorąc silne leki przeciwbólowe przed planowaną na 18 listopada operacją kręgosłupa.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">wersja wypadku jest wiarygodna (leki, wąski balkon, uraz); ujęty ze względu na profil (kultura) i wcześniejszą krytykę wojny, lecz dowodowo to prawdopodobnie nieszczęśliwy wypadek</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Upadek z okna — mistrz olimpijski</div>
+  <div class="case"><strong>Buwajsar Saitijew</strong>, 49 lat, trzykrotny mistrz olimpijski w zapasach w stylu wolnym (1996, 2004, 2008), b. deputowany Dumy z Dagestanu (III.2025) — zmarł 2 marca w Moskwie. Wersje rozbieżne: oficjele sportowi mówili o zatrzymaniu akcji serca, kanał Baza i część relacji — o upadku z okna mieszkania (2.–3. piętro), a rodzina utrzymuje, że był to wypadek podczas prac domowych.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">sprzeczność wersji (serce vs okno) i stanowisko rodziny czynią ten przypadek dowodowo słabym; ujęty dla wyjątkowego profilu</span></div>
+</div>
+<h2 id="bron-palna">II. Broń palna</h2>
+
+<div class="method-card">
+  <div class="method-name">Samobójstwo bronią palną — minister kilka godzin po dymisji</div>
+  <div class="case"><strong>Roman Starowojtow</strong>, minister transportu (VII.2025) — znaleziony martwy z raną postrzałową w swoim samochodzie w Razdorach pod Moskwą (obw. moskiewski), kilka godzin po zwolnieniu przez Putina (7 lipca). 53 lata. Wcześniej gubernator obwodu kurskiego — dwóch jego zastępców z tamtego okresu podejrzewano o defraudację funduszy na umocnienia graniczne; ukraińskie wojska w sierpniu 2024 sforsowały tę granicę.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">wątek „pistoletu w prezencie od Putina" pojawił się w części doniesień, ale nie jest jednoznacznie potwierdzony</span></div>
+  <div class="commentary">Jeśli pistolet rzeczywiście pochodził od Putina, byłby jednocześnie nagrodą i zaproszeniem. Niezależnie od tego: zwolnienie i śmierć tego samego dnia układają się w czytelną wiadomość dla pozostałych gubernatorów — „wiem, gdzie poszły pieniądze na fortyfikacje".</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Strzał w tył głowy (klasyka radziecka)</div>
+  <div class="commentary">Historycznie udokumentowane przypadki z ery NKWD/KGB. Wariant luksusowy: dwa strzały w tył głowy — „bo pierwszy był niecelny". Prokuratura kwalifikowała jako samobójstwo.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Samobójstwo z karabinu myśliwskiego przy samochodzie</div>
+  <div class="case"><strong>Aleksandr Tiunin</strong>, CEO UMATEX (koncern włókien węglowych Rosatomu) (IX.2025) — znaleziony martwy na poboczu drogi, przy swoim samochodzie, z karabinem myśliwskim i listem pożegnalnym, który miał wspominać o depresji.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Samobójstwo bronią palną w domu — b. wiceminister</div>
+  <div class="case"><strong>Aleksiej Sklar</strong>, 50 lat, b. wiceminister pracy i ochrony socjalnej (2018–2022) (I.2026) — znaleziony martwy 15 stycznia w prywatnym domu w Filimonkowskoje (Nowa Moskwa), pistolet przy ciele. List pożegnalny obwiniający żonę. W resorcie nadzorował systemy informatyczne i e-usługi publiczne.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">źródła wskazują na motyw osobisty/finansowy (problemy finansowe po dymisji 2022, konflikty rodzinne), nie polityczny — słabe powiązanie z „serią"</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Samobójstwo bronią palną — b. senator, zablokowane konta</div>
+  <div class="case"><strong>Umar Dżabraiłow</strong>, b. senator Czeczenii w Radzie Federacji (2004–2009), biznesmen (III.2026) — zginął 2 marca w Moskwie (kompleks Vesper Tverskaya), oficjalnie samobójstwo przez postrzał. 67 lat. RIA Novosti: tuż przed śmiercią zablokowano jego konta bankowe (dług ~40 tys. rubli — groszowa kwota jak na oligarchę). Nazwisko pojawiło się w aktach Epsteina; publicznie mówił o znajomości z Ghislaine Maxwell.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">data i fakt śmierci potwierdzone (Wikipedia/media), interpretacja okoliczności otwarta</span></div>
+  <div class="commentary">Zablokowanie kont za 40 tys. rubli (~1700 zł) tuż przed „samobójstwem" miliardera to sygnał, nie przyczyna. Czeczeński wątek + akta Epsteina = ktoś, kto wiedział rzeczy z dwóch bardzo różnych światów.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Samobójstwo bronią palną — milbloger po ujawnieniu strat</div>
+  <div class="case"><strong>Andriej Morozow „Murz"</strong>, proorosyjski milbloger i żołnierz (~120 tys. obserwujących) (II.2024) — 18 lutego opublikował post o ~16 000 zabitych i 300 pojazdach pancernych straconych pod Awdijiwką, przypisując to niekompetencji dowództwa i taktyce „fal ludzkich". 20 lutego usunął post pod presją nagonki (Sołowjow, Z-blogerzy). 21 lutego zostawił list obwiniający Sołowjowa i zastrzelił się. 44 lata.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">odmienny mechanizm niż reszta listy: nie eliminacja przez służby, lecz samobójstwo pod presją zorganizowanego szczucia za ujawnienie prawdziwych strat — ilustracja represji za „rechot rzeczywistości", nie operacji likwidacyjnej</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Zastrzelony w basenie</div>
+  <div class="case"><strong>Jurij Woronow</strong>, założyciel i CEO Astra-Shipping (podwykonawca Gazpromu, kontrakty arktyczne) (VII.2022) — znaleziony 4 lipca w basenie swojej posiadłości w rejonie wyborgskim obwodu leningradzkiego, rana postrzałowa głowy, pistolet Grand Power obok, łuski na dnie basenu. 61 lat.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">silny motyw finansowy: ~160 mln rubli strat firmy (2020–21), konflikt z partnerami, wg żony pił po utracie pieniędzy</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Rozszerzone samobójstwo (zabił rodzinę, potem siebie)</div>
+  <div class="case"><strong>Władysław Awajew</strong>, b. wiceprezes Gazprombanku, wcześniej urzędnik administracji Kremla (IV.2022) — znaleziony 18 kwietnia w mieszkaniu w Moskwie z żoną Eleną (47) i 13-letnią córką Marią, wszyscy z ranami postrzałowymi. Pistolet w ręce, mieszkanie zamknięte od środka, znaleziony przez starszą córkę. 51 lat.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">śledczy wskazują motyw domowy (zazdrość, spór o opiekę); zbieżność z falą i profil zawodowy budzą jednak pytania</span></div>
+  <div class="case"><strong>Siergiej Protosienia</strong>, b. top manager / wiceprzewodniczący Novateku (IV.2022) — znaleziony 19 kwietnia w willi w Lloret de Mar (Hiszpania): on powieszony na zewnątrz, żona i córka zadźgane (siekiera/nóż) w środku. 55 lat.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">wersja „zabił rodzinę i siebie" mocno kwestionowana: brak listu, brak krwi na jego ciele, ślady unikania odcisków — hiszpańskie media nie wykluczają inscenizacji</span></div>
+  <div class="case"><strong>Wasilij Mielnikow</strong>, CEO i właściciel MedStom (sprzęt medyczny) (III.2022) — znaleziony 23 marca w mieszkaniu w Niżnym Nowogrodzie z żoną i dwoma synami, wszyscy czworo zadźgani. 43 lata.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">część doniesień sugeruje napad/włamanie, nie rozszerzone samobójstwo; sankcje uderzyły w jego import sprzętu</span></div>
+  <div class="commentary">Trzy przypadki „ojciec wymordował rodzinę" w ciągu kilku tygodni wiosną 2022 (kadra finansowo-energetyczna). Mielnikow — nóż. Awajew — pistolet. Protosienia — siekiera + powieszenie. Wspólny wzorzec budzi pytania, choć w każdym z osobna śledczy wskazywali motyw domowy.</div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Egzekucja bronią palną za granicą — dezerter</div>
+  <div class="case"><strong>Maksim Kuzminow</strong>, 28 lat, kapitan, pilot wojskowy (II.2024) — 9 sierpnia 2023 przeprowadził śmigłowiec Mi-8 pod radarem przez linię frontu do obwodu charkowskiego (operacja ukraińskiego HUR), dezerterując; maszyna wiozła części do myśliwców Su. Otrzymał obywatelstwo ukraińskie, zamieszkał w Hiszpanii pod fałszywym nazwiskiem. 13 lutego 2024 znaleziony w podziemnym garażu w Villajoyosa (prow. Alicante): co najmniej pięć ran postrzałowych, ciało przejechane samochodem. Już w X.2023 rosyjska TV donosiła, że GRU „dostało rozkaz" jego eliminacji; szef SVR Naryszkin nazwał go „moralnym trupem".<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">jawna egzekucja zagraniczna jako ostrzeżenie — wzorzec wspólny ze sprawą Skripala i Litwinienki, ale skierowany do potencjalnych dezerterów wojskowych</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Postrzał na balkonie — Koleje Rosyjskie</div>
+  <div class="case"><strong>Pawieł Pczelnikow</strong>, 52 lata, dyrektor ds. komunikacji Digital Logistics (spółka córka Kolei Rosyjskich, RŻD) (IX.2022) — znaleziony 28 września o świcie na balkonie mieszkania w centrum Moskwy z raną postrzałową głowy. Oficjalnie samobójstwo.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">pierwszy z węzłów kolejowych na liście; sektor RŻD powróci w lipcu 2025 (Korniejczuk)</span></div>
+</div>
+<h2 id="powieszenie-uduszenie">III. Powieszenie / uduszenie</h2>
+
+<div class="method-card">
+  <div class="method-name">Powieszenie</div>
+  <div class="case"><strong>Siergiej Protosienia</strong> (IV.2022, patrz wyżej) — wariant oficjalny: powiesił się po zabójstwie rodziny.</div>
+  <div class="case"><strong>Aleksandr Tiulakow</strong>, zastępca dyrektora generalnego Centrum Rozliczeń Korporacyjnych Gazpromu (II.2022) — znaleziony 25 lutego, dzień po inwazji, powieszony w garażu posiadłości w osiedlu Leński (obw. leningradzki). Przy ciele list pożegnalny. 61 lat.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="case"><strong>Michaił Watford</strong> (ur. Tołstoszeja), ukraińsko-rosyjski oligarcha naftowo-gazowy (II.2022) — znaleziony 28 lutego powieszony w garażu swojej posiadłości w Surrey (Anglia), 66 lat. Brytyjskie władze nie znalazły śladów przestępstwa.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">brak związku z Gazpromem; majątek z ropy i gazu; motyw niejasny</span></div>
+  <div class="case"><strong>Roman Malyk</strong>, ppłk, komisarz wojskowy odpowiedzialny za mobilizację w Kraju Nadmorskim (X.2022) — znaleziony martwy w domu, według pierwszych doniesień powieszony. Policja wszczęła śledztwo w sprawie zabójstwa, nie wykluczając samobójstwa; rodzina odrzuca wersję samobójczą. 49 lat. Śmierć w trakcie fali podpaleń ~70 biur poborowych w całej Rosji.<span class="ver ver-ok">wiarygodne</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Powieszenie — fizyk jądrowy w żałobie (92 lata)</div>
+  <div class="case"><strong>Grigorij Klinishow</strong>, fizyk jądrowy, współtwórca radzieckiej dwustopniowej bomby wodorowej RDS-37 (test 1955) (VI.2023, Moskwa) — znaleziony 17 czerwca powieszony w mieszkaniu przy nabrzeżu Kosmodamianskim przez 67-letnią córkę. List pożegnalny: przepraszał rodzinę, nie radził sobie z problemami zdrowotnymi i śmiercią żony. 92 lata.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">motyw osobisty wyraźnie dominujący (wiek, żałoba, zdrowie, list); przesłanki polityczne znikome — ujęty wyłącznie z powodu profilu (twórca bomby H) i zbieżności czasowej z eskalacją nuklearną</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Powieszenie — potwierdzone zabójstwo (morderca udawał samobójstwo)</div>
+  <div class="case"><strong>Nikołaj Głuszkow</strong>, b. wicedyrektor Aerofłotu (III.2018, Londyn) — znaleziony powieszony w swoim domu w New Malden. Bliski przyjaciel Borisa Bieriezowskiego (który zginął identycznie w 2013). Śmierć nastąpiła kilka dni po otruciu Skripalów nowiczokiem w Salisbury. Orzeczenie koronera (IV.2021): <em>unlawfully killed</em> — „zabity bezprawnie". Jedyny przypadek na tej liście, gdzie śledztwo oficjalnie potwierdziło morderstwo upozorowane na samobójstwo.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="commentary">Orzeczenie „unlawfully killed" de facto potwierdza, że przynajmniej niektóre „samobójstwa przez powieszenie" na tej liście mogą być morderstwami — bo w tym jednym przypadku ktoś faktycznie to udowodnił.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Uduszenie paskiem — morderstwo z aresztowanym sprawcą</div>
+  <div class="case"><strong>Andriej Botikow</strong>, wirusolog Centrum Gamalei, jeden z 18 współtwórców szczepionki Sputnik V (III.2023) — uduszony paskiem 2 marca w swoim mieszkaniu na ul. Rogowa w Moskwie. 47 lat. Komitet Śledczy zatrzymał 29-letniego sprawcę, który przyznał się do winy; oficjalna wersja to kłótnia / napad rabunkowy. Sprawca miał wcześniejszą kartotekę.<span class="ver ver-warn">ostrożnie</span> <span class="commentary" style="display:inline">rozwiązane morderstwo ze sprawcą zatrzymanym i przyznającym się (jak w przypadku Głuszkowa), nie część serii politycznej; ujęte z uwagi na zbieżność (twórca szczepionki) i pozostające pytania o motyw</span></div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Powieszenie na drzewie na trosie holowniczym</div>
+  <div class="case"><strong>Witalij Kapustin</strong>, 43 lata, deputowany Rady Rejonu Tichorieckiego (Kraj Krasnodarski, Jedna Rosja), dyrektor firmy budowlanej (IX.2025) — znaleziony 25 września w pasie leśnym koło stanicy Noworożdiestwienskiej, powieszony w pętli ze stalowego trosu holowniczego, wysoko na drzewie; obok stał jego szary SUV. Komitet Śledczy: „brak znamion przestępstwa", wstępnie samobójstwo.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">wersja oficjalna kłóci się z relacjami świadków: ręce miały być związane z tyłu, a ciało zawieszone na wysokości trudno dostępnej samodzielnie. Metoda bliźniacza dekapitacji Sinicyna — pojazd ofiary użyty jako element inscenizacji</span></div>
+</div>
+<h2 id="utoniecie-upadek-z-jednostki">IV. Utonięcie / upadek z jednostki pływającej</h2>
+
+<div class="method-card">
+  <div class="method-name">Wypadnięcie ze statku „po pijanemu"</div>
+  <div class="case"><strong>Iwan Piecziorin</strong>, dyrektor lotniczy Korporacji Rozwoju Dalekiego Wschodu i Arktyki (KRDV) (IX.2022) — wypadł ze statku „pod wpływem alkoholu" i utonął na Pacyfiku koło Władywostoku; ciało znaleziono 12 września. Kilka dni wcześniej prezentował plan strategiczny na Forum Ekonomicznym Wschodu. Miał 39 lat.<span class="ver ver-ok">wiarygodne</span></div>
+  <div class="commentary">Jego poprzednik na stanowisku dyrektora KRDV, Igor Nosow, zmarł na udar mózgu w wieku 43 lat kilka miesięcy wcześniej.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Utonięcie w wannie/basenie</div>
+  <div class="commentary">Udokumentowane przypadki wielokrotne. Klasyka „wypadek domowy".</div>
+</div>
+
+
+<h2 id="nagly-zawal-niewydolnosc">V. Nagły zawał / „ostre niewydolności"</h2>
+
+<div class="method-card">
+  <div class="method-name">Ostra niewydolność serca (zdrowy człowiek)</div>
+  <div class="case"><strong>Władimir Niekrasow</strong>, prezes zarządu Łukoilu (X.2023) — zmarł nagle 24 października w wieku 66 lat na „ostrą niewydolność serca" (wg oświadczenia firmy). Zastąpił Maganowa, który wypadł z okna rok wcześniej; ~50 lat w branży naftowej.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">przyczyna naturalna realna (wiek, staż) — słabe przesłanki „podejrzanej śmierci", ujęty ze względu na seryjność w Łukoilu</span></div>
+  <div class="case"><strong>Igor Nosow</strong>, dyrektor generalny KRDV (II.2022) — udar mózgu 8 lutego w wieku 43 lat. Poprzednik Pieczorina na stanowisku.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">zmarł 16 dni przed inwazją (8.II.2022); jedno główne źródło (RFE/RL); przyczyna naturalna możliwa</span></div>
+  <div class="commentary">Wiadomo — stres. Zupełnie niezwiązany z faktem, że firma publicznie krytykowała wojnę.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Sepsa</div>
+  <div class="case"><strong>Siergiej Grishin</strong>, bankier (Rosevrobank), oligarcha, który sprzedał posiadłość w Montecito księciu Harry'emu i Meghan (III.2023) — zmarł 6 marca w Moskwie, 56 lat, po ok. miesiącu choroby: zaburzenia krążenia mózgowego prowadzące do sepsy. Wcześniej krytykował Putina, prosił o azyl w USA.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">przyczyna medyczna (sepsa) prawdopodobna; związek z krytyką wojny luźny</span></div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Nagła śmierć ministra (Białoruś)</div>
+  <div class="case"><strong>Władimir Makiej</strong>, minister spraw zagranicznych Białorusi (2012–2022), płk, wieloletni lojalista Łukaszenki (XI.2022) — zmarł nagle 26 listopada w wieku 64 lat, dwa dni przed planowanym spotkaniem z Ławrowem w Mińsku i kilka dni po szczycie OUBZ w Erewaniu. Okoliczności oficjalnie nieujawnione.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">RUSI ocenia nieczystą grę jako mało prawdopodobną (możliwa przyczyna naturalna); ujęty ze względu na najwyższy profil i wątek białoruski — Makiej wcześniej inicjował ocieplenie z Zachodem, po 2020 gwałtownie zmienił kurs</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Nagła śmierć dziedzica (zator) — dynastia Rosnieftu</div>
+  <div class="case"><strong>Iwan Sieczin</strong>, 35 lat, jedyny syn Igora Sieczina (CEO Rosnieftu, uznawanego za „de facto zastępcę Putina"), sam wysoki menedżer koncernu (II.2024) — zmarł 5 lutego w rezydencji pod Moskwą. Wg źródeł nocą skarżył się na nagły ból i trudności z oddychaniem; ochrona wezwała karetkę, lecz nie podała pełnego adresu, przez co medycy dotarli ok. dwóch godzin później. Oficjalna przyczyna: oderwany skrzep (zator). Śmierć utajniono — wyszła na jaw z rejestru spadkowego.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">Igor Sieczin zakazał Komitetowi Śledczemu i FSB zajmowania się sprawą, powierzając ją wewnętrznej ochronie Rosnieftu; zator u 35-latka możliwy naturalnie, ale opóźnienie pomocy, tajność i blokada śledztwa pozostają bez wyjaśnienia. Profil dynastyczny — uderzenie w samo centrum elity</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Zatrzymanie akcji serca podczas „terapii ksenonem" — przemysł inwigilacji</div>
+  <div class="case"><strong>Anton Czerepiennikow</strong>, 40 lat, miliarder, założyciel ICS Holding i firmy Citadel (sprzęt do podsłuchów i monitoringu telekomunikacji, śledzenie internautów; pod sankcjami USA) (VII.2023) — znaleziony martwy w biurze przy prospekcie Miczurinskim w Moskwie w nocy 22 lipca. Oficjalnie zatrzymanie akcji serca; sekcji nie przeprowadzono.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">ochroniarz twierdził, że lekarz przeoczył moment duszenia się podczas „terapii ksenonem"; znajomi kwestionują wersję sercową. Kluczowa postać aparatu inwigilacji — brak sekcji zwłok znamienny</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Zatrzymanie akcji serca na naradzie — klaster transportowy</div>
+  <div class="case"><strong>Andriej Korniejczuk</strong>, zastępca naczelnika wydziału zarządzania majątkiem Federalnej Agencji Transportu Kolejowego (Rosżeldor) (VII.2025) — zmarł 7 lipca na stanowisku pracy w Moskwie; wg doniesień gwałtownie wstał w trakcie narady Ministerstwa Transportu i upadł. Oficjalnie zatrzymanie akcji serca, bez znamion przestępstwa.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">przyczyna naturalna prawdopodobna, ale data domyka klaster transportowy: 4 lipca zginął Badałow (Transnieft), a tego samego 7 lipca — b. minister transportu Starowojt (postrzał). Trzy zgony w sektorze w cztery dni</span></div>
+</div>
+<h2 id="trucizny-substancje-egzotyczne">VI. Trucizny i substancje egzotyczne</h2>
+
+<div class="method-card">
+  <div class="method-name">Jad ropuchy + rytuały voodoo w piwnicy szamana</div>
+  <div class="case"><strong>Aleksandr Subbotin</strong>, b. członek zarządu Łukoilu (V.2022) — znaleziony martwy 8 maja w piwnicy domu szamana w Mytiszczach. TASS: przybył „w stanie silnego upojenia alkoholowego i narkotykowego". Oficjalna przyczyna: „ostra niewydolność serca po spożyciu jadu ropuchy". W piwnicy odkryto „jamajskie rytuały voodoo". 43 lata.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="commentary">Nawet jak na rosyjskie standardy — to jest arcydzieło gatunku. Miliarder, jad ropuchy, voodoo, piwnica szamana na przedmieściach Moskwy.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Polon-210 (eksport)</div>
+  <div class="case"><strong>Aleksandr Litwinienko</strong> (2006, Londyn) — otruty polonem-210 w herbacie w barze hotelu Millennium. Dawka wystarczająca do skażenia kilku budynków. Śmierć trwała 3 tygodnie. Brytyjskie śledztwo publiczne (2016) uznało, że zabójstwo „prawdopodobnie zatwierdził" Putin.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Nowiczok (eksport)</div>
+  <div class="case"><strong>Siergiej i Julia Skripal</strong> (2018, Salisbury) — środek naniesiony na klamkę drzwi. Przeżyli. Zginęła przypadkowa kobieta, Dawn Sturgess, która znalazła butelkę po perfumach użytą do transportu trucizny. Brytyjskie śledztwo wskazało oficerów GRU.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="case"><strong>Aleksiej Nawalny</strong> (2020) — nowiczok naniesiony na bieliznę. Przeżył (ledwo). Potem zginął w kolonii karnej (II.2024) — oficjalnie „syndrom nagłej śmierci".<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+
+<h2 id="smierc-w-wiezieniu">VII. Śmierć w więzieniu / kolonii karnej</h2>
+
+<div class="method-card">
+  <div class="method-name">„Syndrom nagłej śmierci" w kolonii za kręgiem polarnym</div>
+  <div class="case"><strong>Aleksiej Nawalny</strong> (II.2024) — zmarł 16 lutego w kolonii karnej IK-3 „Polarny Wilk" w Charp, Jamalsko-Nieniecki Okręg Autonomiczny. Oficjalnie: „syndrom nagłej śmierci" po spacerze.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Śmierć w areszcie po torturach — aktywista antywojenny</div>
+  <div class="case"><strong>Anatolij Bieriozikow</strong> („Anatolij Ryk"), 40 lat, aktywista antywojenny i muzyk z Rostowa nad Donem (VI.2023) — rozwieszał ulotki promujące ukraińską infolinię „Chcę żyć" dla żołnierzy chcących się poddać. Wielokrotnie aresztowany administracyjnie na polecenie FSB; wg obrony wywożony do lasu i torturowany paralizatorem, ze złamanymi żebrami, pod groźbą sprawy o zdradę stanu. Zmarł 14 czerwca w areszcie specjalnym, dzień przed planowanym zwolnieniem. Oficjalnie samobójstwo.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">pierwszy znany krytyk wojny zmarły w areszcie od początku inwazji; prawniczka odnotowała ślady paralizatora dzień przed śmiercią. Memorial: nie wiadomo, czy to samobójstwo, skutek tortur, czy egzekucja pozasądowa. Inny profil ofiary — represje wobec społeczeństwa obywatelskiego, nie elit</span></div>
+</div>
+<h2 id="znaleziony-martwy">VIII. Znaleziony martwy (bez wyjaśnienia)</h2>
+
+<div class="method-card">
+  <div class="method-name">Znaleziony nieprzytomny w domu (przyczyna mglista)</div>
+  <div class="case"><strong>Wiaczesław Rowniejko</strong>, współzałożyciel Urals Energy N.V. i Nafta (B) N.V., b. dyrektor generalny Międzyregionalnego Związku Paliwowego (II.2023) — znaleziony nieprzytomny w domu (źródła: Odincowo / szosa Rublowo-Uspienskaja); lekarze nie zdołali go uratować. B. partner biznesowy zięcia Borysa Jelcyna. 59 lat.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">okoliczności i przyczyna zgonu nieujawnione; fakt śmierci pewny, charakter niejasny</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Znaleziony martwy w biurze</div>
+  <div class="case"><strong>Witalij Robertus</strong>, wiceprezes Łukoilu (III.2024) — znaleziony martwy w swoim biurze w Moskwie 12–13 marca, 54 lata. Łukoil nie podał przyczyny; wg ASTRA i Baza powieszony (zgon przez asfiksję), oficjalnie samobójstwo. Przed śmiercią skarżył się na bóle głowy; miał obawiać się postępowania karnego na tle wewnętrznych sporów w firmie. Czwarty zmarły top manager Łukoilu od 2022.<span class="ver ver-ok">wiarygodne</span></div>
+  <div class="case"><strong>Oleg Zacepin</strong>, dyrektor generalny Kogałymneftegazu (spółka córka Łukoilu w Chanty-Mansyjskim OA) (XII.2022) — znaleziony martwy w biurze.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">źródła lakoniczne (Meduza, bne IntelliNews); okoliczności słabo udokumentowane</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Znaleziony martwy w łazience</div>
+  <div class="case"><strong>Leonid Szulman</strong>, szef służby transportowej Gazprom Invest (I.2022) — znaleziony martwy 30 stycznia w łazience domu na wsi w osiedlu pod Petersburgiem. Przy ciele list pożegnalny. 60 lat. Pierwszy z serii.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">część doniesień wspomina rany kłute — okoliczności nie w pełni spójne między źródłami</span></div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">„Straszna tragedia" (brak szczegółów)</div>
+  <div class="case"><strong>Władimir Lebiediew</strong>, senator z obwodu niżnonowogrodzkiego (2014–2023), wiązany z Łukoilem (XI.2023) — zmarł 30 listopada w wieku 61 lat w nieznanych okolicznościach (media: „straszna tragedia", bez szczegółów). Był pod sankcjami Zachodu za ratyfikację aneksji.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">brak opisu okoliczności — fakt śmierci pewny, charakter niejasny</span></div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Spłonięcie żywcem</div>
+  <div class="case"><strong>Dmitrij Pawoczka</strong>, 49 lat, b. manager Roscosmos, związany też z Suchojem, Łukoilem i Menatepem (I.2023) — znaleziony przez strażaków 26 stycznia w pożarze elitarnego kompleksu mieszkalnego przy prospekcie Leningradzkim w Moskwie (17. piętro). Wg wczesnych doniesień pożar wybuchł po zaśnięciu z papierosem.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">jedno główne źródło co do okoliczności; profil wielosektorowy (kosmos, lotnictwo bojowe, nafta) podnosi zainteresowanie, ale wersja „papieros" pozostaje niezweryfikowana</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Media reżimowe — redaktor i jego zastępczyni (Komsomolska Prawda)</div>
+  <div class="case"><strong>Władimir Sungorkin</strong>, 68 lat, redaktor naczelny i dyrektor generalny Komsomolskiej Prawdy (od 1997), „ulubionej gazety Putina", pod sankcjami UE (IX.2022) — zmarł 14 września w Kraju Chabarowskim: zasłabł i zaczął się dusić podczas wyprawy, oficjalnie udar.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">udar u 68-latka możliwy naturalnie, lecz timing wpisuje się w serię</span></div>
+  <div class="case"><strong>Anna Cariewa</strong>, 35 lat, zastępczyni redaktora naczelnego tej samej gazety (XII.2023) — znaleziona martwa we własnym mieszkaniu w Moskwie, niespełna rok po śmierci przełożonego; bez śladów włamania, wszczęto śledztwo.<span class="ver ver-warn">ostrożnie</span> <span class="commentary" style="display:inline">okoliczności bardzo skąpe (Telegram/tabloidy), przyczyny nie ujawniono; ujęta ze względu na zbieżność redakcyjną z Sungorkinem</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Nagła śmierć dzień po wodowaniu okrętu podwodnego</div>
+  <div class="case"><strong>Aleksandr Buzakow</strong>, 66 lat, dyrektor generalny Stoczni Admiralicji w Petersburgu (produkcja okrętów podwodnych) (XII.2022) — zmarł nagle 24 grudnia, dzień po ceremonii wodowania nowego okrętu podwodnego projektu Łada. Przyczyny nie ujawniono.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">przemysł zbrojeniowy morski; znamienny timing (nazajutrz po wodowaniu), lecz brak ujawnionej przyczyny pozostawia charakter zgonu otwartym</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Znaleziony zakopany w piwnicy — zabójstwo z ustalonym sprawcą</div>
+  <div class="case"><strong>Aleksandr Kołodich</strong>, 58 lat, deputowany Dumy Chanty-Mansyjskiego Okręgu Autonomicznego (Jugra) (VI.2023) — znaleziony 12 czerwca zakopany w piwnicy swojego domu w Moskwie, z licznymi ranami kłutymi; żona trafiła do szpitala, również ranna. Komitet Śledczy zatrzymał 36-letniego ogrodnika pary; wg wstępnych ustaleń śmiertelny konflikt wynikł z kłótni.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">przypadek graniczny: mechanizm makabryczny (zakopane ciało), a oficjalnie rozwiązany — Komitet Śledczy wskazał ogrodnika i kłótnię. Tyle że „wygodny sprawca z nizin i motyw prywatny" to w Rosji znany format domknięcia sprawy: ogrodnik rzadko kiedy morduje pracodawcę i zakopuje go w piwnicy, a oficjalna wersja sama w sobie niczego nie przesądza — ani politycznego tła nie dowodzi, ani go nie wyklucza. Ujęty właśnie jako ilustracja tej dwustronnej niepewności, bliźniaczo do sprawy Botikowa</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Nagła śmierć bez podanej przyczyny — twórca rakiet Kalibr</div>
+  <div class="case"><strong>Pawieł Kamniew</strong>, 85–86 lat, dyrektor naukowy koncernu Almaz-Antey, wcześniej szef Biura Konstrukcyjnego Nowator, gdzie opracowano pociski manewrujące Kalibr; Bohater Pracy Federacji Rosyjskiej (I.2023) — zmarł 9 stycznia, koncern nie podał przyczyny.<span class="ver ver-ok">wiarygodne</span> <span class="commentary" style="display:inline">dowodowo bardzo słaby: w wieku 85–86 lat śmierć jest najprawdopodobniej naturalna. Ujęty wyłącznie dla profilu (architekt broni, którą Rosja ostrzeliwuje Ukrainę) i dla klastra — w styczniu 2023 w trzy tygodnie zmarło czterech kluczowych ludzi kompleksu zbrojeniowego, w tym Władimir Niesterow (rakiety Angara) w tym samym tygodniu. Modelowy wpis do czytania przez pryzmat zastrzeżenia ze wstępu</span></div>
+</div>
+<h2 id="katastrofa-lotnicza">IX. Katastrofa lotnicza (cel = grupa)</h2>
+
+<div class="method-card">
+  <div class="method-name">Upadek samolotu prywatnego</div>
+  <div class="case"><strong>Jewgienij Prigożyn</strong> + kadra dowódcza Wagnera (VIII.2023) — katastrofa Embraera Legacy 23 sierpnia między Moskwą a Petersburgiem, 2 miesiące po buncie. 10 zabitych. Oficjalnie: wypadek. Realnie: demonstracja.<span class="ver ver-ok2">potwierdzone</span></div>
+</div>
+
+
+<div class="method-card">
+  <div class="method-name">Katastrofa helikoptera</div>
+  <div class="case"><strong>Wiaczesław Taran</strong>, 53 lata, założyciel Forex Club (1997) i platformy Libertex (XI.2022) — zginął 25 listopada w katastrofie śmigłowca Airbus H130 (Monacair) na trasie Lozanna–Monako; maszyna rozbiła się o zbocze koło Villefranche-sur-Mer na Lazurowym Wybrzeżu. Zginął też doświadczony 35-letni pilot.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">okoliczności podejrzane: dobra pogoda, doświadczony pilot, a inny pasażer odwołał lot w ostatniej chwili. Trzeci zgon czołowej postaci kryptowalut/forex w tym samym okresie</span></div>
+</div>
+<h2 id="dekapitacja">X. Dekapitacja</h2>
+
+<div class="method-card">
+  <div class="method-name">Podcięcie żył w konsulacie zagranicznym (spór o dostęp do ciała)</div>
+  <div class="case"><strong>Boris Awakian</strong>, 43 lata, b. szef brokera celnego Portu Petersburskiego i b. wicedyrektor petersburskiego oddziału Rosriestru (IX.2025) — oskarżony o niezapłacenie ponad 4,2 mld rubli ceł (przemyt z Finlandii, 2014–2015). 23 września uciekł z sądu w Kronsztadzie podczas przerwy („wyszedł zapalić") i schronił się w konsulacie ormiańskim na Wyspie Wasiljewskiej. Nazajutrz znaleziony martwy w toalecie konsulatu; oficjalnie samobójstwo (wg Baza podciął żyły). Wcześniej zgłosił się na wojnę, by uniknąć procesu, po czym się wycofał, co wznowiło sprawę.<span class="ver ver-ok2">potwierdzone</span> <span class="commentary" style="display:inline">strona ormiańska odmówiła rosyjskim śledczym dostępu do ciała (wymagana zgoda konsula); prawnicy kwestionują wersję samobójstwa — ostatnia rozmowa z obrońcą ok. 2:30 nie wskazywała na przygnębienie. Wymiar dyplomatyczny czyni ten przypadek wyjątkowym</span></div>
+</div>
+<div class="method-card">
+  <div class="method-name">Znaleziony ścięty pod mostem z liną holowniczą</div>
+  <div class="case"><strong>Aleksiej Sinicyn</strong>, CEO K-Potash Service (potas/magnez, złoże Niwienskoje, obw. kaliningradzki) (IX.2025) — znaleziony 8 września zdekapitowany pod mostem koło Kaliningradu, z liną holowniczą przy ciele. Wg źródła w organach ścigania (Vedomosti) wersja oficjalna to samobójstwo. 43 lub 49 lat (źródła rozbieżne). Firma w poważnych trudnościach finansowych; powiązany finansowo z Subbotinem. 19. „podejrzana śmierć" wg liczenia mediów.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="commentary">To jest nowa kategoria. Nawet w rosyjskiej taksonomii samobójstw — dekapitacja z liną holowniczą pod mostem wykracza poza dotychczasowy repertuar. Albo ktoś wysyła wyjątkowo brutalną wiadomość, albo rosyjska prokuratura zakwalifikuje to jako „nieszczęśliwy wypadek podczas uprawiania sportu ekstremalnego".</div>
+</div>
+
+
+<h2 id="metoda-podwojna">XI. Metoda podwójna (combo)</h2>
+<p>Kategoria specjalna: przypadki, w których oficjalna wersja wymaga zastosowania dwóch niezależnych metod samobójstwa przez tę samą osobę. Statystycznie: możliwe. Fizycznie: problematyczne.</p>
+
+<div class="method-card">
+  <div class="method-name">Dźgnął się nożem, następnie wyskoczył z okna</div>
+  <div class="case"><strong>Aleksandr Kaganski</strong>, genetyk i biolog molekularny pracujący nad szczepionką COVID (XII.2020, Petersburg) — znaleziony martwy pod 14-piętrowym blokiem, z raną kłutą. Według kolegi ze szkoły (przesłuchiwanego jako podejrzany o zabójstwo): Kaganski sam się dźgnął, a następnie wyskoczył. 45 lat. Śledztwo prowadzono jako zabójstwo, zatrzymano podejrzanego. Przypadek sprzed pełnoskalowej inwazji — precedens metody, nie część serii wojennej.<span class="ver ver-ok">wiarygodne</span></div>
+  <div class="commentary">Mechanicznie: aby po samodzielnym zadźganiu się zachować wystarczającą sprawność fizyczną, by dotrzeć do okna i z niego wyskoczyć, trzeba albo bardzo precyzyjnie unikać narządów wewnętrznych, albo posiadać nadludzką determinację. Policja nie widziała w tym problemu.</div>
+</div>
+
+<div class="method-card">
+  <div class="method-name">Dwa strzały w tył głowy (klasyka radziecka, wariant NKWD)</div>
+  <div class="case"><strong>Wadim Bojko</strong>, ppłk, zastępca dyrektora Pacyficznej Wyższej Szkoły Morskiej im. Makarowa we Władywostoku, zajmował się poborowymi z mobilizacji (XI.2022) — znaleziony martwy w swoim gabinecie 16 listopada. Obok ciała pięć łusek i cztery pistolety. Oficjalnie: samobójstwo.<span class="ver ver-ok2">potwierdzone</span></div>
+  <div class="commentary">Historyczna metoda podwójna: udokumentowane przypadki z lat 30. i 40., gdzie „samobójca" oddawał do siebie dwa strzały w tył głowy. Prokuratura ZSRR kwalifikowała jako samobójstwo bez dalszych pytań. Tradycja żywa — Bojko i jego pięć strzałów to współczesny wariant.</div>
+</div>
+
+
+<h2 id="metaanaliza-taksonomii">XII. Metaanaliza — co mówi taksonomia</h2>
+
+<p>Kilka obserwacji strukturalnych:</p>
+
+<p><strong>Korelacja sektorowa:</strong> Gazprom, Łukoil, Novatek, Transneft, Rosatom — praktycznie cały sektor energetyczny reprezentowany. Łukoil stracił co najmniej 5 członków kadry kierowniczej w 3 lata. Łukoil był jedyną dużą firmą, która publicznie skrytykowała inwazję.</p>
+
+<p><strong>Korelacja budżetowa:</strong> Defenestracje i „samobójstwa" nasilają się w okresach napięć budżetowych i infrastrukturalnych. Fiedotow (rezygnacja powiązana ze śledztwem FSB) i Starowojtow (zastępcy podejrzani o defraudację funduszy na fortyfikacje kurskie) zginęli, gdy ich nazwiska wiązano z przepływami pieniędzy. Tempo defenestracji to wskaźnik napięć wewnątrz systemu, które inaczej są niewidoczne.</p>
+
+<p><strong>Asymetria wygodnego wyjaśnienia:</strong> Sam timing niczego nie dowodzi, ale pozwala nabrać uzasadnionych podejrzeń — zbieżność zgonu z krytyką wojny, z dostępem do niewygodnej wiedzy albo z falą innych śmierci przenosi pojedynczy „wypadek" z kategorii przypadku do kategorii pytania. Trzeba przy tym widzieć, kto zyskuje na wersji oficjalnej: na zgonie „naturalnym" i na zabójstwie z ręki kogoś z niższej warstwy społecznej — ogrodnika, przypadkowego kierowcy — zyskuje władza, bo takie rozstrzygnięcie zamyka sprawę bez wektora prowadzącego w górę. Dochodzi do tego anomalia operacyjna: ofiary z tej listy to ludzie z szoferami i ochroną osobistą. Śmierć człowieka otoczonego ochroną w śmiertelnym potrąceniu przez przypadkowego kierowcę albo z ręki ogrodnika grzebiącego ciało w piwnicy jest sama w sobie nieprawdopodobna — szofer i ochroniarz istnieją dokładnie po to, by takim „przypadkom" zapobiegać. To nie przesądza winy, lecz odwraca ciężar dowodu: wygodne wyjaśnienie u osoby chronionej wymaga progu wyższego, nie niższego. Ta sama asymetria dotyczy medycyny: w XXI wieku nagły zgon z zawału, udaru czy wylewu u osoby z opieką na najwyższym światowym poziomie — stałym kardiologiem, badaniami, kliniką na zawołanie — jest dla tej grupy mniej prawdopodobny niż dla przeciętnego obywatela, więc „serce" również wymaga progu wyższego; argument krzyczy u trzydziestolatka i milknie u osiemdziesięciolatka. Dokładnie dlatego regułą jest grę nieuczciwą <em>wykluczyć</em>, a nie milcząco przyjąć pierwszą wersję organów.</p>
+
+<p><strong>Efekt demonstracyjny:</strong> Jak ujął to David Satter, wieloletni moskiewski korespondent, przytaczając stare powiedzenie — „każdy może popełnić morderstwo, ale trzeba mieć rozum, żeby popełnić samobójstwo" — jawność metody jest wiadomością. Okno jest widoczne. Strzał w tył głowy jest czytelny. Jad ropuchy w piwnicy szamana jest niezapominalny. To nie są próby ukrycia — to są próby komunikacji.</p>
+
+<p><strong>Geograficzna dystrybucja:</strong> Większość w Rosji (Moskwa, Petersburg, obwód leningradzki). Ale metody eksportowe (Litwinenko — Londyn, Skripal — Salisbury, Rapoport — Waszyngton, Antow — Indie, Protosienia — Hiszpania) pokazują zasięg globalny.</p>
+
+<p><strong>Dwa standardy dowodu.</strong> Ta lista nie operuje standardem sądu — i operować nim nie może. W żadnym z przypadków nie ma dowodu, jakiego wymagałby proces w państwie UE: oskarżonego, łańcucha dowodowego, niezależnych biegłych. Często takiego dowodu nie będzie nigdy, bo jurysdykcja, śledczy i medycyna sądowa podlegają tej samej władzy, która jest tu głównym podejrzanym. Obowiązuje więc standard analityczny, nie procesowy: waży się wzorzec, beneficjenta, timing i kontekst, a stopień pewności nazywa wprost — od oczywistości po samą zbieżność.</p>
+
+<p><strong>Część jest wręcz oczywista.</strong> Polon w herbacie Litwinienki, nowiczok na klamce Skripala, dziesięć ciał w samolocie Prigożyna dwa miesiące po buncie — tu brak wyroku niczego nie zmienia. Mechanizm, dostęp do środka i motyw zamykają sprawę poza rozsądną wątpliwością, choćby żaden sąd jej formalnie nie zamknął. Żądanie dowodu procesowego byłoby pomyłką kategorialną — jak odmowa uznania, że wzeszło słońce, dopóki nie ma protokołu.</p>
+
+<p><strong>Część wymaga analizy — przykład roboczy.</strong> Kamniew, twórca Kalibrów (sekcja VIII). Narracja układa się sama: pocisk zaczyna być masowo przechwytywany, wkrótce ginie jego konstruktor, oficjalnie „ze starości" — kara za to, że oręż przestał być nieuchronny. Pokusa jest silna i ma sowiecki rezonans, lecz analiza idzie pod prąd narracji. Beneficjent istnieje, ale inny niż w pierwszym odruchu: nie usunięcie ofiary (wiedza jest już w biurze konstrukcyjnym albo dawno się zdezaktualizowała), lecz dyscyplina tych, którzy patrzą — terror jako kontrola jakości, w którym inżynier dwa razy zastanowi się, nim wypuści niedoróbkę, a podwładny rozważy donos na szefa „pudrującego wpadki", byle wypadek miał przełożony, nie on. Metoda również pasowałaby do zamiaru: w tej logice zawał bije okno, bo jest niewykluczalny i zaprzeczalny, a niewykluczalność jest zaletą sygnału, nie jego słabością. I dopiero tu narracja pęka — na timingu. Konstruktor umarł PO tym, jak broń się skompromitowała, nie przed; następstwo to nie przyczyna, a „po" jest tanie — znajdzie się dla każdego zgonu. Timing jest luźny (miesiące, okno przyczynowe mieszczące wszystko), nie ciasny jak u Łapina czy Buzakowa. Do tego wiek 85–86 lat, przy którym milknie i asymetria medyczna. Werdykt: mechanizm dyscyplinujący czyni hipotezę spójną, lecz nie udowodnioną; luźny timing plus maksymalny wiek czynią ten wpis najsłabszym w pliku. Zostaje dla profilu i klastra, nie jako domniemane zabójstwo — i to jest właśnie przypadek, w którym uczciwą odpowiedzią jest „nie wiem i prawdopodobnie się nie dowiem".</p>
+
+<p><strong>Dlatego ta taksonomia w ogóle istnieje.</strong> Bo w Rosji nawet spokojnie umrzeć jest trudno: zgon naturalny i zgon zaaranżowany zlewają się w jeden nieodróżnialny strumień, a sama ta nieodróżnialność jest narzędziem władzy — nie trzeba zabić każdego, wystarczy, że nikt nie może wykluczyć. Lista nie rozstrzyga każdego przypadku. Pokazuje, gdzie dowód jest mocny, gdzie tylko zbieżność, i gdzie — jak u Kamniewa — uczciwą odpowiedzią jest przyznanie granicy poznania.</p>
+
+<div class="stats-box">
+  <div class="stats-label">
+    „Kiedykolwiek ktoś, kto jest źle widziany przez reżim Putina, ginie w podejrzanych okolicznościach,<br>
+    należy <em>wykluczyć</em> grę nieuczciwą, a nie <em>zakładać</em> ją."<br><br>
+    — Bill Browder, b. finansista moskiewski<br><br>
+    (Jak to mówią po angielsku: <em>rule out</em> foul play, not <em>rule it in</em>.)
+  </div>
+</div>
+
+<footer>
+  <div class="sygnatura" id="sygnatura-pliku-dolna">sygnatura pliku</div>
+  d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13 · v08.01 · 2026-06-13 · 11:11 (Europe/Warsaw)<br>
+  Stworzony z pomocą Claude (Anthropic) · Model: Claude Opus 4.8 (claude-opus-4-8)<br>
+  Źródła: Wikipedia (Suspicious Russia-related deaths since 2022) · Kyiv Independent · Moscow Times (Death by Falling timeline, IX.2025) · RFE/RL · CNN · The Week · Sarajevo Times · United24 Media · New York Sun · Euronews · LBC · NPR · @LXSummer1 · @Prune602<br>
+  Dla potomności. I na wypadek gdyby wnuki nie uwierzyły.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMROZONE · audyt kolumbryny — dwie rewizje · v03.00</title>
+<style>
+:root, html[data-theme="dark"] {
+ --bg: #0d1117; --bg2: #161b22; --bg3: #1c2129; --border: #30363d;
+ --text: #e6edf3; --fg: #e6edf3; --muted: #8b949e;
+ --ua: #4a9eff; --ru: #ff5555; --orange: #ff9d3a;
+ --yellow: #f0c674; --green: #56d364; --purple: #c099ff;
+}
+html[data-theme="light"] {
+ --bg: #dde1e6; --bg2: #eef0f3; --bg3: #d4d8dd; --border: #b8bfc7;
+ --text: #1b1f24; --fg: #1b1f24; --muted: #545b63;
+ --ua: #0a5db0; --ru: #c41f1f; --orange: #a85200;
+ --yellow: #8a5c00; --green: #166e30; --purple: #6f3fbd;
+}
+html[data-theme="bw"] {
+ --bg: #ffffff; --bg2: #ffffff; --bg3: #f2f2f2; --border: #000000;
+ --text: #000000; --fg: #000000; --muted: #333333;
+ --ua: #000000; --ru: #000000; --orange: #000000;
+ --yellow: #000000; --green: #000000; --purple: #000000;
+}
+
+* { box-sizing: border-box; }
+body {
+ background: var(--bg); color: var(--text);
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+ line-height: 1.55; margin: 0; padding: 1.4rem 1.1rem 4rem;
+ max-width: 880px; margin-inline: auto; font-size: 15px;
+}
+h1 { font-size: 1.45rem; line-height: 1.25; margin: 0 0 0.3rem; }
+h2 { font-size: 1.15rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; margin: 2rem 0 0.8rem; }
+p { margin: 0.6rem 0; }
+strong { color: var(--text); }
+em { color: var(--muted); }
+
+.theme-switch { display: flex; gap: 0.4rem; margin: 0.6rem 0 1.4rem; }
+.theme-switch button {
+ font: inherit; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+ background: var(--bg2); color: var(--muted); border: 1px solid var(--border);
+ border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer;
+}
+.theme-switch button:hover { color: var(--text); border-color: var(--muted); }
+
+.sygnatura {
+ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em;
+ opacity: 0.6; font-family: monospace; margin: 0.2rem 0;
+}
+
+.reading-key {
+ background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+ padding: 0.9rem 1rem; margin: 1rem 0 1.4rem;
+}
+.rk-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.6rem; }
+.rk-row { margin: 0.45rem 0; font-size: 0.86rem; display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.rk-row .lab { color: var(--muted); min-width: 7.5rem; font-size: 0.8rem; }
+
+.a-stat { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; display: inline-block; padding: 0.12rem 0.45rem; border-radius: 3px; white-space: nowrap; }
+.a-potw   { background: rgba(63,185,80,0.16);  color: var(--green); }
+.a-przesk { background: rgba(255,140,40,0.16); color: #ff8c28; }
+.a-wtoku  { background: rgba(214,180,61,0.16); color: var(--yellow); }
+.a-niezm  { background: rgba(255,255,255,0.06); color: var(--muted); }
+html[data-theme="bw"] .a-potw, html[data-theme="bw"] .a-przesk,
+html[data-theme="bw"] .a-wtoku, html[data-theme="bw"] .a-niezm { background: var(--bg3); color: #000; border: 1px solid #000; }
+
+.licznik {
+ border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+ margin: 1rem 0 1.6rem; background: var(--bg2);
+}
+.licznik-naglowek { background: var(--bg3); padding: 0.6rem 0.9rem; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); border-bottom: 1px solid var(--border); }
+table.lt { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+table.lt th, table.lt td { padding: 0.5rem 0.6rem; text-align: center; border-bottom: 1px solid var(--border); }
+table.lt th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 700; }
+table.lt td.data-kol { text-align: left; font-family: monospace; font-weight: 700; color: var(--text); white-space: nowrap; }
+table.lt td.suma { font-weight: 700; color: var(--text); }
+table.lt tr:last-child td { border-bottom: none; }
+.lt-czeka { color: var(--muted); font-style: italic; font-size: 0.78rem; }
+
+.audyt-row {
+ display: grid; grid-template-columns: 2.3rem 1fr; gap: 0.5rem;
+ padding: 0.7rem 0.8rem; border: 1px solid var(--border); border-left: 2px solid var(--border);
+ border-radius: 6px; margin: 0.5rem 0; background: var(--bg2);
+}
+.audyt-row.is-awans { border-left-color: var(--green); box-shadow: inset 3px 0 0 var(--green); }
+html[data-theme="bw"] .audyt-row.is-awans { box-shadow: inset 3px 0 0 #000; border-left-color: #000; }
+.ar-num { font-family: monospace; font-weight: 700; color: var(--muted); font-size: 0.9rem; padding-top: 0.05rem; }
+.ar-title { font-weight: 700; font-size: 0.92rem; line-height: 1.35; }
+.ar-stany { display: flex; align-items: flex-end; gap: 0.6rem; margin: 0.5rem 0 0.1rem; flex-wrap: wrap; }
+.stat-dated { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.18rem; }
+.sd-date { font-size: 0.62rem; font-family: monospace; color: var(--muted); letter-spacing: 0.05em; }
+.ar-then { color: var(--muted); font-weight: 700; font-size: 0.95rem; padding: 0 0.1rem 0.1rem; align-self: flex-end; }
+.is-awans .ar-then { color: var(--green); }
+html[data-theme="bw"] .is-awans .ar-then { color: #000; }
+.ar-awans-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; color: var(--green); padding: 0.12rem 0.4rem; border: 1px solid var(--green); border-radius: 3px; align-self: flex-end; }
+html[data-theme="bw"] .ar-awans-tag { color: #000; border-color: #000; }
+.ar-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.45; }
+
+.etap-nota {
+ border: 1px dashed var(--border); border-radius: 8px; padding: 0.8rem 1rem;
+ margin: 1.4rem 0; background: var(--bg2); font-size: 0.86rem; color: var(--muted);
+}
+.etap-nota strong { color: var(--text); }
+.blok-naglowek { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; margin: 1.8rem 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<h1 id="kolumbryna-kontra-rzeczywistosc">Kolumbryna kontra rzeczywistość — dwie rewizje</h1>
+<div class="sygnatura" id="sygnatura-gorna">ZAMROZONE · audyt-2rewizje · v03.00 · 2026-06-23 · krok 3/3 zamknięty — 24/24 w dwóch rewizjach</div>
+
+<div class="theme-switch">
+ <button onclick="setTheme('dark')">ciemny</button>
+ <button onclick="setTheme('light')">jasny</button>
+ <button onclick="setTheme('bw')">b&amp;w</button>
+</div>
+
+<p>Sekcja zestawia 24 „szare nosorożce" Kolumbryny (Rozdział 7) z rzeczywistością w <strong>dwóch datowanych rewizjach</strong>: stan na <strong>31 maja 2026</strong> i stan na <strong>23 czerwca 2026</strong>. Poniżej wpełniona jest pierwsza kolumna — koniec maja. Drugą (23.06) dokłada krok 3; wtedy pozycje, które drgnęły, zapalą się zieloną krawędzią i znacznikiem <em>awans</em>.</p>
+
+<h2 id="jak-czytac">Jak czytać</h2>
+
+<div class="reading-key">
+ <div class="rk-title">Cztery statusy</div>
+ <div class="rk-row"><span class="a-stat a-potw">potwierdzony</span> prognoza Kolumbryny rozwinęła się zgodnie z przewidywaniem</div>
+ <div class="rk-row"><span class="a-stat a-przesk">przeskok skali</span> proces zaszedł dalej, niż Kolumbryna zakładała</div>
+ <div class="rk-row"><span class="a-stat a-wtoku">w toku</span> kierunek zgodny, rozstrzygnięcie wciąż otwarte</div>
+ <div class="rk-row"><span class="a-stat a-niezm">bez zmian</span> brak nowych danych w obszarze śledzonym przez ten dokument</div>
+ <div class="rk-title" style="margin-top:0.9rem;">Druga rewizja (krok 3)</div>
+ <div class="rk-row"><span class="lab">kolumna 23.06</span> dojdzie obok każdej pastylki 31.05; strzałka <strong>→</strong> zazieleni się tam, gdzie status drgnął</div>
+ <div class="rk-row"><span class="lab">zielona krawędź</span> zapali lewy brzeg wiersza dla pozycji, które przesunął czerwiec</div>
+</div>
+
+<h2 id="licznik-rewizji">Licznik rewizji</h2>
+
+<div class="licznik">
+ <div class="licznik-naglowek">Rozkład 24 nosorożców — 31.05 vs 23.06</div>
+ <table class="lt">
+  <thead>
+   <tr>
+    <th class="data-kol" style="text-align:left;">stan na</th>
+    <th><span class="a-stat a-potw">potw.</span></th>
+    <th><span class="a-stat a-przesk">przeskok</span></th>
+    <th><span class="a-stat a-wtoku">w toku</span></th>
+    <th><span class="a-stat a-niezm">bez zm.</span></th>
+    <th>Σ</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr><td class="data-kol">31.05.2026</td><td class="suma">6</td><td>5</td><td>6</td><td>7</td><td class="suma">24</td></tr>
+   <tr><td class="data-kol">23.06.2026</td><td class="suma">13</td><td>5</td><td>5</td><td>1</td><td class="suma">24</td></tr>
+  </tbody>
+ </table>
+</div>
+
+<h2 id="nosorozce-stan-31-05">24 nosorożce — stan na 31.05</h2>
+
+<div class="audyt-row">
+ <div class="ar-num">#1</div>
+ <div>
+  <div class="ar-title">Spirala OPL → rafinerie → paliwo → front</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Inflection point osiągnięty: jedenaście rafinerii w miesiąc (Brovdi), uderzenia w głąb na 1700+ km przy minimalnym przechwytywaniu. <strong>Czerwiec:</strong> OPEC (11.06) — wydobycie 9,009 mln b/d, najniżej od roku, 690 tys. poniżej celu OPEC+ (metryka niezależna od obu stron); Tuapse miesiąc bez baryłki; Krym do całkowitego zakazu sprzedaży paliwa (22–23.06). Spirala potwierdzona i pogłębiona.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#2</div>
+ <div>
+  <div class="ar-title">Kryzys bankowy — złe aktywa &gt;10%</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Ujawnienie SZRU (18.05): 11 banków do likwidacji + 8 krytycznych. <strong>Czerwiec:</strong> odpływ depozytów z 8 z 20 największych instytucji kredytowych (Moscow Times) — drugi warunek spustowy wskazany przez CMASF (klienci wyciągają pieniądze) zaczął się; aktywa toksyczne &gt;10% trzeci miesiąc z rzędu = próg MFW dla kryzysu systemowego. Potwierdzony, nowy wymiar (run zaczyna się materializować).</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#3</div>
+ <div>
+  <div class="ar-title">Deficyt budżetowy, wyczerpanie NWF</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Estoński wywiad (Rosin, CNN): pozycja słabsza w 4–5 miesięcy; prognoza wzrostu RF cięta z 1,3% do 0,4%. <strong>Czerwiec:</strong> twarde dane Minfin — deficyt 6,01 bln rubli ($83,5 mld) w I–V, ok. 2× powyżej zeszłorocznego i 60% ponad cały roczny cel; ropa/gaz −30%. Siluanow (16.06) zmuszony zaprzeczać „nie ma kryzysu budżetowego" — zaprzeczenie jako potwierdzenie presji. Kierunek z prognozy domknięty danymi resortu.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#4</div>
+ <div>
+  <div class="ar-title">Brain drain — exodus klasy twórczej</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Ustawa z 25.05 zaostrza kontrolę wyjazdów; odroczenia od poboru dla IT (Miszustin, III.2026 — termin powiadomienia o zwolnieniu pracownika IT skrócony z 2 tyg. do 5 dni) = złote kajdany zatrzymujące ciało w kraju. <strong>Czerwiec — druga fala, emigracja wewnętrzna:</strong> CNews (22.06) — ~połowa specjalistów IT wypalona, wśród planujących odejście w kohorcie 22–35 lat (trzon branży) wypalenie 67,8%, a formalne wizyty u psychologa tylko 0,1%. Sygnatura: kto nie wyjechał nogami w 2022–23, wycofuje się mentalnie — cichy odpływ tej samej zdolności twórczej innym kanałem. Drenaż klasy twórczej realizuje się przez wycofanie, nie przez lotnisko.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#5</div>
+ <div>
+  <div class="ar-title">Straty &gt; rekrutacja — kurczenie armii</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Front w zachodnim Zaporożu = no-drive zone (efekt terytorialny bez szturmu). <strong>Czerwiec — domknięcie wieloźródłowe:</strong> Syrski — w maju ZSU zabiły/raniły więcej personelu niż Rosja zwerbowała (5. miesiąc z rzędu od XII.2025); 141 500 strat I–V (83 000+ zabitych). Werbunek spadł do ~940/dobę wobec celu 1100–1150 (trajektoria niedoboru ~65 tys./rok), ~40% rekruta z grup wrażliwych (więźniowie, zadłużeni). Armia utrzymywana z rezerw strategicznych, nie z werbunku — z „kierunku zgodnego" fakt potwierdzony przez wywiad zachodni, Sztab UA i Mediazonę. (Sezonowość: lato zwykle daje względny spadek strat — niedobór werbunku jest jednak strukturalny.)</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#6</div>
+ <div>
+  <div class="ar-title">Inflacja żywności — próg przełomowy</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-awans-tag">drgnęło</span></div>
+  <div class="ar-note"><strong>Inflacja dwutorowa.</strong> Tor oficjalny stygnie: inflacja żywności 2,9% w maju (vs 4% IV), owoce/warzywa −10,4% — w headline „próg" nie pęka. Tor ukryty rośnie: shrinkflacja ~$12,3 mld/rok (~3% wydatków na żywność), systemowa i nasilająca się (Rosyjski Związek Konsumentów) = cena ukryta, ilość w dół; limity cen na warzywa/nabiał/drób od III.2026 (ryzyko gospodarki nakazowej — niedobory, kolejki, Lipsits); kaskada paliwo→żywność w rdzeniu (rolnicy Krasnodar/Stawropol/Rostów zgłaszają braki diesla, kanał wejść rolnych). Sam fakt maskowania (shrinkflacja + limity tłumiące pomiar) jest sygnałem. Nie potwierdzony (headline tłumiony), ale już nie uśpiony — presja realna, zamaskowana.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#7</div>
+ <div>
+  <div class="ar-title">Kolej — degradacja krwioobiegu</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Pośrednio: uderzenia w rafinerie/przepompownie obciążają przewóz paliwa koleją. <strong>Domknięcie strukturalne (dane skumulowane, najświeższe Q1 2026 + bieżące):</strong> ~300 tys. wagonów (≈20% floty) unieruchomionych, ~200 pociągów/dobę odwołanych (braki 2,5 tys. maszynistów + 3 tys. drużyn — wielu odeszło do armii); przewozy 13% poniżej 2021, najniżej od 16 lat. Finansowo: zysk roczny −22×, wyprzedaż majątku (dworzec moskiewski, wieżowiec) przeciw default, −6 tys. etatów. Kremlowski TsMAKP potwierdza: załamanie <em>strukturalne, nie sezonowe</em>. Z „kierunku zgodnego" fakt. Warstwa odrębna od taktycznych uderzeń na kolej okupacyjną (pociąg 68, Wiaźma).</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#8</div>
+ <div>
+  <div class="ar-title">Infrastruktura komunalna — fala awarii</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-awans-tag">drgnęło</span></div>
+  <div class="ar-note"><strong>Windy — całoroczny kanarek komunalki.</strong> Ciepłownia jest sezonowa (zima 2026/27), ale winda nie: ~650 tys. wind, wiele z czasów ZSRR; Duma (IV.2026) — 400 tys. może stać się awaryjnymi z braku obsługi; rząd przedłużył dekretem o 5 lat termin wycofania starych wind (miały zejść II.2025, bo nie stać na wymianę). Produkcja na 2/3 mocy i spada (−6,4%), ~30% przetargów 2025 zerwanych (regiony bez pieniędzy), udział chińskich wind 23,3% (2× rok do roku). Substrat fali rozpadu potwierdzony (stary tabor, brak środków, zapaść produkcji) — sama „fala awarii" jeszcze nieskrystalizowana, stąd w toku, nie potwierdzony. Korekta: rozpad komunalny jest całoroczny, nie tylko zimowy.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#9</div>
+ <div>
+  <div class="ar-title">„Kontrolowane spalanie" — porty eksportowe</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-przesk">przeskok skali</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-przesk">przeskok skali</span></span></div>
+  <div class="ar-note">Systematyczna kampania: Tuapse (4 rundy), Novorossiysk-Grushovaya, terminal i okręty Floty Czarnomorskiej. <strong>Czerwiec — pogłębienie (kategoria bez zmian, brak wyższej):</strong> Tuapse z „trafiony" do <em>funkcjonalnie martwy</em> — Pleteńczuk (13.06): miesiąc bez jednej baryłki w największym porcie naftowym Rosji (~20% eksportu tankowcami); Nowaja Gazeta — brak tankowca od 23.04, nieodwracalnie (nie da się przerzucić do Ust-Ługi). Plus St. Petersburg Oil Terminal w dniu otwarcia SPIEF (03.06), Noworosyjsk ~50 eksplozji (7/8.06), Temriuk. Domknięcie OPEC: wydobycie 9,0 mln b/d — porty zatkane biją w łańcuch wyżej.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#10</div>
+ <div>
+  <div class="ar-title">Lotnictwo cywilne — kanibalizm floty</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-awans-tag">drgnęło</span></div>
+  <div class="ar-note"><strong>Liczba awarii rośnie.</strong> Wypadki komercyjne podwojone (8 w 2023 → 17 w 2024), ofiary +440% (2023→teraz); incydenty 2–4× wobec 2019 (>180 po starcie w 2023 vs ~100 w 2019; >200 w 2024; same Superjety 56 w 2024), połowa to silniki + podwozie. Rostransnadzor audytuje 51 regionalnych przewoźników (XII.2025–XII.2026). Tło: kanibalizacja zalegalizowana 2023 i rozszerzana (Aeroflot kupuje cargo Boeingi na części), ponad połowa floty zachodniej może zostać uziemiona do 2026, prognoza −50% floty. Substrat potwierdzony, ale wielkie katastrofy jeszcze nie skoczyły skokowo (rosną incydenty + awaryjne lądowania, margines się kurczy) — „fala" pending, stąd w toku, nie potwierdzony.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#11</div>
+ <div>
+  <div class="ar-title">Kadyrow jako bomba zegarowa</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-niezm">bez zmian</span></span></div>
+  <div class="ar-note">Pozycja podwójna (też różowy flaming: śmierć/sukcesja). <strong>Czerwiec — reaffirmacja, nie rozstrzygnięcie:</strong> Foreign Policy (4.06) ramuje to jako „drugi po Ukrainie ból głowy Putina" — wybuchowy kryzys sukcesyjny, choroba prawdopodobnie nieuleczalna, faworyt Adam (18 l.) za młody (wymóg 30 l.), ~33 tys. kadyrowców lojalnych tylko wobec niego; nowa obserwacja — Putin nie przesłuchuje kandydatów na następcę („uderzające zaniechania"). Kadyrow zaprzecza chorobie i deklaruje start w „wyborach" IX.2026 (OSW). Brak zdarzenia (śmierć, nominacja, konflikt klanów) — bomba latentna wciąż tyka, nie biegnie. Pierwsza pozycja bez ruchu: te „czekające" mierzy się latami, nie tygodniami.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#12</div>
+ <div>
+  <div class="ar-title">Erozja aparatu policyjnego</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Dokument zakładał sprzężenie budżet → pensja → zdolność tłumienia jako „teoretyczne". <strong>Skwantyfikowane przez samo MWD:</strong> wiceminister Zubow (28.01) — braki do 40% w niektórych jednostkach, „funkcjonariusze odchodzą codziennie, napływ nie pokrywa ubytku"; Kołokolcew (4.03, kolegium z Putinem) — od 2020 odeszło 350 tys. (kadra odnowiona w połowie), w 2025 +58 tys./−80 tys., wakatów 212 tys. Najgorzej dzielnicowi do 66%, ППС 31%, kryminalka 24%. Szef związku: deficyt może sięgnąć 50%, „wtedy MWD można zamykać". Resort łata bez-statusowymi i rannymi uznanymi za niezdolnych — „na granicy możliwości, za granią". Z „teoretycznego" empiryczne — jak #7, nazwana degradacja JUŻ jest faktem.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#13</div>
+ <div>
+  <div class="ar-title">Zaległości płacowe — Kuzbas, regiony</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Baza: ujawnienie SZRU (18.05) o bankructwach budżetów regionalnych. <strong>Skwantyfikowane (Rosstat, koniec IV, publ. 27.05):</strong> zaległości 2,879 mld rubli, +94,3% r/r (prawie ×2), ~×6 od początku 2025; pracownicy z opóźnioną wypłatą 19 tys. (×2 w miesiąc) — najwyżej od XII.2019. Rozlewa się na zbrojeniówkę: Kingisepski Zakład Maszynowy (Marynarka, Rosgwardia) — 3 miesiące bez wypłat, ~300 mln rubli; budownictwo 44% długu. <strong>Sygnał meta (dark legitimacy):</strong> metodyczka do mediów państwowych zaleca „maksymalnie ignorować" dane Rosstatu; część prokremlowskich portali opublikowała i usunęła. Państwo tłumi dane własnej agencji — nie tłumi się „fluktuacji". Zastrzeżenie: część ekonomistów wskazuje niską bazę + zmianę metodologii 2025; historycznie skromne — ale tłumienie i rozlanie na zbrojeniówkę pokazują, że to nie szum.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#14</div>
+ <div>
+  <div class="ar-title">Utrata rynku gazowego (permanentna)</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-przesk">przeskok skali</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-przesk">przeskok skali</span></span></div>
+  <div class="ar-note">Utrata egzekwowana kinetycznie: kompresorownie TurkStream + zakłady gazu (Astrachań, Orenburg). <strong>Czerwiec — pogłębienie rynkowe (kategoria bez zmian, brak wyższej):</strong> eksport do Europy najniższy od wczesnych lat 70. — I–VI ledwie 8,33 bcm, −47% r/r, na kursie &lt;16 bcm wobec 175 bcm w 2021 (~×10 załamanie). Gazprom tonie w gazie: ~60 bcm niesprzedane (= roczne wydobycie ZEA); poufna prognoza (FT) −15 bln rubli ($195 mld) w dekadę. Świeży gwóźdź: hub gazowy w Turcji „po cichu odłożony" (Bloomberg, VI), Ankara odmawia długich kontraktów. China nie zastępuje Europy (PoS ~20% wolumenów, PoS-2 utknął). Permanentność potwierdzona po stronie rynkowej.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#15</div>
+ <div>
+  <div class="ar-title">Shadow fleet — starzenie, wypadki</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-przesk">przeskok skali</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-przesk">przeskok skali</span></span></div>
+  <div class="ar-note">Front kinetyczny: Sea Baby biją te same tankowce aż wypadną z obiegu (28.05 Altura/Velora/James II). <strong>Czerwiec — dwa kolejne fronty (kategoria bez zmian, brak wyższej):</strong> prawny — UE 20. pakiet 632 sankcjonowane jednostki + due diligence przy sprzedaży tankowców (art. 3q) + zakazy portowe Murmańsk/Tuapse; UK 16.06, Kanada VI. Interdykcyjny — fala zatrzymań (Ethera/Belgia, Jin Hui/Szwecja, Fitburg/Finlandia, Seahorse i Marinera/US Navy), incydenty ~2/mies. I eskalacja: rosyjskie fregaty <em>konwojują</em> tankowce przez La Manche (Pieskow: „akty piractwa") — marynarka eskortująca przemyt = znak presji egzystencjalnej. Skala: ~600–800 jednostek (10–15% floty światowej), 96% &gt;15 lat; eksport morski II −9,2% m/m. Duszenie z trzech stron, nie jednej.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#16</div>
+ <div>
+  <div class="ar-title">Arsenał nuklearny — nośniki się starzeją</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-przesk">przeskok skali</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-przesk">przeskok skali</span></span></div>
+  <div class="ar-note">Baza: Oreshnik awaryjność ~1/4; Tu-142MR (łączność VLF z SSBN) zniszczony 30.05, strata nieodtwarzalna. <strong>Pogłębienie obrazem 2026 (kategoria bez zmian, brak wyższej):</strong> Sarmat — Putin ogłaszał produkcję seryjną 3× (2022/23/25), publicznie potwierdzony 1 czysty test (IV.2022); Carnegie: „od ponad 7 lat brak gotowego ciężkiego ICBM", silos w Plesiecku zniszczony przy teście 2024, rozwój „od zera" po zerwaniu więzi z UA. PAK DA wielokrotnie opóźniany (domyka łańcuch Tu-95MS/Tu-160). New START wygasł II.2026. Wzór: deklaracje wyprzedzają zademonstrowaną zdolność — 9.05 defilada bez czołgów/rakiet pierwszy raz od ~20 lat, sygnalizacja strategiczna zastępuje konwencjonalny prestiż. <em>Nominalne vs efektywne:</em> wygaśnięcie New START daje wolność uploadu głowic (liczba może wzrosnąć) — degradacja jest na osi nośników/modernizacji, nie głowic.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#17</div>
+ <div>
+  <div class="ar-title">Programy zbrojeniowe — opóźnienia</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Uderzenia w wejścia, nie wyjścia. <strong>Strona strukturalna (substytucja realnie zawiodła):</strong> Rosja wg własnego Minprzemysłu 10–15 lat za liderami — produkuje głównie 130nm (Zachód: era Pentium III), „nie radzi sobie z chipami do kart bankowych/SIM"; pełne porzucenie zachodniej mikroelektroniki dopiero w planie na 2035. Skutek: &gt;80% chipów z Chin (niższa jakość), płaci ~2× więcej; pojedynczy Kh-101 = 31 komponentów zagranicznych. <strong>Kinetyka czerwca:</strong> Woroneż VZPP-S 22.06 (półprzewodniki Kh-101/Iskander-K/Pantsir, Storm Shadow + Flamingo), Czeboksary VNIIR-Progress (anteny Kometa CRPA). <em>Niuans:</em> substytucja zawiodła, ale produkcja trwa przez przemyt — efekt to koszt + zależność od Chin + podatność, nie załamanie. Dlatego uderzenia w zakłady mają sens: Rosja nie odtworzy ani komponentów, ani łatwo hal.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#18</div>
+ <div>
+  <div class="ar-title">Rolnictwo — ukryta import-zależność</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-awans-tag">drgnęło</span></div>
+  <div class="ar-note"><strong>Problem głębszy niż pogoda.</strong> Powierzchnia trzyma: SovEcon przez całą wiosnę <em>podnosił</em> prognozę pszenicy 2026 (oziminy w najlepszej kondycji od 2022, ~90 Mt) — to nie jest załamanie zbiorów, i dlatego pozycja idzie w „w toku”, nie „potwierdzony”: jesteśmy przed żniwami (rozstrzygnięcie otwarte), a headline tonażu się trzyma. Ale nosorożec dotyczy <em>ukrytej</em> zależności, nie tonażu — i ta się pogłębia. <strong>Nasiona:</strong> burak cukrowy ~8% nasion krajowych (≈92% z importu), słonecznik ~73% zagranicznych — wobec doktrynalnego progu 75% samowystarczalności; zakazy importu z krajów „nieprzyjaznych” (Syngenta, Lidea) spychają rolników na odmiany krajowe o niższym plonie i gorszej odporności (Riddle/RussiaPost: degradacja jakości nasion to pierwszy czynnik ciążący na plonach). <strong>Maszyny:</strong> sprzedaż spadła o połowę (wcześniej notowane −16,5% r/r — pogłębienie), część sprzętu nieprodukowana w kraju w ogóle, import +25–30%, opłata utylizacyjna +70–85% objęła też maszyny rolnicze; kurczący się i starzejący park przy oknie żniwnym liczonym w dniach obniża realny zbiór niezależnie od prognozy. <strong>Ekonomia:</strong> ProZerno — zbiór 2026 ~133 Mt (−4% r/r) i „trudny rok”: niskie ceny, malejący areał, spadające wpływy eksportowe; rolnicy uciekają od zboża ku oleistym (areał pszenicy 26,9 → 26,3 mln ha, S&amp;P/CERA); net-importer żywności od 2025 ($2,4 mld deficytu) trzyma. <em>Niuans (advocatus diaboli):</em> prognoza zbiorów w GÓRĘ — to nie crop failure; sygnał jest strukturalno-ekonomiczny (rentowność, areał, jakość nasion, park maszyn), nie pogodowy. Substrat zależności potwierdzony, „fala” wciąż przed żniwami — drgnęło z uśpienia, nie potwierdziło się u szczytu.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#19</div>
+ <div>
+  <div class="ar-title">Demograficzna spirala śmierci</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-niezm">bez zmian</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-awans-tag">drgnęło</span></div>
+  <div class="ar-note"><strong>Z projekcji w pomiar — i w utajnienie.</strong> Kolumbryna traktowała spiralę jako trajektorię długoterminową; czerwiec daje twarde dane na każdej z czterech osi, a reakcją państwa jest <em>chowanie liczb</em> — co samo w sobie jest potwierdzeniem. <strong>Dzietność:</strong> 2025 ~1,178 mln urodzeń — najniżej w historii nowożytnej Rosji, 11. rok spadku z rzędu; Q1 2026 ~272 tys. (−6% r/r, −12,5% vs przedwojenny 2021, −38% vs szczyt 2014), TFR 1,418 (grudzień 2025 nawet 1,374); ubytek naturalny 2024 ~596 tys. (~1,6 tys./dobę). „Demografia” za 4 bln rubli ($52,8 mld) nie odwróciła trendu; aresztowanie szefa Instytutu Demografii (Niżny Nowogród, II.2026) za nieskuteczność — kozła ofiarnego (Raksha: „panika demograficzna o epickich rozmiarach”). Jedyny pozytywny wskaźnik — aborcje ~321 tys. (2025), z czego „na życzenie” ~120,6 tys.; ~14× mniej niż w 1988 (4,6 mln) — jest jednak przedwojenną modernizacją antykoncepcyjną (w I poł. 2024 rekordowe 19,3 mld rubli na antykoncepcję w aptekach), nie sukcesem reżimu, i mimo spadku nie rodzi dzieci. Eskalacja restrykcji — zakaz „propagandy childfree” (kary do $45 tys.), „specjalna operacja demograficzna” (Ostanina) — to panika w kostiumie wartości, nie polityka (zastrzeżenie: zmiana metodologii Rosstatu 2015 zrywa porównywalność sprzed/po, a same restrykcje wypychają zabieg do prywatnych/farmakologicznych — pomiar zaczyna kryć dostęp). <strong>Zgony:</strong> Mediazona/BBC ~227 tys. potwierdzonych <em>imiennie</em> poległych (19.06.2026), 2025 najkrwawszy rok wojny; model nadmiarowej śmiertelności (rejestr spadkowy) ~220 tys. do lata 2025, ~350 tys. do końca 2025; Telegraph: Rosja pierwszy raz traci więcej, niż werbuje (~40 tys./mies. od XI) — głównie mężczyźni w wieku reprodukcyjnym (sprzężenie z #5). <strong>Inwalidzi:</strong> paradoks lustrzany — oficjalna liczba niepełnosprawnych <em>spada</em> (pocz. 2025 ~11,1 mln, o ~2 mln mniej niż w 2010), choć CSIS liczy &gt;950 tys. zabitych/rannych, a Zachód &gt;1 mln (¼ zabitych, reszta ranna); 6 tygodni po inwazji (IV.2022) zaostrzono kryteria — „żeby dostać status inwalidy, trzeba być zdrowym”. <strong>Migracja — czynnik decydujący, którego już nie ma:</strong> Carnegie wprost — poprzedni kryzys łagodziła imigracja, teraz nieobecna; Rosja z magnesu stała się źródłem emigracji (~650 tys. wyjazdów po 2022, brain drain → #4). Legalnie rezydujący cudzoziemcy −8,6% do 5,7 mln (2025), zezwolenia czasowe −29,7%, stałe −27,3%; po Crocus (III.2024) ksenofobia + „rejestr kontrolowanych” wypychają Środkową Azję ku UE/Zatoce/Korei; deficyt rąk ~2 mln (OSW), a Koncepcja migracyjna 2026–2030 dokręca dalej (ścieżka „wartości tradycyjnych” — 480 wiz w pół roku, atrapa). <strong>Sygnał meta (dark legitimacy, na trzech z czterech osi):</strong> dane o urodzeniach/zgonach utajnione od wiosny 2025, akta sądowe zaginionych/zabitych żołnierzy skasowane w 50 regionach (ze 111 tys. do ~41 tys. spraw „z dnia na dzień”), liczbę inwalidów obniżono administracyjnie. Państwo tłumi dokładnie tam, gdzie wojna pompuje — pierwsze pytanie („dlaczego ten kanał zamilkł”) odpowiada się samo. <em>Niuans (advocatus diaboli):</em> Raksha — wojna „nie uderzyła mocno w urodzenia” (te spadają z przyczyn strukturalnych: echo małej kohorty lat 90.), uderzyła w <em>śmiertelność</em>; net-migracja bywała dodatnia m.in. przez przeklasyfikowanie mieszkańców okupowanych terytoriów (Rosstat 2023) — liczby nieporównywalne. Spirala potwierdzona w komponentach, ale jako trajektoria wielodekadowa pozostaje „w toku”, nie domknięta — drgnęło z uśpienia ku pomiarowi.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#20</div>
+ <div>
+  <div class="ar-title">Patologia informacyjna dyktatury</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-przesk">przeskok skali</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-przesk">przeskok skali</span></span></div>
+  <div class="ar-note">Model „cztery tryby intencji" (szum w górę + szum w dół) plus dowód materialny: wyciekła mapa sztabowa „Dniepr" (9.04), linia operacyjna fałszowana o 5–12 km,  <strong>Czerwiec — pogłębienie (kategoria bez zmian, brak wyższej): od zniekształcenia do wygaszenia.</strong> Tryb „szum w dół” osiąga granicę — państwo przestaje fałszować liczby i zaczyna je <em>kasować</em>. Blackout demograficzny: dane o urodzeniach/zgonach utajnione od wiosny 2025, oczekiwana długość życia wstrzymana (2025), zewnętrzne przyczyny zgonu (w tym wojskowe) zasekretyzowane już w 2024, miesięczna śmiertelność wygaszona latem 2025 (Raksha: „panika demograficzna o epickich rozmiarach”). Kasowanie zmarłych: akta sądowe zaginionych/poległych żołnierzy znikają hurtowo z sądów w 50 regionach (ze 111 tys. do ~41 tys. spraw „z dnia na dzień”). Zarządzanie wskaźnikiem: liczbę inwalidów ścięto administracyjnie (zaostrzenie kryteriów), mimo setek tysięcy rannych. Warstwa instrukcyjna: metodyczka do mediów państwowych zaleca „maksymalnie ignorować” dane Rosstatu (część portali prokremlowskich publikuje i usuwa) — z #13. Autodemaskacja przez zaprzeczenie jako stały tryb: Siluanow „nie ma kryzysu budżetowego” (#3), centrale Tatnieftu/Rosnieftu „nie ma ograniczeń, limity punktowe” przy siedmiogodzinnych kolejkach (#1) — zaprzeczenie potwierdza. <em>Niuans (advocatus diaboli):</em> nie każda „znikająca” liczba jest tłumiona — spadek aborcji (#19) to realna modernizacja, nie ukrycie; ale gdy państwo <em>sekretyzuje serie wcześniej publiczne dokładnie tam, gdzie wojna je obciąża</em>, to już nie szum, lecz wygaszenie. Patologia przechodzi z manipulacji obrazem w zabór dostępu do obrazu — a dla obserwatora to absencja, nie obecność, niesie sygnał.</div>
+ </div>
+</div>
+
+<div class="audyt-row is-awans">
+ <div class="ar-num">#21</div>
+ <div>
+  <div class="ar-title">Chiny jako patron, nie sojusznik</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-wtoku">w toku</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-awans-tag">awans</span></div>
+  <div class="ar-note">Pekin jako adresat ukryty kampanii ujawnienia i jako podmiot mogący selektywnie wstrzymać dostawy mikroelektroniki. Relacja patron–klient pogłębia się asymetrycznie na niekorzyść Rosji. <strong>Czerwiec — z kierunku zgodnego w fakt (zależność policzalna), plus nowy zwrot: obie strony stygną.</strong> <strong>Czipy:</strong> &gt;80% z Chin, gorszej jakości, płacone ~2× drożej; uderzenia w VZPP-S Woronież (22.06) i VNIIR-Progress Czeboksary (#17) biją w wejścia, których Rosja nie odtworzy — sam Kh-101 to 31 zagranicznych komponentów. <strong>Auta osobowe:</strong> marki chińskie 9% (2021) → 61% (2023), 77% importu; rosyjski przemysł de facto w 2/3 chiński (lokalizacja aut krajowych ~33%), „bez dostaw z Chin nawet obecnej produkcji nie da się utrzymać” (Partsvania/Riddle). Autodemaskacja jak #20: szef AvtoVAZ Sokołow — Łada „90%+ zlokalizowana”, rządowy NAMI — Granta 45,7%, „słowa bez dokumentów”. <strong>Ciężarówki:</strong> chiński Sitrak/Shandeka w 2024 wyprzedził KamAZ (ten po raz pierwszy stracił prymat); chińskie marki ~80% rynku po ucieczce Zachodu. <strong>Nowy zwrot — patron i klient stygną naraz:</strong> Rosja obraca się przeciw patronowi protekcjonizmem — opłata utylizacyjna +70–85% (X.2024) i kolejne podwyżki, zakaz Rosstandartu na 4 chińskie marki ciężarówek (30.07, „hamulce/hałas” — choć Shandeka miała certyfikat UE; protekcja w kostiumie bezpieczeństwa, jak bany win gruzińskich/mołdawskich), taksówki tylko autami rosyjskimi od 2026. Patron też się wycofuje: Chery w prospekcie IPO (2025) tnie Rosję, sprzedał część aktywów, wygasza marki do 2027 — bo rynek się skurczył (sprzedaż chińskich aut −25% do 685 tys., rynek aut −20%, ciężarówek −51% w 2025). Efekt: najgorszy z obu — KamAZ strata 37 mld rubli ($459 mln, ×11 r/r), rating ACRA AA→A, 4-dniowy tydzień; AvtoVAZ awaryjna pomoc państwa; a zależność komponentowa (napędy elektryczne, czipy automotive) „niemal w całości z importu” — banem na gotowe ciężarówki nie zastąpisz części. <em>Niuans (advocatus diaboli):</em> spadek sprzedaży chińskich aut/ciężarówek w 2025 NIE jest sukcesem Rosji — to zapaść całego rynku (wysoka stopa CB, niedostępny kredyt, delikwencja kredytów samochodowych +85%) plus przeklasyfikowanie chińskich modeli montowanych w RF/Białorusi na „krajowe”; udział Chin spadł optycznie, dźwignia Pekinu nie. Z „relacji pogłębiającej się” → potwierdzona zależność z dyktatem cenowym patrona; „idealna Rosja Pekinu to Rosja na kropówce — żywa, ale zależna” (Kolumbryna R21) zrealizowana.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#22</div>
+ <div>
+  <div class="ar-title">Utrata klientów zbrojeniowych (S-400 w Iranie)</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Degradacja OPL w samej Rosji odbiera rosyjskiemu sprzętowi obronnemu ostatni argument eksportowy — nie tylko „zawiódł w Iranie”, lecz „zawodzi u siebie”. <strong>Czerwiec — pogłębienie (kategoria bez zmian, brak wyższej): odpowiedź na „czy w ogóle sprzedaje”.</strong> Formalnie tak — Rosja wciąż 3. eksporter świata (SIPRI, dane III.2026) — ale to już cień. Udział w globalnym eksporcie broni spadł z 21% (2016–20) do 6,8% (2021–25); jako jedyny z top-10 zanotowała spadek (−64% wolumenu). Wartościowo (think-tanki, Jamestown): 2021 $14,6 mld → 2022 $8 mld → 2023 $3 mld → 2024 &lt;$1 mld (~92% załamania, ×14). Klienci wyparowali: z 31 państw (2019) do 12 (2024); 74% eksportu idzie do trzech odbiorców — Indie (48%), Chiny (13%), Białoruś (13%) — z czego Białoruś i część reszty to bardziej sojusznicza dostawa niż rynek. Indie, historyczny filar, schodzą: 72% (2010–14) → 55% → 36% udziału w swoim imporcie, dywersyfikując ku Francji/Izraelowi/USA; spadki także do Algierii, Egiptu, Chin. Trzy sprzężenia z resztą audytu: <strong>(a) #21</strong> — „wielu dawnych klientów przeszło do ChRL”, patron zjada rynek klienta; <strong>(b) #20</strong> — Rosja przestała publicznie ujawniać kontrakty eksportowe i raportować do ONZ po 2022 (blackout), a Rosoboroneksport deklaruje rekordowy portfel $55 mld (zaprzeczenie jako potwierdzenie — backlog to nie dostawy, których wojna nie pozwala realizować); <strong>(c) #1</strong> — degradacja OPL w kraju to ten sam sprzęt, który miał być flagą eksportową. Su-57E reklamowany „bojowym doświadczeniem z Ukrainy” — sprzedaż mizerna, kupujący niechętni. Broń była drugim po energii źródłem dewiz; ten filar się złożył. <em>Niuans (advocatus diaboli):</em> SIPRI mierzy WOLUMEN dostaw (nie wartość) w oknach 5-letnich, bo pojedyncze kontrakty huśtają rocznymi danymi — trend −64% jest twardy, ale roczne kwoty $ to szacunki think-tanków, a deklaracje rosyjskie ($15 mld za 2025, focus na Afrykę) są zawyżone i nieweryfikowalne. „Wciąż 3. miejsce” wynika też z tego, że Francja/Niemcy również ograniczone, a 5-letnie okno łapie jeszcze dostawy sprzed załamania. Mimo zastrzeżeń kierunek jednoznaczny: z drugiego eksportera świata Rosja stała się dostawcą trzech krajów — potwierdzone i pogłębione.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#23</div>
+ <div>
+  <div class="ar-title">Przemysł chemiczny/wybuchowy — kampania UA</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Uderzenie na kompleks chemiczny Metafrax w Gubasze — trzecie w osiem miesięcy, potwierdzone przez Zełeńskiego. Cel chemiczny jako osobny wektor uderzeń w bazę surowcową zbrojeniówki. <strong>Czerwiec — pogłębienie (kategoria bez zmian, brak wyższej): wektor chemiczny rozwinięty w pełną kampanię.</strong> To nie pojedynczy Metafrax, lecz systematyczne cięcie bazy surowcowej prochów, paliwa rakietowego i materiałów wybuchowych — z sygnaturą cyklu („ten zakład jeszcze produkował prekursory → znowu płonie”): <strong>Azot Nowomoskowsk</strong> (Tula, prekursory MW dla fabryk amunicji) trafiony 3× w trzy tygodnie (24.05 · 08.06 · 14.06), Zełenski — „krytyczny dla zdolności produkcji MW”; <strong>Nevinnomyssk Azot/EuroChem</strong> (największy producent NH₃/nawozów azotowych) 2× (marzec + maj); <strong>Metafrax</strong> 3× w 8 miesięcy (NH₃, mocznik→ANFO, heksamina). Plus 12–13.06: <strong>Tolyattikauczuk</strong> (kauczuk synt. → komponenty paliwa rakietowego, w pakiecie z TANECO/TAIF-NK w Dzień Rosji) i <strong>Krymski Tytan</strong> w Armiańsku — jedyny w Rosji producent TiO₂ (powłoki maskujące/stealth sprzętu) i kwasu siarkowego (baza prochu, paliwa rakietowego, MW); Brovdi: „pożar szaleje, produkcja wstrzymana”. Chemia podwójnego zastosowania zasilająca wprost zbrojeniówkę, nie cywilny pigment. Sprzężenia: <strong>#17</strong> (uderzenia w wejścia, nie wyjścia — prekursory to wejścia programów zbrojeniowych); <strong>#20</strong> (autodemaskacja — gubernatorzy mówią o „odłamkach”/„awarii przemysłowej”, Teliżenko zapewnia o „braku przekroczeń” i tego samego dnia tnie wodę); czarny łabędź detonacji magazynu MW (uderzenie przekształca przewidywalną klasę zdarzeń w wektor celowniczy). <em>Wzmocnienie sezonowe:</em> ryzyko BLEVE i eksplozji zakładów chemicznych szczytuje LATEM (prężność par, stres cieplny, urlopowa obsada) — nie zimą; czerwcowo-lipcowe uderzenia w zbiorniki NH₃/kwasów trafiają w okno najwyższej podatności. <em>Niuans (advocatus diaboli):</em> „produkcja wstrzymana” to często źródło jednostronne (Brovdi/Zełenski) — uszkodzenie i pożar potwierdza obraz satelitarny (Astra, Exilenova+, FIRMS), ale długość przestoju trudniej zweryfikować; strona rosyjska bagatelizuje. Mimo to: cel chemiczny z pojedynczego trafienia stał się stałym, powtarzalnym wektorem — potwierdzone i pogłębione.</div>
+ </div>
+</div>
+
+<div class="audyt-row">
+ <div class="ar-num">#24</div>
+ <div>
+  <div class="ar-title">Hormuz windfall — tymczasowy, kurczący się</div>
+  <div class="ar-stany"><span class="stat-dated"><span class="sd-date">31.05</span><span class="a-stat a-potw">potwierdzony</span></span><span class="ar-then">→</span><span class="stat-dated"><span class="sd-date">23.06</span><span class="a-stat a-potw">potwierdzony</span></span></div>
+  <div class="ar-note">Domknięte liczbowo (Minfin RF, przełom V/VI): produkcja ropy 9,1 → 8,7 mln bpd (najniżej od 2005 poza dołkiem pandemicznym), wpływy НДПИ +~170%. Mniej baryłek, więcej rubli — wzrost wyłącznie cenowy. <strong>Czerwiec — pogłębienie (kategoria bez zmian, brak wyższej): windfall potwierdzony jako epizod, już gaśnie.</strong> Pełna krzywa: ze ~$44,6/bbl (luty, Urals przy dnie po sankcjach na Rosnieft/Łukoil) skok do $77 (marzec) i szczytu ~$116 przy Primorsku (2.04, 13-letni rekord) — dyskonto Urals chwilowo zniknęło, przychody z eksportu ropy ~$9,75 mld (luty) → ~$19 mld (marzec/kwiecień, IEA), НДПИ ~1 bln rubli; waiver sankcyjny USA (do 16.05) dodał paliwa, Indie i Chiny znów kupują. Ale to był epizod: rozejm USA–Iran (7.04) sprowadził Brenta o 15%, a do 17.06 Urals spadł &lt;$65 (3-miesięczne minimum), bo rynek wycenił otwarcie Hormuz i powrót irańskiej podaży — windfall zbliża się do progu budżetu ($59). Putin sam nazwał skok tymczasowym, wzywając firmy, by zdążyły go wykorzystać. Trzy zastrzeżenia trzymające tę pozycję na „potwierdzony”, nie wyżej: <strong>(a) strajki zjadły dwie trzecie</strong> — Re:Russia: uderzenia UA w porty/rafinerie obcięły zyski z kryzysu irańskiego o ~⅔; koszt transportu ropy z przedwojennych $2 do $20/bbl (Sieczin) — sprzężenie z #1/#9; <strong>(b) cena, nie wolumen</strong> — windfall czysto cenowy, wolumeny ograniczone (produkcja 8,8 mln bpd, nadmiar mazutu „nie ma gdzie wysłać”), choć paradoksalnie w czerwcu eksport surowca bije rekord (3,83 mln bpd — bo strajki wypychają nieprzerobioną ropę na rynek; to nie siła, to objaw #1); <strong>(c) tło spadkowe</strong> — prognozy 2026 (Re:Russia) widzą efektywną cenę $40–45/bbl po normalizacji, czyli po windfallu pozycja gorsza niż przed. <em>Niuans (advocatus diaboli):</em> windfall był realny i znaczący (zawieszenie reguły fiskalnej, rubel $87→$78) — nie wolno go bagatelizować; i jest zmienny: zerwanie rozejmu mogłoby odbić Urals ku $100–120. Mimo to kierunek z maja domknięty: tymczasowy i kurczący się — potwierdzone i pogłębione. To zamyka rejestr 24 nosorożców.</div>
+ </div>
+</div>
+
+<div class="etap-nota">
+ <strong>Stan prac — audyt zamknięty.</strong> Wszystkie 24 nosorożce mają obie pastylki: 31.05 i 23.06. Rozkład przesunął się jednokierunkowo — <strong>bez zmian 7 → 1</strong> (został tylko Kadyrow #11, latentny, mierzony latami), <strong>potwierdzonych 6 → 13</strong>; przeskok skali 5 → 5 (kategoria już maksymalna). Żaden nosorożec się nie cofnął: każdy albo utrzymał najwyższą kategorię, albo awansował (zielona krawędź + znacznik). To empiryczna treść tezy — monotoniczność degradacji: między majem a czerwcem rzeczywistość dogania prognozę Kolumbryny szybciej, niż zakładano, i wyłącznie w jedną stronę.
+</div>
+
+<div class="sygnatura" id="sygnatura-dolna">ZAMROZONE · audyt-2rewizje · v03.00 · 2026-06-23 · krok 3/3 zamknięty — 24/24 w dwóch rewizjach</div>
+
+<script>
+function setTheme(t){ document.documentElement.setAttribute('data-theme', t); }
+</script>
+</body>
+</html>
