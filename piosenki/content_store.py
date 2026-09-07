@@ -12,8 +12,8 @@ REPO_ROOT = HERE.parent
 SCHEMA_PATH = HERE / "SOL_content-schema.sql"
 ROSJA_TSV = REPO_ROOT / "rosja" / "SOL_mapa-sekcji-z-opisami.tsv"
 AUDHD_TSV = REPO_ROOT / "audhd" / "SOL_mapa-sekcji-i-anchorow-audhd.tsv"
-
 IMPORT_KEY = "content_initial_import_v1"
+
 EXPECTED = {
     "collections": 2,
     "documents": 34,
@@ -48,7 +48,7 @@ def _level(value: str) -> int:
     return int(value[1])
 
 
-def _int(value: str, field: str) -> int:
+def _positive_int(value: str, field: str) -> int:
     try:
         result = int((value or "").strip())
     except (TypeError, ValueError):
@@ -58,13 +58,35 @@ def _int(value: str, field: str) -> int:
     return result
 
 
-def _validate_source_rows(rosja: list[dict], audhd: list[dict]) -> None:
-    if len(rosja) != EXPECTED["rosja_sections"]:
+def _scalar(conn, sql: str, params=()):
+    row = conn.execute(sql, params).fetchone()
+    return None if row is None else row[0]
+
+
+def _bulk_insert(conn, table: str, columns: list[str], rows: list[tuple], chunk_size: int = 50) -> None:
+    if not rows:
+        return
+    one = "(" + ",".join("?" for _ in columns) + ")"
+    names = ",".join(columns)
+    for start in range(0, len(rows), chunk_size):
+        chunk = rows[start:start + chunk_size]
+        sql = f"INSERT INTO {table} ({names}) VALUES " + ",".join(one for _ in chunk)
+        params = []
+        for row in chunk:
+            params.extend(row)
+        conn.execute(sql, tuple(params))
+
+
+def _validate_sources(rosja: list[dict], audhd: list[dict]) -> None:
+    if len(rosja) != 620:
         raise RuntimeError(f"STOP: ROSJA: oczekiwano 620 sekcji, jest {len(rosja)}")
-    if len(audhd) != EXPECTED["audhd_sections"]:
+    if len(audhd) != 338:
         raise RuntimeError(f"STOP: AuDHD: oczekiwano 338 sekcji, jest {len(audhd)}")
 
-    for collection, rows in (("rosja", rosja), ("audhd", audhd)):
+    for collection, rows, expected_docs in (
+        ("rosja", rosja, 16),
+        ("audhd", audhd, 18),
+    ):
         docs = []
         seen_docs = set()
         anchors = defaultdict(set)
@@ -75,13 +97,13 @@ def _validate_source_rows(rosja: list[dict], audhd: list[dict]) -> None:
             title = (row.get("sekcja_tytul") or "").strip()
             anchor = (row.get("anchor") or "").strip()
             if not code or not filename or not title:
-                raise RuntimeError(f"STOP: {collection}: pusty kod/plik/tytuł sekcji: {row}")
+                raise RuntimeError(f"STOP: {collection}: pusty kod/plik/tytuł: {row}")
             if not anchor:
                 raise RuntimeError(f"STOP: {collection}/{code}: pusty anchor: {title}")
             if (row.get("anchor_status") or "").strip() != "OK":
                 raise RuntimeError(f"STOP: {collection}/{code}: anchor_status != OK: {title}")
-            order = _int(row.get("kolejnosc"), "kolejnosc")
-            _int(row.get("glebokosc"), "glebokosc")
+            order = _positive_int(row.get("kolejnosc"), "kolejnosc")
+            _positive_int(row.get("glebokosc"), "glebokosc")
             _level(row.get("poziom"))
             if anchor in anchors[code]:
                 raise RuntimeError(f"STOP: {collection}/{code}: duplikat anchor: {anchor}")
@@ -92,146 +114,109 @@ def _validate_source_rows(rosja: list[dict], audhd: list[dict]) -> None:
             if code not in seen_docs:
                 seen_docs.add(code)
                 docs.append(code)
-
-        expected_docs = EXPECTED[f"{collection}_documents"]
         if len(docs) != expected_docs:
             raise RuntimeError(
                 f"STOP: {collection}: oczekiwano {expected_docs} dokumentów, jest {len(docs)}"
             )
 
-    rosja_descriptions = sum(1 for row in rosja if (row.get("opis") or "").strip())
-    if rosja_descriptions != EXPECTED["rosja_descriptions"]:
-        raise RuntimeError(
-            f"STOP: ROSJA: oczekiwano 620 opisów, jest {rosja_descriptions}"
-        )
+    descriptions = sum(1 for row in rosja if (row.get("opis") or "").strip())
+    if descriptions != 620:
+        raise RuntimeError(f"STOP: ROSJA: oczekiwano 620 opisów, jest {descriptions}")
 
 
-def _document_specs(collection: str, rows: list[dict]) -> list[dict]:
+def _first_rows(rows: list[dict]) -> list[dict]:
     result = []
     seen = set()
     for row in rows:
         code = row["dokument_kod"].strip()
-        if code in seen:
-            continue
-        seen.add(code)
-        filename = row["dokument_plik"].strip()
-        title = row["dokument_tytul"].strip()
-        if collection == "rosja":
-            canonical_url = row["url_stabilny"].strip()
-            source_url = (
-                "https://maciektora-hue.github.io/rosja/" + quote(filename)
-            )
-        elif collection == "audhd":
-            source_url = row["url_zrodlowy"].strip()
-            canonical_url = source_url
-        else:
-            raise RuntimeError(f"Nieznana kolekcja: {collection}")
-        if not canonical_url or not source_url or not title:
-            raise RuntimeError(f"STOP: {collection}/{code}: brak URL lub tytułu dokumentu")
-        result.append(
-            {
-                "collection_id": collection,
-                "document_code": code,
-                "source_filename": filename,
-                "document_title": title,
-                "canonical_url": canonical_url,
-                "source_url": source_url,
-                "sort_order": len(result) + 1,
-            }
-        )
+        if code not in seen:
+            seen.add(code)
+            result.append(row)
     return result
 
 
-def _group_rows(rows: list[dict]) -> dict[str, list[dict]]:
-    grouped = defaultdict(list)
-    for row in rows:
-        grouped[row["dokument_kod"].strip()].append(row)
-    for code in grouped:
-        grouped[code].sort(key=lambda r: _int(r["kolejnosc"], "kolejnosc"))
-    return dict(grouped)
+def _build_import_rows(rosja: list[dict], audhd: list[dict]):
+    collection_rows = [
+        ("rosja", "ROSJA", 10),
+        ("audhd", "AuDHD", 20),
+    ]
 
+    document_rows = []
+    doc_id_by_key = {}
+    next_doc_id = 1
 
-def _scalar(conn, sql: str, params=()):
-    row = conn.execute(sql, params).fetchone()
-    return None if row is None else row[0]
-
-
-def _insert_collection(conn, collection_id: str, label: str, sort_order: int) -> None:
-    conn.execute(
-        "INSERT INTO content_collections(collection_id, label, sort_order) VALUES (?, ?, ?)",
-        (collection_id, label, sort_order),
-    )
-
-
-def _insert_document(conn, spec: dict) -> int:
-    conn.execute(
-        """
-        INSERT INTO content_documents(
-            collection_id, document_code, source_filename, document_title,
-            canonical_url, source_url, sort_order
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            spec["collection_id"],
-            spec["document_code"],
-            spec["source_filename"],
-            spec["document_title"],
-            spec["canonical_url"],
-            spec["source_url"],
-            spec["sort_order"],
-        ),
-    )
-    document_id = _scalar(
-        conn,
-        "SELECT document_id FROM content_documents WHERE collection_id = ? AND document_code = ?",
-        (spec["collection_id"], spec["document_code"]),
-    )
-    if document_id is None:
-        raise RuntimeError(f"Nie znaleziono document_id po INSERT: {spec}")
-    return int(document_id)
-
-
-def _insert_sections(conn, collection: str, document_id: int, rows: list[dict]) -> None:
-    stack: list[tuple[int, int]] = []
-    for row in rows:
-        depth = _int(row["glebokosc"], "glebokosc")
-        order = _int(row["kolejnosc"], "kolejnosc")
-        level = _level(row["poziom"])
-        while stack and stack[-1][0] >= depth:
-            stack.pop()
-        parent_id = stack[-1][1] if stack else None
-        description = None
-        if collection == "rosja":
-            description = (row.get("opis") or "").strip() or None
-        anchor = (row.get("anchor") or "").strip() or None
-        conn.execute(
-            """
-            INSERT INTO content_sections(
-                document_id, parent_section_id, section_kind, heading_level,
-                depth, section_order, section_title, anchor, description
-            ) VALUES (?, ?, 'heading', ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                document_id,
-                parent_id,
-                level,
-                depth,
-                order,
-                row["sekcja_tytul"].strip(),
-                anchor,
-                description,
-            ),
-        )
-        section_id = _scalar(
-            conn,
-            "SELECT section_id FROM content_sections WHERE document_id = ? AND section_order = ?",
-            (document_id, order),
-        )
-        if section_id is None:
-            raise RuntimeError(
-                f"Nie znaleziono section_id po INSERT: document={document_id}, order={order}"
+    for collection, rows in (("rosja", rosja), ("audhd", audhd)):
+        for sort_order, row in enumerate(_first_rows(rows), start=1):
+            code = row["dokument_kod"].strip()
+            filename = row["dokument_plik"].strip()
+            title = row["dokument_tytul"].strip()
+            if collection == "rosja":
+                canonical_url = row["url_stabilny"].strip()
+                source_url = "https://maciektora-hue.github.io/rosja/" + quote(filename)
+            else:
+                source_url = row["url_zrodlowy"].strip()
+                canonical_url = source_url
+            if not title or not canonical_url or not source_url:
+                raise RuntimeError(f"STOP: {collection}/{code}: brak tytułu lub URL")
+            document_rows.append(
+                (
+                    next_doc_id,
+                    collection,
+                    code,
+                    filename,
+                    title,
+                    canonical_url,
+                    source_url,
+                    sort_order,
+                )
             )
-        stack.append((depth, int(section_id)))
+            doc_id_by_key[(collection, code)] = next_doc_id
+            next_doc_id += 1
+
+    grouped = defaultdict(list)
+    for collection, rows in (("rosja", rosja), ("audhd", audhd)):
+        for row in rows:
+            grouped[(collection, row["dokument_kod"].strip())].append(row)
+    for key in grouped:
+        grouped[key].sort(key=lambda r: _positive_int(r["kolejnosc"], "kolejnosc"))
+
+    section_rows = []
+    next_section_id = 1
+    for document in document_rows:
+        document_id, collection, code = document[0], document[1], document[2]
+        stack: list[tuple[int, int]] = []
+        for row in grouped[(collection, code)]:
+            depth = _positive_int(row["glebokosc"], "glebokosc")
+            order = _positive_int(row["kolejnosc"], "kolejnosc")
+            while stack and stack[-1][0] >= depth:
+                stack.pop()
+            parent_id = stack[-1][1] if stack else None
+            description = None
+            if collection == "rosja":
+                description = (row.get("opis") or "").strip() or None
+            section_rows.append(
+                (
+                    next_section_id,
+                    document_id,
+                    parent_id,
+                    "heading",
+                    _level(row["poziom"]),
+                    depth,
+                    order,
+                    row["sekcja_tytul"].strip(),
+                    row["anchor"].strip(),
+                    description,
+                )
+            )
+            stack.append((depth, next_section_id))
+            next_section_id += 1
+
+    if len(collection_rows) != 2 or len(document_rows) != 34 or len(section_rows) != 958:
+        raise RuntimeError(
+            "STOP: generator importu dał złe liczby: "
+            f"collections={len(collection_rows)}, documents={len(document_rows)}, sections={len(section_rows)}"
+        )
+    return collection_rows, document_rows, section_rows
 
 
 def _validate_database_v1(conn) -> None:
@@ -250,8 +235,7 @@ def _validate_database_v1(conn) -> None:
             JOIN content_documents d ON d.document_id = s.document_id
             WHERE d.collection_id = 'rosja'
               AND s.section_kind = 'heading'
-              AND s.description IS NOT NULL
-              AND trim(s.description) <> ''
+              AND s.description IS NOT NULL AND trim(s.description) <> ''
         """,
         "audhd_documents": "SELECT count(*) FROM content_documents WHERE collection_id = 'audhd'",
         "audhd_sections": """
@@ -262,14 +246,13 @@ def _validate_database_v1(conn) -> None:
     }
     for name, sql in checks.items():
         actual = int(_scalar(conn, sql) or 0)
-        expected = EXPECTED[name]
-        if actual != expected:
-            raise RuntimeError(f"STOP DB: {name}: oczekiwano {expected}, jest {actual}")
+        if actual != EXPECTED[name]:
+            raise RuntimeError(f"STOP DB: {name}: oczekiwano {EXPECTED[name]}, jest {actual}")
 
     missing_anchors = int(
         _scalar(
             conn,
-            "SELECT count(*) FROM content_sections WHERE section_kind = 'heading' AND (anchor IS NULL OR trim(anchor) = '')",
+            "SELECT count(*) FROM content_sections WHERE section_kind='heading' AND (anchor IS NULL OR trim(anchor)='')",
         )
         or 0
     )
@@ -281,7 +264,7 @@ def _validate_database_v1(conn) -> None:
             conn,
             """
             SELECT count(*) FROM (
-                SELECT document_id, anchor, count(*) AS n
+                SELECT document_id, anchor, count(*)
                 FROM content_sections
                 WHERE anchor IS NOT NULL AND trim(anchor) <> ''
                 GROUP BY document_id, anchor
@@ -296,7 +279,6 @@ def _validate_database_v1(conn) -> None:
 
 
 def ensure_content_storage(conn) -> dict:
-    """Utwórz schema V1 i wykonaj jednorazowy import TSV, jeśli jeszcze go nie było."""
     conn.execute("PRAGMA foreign_keys = ON")
     _execute_schema(conn)
 
@@ -310,25 +292,43 @@ def ensure_content_storage(conn) -> dict:
     existing_sections = int(_scalar(conn, "SELECT count(*) FROM content_sections") or 0)
     if existing_docs or existing_sections:
         raise RuntimeError(
-            "STOP: brak znacznika pierwszego importu, ale tabele content_* nie są puste "
-            f"(documents={existing_docs}, sections={existing_sections})"
+            "STOP: brak znacznika pierwszego importu, ale content_* nie są puste: "
+            f"documents={existing_docs}, sections={existing_sections}"
         )
 
     rosja = _rows(ROSJA_TSV)
     audhd = _rows(AUDHD_TSV)
-    _validate_source_rows(rosja, audhd)
+    _validate_sources(rosja, audhd)
+    collection_rows, document_rows, section_rows = _build_import_rows(rosja, audhd)
 
     conn.execute("BEGIN TRANSACTION")
     try:
-        _insert_collection(conn, "rosja", "ROSJA", 10)
-        _insert_collection(conn, "audhd", "AuDHD", 20)
-
-        for collection, rows in (("rosja", rosja), ("audhd", audhd)):
-            specs = _document_specs(collection, rows)
-            grouped = _group_rows(rows)
-            for spec in specs:
-                document_id = _insert_document(conn, spec)
-                _insert_sections(conn, collection, document_id, grouped[spec["document_code"]])
+        _bulk_insert(
+            conn,
+            "content_collections",
+            ["collection_id", "label", "sort_order"],
+            collection_rows,
+        )
+        _bulk_insert(
+            conn,
+            "content_documents",
+            [
+                "document_id", "collection_id", "document_code", "source_filename",
+                "document_title", "canonical_url", "source_url", "sort_order",
+            ],
+            document_rows,
+        )
+        _bulk_insert(
+            conn,
+            "content_sections",
+            [
+                "section_id", "document_id", "parent_section_id", "section_kind",
+                "heading_level", "depth", "section_order", "section_title", "anchor",
+                "description",
+            ],
+            section_rows,
+            chunk_size=40,
+        )
 
         _validate_database_v1(conn)
         conn.execute(
