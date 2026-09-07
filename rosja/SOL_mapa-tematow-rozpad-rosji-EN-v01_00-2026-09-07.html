@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Topic map of the “Collapse of Russia” corpus</title>
+  <style>
+    :root {
+      --green-abyss: #020d0a;
+      --green-deep: #041711;
+      --green-raised: #08231a;
+      --green-line: #174735;
+      --amber: #d4aa43;
+      --amber-soft: #bfa65d;
+      --text: #d8c98f;
+      --text-muted: #a99d72;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--green-abyss); }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(20, 75, 53, .28), transparent 34rem),
+        linear-gradient(150deg, var(--green-deep), var(--green-abyss) 78%);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.72;
+    }
+
+    main {
+      width: min(980px, calc(100% - 34px));
+      margin: 0 auto;
+      padding: 76px 0 94px;
+    }
+
+    header {
+      margin-bottom: 58px;
+      padding: 0 0 32px;
+      border-bottom: 1px solid var(--green-line);
+    }
+
+    h1, h2 {
+      color: var(--amber);
+      font-weight: 600;
+      line-height: 1.14;
+      text-wrap: balance;
+    }
+
+    h1 {
+      margin: 0 0 22px;
+      max-width: 850px;
+      font-size: clamp(2.45rem, 7vw, 5.4rem);
+      letter-spacing: -.045em;
+    }
+
+    h2 {
+      margin: 68px 0 27px;
+      padding-top: 19px;
+      border-top: 1px solid var(--green-line);
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      letter-spacing: -.018em;
+    }
+
+    p { margin: 0 0 1.05em; }
+
+    .lead {
+      max-width: 780px;
+      color: var(--amber-soft);
+      font-size: 1.13rem;
+    }
+
+    .scale {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 9px 14px;
+      color: var(--text-muted);
+      background: rgba(8, 35, 26, .76);
+      border: 1px solid var(--green-line);
+      border-radius: 2px;
+      font-size: .86rem;
+      letter-spacing: .025em;
+    }
+
+    ol, ul { margin: 0; padding-left: 1.65rem; }
+    li { margin: 0 0 1.28rem; padding-left: .42rem; }
+    li::marker { color: var(--amber); font-weight: 700; }
+    strong { color: #e0bd60; font-weight: 650; }
+    em { color: var(--text-muted); }
+
+    .verdict {
+      margin-top: 66px;
+      padding: 28px 30px;
+      color: var(--amber-soft);
+      background: var(--green-raised);
+      border-left: 5px solid var(--amber);
+      font-size: 1.08rem;
+    }
+
+    .verdict p:last-child { margin-bottom: 0; }
+
+    footer {
+      margin-top: 56px;
+      color: #756f55;
+      font-size: .76rem;
+      letter-spacing: .04em;
+    }
+
+    .map-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 0 0 34px;
+      padding: 0 0 22px;
+      border-bottom: 1px solid var(--green-line);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .map-nav a,
+    .ref-chip,
+    .footer-link {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    .map-nav a {
+      padding: 8px 11px;
+      border: 1px solid var(--green-line);
+      background: rgba(8, 35, 26, .62);
+    }
+
+    .map-nav a:first-child {
+      border-color: var(--amber-soft);
+      background: rgba(212, 170, 67, .08);
+    }
+
+    .map-nav a:hover,
+    .map-nav a:focus-visible {
+      border-color: var(--amber);
+      color: var(--green-abyss);
+      background: var(--amber);
+    }
+
+    .refs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: baseline;
+      margin-left: .28em;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .73rem;
+      font-style: normal;
+      vertical-align: baseline;
+    }
+
+    .refs-label {
+      color: var(--text-muted);
+      font-size: .68rem;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+    }
+
+    .ref-chip {
+      display: inline-flex;
+      align-items: center;
+      min-width: 31px;
+      justify-content: center;
+      padding: 2px 6px;
+      border: 1px solid var(--green-line);
+      background: rgba(8, 35, 26, .7);
+      font-weight: 850;
+      line-height: 1.45;
+      transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease;
+    }
+
+    .ref-chip:hover,
+    .ref-chip:focus-visible {
+      border-color: var(--amber);
+      color: var(--green-abyss);
+      background: var(--amber);
+      transform: translateY(-1px);
+    }
+
+    .footer-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--amber-soft);
+      font-size: .86rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 620px) {
+      body { font-size: 16px; }
+      main { width: min(100% - 26px, 980px); padding: 45px 0 64px; }
+      header { margin-bottom: 38px; }
+      h2 { margin-top: 48px; }
+      .verdict { padding: 22px 21px; }
+    }
+
+    @media print {
+      body { color: #241f12; background: #f3edda; }
+      h1, h2, strong, li::marker { color: #224c3d; }
+      .lead, .verdict, em { color: #443d28; }
+      .scale, .verdict { background: transparent; border-color: #779588; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="map-nav" aria-label="Navigation between the topic map and the index">
+    <a href="index-en.html">← Home</a>
+    <a href="index-en.html">All documents</a>
+    <a href="mapa/" lang="pl">Polski</a>
+  </nav>
+  <header>
+    <h1>What is actually inside “Collapse of Russia”</h1>
+    <p class="lead">There is good stuff in there. Shamelessly good, actually — it just got buried under the label “collapse of Russia”, rather like calling the Louvre “the building with the eyebrowless lady”.</p>
+    <p class="scale">16 substantive files · 1.77 MB · around 174,366 words · three agreed personae non gratae completely OUT</p>
+  </header>
+
+  <section>
+    <h2>The main continents of this kolumbryna</h2>
+    <ol>
+      <li><strong>Ukraine as the designer of a system-level campaign</strong> — not a collection of isolated strikes, but an evolution from military targets to dismantling whole state capabilities. Tempo, geography, target classes and the transition to “wholesale”. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="lista-celow/" title="Open A3">A3</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>The air defence → refineries → fuel → front spiral</strong> — Russian air defence is too short a blanket for Russia’s geography, so defending one thing exposes another. The empire discovers that the blanket has limits, unlike the spokesman’s communiqués. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>Fuel as a system, not a barrel count</strong> — refineries, stocks, co-products, imports, pipelines, rail, tankers, storage and filling stations. There is a separate threshold where disabled capacity consumes the entire reserve and every subsequent hit lands “in bone, not fat”. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>Crimea being turned from a peninsula into an island</strong> — three supply routes, ports, energy, fuel, the R-280 and the Kerch Bridge as a threatened bargaining chip. The more interesting thesis: a bridge that remains standing but permanently threatened may be more valuable than yet another photogenic pile of rubble. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="lista-celow/" title="Open A3">A3</a></span></li>
+      <li><strong>Logistics as the anatomy of the state</strong> — railways, ports, civil aviation, pipelines, repairs, parts and people. Russia may still have the goods; increasingly it lacks the means, route or people to move them. A minor detail. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>Energy and the Russian power grid</strong> — seven UES zones, rigid topology, no emergency imports, stranded Yamal gas, power-plant cooling, aluminium and Soviet redundancy that is impressive on paper and moderately useful in reality. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Climate as a participant in the war without a Telegram account</strong> — permafrost, droughts, floods, fires, peat, BAM, power-plant cooling and budget costs. The thesis is simple: climate can cook the grid without drones; drones merely shorten the cooking time, very politely. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a></span></li>
+      <li><strong>The economy in the present continuous</strong> — the budget, NWF, gold, harvests, food inflation, wage arrears, corporate insolvency and asset fire-sales. Not “it will collapse someday”, but “it is breaking now, except every component owns a different clock”. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a></span></li>
+      <li><strong>Banking as the shortest fuse</strong> — restructurings pretending to be health, bad assets, cash flight, insolvency and marketplaces transferring damage from warehouses into banks and thousands of sellers. The one part of the system capable of turning years of degradation into a deeply unpleasant Tuesday. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a></span></li>
+      <li><strong>People as a non-renewable resource</strong> — demographics, brain drain, internal migration, burnout, shortages of specialists, falling recruitment, and both quiet and full mobilisation. You can buy another barrel. An engineer, regrettably, does not grow out of the ground after a decree. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a></span></li>
+      <li><strong>China as patron and creditor, not ally</strong> — Russian “substitution” turns out to mean changing the supplier of dependence. The Irtysh processor is Chinese, the grey channels are Chinese, the gas comes on Chinese terms. Sovereignty has gone splendidly; its owner just happens to live in Beijing. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>The war industry and broken chains of substitutability</strong> — a component can matter more than the factory hall; you cannot buy a Tupolev at the Tupolev shop; a KAB is several dependent links; repair races the next strike. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Russian adaptations that genuinely work</strong> — the shadow fleet, grey-market imports, quality degradation, sanctions evasion and building under sanctions. The corpus does not turn Russia into a cardboard idiot: it shows that adaptation exists, but buys time, not direction. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Putin as a separate objective function</strong> — the state no longer optimises for “Russia’s victory”, but for the survival of one man for whom defeat may mean death. Hence nine desperation scenarios, from controlled succession to nuclear and NATO gambles. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="putin-cornered/" title="Open D5">D5</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>The elites and the moment when loyalty gets recalculated</strong> — when the cost of staying with Putin exceeds the cost of removing him; why they are blocked today; how fear works only while the centre still looks strong. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="putin-cornered/" title="Open D5">D5</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>How states actually end</strong> — eight modes of ending, the Third Reich, 1918, 1945, the USSR, Austria-Hungary, disintegration from the periphery and rebirth of the core. A separate, very solid mini-corpus on the phenomenology of state death. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>What actually holds Russia together</strong> — not faith or loyalty, but three calculations: the security apparatus reads strength, the bureaucracy reads the paycheque, oligarchs read punishment and reward. All three can recalculate at once. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>The nuclear arsenal and control of the centre</strong> — ageing delivery systems, Moscow’s role as the core, and the distinction between peripheral secession and loss of control over nuclear weapons. Nukes are not an argument for the federation’s immortality; they are an argument for guarding the centre. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>The war over language, meaning and other people’s heads</h2>
+    <ol start="19">
+      <li><strong>The grammar of Budanov and Zelenskyy</strong> — literalness, simultaneous contradictions, “unity” as an operating system, strategic omissions, numbers as messages, and the “warrior-monk” register. This is practically a separate analysis of intelligence language. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Strategic signalling</strong> — multi-address messages, “hold and show”, disclosure campaigns, the timing of Russian responses, Oreshnik and asymmetry of optionality. A strike is not merely an explosion; sometimes it is a sentence sent to five audiences at once. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>The West’s strategic silence</strong> — the difference between what institutions know and what they can say. A politician does not state the conclusion because a sentence spoken by an office-holder becomes a commitment. Everyone sees a piece of the naked emperor, but fully acknowledging the view would then require some sort of plan. Reality’s appalling bad manners. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Matter versus meaning</strong> — barrels, railcars and roubles create the conditions for a break, but do not determine its timing. A state may have reserves and lose the story it tells about itself; it may also have no reserves and keep going. “Matter provides the conditions, meaning provides the moment” is one of the best sentences in the whole corpus. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Symbolic targets</strong> — the Kerch Bridge, Moscow, Sevastopol, the Kremlin, residences and Putin’s personal sense of security. Their value does not fit in a tonnage table, but it can change the calculation of untouchability. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Dark Legitimacy</strong> — a system stabilised by the belief that every government is bad, so the existing one is at least a familiar evil. Corruption and cruelty do not discredit it; weakness does. A very important key to the rest. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="dark-legitimacy/" title="Open D1">D1</a><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Disinfolklore</strong> — archetypes, “accusation in a mirror”, provocation cycles, Witch Switch, data-resistant models and memetic warfare. Beside useful tools sit mana, primal sounds and a metaphysical peacock, so D3 quite correctly takes the whole thing into an interrogation room with pliers. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="disinfolklore/" title="Open D2">D2</a><a class="ref-chip" href="disinfolklore-swot/" title="Open D3">D3</a><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a></span></li>
+      <li><strong>A taxonomy of Russian “suicides”</strong> — 65 cases out of more than 75 estimated: windows, guns, poisons, aircraft, decapitations and combinations even Monty Python would hesitate to call natural. More important than the macabre is the analysis of sectors, budget flows, timing and uncertainty as an instrument of power. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="rosyjskie-samobojstwa/" title="Open D4">D4</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a></span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Geopolitical branches that grew out of the side of the kolumbryna</h2>
+    <ol start="27">
+      <li><strong>Iran and Yalta 3.0</strong> — disintegration of Iranian statehood, loss of the IRGC’s aura of fear, nuclear risk and an oil shock. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="jalta-3/" title="Open D6">D6</a><a class="ref-chip" href="jalta-3-apendyks/" title="Open D7">D7</a></span></li>
+      <li><strong>The Aras, the Zagros, Kurds and Azerbaijanis</strong> — operational geography, water, the 30 km belt, identities and natural zones of influence. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="jalta-3/" title="Open D6">D6</a><a class="ref-chip" href="jalta-3-apendyks/" title="Open D7">D7</a></span></li>
+      <li><strong>Hanse 2.0</strong> — order without a conference and without a single architect: a trading network that also performs security functions. Corridors financed by European “old money”, because state budgets move at roughly geological speed. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="jalta-3/" title="Open D6">D6</a></span></li>
+      <li><strong>Mistrust as a stabiliser and Nash equilibria</strong> — an alliance may endure precisely because everyone assumes the patron will betray them and builds the ability to survive without it. A very non-obvious topic in its own right. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="jalta-3-apendyks/" title="Open D7">D7</a></span></li>
+      <li><strong>Energy as a topology of power</strong> — a barrel creates hierarchy and daily dependence; a solar panel is a capital good and, once sold, may remove the customer for three decades. Decarbonisation as decentralisation of power, not merely ecological decoration. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="ropa-gaz/" title="Open E1">E1</a><a class="ref-chip" href="monopole/" title="Open E2">E2</a><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a></span></li>
+      <li><strong>Monopolies that destroy themselves through use</strong> — Saudi pricing leverage as autoimmunity, and China’s monopoly over critical-mineral processing with a built-in erosion clock, though a slower one than once assumed. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="ropa-gaz/" title="Open E1">E1</a><a class="ref-chip" href="monopole/" title="Open E2">E2</a></span></li>
+      <li><strong>The morality of transition</strong> — Wandel durch Handel, cheap raw materials from a dictator as moral hazard, 1973 versus 2022, solidarity that requires substitutes and institutions, and the question of who actually pays for the transition. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="ropa-gaz/" title="Open E1">E1</a><a class="ref-chip" href="monopole/" title="Open E2">E2</a></span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>The best small finds</h2>
+    <ul>
+      <li><strong>Absence detection</strong> — a missing published number, expected reaction or name is information if you know it should have appeared. “The dog that did not bark” gets its own OSINT methodology here. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>Stock versus flow</strong> — Russia accumulates expensive salvos and reserves; Ukraine builds a renewable flow of cheap tools. A very good frame that works simultaneously for fuel, firepower, loyalty and escalation. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="zapas-kontra-strumien/" title="Open A6">A6</a></span></li>
+      <li><strong>Nyquist versus OODA</strong> — the tempo of two overlapping campaigns exceeds the frequency at which the Russian system can reconstruct its picture of the situation. Sampling theory let loose on war and, to the horror of normal people, actually useful. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a></span></li>
+      <li><strong>Moscow drowning in a single puddle</strong> — flooding as the intersection of corruption, wartime neglect and climate. A tiny picture of the entire system. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a></span></li>
+      <li><strong>Elevators as the year-round canary of municipal services</strong> — district heating scares people in winter, but hundreds of thousands of ageing elevators can report degradation every day. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="audyt/" title="Open A5">A5</a></span></li>
+      <li><strong>The countryside can feed itself; cities, not necessarily</strong> — an agricultural crisis and a food crisis are two different things. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="przejscie-na-hurt/" title="Open A4">A4</a></span></li>
+      <li><strong>Musk and Thiel as eroders of the Western reflex to stabilise Russia</strong> — not causes of disintegration, but private actors combining a preference for fragmentation with access to American power and infrastructure. Strange, but not stupid. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>Disarming the refugee scare</strong> — the argument that Russia’s breakup automatically means a mass wave towards the West is dismantled through geography, migration directions and the lack of a stable “matrix” in the core itself. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="jak-koncza-sie-panstwa/" title="Open A7">A7</a></span></li>
+      <li><strong>“Complete bad news is cheaper than incomplete bad news”</strong> — a fast shock may shorten uncertainty and accelerate adaptation; Nord Stream serves as the example. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="ropa-gaz/" title="Open E1">E1</a></span></li>
+      <li><strong>The risk bestiary</strong> — the elephant, 24 grey rhinos, pink flamingos, black swans and drunk tigers. Not decoration, but five different ontologies of catastrophe. At last, zoology more useful than part of political science. <span class="refs" aria-label="Source documents"><span class="refs-label">Documents:</span><a class="ref-chip" href="kolumbryna/" title="Open A1">A1</a><a class="ref-chip" href="gradually-suddenly/" title="Open A2">A2</a><a class="ref-chip" href="audyt/" title="Open A5">A5</a></span></li>
+    </ul>
+  </section>
+
+  <aside class="verdict">
+    <p><strong>The shortest verdict:</strong> “collapse of Russia” is the spine, but the real subject of the whole thing is the collapse of system capabilities — material, cognitive, narrative and coalition-building — and the methods for recognising the moment when many slow failures become one historical event.</p>
+    <p>This map easily contains about <strong>12–15 standalone little kolumbrynas</strong>. Several would be more interesting than turning D5 into yet another biography of a cornered rat.</p>
+  </aside>
+
+  <footer>SOL · topic map of the “Collapse of Russia” corpus · EN v01.00 · 2026-09-07</footer>
+</main>
+</body>
+</html>
