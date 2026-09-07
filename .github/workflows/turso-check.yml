@@ -26,6 +26,7 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import uuid
           from datetime import datetime, timezone
           from pathlib import Path
 
@@ -48,24 +49,30 @@ jobs:
               if not ping or ping[0] != 1:
                   raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
 
-              conn.execute('CREATE TEMP TABLE __sol_connection_test (a TEXT, b TEXT, c TEXT)')
-              conn.execute(
-                  'INSERT INTO __sol_connection_test (a, b, c) VALUES (?, ?, ?)',
-                  ('dupa', 'dupa', 'chuj'),
-              )
-              row = conn.execute(
-                  'SELECT a, b, c FROM __sol_connection_test LIMIT 1'
-              ).fetchone()
+              test_id = '__sol_connection_test__' + uuid.uuid4().hex
+              test_text = 'dupa | dupa | chuj'
 
-              if tuple(row) != ('dupa', 'dupa', 'chuj'):
-                  raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
+              try:
+                  conn.execute(
+                      'INSERT INTO lyrics (lyrics_id, lyrics_text) VALUES (?, ?)',
+                      (test_id, test_text),
+                  )
+                  row = conn.execute(
+                      'SELECT lyrics_id, lyrics_text FROM lyrics WHERE lyrics_id = ?',
+                      (test_id,),
+                  ).fetchone()
+
+                  if not row or row[0] != test_id or row[1] != test_text:
+                      raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
+              finally:
+                  conn.rollback()
 
               status_path.write_text(
-                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ={row[0]} | {row[1]} | {row[2]}\n',
+                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\n',
                   encoding='utf-8',
               )
               print('TURSO_OK')
-              print(row)
+              print('dupa | dupa | chuj')
           except Exception as exc:
               status_path.write_text(
                   f'FAIL\nUTC={stamp}\nERROR={type(exc).__name__}: {exc}\n',
