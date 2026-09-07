@@ -19,49 +19,48 @@ jobs:
           from pathlib import Path
           import re
 
-          old = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_05-2026-09-07.html')
-          new = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_06-2026-09-07.html')
+          old = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_06-2026-09-07.html')
+          new = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_07-2026-09-07.html')
           public = Path('cv/seventeen-and-seventeen/index.html')
           assert old.exists()
           t = old.read_text(encoding='utf-8')
 
-          # 1. Usuń "o co kaman" WYŁĄCZNIE z 17 nagłówków polskich podsekcji.
-          pat = r'(<h4 lang="pl" id="[^"]+">)Po polsku — o co kaman( <span class="rank">\[PL\]</span></h4>)'
-          t, count_o = re.subn(pat, r'\1Po polsku\2', t)
-          assert count_o == 17, count_o
+          # Usuwamy stary zwrot wszędzie, żeby opis podsekcji nie przeczył ich nagłówkom.
+          t = t.replace(' — o co kaman', '')
 
-          # 2. Jedna konwencja autorstwa: Maciek [M], Klaudiusz [K], Sol [S].
-          old_attr = '<p class="note"><b>Attribution markers.</b> <b>[M]</b> — Maciek. <b>[K]</b> — Klaudiusz (Claude). <b>[S]</b> — Sol (ChatGPT). They identify contribution or provenance where it matters.</p>'
-          new_attr = '<p class="note"><b>Attribution markers.</b> <b>[M]</b> — Maciek; <b>[K]</b> — Klaudiusz; <b>[S]</b> — Sol. They identify contribution or provenance where it matters.</p>'
-          assert old_attr in t
-          t = t.replace(old_attr, new_attr, 1)
-
+          # Jedna konwencja nazw i markerów.
+          t = t.replace('Klaudiusz (Klaudiusz) [K]', 'Klaudiusz [K]')
+          t = t.replace('Klaudiusz (Claude) [K]', 'Klaudiusz [K]')
+          t = t.replace('Sol (ChatGPT) [S]', 'Sol [S]')
           t = t.replace('[Klaudiusz]', '[K]').replace('[Sol]', '[S]')
           t = re.sub(r'\bClaude\b', 'Klaudiusz', t)
 
-          # Wersja robocza.
-          t = t.replace('EN v08.05 – 2026-09-07', 'EN v08.06 – 2026-09-07')
-          t = t.replace('EN v08.05 · 2026-09-07', 'EN v08.06 · 2026-09-07')
+          # Wersja.
+          t = t.replace('EN v08.06 – 2026-09-07', 'EN v08.07 – 2026-09-07')
+          t = t.replace('EN v08.06 · 2026-09-07', 'EN v08.07 · 2026-09-07')
 
-          # Kontrole tylko tego, co zmieniamy.
-          assert re.search(pat, t) is None
+          # Kontrole.
+          assert 'o co kaman' not in t
           assert t.count('>Po polsku <span class="rank">[PL]</span></h4>') == 17
+          assert 'Claude' not in t
           assert '[Klaudiusz]' not in t
           assert '[Sol]' not in t
-          assert 'Claude' not in t
+          assert 'Klaudiusz (Klaudiusz)' not in t
+          assert 'Sol (ChatGPT) [S]' not in t
+          assert 'three participants: Maciek [M], Klaudiusz [K] and Sol [S].' in t
           assert '<b>[K]</b> — Klaudiusz; <b>[S]</b> — Sol.' in t
 
           new.write_text(t, encoding='utf-8')
           public.write_text(t.replace('<meta name="robots" content="noindex">\n', '', 1), encoding='utf-8')
           old.unlink()
 
-          print('17 podsekcji: usunięto "o co kaman"')
-          print('Attribution: [M] Maciek; [K] Klaudiusz; [S] Sol')
+          print('17 nagłówków: Po polsku')
+          print('Nazwy: Maciek [M], Klaudiusz [K], Sol [S]')
           print('SUCCESS')
           PY
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_05-2026-09-07.html cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_06-2026-09-07.html cv/seventeen-and-seventeen/index.html
-          git commit -m "17x17: uporzadkuj podsekcje i attribution"
+          git add -A cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_06-2026-09-07.html cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_07-2026-09-07.html cv/seventeen-and-seventeen/index.html
+          git commit -m "17x17: ujednolic nazwy i polskie podsekcje"
           git push
