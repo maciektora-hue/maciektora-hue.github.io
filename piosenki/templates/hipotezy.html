@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Hipotezy czasowe{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="kicker">hipotezy</p>
+  <h1>Wybrane pary i trójki do sprawdzenia w czasie</h1>
+  <p>Każdy wykres używa tego samego przesuwanego okna: {{ data.window_size }} utworów, krok {{ data.step }}. Czas biegnie od przeszłości po lewej do najnowszych piosenek po prawej.</p>
+</section>
+
+{% for item in data.hypotheses %}
+<section class="panel">
+  <h2>{{ loop.index }}. {{ item.title }}</h2>
+  {{ item.legend|safe }}
+  {{ item.chart|safe }}
+  <div class="ranking">
+    {% for row in item.counts %}
+    <div><strong>{{ row.label }}</strong><span>{{ row.count }}</span></div>
+    {% endfor %}
+  </div>
+  {% if item.missing %}
+  <p class="warning">Brak wystąpień: {{ item.missing|join(', ') }}.</p>
+  {% endif %}
+</section>
+{% endfor %}
+{% endblock %}
