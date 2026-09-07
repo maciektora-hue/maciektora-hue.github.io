@@ -1,10 +1,11 @@
 import os
 
 import libsql
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
-from statystyki import build_direction_page, build_relations_page, build_time_page, load_model
+from czas_okna import build_time_page_sliding
+from statystyki import build_direction_page, build_relations_page, load_model
 
 
 app = Flask(__name__)
@@ -31,6 +32,14 @@ def load_stats_model():
         return load_model(conn)
     finally:
         conn.close()
+
+
+def query_int(name, default):
+    try:
+        value = int(request.args.get(name, default))
+    except (TypeError, ValueError):
+        value = default
+    return max(1, min(value, 5000))
 
 
 @app.get("/health")
@@ -82,7 +91,18 @@ def statystyki_index():
 
 @app.get("/statystyki/czas")
 def statystyki_czas():
-    return render_template("czas.html", data=build_time_page(load_stats_model(), chunk_size=80))
+    window_size = query_int("okno", 80)
+    step = query_int("krok", 30)
+    direction = request.args.get("kierunek", "teraz")
+    if direction not in {"teraz", "przeszlosc"}:
+        direction = "teraz"
+    data = build_time_page_sliding(
+        load_stats_model(),
+        window_size=window_size,
+        step=step,
+        direction=direction,
+    )
+    return render_template("czas.html", data=data)
 
 
 @app.get("/statystyki/kierunek")
