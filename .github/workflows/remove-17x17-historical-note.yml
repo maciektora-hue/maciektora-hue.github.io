@@ -1,0 +1,53 @@
+name: Remove 17x17 historical note
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-17x17-historical-note.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          old = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_04-2026-09-07.html')
+          new = Path('cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_05-2026-09-07.html')
+          public = Path('cv/seventeen-and-seventeen/index.html')
+
+          needle = '<p><small>EN v08.04 · 2026-09-07. Two lists of seventeen concepts: first, the vocabulary recurring across AI / business / operations job postings; second, concepts developed in the work behind the CV. The first list combines a Polish plain-language cut, an English jargon-forward cut, and a practical account of how each concept showed up in the work. The second list is English only.</small></p>'
+
+          src = old.read_text(encoding='utf-8')
+          pub = public.read_text(encoding='utf-8')
+
+          assert needle in src, 'Brak artefaktu w pliku źródłowym'
+          assert needle in pub, 'Brak artefaktu w wersji publicznej'
+
+          src2 = src.replace(needle, '', 1).replace('EN v08.04 – 2026-09-07', 'EN v08.05 – 2026-09-07', 1)
+          pub2 = pub.replace(needle, '', 1).replace('EN v08.04 – 2026-09-07', 'EN v08.05 – 2026-09-07', 1)
+
+          assert needle not in src2 and needle not in pub2
+          assert 'EN v08.05 – 2026-09-07' in src2
+          assert 'EN v08.05 – 2026-09-07' in pub2
+
+          new.write_text(src2, encoding='utf-8')
+          public.write_text(pub2, encoding='utf-8')
+          old.unlink()
+
+          print('SUCCESS: historyczny akapit usunięty; v08.05 utworzona; v08.04 usunięta')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_05-2026-09-07.html cv/seventeen-and-seventeen/index.html
+          git rm cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_04-2026-09-07.html
+          git commit -m "17x17: usun historyczny opis wersji"
+          git pull --rebase origin main
+          git push
