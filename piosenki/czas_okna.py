@@ -4,6 +4,9 @@ from collections import Counter, defaultdict
 from statystyki import count_series, legend, percent_series, svg_chart, top_names
 
 
+DEFAULT_WINDOW_SIZE = 80
+DEFAULT_STEP = 30
+
 FAMILY_PALETTE = [
     "#1565C0",
     "#00897B",
@@ -43,7 +46,7 @@ def _series_colors(series, palette):
     }
 
 
-def build_windows(model, size=80, step=30, direction="teraz"):
+def build_windows(model, size=DEFAULT_WINDOW_SIZE, step=DEFAULT_STEP, direction="teraz"):
     max_order = model["max_order"]
     if max_order <= 0:
         return []
@@ -119,7 +122,7 @@ def family_legend_with_axes(model, family_series, colors):
     return "".join(out)
 
 
-def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
+def build_time_page_sliding(model, window_size=DEFAULT_WINDOW_SIZE, step=DEFAULT_STEP, direction="teraz"):
     windows = build_windows(model, window_size, step, direction)
     labels = [window["label"] for window in windows]
 
