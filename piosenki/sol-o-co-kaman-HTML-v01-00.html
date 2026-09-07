@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SOL O co kaman — Spotify v01-00</title>
+<style>
+  :root{
+    --bg:#102f26;
+    --fg:#f1e5c8;
+    --muted:#c8b996;
+    --line:#48665d;
+    --accent:#d8b45b;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.55;
+  }
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:44px 24px 72px;
+  }
+  h1,h2,h3{line-height:1.2}
+  h1{font-size:2rem;margin:0 0 8px}
+  h2{font-size:1.25rem;margin:34px 0 10px;color:var(--accent)}
+  h3{font-size:1.05rem;margin:24px 0 8px}
+  p{margin:0 0 12px}
+  ul,ol{margin:8px 0 16px;padding-left:24px}
+  li{margin:5px 0}
+  .meta{color:var(--muted);margin-bottom:30px}
+  .box{
+    border-left:4px solid var(--accent);
+    padding:3px 0 3px 18px;
+    margin:18px 0;
+  }
+  code{
+    color:var(--fg);
+    background:rgba(255,255,255,.06);
+    padding:.12em .35em;
+    border-radius:4px;
+  }
+</style>
+</head>
+<body>
+<main>
+
+<h1>SOL O co kaman — Spotify v01-00</h1>
+<div class="meta">Operacyjny opis aktualnej architektury i zasad pracy. Tylko informacje potrzebne do dalszych działań.</div>
+
+<h2>1. Źródła prawdy</h2>
+<div class="box">
+  <code>sol-middleend-CSV-v08-11.csv</code><br/>
+  <code>sol-piosenki-slowa-CSV-v07-00.csv</code><br/>
+  <code>sol-piosenki-slowa-kontynuacja-CSV-v01-08.csv</code><br/>
+  <code>sol-piosenki-tagi-CSV-v09-14.csv</code><br/>
+  <code>sol-definicje-tagow-CSV-v01-02.csv</code><br/>
+  <code>sol-ontologia-tagow-TXT-v01-03.txt</code><br/>
+  <code>sol-sprawdz-integralnosc-PY-v01-03.py</code><br/>
+  <code>sol-pobierz-slowa-standalone-PY-v02-03.py</code>
+</div>
+
+<p>Aktualny stan logiczny: Middle End ma 977 rekordów, Lyrics 882 rekordy, a Tags 888 snapshotów dla 882 <code>lyrics_id</code>.</p>
+
+<h2>2. Rola każdego pliku</h2>
+
+<h3>Middle End</h3>
+<p><code>sol-middleend-CSV-v08-11.csv</code> przechowuje jeden rekord na konkretny utwór / nagranie / reprezentację. Kanonicznym kluczem rekordu jest <code>utwu_id</code>. Middle End przechowuje metadane Spotify, dane normalizowane oraz opcjonalne wskazanie tekstu przez <code>lyrics_id</code>.</p>
+
+<h3>Lyrics</h3>
+<p><code>sol-piosenki-slowa-CSV-v07-00.csv</code> oraz <code>sol-piosenki-slowa-kontynuacja-CSV-v01-08.csv</code> tworzą jedną logiczną tabelę Lyrics. Fizyczny podział na kilka CSV nie zmienia modelu danych. Każdy tekst ma globalnie unikalny <code>lyrics_id</code>.</p>
+
+<h3>Tags</h3>
+<p><code>sol-piosenki-tagi-CSV-v09-14.csv</code> przechowuje snapshoty tagowania tekstów. Tagi są przypisane do <code>lyrics_id</code>, nie do <code>utwu_id</code>. Jeden tekst może mieć wiele snapshotów tagowania.</p>
+
+<h3>Definicje tagów</h3>
+<p><code>sol-definicje-tagow-CSV-v01-02.csv</code> jest katalogiem dozwolonych tagów i ich definicji. Kolumna <code>tag</code> jest konceptualnym kluczem głównym.</p>
+
+<h3>Ontologia tagów</h3>
+<p><code>sol-ontologia-tagow-TXT-v01-03.txt</code> zawiera definicje rodzin, grup, osi oraz relacje tag ↔ grupa i tag ↔ oś w postaci czytelnego SQL.</p>
+
+<h3>Walidator</h3>
+<p><code>sol-sprawdz-integralnosc-PY-v01-03.py</code> wybiera najwyższe aktywne wersje plików, traktuje wszystkie aktywne fragmenty Lyrics jako jedną logiczną tabelę i sprawdza integralność całego zestawu. Nie modyfikuje danych.</p>
+
+<h3>Fetcher lyrics</h3>
+<p><code>sol-pobierz-slowa-standalone-PY-v02-03.py</code> jest samodzielnym narzędziem do wyszukiwania tekstów. Nie czyta ani nie modyfikuje aktywnych CSV. Wynik zapisuje do nowego CSV. Dla tekstów kanonicznych identyfikuje dzieło niezależnie od wykonawcy konkretnego nagrania.</p>
+
+<h2>3. Schemat Middle End</h2>
+<div class="box">
+<code>utwu_id, lyrics_id, spotify_id, spotify_order, title_original, title_normalized, title_parsed, artist_original, artist_normalized, artist_parsed, album_original, match_status, match_candidates, match_note, lyrics_status</code>
+</div>
+
+<p><code>utwu_id</code> jest stabilnym, globalnie unikalnym identyfikatorem rekordu utworu.</p>
+
+<div class="box">
+<code>utwu_id TEXT PRIMARY KEY</code><br/>
+<code>lyrics_id TEXT NULL REFERENCES lyrics(lyrics_id)</code>
+</div>
+
+<p><code>spotify_id</code> jest identyfikatorem zewnętrznym Spotify i nie zastępuje <code>utwu_id</code>.</p>
+
+<h2>4. Schemat Lyrics</h2>
+<div class="box">
+<code>lyrics_id, lyrics_text</code>
+</div>
+
+<div class="box">
+<code>lyrics_id TEXT PRIMARY KEY</code><br/>
+<code>lyrics_text TEXT NOT NULL</code>
+</div>
+
+<p><code>lyrics_id</code> identyfikuje konkretny tekst. Ten sam tekst może być wskazywany przez wiele rekordów Middle Endu.</p>
+
+<h2>5. Schemat Tags</h2>
+<div class="box">
+<code>lyrics_id, tagged_at, tags</code>
+</div>
+
+<div class="box">
+<code>lyrics_id TEXT REFERENCES lyrics(lyrics_id)</code><br/>
+<code>tagged_at TEXT NULL</code><br/>
+<code>tags TEXT</code>
+</div>
+
+<p>Jeden wiersz oznacza jeden snapshot tagowania jednego <code>lyrics_id</code>. <code>lyrics_id</code> nie jest w Tags kluczem unikalnym. Snapshoty historyczne pozostają w pliku i nie są automatycznie nadpisywane ani usuwane.</p>
+
+<h2>6. Krotności i zależności SQL</h2>
+<div class="box">
+<strong>Middle End ↔ Lyrics</strong><br/>
+<code>Middle End N → 0..1 Lyrics</code><br/>
+<code>Lyrics 1 → 0..N Middle End</code><br/><br/>
+
+<strong>Lyrics ↔ Tags</strong><br/>
+<code>Lyrics 1 → 0..N Tag snapshots</code><br/>
+<code>Tag snapshot N → 1 Lyrics</code><br/><br/>
+
+<strong>tag_catalog ↔ tag_groups</strong><br/>
+<code>N ↔ M</code> przez <code>tag_group</code><br/><br/>
+
+<strong>tag_catalog ↔ axes</strong><br/>
+<code>N ↔ M</code> przez <code>tag_axis</code><br/><br/>
+
+<strong>families ↔ axes</strong><br/>
+<code>families 1 → 0..N axes</code><br/>
+<code>axis N → 1 family</code><br/><br/>
+
+<strong>tag_catalog ↔ families</strong><br/>
+<code>N ↔ M</code> pośrednio przez <code>tag_axis → axes → families</code>
+</div>
+
+<p>Nie istnieje osobna relacja <code>tag_family</code>. Rodzina taga wynika z jego przypisania do osi.</p>
+
+<h2>7. lyrics_status</h2>
+<div class="box">
+<code>full</code> — pełny tekst przypisany do konkretnego nagrania / wersji.<br/>
+<code>canonicaltext</code> — kanoniczny lub bazowy tekst dzieła; nie oznacza zgodności 1:1 z konkretnym nagraniem.<br/>
+<code>partial</code> — dostępna jest tylko część tekstu.<br/>
+<code>paraphase</code> — robocza parafraza sensu; nie jest transkrypcją ani tekstem 1:1.<br/>
+<code>instrumental</code> — nagranie bez tekstu do przypisania.<br/>
+<code>missing</code> — tekst nie został jeszcze znaleziony lub rozstrzygnięty.
+</div>
+
+<p>Statusy <code>full</code>, <code>canonicaltext</code>, <code>partial</code> i <code>paraphase</code> wymagają <code>lyrics_id</code>. Statusy <code>instrumental</code> i <code>missing</code> wymagają braku <code>lyrics_id</code>.</p>
+
+<h2>8. Gramatyka tagów</h2>
+<p>Pole <code>tags</code> przechowuje wszystkie tagi snapshotu jako prosty tekst:</p>
+<div class="box">
+<code>tag:kwalifikator1|kwalifikator2; drugi-tag:kwalifikator1</code>
+</div>
+
+<p>Obecne kwalifikatory siły:</p>
+<div class="box">
+<code>bardzo</code><br/>
+<code>troche</code><br/>
+<code>ociupinke</code>
+</div>
+
+<p>Każdy użyty tag musi istnieć w <code>sol-definicje-tagow-CSV-v01-02.csv</code>.</p>
+
+<h2>9. Reguła nazw tagów</h2>
+<p>Nazwa taga składa się wyłącznie z małych liter ASCII <code>a-z</code>, cyfr <code>0-9</code> oraz pojedynczych minusów jako separatorów.</p>
+<div class="box">
+<code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code>
+</div>
+
+<p>Bez spacji, ukośników, podkreśleń, kropek, polskich znaków ani innej interpunkcji.</p>
+
+<h2>10. Ontologia tagów</h2>
+
+<div class="box">
+<code>families(family_name PRIMARY KEY, label, color_hex, description, sort_order UNIQUE)</code><br/><br/>
+<code>tag_groups(group_name PRIMARY KEY, label)</code><br/><br/>
+<code>axes(axis_name PRIMARY KEY, label, description, family_name REFERENCES families, sort_order UNIQUE)</code><br/><br/>
+<code>tag_group(tag, group_name REFERENCES tag_groups, PRIMARY KEY(tag, group_name))</code><br/><br/>
+<code>tag_axis(tag, axis_name REFERENCES axes, PRIMARY KEY(tag, axis_name))</code>
+</div>
+
+<p>Warstwa ontologii zawiera 5 rodzin, 12 grup i 17 osi. Każda oś należy do dokładnie jednej rodziny. Jeden tag może należeć do wielu grup i wielu osi.</p>
+
+<h2>11. Dodawanie nowego taga</h2>
+<ol>
+  <li>Dodać jeden rekord <code>tag, definition</code> do aktywnego pliku definicji tagów.</li>
+  <li>Sprawdzić unikalność nazwy i zgodność z regułą nazewniczą.</li>
+  <li>Dodać co najmniej jedno przypisanie w <code>tag_group</code>.</li>
+  <li>Dodać co najmniej jedno przypisanie w <code>tag_axis</code>.</li>
+  <li>Jeśli potrzebna jest nowa grupa, oś lub rodzina, najpierw zdefiniować ją w odpowiedniej tabeli.</li>
+  <li>Uruchomić kontrolę integralności.</li>
+  <li>Zwiększyć wersję tylko plików, których treść faktycznie się zmieniła.</li>
+</ol>
+
+<h2>12. Zasady tagowania</h2>
+<ul>
+  <li>Tagowanie jest wykonywane na poziomie <code>lyrics_id</code>.</li>
+  <li>Każdy tekst trzeba przeczytać osobno i w całości.</li>
+  <li>Nie wolno tagować na podstawie tytułu, wykonawcy, podobnego utworu ani poprzednich tagów.</li>
+  <li>Nie wolno automatycznie zmieniać procedury tagowania ani wprowadzać nowych heurystyk.</li>
+  <li>Nowe tagowanie tworzy snapshot w Tags; istniejących snapshotów nie nadpisujemy bez wyraźnego polecenia.</li>
+</ul>
+
+<h2>13. Zasady pracy na danych</h2>
+<ul>
+  <li>Wykonywać dokładnie zamówioną operację i nie rozszerzać jej zakresu.</li>
+  <li>Nie tworzyć zbędnych plików roboczych, kopii, archiwów ani dodatkowych wariantów.</li>
+  <li>Nie modyfikować plików, których treść nie musi się zmienić.</li>
+  <li>Nie zmieniać istniejących kluczy <code>utwu_id</code> ani <code>lyrics_id</code>.</li>
+  <li>Nie zastępować <code>utwu_id</code> przez <code>spotify_id</code>.</li>
+  <li>Po każdej zmianie danych uruchomić walidator integralności.</li>
+</ul>
+
+<h2>14. Wersjonowanie</h2>
+<p>Schemat nazwy pliku:</p>
+<div class="box">
+<code>sol-&lt;co-to-jest&gt;-&lt;TYP&gt;-vNN-NN.ext</code>
+</div>
+
+<p>Typ pliku zapisujemy jawnie, np. <code>CSV</code>, <code>HTML</code>, <code>TXT</code>. Wersja ma format <code>vNN-NN</code>.</p>
+
+<p>Przy nowej wersji aktywnego pliku obowiązuje kolejność:</p>
+<ol>
+  <li>utworzyć nową wersję,</li>
+  <li>zapisać ją w bibliotece,</li>
+  <li>zweryfikować zawartość i integralność,</li>
+  <li>dopiero po pozytywnej weryfikacji usunąć bezpośrednio poprzednią aktywną wersję, jeśli nie ma polecenia jej zachowania.</li>
+</ol>
+
+<h2>15. Walidacja</h2>
+<p>Walidator ma być uruchamiany na pełnym aktywnym zestawie. Kontroluje między innymi:</p>
+<ul>
+  <li>nagłówki i format aktywnych plików,</li>
+  <li>unikalność kluczy głównych,</li>
+  <li>spójność <code>lyrics_id</code> pomiędzy Middle End, Lyrics i Tags,</li>
+  <li>zgodność <code>lyrics_status</code> z obecnością lub brakiem <code>lyrics_id</code>,</li>
+  <li>istnienie używanych tagów w katalogu definicji,</li>
+  <li>poprawność składni nazw tagów i snapshotów,</li>
+  <li>spójność rodzin, grup, osi i tabel łącznikowych.</li>
+</ul>
+
+<p>Akceptowalny stan po zmianie produkcyjnej: <strong>0 błędów, 0 ostrzeżeń, WYNIK OK</strong>.</p>
+
+</main>
+</body>
+</html>

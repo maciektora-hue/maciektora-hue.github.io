@@ -1,0 +1,978 @@
+utwu_id,lyrics_id,spotify_id,spotify_order,title_original,title_normalized,title_parsed,artist_original,artist_normalized,artist_parsed,album_original,match_status,match_candidates,match_note,lyrics_status
+utwu-000938,,0YaXy2X2jlXOlW73pymL5E,1,Toccata and Fugue in Dm Bwv 565 for Electric Guitar,toccata and fugue in dm bwv 565 for electric guitar,toccata and fugue in dm bwv 565 for electric guitar,Dr.Viossy,dr.viossy,dr viossy,Toccata and Fugue in Dm Bwv 565 for Electric Guitar,fullmatch,,,instrumental
+utwu-000937,lyrics-000826,1rJgJ31pdLTjdO3IAk2SFh,2,Carol of the Bells - Remastered,carol of the bells - remastered,carol of the bells remastered,The Tabernacle Choir at Temple Square,the tabernacle choir at temple square,the tabernacle choir at temple square,This Is Christmas (The Mormon Tabernacle Choir Performing Timeless Christmas Songs),fullmatch,,,paraphase
+utwu-000936,lyrics-000790,2aISfU55wUIpe1d6AG5e35,3,Wrecking Ball Parody,wrecking ball parody,wrecking ball parody,Bart Baker,bart baker,bart baker,Greatest Hits 2013,fullmatch,,,full
+utwu-000935,lyrics-000817,2AgEFv5V9NwBSMU3iF6FNh,4,Long Vajrasattva Purifying Mantra chanted in Sanskrit,long vajrasattva purifying mantra chanted in sanskrit,long vajrasattva purifying mantra chanted in sanskrit,Buddha Weekly,buddha weekly,buddha weekly,Mantra Collection 1,fullmatch,,,canonicaltext
+utwu-000934,lyrics-000813,0cLdMgwO2tqKilhWbUARWG,5,The Carol of the Old Ones - Soprano Version,the carol of the old ones - soprano version,the carol of the old ones soprano version,"Мико́ла Дми́трович Леонто́вич, Mao Endo, Gico Forte","мико́ла дми́трович леонто́вич, mao endo, gico forte",микола дмитрович леонтович | mao endo | gico forte,The Carol of the Old Ones (Soprano Version),fullmatch,,,canonicaltext
+utwu-000933,lyrics-000827,6raClVJaHReAILC7ITassT,6,Aleksandra odchodzi,aleksandra odchodzi,aleksandra odchodzi,Michał Łanuszka,michał łanuszka,michał łanuszka,Łanuszka / Cohen,fullmatch,,,paraphase
+utwu-000932,lyrics-000791,7pgFHs8K5OgB9PGDY3sysE,7,Feed Your Head,feed your head,feed your head,Paul Kalkbrenner,paul kalkbrenner,paul kalkbrenner,7,fullmatch,,,full
+utwu-000931,lyrics-000842,2r8lQVkWiPcv5dryFZh9Or,8,BOG NA VOJNA,bog na vojna,bog na vojna,Da Dzaka Nakot,da dzaka nakot,da dzaka nakot,OGAN,fullmatch,,,paraphase
+utwu-000930,lyrics-000843,2XSSr3IS1F9bkltmchybcM,9,PESNA ŠTO GORI,pesna što gori,pesna sto gori,Da Dzaka Nakot,da dzaka nakot,da dzaka nakot,OGAN,fullmatch,,,paraphase
+utwu-000929,lyrics-000792,0pKTw4qlPTgZn0anwytcG6,10,Somebody That I Used To Know - Tiësto Remix,somebody that i used to know - tiësto remix,somebody that i used to know tiesto remix,"Gotye, Kimbra, Tiësto","gotye, kimbra, tiësto",gotye | kimbra | tiesto,Somebody That I Used To Know (Remixes),fullmatch,,,full
+utwu-000928,lyrics-000793,1qDrWA6lyx8cLECdZE7TV7,11,Somebody That I Used To Know,somebody that i used to know,somebody that i used to know,"Gotye, Kimbra","gotye, kimbra",gotye | kimbra,Making Mirrors,fullmatch,,,full
+utwu-000927,lyrics-000805,5WHLRaquJDvxrXU8cnl8hp,12,Lusterka,lusterka,lusterka,"Sw@da, Niczos","sw@da, niczos",sw da | niczos,#INDAWOODS,fullmatch,,,full
+utwu-000926,lyrics-000844,6rKCkCMgQC0n94XineFKzL,13,"Bhagavad Gītā, Chapter 11","bhagavad gītā, chapter 11",bhagavad gita chapter 11,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Bhagavad Gita,fullmatch,,,paraphase
+utwu-000925,,5kmr2Ip9xbfgDVf45AHI6E,14,Shchedryk - Carol of the Bells;Sharovaari Orchestral Version,shchedryk - carol of the bells;sharovaari orchestral version,shchedryk carol of the bells sharovaari orchestral version,Eileen,eileen,eileen,Shchedryk (Carol of the Bells;Sharovaari Orchestral Version),fullmatch,,,instrumental
+utwu-000924,lyrics-000814,3EiHf4NihLd3WiE83gTNVH,15,Ajai Alai,ajai alai,ajai alai,Meditative Mind,meditative mind,meditative mind,Ajai Alai,fullmatch,,,canonicaltext
+utwu-000923,lyrics-000794,4AKxFYKasB3lbakwXLkQWy,16,One Like You,one like you,one like you,LP,lp,lp,Love Lines,fullmatch,,,full
+utwu-000922,,5PzS4t23BDEmsESvFd14Z5,17,Evolution of Music,evolution of music,evolution of music,dj-Nate,dj-nate,dj nate,Classic Classics (2005-2010),fullmatch,,,instrumental
+utwu-000921,lyrics-000795,72Z17vmmeQKAg8bptWvpVG,18,Space Oddity - 2015 Remaster,space oddity - 2015 remaster,space oddity 2015 remaster,David Bowie,david bowie,david bowie,David Bowie (aka Space Oddity) [2015 Remaster],fullmatch,,,full
+utwu-000920,lyrics-000796,6XxVUKOcCY4Z9FKaVcaYRo,19,O Fortuna,o fortuna,o fortuna,"Carl Orff, André Rieu, The Platin Tenors, Johann Strauss Orchestra, Carmen Monarcha, Mirusia, Suzan Erens","carl orff, andré rieu, the platin tenors, johann strauss orchestra, carmen monarcha, mirusia, suzan erens",carl orff | andre rieu | the platin tenors | johann strauss orchestra | carmen monarcha | mirusia | suzan erens,In Love with Maastricht - A Tribute to My Hometown,fullmatch,,,full
+utwu-000919,lyrics-000796,1Lcdptd81Ii0QIQerAgpaf,20,O Fortuna,o fortuna,o fortuna,"Charles B, MOR3L, MOTi, Amero","charles b, mor3l, moti, amero",charles b | mor3l | moti | amero,O Fortuna,fullmatch,,,full
+utwu-000918,lyrics-000001,2lFqV6rW5cP8EDQatijXsn,21,Looking for the Rain,looking for the rain,looking for the rain,"UNKLE, Mark Lanegan, ESKA","unkle, mark lanegan, eska",unkle | mark lanegan | eska,"The Road, Pt. 1",fullmatch,,,full
+utwu-000917,,1vrnALuaFUZUEdD53j1M47,22,Versatile - Live in Paris,versatile - live in paris,versatile live in paris,MEUTE,meute,meute,Live In Paris,fullmatch,,,instrumental
+utwu-000916,,4G3oFJE6aei1ygJVinVt1O,23,Raw,raw,raw,MEUTE,meute,meute,Puls,fullmatch,,,instrumental
+utwu-000915,,6Rf4kRPyqeRYsExVMFdf38,24,You & Me,you & me,you me,MEUTE,meute,meute,JUBEL,fullmatch,,,instrumental
+utwu-000914,lyrics-000002,3UBItNVbFQiVC5hBQlBvnr,25,Your Woman,your woman,your woman,White Town,white town,white town,Women in Technology,fullmatch,,,full
+utwu-000913,lyrics-000003,7fzwOqIwVlOz76gzGYCnKd,26,Barbed Wire,barbed wire,barbed wire,Micatone,micatone,micatone,The Crack,fullmatch,,,full
+utwu-000912,lyrics-000004,1a310NCNP3372b8DShFDjK,27,Shadow Play,shadow play,shadow play,Warhaus,warhaus,warhaus,Ha Ha Heartbreak,fullmatch,,,full
+utwu-000911,lyrics-000005,7FZ25bDsxycCpufCeOtdKD,28,Truth,truth,truth,Alex Ebert,alex ebert,alex ebert,Alexander,fullmatch,,,full
+utwu-000910,lyrics-000797,5ajdDfS48p5WeK5jP8vGiF,29,The Drugs Do Work,the drugs do work,the drugs do work,Clara Luzia,clara luzia,clara luzia,Here´s to Nemesis,fullmatch,,,full
+utwu-000909,lyrics-000006,5YXPUO6CudCETs43u31IcH,30,Temptation,temptation,temptation,Michelle Gurevich,michelle gurevich,michelle gurevich,Ecstasy in the Shadow of Ecstasy,fullmatch,,,full
+utwu-000908,lyrics-000007,1wIQ2Nm0raqOapHK4bCD3J,31,May It Be,may it be,may it be,Enya,enya,enya,May It Be,fullmatch,,,full
+utwu-000907,lyrics-000008,4bQNusmmVudLxIiexglzh6,32,Orinoco Flow - 2009 Remaster,orinoco flow - 2009 remaster,orinoco flow 2009 remaster,Enya,enya,enya,Watermark (2009 Remaster),fullmatch,,,full
+utwu-000906,lyrics-000009,3850dYVgOFIXJh5U4BFEWH,33,Hung Up,hung up,hung up,Madonna,madonna,madonna,Confessions on a Dance Floor,fullmatch,,,full
+utwu-000905,lyrics-000010,4IiuExPFijOGZnVxGsKWcc,34,Seven Nation Army - The Glitch Mob Remix,seven nation army - the glitch mob remix,seven nation army the glitch mob remix,"The White Stripes, The Glitch Mob","the white stripes, the glitch mob",the white stripes | the glitch mob,Seven Nation Army (The Glitch Mob Remix),fullmatch,,,full
+utwu-000904,lyrics-000011,4FT0ldKhLXZniYmWIXQtw0,35,Bullitt,bullitt,bullitt,Elephanz,elephanz,elephanz,Blowing Like a Storm,fullmatch,,,full
+utwu-000903,lyrics-000012,5zzywMxWuJfnVWKRxb09fj,36,Owl,owl,owl,She Keeps Bees,she keeps bees,she keeps bees,Eight Houses,fullmatch,,,full
+utwu-000902,lyrics-000013,2KdebgluqLBrSKJbaEfbLl,37,Gold to Straw,gold to straw,gold to straw,Oum Shatt,oum shatt,oum shatt,Oum Shatt,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000901,lyrics-000845,7k2RgMZo4ZsQy0QcTWYFJx,38,Mother Mary: Blessings of Our Miraculous Mother of Solar Light,mother mary: blessings of our miraculous mother of solar light,mother mary blessings of our miraculous mother of solar light,Alana Fairchild,alana fairchild,alana fairchild,The Kuan Yin Transmission,fullmatch,,,paraphase
+utwu-000900,lyrics-000014,4KMIxYB3OX5GvKGH2XXOiq,39,Never Let You Go,never let you go,never let you go,"Waldeck, Patrizia Ferrara","waldeck, patrizia ferrara",waldeck | patrizia ferrara,Atlantic Ballroom,fullmatch,,,full
+utwu-000899,lyrics-000015,0f2zcrhhHT59aIGQvRlTZ1,40,One More Night,one more night,one more night,Michael Kiwanuka,michael kiwanuka,michael kiwanuka,Love & Hate,fullmatch,,,full
+utwu-000898,,1TGBgPEtnmPU3EsFR9s6zd,41,The Bookhouse Boys - Instrumental,the bookhouse boys - instrumental,the bookhouse boys instrumental,Angelo Badalamenti,angelo badalamenti,angelo badalamenti,Soundtrack From Twin Peaks,fullmatch,,,instrumental
+utwu-000897,,7Hh8uQRwnlSV7fYZTB2G2D,42,Montage from Twin Peaks,montage from twin peaks,montage from twin peaks,Angelo Badalamenti,angelo badalamenti,angelo badalamenti,Twin Peaks: Fire Walk With Me - Soundtrack,fullmatch,,,instrumental
+utwu-000896,,6FkZCpwSLHCrcl7BqhyY9E,43,Moving Through Time,moving through time,moving through time,Angelo Badalamenti,angelo badalamenti,angelo badalamenti,Twin Peaks: Fire Walk With Me - Soundtrack,fullmatch,,,instrumental
+utwu-000895,,5WXIgZes8ntlCwLJfOzeyB,44,Dance of the Dream Man - Instrumental,dance of the dream man - instrumental,dance of the dream man instrumental,Angelo Badalamenti,angelo badalamenti,angelo badalamenti,Soundtrack From Twin Peaks,fullmatch,,,instrumental
+utwu-000894,lyrics-000846,5g24dfca4XvSL4VhGCmXNs,45,Pieśń Wdzięczności | Song of Gratitude | gdy niebo i ziemia staje się jednym,pieśń wdzięczności | song of gratitude | gdy niebo i ziemia staje się jednym,piesn wdziecznosci song of gratitude gdy niebo i ziemia staje sie jednym,Beata Ślusarek,beata ślusarek,beata slusarek,Pieśń Wdzięczności | Song of Gratitude | gdy niebo i ziemia staje się jednym,fullmatch,,,paraphase
+utwu-000893,lyrics-000847,0fsljuB0X7bY7tRGBTRTUJ,46,Złap mnie – zanim zapomnę ● Zaklęcie Nocy ● slavic fire,złap mnie - zanim zapomnę ● zaklęcie nocy ● slavic fire,złap mnie zanim zapomne zaklecie nocy slavic fire,Beata Ślusarek,beata ślusarek,beata slusarek,Złap mnie – zanim zapomnę ● Zaklęcie Nocy ● slavic fire,fullmatch,,,paraphase
+utwu-000892,lyrics-000848,4zp87k6eCpaUgWJP24dRih,47,"Potężna magia obfitości – Uwolnienie od zazdrości, klątw, złorzeczeń, obciążeń rodowych i własnych przewinień. Głos przodków, ziołowy dym, moc duszy. Szeptanka słowiańska (Slavic Magia)","potężna magia obfitości - uwolnienie od zazdrości, klątw, złorzeczeń, obciążeń rodowych i własnych przewinień. głos przodków, ziołowy dym, moc duszy. szeptanka słowiańska (slavic magia)",potezna magia obfitosci uwolnienie od zazdrosci klatw złorzeczen obciazen rodowych i własnych przewinien głos przodkow ziołowy dym moc duszy szeptanka słowianska slavic magia,Beata Ślusarek,beata ślusarek,beata slusarek,"Potężna magia obfitości – Uwolnienie od zazdrości, klątw, złorzeczeń, obciążeń rodowych i własnych przewinień. Głos przodków, ziołowy dym, moc duszy. Szeptanka słowiańska (Slavic Magia)",fullmatch,,,paraphase
+utwu-000891,lyrics-000016,2T5DrZMJ2og02yetF4IpoM,48,Nieznajomy,nieznajomy,nieznajomy,Tulia,tulia,tulia,Tulia,fullmatch,,,full
+utwu-000890,lyrics-000815,3IYsP4sl8TlMRGGQqS0KpP,49,Щедрик (Szczedryk),щедрик (szczedryk),щедрик szczedryk,Katedralny Chór Parafii Prawosławnej Św. Mikołaja w Gdańsku,katedralny chór parafii prawosławnej św. mikołaja w gdańsku,katedralny chor parafii prawosławnej sw mikołaja w gdansku,Kolędy,fullmatch,,,canonicaltext
+utwu-000889,lyrics-000017,0nsWKjqBsO8eeMLnyUYCap,50,Sługi Za Szlugi,sługi za szlugi,sługi za szlugi,"Yugopolis, Maciej Maleńczuk","yugopolis, maciej maleńczuk",yugopolis | maciej malenczuk,The Best Of Yugopolis (Maleńczuk / Kukiz / Piekarczyk / Muniek I Inni),fullmatch,,,full
+utwu-000888,lyrics-000018,3sfdIENSegL6j8PZL8jEes,51,Bóg - 2008 Remaster,bóg - 2008 remaster,bog 2008 remaster,T.Love,t.love,t love,Złota Kolekcja,fullmatch,,,full
+utwu-000887,lyrics-000019,6wH3gh2QYQfoEZxjnpWH2d,52,Hi-Fi,hi-fi,hi fi,Wanda i Banda,wanda i banda,wanda i banda,Platynowa Płyta,fullmatch,,,full
+utwu-000886,lyrics-000020,5GagHIv9ZPU198naPFbRS2,53,Żyję w kraju,żyję w kraju,zyje w kraju,Strachy Na Lachy,strachy na lachy,strachy na lachy,Dodekafonia,fullmatch,,,full
+utwu-000885,lyrics-000021,6qBBQTa27IJAsz3nGxTm7p,54,Nic nie może wiecznie trwać,nic nie może wiecznie trwać,nic nie moze wiecznie trwac,Anna Jantar,anna jantar,anna jantar,Anna Jantar,fullmatch,,,full
+utwu-000884,lyrics-000022,4aA0qqyR2w9hpxYcHASxlT,55,Ogrodu serce,ogrodu serce,ogrodu serce,Daab,daab,daab,Daab,fullmatch,,,full
+utwu-000883,lyrics-000023,3lOmInQxDnecxjn9mkCDRd,56,Uważaj na niego,uważaj na niego,uwazaj na niego,Pudelsi,pudelsi,pudelsi,Wolnosc Slowa,fullmatch,,,full
+utwu-000882,lyrics-000024,405oT48J84IgtbWVDsCODc,57,Cykady na Cykladach - 2011 Remaster,cykady na cykladach - 2011 remaster,cykady na cykladach 2011 remaster,Maanam,maanam,maanam,Rockandrolle [2001 Remaster],fullmatch,,,full
+utwu-000881,lyrics-000025,142yjgxYc26ON55Zx2M339,58,Mój jest ten kawałek podłogi,mój jest ten kawałek podłogi,moj jest ten kawałek podłogi,Mr. Zoob,mr. zoob,mr zoob,Polskie single '85,fullmatch,,,full
+utwu-000880,lyrics-000026,0Ya7fYlJjeSVSo6rMjHkeL,59,Szklana pogoda,szklana pogoda,szklana pogoda,Małgorzata Ostrowska,małgorzata ostrowska,małgorzata ostrowska,Instynkt - Najwieksze Przeboje,fullmatch,,,full
+utwu-000879,lyrics-000027,5UBBJnFxsfjFxfrtvErQoH,60,Crystalised,crystalised,crystalised,The xx,the xx,the xx,xx,fullmatch,,,full
+utwu-000878,lyrics-000028,3EEd6ldsPat620GVYMEhOP,61,Goo Goo Muck,goo goo muck,goo goo muck,The Cramps,the cramps,the cramps,Psychedelic Jungle,fullmatch,,,full
+utwu-000877,lyrics-000029,73zbXQOi4flzQEiZV3XMwq,62,Remedy,remedy,remedy,MY BABY,my baby,my baby,Shamanaid,fullmatch,,,full
+utwu-000876,,6snvt5biwMulcNrVWPIOH6,63,Aviary,aviary,aviary,Labek & Chrobak,labek & chrobak,labek | chrobak,Wanderer,fullmatch,,,instrumental
+utwu-000875,lyrics-000030,2vwlzO0Qp8kfEtzTsCXfyE,64,Wrecking Ball,wrecking ball,wrecking ball,Miley Cyrus,miley cyrus,miley cyrus,Bangerz (Deluxe Version),fullmatch,,,full
+utwu-000874,lyrics-000031,1zusIxNqJu8i4g6P6hJ2Qa,65,Mercy,mercy,mercy,Duffy,duffy,duffy,Rockferry,fullmatch,,,full
+utwu-000873,lyrics-000032,0K08V3QlZporxrJf8FIZ8M,66,Nothing Breaks Like a Heart - Acoustic Version,nothing breaks like a heart - acoustic version,nothing breaks like a heart acoustic version,"Mark Ronson, Miley Cyrus","mark ronson, miley cyrus",mark ronson | miley cyrus,Nothing Breaks Like a Heart (Acoustic Version),fullmatch,,,full
+utwu-000872,lyrics-000033,6kEpjptnAwt11Atr4cEMe1,67,All Good Things (Come To An End),all good things (come to an end),all good things come to an end,Nelly Furtado,nelly furtado,nelly furtado,Loose,fullmatch,,,full
+utwu-000871,lyrics-000034,4rUqU8SKMG22liqDKsiIp9,68,Nothing Breaks Like a Heart - Spotify Singles,nothing breaks like a heart - spotify singles,nothing breaks like a heart spotify singles,Damiano David,damiano david,damiano david,FUNNY little FEARS (DREAMS),fullmatch,,,full
+utwu-000870,lyrics-000035,32YHCNItnCdiYaPbw0uTo8,69,"I Put A Spell On You (Fifty Shades of Grey) - From ""Fifty Shades Of Grey"" Soundtrack","i put a spell on you (fifty shades of grey) - from ""fifty shades of grey"" soundtrack",i put a spell on you fifty shades of grey from fifty shades of grey soundtrack,Annie Lennox,annie lennox,annie lennox,Fifty Shades Of Grey (Original Motion Picture Soundtrack),fullmatch,,,full
+utwu-000869,lyrics-000036,1cDRpJiJa94Voj0Ayc9iGJ,70,Not Fair,not fair,not fair,Lily Allen,lily allen,lily allen,"It's Not Me, It's You",fullmatch,,,full
+utwu-000868,lyrics-000037,4LK8kGGY0FGSGIAk2GwI30,71,Where the Wild Roses Grow - 2011 Remaster,where the wild roses grow - 2011 remaster,where the wild roses grow 2011 remaster,"Nick Cave & The Bad Seeds, Kylie Minogue","nick cave & the bad seeds, kylie minogue",nick cave | the bad seeds | kylie minogue,Murder Ballads (2011 Remaster),fullmatch,,,full
+utwu-000867,lyrics-000038,4jPayYrYr283vK9xbVGly8,72,Keeping Me Alive,keeping me alive,keeping me alive,Jonathan Roy,jonathan roy,jonathan roy,My Lullaby,fullmatch,,,full
+utwu-000866,lyrics-000039,1fX0h6SaZBXwmr4haRvirQ,73,Nah Neh Nah,nah neh nah,nah neh nah,Vaya Con Dios,vaya con dios,vaya con dios,Night Owls,fullmatch,,,full
+utwu-000865,lyrics-000040,3tEP0x51lSCw35zMyXtgtC,74,Jolene (Live Under Blackpool Lights),jolene (live under blackpool lights),jolene live under blackpool lights,The White Stripes,the white stripes,the white stripes,Jolene (Live Under Blackpool Lights),fullmatch,,,full
+utwu-000864,lyrics-000041,39HFKh08mU0aktj9UulRnY,75,Jolene - Live,jolene - live,jolene live,Miley Cyrus,miley cyrus,miley cyrus,ATTENTION: MILEY LIVE,fullmatch,,,full
+utwu-000863,lyrics-000013,1McTZhC5JeEmEm0AbiAefJ,76,Gold to Straw,gold to straw,gold to straw,Oum Shatt,oum shatt,oum shatt,Gold to Straw,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00013; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000862,lyrics-000042,7KMV8pH4gxwZpGOX6wewmv,77,Perfect World,perfect world,perfect world,Gossip,gossip,gossip,A Joyful Noise,fullmatch,,,full
+utwu-000861,lyrics-000043,1fr92Vupmcs2vgLMFVQ7rd,78,In the Shadows,in the shadows,in the shadows,The Rasmus,the rasmus,the rasmus,Dead Letters,fullmatch,,,full
+utwu-000860,lyrics-000832,4Ft2ecdZmWtf9FW9s8IZAx,79,Too Late,too late,too late,Joe Bel,joe bel,joe bel,Dreams,fullmatch,,,paraphase
+utwu-000859,lyrics-000849,0eEwn4pPQdIRHMeql0CisG,80,In Your Head,in your head,in your head,Isaya,isaya,isaya,"Dead Or Alive, I'll Get You Back (Radical Version)",fullmatch,,,paraphase
+utwu-000858,lyrics-000044,0EUxk35x2a4KhZj9OE9uMC,81,Kobiety jak te kwiaty,kobiety jak te kwiaty,kobiety jak te kwiaty,"Zbigniew Zamachowski, Grupa MoCarta","zbigniew zamachowski, grupa mocarta",zbigniew zamachowski | grupa mocarta,Zamach na MoCarta,fullmatch,,,full
+utwu-000857,lyrics-000045,129lwQo1vx2yQVXCmM7qBC,82,"End of Summer - from ""The Peasants"" Soundtrack","end of summer - from ""the peasants"" soundtrack",end of summer from the peasants soundtrack,"Katie Melua, L.U.C., Rebel Babel Film Orchestra","katie melua, l.u.c., rebel babel film orchestra",katie melua | l u c | rebel babel film orchestra,"End of Summer (from ""The Peasants"" Soundtrack)",fullmatch,,,full
+utwu-000856,lyrics-000833,6OHt64WlY423qZWFZg3Rjt,83,Song X,song x,song x,Kyrie Kristmanson,kyrie kristmanson,kyrie kristmanson,Pagan Love,fullmatch,,,paraphase
+utwu-000855,lyrics-000046,2RngoxYPxGYfjdumNRrZAa,84,Your Woman 1917,your woman 1917,your woman 1917,White Town,white town,white town,Your Woman 1917,fullmatch,,,full
+utwu-000854,lyrics-000047,5DeeewpH31qpJzbEXnim2I,85,Pismo,pismo,pismo,Dr Misio,dr misio,dr misio,Zmartwychwstaniemy,fullmatch,,,full
+utwu-000853,lyrics-000048,5prJgOW5s1nfX7eYe1qoNJ,86,Golden Brown,golden brown,golden brown,The Secret Sea,the secret sea,the secret sea,Golden Brown,fullmatch,,,full
+utwu-000852,lyrics-000049,5gLC6xR1vEM1gFu1BI220z,87,Machinery,machinery,machinery,"Warhaus, Sylvie Kreusch","warhaus, sylvie kreusch",warhaus | sylvie kreusch,We Fucked a Flame Into Being,fullmatch,,,full
+utwu-000851,lyrics-000050,0DowCmp0dlZnWXxPbm6zbp,88,Compulsion,compulsion,compulsion,"Röyksopp, Jamie Irrepressible","röyksopp, jamie irrepressible",royksopp | jamie irrepressible,The Inevitable End,fullmatch,,,full
+utwu-000850,lyrics-000781,5GQMGpwzh7VkxTvlx57h6T,89,Nudny rok,nudny rok,nudny rok,"Matylda/Łukasiewicz, Matylda, Radek Łukasiewicz","matylda/łukasiewicz, matylda, radek łukasiewicz",matylda/łukasiewicz | matylda | radek łukasiewicz,Matka,fullmatch,,,full
+utwu-000849,lyrics-000051,6dy8nEU20Wm1fFMMkGJkrD,90,The Good Lie,the good lie,the good lie,Warhaus,warhaus,warhaus,We Fucked a Flame Into Being,fullmatch,,,full
+utwu-000848,lyrics-000837,0Iw5GdyGy6xxryx8BFY7bU,91,Jođi,jođi,jođi,"Hildá Länsman, Lávre","hildá länsman, lávre",hilda lansman | lavre,Jođi,fullmatch,,,paraphase
+utwu-000847,lyrics-000052,1uTfgYieZbJ2qZ2v2ICndT,92,Your Taste,your taste,your taste,Seth XVI,seth xvi,seth xvi,Your Taste,fullmatch,,,full
+utwu-000846,lyrics-000784,3k78oKVI34phCSeoJUbiON,93,TIMOTHEE CHALAMET,timothee chalamet,timothee chalamet,Kathia,kathia,kathia,przestrzeń,fullmatch,,,full
+utwu-000845,lyrics-000053,0ct0vSOkP0IZnbPGiDltCR,94,I Bet My Life,i bet my life,i bet my life,Imagine Dragons,imagine dragons,imagine dragons,Smoke + Mirrors (Deluxe),fullmatch,,,full
+utwu-000844,lyrics-000838,7sR93qMXyYoj1ShD44QGqf,95,My Russomisia Is Stored In My Tits,my russomisia is stored in my tits,my russomisia is stored in my tits,Dee Lav,dee lav,dee lav,My Russomisia Is Stored In My Tits,fullmatch,,,paraphase
+utwu-000843,lyrics-000054,0MteK167vtyb6hoJNC3Uz3,96,A Girl Like You,a girl like you,a girl like you,Edwyn Collins,edwyn collins,edwyn collins,Gorgeous George,fullmatch,,,full
+utwu-000842,lyrics-000055,48owwMzih4WNxLsv2e6Ejx,97,The Devil You Know,the devil you know,the devil you know,Kovacs,kovacs,kovacs,Shades of Black,fullmatch,,,full
+utwu-000841,lyrics-000056,5d9Ut3jI0WrUmO8jMHQRyC,98,"Do Rycerzy, do Szlachty, do Mieszczan","do rycerzy, do szlachty, do mieszczan",do rycerzy do szlachty do mieszczan,Hey,hey,hey,CDN,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000840,lyrics-000787,6DlI9LHrKxkoxEshDSzWnF,99,Damą Być,damą być,dama byc,Maja Kleszcz,maja kleszcz,maja kleszcz,Osiecka De Luxe,fullmatch,,,full
+utwu-000839,lyrics-000057,3OZemIcNtQ9uSwzR0VSu2r,100,Blue,blue,blue,Spięty,spięty,spiety,HEARTCORE,fullmatch,,,full
+utwu-000838,lyrics-000058,4RKILntw38FZRyfOU6VGUt,101,Powiedz mi jak?,powiedz mi jak?,powiedz mi jak,"DOBRY, Kuba Galiński, Piotr Fronczewski","dobry, kuba galiński, piotr fronczewski",dobry | kuba galinski | piotr fronczewski,Powiedz mi jak?,fullmatch,,,full
+utwu-000837,lyrics-000064,2Bc2lFDw1FMTRceoSd1t5Q,102,Uroda (Prolog),uroda (prolog),uroda prolog,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000836,lyrics-000059,5iM2csz3FbaRekPTy8E5p1,103,"Uciekaj, Moje Serce","uciekaj, moje serce",uciekaj moje serce,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000835,lyrics-000060,4BakODhIuqVSQ9BzDJHTs1,104,Na Całych Jeziorach Ty,na całych jeziorach ty,na całych jeziorach ty,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000834,lyrics-000061,0C1ES12VMXRJrwLU0IDjPJ,105,Kokaina,kokaina,kokaina,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000833,lyrics-000062,2cKojHAzm7lkaopf7TYB5Q,106,Zielono Mi,zielono mi,zielono mi,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000832,lyrics-000063,24aCBjx6snAuOSWbfmviFW,107,Nim Wstanie Dzień,nim wstanie dzień,nim wstanie dzien,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000831,lyrics-000064,7tgo11G4AQ6L58g3LjBvjZ,108,Uroda,uroda,uroda,Nosowska,nosowska,nosowska,Nosowska / Osiecka,fullmatch,,,full
+utwu-000830,lyrics-000056,2PZKdvW6THXDZfM4I0vc2l,109,"Do Rycerzy, do Szlachty, do Mieszczan","do rycerzy, do szlachty, do mieszczan",do rycerzy do szlachty do mieszczan,Hey,hey,hey,"Do Rycerzy, do Szlachty, doo Mieszczan",fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00056; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000829,lyrics-000065,52cxUxEbiY0CGUy1qagVNG,110,Uproszczony Rachunek Sumienia,uproszczony rachunek sumienia,uproszczony rachunek sumienia,Spięty,spięty,spiety,HEARTCORE,fullmatch,,,full
+utwu-000828,lyrics-000881,5nFQsRIjWRnro5cNMBhZc0,111,Czy widziałeś już tę smugę?,czy widziałeś już tę smugę?,czy widziałes juz te smuge,Limboski,limboski,limboski,Ucieczka saula,fullmatch,,paraphase=lyrics-000839,full
+utwu-000827,lyrics-000066,4xiyq1iRdsxuU1BPUJ490Z,112,Close To Me,close to me,close to me,The Cure,the cure,the cure,The Head On The Door (Remastered),fullmatch,,,full
+utwu-000826,lyrics-000774,6TRjYB8ziloBKNS8OOVKXp,113,Myśliwy,myśliwy,mysliwy,Swiernalis,swiernalis,swiernalis,Stoicki Niepokój,fullmatch,,,full
+utwu-000825,lyrics-000067,4hjfOnzzrrrDAGt286htU6,114,Move in the Right Direction,move in the right direction,move in the right direction,Gossip,gossip,gossip,A Joyful Noise,fullmatch,,,full
+utwu-000824,lyrics-000841,4i3VEozXMJnnPmTXJWoJW4,115,Octobre,octobre,octobre,Ezéchiel Pailhès,ezéchiel pailhès,ezechiel pailhes,Tout va bien,fullmatch,,,paraphase
+utwu-000823,lyrics-000068,0NNCkIadCP6VnV7LeGL1zx,116,Natural Blues,natural blues,natural blues,Moby,moby,moby,Play,fullmatch,,,full
+utwu-000822,lyrics-000069,2IAzLFdULtSCi4lLCLG8xh,117,Wonderful Life,wonderful life,wonderful life,Katie Melua,katie melua,katie melua,Ultimate Collection,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000821,lyrics-000070,2tDMqIPCqKWeOhtZ4Gfh4s,118,Clarao Da Lua,clarao da lua,clarao da lua,"Roseaux, Aloe Blacc","roseaux, aloe blacc",roseaux | aloe blacc,Roseaux,fullmatch,,,full
+utwu-000820,lyrics-000071,3EMwcW0vMSOtdun4Xw5RkK,119,Kilka westchnień,kilka westchnień,kilka westchnien,"KARAŚ/ROGUCKI, Kamil Holden Kryszak","karaś/rogucki, kamil holden kryszak",karas/rogucki | kamil holden kryszak,Ostatni Bastion Romantyzmu,fullmatch,,,full
+utwu-000819,lyrics-000072,5gRezZB8meZ4vlEQVMoYa6,120,Za Milena J.,za milena j.,za milena j,Moriarty,moriarty,moriarty,Epitaph,fullmatch,,,full
+utwu-000818,lyrics-000073,0NTSwjegwCGXjm5zMX12VW,121,Otherwise,otherwise,otherwise,Morcheeba,morcheeba,morcheeba,Charango,fullmatch,,,full
+utwu-000817,,7kricxujMus766dyNv1y9h,122,Symphony No. 5 in C-Sharp Minor: I. Trauermarsch (Funeral March),symphony no. 5 in c-sharp minor: i. trauermarsch (funeral march),symphony no 5 in c sharp minor i trauermarsch funeral march,"Gustav Mahler, Berliner Philharmoniker, Bernard Haitink","gustav mahler, berliner philharmoniker, bernard haitink",gustav mahler | berliner philharmoniker | bernard haitink,Mahler's 5th Symphony,fullmatch,,,instrumental
+utwu-000816,lyrics-000216,0WVAwGaHF6KspSBJ5z4trq,123,Dave Brubeck - Golden Brown,dave brubeck - golden brown,dave brubeck golden brown,kebe,kebe,kebe,Dave Brubeck - Golden Brown,fullmatch,,,full
+utwu-000815,,7CrNF9zL7tIQ2269DVxzST,124,Blue Rondo à la Turk,blue rondo à la turk,blue rondo a la turk,The Dave Brubeck Quartet,the dave brubeck quartet,the dave brubeck quartet,Time Out,fullmatch,,,instrumental
+utwu-000814,lyrics-000074,0jARIfDXnlaVHwcQmsjziO,125,Show Your Love,show your love,show your love,The Magic Mumble Jumble,the magic mumble jumble,the magic mumble jumble,Show Your Love,fullmatch,,,full
+utwu-000813,lyrics-000075,4Ql2KRURBmcihAGEKy7ox3,126,Voodoo mon amour,voodoo mon amour,voodoo mon amour,Diablo Swing Orchestra,diablo swing orchestra,diablo swing orchestra,Pandora's Piñata,fullmatch,,,full
+utwu-000812,lyrics-000076,2FhInxwW01SyhpDp9LbInt,127,Speed Dating An Arsonist,speed dating an arsonist,speed dating an arsonist,Diablo Swing Orchestra,diablo swing orchestra,diablo swing orchestra,Swagger & Stroll Down The Rabbit Hole,fullmatch,,,full
+utwu-000811,lyrics-000077,7fKCgr4ZQ2Lvtb711fN8Rz,128,D'Angelo,d'angelo,d angelo,Diablo Swing Orchestra,diablo swing orchestra,diablo swing orchestra,The Butcher's Ballroom,fullmatch,,,full
+utwu-000810,lyrics-000078,3iJLrJmW07dmTDwVDwiUuJ,129,Balrog Boogie,balrog boogie,balrog boogie,Diablo Swing Orchestra,diablo swing orchestra,diablo swing orchestra,The Butcher's Ballroom,fullmatch,,,full
+utwu-000809,lyrics-000079,5CaADHIi7ksj6XN4dAKWCF,130,Let Them Talk,let them talk,let them talk,Hugh Laurie,hugh laurie,hugh laurie,Let Them Talk,fullmatch,,,full
+utwu-000808,,5XSfUql8myjvMsBF48LPhZ,131,"Symphony No. 9 in D Minor, Op. 125 ""Choral"": III. Adagio molto e cantabile - Andante moderato","symphony no. 9 in d minor, op. 125 ""choral"": iii. adagio molto e cantabile - andante moderato",symphony no 9 in d minor op 125 choral iii adagio molto e cantabile andante moderato,"Ludwig van Beethoven, Helena Juntunen, Katarina Karnéus, Daniel Norman, Neal Davies, Minnesota Chorale, Minnesota Orchestra, Osmo Vänskä","ludwig van beethoven, helena juntunen, katarina karnéus, daniel norman, neal davies, minnesota chorale, minnesota orchestra, osmo vänskä",ludwig van beethoven | helena juntunen | katarina karneus | daniel norman | neal davies | minnesota chorale | minnesota orchestra | osmo vanska,"Beethoven, Van L.: Symphony No. 9, ""Choral""",fullmatch,,,instrumental
+utwu-000807,lyrics-000080,3dPQuX8Gs42Y7b454ybpMR,132,Seven Nation Army,seven nation army,seven nation army,The White Stripes,the white stripes,the white stripes,Elephant,fullmatch,,,full
+utwu-000806,lyrics-000081,0momJlD5PW8ypnpDe8qXUN,133,Maria Awaria,maria awaria,maria awaria,Maria Peszek,maria peszek,maria peszek,Maria Awaria,fullmatch,,,full
+utwu-000805,lyrics-000082,3KImQC5C8JLQwGph3DjIAL,134,Kai kairos,kai kairos,kai kairos,Zbigniew Preisner,zbigniew preisner,zbigniew preisner,Requiem for My Friend,fullmatch,,,full
+utwu-000804,lyrics-000083,0Lb0WTPRMnMmc36OEzdyx1,135,Horrible Person,horrible person,horrible person,Hooverphonic,hooverphonic,hooverphonic,Looking For Stars,fullmatch,,,full
+utwu-000803,lyrics-000084,5YtPmRKSb2HXn1Wq94ksVZ,136,Bez tytulu,bez tytulu,bez tytulu,Brodka,brodka,brodka,Granda,fullmatch,,,full
+utwu-000802,lyrics-000609,5SPO91s5J85CAxHREvwj3b,137,Początek,początek,poczatek,"Męskie Granie Orkiestra 2018, Kortez, Dawid Podsiadło, Krzysztof Zalewski","męskie granie orkiestra 2018, kortez, dawid podsiadło, krzysztof zalewski",meskie granie orkiestra 2018 | kortez | dawid podsiadło | krzysztof zalewski,Początek,fullmatch,,,full
+utwu-000801,lyrics-000085,4NyKEVldCvokxpmeFBNNXI,138,2 Wicky,2 wicky,2 wicky,Hooverphonic,hooverphonic,hooverphonic,A New Stereophonic Sound Spectacular,fullmatch,,,full
+utwu-000800,lyrics-000086,2HoUttBjnYCtEoXsNbOXam,139,Szarówka,szarówka,szarowka,Daria Zawiałow,daria zawiałow,daria zawiałow,Helsinki,fullmatch,,,full
+utwu-000799,lyrics-000087,3d263OFGaqKO1azzcSouQU,140,No More Sweet Music,no more sweet music,no more sweet music,Hooverphonic,hooverphonic,hooverphonic,No More Sweet Music,fullmatch,,,full
+utwu-000798,lyrics-000088,5gFEEnLJXAlETNgD40bDiS,141,Holy Holes,holy holes,holy holes,Brodka,brodka,brodka,Clashes,fullmatch,,,full
+utwu-000797,lyrics-000089,6wBmqFpkh3ZEZOiE8At6u2,142,Trifle,trifle,trifle,Fismoll,fismoll,fismoll,At Glade,fullmatch,,,full
+utwu-000796,lyrics-000090,7FCaXjxN2tiYYoKNQJata7,143,Anger Never Dies - Live at Koningin Elisabethzaal 2012,anger never dies - live at koningin elisabethzaal 2012,anger never dies live at koningin elisabethzaal 2012,Hooverphonic,hooverphonic,hooverphonic,With Orchestra Live,fullmatch,,,full
+utwu-000795,lyrics-000850,08fAyOrHiPc8FqPBzuP9h5,144,How We Disappear (feat. Gaba Kulka),how we disappear (feat. gaba kulka),how we disappear feat gaba kulka,"Daniel Bloom, Gaba Kulka","daniel bloom, gaba kulka",daniel bloom | gaba kulka,Lovely Fear,fullmatch,,,paraphase
+utwu-000794,lyrics-000091,5ExcrymqrHd9SAuZOMVnLK,145,Ostatni Dzień Sierpnia,ostatni dzień sierpnia,ostatni dzien sierpnia,Pablopavo i Ludziki,pablopavo i ludziki,pablopavo i ludziki,Ladinola,fullmatch,,,full
+utwu-000793,lyrics-000092,2xaKyfkKpAZ8H1cNa1PZmI,146,Pikselove,pikselove,pikselove,Patrick the Pan,patrick the pan,patrick the pan,...niczym jak liśćmi,fullmatch,,,full
+utwu-000792,lyrics-000093,2AbDY2agHP7e5slykeHPxJ,147,Z imbirem,z imbirem,z imbirem,Kortez,kortez,kortez,Bumerang,fullmatch,,,full
+utwu-000791,lyrics-000095,13qDscBoIHEHNabnfc5DfF,148,Uptight,uptight,uptight,Hooverphonic,hooverphonic,hooverphonic,Uptight,fullmatch,,,full
+utwu-000790,lyrics-000096,5Tu60Rq3knrXuaakIq6a9n,149,Długość dźwięku samotności - Live,długość dźwięku samotności - live,długosc dzwieku samotnosci live,Artur Rojek,artur rojek,artur rojek,Koncert w NOSPR,fullmatch,,,full
+utwu-000789,lyrics-000097,3mQOOsjdN2lrnYPa791oCC,150,Niby nic,niby nic,niby nic,Kortez,kortez,kortez,Bumerang,fullmatch,,,full
+utwu-000788,lyrics-000098,4S81mARVgP200Z7WTXsYYa,151,Nadzieja,nadzieja,nadzieja,IRA,ira,ira,Mój Dom,fullmatch,,,full
+utwu-000787,lyrics-000099,0ia4aWmTtiI0jmTHEA7MPh,152,Ptak,ptak,ptak,Swiernalis,swiernalis,swiernalis,DRAUMA,fullmatch,,,full
+utwu-000786,lyrics-000100,1801LqwEkTC1ogwqU6xgDv,153,Matrioszka,matrioszka,matrioszka,Julia Marcell,julia marcell,julia marcell,June,fullmatch,,,full
+utwu-000785,lyrics-000101,1fUUYkczRALOdfEmyULpNW,154,Vinegar & Salt,vinegar & salt,vinegar salt,Hooverphonic,hooverphonic,hooverphonic,The Magnificent Tree,fullmatch,,,full
+utwu-000784,lyrics-000102,4z9PcCaIMVfxdvum9iodUi,155,What Matters,what matters,what matters,Oxford Drama,oxford drama,oxford drama,In Awe,fullmatch,,,full
+utwu-000783,lyrics-000103,5C7mL1JB6j47k7c9furiOy,156,Telefon,telefon,telefon,Fisz Emade Tworzywo,fisz emade tworzywo,fisz emade tworzywo,Drony,fullmatch,,,full
+utwu-000782,lyrics-000104,0rDlwTUWZLevrdr0YJOHta,157,Zegarmistrz swiatla,zegarmistrz swiatla,zegarmistrz swiatla,Tadeusz Wozniak,tadeusz wozniak,tadeusz wozniak,Live: Polskie Radio Opole 14 listopada 2011,fullmatch,,,full
+utwu-000781,lyrics-000105,5kH4o6XuMjvLnPU1ObTe6r,158,Wódka,wódka,wodka,KULT,kult,kult,Posłuchaj to do Ciebie (Expanded),fullmatch,,,full
+utwu-000780,lyrics-000674,32lCOvSNzbDgybbkWRgNkO,159,Historie,historie,historie,Hey,hey,hey,BŁYSK,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00681; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000779,lyrics-000106,7Gykqx9u74ZTSJtZxUzNQk,160,Wszystko Czego Dziś Chcę 2006,wszystko czego dziś chcę 2006,wszystko czego dzis chce 2006,Izabela Trojanowska,izabela trojanowska,izabela trojanowska,"The Best - Komu Więcej, Komu Mniej",fullmatch,,,full
+utwu-000778,lyrics-000107,0fWOMvjgnyenpnLolfB5UJ,161,Varsovie,varsovie,varsovie,Brodka,brodka,brodka,Varsovie,fullmatch,,,full
+utwu-000777,lyrics-000108,444dmL6qxjuKXmIt3D8Iee,162,Betonowy las,betonowy las,betonowy las,The Dumplings,the dumplings,the dumplings,No Bad Days,fullmatch,,,full
+utwu-000776,lyrics-000109,5LIV8pmvUQ968OuMAByBJE,163,Otwieram wino (feat. Pezet),otwieram wino (feat. pezet),otwieram wino feat pezet,"Sidney Polak, Pezet","sidney polak, pezet",sidney polak | pezet,Sidney Polak,fullmatch,,,full
+utwu-000775,lyrics-000110,27436uRSOQR5Y7gKieorHp,164,Heartbroken - Live at Koningin Elisabethzaal 2012,heartbroken - live at koningin elisabethzaal 2012,heartbroken live at koningin elisabethzaal 2012,Hooverphonic,hooverphonic,hooverphonic,With Orchestra Live,fullmatch,,,full
+utwu-000774,lyrics-000111,5hOnEdUDSZpiTJXZJIl1jy,165,Telefony - Live,telefony - live,telefony live,Republika,republika,republika,Koncerty w Trójce - Republika,fullmatch,,,full
+utwu-000773,lyrics-000775,4gRkhfYplumnv2dd9n8oW9,166,Elektryczny,elektryczny,elektryczny,"Smolik, Brodka, Dawid Podsiadło","smolik, brodka, dawid podsiadło",smolik | brodka | dawid podsiadło,Elektryczny,fullmatch,,,full
+utwu-000772,lyrics-000112,7vngxLe77dR1mliZnVhtXd,167,"Absolutnie, absolutnie","absolutnie, absolutnie",absolutnie absolutnie,Sorry Boys,sorry boys,sorry boys,Miłość,fullmatch,,,full
+utwu-000771,lyrics-000114,6ARQYuejfkqO1DOcMRdga5,168,Melodia ulotna,melodia ulotna,melodia ulotna,Mela Koteluk,mela koteluk,mela koteluk,Spadochron,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000770,lyrics-000115,3c0hQgk0PysO99s5KfRETu,169,Słodkiego Miłego Życia,słodkiego miłego życia,słodkiego miłego zycia,Kombi,kombi,kombi,The Best - Nie Ma Zysku,fullmatch,,,full
+utwu-000769,lyrics-000116,4SsiC8a6tccHyIUevr6c9A,170,Leszek Żukowski,leszek żukowski,leszek zukowski,Coma,coma,coma,Pierwsze Wyjście z Mroku,fullmatch,,,full
+utwu-000768,lyrics-000117,3Ae9CrwkDTxwmoAIsh56mN,171,Mirror Mirror,mirror mirror,mirror mirror,Brodka,brodka,brodka,Clashes,fullmatch,,,full
+utwu-000767,lyrics-000118,5CjTwCKG5z1xroRkWasO4l,172,Amalfi,amalfi,amalfi,Hooverphonic,hooverphonic,hooverphonic,Reflection,fullmatch,,,full
+utwu-000766,lyrics-000119,01VEpM38d3fcWZddfuYWOv,173,Nie gotujemy,nie gotujemy,nie gotujemy,The Dumplings,the dumplings,the dumplings,Sea You Later,fullmatch,,,full
+utwu-000765,lyrics-000120,2a7W4YNYwFuZ3yVclj4AYO,174,Badaboum (Alle Farben Remix) - Radio Edit,badaboum (alle farben remix) - radio edit,badaboum alle farben remix radio edit,"Hooverphonic, Alle Farben","hooverphonic, alle farben",hooverphonic | alle farben,Badaboum (Alle Farben Remix) [Radio Edit],fullmatch,,,full
+utwu-000764,lyrics-000121,4itxKC1nLYQ8H4e2ejj1E3,175,"Dmuchawce, Latawce, Wiatr","dmuchawce, latawce, wiatr",dmuchawce latawce wiatr,Urszula,urszula,urszula,Wielki Odlot 2 - Najlepsze 80-te,fullmatch,,,full
+utwu-000763,lyrics-000122,1ufWTtzrvqafw6a08r53ZC,176,Ach nie mnie jednej,ach nie mnie jednej,ach nie mnie jednej,The Dumplings,the dumplings,the dumplings,nowOsiecka,fullmatch,,,full
+utwu-000762,lyrics-000123,6iTXlr0SekPbXfaJIiLJ4Y,177,Lethal Skies,lethal skies,lethal skies,Hooverphonic,hooverphonic,hooverphonic,Looking For Stars,fullmatch,,,full
+utwu-000761,lyrics-000124,5ytkHKps6RVVDFZwAqVDCB,178,Dlugosc Dzwieku Samotnosci,dlugosc dzwieku samotnosci,dlugosc dzwieku samotnosci,Myslovitz,myslovitz,myslovitz,Marek Sierocki Przedstawia: I love Polska 3,fullmatch,,,full
+utwu-000760,lyrics-000125,1D0ZS8zYoR3AlrHPzmovmf,179,Tak ... Tak ... To Ja,tak ... tak ... to ja,tak tak to ja,Obywatel G.C.,obywatel g.c.,obywatel g c,Tak Tak,fullmatch,,,full
+utwu-000759,lyrics-000126,3ysqSSAhLRjRuvZOC53Y2X,180,Nazywam się niebo,nazywam się niebo,nazywam sie niebo,Natalia Przybysz,natalia przybysz,natalia przybysz,Prąd,fullmatch,,,full
+utwu-000758,lyrics-000127,6Hnzk6dCENEMzzGkDIdphr,181,Saute,saute,saute,Brodka,brodka,brodka,Granda,fullmatch,,,full
+utwu-000757,lyrics-000128,0z3GnQC4I6HDNHM16Cgvj8,182,Mieć czy być,mieć czy być,miec czy byc,Myslovitz,myslovitz,myslovitz,Happiness Is Easy,fullmatch,,,full
+utwu-000756,lyrics-000129,5drK2kTE2mrUdV33iHWyrx,183,Mad About You,mad about you,mad about you,Hooverphonic,hooverphonic,hooverphonic,The Magnificent Tree,fullmatch,,,full
+utwu-000755,lyrics-000130,5jnPsCxNjmGFmkcWYZ8YCS,184,Syreny,syreny,syreny,Artur Rojek,artur rojek,artur rojek,Składam się z ciągłych powtórzeń,fullmatch,,,full
+utwu-000754,lyrics-000131,5IpTvvTopPoAhJLbtQ798i,185,Eden,eden,eden,Hooverphonic,hooverphonic,hooverphonic,Blue Wonder Power Milk,fullmatch,,,full
+utwu-000753,lyrics-000132,1sQg4fEZ1WeZos9zRI02DQ,186,Bohema,bohema,bohema,Wilki,wilki,wilki,Watra,fullmatch,,,full
+utwu-000752,lyrics-000133,0cr5D15Kn6PWGYoSFaGe5M,187,Biała Flaga - Live,biała flaga - live,biała flaga live,Republika,republika,republika,Koncerty w Trójce - Republika,fullmatch,,,full
+utwu-000751,lyrics-000129,5YwVDOWMKH7T0KtvpPSESQ,188,Mad About You - Live at Koningin Elisabethzaal 2012,mad about you - live at koningin elisabethzaal 2012,mad about you live at koningin elisabethzaal 2012,Hooverphonic,hooverphonic,hooverphonic,With Orchestra Live,fullmatch,,,full
+utwu-000750,lyrics-000134,6XJQYViXSKTe6uvI2obPgJ,189,Odprowadź,odprowadź,odprowadz,Mela Koteluk,mela koteluk,mela koteluk,Migawka,fullmatch,,,full
+utwu-000749,lyrics-000135,0BhWzpU0b5M2H6Lwh00RQd,190,Raj,raj,raj,The Dumplings,the dumplings,the dumplings,Raj,fullmatch,,,full
+utwu-000748,lyrics-000136,4sJlsezmKxEifqAwXfg1vm,191,Horses,horses,horses,Brodka,brodka,brodka,Clashes,fullmatch,,,full
+utwu-000747,lyrics-000137,1tbfHPbrcz0oAwwTWQ7CwB,192,Beksa,beksa,beksa,Artur Rojek,artur rojek,artur rojek,Składam się z ciągłych powtórzeń,fullmatch,,,full
+utwu-000746,lyrics-000138,1fbdfgE4ghWN5wKKypOjka,193,Ultimo,ultimo,ultimo,Organek,organek,organek,Czarna Madonna,fullmatch,,,full
+utwu-000745,lyrics-000139,63eCI2o3JIiabGAGs6be86,194,Wracam,wracam,wracam,Sorry Boys,sorry boys,sorry boys,Roma,fullmatch,,,full
+utwu-000744,lyrics-000140,0V9gkVoQl3MzNRgHobbeyz,195,In Wonderland (feat. Bird),in wonderland (feat. bird),in wonderland feat bird,"Hooverphonic, Bird","hooverphonic, bird",hooverphonic | bird,In Wonderland,fullmatch,,,full
+utwu-000743,lyrics-000141,7lpGfZeRhcLlvpcDcSKCFQ,196,Kocham być z tobą,kocham być z tobą,kocham byc z toba,The Dumplings,the dumplings,the dumplings,Sea You Later,fullmatch,,,full
+utwu-000742,lyrics-000142,005fIMi8VxYJy4mNTGR4S8,197,Miłość Miłość,miłość miłość,miłosc miłosc,Krzysztof Zalewski,krzysztof zalewski,krzysztof zalewski,Złoto,fullmatch,,,full
+utwu-000741,lyrics-000143,6NzJx9x59Ktjwtl7Fyq3Bx,198,Krzyzowka dnia,krzyzowka dnia,krzyzowka dnia,Brodka,brodka,brodka,Granda,fullmatch,,,full
+utwu-000740,lyrics-000144,5wY7ZogIkopqocAjGeyzPO,199,Malinowy Chruśniak,malinowy chruśniak,malinowy chrusniak,Daria Zawiałow,daria zawiałow,daria zawiałow,A Kysz!,fullmatch,,,full
+utwu-000739,lyrics-000145,1ngjjSd73Fgkcf3uOCGnxZ,200,Polska,polska,polska,KULT,kult,kult,Posłuchaj to do Ciebie (Expanded),fullmatch,,,full
+utwu-000738,lyrics-000146,6UvHVnBPpxMJrTAFnMK8s2,201,Romantic,romantic,romantic,Hooverphonic,hooverphonic,hooverphonic,Looking For Stars,fullmatch,,,full
+utwu-000737,lyrics-000147,3mFRiJ6c2XXkd0Hd9qWP46,202,Arahja,arahja,arahja,Kult,kult,kult,Spokojnie,fullmatch,,,full
+utwu-000736,lyrics-000148,61vf6elhP2UcE1BkpDylVU,203,Death Is the New Sex,death is the new sex,death is the new sex,Tunng,tunng,tunng,Death Is the New Sex,fullmatch,,,full
+utwu-000735,lyrics-000149,2GoeLsETNdx8lRoWW2aeNj,204,Wearing The Inside Out - 2011 Remaster,wearing the inside out - 2011 remaster,wearing the inside out 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,full
+utwu-000734,lyrics-000806,5UPlQg5xUqfY1s2Q1xBiem,205,Desert Lake,desert lake,desert lake,Donna Blue,donna blue,donna blue,Desert Lake,fullmatch,,,full
+utwu-000733,lyrics-000150,4YLWvrg2Nob2AT9rrjJS4u,206,Odetta,odetta,odetta,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000732,lyrics-000151,1800Hz7CwSUh6VSnIZnuxU,207,Sportowe życie,sportowe życie,sportowe zycie,Artur Rojek,artur rojek,artur rojek,Sportowe życie,fullmatch,,,full
+utwu-000731,lyrics-000152,1bQ4zbP8Fo0qAePTSOfYji,208,Coming Back To Life - 2011 Remaster,coming back to life - 2011 remaster,coming back to life 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,full
+utwu-000730,lyrics-000153,5oWSIIJyMb0xAtAUcGJmy1,209,As You Are,as you are,as you are,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000729,lyrics-000154,1Rn0B4zeGbcttEct0N1XpP,210,Hej Hej!,hej hej!,hej hej,Daria Zawiałow,daria zawiałow,daria zawiałow,Helsinki,fullmatch,,,full
+utwu-000728,lyrics-000834,1j5S9kOSvPCTiSbbkE5zLU,211,Ameland,ameland,ameland,"Aafke Romeijn, Spinvis","aafke romeijn, spinvis",aafke romeijn | spinvis,M,fullmatch,,,paraphase
+utwu-000727,lyrics-000155,5sH6MYqb3qjrN8b5V4ioCr,212,Scheef,scheef,scheef,Eefje de Visser,eefje de visser,eefje de visser,Nachtlicht,fullmatch,,,full
+utwu-000726,lyrics-000156,3z7pAbhG9rxmD9Hg8pFKD4,213,Halfway,halfway,halfway,Balthazar,balthazar,balthazar,Halfway,fullmatch,,,full
+utwu-000725,lyrics-000835,06SZOEJ33jWR2XazmUko3L,214,Deep End,deep end,deep end,Indian Askin,indian askin,indian askin,Deep End,fullmatch,,,paraphase
+utwu-000724,lyrics-000157,66W7mILCPOYcxtvYCCHXs5,215,My Guess,my guess,my guess,Jaguar Jaguar,jaguar jaguar,jaguar jaguar,My Guess,fullmatch,,,full
+utwu-000723,lyrics-000851,33OoPrY7Sf8lmD9Bfj87KM,216,Wherever,wherever,wherever,The Fruitcakes,the fruitcakes,the fruitcakes,Into The Sun,fullmatch,,,paraphase
+utwu-000722,lyrics-000852,4OHHYQxvnyPtbrnE3Ci9dT,217,Atlas wysp,atlas wysp,atlas wysp,Adam Repucha,adam repucha,adam repucha,Atlas wysp,fullmatch,,,paraphase
+utwu-000721,,6bIPHR8AJG5HAcn9oF21Ma,218,Marooned - 2011 Remaster,marooned - 2011 remaster,marooned 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,instrumental
+utwu-000720,lyrics-000158,5a4MgIUSf9K8wXLSm6xPEx,219,High Hopes - 2011 Remaster,high hopes - 2011 remaster,high hopes 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,full
+utwu-000719,lyrics-000159,4h5uZcIbsYgxvXDojajsSZ,220,Odprowadź (Piano Version),odprowadź (piano version),odprowadz piano version,"Mela Koteluk, Hania Rani","mela koteluk, hania rani",mela koteluk | hania rani,Odprowadź (Piano Version),fullmatch,,,full
+utwu-000718,lyrics-000160,5R4XdfbRHahAwS5YSZwFTx,221,Be the Man,be the man,be the man,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000717,lyrics-000161,3CauBZqN2EuHTJo4sSpjbS,222,Is Everybody Going Crazy?,is everybody going crazy?,is everybody going crazy,Nothing But Thieves,nothing but thieves,nothing but thieves,Is Everybody Going Crazy?,fullmatch,,,full
+utwu-000716,lyrics-000162,7fhzES2ZyvdaD7jSwFOZrR,223,Bunker,bunker,bunker,Balthazar,balthazar,balthazar,Thin Walls,fullmatch,,,full
+utwu-000715,lyrics-000163,3YO5XA7Bdi2qDHNVmVfLLW,224,Szampan,szampan,szampan,sanah,sanah,sanah,Szampan,fullmatch,,,full
+utwu-000714,lyrics-000853,2iGu50v4RTHdoZM58gPnKG,225,So Long,so long,so long,Jaguar Jaguar,jaguar jaguar,jaguar jaguar,So Long,fullmatch,,,paraphase
+utwu-000713,lyrics-000164,39g0rzYZEvLTpL8FgdAp8f,226,All The Best Moves,all the best moves,all the best moves,Smith & Burrows,smith & burrows,smith | burrows,All The Best Moves,fullmatch,,,full
+utwu-000712,lyrics-000165,6a0hzOsWWi9XbjFmhSHCw5,227,Pożegnanie Z Bajką,pożegnanie z bajką,pozegnanie z bajka,Zdzisława Sośnicka,zdzisława sośnicka,zdzisława sosnicka,Najlepsze Piosenki Pana Kleksa,fullmatch,,,full
+utwu-000711,lyrics-000167,7kP57UWRbcuU6xtms8uc0s,228,Ale,ale,ale,Patrycja Kosiarkiewicz,patrycja kosiarkiewicz,patrycja kosiarkiewicz,Ale,fullmatch,,,full
+utwu-000710,lyrics-000168,7iTe6jaN7Avf1PNuDII0y8,229,Kosmiczne Energie,kosmiczne energie,kosmiczne energie,Ralph Kaminski,ralph kaminski,ralph kaminski,Kosmiczne Energie,fullmatch,,,full
+utwu-000709,lyrics-000780,4qWVjSd35MhDIkGvrgJRMl,230,Nie Wiem Czy Będę,nie wiem czy będę,nie wiem czy bede,Magda Ruta,magda ruta,magda ruta,Nie Wiem Czy Będę,fullmatch,,,full
+utwu-000708,lyrics-000169,55ztqQJlfbUCr9wVNPh3RI,231,I Fall Asleep So Fast,i fall asleep so fast,i fall asleep so fast,Pitou,pitou,pitou,I Fall Asleep So Fast,fullmatch,,,full
+utwu-000707,lyrics-000170,71TcmnPRvicQXI2FOLRDoT,232,Half Silences,half silences,half silences,Loma,loma,loma,Don't Shy Away,fullmatch,,,full
+utwu-000706,lyrics-000171,4f25p7B3SRzh9Yep7o3w6G,233,Moment Of Surrender,moment of surrender,moment of surrender,Nick Mulvey,nick mulvey,nick mulvey,Moment Of Surrender,fullmatch,,,full
+utwu-000705,lyrics-000172,0p3IKdQa9bazmoM4LM1ECZ,234,Love,love,love,Nasser,nasser,nasser,The Outcome,fullmatch,,,full
+utwu-000704,lyrics-000173,0mmGyZWYZdrlGrLiNvvGwe,235,"We, Us The Pharaohs","we, us the pharaohs",we us the pharaohs,"Maxwell Farrington, Le SuperHomard","maxwell farrington, le superhomard",maxwell farrington | le superhomard,Once,fullmatch,,,full
+utwu-000703,lyrics-000807,4DEaCtz31IiSe0EthgtxX3,236,I Am With You - Alt-Mix By Ran Nir,i am with you - alt-mix by ran nir,i am with you alt mix by ran nir,Ran Nir,ran nir,ran nir,I Am With You (Alt-Mix By Ran Nir),fullmatch,,,full
+utwu-000702,lyrics-000876,6XyQmoLpDGquZPj8Pq7Wlj,237,Dom Sąsiedni,dom sąsiedni,dom sasiedni,"L.U.C., Rebel Babel Ensemble, Renata Przemyk","l.u.c., rebel babel ensemble, renata przemyk",l u c | rebel babel ensemble | renata przemyk,Dialog 2,fullmatch,,,paraphase
+utwu-000701,lyrics-000174,6OUdLpmsRoLl7XEnv90Im3,238,Appaloosa,appaloosa,appaloosa,Lor,lor,lor,Panny Młode,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000700,lyrics-000438,6VpJ26HWon5LXDAlaesxFY,239,L'enfant roi,l'enfant roi,l enfant roi,Noir Désir,noir désir,noir desir,Des visages des figures,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00442; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000699,lyrics-000175,2JsXkseHmmK4IrX5sQsuG4,240,Petrified,petrified,petrified,Flunk,flunk,flunk,Chemistry and Math,fullmatch,,,full
+utwu-000698,lyrics-000176,1bjsEBxO5nw8y0SWQFfad2,241,New Light of Tomorrow,new light of tomorrow,new light of tomorrow,Husky Rescue,husky rescue,husky rescue,Country Falls,fullmatch,,,full
+utwu-000697,lyrics-000177,4bzWNPOB16sEuhuwfOLnu3,242,Slowdive: Sugar for the Pill (Recable Remix),slowdive: sugar for the pill (recable remix),slowdive sugar for the pill recable remix,Recable,recable,recable,Slowdive: Sugar for the Pill (Recable Remix),fullmatch,,,full
+utwu-000696,lyrics-000178,3RuWfEaCNaU63WnRqmZbNi,243,Queen of the Underground,queen of the underground,queen of the underground,Flunk,flunk,flunk,Lost Causes,fullmatch,,,full
+utwu-000695,lyrics-000179,46fu4IOxRrNwRve1SwmazW,244,The Fields,the fields,the fields,Apes & Horses,apes & horses,apes | horses,Bleu nuit,fullmatch,,,full
+utwu-000694,lyrics-000180,1qgfwbnDcKmo4fWVWYJd6z,245,In the Shade of the Sun,in the shade of the sun,in the shade of the sun,Kapitan Korsakov,kapitan korsakov,kapitan korsakov,stuff&such,fullmatch,,,full
+utwu-000693,lyrics-000181,5VGY2chHJ8aqGfgMk0hsTI,246,See It Coming,see it coming,see it coming,Raz Ohara,raz ohara,raz ohara,See It Coming,fullmatch,,,full
+utwu-000692,lyrics-000854,2NY4A8D2xqwnS21ki6ENGh,247,Nosedive,nosedive,nosedive,The Flabbies,the flabbies,the flabbies,Back in Town,fullmatch,,,paraphase
+utwu-000691,lyrics-000855,7w0eDwpwVu4cW6KaGqkQR3,248,BEATNIK OR NOT TO BE,beatnik or not to be,beatnik or not to be,Elias Dris,elias dris,elias dris,Beatnik or Not to Be,fullmatch,,,paraphase
+utwu-000690,,3mb2fkaJUlrRnwxGRGQAGS,249,Agit,agit,agit,islandman,islandman,islandman,Rest in Space,fullmatch,,,instrumental
+utwu-000689,lyrics-000182,037LOPcdTnSVghexA2HU70,250,Redshift,redshift,redshift,"Nitin Sawhney, J’Danna","nitin sawhney, j'danna",nitin sawhney | j danna,Dystopian Dream,fullmatch,,,full
+utwu-000688,lyrics-000856,3qrSK3XkSIE2S7ny2wZVpg,251,Wings of Life,wings of life,wings of life,Gods Of Venus,gods of venus,gods of venus,Wings Of Life,fullmatch,,,paraphase
+utwu-000687,lyrics-000183,2i6ph1CIFZdaRH5tOWlHJV,252,A Thousand Kisses Deep,a thousand kisses deep,a thousand kisses deep,"Howe Gelb, M. Ward","howe gelb, m. ward",howe gelb | m ward,Gathered,fullmatch,,,full
+utwu-000686,lyrics-000184,6uIamhPtriYGY0T7v3pgyB,253,Somewhere Else,somewhere else,somewhere else,"Federico Aubele, Melody Gardot","federico aubele, melody gardot",federico aubele | melody gardot,5,fullmatch,,,full
+utwu-000685,lyrics-000185,1cFafTZ4kcW0lb4TIOyBqm,254,Adventures,adventures,adventures,Futuro Pelo,futuro pelo,futuro pelo,Bluff,fullmatch,,,full
+utwu-000684,lyrics-000186,0WSCN0wrc6rtovdKroP6yh,255,Looking for You,looking for you,looking for you,"Flo Morrissey, Matthew E. White","flo morrissey, matthew e. white",flo morrissey | matthew e white,"Gentlewoman, Ruby Man",fullmatch,,,full
+utwu-000683,lyrics-000187,1E7VUnQ86OrcoRpmvICLmy,256,Willow Tree,willow tree,willow tree,"Slackwax, Dan Reeder","slackwax, dan reeder",slackwax | dan reeder,Night Out,fullmatch,,,full
+utwu-000682,lyrics-000188,0C0Jw3Tq1XrAGO0mxT6z5t,257,By Your Side (feat. Bajka),by your side (feat. bajka),by your side feat bajka,Mich Gerber,mich gerber,mich gerber,Wanderer,fullmatch,,,full
+utwu-000681,,12qK04fJriVXCCEf2roMyr,258,Ice for Aureliano Buendia,ice for aureliano buendia,ice for aureliano buendia,Evgeny Grinko,evgeny grinko,evgeny grinko,Ice for Aureliano Buendia (Deluxe Edition),fullmatch,,,instrumental
+utwu-000680,lyrics-000818,5OhzrS0N9hUOLDqRNhe28K,259,Amara Terra Mia,amara terra mia,amara terra mia,Elina Duni,elina duni,elina duni,Partir,fullmatch,,,canonicaltext
+utwu-000679,lyrics-000189,2GB1sYi49t87FBHntFSWsW,260,Chemistry and Math,chemistry and math,chemistry and math,Flunk,flunk,flunk,Chemistry and Math,fullmatch,,,full
+utwu-000678,lyrics-000190,1ua6hBq18qZLyprXjMcpyf,261,Someday,someday,someday,Virgil Howe,virgil howe,virgil howe,Someday,fullmatch,,,full
+utwu-000677,lyrics-000191,0UvZREP5jqZ53uzasKhMEt,262,Strange Weather,strange weather,strange weather,Keren Ann,keren ann,keren ann,101,fullmatch,,,full
+utwu-000676,lyrics-000192,7pYwIAHOX0YvKFLOg5hhZm,263,Season Song,season song,season song,Blue States,blue states,blue states,Man Mountain,fullmatch,,,full
+utwu-000675,lyrics-000193,1XqQeWCpLMWehh4TRScaal,264,Changed the Locks,changed the locks,changed the locks,"High Water, Will Epstein","high water, will epstein",high water | will epstein,Crush,fullmatch,,,full
+utwu-000674,lyrics-000194,1BqI6gAroa3wzLOZlPW3nx,265,Nobody Knows,nobody knows,nobody knows,Elsiane,elsiane,elsiane,Mechanics of Emotion,fullmatch,,,full
+utwu-000673,lyrics-000857,2IcZ2OrLIxNCrxvwabWLns,266,The Air I Breathe,the air i breathe,the air i breathe,Badmarsh & Shri,badmarsh & shri,badmarsh | shri,Dancing Drums,fullmatch,,,paraphase
+utwu-000672,lyrics-000195,5tRN9ORzw8A7BWyJ4XH1sG,267,TMTTUOT,tmttuot,tmttuot,Flunk,flunk,flunk,Chemistry and Math,fullmatch,,,full
+utwu-000671,lyrics-000877,6DJ7FQf1hPp0s0mPkbIF7X,268,Shiva Saṅkalpa Sūktam Peaceful Mind,shiva saṅkalpa sūktam peaceful mind,shiva sankalpa suktam peaceful mind,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Powerful Sanskrit Mantras,fullmatch,,,canonicaltext
+utwu-000670,lyrics-000878,15jOrmaFGWThhlWccOAzDH,269,Durgā Sūktam Courage & Strength,durgā sūktam courage & strength,durga suktam courage strength,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Powerful Sanskrit Mantras,fullmatch,,,canonicaltext
+utwu-000669,lyrics-000786,7wN0mketrwX8EXMMkRRvUe,270,Zanim wstanie miasto,zanim wstanie miasto,zanim wstanie miasto,"Maja Kleszcz, IncarNations","maja kleszcz, incarnations",maja kleszcz | incarnations,Romantyczność,fullmatch,,,full
+utwu-000668,lyrics-000830,7wMGKziHMkic15akQHvRBF,271,Oh Angel,oh angel,oh angel,"Polskie Znaki, Mark Lanegan","polskie znaki, mark lanegan",polskie znaki | mark lanegan,Rzeczy ostatnie,fullmatch,,,paraphase
+utwu-000667,lyrics-000196,2GuIRSthEpYN5MO6PGD7Vx,272,Dorothy,dorothy,dorothy,Polo & Pan,polo & pan,polo | pan,Amor à Francesa,fullmatch,,,full
+utwu-000666,,0ke0wCU8urjpNRxs5b6qoa,273,Gnossienne n°1,gnossienne n°1,gnossienne n 1,"Thibault Cauvin, -M-","thibault cauvin, -m-",thibault cauvin | m,L'heure miroir,fullmatch,,,instrumental
+utwu-000665,lyrics-000840,7HUQsxWDNH9j4HD0pYEVdN,274,Čuojahat Mu,čuojahat mu,cuojahat mu,"Hildá Länsman, Tuomas Norvio","hildá länsman, tuomas norvio",hilda lansman | tuomas norvio,Čuojahat Mu,fullmatch,,,paraphase
+utwu-000664,lyrics-000197,3u5N55tHf7hXATSQrjBh2q,275,Freed From Desire,freed from desire,freed from desire,"Gala, Molella, Phil Jay","gala, molella, phil jay",gala | molella | phil jay,Come Into My Life (The Album),fullmatch,,,full
+utwu-000663,lyrics-000836,1LbebplBg3Av4K5V8ALx1a,276,Złote łezki,złote łezki,złote łezki,"Meek, Oh Why?, BIESY","meek, oh why?, biesy",meek | oh why | biesy,Wszystko w swoim czasie,fullmatch,,,paraphase
+utwu-000662,lyrics-000789,6wnteO1ZaT3wCQ4X40jAjB,277,"Orszaki, dworaki","orszaki, dworaki",orszaki dworaki,Agnieszka Osiecka & Jerzy Satanowski,agnieszka osiecka & jerzy satanowski,agnieszka osiecka | jerzy satanowski,Dziękuję za świat,fullmatch,,,full
+utwu-000661,lyrics-000198,2IxixfQUSQkwCCblJT3Eq1,278,Heavy Cross,heavy cross,heavy cross,Gossip,gossip,gossip,Music For Men (Deluxe Version),fullmatch,,,full
+utwu-000660,lyrics-000882,6BdFZd5lLdoV1VjuBajSpQ,279,Nie stało się nic (Mierzeja 2 | Empik Go),nie stało się nic (mierzeja 2 | empik go),nie stało sie nic mierzeja 2 empik go,"Matylda/Łukasiewicz, Matylda, Radek Łukasiewicz","matylda/łukasiewicz, matylda, radek łukasiewicz",matylda/łukasiewicz | matylda | radek łukasiewicz,Nie stało się nic (Mierzeja 2 | Empik Go),fullmatch,,paraphase=lyrics-000858,full
+utwu-000659,lyrics-000199,3ZSj6mykyCr6uAZ5Shb7RL,280,No Way,no way,no way,Mariama,mariama,mariama,The Easy Way Out,fullmatch,,,full
+utwu-000658,lyrics-000200,2wxJo3MKvoVA8whQLMInWC,281,Matka,matka,matka,"Matylda/Łukasiewicz, Matylda, Radek Łukasiewicz","matylda/łukasiewicz, matylda, radek łukasiewicz",matylda/łukasiewicz | matylda | radek łukasiewicz,Matka,fullmatch,,,full
+utwu-000657,lyrics-000201,0an0N0CkPE3Be9HxYPX0YK,282,Hvis Bare Jeg Ku',hvis bare jeg ku',hvis bare jeg ku,Peter Sommer,peter sommer,peter sommer,På Den Anden Side,fullmatch,,,full
+utwu-000656,lyrics-000202,2dLLR6qlu5UJ5gk0dKz0h3,283,Royals,royals,royals,Lorde,lorde,lorde,Pure Heroine,fullmatch,,,full
+utwu-000655,lyrics-000203,3QeaXGKRvt8cfHdrfdk5pL,284,We Wait,we wait,we wait,Other Lives,other lives,other lives,For Their Love,fullmatch,,,full
+utwu-000654,lyrics-000204,3Jnxngdff0lVu2rza1GVx6,285,Paranoid - 2009 Remaster,paranoid - 2009 remaster,paranoid 2009 remaster,Black Sabbath,black sabbath,black sabbath,Paranoid,fullmatch,,,full
+utwu-000653,lyrics-000205,2uXlHCUbq9OMUwx3hrk06o,286,Riptide,riptide,riptide,Vance Joy,vance joy,vance joy,Dream Your Life Away (Deluxe Edition),fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000652,,3KZaxPyMoSDRScKEdsX7Ht,287,"Symphony No. 2 in C minor - ""Resurrection"" / 5th Movement: Wieder zurückhaltend","symphony no. 2 in c minor - ""resurrection"" / 5th movement: wieder zurückhaltend",symphony no 2 in c minor resurrection 5th movement wieder zuruckhaltend,"Gustav Mahler, Wiener Philharmoniker, Gilbert Kaplan","gustav mahler, wiener philharmoniker, gilbert kaplan",gustav mahler | wiener philharmoniker | gilbert kaplan,Mahler: Symphony No. 2,fullmatch,,,instrumental
+utwu-000651,lyrics-000206,0vlCOzte4bru0gK74lfUIJ,288,Once Upon A Time In The West,once upon a time in the west,once upon a time in the west,Dire Straits,dire straits,dire straits,Communiqué,fullmatch,,,full
+utwu-000650,lyrics-000207,3CRDbSIZ4r5MsZ0YwxuEkn,289,Stressed Out,stressed out,stressed out,Twenty One Pilots,twenty one pilots,twenty one pilots,Blurryface,fullmatch,,,full
+utwu-000649,lyrics-000208,4gMgiXfqyzZLMhsksGmbQV,290,"Another Brick in the Wall, Pt. 2","another brick in the wall, pt. 2",another brick in the wall pt 2,Pink Floyd,pink floyd,pink floyd,The Wall,fullmatch,,,full
+utwu-000648,lyrics-000209,2IjyXpNgpBJuOoyKqNnvLh,291,Wolf,wolf,wolf,First Aid Kit,first aid kit,first aid kit,The Lion's Roar,fullmatch,,,full
+utwu-000647,lyrics-000210,4NQfrmGs9iQXVQI9IpRhjM,292,The Thrill Is Gone,the thrill is gone,the thrill is gone,B.B. King,b.b. king,b b king,Completely Well,fullmatch,,,full
+utwu-000646,lyrics-000211,54eZmuggBFJbV7k248bTTt,293,A Horse with No Name,a horse with no name,a horse with no name,"America, George Martin","america, george martin",america | george martin,America,fullmatch,,,full
+utwu-000645,lyrics-000212,4KFM3A5QF2IMcc6nHsu3Wp,294,Englishman In New York,englishman in new york,englishman in new york,Sting,sting,sting,...Nothing Like The Sun,fullmatch,,,full
+utwu-000644,lyrics-000213,3o1cohFfwd57rAvrbyVE5e,295,Love Love Love,love love love,love love love,Of Monsters and Men,of monsters and men,of monsters | men,My Head Is An Animal,fullmatch,,,full
+utwu-000643,lyrics-000214,1KPuohcXPmJYQfdyg9zKmR,296,Another One Bites The Dust - Remastered 2011,another one bites the dust - remastered 2011,another one bites the dust remastered 2011,Queen,queen,queen,The Game (2011 Remaster),fullmatch,,,full
+utwu-000642,lyrics-000215,6ek9SiEj5a65WIs2EV7qiM,297,Son Of A Preacher Man,son of a preacher man,son of a preacher man,Dusty Springfield,dusty springfield,dusty springfield,Dusty In Memphis,fullmatch,,,full
+utwu-000641,lyrics-000216,2AX5E86cn9n2dgioZEjirI,298,Golden Brown,golden brown,golden brown,The Stranglers,the stranglers,the stranglers,La Folie,fullmatch,,,full
+utwu-000640,lyrics-000217,6aWZmnIsIgwyeUIOmRGL5m,299,Fisherman's Blues - 2006 Remaster,fisherman's blues - 2006 remaster,fisherman s blues 2006 remaster,The Waterboys,the waterboys,the waterboys,Fisherman's Blues,fullmatch,,,full
+utwu-000639,lyrics-000218,5w6B0sAH7XauCvMOAtplQj,300,Fire,fire,fire,Barns Courtney,barns courtney,barns courtney,The Attractions Of Youth,fullmatch,,,full
+utwu-000638,lyrics-000219,1k1Bqnv2R0uJXQN4u6LKYt,301,Ain't No Sunshine,ain't no sunshine,ain t no sunshine,Bill Withers,bill withers,bill withers,Just As I Am,fullmatch,,,full
+utwu-000637,lyrics-000220,37Tmv4NnfQeb0ZgUC4fOJj,302,Sultans Of Swing,sultans of swing,sultans of swing,Dire Straits,dire straits,dire straits,Dire Straits,fullmatch,,,full
+utwu-000636,lyrics-000221,4Pslf0rV8BsQVYmXjdei37,303,Zostań,zostań,zostan,Kortez,kortez,kortez,Bumerang,fullmatch,,,full
+utwu-000635,lyrics-000222,7ueP5u2qkdZbIPN2YA6LR0,304,Sail,sail,sail,AWOLNATION,awolnation,awolnation,Megalithic Symphony,fullmatch,,,full
+utwu-000634,lyrics-000223,2miIOgni3EEut8pvYcxeYn,305,Six Blade Knife,six blade knife,six blade knife,Dire Straits,dire straits,dire straits,Dire Straits,fullmatch,,,full
+utwu-000633,lyrics-000224,7n3WO6ESKS1uCI9fgkGs66,306,I'd Love to Change the World - 2004 Remaster,i'd love to change the world - 2004 remaster,i d love to change the world 2004 remaster,Ten Years After,ten years after,ten years after,A Space in Time (Deluxe Version),fullmatch,,,full
+utwu-000632,lyrics-000225,6FBPQuYFZIne5cpTASUOGR,307,"Dzień dobry, kocham Cię","dzień dobry, kocham cię",dzien dobry kocham cie,Strachy Na Lachy,strachy na lachy,strachy na lachy,Piła tango,fullmatch,,,full
+utwu-000631,lyrics-000226,71Ci9E79HpYkqpnl9zSUOQ,308,In This Shirt - Royksopp Remix,in this shirt - royksopp remix,in this shirt royksopp remix,"The Irrepressibles, Röyksopp","the irrepressibles, röyksopp",the irrepressibles | royksopp,In This Shirt,fullmatch,,,full
+utwu-000630,lyrics-000227,14QX1ckbDIhqetvu5VZ3cP,309,In This Shirt,in this shirt,in this shirt,The Irrepressibles,the irrepressibles,the irrepressibles,From the Circus to the Sea,fullmatch,,,full
+utwu-000629,lyrics-000228,2BndJYJQ17UcEeUFJP5JmY,310,Paradise Circus,paradise circus,paradise circus,"Massive Attack, Hope Sandoval","massive attack, hope sandoval",massive attack | hope sandoval,Heligoland,fullmatch,,,full
+utwu-000628,lyrics-000229,24XC4mNauEw0Kijae9qwcY,311,Barricades - The Blanck Mass recording,barricades - the blanck mass recording,barricades the blanck mass recording,Editors,editors,editors,Barricades (The Blanck Mass recording),fullmatch,,,full
+utwu-000627,lyrics-000230,1oYYd2gnWZYrt89EBXdFiO,312,Message In A Bottle,message in a bottle,message in a bottle,The Police,the police,the police,Reggatta De Blanc (Remastered 2003),fullmatch,,,full
+utwu-000626,lyrics-000231,5p3JunprHCxClJjOmcLV8G,313,Walk On the Wild Side,walk on the wild side,walk on the wild side,Lou Reed,lou reed,lou reed,Transformer,fullmatch,,,full
+utwu-000625,lyrics-000232,0DcEV14d8zZykcFQ6PI2KQ,314,Joan Crawford,joan crawford,joan crawford,Blue Öyster Cult,blue öyster cult,blue oyster cult,Fire of Unknown Origin,fullmatch,,,full
+utwu-000624,lyrics-000233,0GTK6TesV108Jj5D3MHsYb,315,Owner of a Lonely Heart,owner of a lonely heart,owner of a lonely heart,Yes,yes,yes,90125 (Deluxe Version),fullmatch,,,full
+utwu-000623,lyrics-000234,6bofgga9Ld54uPgEHlr0Ne,316,Demon's Eye - 1996 Remaster,demon's eye - 1996 remaster,demon s eye 1996 remaster,Deep Purple,deep purple,deep purple,Fireball (25th Anniversary Edition),fullmatch,,,full
+utwu-000622,lyrics-000235,14XWXWv5FoCbFzLksawpEe,317,Riders on the Storm,riders on the storm,riders on the storm,The Doors,the doors,the doors,L.A. Woman,fullmatch,,,full
+utwu-000621,lyrics-000236,0No5Hr1LxZjJHGsQSTy2bm,318,I Can't Dance - Remastered 2007,i can't dance - remastered 2007,i can t dance remastered 2007,Genesis,genesis,genesis,We Can't Dance,fullmatch,,,full
+utwu-000620,lyrics-000237,2PzU4IB8Dr6mxV3lHuaG34,319,(I Can't Get No) Satisfaction - Mono,(i can't get no) satisfaction - mono,i can t get no satisfaction mono,The Rolling Stones,the rolling stones,the rolling stones,Out Of Our Heads,fullmatch,,,full
+utwu-000619,lyrics-000238,32sSR7MgxuLxQP4q4F4tGH,320,Piła tango,piła tango,piła tango,Strachy Na Lachy,strachy na lachy,strachy na lachy,Piła tango,fullmatch,,,full
+utwu-000618,lyrics-000239,5uvosCdMlFdTXhoazkTI5R,321,Light My Fire,light my fire,light my fire,The Doors,the doors,the doors,The Doors,fullmatch,,,full
+utwu-000617,lyrics-000240,5nklmUDKX1m6fTZlxD1X5w,322,Czarny chleb i czarna kawa,czarny chleb i czarna kawa,czarny chleb i czarna kawa,Strachy Na Lachy,strachy na lachy,strachy na lachy,Piła tango,fullmatch,,,full
+utwu-000616,lyrics-000241,4ZSDreApKOo6eQYFx9qXfD,323,Tunnel Of Love,tunnel of love,tunnel of love,Dire Straits,dire straits,dire straits,Making Movies,fullmatch,,,full
+utwu-000615,lyrics-000242,0wJoRiX5K5BxlqZTolB2LD,324,Purple Haze,purple haze,purple haze,Jimi Hendrix,jimi hendrix,jimi hendrix,Are You Experienced,fullmatch,,,full
+utwu-000614,lyrics-000243,63T7DJ1AFDD6Bn8VzG6JE8,325,"Paint It, Black","paint it, black",paint it black,The Rolling Stones,the rolling stones,the rolling stones,Aftermath,fullmatch,,,full
+utwu-000613,lyrics-000244,0zxj7dVhYZq5ACyaDx5XIo,326,"Layla - Acoustic; Live at MTV Unplugged, Bray Film Studios, Windsor, England, UK, 1/16/1992; 2013 Remaster","layla - acoustic; live at mtv unplugged, bray film studios, windsor, england, uk, 1/16/1992; 2013 remaster",layla acoustic live at mtv unplugged bray film studios windsor england uk 1 16 1992 2013 remaster,Eric Clapton,eric clapton,eric clapton,Unplugged (Deluxe Edition),fullmatch,,,full
+utwu-000612,lyrics-000245,4uGIJG1jYFonGc4LGp5uQL,327,Somebody to Love,somebody to love,somebody to love,Jefferson Airplane,jefferson airplane,jefferson airplane,Surrealistic Pillow,fullmatch,,,full
+utwu-000611,lyrics-000246,318KZH2O4R003o3hL1aDqS,328,Gdy nie ma dzieci,gdy nie ma dzieci,gdy nie ma dzieci,Kult,kult,kult,Ostateczny krach systemu korporacji,fullmatch,,,full
+utwu-000610,lyrics-000247,4TWWjzIDXdu1blHXjhOdAa,329,Wojenka,wojenka,wojenka,Lao Che,lao che,lao che,Dzieciom,fullmatch,,,full
+utwu-000609,lyrics-000248,5samEeztCGNmigS1XNnbup,330,Madryt,madryt,madryt,Kult,kult,kult,Wstyd,fullmatch,,,full
+utwu-000608,lyrics-000249,68Fa3IMF05Rj9lX3TRJepp,331,A Kind Of Magic - Remastered 2011,a kind of magic - remastered 2011,a kind of magic remastered 2011,Queen,queen,queen,A Kind Of Magic (2011 Remaster),fullmatch,,,full
+utwu-000607,lyrics-000250,0vFOzaXqZHahrZp6enQwQb,332,Money - 2011 Remastered Version,money - 2011 remastered version,money 2011 remastered version,Pink Floyd,pink floyd,pink floyd,The Dark Side Of The Moon (2011 Remastered Version),fullmatch,,,full
+utwu-000606,lyrics-000251,3Eog0V6GCpABelD89PbUeB,333,Believer - Live/Acoustic,believer - live/acoustic,believer live acoustic,Imagine Dragons,imagine dragons,imagine dragons,Live At AllSaints Studios,fullmatch,,,full
+utwu-000605,lyrics-000252,5rze8txDmX8Ux1CWdYlEhf,334,Załoga G,załoga g,załoga g,Hurt,hurt,hurt,Załoga G,fullmatch,,,full
+utwu-000604,lyrics-000859,0KeTYvIucwFVN2mNqcaHN3,335,Who are you ?,who are you ?,who are you,Louis Aguilar,louis aguilar,louis aguilar,Who are you ?,fullmatch,,,paraphase
+utwu-000603,lyrics-000253,1O64wOa61aUzJ1s8SQptjS,336,Only Takes A Night (Unreleased B-side),only takes a night (unreleased b-side),only takes a night unreleased b side,The Dø,the dø,the dø,Shake Shook Shaken B-Sides – EP,fullmatch,,,full
+utwu-000602,lyrics-000222,6AXDGcFeNcBvwsk4NRIASB,337,Sail,sail,sail,MEUTE,meute,meute,Sail,fullmatch,,,full
+utwu-000601,lyrics-000254,2EWnKuspetOzgfBtmaNZvJ,338,Familiar,familiar,familiar,Agnes Obel,agnes obel,agnes obel,Citizen of Glass,fullmatch,,,full
+utwu-000600,lyrics-000255,7zzpUpO5j6AqrY9LKeTBJP,339,Po prostu pastelowe,po prostu pastelowe,po prostu pastelowe,Holak,holak,holak,Po prostu pastelowe,fullmatch,,,full
+utwu-000599,lyrics-000256,2OTsxrA8P5JjBl3kz4478w,340,Nemesis,nemesis,nemesis,Benjamin Clementine,benjamin clementine,benjamin clementine,At Least For Now,fullmatch,,,full
+utwu-000598,,1MdbDBwEEecnlLiyWChJFh,341,You & Me,you & me,you me,MEUTE,meute,meute,You & Me,fullmatch,,,instrumental
+utwu-000597,lyrics-000257,43ofOV515RdLiLOc5vQmqC,342,The Sun,the sun,the sun,"Parov Stelar, Graham Candy","parov stelar, graham candy",parov stelar | graham candy,Clap Your Hands,fullmatch,,,full
+utwu-000596,,7fpZy2jdKlLZpZALAOzw3k,343,Melos,melos,melos,"Vassilis Tsabropoulos, Anja Lechner, U.T. Gandhi","vassilis tsabropoulos, anja lechner, u.t. gandhi",vassilis tsabropoulos | anja lechner | u t gandhi,Melos,fullmatch,,,instrumental
+utwu-000595,lyrics-000816,3NVzrwDFsl9YG4Vaj924NN,344,Om Maṇi Padme Hūm,om maṇi padme hūm,om mani padme hum,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Powerful Sanskrit Mantras,fullmatch,,,canonicaltext
+utwu-000594,lyrics-000831,2owq11I1uoyyOPNbzL0pW1,345,To Remove Fear,to remove fear,to remove fear,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Powerful Sanskrit Mantras,fullmatch,,,paraphase
+utwu-000593,lyrics-000817,2xWnlp8263yjHJv81vrDoM,346,Vajrasattva,vajrasattva,vajrasattva,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Breath Of God,fullmatch,,,canonicaltext
+utwu-000592,lyrics-000879,5oM7rBOmOJgP95iN2ulzGT,347,Heart Sutra,heart sutra,heart sutra,Gaiea Sanskrit,gaiea sanskrit,gaiea sanskrit,Sanskrit Medicine Mantras,fullmatch,,,canonicaltext
+utwu-000591,,3CWAHLM9tnEvpjVRwPXXbl,348,Esse Olhar Que Era So Teu,esse olhar que era so teu,esse olhar que era so teu,"Dead Combo, Tó Trips, Pedro Gonçalves","dead combo, tó trips, pedro gonçalves",dead combo | to trips | pedro goncalves,Lisboa Mulata,fullmatch,,,instrumental
+utwu-000590,,7ekNZnJCNvTpeO3F4g8MRN,349,Rakoon Riddim,rakoon riddim,rakoon riddim,JPattersson,jpattersson,jpattersson,Folks & Fanfare,fullmatch,,,instrumental
+utwu-000589,lyrics-000259,2IGMzVvgM5jsHvRXShFzev,350,Diamond Veins - Kid Francescoli Remix,diamond veins - kid francescoli remix,diamond veins kid francescoli remix,"French 79, Kid Francescoli, Sarah Rebecca","french 79, kid francescoli, sarah rebecca",french 79 | kid francescoli | sarah rebecca,Diamond Veins (Remixes),fullmatch,,,full
+utwu-000588,lyrics-000260,0Nbgl52I1fn25YImv3M9N8,351,Bullitt - Bonus Track,bullitt - bonus track,bullitt bonus track,Elephanz,elephanz,elephanz,Elephanz,fullmatch,,,full
+utwu-000587,lyrics-000261,5r0W5NEEFIZpqYe9ac1O21,352,Your Freedom Is the End of Me,your freedom is the end of me,your freedom is the end of me,Melanie De Biasio,melanie de biasio,melanie de biasio,Lilies,fullmatch,,,full
+utwu-000586,lyrics-000262,7ul6FC1UKkSWPgYvSCYpyw,353,History of Violence,history of violence,history of violence,Moriarty,moriarty,moriarty,Epitaph,fullmatch,,,full
+utwu-000585,lyrics-000263,0UDRshibuvPUviyfPO2bZd,354,Underground,underground,underground,Mariama,mariama,mariama,The Easy Way Out,fullmatch,,,full
+utwu-000584,lyrics-000264,3CaFlvMtboeeNFRKHHdsud,355,Afro Blue,afro blue,afro blue,Melanie De Biasio,melanie de biasio,melanie de biasio,Lilies,fullmatch,,,full
+utwu-000583,lyrics-000265,7a4BMX5kI8P2CqXZrwoyrC,356,Moan - Trentemøller Remix,moan - trentemøller remix,moan trentemøller remix,trentemøller,trentemøller,trentemøller,Moan,fullmatch,,,full
+utwu-000582,lyrics-000266,06k2o42kmwDpyDK6ISkdpw,357,Diamond Veins,diamond veins,diamond veins,"French 79, Sarah Rebecca","french 79, sarah rebecca",french 79 | sarah rebecca,Olympic,fullmatch,,,full
+utwu-000581,lyrics-000267,79UL4wzDj6BQfgCs1TS4R5,358,Changed For The Better,changed for the better,changed for the better,Weval,weval,weval,Never Stay For Love (Night Version),fullmatch,,,full
+utwu-000580,,49TmeaDG3YDGFsEYNGXqgr,359,"Suite in E Major, BWV 1006a: VI. Bourrée","suite in e major, bwv 1006a: vi. bourrée",suite in e major bwv 1006a vi bourree,"Johann Sebastian Bach, Göran Söllscher","johann sebastian bach, göran söllscher",johann sebastian bach | goran sollscher,A Classical Journey with Bach,fullmatch,,,instrumental
+utwu-000579,,2HimpcwghwJZX38qtGAIC2,360,"Sinfonia No. 15 in B Minor, BWV 801","sinfonia no. 15 in b minor, bwv 801",sinfonia no 15 in b minor bwv 801,"Johann Sebastian Bach, Víkingur Ólafsson","johann sebastian bach, víkingur ólafsson",johann sebastian bach | vikingur olafsson,A Classical Journey with Bach,fullmatch,,,instrumental
+utwu-000578,,0UctjFJBU0bJlviNduulaB,361,"Flute Sonata in E Major, BWV 1035: 1. Adagio ma non tanto","flute sonata in e major, bwv 1035: 1. adagio ma non tanto",flute sonata in e major bwv 1035 1 adagio ma non tanto,"Johann Sebastian Bach, Irena Grafenauer, Jörg Baumann, Brigitte Engelhard","johann sebastian bach, irena grafenauer, jörg baumann, brigitte engelhard",johann sebastian bach | irena grafenauer | jorg baumann | brigitte engelhard,A Classical Journey with Bach,fullmatch,,,instrumental
+utwu-000577,lyrics-000268,5KkJqAoC9QYrMvDiRRKaLe,362,Sound of Violence,sound of violence,sound of violence,Other Lives,other lives,other lives,For Their Love,fullmatch,,,full
+utwu-000576,lyrics-000269,5K5TP4H8ORVJXjtCFYBHwX,363,Ich hab' keine Angst,ich hab' keine angst,ich hab keine angst,Milva,milva,milva,Ich hab' keine Angst,fullmatch,,,full
+utwu-000575,,2wXFOd5lYZH3Hiuw1oAYGt,364,"Renaissance (Main Title Theme) - from ""The White Lotus: Season 2""","renaissance (main title theme) - from ""the white lotus: season 2""",renaissance main title theme from the white lotus season 2,Cristobal Tapia De Veer,cristobal tapia de veer,cristobal tapia de veer,The White Lotus: Season 2 (Soundtrack from the HBO® Original Series),fullmatch,,,instrumental
+utwu-000574,lyrics-000270,310d8Vawp5kYDYrGrrTAzl,365,King And Lionheart,king and lionheart,king and lionheart,Of Monsters and Men,of monsters and men,of monsters | men,My Head Is An Animal,fullmatch,,,full
+utwu-000573,lyrics-000271,0doT09dfiZKhbsASMqzZGh,366,Difference,difference,difference,Benjamin Clementine,benjamin clementine,benjamin clementine,And I Have Been,fullmatch,,,full
+utwu-000572,lyrics-000272,10BJ6ChrRuGyFC2AE83kz0,367,A Single Life,a single life,a single life,"Happy Camper, Pien Feith","happy camper, pien feith",happy camper | pien feith,A Single Life,fullmatch,,,full
+utwu-000571,lyrics-000273,3s1rTj4HBOV6bWlQUJtbtB,368,Falling Hearts,falling hearts,falling hearts,Jeanne Added,jeanne added,jeanne added,Radiate,fullmatch,,,full
+utwu-000570,lyrics-000274,0vcdNvf4JqpLuJ8kvTSq01,369,Handbrake,handbrake,handbrake,Micatone,micatone,micatone,Wish I Was Here,fullmatch,,,full
+utwu-000569,lyrics-000836,6yEfNY4hAzCtckKBdLFH6f,370,Złote łezki,złote łezki,złote łezki,"Meek, Oh Why?, BIESY","meek, oh why?, biesy",meek | oh why | biesy,Złote łezki,fullmatch,,,paraphase
+utwu-000568,lyrics-000275,0nrRP2bk19rLc0orkWPQk2,371,Wake Me Up,wake me up,wake me up,Avicii,avicii,avicii,True,fullmatch,,,full
+utwu-000567,lyrics-000276,6mxtvwgV9ISnmQUqnUiQFu,372,Jammin,jammin,jammin,"Męskie Granie Orkiestra, Igo, Mrozu, Vito Bambino","męskie granie orkiestra, igo, mrozu, vito bambino",meskie granie orkiestra | igo | mrozu | vito bambino,Męskie Granie 2023,fullmatch,,,full
+utwu-000566,lyrics-000277,1KmK9UEMbuuleSFdrNthcO,373,Jammin,jammin,jammin,"Łąki Łan, Bartek Królik","łąki łan, bartek królik",łaki łan | bartek krolik,Armanda,fullmatch,,,full
+utwu-000565,lyrics-000278,7qKOl2KqHuVETaao9qtQ87,374,Akacje,akacje,akacje,IKARVS,ikarvs,ikarvs,Buddha Bar by Christos Fourkis & Ravin,fullmatch,,,full
+utwu-000564,lyrics-000279,2cRz2BlpnJYQzNknHn11uZ,375,Leave With Me,leave with me,leave with me,"Warhaus, Sylvie Kreusch","warhaus, sylvie kreusch",warhaus | sylvie kreusch,We Fucked a Flame Into Being,fullmatch,,,full
+utwu-000563,lyrics-000280,6Nn1FQ50BtcFmGsUMptp0T,376,London,london,london,Benjamin Clementine,benjamin clementine,benjamin clementine,At Least For Now,fullmatch,,,full
+utwu-000562,lyrics-000281,45Ml0gSSRDMH6BqMSNsahp,377,Holding a Monument,holding a monument,holding a monument,Herman Düne,herman düne,herman dune,Mariage à Mendoza,fullmatch,,,full
+utwu-000561,lyrics-000282,43zdsphuZLzwA9k4DJhU0I,378,when the party's over,when the party's over,when the party s over,Billie Eilish,billie eilish,billie eilish,"WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?",fullmatch,,,full
+utwu-000560,lyrics-000283,2T3jgoAMbBXiMMD8pSc6QL,379,This Is The Life,this is the life,this is the life,Amy Macdonald,amy macdonald,amy macdonald,This Is The Life (eDeluxe),fullmatch,,,full
+utwu-000559,lyrics-000284,0DwClY2t9YAWHBROMIgrXb,380,Ho Hey,ho hey,ho hey,The Lumineers,the lumineers,the lumineers,The Lumineers,fullmatch,,,full
+utwu-000558,lyrics-000285,0oEoiBzMvDuumwCXt0RPdF,381,Hit the Roads,hit the roads,hit the roads,Joe Bel,joe bel,joe bel,Hit the Roads,fullmatch,,,full
+utwu-000557,lyrics-000286,0NEE1O67wpjn4GiTj1zOci,382,City Of Light,city of light,city of light,Charles Pasi,charles pasi,charles pasi,Bricks,fullmatch,,,full
+utwu-000556,lyrics-000287,27hhIs2fp6w06N5zx4Eaa5,383,Dream A Little Dream Of Me,dream a little dream of me,dream a little dream of me,The Mamas & The Papas,the mamas & the papas,the mamas | the papas,The Papas & The Mamas,fullmatch,,,full
+utwu-000555,lyrics-000278,400NyXxU3mhiraKbR6n9G9,384,Akacje,akacje,akacje,"IKARVS, AKASHA MX","ikarvs, akasha mx",ikarvs | akasha mx,Akacje,fullmatch,,,full
+utwu-000554,lyrics-000288,6QgjcU0zLnzq5OrUoSZ3OK,385,Feel It Still,feel it still,feel it still,Portugal. The Man,portugal. the man,portugal the man,Woodstock,fullmatch,,,full
+utwu-000553,lyrics-000289,6Rqn2GFlmvmV4w9Ala0I1e,386,Feeling Good,feeling good,feeling good,Nina Simone,nina simone,nina simone,I Put A Spell On You,fullmatch,,,full
+utwu-000552,lyrics-000290,58GULPDRRkVUMm2AKaBEMm,387,Koszulka,koszulka,koszulka,Dawid Tyszkowski,dawid tyszkowski,dawid tyszkowski,Koszulka,fullmatch,,,full
+utwu-000551,lyrics-000860,7KWpUSHVTL6X6vpuFRQBAi,388,Man,man,man,Elvett,elvett,elvett,Man,fullmatch,,,paraphase
+utwu-000550,lyrics-000291,7MRo5TOD0xHMHO5MbvAEVD,389,I'm That Guy,i'm that guy,i m that guy,Agar Agar,agar agar,agar agar,Cardan,fullmatch,,,full
+utwu-000549,lyrics-000808,4sxhLTavzTcKPJkJqARXMU,390,My Boat,my boat,my boat,Melissa Laveaux,melissa laveaux,melissa laveaux,Camphor & Copper (Bonus Track Version),fullmatch,,,full
+utwu-000548,lyrics-000292,0ZNYGrmcehorhh9JOeg5Iv,391,"Stay Alive - From ""The Secret Life of Walter Mitty"" Soundtrack","stay alive - from ""the secret life of walter mitty"" soundtrack",stay alive from the secret life of walter mitty soundtrack,José González,josé gonzález,jose gonzalez,Stay Alive (From The Secret Life Of Walter Mitty),fullmatch,,,full
+utwu-000547,lyrics-000293,1vxw6aYJls2oq3gW0DujAo,392,Crazy,crazy,crazy,"Gnarls Barkley, CeeLo Green, Danger Mouse","gnarls barkley, ceelo green, danger mouse",gnarls barkley | ceelo green | danger mouse,St. Elsewhere,fullmatch,,,full
+utwu-000546,,0B3H6se7MYo3D7BmzfvdVN,393,The Parade,the parade,the parade,"Joel Corry, Da Hool","joel corry, da hool",joel corry | da hool,The Parade,fullmatch,,,instrumental
+utwu-000545,lyrics-000294,6lhtQoh8eIVn3ztvcE1axU,394,Any Story,any story,any story,Hindi Zahra,hindi zahra,hindi zahra,Homeland,fullmatch,,,full
+utwu-000544,lyrics-000880,2CIsc2LDQrcE40s95aoocT,395,Prząśniczka,prząśniczka,przasniczka,"Olga Pasiecznik, Ewa Pobłocka","olga pasiecznik, ewa pobłocka",olga pasiecznik | ewa pobłocka,Stanisław Moniuszko: Pieśni,fullmatch,,,canonicaltext
+utwu-000543,lyrics-000880,5etkQpmZeBbQc60sSCc9dt,396,Moniuszko: Prząśniczka,moniuszko: prząśniczka,moniuszko przasniczka,"Stanisław Moniuszko, Jakub Józef Orliński, Aleksander Dębicz","stanisław moniuszko, jakub józef orliński, aleksander dębicz",stanisław moniuszko | jakub jozef orlinski | aleksander debicz,Moniuszko: Prząśniczka,fullmatch,,,canonicaltext
+utwu-000542,lyrics-000295,6DnvxoDoDle72eV4axqvko,397,Strange Things,strange things,strange things,"Roseaux, Aloe Blacc","roseaux, aloe blacc",roseaux | aloe blacc,Roseaux,fullmatch,,,full
+utwu-000541,lyrics-000296,2KrN3MCNztKcSleZgHEj83,398,Little Lion Man,little lion man,little lion man,Mumford & Sons,mumford & sons,mumford | sons,Sigh No More,fullmatch,,,full
+utwu-000540,lyrics-000297,0kcgd27qks6oxhylE3t6rV,399,I'm Sorry,i'm sorry,i m sorry,Kimberose,kimberose,kimberose,Chapter One,fullmatch,,,full
+utwu-000539,lyrics-000298,0HnK5KoTRct5WK4y9vYpKV,400,Tak Mi Się Nie Chce,tak mi się nie chce,tak mi sie nie chce,Mikromusic,mikromusic,mikromusic,Tak Mi Się Nie Chce,fullmatch,,,full
+utwu-000538,,06BtqNJtefZOqOFApqsSA4,401,Tribute To Lech Wałęsa,tribute to lech wałęsa,tribute to lech wałesa,L.U.C.,l.u.c.,l u c,39/89 Zrozumieć Polskę,fullmatch,,,instrumental
+utwu-000537,lyrics-000299,5azaaeLKtKevqs8u1XHRHI,402,The Pirate's Gospel,the pirate's gospel,the pirate s gospel,Alela Diane,alela diane,alela diane,The Pirate's Gospel (Deluxe Edition),fullmatch,,,full
+utwu-000536,lyrics-000300,2ixsaeFioXJmMgkkbd4uj1,403,Budapest,budapest,budapest,George Ezra,george ezra,george ezra,Wanted on Voyage (Expanded Edition),fullmatch,,,full
+utwu-000535,lyrics-000301,6IJXxWAHTVORSyl7lT5pkY,404,Mess Is Mine,mess is mine,mess is mine,Vance Joy,vance joy,vance joy,Dream Your Life Away (Special Edition),fullmatch,,,full
+utwu-000534,lyrics-000302,5g7rJvWYVrloJZwKiShqlS,405,Dirty Paws,dirty paws,dirty paws,Of Monsters and Men,of monsters and men,of monsters | men,My Head Is An Animal,fullmatch,,,full
+utwu-000533,lyrics-000303,6VUAr0MTmFongmSk0EEsdb,406,Too Many Friends,too many friends,too many friends,Charles Pasi,charles pasi,charles pasi,Sometimes Awake,fullmatch,,,full
+utwu-000532,lyrics-000304,2MvvoeRt8NcOXWESkxWn3g,407,Ribs,ribs,ribs,Lorde,lorde,lorde,Pure Heroine,fullmatch,,,full
+utwu-000531,lyrics-000305,4TCcDD97LU6rBUnYhjGmR8,408,Needle in the Hay,needle in the hay,needle in the hay,Melissa Laveaux,melissa laveaux,melissa laveaux,Camphor & Copper (Bonus Track Version),fullmatch,,,full
+utwu-000530,lyrics-000306,34xGLuxM0rkxhCVyMSqwJO,409,Stolen Dance,stolen dance,stolen dance,Milky Chance,milky chance,milky chance,Sadnecessary,fullmatch,,,full
+utwu-000529,lyrics-000307,76YLGrfLFoNpj7o5fXEDjd,410,"Prayer of the Mothers (feat. Lubna Salame, Daniel Rubin, Miriam Tukan & Rana Choir)","prayer of the mothers (feat. lubna salame, daniel rubin, miriam tukan & rana choir)",prayer of the mothers feat lubna salame daniel rubin miriam tukan rana choir,"Yael Deckelbaum, Lubna Salame, Daniel Rubin, Miriam Toukan, Rana Choire","yael deckelbaum, lubna salame, daniel rubin, miriam toukan, rana choire",yael deckelbaum | lubna salame | daniel rubin | miriam toukan | rana choire,"Prayer of the Mothers (feat. Lubna Salame, Daniel Rubin, Miriam Tukan & Rana Choir)",fullmatch,,,full
+utwu-000528,lyrics-000308,4LGJ2pLDvTRnul3EcZoYkX,411,Like Real People Do,like real people do,like real people do,Hozier,hozier,hozier,Hozier,fullmatch,,,full
+utwu-000527,lyrics-000309,0cPFDJKfL1CRsIirnN3mgW,412,Home,home,home,Edward Sharpe & The Magnetic Zeros,edward sharpe & the magnetic zeros,edward sharpe | the magnetic zeros,Up From Below,fullmatch,,,full
+utwu-000526,lyrics-000310,1ZLroqJA8qoS5QEeCo0fA7,413,Breezeblocks,breezeblocks,breezeblocks,alt-J,alt-j,alt j,An Awesome Wave,fullmatch,,,full
+utwu-000525,,6Em4KTMuPv1E4R9DzxMqL4,414,Bag of Bones,bag of bones,bag of bones,Felix Laband,felix laband,felix laband,Bag of Bones,fullmatch,,,instrumental
+utwu-000524,lyrics-000311,1n4Ooi4zsQOfXFed4tMxME,415,Come Online,come online,come online,"Kid Francescoli, Julia Minkin","kid francescoli, julia minkin",kid francescoli | julia minkin,Play Me Again,fullmatch,,,full
+utwu-000523,lyrics-000312,4UsUYxVCYhoaXFuNLEaHzQ,416,There Is Still Pain Left,there is still pain left,there is still pain left,Sophie Hunger,sophie hunger,sophie hunger,Molecules,fullmatch,,,full
+utwu-000522,lyrics-000205,7yq4Qj7cqayVTp3FF9CWbm,417,Riptide,riptide,riptide,Vance Joy,vance joy,vance joy,Dream Your Life Away,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00206; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000521,lyrics-000313,0jk59CRO5vMkLyBWILSTwt,418,What Does the Fox Say?,what does the fox say?,what does the fox say,Yvar,yvar,yvar,What Does the Fox Say?,fullmatch,,,full
+utwu-000520,lyrics-000314,6dRJJMO9URXnTJaz401b4Q,419,Żurawie origami,żurawie origami,zurawie origami,Mela Koteluk,mela koteluk,mela koteluk,Migracje,fullmatch,,,full
+utwu-000519,lyrics-000315,7IlBz876D0h3umPGHjTJHk,420,Heard Somebody Whistle,heard somebody whistle,heard somebody whistle,Jay-Jay Johanson,jay-jay johanson,jay jay johanson,Kings Cross,fullmatch,,,full
+utwu-000518,lyrics-000316,6CRwZOe1Dk4OhjcbcILPKr,421,Build on Fire (Just Chillax Remix),build on fire (just chillax remix),build on fire just chillax remix,"I Am Soyuz, Just Chillax","i am soyuz, just chillax",i am soyuz | just chillax,Build on Fire (Just Chillax Remix),fullmatch,,,full
+utwu-000517,lyrics-000317,05q5k685rcRq9dF4YquGo1,422,Walking Corpse,walking corpse,walking corpse,Lu & Sowlmate,lu & sowlmate,lu | sowlmate,Runaway Life,fullmatch,,,full
+utwu-000516,lyrics-000318,4PGp3o3syKUMPUypDxwSUh,423,You Showed Me - feat. Jakob Dylan & Cat Power,you showed me - feat. jakob dylan & cat power,you showed me feat jakob dylan cat power,"Echo In The Canyon, Jakob Dylan, Cat Power","echo in the canyon, jakob dylan, cat power",echo in the canyon | jakob dylan | cat power,Echo In The Canyon (feat. Jakob Dylan - Original Motion Picture Soundtrack),fullmatch,,,full
+utwu-000515,lyrics-000319,2rkScgZaAJ09qPZx6YTh0v,424,Let Me Love You,let me love you,let me love you,Melanie De Biasio,melanie de biasio,melanie de biasio,Lilies,fullmatch,,,full
+utwu-000514,lyrics-000320,14AyWf6y7KlWWLfAjdKMKI,425,Ophelia,ophelia,ophelia,The Lumineers,the lumineers,the lumineers,Cleopatra,fullmatch,,,full
+utwu-000513,lyrics-000321,1KZyVnyptQcPzkx7ELCnZC,426,Hold Back The River,hold back the river,hold back the river,James Bay,james bay,james bay,Chaos And The Calm,fullmatch,,,full
+utwu-000512,lyrics-000322,5PRRthP9SLfbXB359MfIWv,427,I Will Wait,i will wait,i will wait,Mumford & Sons,mumford & sons,mumford | sons,Babel (Deluxe Version),fullmatch,,,full
+utwu-000511,lyrics-000323,4RvW5ggYKC7bCDX4UUSSDc,428,Sleep On The Floor,sleep on the floor,sleep on the floor,The Lumineers,the lumineers,the lumineers,Cleopatra,fullmatch,,,full
+utwu-000510,lyrics-000324,35PKfoynRpVFoAUE3D5Kc6,429,Work Song,work song,work song,Hozier,hozier,hozier,Hozier,fullmatch,,,full
+utwu-000509,lyrics-000325,4wG82w1L31yQhgGiWt6gIb,430,Stubborn Love,stubborn love,stubborn love,The Lumineers,the lumineers,the lumineers,The Lumineers (Deluxe Edition),fullmatch,,,full
+utwu-000508,lyrics-000326,2epKivPKVeRUsP7TZczwpz,431,Ships,ships,ships,Wallners,wallners,wallners,Ships,fullmatch,,,full
+utwu-000507,lyrics-000327,3nszONSINAGmuAoBWD2ZO3,432,Pociągi towarowe,pociągi towarowe,pociagi towarowe,Jakub Skorupa,jakub skorupa,jakub skorupa,Zeszyt Pierwszy,fullmatch,,,full
+utwu-000506,lyrics-000328,20bBfcccYuwPg2kDRtZWn0,433,Tired Feet,tired feet,tired feet,Alela Diane,alela diane,alela diane,The Pirate's Gospel (Deluxe Edition),fullmatch,,,full
+utwu-000505,lyrics-000329,77m6A2GbLorgaLnSxGa32S,434,Captain,captain,captain,Danitsa,danitsa,danitsa,Ego,fullmatch,,,full
+utwu-000504,lyrics-000330,5sT9L8WpqE9Ux1LpNyHGWi,435,Creep,creep,creep,Scala & Kolacny Brothers,scala & kolacny brothers,scala | kolacny brothers,On The Rocks,fullmatch,,,full
+utwu-000503,lyrics-000331,0ntQJM78wzOLVeCUAW7Y45,436,Sex on Fire,sex on fire,sex on fire,Kings of Leon,kings of leon,kings of leon,Only By The Night,fullmatch,,,full
+utwu-000502,lyrics-000332,244AvzGQ4Ksa5637JQu5Gy,437,You've Got The Love,you've got the love,you ve got the love,Florence + The Machine,florence + the machine,florence the machine,Lungs (Deluxe Version),fullmatch,,,full
+utwu-000501,lyrics-000333,3HzcX4pP0pHqM4QjQXmjRV,438,Cosmic Bruise,cosmic bruise,cosmic bruise,Clara Luzia,clara luzia,clara luzia,Here´s to Nemesis,fullmatch,,,full
+utwu-000500,lyrics-000334,4Abirka1cnsMtWOMhpwKx5,439,A Man I Know,a man i know,a man i know,Charles Pasi,charles pasi,charles pasi,Sometimes Awake,fullmatch,,,full
+utwu-000499,lyrics-000335,7rUJX9xP2YcL62uJvtaeJd,440,Paradis Perdus,paradis perdus,paradis perdus,Christine and the Queens,christine and the queens,christine | the queens,Chaleur Humaine,fullmatch,,,full
+utwu-000498,lyrics-000336,7gR6Tf2PQzayZ8dMzHJCqc,441,The Question,the question,the question,J.Bernardt,j.bernardt,j bernardt,Running Days,fullmatch,,,full
+utwu-000497,lyrics-000337,53uNHnOKnhq1UL4NfBpl4c,442,Traveling Light,traveling light,traveling light,Leonard Cohen,leonard cohen,leonard cohen,You Want It Darker,fullmatch,,,full
+utwu-000496,lyrics-000338,4y1LsJpmMti1PfRQV9AWWe,443,Girls Just Want to Have Fun,girls just want to have fun,girls just want to have fun,Cyndi Lauper,cyndi lauper,cyndi lauper,She's So Unusual,fullmatch,,,full
+utwu-000495,lyrics-000339,1TfqLAPs4K3s2rJMoCokcS,444,Sweet Dreams (Are Made of This) - 2005 Remaster,sweet dreams (are made of this) - 2005 remaster,sweet dreams are made of this 2005 remaster,"Eurythmics, Annie Lennox, Dave Stewart","eurythmics, annie lennox, dave stewart",eurythmics | annie lennox | dave stewart,Sweet Dreams (Are Made Of This),fullmatch,,,full
+utwu-000494,lyrics-000340,0cGG2EouYCEEC3xfa0tDFV,445,Tainted Love,tainted love,tainted love,Soft Cell,soft cell,soft cell,Non-Stop Erotic Cabaret,fullmatch,,,full
+utwu-000493,lyrics-000341,0MgcqNcFbIXIre5xBGY7vi,446,Mój kot zaginął,mój kot zaginął,moj kot zaginał,Dawid Tyszkowski,dawid tyszkowski,dawid tyszkowski,Mój kot zaginął i już raczej nie wróci,fullmatch,,,full
+utwu-000492,lyrics-000342,6Iv4HQbvHKGsPJRhouT5tX,447,Tyle z Życia,tyle z życia,tyle z zycia,Pustki,pustki,pustki,Safari,fullmatch,,,full
+utwu-000491,lyrics-000343,5xR4HMzM2XBLm4dQE94kbk,448,Miljon,miljon,miljon,Domowe Melodie,domowe melodie,domowe melodie,3,fullmatch,,,full
+utwu-000490,lyrics-000344,7df4toYDhRB3riQP30aeiW,449,Paris sur Mer (feat. Benjamin Biolay),paris sur mer (feat. benjamin biolay),paris sur mer feat benjamin biolay,"Morcheeba, Benjamin Biolay","morcheeba, benjamin biolay",morcheeba | benjamin biolay,Blaze Away,fullmatch,,,full
+utwu-000489,lyrics-000346,0STIV4K7EZkp2YHAyyu5em,450,Bad Boys (Theme from COPS),bad boys (theme from cops),bad boys theme from cops,Inner Circle,inner circle,inner circle,Blazzin' Fire,fullmatch,,,full
+utwu-000488,lyrics-000347,2yn0GdlnIno3VHqeosPA8N,451,Up Past The Nursery,up past the nursery,up past the nursery,SUUNS,suuns,suuns,Zeroes QC,fullmatch,,,full
+utwu-000487,lyrics-000348,75MS50ggm8xXGp2h1IDbJ2,452,Army Dreamers (Live at The Songroom),army dreamers (live at the songroom),army dreamers live at the songroom,"Monty Cotton, The Basics, Gotye","monty cotton, the basics, gotye",monty cotton | the basics | gotye,Live at The Songroom S02e09,fullmatch,,,full
+utwu-000486,lyrics-000349,5OzrMDf9ec7hm0J9GrovnY,453,A Quiet Life,a quiet life,a quiet life,"Teho Teardo, Blixa Bargeld","teho teardo, blixa bargeld",teho teardo | blixa bargeld,Still Smiling,fullmatch,,,full
+utwu-000485,lyrics-000350,27CSMEytwIjbQJG0118q4a,454,Seeing Red,seeing red,seeing red,MY BABY,my baby,my baby,Shamanaid,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000484,lyrics-000351,03KKLNlquQEcD37xIkJbS8,455,Na statku - Radio Edit,na statku - radio edit,na statku radio edit,Limboski,limboski,limboski,Na statku (Radio Edit),fullmatch,,,full
+utwu-000483,lyrics-000352,3G7uYfifBmzC6VSMBlVVgi,456,Październikowy Facet,październikowy facet,pazdziernikowy facet,"Praczas, Pablopavo, Iwanek","praczas, pablopavo, iwanek",praczas | pablopavo | iwanek,Wir,fullmatch,,,full
+utwu-000482,lyrics-000353,3aOQLiksh3O9QRCFEBqYVv,457,Jeszcze,jeszcze,jeszcze,Kaśka Sochacka,kaśka sochacka,kaska sochacka,Ciche dni (Edycja Specjalna),fullmatch,,,full
+utwu-000481,lyrics-000354,7FUttG94BATdVWjS89FrkJ,458,Normalnie o tej porze - Live,normalnie o tej porze - live,normalnie o tej porze live,"JIMEK, Kaliber 44","jimek, kaliber 44",jimek | kaliber 44,Normalnie o tej porze (Live),fullmatch,,,full
+utwu-000480,lyrics-000355,5zyVXryQHjLwe1KcHFetoa,459,Linoskoczek,linoskoczek,linoskoczek,SKUBAS,skubas,skubas,Wilczełyko,fullmatch,,,full
+utwu-000479,lyrics-000351,6Rww2VwA6Q1tN2FnQ14rnl,460,Na statku,na statku,na statku,Limboski,limboski,limboski,Ucieczka saula,fullmatch,,,full
+utwu-000478,lyrics-000356,2tssNDsvtZdMYCqqfzFCQi,461,Roll Tango - Bonus Track,roll tango - bonus track,roll tango bonus track,Calexico,calexico,calexico,Edge of the Sun (Deluxe Edition),fullmatch,,,full
+utwu-000477,lyrics-000357,6bJxYPfbA6hdNuMgXrf5Rv,462,Vultures,vultures,vultures,Cocoon,cocoon,cocoon,My Friends All Died in a Plane Crash,fullmatch,,,full
+utwu-000476,lyrics-000358,38vsMOGABG97FQGRN2Yc4z,463,You Sigh,you sigh,you sigh,Charlie Cunningham,charlie cunningham,charlie cunningham,Lines,fullmatch,,,full
+utwu-000475,,4lBMUyvrLPd8Ek7gKjkhOY,464,Pistache,pistache,pistache,Aurélie Saada,aurélie saada,aurelie saada,Rose (La bande originale du film),fullmatch,,,instrumental
+utwu-000474,lyrics-000359,2GZfirPYbYsnJFf1lwS3DF,465,Life Is Beautiful,life is beautiful,life is beautiful,Anwar,anwar,anwar,Beautiful Sunrise,fullmatch,,,full
+utwu-000473,lyrics-000360,5NwzOOJC6UWb6suQgpmigF,466,Quickborn,quickborn,quickborn,Mar Malade,mar malade,mar malade,MAR Malade,fullmatch,,,full
+utwu-000472,lyrics-000361,3K9LqDkPkrxkuXTTfxQQMd,467,Red Fresco,red fresco,red fresco,Raoul Vignal,raoul vignal,raoul vignal,Years in Marble,fullmatch,,,full
+utwu-000471,lyrics-000362,3OCnLXG4Kh7ZBa44rRuKPg,468,Bullets,bullets,bullets,Tunng,tunng,tunng,Good Arrows,fullmatch,,,full
+utwu-000470,lyrics-000363,6r508X7p5SVEOIuuy1lDpm,469,You Can Discover,you can discover,you can discover,"Roseaux, Melissa Laveaux","roseaux, melissa laveaux",roseaux | melissa laveaux,Roseaux II,fullmatch,,,full
+utwu-000469,lyrics-000364,2C5BK9fA2Czc4EMu5WAF0U,470,Esseulés,esseulés,esseules,"Izïa, Dominique A","izïa, dominique a",izia | dominique a,Citadelle,fullmatch,,,full
+utwu-000468,lyrics-000365,3KubhpMehWSeCXJkVBG7eS,471,Rollercoaster Girl,rollercoaster girl,rollercoaster girl,L'aupaire,l'aupaire,l aupaire,Rollercoaster Girl - EP,fullmatch,,,full
+utwu-000467,lyrics-000861,3USAWsibaJCljQzlR4QWIv,472,Fairytales,fairytales,fairytales,Ami Warning,ami warning,ami warning,Seasons,fullmatch,,,paraphase
+utwu-000466,lyrics-000366,5BkNCuxzzid0gz9sx3NNbX,473,My Silver Lining,my silver lining,my silver lining,First Aid Kit,first aid kit,first aid kit,Stay Gold,fullmatch,,,full
+utwu-000465,lyrics-000367,5OGChtn8I0l3GT5Xf700r1,474,Story of Us,story of us,story of us,Sophie Zelmani,sophie zelmani,sophie zelmani,Soul,fullmatch,,,full
+utwu-000464,lyrics-000368,4OvluvK1a6uwxUhwBxMbnY,475,Blouson Noir,blouson noir,blouson noir,AaRON,aaron,aaron,We Cut the Night,fullmatch,,,full
+utwu-000463,lyrics-000369,0z39yzkwMNXYX2LYtEOpFW,476,I Love You,i love you,i love you,Woodkid,woodkid,woodkid,The Golden Age,fullmatch,,,full
+utwu-000462,,20somCgyeXM4Lg3a6fnwvc,477,Satie II,satie ii,satie ii,"Thylacine, Erik Satie","thylacine, erik satie",thylacine | erik satie,Timeless,fullmatch,,,instrumental
+utwu-000461,,03QDUD4o205b5aclvPXSkT,478,Freedom,freedom,freedom,London Score Orchestra,london score orchestra,london score orchestra,Tarantino the Collection,fullmatch,,,instrumental
+utwu-000460,lyrics-000370,15KzgnyGKxvAuvUzzzZf0j,479,Lonely Guy Blues,lonely guy blues,lonely guy blues,June & Lula,june & lula,june | lula,Sixteen Times,fullmatch,,,full
+utwu-000459,lyrics-000371,2bhfHrX4IJzF62XKzqZpPX,480,Where To Start,where to start,where to start,Lou Doillon,lou doillon,lou doillon,Lay Low,fullmatch,,,full
+utwu-000458,lyrics-000372,3nIzfvlLJdbvDsWIf4xTIr,481,When I'm Gone,when i'm gone,when i m gone,Louis Aguilar,louis aguilar,louis aguilar,It's All Gonna Be Fine,fullmatch,,,full
+utwu-000457,lyrics-000373,3ZhJ5d9IlqCfGJjAALSr7a,482,Above My Head,above my head,above my head,Lou Doillon,lou doillon,lou doillon,Lay Low,fullmatch,,,full
+utwu-000456,lyrics-000374,49A10weBfgwg4TUM3My7iv,483,We Might Be Dead By Tomorrow,we might be dead by tomorrow,we might be dead by tomorrow,Soko,soko,soko,I Thought I Was An Alien,fullmatch,,,full
+utwu-000455,lyrics-000375,7I1v3hLSDCZK4EdGVokFcj,484,The Fade Out Line,the fade out line,the fade out line,Phoebe Killdeer and the Short Straws,phoebe killdeer and the short straws,phoebe killdeer | the short straws,Innerquake,fullmatch,,,full
+utwu-000454,lyrics-000376,3b3FpcqlYGCGnPm2cFiHEX,485,Shaman,shaman,shaman,Morse,morse,morse,Shaman,fullmatch,,,full
+utwu-000453,lyrics-000377,6Oo0bxVlhJk1pn7XNiESBu,486,Ten Lines,ten lines,ten lines,MISSINCAT,missincat,missincat,Wirewalker,fullmatch,,,full
+utwu-000452,lyrics-000378,3PiFIzR06hfSvpqxQ6uxld,487,Barefoot,barefoot,barefoot,Pumarosa,pumarosa,pumarosa,The Witch,fullmatch,,,full
+utwu-000451,lyrics-000379,1YrC8s6yZWw23QxW6rfM9f,488,Come,come,come,Jain,jain,jain,Zanaka,fullmatch,,,full
+utwu-000450,lyrics-000380,3zpCdmKNA3xbnXmiTIAHu7,489,"Roland, I Feel You","roland, i feel you",roland i feel you,Get Well Soon,get well soon,get well soon,The Scarlet Beast O'Seven Heads,fullmatch,,,full
+utwu-000449,lyrics-000381,3YimpNCaZ6CAfNRkNXvhm2,490,Ulysses,ulysses,ulysses,Current Swell,current swell,current swell,Ulysses,fullmatch,,,full
+utwu-000448,lyrics-000862,7oF5VnIPiVyZxWQurUXh5Z,491,Qui sait,qui sait,qui sait,Ezéchiel Pailhès,ezéchiel pailhès,ezechiel pailhes,Divine,fullmatch,,,paraphase
+utwu-000447,lyrics-000382,2g4oQ1siRRrg8yAkQLVx0c,492,Le vent nous portera,le vent nous portera,le vent nous portera,Noir Désir,noir désir,noir desir,Des visages des figures,fullmatch,,,full
+utwu-000446,lyrics-000383,5MsTAcqMWtYoVKLUKucH4d,493,Salt,salt,salt,Ben Camden,ben camden,ben camden,Salt,fullmatch,,,full
+utwu-000445,lyrics-000069,7N2rGqOwOL4RoGMQuUQnfK,494,Wonderful Life,wonderful life,wonderful life,Katie Melua,katie melua,katie melua,Ultimate Collection,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00069; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000444,lyrics-000384,6Q3pHfs5VDyf0kCvohBlQW,495,California Dreamin',california dreamin',california dreamin,Amason,amason,amason,California Airport Love,fullmatch,,,full
+utwu-000443,lyrics-000385,1KTJ2NhPCz0E7u5UFKhwbe,496,"No, No","no, no",no no,Joe Bel,joe bel,joe bel,Dreams,fullmatch,,,full
+utwu-000442,lyrics-000386,1SQS4VGs6xTsdh7TqNazOp,497,Two Trees,two trees,two trees,Edgär,edgär,edgar,Persona,fullmatch,,,full
+utwu-000441,lyrics-000387,33G9nKPm1MJypkHATvuaxL,498,Poso Lipame - Remix,poso lipame - remix,poso lipame remix,"Sofia Vebo, Imam Baildi","sofia vebo, imam baildi",sofia vebo | imam baildi,Imam Baildi,fullmatch,,,full
+utwu-000440,lyrics-000388,328tOgiieRC7dzGqMtbufa,499,Que Sera Sera,que sera sera,que sera sera,"Marcus Miller, Selah Sue","marcus miller, selah sue",marcus miller | selah sue,Laid Black,fullmatch,,,full
+utwu-000439,lyrics-000389,7kuOhBGsXjpwvLRQCDAPAJ,500,September Fields,september fields,september fields,Frazey Ford,frazey ford,frazey ford,Indian Ocean,fullmatch,,,full
+utwu-000438,,301s3zBzPtBBCtVxdDhKkw,501,Crockett Theme,crockett theme,crockett theme,Bacao Rhythm & Steel Band,bacao rhythm & steel band,bacao rhythm | steel band,The Serpents Mouth,fullmatch,,,instrumental
+utwu-000437,lyrics-000390,5w8bF2RGgf9PkXEoEl8SSN,502,Sur un volcan,sur un volcan,sur un volcan,La Maison Tellier,la maison tellier,la maison tellier,Beauté pour tous,fullmatch,,,full
+utwu-000436,lyrics-000391,0KnfedYfwALFOMdf4S1Pt4,503,Den Göttern egal,den göttern egal,den gottern egal,Garish,garish,garish,Komm schwarzer Kater,fullmatch,,,full
+utwu-000435,lyrics-000392,0rlMSQvllGZ08IuGe7SBvp,504,CLOSE YOUR EYES,close your eyes,close your eyes,Awa Ly,awa ly,awa ly,Safe And Sound,fullmatch,,,full
+utwu-000434,,24XIbFhfr4mqCtKDHyzIvv,505,Golden Brown,golden brown,golden brown,THE TAKE VIBE E.P.,the take vibe e.p.,the take vibe e p,Golden Brown,fullmatch,,,instrumental
+utwu-000433,lyrics-000393,3Z2ihWFNTBNYrSBQ9Yik3C,506,Johnny & Mary,johnny & mary,johnny mary,"Bryan Ferry, Todd Terje","bryan ferry, todd terje",bryan ferry | todd terje,Avonmore,fullmatch,,,full
+utwu-000432,lyrics-000394,0AyvFtRS84DPOmibQPCysg,507,Wild Dog,wild dog,wild dog,Animor,animor,animor,Wild Dog,fullmatch,,,full
+utwu-000431,lyrics-000395,4ngMatPdF3yQ51G4UKwx9M,508,Albert Camus,albert camus,albert camus,Tom Rosenthal,tom rosenthal,tom rosenthal,Albert Camus,fullmatch,,,full
+utwu-000430,lyrics-000396,4mRPEhDtBxYvgMv5nBRI7H,509,Wild Horses,wild horses,wild horses,The Gardener & The Tree,the gardener & the tree,the gardener | the tree,"69591, LAXÅ",fullmatch,,,full
+utwu-000429,lyrics-000397,3hihqe1WkxSpb1nKj63xZ2,510,New Woman,new woman,new woman,lùisa,lùisa,luisa,New Woman,fullmatch,,,full
+utwu-000428,lyrics-000398,1q02JO1zluqjvK8lzr0uq7,511,We Are Still Here!,we are still here!,we are still here,Bukahara,bukahara,bukahara,Canaries in a Coal Mine,fullmatch,,,full
+utwu-000427,lyrics-000399,4uhEAzijB4Im1TXnt1Bidi,512,Young Again,young again,young again,"Kasper Bjørke, Jacob Bellens","kasper bjørke, jacob bellens",kasper bjørke | jacob bellens,Standing on Top of Utopia,fullmatch,,,full
+utwu-000426,lyrics-000400,1cisX5C2cyPVgzjiEtnK0K,513,Storytelling Animal,storytelling animal,storytelling animal,Bukahara,bukahara,bukahara,Tales of the Tides,fullmatch,,,full
+utwu-000425,lyrics-000401,3sNPXDE2aLqsPQxj4tAmNf,514,How This Came To Be,how this came to be,how this came to be,Tom Rosenthal,tom rosenthal,tom rosenthal,The Pleasant Trees,fullmatch,,,full
+utwu-000424,lyrics-000402,2nIyFO8MMSEeba0add4cCS,515,As Luck Would Have It,as luck would have it,as luck would have it,Tom Rosenthal,tom rosenthal,tom rosenthal,Who's That in the Fog?,fullmatch,,,full
+utwu-000423,lyrics-000403,208Q9dS59uKv9wVSU0dSBg,516,Про Ивана groove,про ивана groove,про ивана groove,Отава Ё,отава ё,отава е,Жили-Были,fullmatch,,,full
+utwu-000422,lyrics-000404,01lcK93WHRDOp2gT0JtdMP,517,Miffed,miffed,miffed,Tom Rosenthal,tom rosenthal,tom rosenthal,The Pleasant Trees (Volume 3),fullmatch,,,full
+utwu-000421,lyrics-000405,19c9W4jv5ZjxF0liJD5SO3,518,Nikt,nikt,nikt,Lor,lor,lor,Panny Młode,fullmatch,,,full
+utwu-000420,lyrics-000406,6yRs1GSMmTMLR2oCEDl6gm,519,Niets is Voor Altijd - Madou Original Version Remastered,niets is voor altijd - madou original version remastered,niets is voor altijd madou original version remastered,Madou,madou,madou,Madou/Madouce,fullmatch,,,full
+utwu-000419,,7HhJDQcLCbhqc9EnlpjYqf,520,Bourée - 2019 - Remaster,bourée - 2019 - remaster,bouree 2019 remaster,Jon Lord,jon lord,jon lord,Sarabande (2019 – Remaster),fullmatch,,,instrumental
+utwu-000418,lyrics-000407,6HTVZeVQ9J6Uiq6tHESxU9,521,"Welcome Home, Son","welcome home, son",welcome home son,Radical Face,radical face,radical face,Ghost,fullmatch,,,full
+utwu-000417,lyrics-000251,0pqnGHJpmpxLKifKRmU6WP,522,Believer,believer,believer,Imagine Dragons,imagine dragons,imagine dragons,Evolve,fullmatch,,,full
+utwu-000416,lyrics-000408,68qVABZwiQaia1bTFE41X2,523,Farewell Shalabiye,farewell shalabiye,farewell shalabiye,No Blues,no blues,no blues,Farewell Shalabiye,fullmatch,,,full
+utwu-000415,lyrics-000409,2HyzvdOcJLmeAMoxx2VoP3,524,All Related,all related,all related,Nessi Gomes,nessi gomes,nessi gomes,Diamonds & Demons,fullmatch,,,full
+utwu-000414,lyrics-000410,2ldh0B6sWPAkbHiSO4vifR,525,Heaven Bells,heaven bells,heaven bells,Freedonia,freedonia,freedonia,Freedonia,fullmatch,,,full
+utwu-000413,lyrics-000411,1XGAWEMIzbL8JiLBvhDhBw,526,Enjoy the Silence,enjoy the silence,enjoy the silence,Moriarty,moriarty,moriarty,Gee Whiz but This Is a Lonesome Town (The Drifting Letter Office Archive),fullmatch,,,full
+utwu-000412,,0qPm1SzUx66Zz4XBMMwpb6,527,Astrakan Café - 2,astrakan café - 2,astrakan cafe 2,Anouar Brahem,anouar brahem,anouar brahem,Astrakan Café,fullmatch,,,instrumental
+utwu-000411,lyrics-000798,1YeZiiP71Z1JVeMpwPgoqT,528,Dikanda,dikanda,dikanda,Dikanda,dikanda,dikanda,Muzyka Czterech Stron Wschodu,fullmatch,,,full
+utwu-000410,lyrics-000412,3RZa5Jo8t4afAKZl9t3Nn6,529,The Passenger,the passenger,the passenger,Dinah Eastwood,dinah eastwood,dinah eastwood,Avatar,fullmatch,,,full
+utwu-000409,lyrics-000413,4toa0un02fVlcK3z1wckEO,530,Jealous Guy,jealous guy,jealous guy,Hurray For The Riff Raff,hurray for the riff raff,hurray for the riff raff,My Dearest Darkest Neighbor,fullmatch,,,full
+utwu-000408,lyrics-000414,6wsH4Q3lety9jJjh8YHmm1,531,Dark Cloud,dark cloud,dark cloud,"Dominic Marsh, Jonny Jones","dominic marsh, jonny jones",dominic marsh | jonny jones,Dark Country: Blues Rock,fullmatch,,,full
+utwu-000407,lyrics-000415,2dmJDWLYKQJ8KD4s2unX9c,532,Winter Rose,winter rose,winter rose,The Bees,the bees,the bees,Every Step's A Yes,fullmatch,,,full
+utwu-000406,lyrics-000416,53VaMbIYKeVBkcMojR9eJ0,533,Belle,belle,belle,Sylvie Kreusch,sylvie kreusch,sylvie kreusch,BADA BING! BADA BOOM!,fullmatch,,,full
+utwu-000405,lyrics-000417,04lY27ssFB1ptlo9ACWafh,534,Lijo,lijo,lijo,Alina Orlova,alina orlova,alina orlova,Laukinis šuo dingo,fullmatch,,,full
+utwu-000404,lyrics-000419,7wZAcEsSrV7PKPqVRtE1cZ,535,Dance Me to the End of Love,dance me to the end of love,dance me to the end of love,Zorita,zorita,zorita,Amor Y Muerte,fullmatch,,,full
+utwu-000403,lyrics-000420,44BbFFYkWgAulbZCxrXBE9,536,The Other Man,the other man,the other man,J.Bernardt,j.bernardt,j bernardt,Running Days,fullmatch,,,full
+utwu-000402,lyrics-000421,5cYlSi1HyeyMP1jySmBi2q,537,Das Model,das model,das model,"Seu Jorge, Almaz","seu jorge, almaz",seu jorge | almaz,Seu Jorge E Almaz,fullmatch,,,full
+utwu-000401,lyrics-000422,5F2nui0zN8irbdDvWIxk9n,538,When I Ride,when i ride,when i ride,Moriarty,moriarty,moriarty,Epitaph,fullmatch,,,full
+utwu-000400,lyrics-000424,4WVM8S4u96LtezRhjfmJ42,539,Eat for Free,eat for free,eat for free,Haley Bonar,haley bonar,haley bonar,Last War,fullmatch,,,full
+utwu-000399,lyrics-000819,3Sjzioq6pR8z7wnKgLE5yl,540,Video Games - Radio edit,video games - radio edit,video games radio edit,"Trio SR9, Sandra Nkaké","trio sr9, sandra nkaké",trio sr9 | sandra nkake,Video Games (Radio edit),fullmatch,,,canonicaltext
+utwu-000398,lyrics-000828,0jrp6HSRyI0ewltX3XH5JA,541,Call Me,call me,call me,Skye,skye,skye,"Hollywood, mon amour (80's Movie Songs Reinvented)",fullmatch,,,paraphase
+utwu-000397,lyrics-000425,7p7N6QmvNvixHNRLFX6hfZ,542,When the Poet Sings,when the poet sings,when the poet sings,L.A. Salami,l.a. salami,l a salami,The Prelude,fullmatch,,,full
+utwu-000396,lyrics-000426,0x1lHVZyyJUIQAAJfiD2Yf,543,The Curse - Live,the curse - live,the curse live,Agnes Obel,agnes obel,agnes obel,Aventine (Deluxe Version),fullmatch,,,full
+utwu-000395,lyrics-000427,6fvny7HFXx6QTCJVvDN8bA,544,Psalm stojących w kolejce - 1992,psalm stojących w kolejce - 1992,psalm stojacych w kolejce 1992,Krystyna Prońko,krystyna prońko,krystyna pronko,Osobista kolekcja 2,fullmatch,,,full
+utwu-000394,lyrics-000428,593fsAGk2fvZkEzLcClwIV,545,Gaj,gaj,gaj,"Maryla Rodowicz, Marek Grechuta","maryla rodowicz, marek grechuta",maryla rodowicz | marek grechuta,Sześć Oceanów (Piosenki 1962-2013),fullmatch,,,full
+utwu-000393,lyrics-000431,4nTNxlxfV5vSNVgV6gOdf2,546,Sex appeal,sex appeal,sex appeal,Eugeniusz Bodo,eugeniusz bodo,eugeniusz bodo,Oryginalnie,fullmatch,,,full
+utwu-000392,lyrics-000432,1UnyINtz1ofbohRdWUaFOM,547,Nie ma wody na pustyni,nie ma wody na pustyni,nie ma wody na pustyni,Bajm,bajm,bajm,Best Of (1978- 2018),fullmatch,,,full
+utwu-000391,lyrics-000434,0iSetRSqLHoKRHpts680E7,548,Odkryjemy miłość nieznaną,odkryjemy miłość nieznaną,odkryjemy miłosc nieznana,Alicja Majewska,alicja majewska,alicja majewska,60 lat Polskich Nagrań,fullmatch,,,full
+utwu-000390,lyrics-000435,0FGBCrLj15yxjJ1WPRnVMQ,549,Kiedy byłem małym chłopcem,kiedy byłem małym chłopcem,kiedy byłem małym chłopcem,Breakout,breakout,breakout,Blues,fullmatch,,,full
+utwu-000389,lyrics-000820,4S4dsfH5ZeDSVs56NRbuVD,550,Juz nigdy,juz nigdy,juz nigdy,Mieczysław Fogg,mieczysław fogg,mieczysław fogg,Co nam zostalo z tych lat - cykl 1,fullmatch,,,canonicaltext
+utwu-000388,lyrics-000436,0hXMYduFxPCdcggIYmQYvN,551,Nim Wstanie Dzień,nim wstanie dzień,nim wstanie dzien,Edmund Fetting,edmund fetting,edmund fetting,Sześć Oceanów (Piosenki 1962-2013),fullmatch,,,full
+utwu-000387,lyrics-000437,2EhBnIu29agGDKaHYWieBC,552,Jimmy,jimmy,jimmy,L.E.J,l.e.j,l e j,En attendant l’album,fullmatch,,,full
+utwu-000386,lyrics-000438,4qdhSgyDoQyZc4HngbXkIk,553,L'enfant roi,l'enfant roi,l enfant roi,Noir Désir,noir désir,noir desir,Des visages des figures,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000385,,0evcIT39r1sTiluI0b4C4A,554,Coultergeist,coultergeist,coultergeist,"Phil Coulter, David L. Cooke, Dermot Byrne","phil coulter, david l. cooke, dermot byrne",phil coulter | david l cooke | dermot byrne,Highland Cathedral,fullmatch,,,instrumental
+utwu-000384,lyrics-000439,0CNG7yB98CAfH7NDAtBheY,555,Jungle Drum,jungle drum,jungle drum,"The Colorist Orchestra, Emilíana Torrini","the colorist orchestra, emilíana torrini",the colorist orchestra | emiliana torrini,The Colorist & Emiliana Torrini,fullmatch,,,full
+utwu-000383,lyrics-000440,2ID3rNM3hFBjqrLcV0Wr0y,556,It Was A Very Good Year,it was a very good year,it was a very good year,Frank Sinatra,frank sinatra,frank sinatra,September Of My Years (Expanded Edition),fullmatch,,,full
+utwu-000382,lyrics-000441,3spdoTYpuCpmq19tuD0bOe,557,My Way,my way,my way,Frank Sinatra,frank sinatra,frank sinatra,My Way (Expanded Edition),fullmatch,,,full
+utwu-000381,lyrics-000442,1deRy8hxkpI3mdODgxPOWB,558,Money,money,money,Indra Rios-Moore,indra rios-moore,indra rios moore,Heartland,fullmatch,,,full
+utwu-000380,lyrics-000443,6497goaUScE9kfROHQBhdP,559,Bye Bye Manchester,bye bye manchester,bye bye manchester,Mélanie Pain,mélanie pain,melanie pain,Bye Bye Manchester,fullmatch,,,full
+utwu-000379,lyrics-000444,08AhbaybgOJQseZ7XZtfBZ,560,Spaghetti,spaghetti,spaghetti,The Wave Pictures,the wave pictures,the wave pictures,Long Black Cars,fullmatch,,,full
+utwu-000378,lyrics-000445,4GOhve9HltK8LeoKFi19kg,561,Am I Right Boy,am i right boy,am i right boy,Fran Palermo,fran palermo,fran palermo,Fran Palermo,fullmatch,,,full
+utwu-000377,lyrics-000446,6psoyO7EFHZCSf112zoYbR,562,Anita No!,anita no!,anita no,The Dø,the dø,the dø,Shake Shook Shaken,fullmatch,,,full
+utwu-000376,lyrics-000447,7pYBO2MR85GGVXQxWZYL3Z,563,Feel Again,feel again,feel again,"Federico Albanese, Ghostpoet","federico albanese, ghostpoet",federico albanese | ghostpoet,Before And Now Seems Infinite,fullmatch,,,full
+utwu-000375,lyrics-000441,2YkIDPL5lGhRhomCq4S2RO,564,My Way - 2008 Remastered,my way - 2008 remastered,my way 2008 remastered,Frank Sinatra,frank sinatra,frank sinatra,Nothing But The Best (2008 Remastered),fullmatch,,,full
+utwu-000374,lyrics-000448,2OYmCSVGmN5vXuG5dX5LKY,565,Are You Serious,are you serious,are you serious,Andrew Bird,andrew bird,andrew bird,Are You Serious,fullmatch,,,full
+utwu-000373,lyrics-000449,0MLYqO7ONWSC4HkRitx4cL,566,Ça ne tient pas la route,ça ne tient pas la route,ca ne tient pas la route,Flo,flo,flo,D'amore e di altre cose irreversibili,fullmatch,,,full
+utwu-000372,lyrics-000863,4s4egs79fvp5UQYsRSDrUY,567,Onna no Yujyo - 1934 Edit,onna no yujyo - 1934 edit,onna no yujyo 1934 edit,R Vincenzo,r vincenzo,r vincenzo,EP,fullmatch,,,paraphase
+utwu-000371,lyrics-000450,5UGwWU7oq0DEKjAlMy1npZ,568,Space Girl,space girl,space girl,Eliza Carthy,eliza carthy,eliza carthy,Wayward Daughter,fullmatch,,,full
+utwu-000370,lyrics-000451,10JeR9uqMHMDwfF2mtxgQb,569,Baila Leila,baila leila,baila leila,"Goran Bregović, Asaf Avidan","goran bregović, asaf avidan",goran bregovic | asaf avidan,Three Letters From Sarajevo (Opus 1),fullmatch,,,full
+utwu-000369,lyrics-000824,3Mnhi3krYvlWJMh4dfhPpy,570,Get the Party Started (Originally Performed By Shirley Bassey) [Full Vocal Version],get the party started (originally performed by shirley bassey) [full vocal version],get the party started originally performed by shirley bassey full vocal version,Chart Collective,chart collective,chart collective,"Karaoke Shirley Bassey, Vol. 2",fullmatch,,,canonicaltext
+utwu-000368,lyrics-000452,0emn0LIIhaxyg6b6Rl3cws,571,Come up and See Me,come up and see me,come up and see me,"Teho Teardo, Blixa Bargeld","teho teardo, blixa bargeld",teho teardo | blixa bargeld,Still Smiling,fullmatch,,,full
+utwu-000367,lyrics-000453,4mUnxOTWwlLoh3rMXWYsuc,572,Marz,marz,marz,John Grant,john grant,john grant,Queen of Denmark,fullmatch,,,full
+utwu-000366,lyrics-000454,0d8cGMosMcPJA8UsxQCtZq,573,You Spin Me Round (Like a Record),you spin me round (like a record),you spin me round like a record,Dead Or Alive,dead or alive,dead or alive,That's The Way I Like It: The Best of Dead Or Alive,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000365,lyrics-000454,1ChulFMnwxoD74Me8eX2TU,574,You Spin Me Round (Like a Record),you spin me round (like a record),you spin me round like a record,Dead Or Alive,dead or alive,dead or alive,Evolution: The Hits,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00459; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000364,lyrics-000455,2FHCLBPea7Or3JehY05V8I,575,A Place To Call My Own,a place to call my own,a place to call my own,Tiwayo,tiwayo,tiwayo,The Gypsy Soul Of Tiwayo,fullmatch,,,full
+utwu-000363,lyrics-000864,5KEk9cyq1dnQa6g4JFS72W,576,Bed Of Stone,bed of stone,bed of stone,Tiwayo,tiwayo,tiwayo,The Gypsy Soul Of Tiwayo,fullmatch,,,paraphase
+utwu-000362,lyrics-000457,5P0tWr5JZqDoi5wq2OalFH,577,Je t'aime moi non plus,je t'aime moi non plus,je t aime moi non plus,"Serge Gainsbourg, Jane Birkin","serge gainsbourg, jane birkin",serge gainsbourg | jane birkin,Comic Strip,fullmatch,,,full
+utwu-000361,,5ocg5H6tZKhjBU0sjsXZvc,578,In the Land of Your Soul,in the land of your soul,in the land of your soul,Nicolas Repac,nicolas repac,nicolas repac,Rhapsodic,fullmatch,,,instrumental
+utwu-000360,,2C026CuHk5rSepbskiKsae,579,Hypnagogia,hypnagogia,hypnagogia,Erman Erim,erman erim,erman erim,Any Given Sunday,fullmatch,,,instrumental
+utwu-000359,lyrics-000458,7xlS3W0lnd4XMowKt76nuC,580,Baton rouge,baton rouge,baton rouge,Palatine,palatine,palatine,Grand paon de nuit,fullmatch,,,full
+utwu-000358,lyrics-000459,7EsezxxlX1rNmdFEG4l4AN,581,Too much,too much,too much,Lou Doillon,lou doillon,lou doillon,Soliloquy,fullmatch,,,full
+utwu-000357,lyrics-000460,7GQVWdQxc8qvipWk0qZaZ1,582,Border,border,border,Bukahara,bukahara,bukahara,Border,fullmatch,,,full
+utwu-000356,lyrics-000799,0MhcmbOqXF8tArGQUbwKcT,583,Obsession,obsession,obsession,Ran Nir,ran nir,ran nir,Obession,fullmatch,,,full
+utwu-000355,lyrics-000174,3pccTYjwOQRgru5DErQTjS,584,Appaloosa,appaloosa,appaloosa,Lor,lor,lor,Appaloosa,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00175; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000354,lyrics-000461,2N0UNkmGoHbyMrXI7OTi0Q,585,On the Road Again,on the road again,on the road again,Slackwax,slackwax,slackwax,Night Out,fullmatch,,,full
+utwu-000353,lyrics-000462,6RoLFrxvrEWFWWQjEFACZf,586,Let You Down,let you down,let you down,Awa Ly,awa ly,awa ly,Five and a Feather,fullmatch,,,full
+utwu-000352,lyrics-000463,5bIKjT476EuMc90hS68VeV,587,Ready Shaking Silent,ready shaking silent,ready shaking silent,Hundreds,hundreds,hundreds,The Current,fullmatch,,,full
+utwu-000351,lyrics-000464,0Crihgw5vSdQE4qVOkQtAC,588,Tuesday Fresh Cuts,tuesday fresh cuts,tuesday fresh cuts,Bree Tranter,bree tranter,bree tranter,Another Night On Earth,fullmatch,,,full
+utwu-000350,lyrics-000465,4PbB4EBGs16fSMY9DKyYIg,589,The Colony,the colony,the colony,Vera Sola,vera sola,vera sola,Shades,fullmatch,,,full
+utwu-000349,lyrics-000466,7iDEeKJs8jkHTVde35nXE5,590,Heart Don't Want,heart don't want,heart don t want,Lewis & Leigh,lewis & leigh,lewis | leigh,Ghost,fullmatch,,,full
+utwu-000348,lyrics-000467,6ZZ9Nw7HggjAO941b7C4dN,591,Si tu disais,si tu disais,si tu disais,Françoiz Breut,françoiz breut,francoiz breut,vingt a trente mille jours,fullmatch,,,full
+utwu-000347,lyrics-000468,0YL8qKGNfsN5SobIWaYicv,592,Matin du café,matin du café,matin du cafe,Felipecha,felipecha,felipecha,De fil en aiguille,fullmatch,,,full
+utwu-000346,lyrics-000865,5I77RxtGq8bEvizYJkZM0N,593,Silent Talk,silent talk,silent talk,Catastrophe Waitress,catastrophe waitress,catastrophe waitress,Silent Talk,fullmatch,,,paraphase
+utwu-000345,lyrics-000469,4AIDG8oQzGYqnr6v01f8i5,594,The Garden,the garden,the garden,Einstürzende Neubauten,einstürzende neubauten,einsturzende neubauten,Ende neu,fullmatch,,,full
+utwu-000344,lyrics-000470,3mZuoV46mUS6MkzF7ACeZN,595,Take a Walk On the Wild Side,take a walk on the wild side,take a walk on the wild side,Natalia Mateo,natalia mateo,natalia mateo,Heart of Darkness,fullmatch,,,full
+utwu-000343,lyrics-000471,3XpJO7x4y6MLdwo5QU2sA8,596,Goodnight Moon,goodnight moon,goodnight moon,Shivaree,shivaree,shivaree,I Oughtta Give You A Shot In The Head For Making Me Live In This Dump,fullmatch,,,full
+utwu-000342,lyrics-000472,5dZzXJeDdZ2XzQB0gEVC14,597,Padam,padam,padam,Maria Peszek,maria peszek,maria peszek,Jezus Maria Peszek,fullmatch,,,full
+utwu-000341,lyrics-000473,0laXQQFWXjXtRARRJh2U5I,598,"Życie, kocham cię nad życie","życie, kocham cię nad życie",zycie kocham cie nad zycie,Edyta Geppert,edyta geppert,edyta geppert,Dookoła Wojtka II - Jeszcze w zielone gramy,fullmatch,,,full
+utwu-000340,lyrics-000474,2tIHy63JLoOlJNEyvVqGpZ,599,Running,running,running,ATZUR,atzur,atzur,Running,fullmatch,,,full
+utwu-000339,lyrics-000866,5rJhl1nP2MQ4rlhOAMrb7a,600,De Glace,de glace,de glace,Sammy Decoster,sammy decoster,sammy decoster,Sortie 21,fullmatch,,,paraphase
+utwu-000338,lyrics-000475,2g6FDFBRGHHmdPvJvcOqoH,601,Anybody Gonna Move,anybody gonna move,anybody gonna move,William Z Villain,william z villain,william z villain,William Z Villain,fullmatch,,,full
+utwu-000337,lyrics-000476,5n4xPVVmSlQfygeg4xqCfR,602,Keep Your Lips Sealed,keep your lips sealed,keep your lips sealed,The Dø,the dø,the dø,Shake Shook Shaken,fullmatch,,,full
+utwu-000336,lyrics-000477,4ItrxjR09TiTTrQDKKT54b,603,New Stole,new stole,new stole,"Tricky, Francesca Belmonte","tricky, francesca belmonte",tricky | francesca belmonte,Ununiform,fullmatch,,,full
+utwu-000335,lyrics-000478,00Ee3TCaGiScDiDduyHXd8,604,My Hand in your Hand,my hand in your hand,my hand in your hand,Octave Noire,octave noire,octave noire,Neon,fullmatch,,,full
+utwu-000334,lyrics-000809,2ePQQBFjjHC0rrFnHxeFAv,605,Wales,wales,wales,Luca Wilding,luca wilding,luca wilding,Wales,fullmatch,,,full
+utwu-000333,lyrics-000479,3EJHAXAPhqKoUppERPCJtT,606,Smek - Rey&Kjavik Remix,smek - rey&kjavik remix,smek rey kjavik remix,"Ÿuma, Rey&Kjavik","ÿuma, rey&kjavik",yuma | rey | kjavik,Smek (Rey&Kjavik Remix),fullmatch,,,full
+utwu-000332,,7AKPhZILZCP4IYkbAb3pCN,607,VET,vet,vet,Martin Kohlstedt,martin kohlstedt,martin kohlstedt,Nacht,fullmatch,,,instrumental
+utwu-000331,lyrics-000480,5Ioy9ZoOzXYXIcaX3Ent6m,608,"TV Screen - ""Arizona Dream"" Original Motion Picture Soundtrack","tv screen - ""arizona dream"" original motion picture soundtrack",tv screen arizona dream original motion picture soundtrack,Iggy Pop,iggy pop,iggy pop,Ederlezi,fullmatch,,,full
+utwu-000330,lyrics-000481,1YQWosTIljIvxAgHWTp7KP,609,Take Five,take five,take five,The Dave Brubeck Quartet,the dave brubeck quartet,the dave brubeck quartet,Time Out,fullmatch,,,full
+utwu-000329,lyrics-000829,2TbrVvMrXgVjA1rv6rXMom,610,Sugarman,sugarman,sugarman,Ndidi O,ndidi o,ndidi o,Dark Swing,fullmatch,,,paraphase
+utwu-000328,lyrics-000482,0me98peBkucbyobaCGi6J4,611,Beautiful Stranger,beautiful stranger,beautiful stranger,Sarah McCoy,sarah mccoy,sarah mccoy,Beautiful Stranger,fullmatch,,,full
+utwu-000327,,5J3F2fTUl9cSJU5Bkq09HQ,612,Lilies of the Valley,lilies of the valley,lilies of the valley,Tango in Vilnius,tango in vilnius,tango in vilnius,Sulle Rive Del Tango - Milonga Madre,fullmatch,,,instrumental
+utwu-000326,lyrics-000483,6XiLuPeIheAVIyHcuZyGeM,613,Truth,truth,truth,Faada Freddy,faada freddy,faada freddy,Gospel Journey,fullmatch,,,full
+utwu-000325,,0HFGrttEkzRWLNku52U4Qz,614,Dos,dos,dos,Rémi Panossian,rémi panossian,remi panossian,DO,fullmatch,,,instrumental
+utwu-000324,lyrics-000867,6f0OSlCKwA1OsqX0v6XrT2,615,You Can't Run from the Devil,you can't run from the devil,you can t run from the devil,Digger Barnes,digger barnes,digger barnes,Near Exit 27,fullmatch,,,paraphase
+utwu-000323,lyrics-000484,2AGcqRS2HnRrMNQgIFKEdR,616,Berlin,berlin,berlin,Antoine Villoutreix,antoine villoutreix,antoine villoutreix,Les Vieux Souliers,fullmatch,,,full
+utwu-000322,lyrics-000485,3wFoveAOCH4ckZZaodYGuw,617,Tarantino,tarantino,tarantino,Julia Marcell,julia marcell,julia marcell,Proxy,fullmatch,,,full
+utwu-000321,lyrics-000486,1i8oOEZKBzaxnEmcZYAYCQ,618,Travel Alone,travel alone,travel alone,Frenic,frenic,frenic,Dr. DAD,fullmatch,,,full
+utwu-000320,lyrics-000868,3TX2AAnuap3U0a1DR5KRtQ,619,La Vida De Los Uruguayos,la vida de los uruguayos,la vida de los uruguayos,The Bas Lexter Ensample,the bas lexter ensample,the bas lexter ensample,Truncate It Right,fullmatch,,,paraphase
+utwu-000319,lyrics-000810,6ZtThs6SYrpm8z90iLdhwX,620,Stein,stein,stein,Bukahara,bukahara,bukahara,Stein,fullmatch,,,full
+utwu-000318,lyrics-000487,7lma9gSUjHqELqLjk5ouck,621,Ma route,ma route,ma route,"Robi, Dominique A","robi, dominique a",robi | dominique a,L'hiver et la joie,fullmatch,,,full
+utwu-000317,lyrics-000488,3gNGs3jVDgvbJUD8nNCZD0,622,Happy,happy,happy,Bukahara,bukahara,bukahara,Canaries in a Coal Mine,fullmatch,,,full
+utwu-000316,lyrics-000489,4vEyrlO2wmbMPJd86VCV6g,623,Your Woman,your woman,your woman,Cats On Fire,cats on fire,cats on fire,Dealing In Antiques,fullmatch,,,full
+utwu-000315,lyrics-000490,1OGQPYVCTpiGpmTG32tEfq,624,"Fuck the Government, I Love You","fuck the government, i love you",fuck the government i love you,The Burning Hell,the burning hell,the burning hell,Public Library,fullmatch,,,full
+utwu-000314,lyrics-000821,3UZuRa4jawcfmiUbe1CaFV,625,Piangi con me,piangi con me,piangi con me,Bee Bee Sea,bee bee sea,bee bee sea,Piangi con me,fullmatch,,,canonicaltext
+utwu-000313,lyrics-000491,7GFteQz0Y6FFaJhCfj0I9X,626,Hoffnungsmaschine,hoffnungsmaschine,hoffnungsmaschine,"Erdmöbel, Judith Holofernes","erdmöbel, judith holofernes",erdmobel | judith holofernes,Hinweise zum Gebrauch,fullmatch,,,full
+utwu-000312,lyrics-000492,0z21vE4xHXXYSyXkOLDUXF,627,Memoir,memoir,memoir,Villagers,villagers,villagers,The Waves,fullmatch,,,full
+utwu-000311,lyrics-000493,0dkduFMGQsmTd5D8CoGDYl,628,Your Woman,your woman,your woman,GYM,gym,gym,Your Woman - Single,fullmatch,,,full
+utwu-000310,lyrics-000494,2WCBX3yuj1hkq7iNaq1IU2,629,The Moon,the moon,the moon,"Hindi Zahra, House of Spirituals","hindi zahra, house of spirituals",hindi zahra | house of spirituals,The Moon,fullmatch,,,full
+utwu-000309,lyrics-000495,7LnEd2DcXEKBxpYskwjpsa,630,Libertad,libertad,libertad,Clara Ysé,clara ysé,clara yse,Le monde s'est dédoublé,fullmatch,,,full
+utwu-000308,lyrics-000496,2KvbLliAjjZNOipthec7Fh,631,Lost in Amsterdam,lost in amsterdam,lost in amsterdam,Parov Stelar,parov stelar,parov stelar,Shine,fullmatch,,,full
+utwu-000307,lyrics-000779,77t897v7yVrqRzpBjNgNfw,632,Dom Sąsiedni,dom sąsiedni,dom sasiedni,"L.U.C., Rebel Babel Ensemble, Renata Przemyk","l.u.c., rebel babel ensemble, renata przemyk",l u c | rebel babel ensemble | renata przemyk,Dom Sąsiedni,fullmatch,,,full
+utwu-000306,lyrics-000497,0sBHJkEfFTFB6Judk3mnt2,633,El Cóndor Pasa,el cóndor pasa,el condor pasa,The Wainwright Sisters,the wainwright sisters,the wainwright sisters,Songs in the Dark,fullmatch,,,full
+utwu-000305,,2hFeOGfy9HmGs6kS6FuJHd,634,Model,model,model,Balanescu Quartet,balanescu quartet,balanescu quartet,This Is The Balanescu Quartet,fullmatch,,,instrumental
+utwu-000304,lyrics-000498,3vfL34Qt4aiRALE70NhPwE,635,Jeśli Chcesz - 2011 Remaster,jeśli chcesz - 2011 remaster,jesli chcesz 2011 remaster,Maanam,maanam,maanam,Łóżko [2011 Remaster],fullmatch,,,full
+utwu-000303,lyrics-000499,3jV2XfK1Kq5a9dovhwk3Pe,636,Gyongy haju lany,gyongy haju lany,gyongy haju lany,Zakopower,zakopower,zakopower,Na Siedem,fullmatch,,,full
+utwu-000302,lyrics-000500,6sQCEPC8thjfDokBA1TeMn,637,Granda,granda,granda,Brodka,brodka,brodka,Granda,fullmatch,,,full
+utwu-000301,lyrics-000501,6nazrttF1K9tmyuqhDU3Q0,638,[sic!],[sic!],sic,"Hey, Leszek Kaminski","hey, leszek kaminski",hey | leszek kaminski,[sic!],fullmatch,,,full
+utwu-000300,lyrics-000502,2yW5ljg5GubKtHjIQCuQUx,639,Babę Zesłał Bóg,babę zesłał bóg,babe zesłał bog,Renata Przemyk,renata przemyk,renata przemyk,Ya Hozna (Edycja Specjalna),fullmatch,,,full
+utwu-000299,lyrics-000503,4Lq7tL7JzJwIpR50TGJoW5,640,Ja pas!,ja pas!,ja pas,Nosowska,nosowska,nosowska,BASTA,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000298,lyrics-000504,633WGcoYmJrMCozV8Hssdh,641,Sorry Polsko,sorry polsko,sorry polsko,Maria Peszek,maria peszek,maria peszek,Jezus Maria Peszek,fullmatch,,,full
+utwu-000297,lyrics-000114,328lECQI5E9fNwRhAIMIdm,642,Melodia ulotna,melodia ulotna,melodia ulotna,Mela Koteluk,mela koteluk,mela koteluk,Melodia Ulotna,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00114; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000296,lyrics-000505,3ScaDItBR6UWGGGCupgrm5,643,Era Retuszera,era retuszera,era retuszera,Nosowska,nosowska,nosowska,UniSexBlues,fullmatch,,,full
+utwu-000295,lyrics-000506,702sdcjH1JbU2hwK8xEJD6,644,Lipstick on the Glass - 2011 Remaster,lipstick on the glass - 2011 remaster,lipstick on the glass 2011 remaster,Maanam,maanam,maanam,Mental Cut [2011 Remaster],fullmatch,,,full
+utwu-000294,lyrics-000507,46qtx8LwmPE77U3yidGUl4,645,Szepty i Lzy,szepty i lzy,szepty i lzy,Anna Maria Jopek,anna maria jopek,anna maria jopek,Bosa,fullmatch,,,full
+utwu-000293,lyrics-000508,2ghVLXKn5UoXCXArU9YaED,646,Oczy Tej Małej,oczy tej małej,oczy tej małej,Magda Umer,magda umer,magda umer,Sześć Oceanów (Piosenki 1962-2013),fullmatch,,,full
+utwu-000292,lyrics-000509,1oaKIe8RjLlgQ6H6DgqE9J,647,Galop,galop,galop,Zakopower,zakopower,zakopower,Na Siedem,fullmatch,,,full
+utwu-000291,lyrics-000510,5xCyTfJ6s1aTxlzk3LuUSt,648,Town of Strangers,town of strangers,town of strangers,BOKKA,bokka,bokka,Bokka,fullmatch,,,full
+utwu-000290,lyrics-000511,05hk8ivnCt0HP3aI1uWJfi,649,Oranżada,oranżada,oranzada,KONIEC ŚWIATA,koniec świata,koniec swiata,Oranżada,fullmatch,,,full
+utwu-000289,lyrics-000777,7mwZtFMiBK8rHxssk7hwVB,650,Karwoski - radio single,karwoski - radio single,karwoski radio single,Pablopavo i Ludziki,pablopavo i ludziki,pablopavo i ludziki,Karwoski,fullmatch,,,full
+utwu-000288,lyrics-000512,5LI0bvOOWBZurxNuO8su1S,651,Silbo,silbo,silbo,Féloche,féloche,feloche,Silbo,fullmatch,,,full
+utwu-000287,lyrics-000513,08BrrGh4bFSTbTgZ8eLRga,652,Cannes,cannes,cannes,Barbara Carlotti,barbara carlotti,barbara carlotti,Les Lys Brisés,fullmatch,,,full
+utwu-000286,lyrics-000514,2ID1I6mOtG5Kn6oSYalpUB,653,Baby Blue,baby blue,baby blue,Martina Topley-Bird,martina topley-bird,martina topley bird,Some Place Simple,fullmatch,,,full
+utwu-000285,lyrics-000515,4Jobb1VntxSfhJ8d6iOrsj,654,All That We Are,all that we are,all that we are,Charlie Winston,charlie winston,charlie winston,As I Am,fullmatch,,,full
+utwu-000284,lyrics-000516,3FTf2Ax5d9LqiT4kJzjRV8,655,Le Petit Succès (Feat. Barbara Carlotti),le petit succès (feat. barbara carlotti),le petit succes feat barbara carlotti,"Olivier Libaux, Barbara Carlotti","olivier libaux, barbara carlotti",olivier libaux | barbara carlotti,Imbécile,fullmatch,,,full
+utwu-000283,lyrics-000517,6aNa4kHJL8rUECh4CjCy5S,656,Every'body Wants to Be a Cat,every'body wants to be a cat,every body wants to be a cat,Psapp,psapp,psapp,"Rewind, Vol. 5",fullmatch,,,full
+utwu-000282,lyrics-000518,2eouyJzII58DnHBrsbdpJp,657,Walk On The Wild Side,walk on the wild side,walk on the wild side,Tok Tok Tok,tok tok tok,tok tok tok,Love Again,fullmatch,,,full
+utwu-000281,lyrics-000519,2edcrXwukRbhYa5NuM6MT1,658,The Sound of Silence,the sound of silence,the sound of silence,Carmen McRae,carmen mcrae,carmen mcrae,The Sound Of Silence,fullmatch,,,full
+utwu-000280,lyrics-000520,5RXceagiWJrhEgOoVfKneB,659,Close To Me,close to me,close to me,Pyeng Threadgill,pyeng threadgill,pyeng threadgill,Of The Air,fullmatch,,,full
+utwu-000279,lyrics-000521,7tCy1Nl5vK5JzjakDCWGch,660,Granny,granny,granny,AVEC,avec,avec,What If We Never Forget,fullmatch,,,full
+utwu-000278,lyrics-000522,1kNPvVDqN2KZZrOhyqEiux,661,"Nikt tak pięknie nie mówił, że się boi miłości","nikt tak pięknie nie mówił, że się boi miłości",nikt tak pieknie nie mowił ze sie boi miłosci,Pidżama Porno,pidżama porno,pidzama porno,Bułgarskie centrum,fullmatch,,,full
+utwu-000277,lyrics-000523,19rlb7Gap5XDk1ajKYxuHb,662,"Paper Trails - Live in D, July 17, 2014","paper trails - live in d, july 17, 2014",paper trails live in d july 17 2014,DARKSIDE,darkside,darkside,PSYCHIC LIVE JULY 17 2014,fullmatch,,,full
+utwu-000276,lyrics-000524,6vPBfCMBFRNtR0G4jNJbHD,663,Jeanie J,jeanie j,jeanie j,Her,her,her,Her Tape #2,fullmatch,,,full
+utwu-000275,lyrics-000525,2w5auesioVWWnqrIM9w4OF,664,Blue Hotel,blue hotel,blue hotel,trentemøller,trentemøller,trentemøller,Late Night Tales: Trentemøller,fullmatch,,,full
+utwu-000274,lyrics-000526,6UYoxIFcrMZZu15OLk3k4W,665,Don’t Forget,don't forget,don t forget,The Magic Mumble Jumble,the magic mumble jumble,the magic mumble jumble,Don’t Forget,fullmatch,,,full
+utwu-000273,,4sbU2yZ3UHKrP5XHBi37t0,666,Wurlitzer,wurlitzer,wurlitzer,Leifur James,leifur james,leifur james,Wurlitzer,fullmatch,,,instrumental
+utwu-000272,lyrics-000527,5oPA1YMTgFnOkORi0UkIxA,667,Wild,wild,wild,Tiwayo,tiwayo,tiwayo,The Gypsy Soul Of Tiwayo,fullmatch,,,full
+utwu-000271,lyrics-000528,3tEL74JlN4OT9YPoNx5eRI,668,The Angry River (feat. Father John Misty and S.I. Istwa) [Theme From the HBO Series True Detective],the angry river (feat. father john misty and s.i. istwa) [theme from the hbo series true detective],the angry river feat father john misty and s i istwa theme from the hbo series true detective,"The Hat, Father John Misty, S.I. Istwa","the hat, father john misty, s.i. istwa",the hat | father john misty | s i istwa,The Angry River (feat. Father John Misty and S.I. Istwa) [Theme From the HBO Series True Detective],fullmatch,,,full
+utwu-000270,lyrics-000529,5D3LmLjnygcIc4lyCbsCzU,669,Left Behind,left behind,left behind,Lou Doillon,lou doillon,lou doillon,Lay Low,fullmatch,,,full
+utwu-000269,lyrics-000530,2OgisPprUIzi3mM5F6QgVo,670,Jeśli tylko to będzie możliwe,jeśli tylko to będzie możliwe,jesli tylko to bedzie mozliwe,BAiKA,baika,baika,Byty zależne,fullmatch,,,full
+utwu-000268,,1idbhOar602sbsCh0vJxFV,671,I'm Bound To Pack It Up,i'm bound to pack it up,i m bound to pack it up,Aluminium,aluminium,aluminium,Aluminium,fullmatch,,,instrumental
+utwu-000267,lyrics-000531,6RLaMJszaIAYBq6nqHJJSK,672,Power to the Women of the Morning Shift,power to the women of the morning shift,power to the women of the morning shift,Oum Shatt,oum shatt,oum shatt,Oum Shatt,fullmatch,,,full
+utwu-000266,lyrics-000532,5e17Iwey60e1MWX2B5UfZu,673,Moonlight Avenue,moonlight avenue,moonlight avenue,"Ti.po.ta, Manu Chao, Klelia Renesi","ti.po.ta, manu chao, klelia renesi",ti po ta | manu chao | klelia renesi,Moonlight Avenue,fullmatch,,,full
+utwu-000265,lyrics-000533,2xkiddKeMQuXQ1ybdxQkzV,674,Bloodbath,bloodbath,bloodbath,DRAMAS,dramas,dramas,DRAMAS,fullmatch,,,full
+utwu-000264,lyrics-000800,2jRa9pGrhSFJAmMy6A8Fgp,675,Take Me to the Water,take me to the water,take me to the water,"David Gerrard Lawrence, Samuel Kenneth Brookes","david gerrard lawrence, samuel kenneth brookes",david gerrard lawrence | samuel kenneth brookes,"Emotive Songs, Vol. 3",fullmatch,,,full
+utwu-000263,lyrics-000534,2QpPvGFXgnPXcpnAhoDHaP,676,Másfél Millió Tépés Magyarországon,másfél millió tépés magyarországon,masfel millio tepes magyarorszagon,Zuboly,zuboly,zuboly,Értem A Kujonságot,fullmatch,,,full
+utwu-000262,lyrics-000535,14u2aLWtKTZFZV34Hpvfbx,677,Tangerine,tangerine,tangerine,"Christophe, Alan Vega","christophe, alan vega",christophe | alan vega,Les vestiges du Chaos,fullmatch,,,full
+utwu-000261,lyrics-000536,3CHqsQ4WLSbkBJ0P56XSdp,678,50 Tysiecy 881,50 tysiecy 881,50 tysiecy 881,Smolik,smolik,smolik,Smolik,fullmatch,,,full
+utwu-000260,lyrics-000537,09mElOhFiaJY5B5eGiNccS,679,Les Salines,les salines,les salines,Alain Bashung,alain bashung,alain bashung,En amont,fullmatch,,,full
+utwu-000259,,2asn5DmCoVLNTkBFlUXXHy,680,And Hit the Bitter Water,and hit the bitter water,and hit the bitter water,Wim Mertens,wim mertens,wim mertens,"What are we, locks, to do?",fullmatch,,,instrumental
+utwu-000258,lyrics-000538,2pSNrB5Ya7TLS3KANlvDda,681,Dreams,dreams,dreams,"Robot Koch, Stephen Henderson","robot koch, stephen henderson",robot koch | stephen henderson,Hypermoment,fullmatch,,,full
+utwu-000257,lyrics-000539,5t82YaBkSfltIGqhgx1FGZ,682,Night of the Nights,night of the nights,night of the nights,Kovacs,kovacs,kovacs,Shades of Black,fullmatch,,,full
+utwu-000256,lyrics-000540,2H5XeIiVcZrxV01tQbpu9v,683,The Turning of Our Bones,the turning of our bones,the turning of our bones,Arab Strap,arab strap,arab strap,As Days Get Dark,fullmatch,,,full
+utwu-000255,lyrics-000541,0nHu17Gq9ANfsZRO362YCi,684,Le monde s'est dédoublé,le monde s'est dédoublé,le monde s est dedouble,Clara Ysé,clara ysé,clara yse,Le monde s'est dédoublé,fullmatch,,,full
+utwu-000254,lyrics-000542,24xta6O9qtWOHpvglcyHyq,685,The Tide,the tide,the tide,"Dragonborn, Jacob Bellens","dragonborn, jacob bellens",dragonborn | jacob bellens,Ride Upon The Storm (Original Songs From The TV-Series),fullmatch,,,full
+utwu-000253,lyrics-000543,4m9tiF2gHjFrCiHNrY9q1v,686,Woe Is Meee,woe is meee,woe is meee,Ghostpoet,ghostpoet,ghostpoet,Dark Days + Canapés,fullmatch,,,full
+utwu-000252,lyrics-000544,6zfczP87XO2SxWlQtnjFNa,687,The Look,the look,the look,Metronomy,metronomy,metronomy,The English Riviera,fullmatch,,,full
+utwu-000251,lyrics-000545,3g4galVRuhR1AVE8ijxJE2,688,I Am Going Home,i am going home,i am going home,"Roseaux, Ben L'Oncle Soul","roseaux, ben l'oncle soul",roseaux | ben l oncle soul,Roseaux II,fullmatch,,,full
+utwu-000250,lyrics-000546,1vUhEXM7uEVFPRVrIhEk0Q,689,tHe heRe aNd afTer,the here and after,the here and after,Jun Miyake,jun miyake,jun miyake,Stolen from strangers (+2),fullmatch,,,full
+utwu-000249,lyrics-000547,7fcOuaNybAtqB1lO7aMfJw,690,In Our Sleep,in our sleep,in our sleep,Laurie Anderson,laurie anderson,laurie anderson,Bright Red,fullmatch,,,full
+utwu-000248,lyrics-000548,49fCFEuwuKLKbIfHLb4xBA,691,I Feel It Like You,i feel it like you,i feel it like you,"Malia, Boris Blank","malia, boris blank",malia | boris blank,Convergence,fullmatch,,,full
+utwu-000247,lyrics-000549,3R3qPpiWfYbSqwgS7A8Ypy,692,Nothing Compares 2 U,nothing compares 2 u,nothing compares 2 u,Jimmy Scott,jimmy scott,jimmy scott,Pedro Almodóvar - Viva La Tristeza!,fullmatch,,,full
+utwu-000246,lyrics-000550,536Q6aAsYUhjzyjUHUE0Cd,693,Death Ride Through Wet Snow,death ride through wet snow,death ride through wet snow,TaxiWars,taxiwars,taxiwars,TaxiWars,fullmatch,,,full
+utwu-000245,lyrics-000551,6rF01xeLejxsujbRZD3PTK,694,Colours Of The Night,colours of the night,colours of the night,Peter Broderick,peter broderick,peter broderick,Colours Of The Night,fullmatch,,,full
+utwu-000244,lyrics-000552,4oxLR8obCANR4Mbttlz4sD,695,Well Bell,well bell,well bell,Pegase,pegase,pegase,Well Bell,fullmatch,,,full
+utwu-000243,lyrics-000553,1N50fuNUNs0DweJuEHyFag,696,The Last Waltz (feat. Eendo),the last waltz (feat. eendo),the last waltz feat eendo,"King Raam, Eendo","king raam, eendo",king raam | eendo,The Vulture,fullmatch,,,full
+utwu-000242,lyrics-000554,1hWZXfvdaD00BlcNGJtUkw,697,Beyond the Fray,beyond the fray,beyond the fray,Cassandra Violet,cassandra violet,cassandra violet,Beyond the Fray,fullmatch,,,full
+utwu-000241,lyrics-000555,0wewVYFyIbIrhbMPBTbl1s,698,Midnight Summer Dream,midnight summer dream,midnight summer dream,The Stranglers,the stranglers,the stranglers,Feline,fullmatch,,,full
+utwu-000240,lyrics-000556,08znjAQTE86yZ11vugzE0Q,699,Czas który pozostał,czas który pozostał,czas ktory pozostał,Artur Rojek,artur rojek,artur rojek,Składam się z ciągłych powtórzeń,fullmatch,,,full
+utwu-000239,lyrics-000557,3FPKjKxdYR6o3d25QFsycf,700,Astro Black - The Big Wow Mix,astro black - the big wow mix,astro black the big wow mix,Freedom Satellite,freedom satellite,freedom satellite,Vienna Scientists V - The 10th Anniversary,fullmatch,,,full
+utwu-000238,lyrics-000869,5d8J6r6ZkNVbLw2S6VCDNH,701,Je broie du noir,je broie du noir,je broie du noir,Lisa Mélissa & The Mess,lisa mélissa & the mess,lisa melissa | the mess,Je broie du noir,fullmatch,,,paraphase
+utwu-000237,lyrics-000558,6yVuN5MNzrQXdcDxOlMIEn,702,Maryś,maryś,marys,Patryk Pietrzak,patryk pietrzak,patryk pietrzak,OK BOOMER,fullmatch,,,full
+utwu-000236,lyrics-000559,4HUFXFslQLB5AYQr4fSznX,703,I Don't Know,i don't know,i don t know,WhoMadeWho,whomadewho,whomadewho,Through the Walls,fullmatch,,,full
+utwu-000235,,2jL3y2d8azHZ6WJmB08Dxn,704,Getting Old,getting old,getting old,Felix Laband,felix laband,felix laband,Deaf Safari,fullmatch,,,instrumental
+utwu-000234,lyrics-000560,0dn4s17Yq03yFUDn4iJC56,705,Nowhere To Be,nowhere to be,nowhere to be,H-Burns,h-burns,h burns,Night Moves,fullmatch,,,full
+utwu-000233,,1nhrpyC8ppLJTIqM6FZTit,706,The Law and The Fist,the law and the fist,the law and the fist,"Krzysztof Komeda, Leszek Możdżer","krzysztof komeda, leszek możdżer",krzysztof komeda | leszek mozdzer,Komeda,fullmatch,,,instrumental
+utwu-000232,,6Crt2MYiwYYe5MAuxcGJg0,707,Time,time,time,Kroke,kroke,kroke,Feelharmony,fullmatch,,,instrumental
+utwu-000231,lyrics-000561,6PU2HDVr4unWEZ04VdK6MQ,708,Hunter,hunter,hunter,Deep Throat Choir,deep throat choir,deep throat choir,Hunter,fullmatch,,,full
+utwu-000230,lyrics-000562,7Id09g2NZBBLu8AWU4nRZm,709,Heart of Wool,heart of wool,heart of wool,"Acollective, RABINO, Roy Rieck","acollective, rabino, roy rieck",acollective | rabino | roy rieck,The Coming of Light,fullmatch,,,full
+utwu-000229,lyrics-000563,0nLMjIuOsMjEq4IKuJ2twa,710,I Am a Victim of This Song,i am a victim of this song,i am a victim of this song,"Pipilotti Rist, Anders Guggisberg","pipilotti rist, anders guggisberg",pipilotti rist | anders guggisberg,Pipilotti Rist: Video Installation Soundtracks & Ear Fruits,fullmatch,,,full
+utwu-000228,lyrics-000564,37Iy02wpPR5M0iiRBiV4DD,711,That's All,that's all,that s all,Clare & The Reasons,clare & the reasons,clare | the reasons,Arrow,fullmatch,,,full
+utwu-000227,,2OfFcNC9jzci8iqafJIIiy,712,Comptine D'Un Autre Ete: L'Apres Midi,comptine d'un autre ete: l'apres midi,comptine d un autre ete l apres midi,Japhlet Bire Attias,japhlet bire attias,japhlet bire attias,Japhlet Bire Attias,fullmatch,,,instrumental
+utwu-000226,,5GHFEYE8a4B8uH28PWB53O,713,Gypsy Moth,gypsy moth,gypsy moth,Andrew Bird,andrew bird,andrew bird,Echolocations: River,fullmatch,,,instrumental
+utwu-000225,,5jDz85zCpp0dK6wUdVluzC,714,Paint It Black,paint it black,paint it black,Rémi Panossian,rémi panossian,remi panossian,DO,fullmatch,,,instrumental
+utwu-000224,lyrics-000565,6ITVkuvSoMUL9GfRJZOyJA,715,Rozy,rozy,rozy,Dakh Daughters,dakh daughters,dakh daughters,Make Up,fullmatch,,,full
+utwu-000223,lyrics-000566,7jxlRwfBg5euhDpeT8egVd,716,Vesna,vesna,vesna,DakhaBrakha,dakhabrakha,dakhabrakha,Na Mezhi,fullmatch,,,full
+utwu-000222,lyrics-000567,5snyhxAh55A2wlNRH7VVZJ,717,Another Love - Zwette Edit,another love - zwette edit,another love zwette edit,"Tom Odell, Zwette","tom odell, zwette",tom odell | zwette,Another Love (Zwette Edit),fullmatch,,,full
+utwu-000221,lyrics-000568,3JvKfv6T31zO0ini8iNItO,718,Another Love,another love,another love,Tom Odell,tom odell,tom odell,Long Way Down (Deluxe),fullmatch,,,full
+utwu-000220,lyrics-000569,1RE8xI2SgJz0RBZQv5CfKc,719,Our Past,our past,our past,Hundreds,hundreds,hundreds,Aftermath,fullmatch,,,full
+utwu-000219,lyrics-000069,18wrpg6Lb6hSEX8bJj0U0a,720,Wonderful Life,wonderful life,wonderful life,Hundreds,hundreds,hundreds,Wonderful Life,fullmatch,,,full
+utwu-000218,lyrics-000570,4sfBHRGhlRh4rMJN7XTDeh,721,When I Dream,when i dream,when i dream,Moderator,moderator,moderator,Sinner's Syndrome,fullmatch,,,full
+utwu-000217,lyrics-000571,3Y0N2daYnS5aj6qBOMhxwm,722,You Showed Me - Edit,you showed me - edit,you showed me edit,Trinidad Senolia,trinidad senolia,trinidad senolia,Postcards From Strangers,fullmatch,,,full
+utwu-000216,lyrics-000572,5WNgbLnDlU0VRd7XOomHdv,723,You're My Chocolate,you're my chocolate,you re my chocolate,Savages,savages,savages,Five Finger Discount,fullmatch,,,full
+utwu-000215,,0kfgew1LpCVBG0dy08G2Ot,724,In Praise Of Dreams,in praise of dreams,in praise of dreams,Jan Garbarek,jan garbarek,jan garbarek,In Praise Of Dreams,fullmatch,,,instrumental
+utwu-000214,lyrics-000573,5nMszb2ks2ua10alA6T8qu,725,For 12,for 12,for 12,Other Lives,other lives,other lives,Tamer Animals,fullmatch,,,full
+utwu-000213,lyrics-000574,0PPU624dbv9aCht68yprRJ,726,I Feel Love,i feel love,i feel love,Hector Zazou. Barbara Eramo. Stefano Saletti,hector zazou. barbara eramo. stefano saletti,hector zazou barbara eramo stefano saletti,Oriental Night Fever,fullmatch,,,full
+utwu-000212,lyrics-000575,5YNdHRnR4jIlfjF3MDh5zR,727,Dangerous,dangerous,dangerous,"Warhaus, Sylvie Kreusch","warhaus, sylvie kreusch",warhaus | sylvie kreusch,Warhaus,fullmatch,,,full
+utwu-000211,lyrics-000576,7CdkFy1Gt9hewWVgH6hNyU,728,True Love (Single Edit),true love (single edit),true love single edit,Otzeki,otzeki,otzeki,True Love (Single Edit),fullmatch,,,full
+utwu-000210,lyrics-000577,0OyZ5OELFQSo4b7QXNk2N2,729,In a Bar,in a bar,in a bar,Tango With Lions,tango with lions,tango with lions,Verba Time,fullmatch,,,full
+utwu-000209,lyrics-000578,0aOn2mNlsE0Ql2VT0x3dTy,730,On ne meurt plus d'amour,on ne meurt plus d'amour,on ne meurt plus d amour,Robi,robi,robi,L'hiver et la joie,fullmatch,,,full
+utwu-000208,lyrics-000579,1pR6v1KLMkLca4T8C7aZx8,731,I Better Run,i better run,i better run,Kovacs,kovacs,kovacs,Cheap Smell,fullmatch,,,full
+utwu-000207,lyrics-000580,6bsQuVgVPrlTaOsrfF5HIv,732,Calm Down,calm down,calm down,The Clementines,the clementines,the clementines,Calm Down,fullmatch,,,full
+utwu-000206,lyrics-000581,5nz8NVfvYxix6AIRrEaMbI,733,So Tell the Girls That I Am Back In Town - Radio Edit,so tell the girls that i am back in town - radio edit,so tell the girls that i am back in town radio edit,"Jay-Jay Johanson, Magnus Frykberg","jay-jay johanson, magnus frykberg",jay jay johanson | magnus frykberg,Best of 1996-2013,fullmatch,,,full
+utwu-000205,lyrics-000582,2aKPLdWPUii8rjxOypUGpF,734,The Happy Woman Cries,the happy woman cries,the happy woman cries,Sophie Zelmani,sophie zelmani,sophie zelmani,My Song,fullmatch,,,full
+utwu-000204,lyrics-000801,02pgRdFwLBpnxwbrOwNreR,735,Tiger,tiger,tiger,Joon Moon,joon moon,joon moon,Moonshine Corner,fullmatch,,,full
+utwu-000203,lyrics-000583,7roa6zEs03l2BXQt3D4Kmn,736,Reason or Rhyme,reason or rhyme,reason or rhyme,Bryan Ferry,bryan ferry,bryan ferry,Bitter-Sweet,fullmatch,,,full
+utwu-000202,lyrics-000584,4dfLrcSJpjvoRlgkHZEqz1,737,Hopeless Wanderer,hopeless wanderer,hopeless wanderer,Mumford & Sons,mumford & sons,mumford | sons,Babel (Deluxe Version),fullmatch,,,full
+utwu-000201,lyrics-000585,3kPZhqKGlLMnh3wxEATr6C,738,Ievan Polkka,ievan polkka,ievan polkka,"Traditional, Le Chœur Voyageur, Alexis Duffaure","traditional, le chœur voyageur, alexis duffaure",traditional | le chœur voyageur | alexis duffaure,Le Chœur Voyageur 2019-2020,fullmatch,,,full
+utwu-000200,lyrics-000585,4O5tKxQzG1K72Vh5bXWxBC,739,Ievan polkka - Video Mix,ievan polkka - video mix,ievan polkka video mix,Riikka,riikka,riikka,Ievan polkka (Video Mix),fullmatch,,,full
+utwu-000199,lyrics-000587,2qW93qXIQ6u8kAnNtlk3V0,740,Mumma Don't Tell,mumma don't tell,mumma don t tell,Leifur James,leifur james,leifur james,A Louder Silence,fullmatch,,,full
+utwu-000198,lyrics-000822,37gnxr7LvByMQwzSudAQPK,741,Make It Wit Chu,make it wit chu,make it wit chu,"Olivier Libaux, Mélanie Pain","olivier libaux, mélanie pain",olivier libaux | melanie pain,Make It Wit Chu,fullmatch,,,canonicaltext
+utwu-000197,lyrics-000588,08MYVlnVAulrTqkUYjACd1,742,Money For All,money for all,money for all,Nine Horses,nine horses,nine horses,Money For All,fullmatch,,,full
+utwu-000196,lyrics-000589,3j2bSf2Eq8r0GZGGuLN1F5,743,Coffee And Wine,coffee and wine,coffee and wine,Mariama,mariama,mariama,"Love, Sweat And Tears",fullmatch,,,full
+utwu-000195,lyrics-000590,2KzVVOMbOtZlPhtu9mIArn,744,Jolene,jolene,jolene,Radical Face,radical face,radical face,"Covers, Vol. 1: ""Lady Covers""",fullmatch,,,full
+utwu-000194,lyrics-000591,4VUTO8lPyHrQX260scFJV2,745,Pożegnanie z bajką,pożegnanie z bajką,pozegnanie z bajka,Coma,coma,coma,Sen o 7 szklankach,fullmatch,,,full
+utwu-000193,lyrics-000592,46X6E0srUFCqCvdb1pZw9U,746,Be Sensational,be sensational,be sensational,Jeanne Added,jeanne added,jeanne added,Be Sensational,fullmatch,,,full
+utwu-000192,lyrics-000593,74VR3AkGPhbYXnxcOYa16x,747,Strangers In The Night,strangers in the night,strangers in the night,Frank Sinatra,frank sinatra,frank sinatra,Strangers In The Night (Expanded Edition),fullmatch,,,full
+utwu-000191,lyrics-000594,0uEftEHpAjuL2V6NScCs4n,748,My Love,my love,my love,Kovacs,kovacs,kovacs,Shades of Black,fullmatch,,,full
+utwu-000190,lyrics-000595,0ix1er7mPfCwsEIKcd3VF6,749,Hard Road,hard road,hard road,Johnny Flynn,johnny flynn,johnny flynn,Sillion,fullmatch,,,full
+utwu-000189,lyrics-000596,6OMWXKGIJtNUtWdRVE925a,750,I Follow Rivers,i follow rivers,i follow rivers,Dionysos,dionysos,dionysos,Vampire en pyjama,fullmatch,,,full
+utwu-000188,,2LM3DRr8xO51SkfU69n2JY,751,An Analog Guy in a Digital World,an analog guy in a digital world,an analog guy in a digital world,Martin Roth,martin roth,martin roth,An Analog Guy in a Digital World,fullmatch,,,instrumental
+utwu-000187,lyrics-000597,6xLp71QUsFL31ZuMNMHjeW,752,Void,void,void,Mantua,mantua,mantua,Mantua,fullmatch,,,full
+utwu-000186,lyrics-000598,18sM7A95jQugA982HWRJoe,753,Noc komety,noc komety,noc komety,Felicjan Andrzejczak,felicjan andrzejczak,felicjan andrzejczak,Kolory Muzyki,fullmatch,,,full
+utwu-000185,lyrics-000599,4rhCkfn1aseLXEuMn7YBGV,754,Ave Maria,ave maria,ave maria,Maria Peszek,maria peszek,maria peszek,Ave Maria,fullmatch,,,full
+utwu-000184,lyrics-000600,4gSJrnm87CSS71adA7vgkd,755,2015,2015,2015,Hey,hey,hey,Błysk,fullmatch,,,full
+utwu-000183,lyrics-000601,4WxTq8GtcBtrMow05xVOEN,756,Wiersz Ostatni,wiersz ostatni,wiersz ostatni,Kasia Lins,kasia lins,kasia lins,Wiersz Ostatni,fullmatch,,,full
+utwu-000182,lyrics-000602,5NxbBZLKdOF298TbgqOmTQ,757,Szambo Wybiło,szambo wybiło,szambo wybiło,Maria Peszek,maria peszek,maria peszek,Ave Maria,fullmatch,,,full
+utwu-000181,lyrics-000603,11rsK9GDZ9UdWsxtDqnMmN,758,Porque te vas,porque te vas,porque te vas,Jeanette,jeanette,jeanette,Porque te vas,fullmatch,,,full
+utwu-000180,lyrics-000604,0ssg58w7Rbp3pWFQqRGrPM,759,Flume - Bon Iver Cover,flume - bon iver cover,flume bon iver cover,Hundreds,hundreds,hundreds,Wilderness (Akustik Edition),fullmatch,,,full
+utwu-000179,lyrics-000605,2QRL3aEqAyKCc88yfoEq3g,760,"Delibes: Lakmé, Act 1: Duo des fleurs. ""Viens, Mallika"" (Lakmé, Mallika)","delibes: lakmé, act 1: duo des fleurs. ""viens, mallika"" (lakmé, mallika)",delibes lakme act 1 duo des fleurs viens mallika lakme mallika,"Léo Delibes, Sabine Devieilhe, Marianne Crebassa, Les Siècles, François-Xavier Roth","léo delibes, sabine devieilhe, marianne crebassa, les siècles, françois-xavier roth",leo delibes | sabine devieilhe | marianne crebassa | les siecles | francois xavier roth,Mirages,fullmatch,,,full
+utwu-000178,lyrics-000606,3KqrvmMM7cTdKXo3PGWAnZ,761,Tout et partout,tout et partout,tout et partout,Marble Sounds,marble sounds,marble sounds,Tautou,fullmatch,,,full
+utwu-000177,lyrics-000607,6hoqroH3GXEi3MO7PnZUjz,762,Bumerang,bumerang,bumerang,Kortez,kortez,kortez,Bumerang,fullmatch,,,full
+utwu-000176,lyrics-000503,6H7kfkSTQyJ2DXBHi0QNoL,763,Ja pas!,ja pas!,ja pas,Nosowska,nosowska,nosowska,Ja pas!,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00508; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000175,lyrics-000608,1NnWp6MMeM0qOF5qMYlMBB,764,Ognia - Live,ognia - live,ognia live,"Marek Dyjak, Nosowska, Męskie Granie Orkiestra","marek dyjak, nosowska, męskie granie orkiestra",marek dyjak | nosowska | meskie granie orkiestra,Męskie granie 2012 (Live),fullmatch,,,full
+utwu-000174,lyrics-000610,39VigLq155fsriPYNfHIBc,765,Hej wy,hej wy,hej wy,Kortez,kortez,kortez,Mini dom,fullmatch,,,full
+utwu-000173,lyrics-000611,7oCTO9T7PDM8zmplePb5B7,766,Solo Sunny,solo sunny,solo sunny,Regine Dobberschütz,regine dobberschütz,regine dobberschutz,Die Pop-Songs,fullmatch,,,full
+utwu-000172,lyrics-000612,1dPWgS6TdS0X4HRD8YizXA,767,Santa Muerte,santa muerte,santa muerte,Brodka,brodka,brodka,Clashes,fullmatch,,,full
+utwu-000171,lyrics-000613,2WQyu7nsNM5nwQSfpk5xMK,768,Europa,europa,europa,Monica Naranjo,monica naranjo,monica naranjo,Europa,fullmatch,,,full
+utwu-000170,lyrics-000614,4OSBTYWVwsQhGLF9NHvIbR,769,Rolling in the Deep,rolling in the deep,rolling in the deep,Adele,adele,adele,21,fullmatch,,,full
+utwu-000169,lyrics-000615,4vTT30mAGogt38JwZc0oyW,770,Money Money,money money,money money,"Joel Grey, Liza Minnelli","joel grey, liza minnelli",joel grey | liza minnelli,Cabaret (Original Soundtrack Recording),fullmatch,,,full
+utwu-000168,lyrics-000616,6tdSdLJl9bjCSuxhqGKRMO,771,Mein Herr,mein herr,mein herr,Liza Minnelli,liza minnelli,liza minnelli,Cabaret (Original Soundtrack Recording),fullmatch,,,full
+utwu-000167,lyrics-000617,3fcg0qPyusZDLSrFhOH8MB,772,Misery Is The River Of The World,misery is the river of the world,misery is the river of the world,Tom Waits,tom waits,tom waits,Blood Money (Remastered),fullmatch,,,full
+utwu-000166,lyrics-000618,18nVec4X5DlXfePjAZkVwO,773,God's Away On Business,god's away on business,god s away on business,Tom Waits,tom waits,tom waits,Blood Money (Remastered),fullmatch,,,full
+utwu-000165,lyrics-000619,2wEHxTBxLJk3vYzyW6dsAU,774,Glory Box - Live,glory box - live,glory box live,Portishead,portishead,portishead,Roseland NYC Live,fullmatch,,,full
+utwu-000164,,5FE9EjOf2QaIEN74PxSJM7,775,Miss You,miss you,miss you,trentemøller,trentemøller,trentemøller,Chilltronica No. 2 - Music for the Cold & Rainy Season,fullmatch,,,instrumental
+utwu-000163,lyrics-000620,5vmRQ3zELMLUQPo2FLQ76x,776,Smalltown Boy,smalltown boy,smalltown boy,Bronski Beat,bronski beat,bronski beat,The Age of Consent,fullmatch,,,full
+utwu-000162,,4uKzc4cK3OOzVPluOAoBj2,777,Phase 09 - Sombrero,phase 09 - sombrero,phase 09 sombrero,Solar Fields,solar fields,solar fields,Until We Meet the Sky,fullmatch,,,instrumental
+utwu-000161,,1QgYQ3Qk4s3I1fj1sPknv5,778,Rattlesnakes,rattlesnakes,rattlesnakes,Emancipator,emancipator,emancipator,Safe In the Steep Cliffs,fullmatch,,,instrumental
+utwu-000160,,2MYPFXScWdR3PQihBQxu7x,779,Bubbles,bubbles,bubbles,Yosi Horikawa,yosi horikawa,yosi horikawa,Wandering,fullmatch,,,instrumental
+utwu-000159,lyrics-000621,0jVo3e34A15l6MNu1O3cfa,780,Red Right Hand,red right hand,red right hand,Nick Cave & The Bad Seeds,nick cave & the bad seeds,nick cave | the bad seeds,Let Love In,fullmatch,,,full
+utwu-000158,lyrics-000523,1DK2JuYarBeNwcLNPw1Qyo,781,Paper Trails,paper trails,paper trails,DARKSIDE,darkside,darkside,Psychic,fullmatch,,,full
+utwu-000157,lyrics-000622,28cnXtME493VX9NOw9cIUh,782,Hurt,hurt,hurt,Johnny Cash,johnny cash,johnny cash,American IV: The Man Comes Around,fullmatch,,,full
+utwu-000156,lyrics-000623,6jXPZid0KLorvgIDP6TiSo,783,God's Gonna Cut You Down,god's gonna cut you down,god s gonna cut you down,Johnny Cash,johnny cash,johnny cash,American V: A Hundred Highways,fullmatch,,,full
+utwu-000155,lyrics-000624,2E5vl5eF4M4QbaADGegVDP,784,The Partisan,the partisan,the partisan,Leonard Cohen,leonard cohen,leonard cohen,Songs From A Room,fullmatch,,,full
+utwu-000154,lyrics-000625,5atFAXIgMXP378op4FaxBm,785,I'm Your Man,i'm your man,i m your man,Leonard Cohen,leonard cohen,leonard cohen,I'm Your Man,fullmatch,,,full
+utwu-000153,lyrics-000626,3mFzIFFFmEXTQs6BDAK2ZZ,786,Dance Me to the End of Love,dance me to the end of love,dance me to the end of love,Leonard Cohen,leonard cohen,leonard cohen,Various Positions,fullmatch,,,full
+utwu-000152,lyrics-000627,1Cj2vqUwlJVG27gJrun92y,787,The Sound of Silence,the sound of silence,the sound of silence,Disturbed,disturbed,disturbed,Immortalized,fullmatch,,,full
+utwu-000151,lyrics-000628,1Yk0cQdMLx5RzzFTYwmuld,788,Hello,hello,hello,Adele,adele,adele,25,fullmatch,,,full
+utwu-000150,lyrics-000629,0zKc1viesv41Gj6ztAtF40,789,Kiss of Fire,kiss of fire,kiss of fire,Hugh Laurie,hugh laurie,hugh laurie,Didn't It Rain,fullmatch,,,full
+utwu-000149,lyrics-000823,0MHR1fEriY1sBZHQuE8iAI,790,Do polityka,do polityka,do polityka,"Zbigniew Preisner, Anna Szałapak","zbigniew preisner, anna szałapak",zbigniew preisner | anna szałapak,Głosy,fullmatch,,,canonicaltext
+utwu-000148,lyrics-000630,3sZOCGtJlrJ1BOB0piycY8,791,Na Zakręcie - Live,na zakręcie - live,na zakrecie live,Krystyna Janda,krystyna janda,krystyna janda,Agnieszka Osiecka - Kobiety Mojego Życia (Live),fullmatch,,,full
+utwu-000147,lyrics-000631,6gnLW87RGIVgAIUPrESqmT,792,Let's Pretend,let's pretend,let s pretend,Tindersticks,tindersticks,tindersticks,Curtains,fullmatch,,,full
+utwu-000146,lyrics-000632,2t77hjgJY4sC9DoX5uaVUD,793,Don't Give Up,don't give up,don t give up,Peter Gabriel,peter gabriel,peter gabriel,So (Remastered),fullmatch,,,full
+utwu-000145,lyrics-000633,5N0VazKxOrBZhmJoGcZMbS,794,Dry Your Tears,dry your tears,dry your tears,Yorina,yorina,yorina,Dry Your Tears,fullmatch,,,full
+utwu-000144,lyrics-000634,5HRt064aY71kZdkAIkvZhw,795,YO! MY SAINT - Radio Version,yo! my saint - radio version,yo my saint radio version,"Karen O, Michael Kiwanuka","karen o, michael kiwanuka",karen o | michael kiwanuka,YO! MY SAINT (Radio Version),fullmatch,,,full
+utwu-000143,,5iMl3TNTZW44tC6uuo1BUt,796,Yesterlove,yesterlove,yesterlove,TSU!,tsu!,tsu,TSU! - Yesterlove,fullmatch,,,instrumental
+utwu-000142,lyrics-000635,563SfWAHJs4FBZMkRN0IFN,797,Send My Love (To Your New Lover),send my love (to your new lover),send my love to your new lover,Adele,adele,adele,25,fullmatch,,,full
+utwu-000141,,1bdcSgElwygcyfl5LJtn7K,798,Get Free,get free,get free,"Wojtek Mazolewski Quintet, Wojtek Mazolewski","wojtek mazolewski quintet, wojtek mazolewski",wojtek mazolewski quintet | wojtek mazolewski,Polka,fullmatch,,,instrumental
+utwu-000140,lyrics-000636,60dgMaAh91Glrf8EkWT2L3,799,Blue Splinter View,blue splinter view,blue splinter view,Me And My Drummer,me and my drummer,me | my drummer,Love Is a Fridge,fullmatch,,,full
+utwu-000139,lyrics-000637,17KcX7HsEG2C9z4ytWLMNm,800,Love Leaks,love leaks,love leaks,TT,tt,tt,LoveLaws,fullmatch,,,full
+utwu-000138,lyrics-000638,1YQLt3CKf83lZo5fOYM4KH,801,Bella Ciao,bella ciao,bella ciao,Anita Lane,anita lane,anita lane,Sex O'Clock,fullmatch,,,full
+utwu-000137,lyrics-000639,0PshJSVCoKgIckm8srkyrM,802,Lovesong,lovesong,lovesong,Maria Peszek,maria peszek,maria peszek,Ave Maria,fullmatch,,,full
+utwu-000136,lyrics-000640,4EKuq3f7dP1NHqaE4w9WVB,803,Extreme Ways - Reprise Version / Edit,extreme ways - reprise version / edit,extreme ways reprise version edit,Moby,moby,moby,Extreme Ways (Reprise Version),fullmatch,,,full
+utwu-000135,lyrics-000641,52x6bwvCcM6fGBDFJpxG6Z,804,Angelene - Demo,angelene - demo,angelene demo,PJ Harvey,pj harvey,pj harvey,Is This Desire? - Demos,fullmatch,,,full
+utwu-000134,lyrics-000642,1goTiiRtaNdwiGOsSIgBA4,805,Baby,baby,baby,DakhaBrakha,dakhabrakha,dakhabrakha,Light,fullmatch,,,full
+utwu-000133,,1xJvn7nufiBc8A5isZxwGs,806,Tcheren Deya,tcheren deya,tcheren deya,Mathias Duplessy,mathias duplessy,mathias duplessy,My Mongolia,fullmatch,,,instrumental
+utwu-000132,lyrics-000643,254t0ZC71gtdAGTinIGTwV,807,Aeroplane,aeroplane,aeroplane,Leon of Athens,leon of athens,leon of athens,Xenos,fullmatch,,,full
+utwu-000131,lyrics-000644,2lSZlLrWUQupCfVSPUQkSD,808,Smoke Machine,smoke machine,smoke machine,"Dear Reader, One Fine Day Kids","dear reader, one fine day kids",dear reader | one fine day kids,One Fine Day presents Pilocka Krach & Dear Reader feat. One Fine Day Kids,fullmatch,,,full
+utwu-000130,lyrics-000645,0g0zsQfyWb5yh54WlECnGg,809,The Race,the race,the race,Σtella,σtella,σtella,The Break,fullmatch,,,full
+utwu-000129,lyrics-000576,5gQWGyiYA3QTHGWDTnFjTj,810,True Love,true love,true love,Otzeki,otzeki,otzeki,Binary Childhood,fullmatch,,,full
+utwu-000128,lyrics-000646,64hy4PL9fBzJeLRhh99gYt,811,Heaven,heaven,heaven,Clock Machine,clock machine,clock machine,Love,fullmatch,,,full
+utwu-000127,lyrics-000802,7BCZbTnUcR19pYvIMHZqBw,812,Meidän jälkeemme hiljaisuus,meidän jälkeemme hiljaisuus,meidan jalkeemme hiljaisuus,Viitasen Piia,viitasen piia,viitasen piia,Meidän jälkeemme hiljaisuus,fullmatch,,,full
+utwu-000126,lyrics-000647,3LUvfKURJYRWdYYzoyae55,813,Summertime,summertime,summertime,A House In The Trees,a house in the trees,a house in the trees,Summertime,fullmatch,,,full
+utwu-000125,lyrics-000870,6kK1twz2ZFcmJ6Bgz3dXTD,814,Nektar,nektar,nektar,"Skarby, Błękit","skarby, błękit",skarby | błekit,Nektar,fullmatch,,,paraphase
+utwu-000124,lyrics-000648,4dn65tI4IFeBE2EKcXXMMZ,815,In The Morning,in the morning,in the morning,Junior Boys,junior boys,junior boys,So This Is Goodbye,fullmatch,,,full
+utwu-000123,lyrics-000649,0Q0RL8ZzSUOfQawGlbn4Do,816,Jane Jane,jane jane,jane jane,"Bonny Light Horseman, Eric D. Johnson, Josh Kaufman, Anaïs Mitchell","bonny light horseman, eric d. johnson, josh kaufman, anaïs mitchell",bonny light horseman | eric d johnson | josh kaufman | anais mitchell,Bonny Light Horseman,fullmatch,,,full
+utwu-000122,lyrics-000650,0NHif1HGWzoV2bsj9V7n1u,817,That Leaving Feeling,that leaving feeling,that leaving feeling,Stuart A. Staples,stuart a. staples,stuart a staples,Leaving Songs,fullmatch,,,full
+utwu-000121,lyrics-000651,7h7NOxJTcSXDMiX9PYehLH,818,It Ain't Water,it ain't water,it ain t water,Alison Mosshart,alison mosshart,alison mosshart,It Ain't Water,fullmatch,,,full
+utwu-000120,lyrics-000652,4mzYFb0DBTFNgyBtdbzznK,819,Pallid Eyes,pallid eyes,pallid eyes,Emily Jane White,emily jane white,emily jane white,They Moved in Shadow All Together,fullmatch,,,full
+utwu-000119,lyrics-000653,1ZhUgFkeaUVRqVCXMSpzrX,820,True Love,true love,true love,Balthazar,balthazar,balthazar,Thin Walls,fullmatch,,,full
+utwu-000118,,3c7CEnNLplZu4C11H6xBkl,821,Disengaged,disengaged,disengaged,Grouper,grouper,grouper,Dragging a Dead Deer Up a Hill,fullmatch,,,instrumental
+utwu-000117,lyrics-000654,4Z8gd0IEcg1qxoZUTSWEZh,822,Love Crimes,love crimes,love crimes,Hayden Thorpe,hayden thorpe,hayden thorpe,Diviner,fullmatch,,,full
+utwu-000116,lyrics-000655,3YwckMLPqMxE0e2YDbQRsP,823,Let the World Go By,let the world go by,let the world go by,Karl Blau,karl blau,karl blau,Introducing Karl Blau,fullmatch,,,full
+utwu-000115,lyrics-000656,72dIN8F7D5ydB3auSqNi84,824,The Silence,the silence,the silence,Manchester Orchestra,manchester orchestra,manchester orchestra,A Black Mile To The Surface,fullmatch,,,full
+utwu-000114,lyrics-000657,3Cs4g3w33H9YEptmg34DQc,825,I Follow Rivers,i follow rivers,i follow rivers,Marika Hackman,marika hackman,marika hackman,Deaf Heat EP,fullmatch,,,full
+utwu-000113,lyrics-000658,6gdCb962lq0Xdg7ypVLuLt,826,Harvest Moon - Recorded at Spotify Studios NYC,harvest moon - recorded at spotify studios nyc,harvest moon recorded at spotify studios nyc,Lord Huron,lord huron,lord huron,Spotify Singles,fullmatch,,,full
+utwu-000112,lyrics-000659,60lorvcgBHsZ3p2F1Oiu2o,827,"bye bye, sun francisco","bye bye, sun francisco",bye bye sun francisco,Lor,lor,lor,Sunlight,fullmatch,,,full
+utwu-000111,lyrics-000660,1ZsUmKQt3RvaxuHVHbJlyI,828,Keep The Streets Empty For Me,keep the streets empty for me,keep the streets empty for me,Fever Ray,fever ray,fever ray,Fever Ray,fullmatch,,,full
+utwu-000110,lyrics-000661,3oLG4x8uR2dEfBTR7YIPCK,829,"I Love Paris - Live at l'Olympia, Paris","i love paris - live at l'olympia, paris",i love paris live at l olympia paris,"The Dø, Jeanne Added","the dø, jeanne added",the dø | jeanne added,"Live at l'Olympia, Paris",fullmatch,,,full
+utwu-000109,lyrics-000662,4QomgP1VHd75sRmZ0fMS4H,830,Breaking a Ghost's Heart,breaking a ghost's heart,breaking a ghost s heart,Kamp!,kamp!,kamp,Breaking a Ghost's Heart,fullmatch,,,full
+utwu-000108,lyrics-000663,1doR0qjlsQJdXasFFXTS8h,831,Où est passée ton âme ?,où est passée ton âme ?,ou est passee ton ame,La Féline,la féline,la feline,Vie future,fullmatch,,,full
+utwu-000107,lyrics-000664,7BEjWlmhiP9x3325CMuCWy,832,"Zu Asche, Zu Staub (Psycho Nikoros) [Radio Edit] [Music from the Original TV Series]","zu asche, zu staub (psycho nikoros) [radio edit] [music from the original tv series]",zu asche zu staub psycho nikoros radio edit music from the original tv series,Severija,severija,severija,"Zu Asche, Zu Staub (Psycho Nikoros) [Radio Edit] [Music from the Original TV Series]",fullmatch,,,full
+utwu-000106,lyrics-000665,5egcdEHcyyquu4Rc3RerZK,833,"A Bird, A Bee, Humanity","a bird, a bee, humanity",a bird a bee humanity,The Leisure Society,the leisure society,the leisure society,Arrivals & Departures,fullmatch,,,full
+utwu-000105,lyrics-000666,1AAmQJO43qsQGc1pWRmTxN,834,Beautiful Tango - Unplugged,beautiful tango - unplugged,beautiful tango unplugged,Hindi Zahra,hindi zahra,hindi zahra,Until The Next Journey,fullmatch,,,full
+utwu-000104,lyrics-000667,2lJkgpOUhnzNSRe53NVr6s,835,Cherry Lipstick,cherry lipstick,cherry lipstick,Adam Naas,adam naas,adam naas,The Love Album,fullmatch,,,full
+utwu-000103,lyrics-000783,36ermdbHjvswIj6VqXubw8,836,It's Only Emotion - Orchestra Live,it's only emotion - orchestra live,it s only emotion orchestra live,Bass Astral x Igo,bass astral x igo,bass astral x igo,It's Only Emotion,fullmatch,,,full
+utwu-000102,lyrics-000668,0BQMym4vrghWvHFDQybmRa,837,Easy,easy,easy,Son Lux,son lux,son lux,Lanterns,fullmatch,,,full
+utwu-000101,lyrics-000669,79S2bCnwMRYA4twpRvmREG,838,Sag mir wo die Blumen sind,sag mir wo die blumen sind,sag mir wo die blumen sind,Marlene Dietrich,marlene dietrich,marlene dietrich,Der blonde Engel - Marlene 100,fullmatch,,,full
+utwu-000100,lyrics-000670,3X5Cl3hNudJs6PX4JVPzDt,839,Traüme,traüme,traume,Françoise Hardy,françoise hardy,francoise hardy,Françoise,fullmatch,,,full
+utwu-000099,lyrics-000671,1KQDfzYF5YYbxvZDFfBjHk,840,Wir sind uns lang verloren gegangen (feat. Natalia Mateo),wir sind uns lang verloren gegangen (feat. natalia mateo),wir sind uns lang verloren gegangen feat natalia mateo,"Johnny Klimek, Tom Tykwer, Natalia Mateo","johnny klimek, tom tykwer, natalia mateo",johnny klimek | tom tykwer | natalia mateo,Wir sind uns lang verloren gegangen (feat. Natalia Mateo),fullmatch,,,full
+utwu-000098,lyrics-000871,2Y9O5gdWTSdBzYBnojnr8N,841,The Station,the station,the station,"Izzy and the Black Trees, Kev Fox","izzy and the black trees, kev fox",izzy | the black trees | kev fox,The Station,fullmatch,,,paraphase
+utwu-000097,lyrics-000672,1XIq6CyuR7ye5s9Th88QZI,842,Feel Like Me,feel like me,feel like me,"Cassius, Cat Power","cassius, cat power",cassius | cat power,Ibifornia (Deluxe),fullmatch,,,full
+utwu-000096,lyrics-000673,5LGPiVFEaffgJJlptaS0dZ,843,Did You Really Say No (feat. Vanessa Paradis),did you really say no (feat. vanessa paradis),did you really say no feat vanessa paradis,"Oren Lavie, Vanessa Paradis","oren lavie, vanessa paradis",oren lavie | vanessa paradis,Bedroom Crimes,fullmatch,,,full
+utwu-000095,lyrics-000674,4GrHpEPPBjggrO2YpdkFct,844,Historie,historie,historie,Hey,hey,hey,Błysk,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000094,lyrics-000675,2CrtG3WEo13bkT3c5r3gcG,845,Earth Odyssey,earth odyssey,earth odyssey,Asaf Avidan,asaf avidan,asaf avidan,Anagnorisis,fullmatch,,,full
+utwu-000093,lyrics-000676,5iHqTq6dgF7FoWlFpuQass,846,We Still Grow,we still grow,we still grow,Gare Du Nord,gare du nord,gare du nord,Play,fullmatch,,,full
+utwu-000092,lyrics-000677,69PLisoHLPABvO8YJLC47c,847,Jestem w niebie,jestem w niebie,jestem w niebie,Fisz Emade Tworzywo,fisz emade tworzywo,fisz emade tworzywo,Radar,fullmatch,,,full
+utwu-000091,lyrics-000803,1eqN1HnCQzs96raLt3dKUK,848,Survivor,survivor,survivor,Jan Verstraeten,jan verstraeten,jan verstraeten,Survivor,fullmatch,,,full
+utwu-000090,lyrics-000811,09CJ3mgu5wVoZ7iVKaoxsO,849,The Performer,the performer,the performer,James Righton,james righton,james righton,The Performer,fullmatch,,,full
+utwu-000089,lyrics-000678,3JGoGL3l6tvJJXcNhN8g7X,850,I Want to Know What Love Is,i want to know what love is,i want to know what love is,Amason,amason,amason,California Airport Love,fullmatch,,,full
+utwu-000088,lyrics-000679,6OLeTuJ0u10taGHONnYAFS,851,Crazy Train,crazy train,crazy train,Zella Day,zella day,zella day,Crazy Train,fullmatch,,,full
+utwu-000087,lyrics-000799,7n2812r39gcg8C9QEzYpg5,852,Obsession,obsession,obsession,Ran Nir,ran nir,ran nir,Obsession,fullmatch,,,full
+utwu-000086,lyrics-000680,1xm537wCu0VHxoXJTXlScb,853,Never Tear Us Apart,never tear us apart,never tear us apart,The National,the national,the national,Never Tear Us Apart,fullmatch,,,full
+utwu-000085,lyrics-000681,0dxauDDDoSPJqmKJlNRjPu,854,Rio Grande,rio grande,rio grande,Freedom Fry,freedom fry,freedom fry,Rio Grande,fullmatch,,,full
+utwu-000084,lyrics-000682,4i7dSg0ZLLXpjyp0H2N8NX,855,Electric Swing,electric swing,electric swing,Goldkimono,goldkimono,goldkimono,Electric Swing,fullmatch,,,full
+utwu-000083,lyrics-000683,4n5DRMfFBNJNec1JApfILt,856,Minimum,minimum,minimum,Charlie Cunningham,charlie cunningham,charlie cunningham,Lines,fullmatch,,,full
+utwu-000082,lyrics-000684,6KMN4q26zzIT45MZHI1uVr,857,Nie raj,nie raj,nie raj,Lao Che,lao che,lao che,Wiedza o społeczeństwie,fullmatch,,,full
+utwu-000081,lyrics-000685,1zB4vmk8tFRmM9UULNzbLB,858,Thunder,thunder,thunder,Imagine Dragons,imagine dragons,imagine dragons,Evolve,fullmatch,,,full
+utwu-000080,lyrics-000686,090nLEZDgrQbSWWO2fcEw5,859,HOŞÇAKAL KADAR (Canlı Şekli),hoşçakal kadar (canlı şekli),hoscakal kadar canlı sekli,"Büyük Ev Ablukada, Korhan Futacı","büyük ev ablukada, korhan futacı",buyuk ev ablukada | korhan futacı,HOŞÇAKAL KADAR (Canlı Şekli),fullmatch,,,full
+utwu-000079,lyrics-000687,298XTlI8YdKTk17RAjveKs,860,What You Do For Love,what you do for love,what you do for love,Skunk Anansie,skunk anansie,skunk anansie,What You Do For Love,fullmatch,,,full
+utwu-000078,lyrics-000688,3gqTkisTjXJwHZZQ3kUBIh,861,You're Acting Like a Fool,you're acting like a fool,you re acting like a fool,Mani Orrason,mani orrason,mani orrason,I Woke up Waiting,fullmatch,,,full
+utwu-000077,lyrics-000689,4szTcTT6sZutbNCkJTqxs4,862,Picture,picture,picture,The Saxophones,the saxophones,the saxophones,Songs of the Saxophones,fullmatch,,,full
+utwu-000076,lyrics-000690,7zmVAVcT1oho7iWJGpApkE,863,Summer Wine,summer wine,summer wine,"Nancy Sinatra, Lee Hazlewood","nancy sinatra, lee hazlewood",nancy sinatra | lee hazlewood,Nancy & Lee,fullmatch,,,full
+utwu-000075,lyrics-000691,0dQ8ei6Gf0DAfowFBNhkWI,864,Summer Wine - Single Edit,summer wine - single edit,summer wine single edit,"Ville Valo, Natalia Avelon","ville valo, natalia avelon",ville valo | natalia avelon,Summer Wine,fullmatch,,,full
+utwu-000074,lyrics-000692,2JPH50ko51L170NV0pclrN,865,Unglitched,unglitched,unglitched,Дeva,дeva,дeva,Unglitched,fullmatch,,,full
+utwu-000073,lyrics-000872,4B9hMTO37anEZicqEVZ9Rz,866,Loud,loud,loud,JJ Kamei,jj kamei,jj kamei,My Angels,fullmatch,,,paraphase
+utwu-000072,lyrics-000693,5g3OOm6YBudsCXYmjQmZtH,867,Far Gone,far gone,far gone,CHARLES,charles,charles,Far Gone,fullmatch,,,full
+utwu-000071,lyrics-000694,68DkNcWx9gTWSE5VdqsrgJ,868,"Fluorescence, Pt. 2","fluorescence, pt. 2",fluorescence pt 2,Sworr.,sworr.,sworr,Sworr.,fullmatch,,,full
+utwu-000070,lyrics-000695,0Cy33Hp1fWGmfzMQes5QlP,869,Summer Wine,summer wine,summer wine,"Alex Kapranos, Clara Luciani","alex kapranos, clara luciani",alex kapranos | clara luciani,Summer Wine,fullmatch,,,full
+utwu-000069,lyrics-000696,7iHl6LcHD94l5VpmfrBUmG,870,Riverside,riverside,riverside,Agnes Obel,agnes obel,agnes obel,Philharmonics,fullmatch,,,full
+utwu-000068,lyrics-000697,4Ka1BJDpKCOTx1IB5KnWyz,871,Major Tom (Völlig losgelöst) - Live,major tom (völlig losgelöst) - live,major tom vollig losgelost live,Peter Schilling,peter schilling,peter schilling,Neu & Live,fullmatch,,,full
+utwu-000067,,0GD99QvkSnDq1dNKbsujcq,872,"Love Theme from ""Phaedra""","love theme from ""phaedra""",love theme from phaedra,"Dreamers Inc., Mikis Theodorakis, Meditelectro, Melina Mercouri","dreamers inc., mikis theodorakis, meditelectro, melina mercouri",dreamers inc | mikis theodorakis | meditelectro | melina mercouri,Digitalik,fullmatch,,,instrumental
+utwu-000066,lyrics-000698,4GBxyLiWYJJZTZsYTiAOiy,873,Russian Ballerina,russian ballerina,russian ballerina,Michelle Gurevich,michelle gurevich,michelle gurevich,Russian Ballerina,fullmatch,,,full
+utwu-000065,lyrics-000699,2bouT2VBvCZtnPM7E5MgCn,874,He Said Me Too,he said me too,he said me too,Tuvaband,tuvaband,tuvaband,I Entered the Void,fullmatch,,,full
+utwu-000064,lyrics-000700,14YoUWJyAOjl0lf3yIbLUM,875,Kiedy U-kochanie,kiedy u-kochanie,kiedy u kochanie,Janusz Radek,janusz radek,janusz radek,Poświatowska/Radek - Kim Ty Jesteś Dla Mnie,fullmatch,,,full
+utwu-000063,lyrics-000819,09wpjeyOBaXCJkIUHW4bOY,876,Video Games,video games,video games,Moss,moss,moss,Video Games,fullmatch,,,canonicaltext
+utwu-000062,lyrics-000701,1EuLMGudkEitkJ4aUCbhjY,877,Willow,willow,willow,"Tindersticks, Stuart A. Staples, Robert Pattinson","tindersticks, stuart a. staples, robert pattinson",tindersticks | stuart a staples | robert pattinson,Music for Claire Denis' High Life,fullmatch,,,full
+utwu-000061,lyrics-000702,5WWK07aVRFrnOhcYw3jOHl,878,Jedyne co mam,jedyne co mam,jedyne co mam,Czerwony Tulipan,czerwony tulipan,czerwony tulipan,Jedyne co mam,fullmatch,,,full
+utwu-000060,lyrics-000703,0VuLqiWLytDVwbUjPT4nwt,879,Pielgrzym - Radio Edit,pielgrzym - radio edit,pielgrzym radio edit,T.Love,t.love,t love,Pielgrzym (Radio Edit),fullmatch,,,full
+utwu-000059,lyrics-000704,6xCsRkjuxQFfXFUqYV849c,880,I Cure,i cure,i cure,Ivo Dimchev,ivo dimchev,ivo dimchev,Sculptures,fullmatch,,,full
+utwu-000058,lyrics-000705,5K4rOUPd3pXPZyeAZAb6dz,881,Fall in Love With Me,fall in love with me,fall in love with me,Warhaus,warhaus,warhaus,Warhaus,fullmatch,,,full
+utwu-000057,lyrics-000706,4dbc47eDkRtaddUuS3CInF,882,Fever,fever,fever,Balthazar,balthazar,balthazar,Fever,fullmatch,,,full
+utwu-000056,lyrics-000350,3rniXqHbj5bzpvuVuhy12c,883,SEEING RED,seeing red,seeing red,MY BABY,my baby,my baby,LIVE!,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00352; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000055,lyrics-000707,279LczresTWVkCsdLwgJSZ,884,Love's a Stranger,love's a stranger,love s a stranger,Warhaus,warhaus,warhaus,Warhaus,fullmatch,,,full
+utwu-000054,lyrics-000708,07q0QVgO56EorrSGHC48y3,885,I Was Made For Lovin' You,i was made for lovin' you,i was made for lovin you,KISS,kiss,kiss,Dynasty,fullmatch,,,full
+utwu-000053,lyrics-000776,33aC2UXdlXPXaUYFnWHEMl,886,R jak Rozlewam,r jak rozlewam,r jak rozlewam,Łydka Grubasa,łydka grubasa,łydka grubasa,R jak Rozlewam,fullmatch,,,full
+utwu-000052,lyrics-000709,1yYxJQRWW9VAq5RFI61Yyw,887,Kill,kill,kill,Ivo Dimchev,ivo dimchev,ivo dimchev,Sculptures,fullmatch,,,full
+utwu-000051,lyrics-000710,650hVgU2grE7nkFT4lr3Fy,888,Lay All Your Love on Me,lay all your love on me,lay all your love on me,Pale Honey,pale honey,pale honey,Lay All Your Love on Me,fullmatch,,,full
+utwu-000050,lyrics-000711,0YBlwvNXMxmDkryz3ci6G9,889,The Surprising,the surprising,the surprising,Deep Purple,deep purple,deep purple,inFinite,fullmatch,,,full
+utwu-000049,lyrics-000712,5W1RVhkSBzl4pMU1jz9ZIl,890,Ho Ho!,ho ho!,ho ho,Red Box,red box,red box,Chase the Setting Sun,fullmatch,,,full
+utwu-000048,lyrics-000713,6Jm6WanrP11idlXz03FCg0,891,Bad Sign,bad sign,bad sign,Greni,greni,greni,Pop Noir,fullmatch,,,full
+utwu-000047,lyrics-000714,0ok0oiyWLlfvMaTDLwh4oz,892,Reason or Rhyme,reason or rhyme,reason or rhyme,The Bryan Ferry Orchestra,the bryan ferry orchestra,the bryan ferry orchestra,Babylon Berlin (Music from the Original TV Series),fullmatch,,,full
+utwu-000046,lyrics-000715,0H7tSA5Ggzf7WLUWlVh22Z,893,Off Shore,off shore,off shore,Geike,geike,geike,Lost in Time,fullmatch,,,full
+utwu-000045,lyrics-000716,50XHvARYO6Sz0bxvOOD6oE,894,Lost Day,lost day,lost day,Other Lives,other lives,other lives,For Their Love,fullmatch,,,full
+utwu-000044,lyrics-000717,4twUOeCkhmAAe9SPteYlD0,895,My Body Is A Cage,my body is a cage,my body is a cage,Peter Gabriel,peter gabriel,peter gabriel,Scratch My Back,fullmatch,,,full
+utwu-000043,lyrics-000718,2ywogfZBhYx7sIB5zfQjln,896,Faret Vild i Den Samme Skov,faret vild i den samme skov,faret vild i den samme skov,Peter Sommer,peter sommer,peter sommer,"Elskede At Drømme, Drømmer Om At Elske",fullmatch,,,full
+utwu-000042,lyrics-000873,3qbA1asuGsDV5A3D2qeXEa,897,Jeg Drømmer Om En Sang,jeg drømmer om en sang,jeg drømmer om en sang,Claus Hempler,claus hempler,claus hempler,Kuffert Fuld Af Mursten,fullmatch,,,paraphase
+utwu-000041,lyrics-000719,40tK5k50SxSfXz6i4LFtiG,898,Boy,boy,boy,The Vices,the vices,the vices,Boy,fullmatch,,,full
+utwu-000040,lyrics-000720,6S81ECbyrTtYszxch8NRvW,899,Matter of Time,matter of time,matter of time,Daniel Spaleniak,daniel spaleniak,daniel spaleniak,Matter of Time,fullmatch,,,full
+utwu-000039,lyrics-000721,6pSQPERxZ10w4OjkkLOWa4,900,Siamo ospiti,siamo ospiti,siamo ospiti,La rappresentante di lista,la rappresentante di lista,la rappresentante di lista,Bu Bu Sad [Deluxe Version],fullmatch,,,full
+utwu-000038,lyrics-000804,2Qh3cOwjmXpVT6iJBjxY33,901,New Day,new day,new day,"Kormac, Jack O'Rourke","kormac, jack o'rourke",kormac | jack o rourke,New Day,fullmatch,,,full
+utwu-000037,lyrics-000874,3tBTXJ4n3xIqMQIgxc0Dxj,902,Zomer Van Ons Leven,zomer van ons leven,zomer van ons leven,"Lenny En De Wespen, Jack Parow","lenny en de wespen, jack parow",lenny en de wespen | jack parow,Zomer Van Ons Leven,fullmatch,,,paraphase
+utwu-000036,lyrics-000875,5Cya2NpLNEH4o4m9lYXu9K,903,You Misread Me,you misread me,you misread me,Portland,portland,portland,Your Colours Will Stain,fullmatch,,,paraphase
+utwu-000035,lyrics-000722,0m0MNn28t3VYGpzQd3PHuw,904,Anioły i Demony,anioły i demony,anioły i demony,Farben Lehre,farben lehre,farben lehre,Achtung 2012,fullmatch,,,full
+utwu-000034,lyrics-000723,5W6OqByz7Pig32neNzXNzQ,905,Poka jak u Ciebie tańczą - LIVE,poka jak u ciebie tańczą - live,poka jak u ciebie tancza live,Bitamina,bitamina,bitamina,Poka jak u Ciebie tańczą,fullmatch,,,full
+utwu-000033,lyrics-000724,5Quh8LVouph3MfJrS58j9S,906,Wodzirej,wodzirej,wodzirej,Sztywny Pal Azji,sztywny pal azji,sztywny pal azji,Wodzirej,fullmatch,,,full
+utwu-000032,lyrics-000725,6XseTm237StZvxtr2IlWPs,907,Turn of the Light,turn of the light,turn of the light,GOSTO,gosto,gosto,Memory Ivy,fullmatch,,,full
+utwu-000031,,3zf8bGS31XoUMIwHqZeJe3,908,Jazz Robots (feat. Marcin Masecki),jazz robots (feat. marcin masecki),jazz robots feat marcin masecki,"Kuba Więcek, Marcin Masecki","kuba więcek, marcin masecki",kuba wiecek | marcin masecki,Multitasking (Polish Jazz vol. 82),fullmatch,,,instrumental
+utwu-000030,lyrics-000726,07xnoJyNRBq74nbf0Mp2m4,909,Bez końca,bez końca,bez konca,Artur Rojek,artur rojek,artur rojek,Kundel,fullmatch,,Ręcznie: wybrany rekord odpowiada staremu korpusowi na podstawie sąsiednich starych ID i pozycji w dawnym eksporcie; dla duplikatu identycznego title+artist zastosowano potwierdzony wzorzec starego pipeline'u: zachowane pierwsze wystąpienie.,full
+utwu-000029,lyrics-000561,2bVnFkwY9kXSFe6whA8PZi,910,Hunter - From “Mały Zgon”,"hunter - from ""mały zgon""",hunter from mały zgon,Hotel Torino,hotel torino,hotel torino,Hunter (From “Mały Zgon”),fullmatch,,,full
+utwu-000028,lyrics-000727,75mOMfZ8MSOxHdTLCtX10w,911,Rób Tak Dalej,rób tak dalej,rob tak dalej,Kasia Lins,kasia lins,kasia lins,Rób Tak Dalej,fullmatch,,,full
+utwu-000027,lyrics-000788,6m0BknpFuLzXbDTgMXQwrB,912,Już nie ma dzikich plaż,już nie ma dzikich plaż,juz nie ma dzikich plaz,Bajzel,bajzel,bajzel,Już nie ma dzikich plaż,fullmatch,,,full
+utwu-000026,lyrics-000726,0JnSuEv3vNTWMbP44mDFLY,913,Bez końca,bez końca,bez konca,Artur Rojek,artur rojek,artur rojek,Bez końca,fullmatch,,Ręcznie: drugi wariant/duplikat dla utw-00733; stary korpus lyrics zawierał tylko drugi rekord wskazany jako wybrany w tej grupie. Ten rekord pozostaje osobnym rekordem URQUELLE bez old_utw_id.,full
+utwu-000025,lyrics-000728,2F79HavLHwJlfvvJOkkIQD,914,The Cave,the cave,the cave,Mumford & Sons,mumford & sons,mumford | sons,Sigh No More,fullmatch,,,full
+utwu-000024,lyrics-000729,2F1FP82WZD5dPDmflNaC5k,915,Time,time,time,BEMY,bemy,bemy,Grizzlin',fullmatch,,,full
+utwu-000023,lyrics-000730,456WNXWhDwYOSf5SpTuqxd,916,Dog Days Are Over,dog days are over,dog days are over,Florence + The Machine,florence + the machine,florence the machine,Between Two Lungs,fullmatch,,,full
+utwu-000022,lyrics-000731,1ixphys4A3NEXp6MDScfih,917,Be the One,be the one,be the one,Dua Lipa,dua lipa,dua lipa,Be the One,fullmatch,,,full
+utwu-000021,lyrics-000732,4gJVnTkr8q7I76cYoCGRgC,918,Gloria,gloria,gloria,The Mono Jacks,the mono jacks,the mono jacks,Gloria,fullmatch,,,full
+utwu-000020,lyrics-000712,7eO9iQ1TA2vZ4QWD2Rq5y8,919,Ho Ho! - Radio Edit,ho ho! - radio edit,ho ho radio edit,Red Box,red box,red box,Ho Ho! (Radio Edit),fullmatch,,,full
+utwu-000019,lyrics-000733,5TXxwRgdIS4gPjUtKwTuSb,920,On Fire,on fire,on fire,THE ROOP,the roop,the roop,On Fire,fullmatch,,,full
+utwu-000018,lyrics-000734,3epsRruvNTwl3qwKqEh8N8,921,Blask,blask,blask,"Kacperczyk, Ralph Kaminski","kacperczyk, ralph kaminski",kacperczyk | ralph kaminski,Blask,fullmatch,,,full
+utwu-000017,lyrics-000812,2Joo8n609vGTA19FNuDHJ5,922,All the Blood (Positive Song Actually),all the blood (positive song actually),all the blood positive song actually,We All Poop,we all poop,we all poop,All the Blood (Positive Song Actually),fullmatch,,,full
+utwu-000016,lyrics-000735,10Ur5WxdtzmbcyIa6a8Y0a,923,Baloje,baloje,baloje,Solo Ansamblis,solo ansamblis,solo ansamblis,Baloje,fullmatch,,,full
+utwu-000015,,2ov5jZ8EDDxuYUATN2EX8b,924,Przedwiośnie,przedwiośnie,przedwiosnie,Jazzpospolita,jazzpospolita,jazzpospolita,Przedwiośnie,fullmatch,,,instrumental
+utwu-000014,lyrics-000736,5qZAMLRmYIl2o0RHjHNUNb,925,Krakowski spleen,krakowski spleen,krakowski spleen,Maanam,maanam,maanam,The Best Of Kora & Maanam Volume 1,fullmatch,,,full
+utwu-000013,,5nlNwdrdLjYVyGteT8cew4,926,Symphony No. 5: Funeral March,symphony no. 5: funeral march,symphony no 5 funeral march,"Gustav Mahler, Uri Caine Ensemble","gustav mahler, uri caine ensemble",gustav mahler | uri caine ensemble,Mahler: Urlicht/Primal Light,fullmatch,,,instrumental
+utwu-000012,lyrics-000737,58zsLZPvfflaiIbNWoA22O,927,Human,human,human,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000011,lyrics-000738,0p8NXSUkgtylXNBIUdnZT3,928,Life In Her Yet,life in her yet,life in her yet,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000010,lyrics-000739,2oLo4vGUIP3eJ9T001keTu,929,Wolves,wolves,wolves,Rag'n'Bone Man,rag'n'bone man,rag n bone man,Human (Deluxe),fullmatch,,,full
+utwu-000009,lyrics-000740,6N717o83wbmahFGUqkjQj7,930,Radio Ga Ga - Remastered 2011,radio ga ga - remastered 2011,radio ga ga remastered 2011,Queen,queen,queen,The Works (2011 Remaster),fullmatch,,,full
+utwu-000008,lyrics-000741,00INzTLAR22xpCQBkyrWfb,931,I'm Going Slightly Mad - Remastered 2011,i'm going slightly mad - remastered 2011,i m going slightly mad remastered 2011,Queen,queen,queen,Innuendo (Deluxe Remastered Version),fullmatch,,,full
+utwu-000007,,0iJfN2CqrX7O8hkzgAMMAf,932,Cluster One - 2011 Remaster,cluster one - 2011 remaster,cluster one 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,instrumental
+utwu-000006,lyrics-000742,2dxfyqdrI8XVOT3H1YcOsU,933,A Great Day For Freedom - 2011 Remaster,a great day for freedom - 2011 remaster,a great day for freedom 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,full
+utwu-000005,lyrics-000743,325toqbCzE1g1pYIED7U4C,934,Take It Back - 2011 Remaster,take it back - 2011 remaster,take it back 2011 remaster,Pink Floyd,pink floyd,pink floyd,The Division Bell (2011 Remastered Version),fullmatch,,,full
+utwu-000004,lyrics-000744,3fnpROOqoDcnWmcD6HQiaZ,935,Porąbana noc,porąbana noc,porabana noc,KONIEC ŚWIATA,koniec świata,koniec swiata,Oranżada,fullmatch,,,full
+utwu-000003,lyrics-000745,5d8hkY13DXp6ZzFNhhHpxx,936,Bankiet,bankiet,bankiet,KONIEC ŚWIATA,koniec świata,koniec swiata,Oranżada,fullmatch,,,full
+utwu-000002,lyrics-000746,1gqFy0IOdUsqQkZurZSjWN,937,Jak mnie tu znalazłaś,jak mnie tu znalazłaś,jak mnie tu znalazłas,KONIEC ŚWIATA,koniec świata,koniec swiata,Oranżada,fullmatch,,,full
+utwu-000001,lyrics-000747,0VxocBntP1XTZRsR9ZURPS,938,La Vie En Rose,la vie en rose,la vie en rose,Daniela Andrade,daniela andrade,daniela andrade,La Vie En Rose,fullmatch,,,full
+utwu-000939,lyrics-000094,,,Na Co Komu Dziś,na co komu dziś,na co komu dzis,Lady Pank,lady pank,lady pank,Nana,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000940,lyrics-000113,,,Dzieci malarzy,dzieci malarzy,dzieci malarzy,Natalia Przybysz,natalia przybysz,natalia przybysz,Swiatlo Nocne,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000941,lyrics-000166,,,Kiedy nagle to wróciło,kiedy nagle to wróciło,kiedy nagle to wrociło,"Wojtek Szumański, MINT.","wojtek szumański, mint.",wojtek szumanski | mint,Składanka,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000942,lyrics-000258,,,HAHA,haha,haha,"Charlotte Adigéry, Bolis Pupul","charlotte adigéry, bolis pupul",charlotte adigery | bolis pupul,Topical Dancer,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000943,lyrics-000345,,,Lost On You - Live At Harvard And Stone,lost on you - live at harvard and stone,lost on you live at harvard and stone,LP,lp,lp,Lost On You (Deluxe Edition),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000944,lyrics-000418,,,One Day,one day,one day,Typh Barrow,typh barrow,typh barrow,Visions,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000945,lyrics-000423,,,Baba,baba,baba,Iyeoka,iyeoka,iyeoka,Say Yes Evolved,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000946,lyrics-000430,,,Nazywali Go Marynarz – Szanta Narciarska,nazywali go marynarz - szanta narciarska,nazywali go marynarz szanta narciarska,Artur Andrus,artur andrus,artur andrus,Cyniczne córy Zurychu,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000947,lyrics-000433,,,Cieszyńska,cieszyńska,cieszynska,Artur Andrus,artur andrus,artur andrus,Myśliwiecka,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000948,lyrics-000456,,,Winter Shades,winter shades,winter shades,Tiwayo,tiwayo,tiwayo,The Gypsy Soul Of Tiwayo,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000949,lyrics-000748,,,Little Talks,little talks,little talks,Of Monsters and Men,of monsters and men,of monsters | men,My Head Is An Animal,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000950,lyrics-000749,,,Ukulele Song,ukulele song,ukulele song,Jackal & the Wind,jackal & the wind,jackal | the wind,Ukulele Song,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000951,lyrics-000750,,,Cleopatra,cleopatra,cleopatra,The Lumineers,the lumineers,the lumineers,Cleopatra,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000952,lyrics-000751,,,Wicked Streets,wicked streets,wicked streets,J. Bernardt,j. bernardt,j bernardt,Running Days,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000953,lyrics-000752,,,Run,run,run,SMOLIK / KEV FOX,smolik / kev fox,smolik / kev fox,SMOLIK / KEV FOX,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000954,lyrics-000753,,,Renegades,renegades,renegades,X Ambassadors,x ambassadors,x ambassadors,VHS,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000955,lyrics-000754,,,Look at me Joe,look at me joe,look at me joe,"Waldeck, Patrizia Ferrara","waldeck, patrizia ferrara",waldeck | patrizia ferrara,Grand Casino Hotel,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000956,lyrics-000755,,,Wolves Without Teeth,wolves without teeth,wolves without teeth,Of Monsters and Men,of monsters and men,of monsters | men,Beneath The Skin (Deluxe),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000957,lyrics-000756,,,Wish You Were Here - 2011 Remaster,wish you were here - 2011 remaster,wish you were here 2011 remaster,Pink Floyd,pink floyd,pink floyd,Wish You Were Here (Remastered Version),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000958,lyrics-000757,,,I Want To Break Free,i want to break free,i want to break free,Queen,queen,queen,Bohemian Rhapsody (The Original Soundtrack),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000959,lyrics-000758,,,Bohemian Rhapsody,bohemian rhapsody,bohemian rhapsody,Queen,queen,queen,Bohemian Rhapsody (The Original Soundtrack),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000960,lyrics-000759,,,My Generation - Stereo Version,my generation - stereo version,my generation stereo version,The Who,the who,the who,My Generation (Stereo Version),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000961,lyrics-000760,,,Every Breath You Take,every breath you take,every breath you take,The Police,the police,the police,Synchronicity (Remastered 2003),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000962,lyrics-000761,,,Stairway to Heaven - Remaster,stairway to heaven - remaster,stairway to heaven remaster,Led Zeppelin,led zeppelin,led zeppelin,Led Zeppelin IV (Deluxe Edition),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000963,lyrics-000762,,,Hey Joe,hey joe,hey joe,Jimi Hendrix,jimi hendrix,jimi hendrix,Are You Experienced,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000964,lyrics-000763,,,Under Pressure - Remastered 2011,under pressure - remastered 2011,under pressure remastered 2011,"Queen, David Bowie","queen, david bowie",queen | david bowie,Hot Space (2011 Remaster),historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000965,lyrics-000765,,,People Are Strange,people are strange,people are strange,The Doors,the doors,the doors,Strange Days,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000966,lyrics-000766,,,Sewer Blues,sewer blues,sewer blues,Timber Timbre,timber timbre,timber timbre,"Sincerely, Future Pollution",historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000967,lyrics-000767,,,Prayer in C - Robin Schulz Radio Edit,prayer in c - robin schulz radio edit,prayer in c robin schulz radio edit,"Lilly Wood and The Prick, Robin Schulz","lilly wood and the prick, robin schulz",lilly wood | the prick | robin schulz,Prayer in C,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000968,lyrics-000768,,,I Need A Dollar,i need a dollar,i need a dollar,Aloe Blacc,aloe blacc,aloe blacc,Good Things,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000969,lyrics-000769,,,Pumped Up Kicks,pumped up kicks,pumped up kicks,Foster The People,foster the people,foster the people,Torches,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000970,lyrics-000770,,,Awake My Soul,awake my soul,awake my soul,Mumford & Sons,mumford & sons,mumford | sons,Sigh No More,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000971,lyrics-000771,,,Friday Night,friday night,friday night,Lily Allen,lily allen,lily allen,"Alright, Still (Deluxe)",historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000972,lyrics-000772,,,Witchcraft - Kristóf Kelemen Remix,witchcraft - kristóf kelemen remix,witchcraft kristof kelemen remix,"Дeva, Kristóf Kelemen","дeva, kristóf kelemen",дeva | kristof kelemen,Witchcraft Remixes,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000973,lyrics-000773,,,Ikiri,ikiri,ikiri,"Дeva, Labek & Chrobak","дeva, labek & chrobak",дeva | labek | chrobak,Csillag,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000974,lyrics-000778,,,Czarne serce,czarne serce,czarne serce,Limboski,limboski,limboski,,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000975,lyrics-000782,,,Niejasności,niejasności,niejasnosci,Gaba Kulka,gaba kulka,gaba kulka,,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000976,lyrics-000785,,,Ptak głuptak,ptak głuptak,ptak głuptak,Spięty,spięty,spiety,,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full
+utwu-000977,lyrics-000788,,,Już nie ma dzikich plaż,już nie ma dzikich plaż,juz nie ma dzikich plaz,Irena Santor,irena santor,irena santor,,historical_parent_created,,Historyczny rodzic dla legacy lyrics; brak bezpiecznego odpowiednika w bieżącym eksporcie Spotify. spotify_id nieznany.,full

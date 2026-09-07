@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SOL Memento — Spotify v10-06</title>
+<style>
+  :root{
+    --bg:#102f26;
+    --fg:#f1e5c8;
+    --muted:#c8b996;
+    --line:#48665d;
+    --accent:#d8b45b;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.6;
+  }
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:48px 24px 80px;
+  }
+  h1,h2{line-height:1.15}
+  h1{font-size:2rem;margin:0 0 8px}
+  h2{font-size:1.2rem;margin:34px 0 10px;color:var(--accent)}
+  p{margin:0 0 14px}
+  ul{margin:8px 0 16px;padding-left:24px}
+  li{margin:4px 0}
+  .meta{color:var(--muted);margin-bottom:34px}
+  .box{
+    border-left:4px solid var(--accent);
+    padding:2px 0 2px 18px;
+    margin:22px 0;
+  }
+  code{
+    color:var(--fg);
+    background:rgba(255,255,255,.06);
+    padding:.12em .35em;
+    border-radius:4px;
+  }
+  hr{
+    border:0;
+    border-top:1px solid var(--line);
+    margin:36px 0;
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>SOL Memento — Spotify v10-09</h1>
+<div class="meta">Plik roboczy dla Maćka i GPT. Po Nolanowemu: stan faktyczny, decyzje architektoniczne i zakazy, żeby za tydzień nie odkrywać własnego projektu jak Hochbergów w cudzym grobowcu.</div>
+
+<h2>1. Stan projektu w jednym zdaniu</h2>
+<p><strong>Rdzeń danych rozdziela trzy różne byty: nagrania/utwory, teksty oraz snapshoty tagowania; obok nich istnieje mała warstwa słownikowa tagów, grup, osi i rodzin.</strong> Middle End przechowuje reprezentacje utworów i ich metadane, Lyrics przechowuje teksty identyfikowane przez <code>lyrics_id</code>, a Tags jest osobnym bytem i osobnym CSV. Słowniki są małe, zmieniają się rzadko i mają jawnie opisane relacje. Łączymy dane kluczami, zamiast trzymać kilka logicznych tabel w jednym wielowymiarowym obiekcie tylko dlatego, że nawiasy wyglądają profesjonalnie.</p>
+
+<h2>2. Żywe pliki — stan bieżący</h2>
+<p>Aktualnymi źródłami roboczymi są:</p>
+<div class="box">
+  <code>sol-middleend-CSV-v08-11.csv</code><br/>
+  <code>sol-piosenki-slowa-CSV-v07-00.csv</code><br/>
+  <code>sol-piosenki-slowa-kontynuacja-CSV-v01-08.csv</code><br/>
+  <code>sol-piosenki-tagi-CSV-v09-14.csv</code><br/>
+  <code>sol-definicje-tagow-CSV-v01-02.csv</code><br/>
+  <code>sol-ontologia-tagow-TXT-v01-03.txt</code><br/>
+  <code>sol-sprawdz-integralnosc-PY-v01-03.py</code><br/>
+  <code>sol-memento-HTML-v10-09.html</code>
+</div>
+<p><code>sol-middleend-backup-CSV-v07-03.csv</code> jest celową kopią bezpieczeństwa stanu Middle Endu sprzed migracji architektury. Nie jest plikiem aktywnym i nie należy go „porządkować” ani synchronizować.</p>
+<p><strong>Ważne:</strong> aktywny Middle End v08-11 <strong>nie zawiera <code>tags_json</code></strong>. Tagi mają własny aktywny CSV v09-14, również bez JSON-u. Kopia bezpieczeństwa v07-03 zachowuje stan sprzed eksmisji tagów i pozostaje nietknięta.</p>
+<p>DOCX i XLSX pozostają <strong>rokokowymi snapshotami</strong>. Mogą mieć starszy numer wersji i nie są źródłem prawdy. Nie aktualizujemy ich automatycznie.</p>
+
+<h2>3. Architektura v08 — trzy byty wyprowadzają się od rodziców</h2>
+<p>Komisyjnie rozdzielamy trzy logiczne tabele. Każdy byt ma własną odpowiedzialność i własne miejsce. Fizyczny układ plików nie może zmieniać modelu danych.</p>
+<div class="box">
+  <strong>Middle End</strong><br/>
+  <code>utwu_id</code> + metadane konkretnego nagrania/reprezentacji + <code>lyrics_id</code><br/><br/>
+  <strong>Lyrics</strong><br/>
+  <code>lyrics_id</code> + <code>lyrics_text</code><br/><br/>
+  <strong>Tags</strong><br/>
+  osobny byt / osobny CSV; tagi opisują tekst identyfikowany przez <code>lyrics_id</code>, ale nie mieszkają ani w Middle Endzie, ani w pliku Lyrics
+</div>
+<p><strong>Zasada:</strong> tag nie jest własnością kolorowego obrazka z dźwiękiem w Spotify. Konkretne nagranie ma <code>utwu_id</code>; konkretny tekst ma <code>lyrics_id</code>; tagowanie tekstu jest osobną warstwą danych.</p>
+<p>Plik Lyrics może być fizycznie podzielony na <strong>1, 5 albo inną liczbę CSV</strong>. To nadal jedna logiczna tabela Lyrics, bo <code>lyrics_id</code> pozostaje globalnym kluczem tekstu. Nie wolno przyklejać tagów do konkretnego pliku ze słowami tylko dlatego, że tekst akurat tam leży.</p>
+<p>Aktywny plik tagów v09-14 ma trzy kolumny: <code>lyrics_id, tagged_at, tags</code>. <code>utwu_id</code> nie należy do tej warstwy, bo tagowanie dotyczy tekstu, nie konkretnej reprezentacji Spotify. Pole <code>tags</code> przechowuje cały snapshot tagów w czytelnej gramatyce tekstowej, bez JSON-u.</p>
+<p>Powód rozdzielenia jest praktyczny: zmiana tekstów, tagów albo reprezentacji Spotify nie może przypadkiem uszkadzać dwóch pozostałych warstw. Jeden ogromny CSV był „prostszy” głównie w tym sensie, że łatwiej było zrobić jeden ogromny błąd.</p>
+<h3>Stan Tags v09-14</h3>
+<div class="box">
+  <code>888 wierszy snapshotów</code><br/>
+  <code>882 unikalne lyrics_id</code><br/>
+  <code>3 kolumny: lyrics_id, tagged_at, tags</code><br/>
+  <code>9814 przypisań tagów</code><br/>
+  <code>154 użyte tagi z 165 zdefiniowanych</code><br/>
+  <code>882/882 Lyrics mają co najmniej jeden niepusty snapshot tagowania</code><br/>
+  <code>4 historyczne puste snapshoty → tagged_at puste</code>
+</div>
+<p><strong>Ważna zasada architektury Tags:</strong> plik tagów jest relacją <strong>rzadką i wersjonowalną</strong>. Nie ma wymagania, żeby każdy <code>lyrics_id</code> istniejący w pliku Lyrics miał odpowiadający mu rekord w Tags. Do analiz lub zestawień można zbudować pełny join Lyrics ↔ Tags, ale sam plik produkcyjny Tags <strong>nie gwarantuje kompletnego pokrycia Lyrics</strong>.</p>
+<p>Jeden <code>lyrics_id</code> może mieć <strong>zero, jeden albo wiele rekordów tagowania</strong>. W szczególności ten sam tekst może zostać otagowany ponownie, dlatego możemy mieć np. dwa rekordy z tym samym <code>lyrics_id</code> i różnym <code>tagged_at</code>. Samo powtórzenie <code>lyrics_id</code> w Tags <strong>nie jest błędem ani duplikatem do automatycznego usunięcia</strong>.</p>
+<p>Obecne 4 wiersze z pustym <code>tags</code> i pustym <code>tagged_at</code> są historycznymi placeholderami. Każdy z odpowiadających im <code>lyrics_id</code> ma także późniejszy niepusty snapshot tagowania. Łącznie 6 <code>lyrics_id</code> ma więcej niż jeden rekord Tags. Snapshoty i duplikaty historii <strong>zostają</strong>; nie usuwamy ich automatycznie.</p>
+
+<h3>Aktywne rozpakowanie tagow — zatwierdzona gramatyka</h3>
+<p class="note"><strong>Migracja zostala wykonana.</strong> Aktywny CSV v09-14 fizycznie ma <code>lyrics_id, tagged_at, tags</code>. Nie ma juz <code>tags_json</code>, <code>families</code> ani <code>source_old_utw</code> w aktywnym pliku tagow.</p>
+<div class="box">
+  <code>lyrics_id | tagged_at | tags</code>
+</div>
+<p>Jeden wiersz oznacza jeden snapshot tagowania jednego <code>lyrics_id</code> w konkretnym czasie. Ten sam <code>lyrics_id</code> moze miec zero, jeden albo wiele snapshotow, takze tego samego dnia. <strong>Nie dodajemy <code>tagging_id</code>.</strong></p>
+<p>Komorka <code>tags</code> przechowuje wszystkie tagi danego snapshotu jako prosty tekst wedlug gramatyki:</p>
+<div class="box"><code>tag:kwalifikator1|kwalifikator2; drugi-tag:kwalifikator1</code></div>
+<p>Na dzis pierwszy kwalifikator jest sila obecnosci taga. Mapowanie starego <code>strength</code>:</p>
+<div class="box">
+  <code>● = bardzo</code><br/>
+  <code>◐ = troche</code><br/>
+  <code>○ = ociupinke</code>
+</div>
+<p>Przyklad snapshotu:</p>
+<div class="box"><code>milosc:bardzo; tesknota:bardzo; samotnosc:troche; smierc:ociupinke</code></div>
+<p>Gramatyka jest rozszerzalna. Dodatkowy fikus / kwalifikator mozna dopisac po <code>|</code>, bez zmiany struktury tabeli, np. <code>milosc:bardzo|udziwniona</code> albo <code>milosc:troche|pojebana</code>.</p>
+<p><code>family</code> jest właściwością <strong>osi</strong>, nie snapshotu i nie pojedynczego przypisania taga. Tag należy do jednej lub wielu osi przez <code>tag_axis</code>, a jego rodziny wynikają pośrednio z <code>tag_axis → axes → families</code>. Nie kopiujemy rodzin do każdego nadania taga.</p>
+<p><code>source_old_utw</code> byl proweniencja migracyjna starego systemu i <strong>nie nalezy do aktywnego payloadu snapshotu</strong>. W v09-00 zostal usuniety z tagow; historia pozostaje w archiwalnych danych / backupie.</p>
+<p><code>tagged_at</code> zastapil <code>tagged_on</code>. Przy migracji zachowano stare wartosci <code>2026-09-03</code> bez wymyslania godziny, ktorej zrodlo nie zawieralo. Nowe snapshoty moga zapisywac pelny czas ISO 8601, gdy taki czas faktycznie istnieje.</p>
+
+
+<h2>4. Middle End v08-11 — po eksmisji tagów</h2>
+<p>Middle End ma <strong>977 rekordów i 15 kolumn</strong>. Fizyczny nagłówek CSV to:</p>
+<div class="box"><code>utwu_id, lyrics_id, spotify_id, spotify_order, title_original, title_normalized, title_parsed, artist_original, artist_normalized, artist_parsed, album_original, match_status, match_candidates, match_note, lyrics_status</code></div>
+<p><code>utwu_id</code> jest unikalny dla wszystkich 977 rekordów. Z wcześniejszego gruzu usunęliśmy pola związane ze starym pipeline’em lyrics (<code>lyrics_refs_json</code>, <code>lyrics_fetch_*</code>), puste <code>rola_tekstu</code>, <code>TAGS</code>, <code>SLOWA</code> oraz historyczne <code>old_utw_id</code> i <code>legacy_utw_ids</code>.</p>
+<p>Trzy kolumny <code>match_*</code> zostają, ale ich znaczenie jest już obecne, nie archeologiczne: <code>match_status</code> opisuje aktualny stan dopasowania, <code>match_candidates</code> służy wyłącznie do nierozstrzygniętych kandydatów, a <code>match_note</code> do krótkiego wyjaśnienia przypadków nietypowych.</p>
+<div class="box"><code>938 × fullmatch</code><br/><code>39 × historical_parent_created</code><br/><code>match_candidates przy fullmatch: puste</code></div>
+<p>Po zakończeniu FULLMATCH wszystkie 938 bieżących rekordów Spotify mają <code>match_status=fullmatch</code>. Dawne statusy typu <code>exact</code>, <code>parsed</code>, <code>normalized</code>, <code>manual_resolved</code>, <code>manual_duplicate_no_old_utw</code> i <code>unmatched</code> były stanami starego procesu migracji i zostały zastąpione aktualnym wynikiem. Tam, gdzie match jest rozstrzygnięty, kandydaci nie są potrzebni, dlatego stare wartości w <code>match_candidates</code> zostały wyczyszczone. Kolumna zostaje na przyszłe przypadki rzeczywiście nierozstrzygnięte.</p>
+<p><code>tags_json</code> został usunięty z aktywnego Middle Endu. Pozostałe 15 kolumn i 977 rekordów zachowano 1:1. Pełny stan sprzed tej zmiany istnieje wyłącznie w celowej kopii <code>sol-middleend-backup-CSV-v07-03.csv</code>.</p>
+
+<h3><code>lyrics_status</code> — sześć stanów</h3>
+<div class="box">
+  <code>full</code> — mamy tekst przypisany do konkretnego nagrania / wersji i uznajemy zgodność za potwierdzoną.<br/>
+  <code>canonicaltext</code> — mamy kanoniczny albo bazowy tekst dzieła, pieśni, sutry, mantry itp., ale nie potwierdziliśmy zgodności 1:1 z konkretnym nagraniem.<br/>
+  <code>partial</code> — mamy tylko część tekstu.<br/>
+  <code>paraphase</code> — mamy roboczą parafrazę sensu utworu zapisaną w Lyrics; nie jest to tekst 1:1 ani transkrypcja.<br/>
+  <code>instrumental</code> — nagranie nie ma tekstu do przypisania.<br/>
+  <code>missing</code> — tekst nadal nie został znaleziony lub rozstrzygnięty.
+</div>
+<p><strong><code>canonicaltext</code> i <code>paraphase</code> mają <code>lyrics_id</code>.</strong> <code>canonicaltext</code> wskazuje tekst kanoniczny/bazowy, a <code>paraphase</code> roboczą parafrazę treści. <code>paraphase</code> nie jest tekstem 1:1 ani transkrypcją. <code>missing</code> i <code>instrumental</code> nie mają <code>lyrics_id</code>.</p>
+<p><strong>Wykonawca nie jest autorem tekstu z definicji.</strong> Pole <code>artist_*</code> opisuje wykonawcę / metadane nagrania. Przy statusie <code>canonicaltext</code> wolno znaleźć tekst po identyfikacji samego dzieła, bez wymagania zgodności wykonawcy. Przykład: chór wykonujący <em>Szczedryka</em> nie staje się przez to autorem słów. W gałęzi tekstu kanonicznego wykonawca służy do identyfikacji nagrania, a nie jako klucz autorstwa tekstu.</p>
+<p>Nowy status jest zmianą modelu danych, dlatego Memento przechodzi z serii v09 do <strong>v10-00</strong>.</p>
+
+<h2>5. Lyrics — jedna logiczna tabela, dwa fizyczne CSV</h2>
+<p>Stare 798 tekstów i 11 dodatkowych rekordów zostały scalone. Identyczne teksty 1:1 zostały zdeduplikowane. Wynik:</p>
+<div class="box">
+  <code>796 rekordów</code><br/>
+  <code>2 kolumny: lyrics_id, lyrics_text</code><br/>
+  <code>lyrics-000001 … lyrics-000796</code>
+</div>
+<p><code>lyrics_id</code> został utworzony <strong>od zera</strong>. Nie jest przemianowanym <code>old_utw_id</code>, nie jest <code>spotify_id</code> i nie jest recyklingiem żadnego poprzedniego identyfikatora.</p>
+<p>Lyrics jest <strong>logicznym bytem</strong>, nie nazwą jednego obowiązkowego pliku. Możemy później podzielić teksty na kilka fizycznych CSV bez zmiany modelu, o ile każdy rekord zachowuje globalne <code>lyrics_id</code>.</p>
+<p>Główny plik <code>sol-piosenki-slowa-CSV-v07-00.csv</code> zawiera <strong>796 rekordów</strong> (<code>lyrics-000001 … lyrics-000796</code>). Drugi aktywny plik <code>sol-piosenki-slowa-kontynuacja-CSV-v01-08.csv</code> zawiera <strong>86 rekordów</strong> (<code>lyrics-000797 … lyrics-000882</code>). Razem logiczna tabela Lyrics ma obecnie <strong>882 unikalne teksty</strong>. Ta liczba <strong>nie musi</strong> być równa liczbie rekordów snapshotów w Tags.</p>
+
+<h2>6. Klucze — po SQL-owemu EXPLICITE</h2>
+<p><strong>Middle End:</strong></p>
+<div class="box">
+  <code>utwu_id TEXT PRIMARY KEY</code><br/>
+  <code>lyrics_id TEXT NULL REFERENCES lyrics(lyrics_id)</code>
+</div>
+<p><code>PRIMARY KEY</code> oznacza dla <code>utwu_id</code> jednocześnie <strong>PRIMARY KEY + UNIQUE + NOT NULL</strong>. „Canonical” nie jest słowem kluczowym SQL; to nasza nazwa architektoniczna oznaczająca, że <code>utwu_id</code> jest oficjalnym, stabilnym identyfikatorem konkretnego rekordu utworu w całym projekcie.</p>
+<p><strong>Plik słów:</strong></p>
+<div class="box">
+  <code>lyrics_id TEXT PRIMARY KEY</code><br/>
+  <code>lyrics_text TEXT NOT NULL</code>
+</div>
+<p>Czyli <code>lyrics_id</code> jest także <strong>PRIMARY KEY + UNIQUE + NOT NULL</strong> dla rekordu tekstu. W Middle Endzie <code>lyrics_id</code> jest <strong>FOREIGN KEY i może być NULL</strong>. Statusy <code>full</code>, <code>canonicaltext</code>, <code>partial</code> i <code>paraphase</code> wymagają <code>lyrics_id</code>; statusy <code>missing</code> i <code>instrumental</code> wymagają jego braku.</p>
+<p><strong>Tags:</strong></p>
+<div class="box">
+  <code>lyrics_id TEXT REFERENCES lyrics(lyrics_id)</code><br/>
+  <code>tagged_at TEXT NULL</code><br/>
+  <code>tags TEXT</code>
+</div>
+<p>Tabela Tags jest logicznie oparta o <code>lyrics_id</code>, ale <code>lyrics_id</code> <strong>nie jest w niej kluczem unikalnym</strong>. Relacja ma krotność <code>Lyrics 1 → 0..N Tags</code>: tekst może nie mieć żadnego rekordu tagowania, może mieć jeden, albo kilka snapshotów. <code>tagged_at</code> opisuje moment danego nadania/tagowania; stare rekordy mogą mieć tylko datę, jeśli tylko tyle zawierało źródło. Nie wymuszamy sztucznego klucza złożonego, dopóki realne dane nie pokażą, że jest potrzebny.</p>
+<p><code>spotify_id</code> jest identyfikatorem zewnętrznym Spotify. Historyczne <code>old_utw_id</code> i <code>legacy_utw_ids</code> zostały już usunięte z aktywnego Middle Endu. Żaden identyfikator zewnętrzny ani historyczny nie zastępuje <code>utwu_id</code>.</p>
+
+<h3>Małe słowniki tagów — dwa fizyczne pliki</h3>
+<p>Warstwa słownikowa jest rozdzielona na <strong>dwa małe, czytelne pliki</strong>. Tagi i ich definicje żyją w CSV, a cała reszta ontologii w zwykłym TXT zawierającym komendy SQL. Dzięki temu zawartość można obejrzeć na telefonie lub tablecie bez SQLite i bez pytania modelu, co rzekomo siedzi w środku.</p>
+<div class="box">
+  <code>sol-definicje-tagow-CSV-v01-02.csv</code> — <code>tag, definition</code><br/>
+  <code>sol-ontologia-tagow-TXT-v01-03.txt</code> — <code>families, tag_groups, axes, tag_group, tag_axis</code>
+</div>
+<p><strong>Katalog tagów:</strong> kolumna <code>tag</code> w CSV jest konceptualnym <code>PRIMARY KEY</code>. Nazwa taga jest kluczem; <strong>nie dokładamy <code>tag_id</code></strong>. Definicja może być pusta, jeżeli nazwa jest wystarczająco samowyjaśniająca.</p>
+<p><strong>Reguła nazw tagów:</strong> nazwa <code>tag</code> składa się wyłącznie z małych liter ASCII <code>a-z</code>, pojedynczych minusów <code>-</code> jako separatorów oraz opcjonalnie cyfr <code>0-9</code>. Bez spacji, ukośników, podkreśleń, kropek, polskich znaków ani innej interpunkcji. Minus nie występuje na początku ani na końcu i nie powtarzamy dwóch minusów obok siebie. Formalnie: <code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code>.</p>
+<p><strong>Grupy tagów:</strong></p>
+<div class="box">
+  <code>tag_groups(</code><br/>
+  <code>&nbsp;&nbsp;group_name TEXT PRIMARY KEY,</code><br/>
+  <code>&nbsp;&nbsp;label TEXT NOT NULL</code><br/>
+  <code>)</code>
+</div>
+<p><strong>Rodziny:</strong></p>
+<div class="box">
+  <code>families(</code><br/>
+  <code>&nbsp;&nbsp;family_name TEXT PRIMARY KEY,</code><br/>
+  <code>&nbsp;&nbsp;label TEXT NOT NULL,</code><br/>
+  <code>&nbsp;&nbsp;color_hex TEXT NOT NULL,</code><br/>
+  <code>&nbsp;&nbsp;description TEXT NOT NULL,</code><br/>
+  <code>&nbsp;&nbsp;sort_order INTEGER NOT NULL UNIQUE</code><br/>
+  <code>)</code>
+</div>
+<p><strong>Osie:</strong></p>
+<div class="box">
+  <code>axes(</code><br/>
+  <code>&nbsp;&nbsp;axis_name TEXT PRIMARY KEY,</code><br/>
+  <code>&nbsp;&nbsp;family_name TEXT NOT NULL REFERENCES families(family_name),</code><br/>
+  <code>&nbsp;&nbsp;...</code><br/>
+  <code>)</code>
+</div>
+<p>Każda oś należy do dokładnie jednej rodziny. Rodzina może mieć wiele osi. Od v01-01 ontologii istnieje <strong>17. oś <code>cialo</code></strong>, przypisana do rodziny <code>lapis</code>. Obejmuje ciało jako nośnik doświadczenia: cielesność, dotyk, napięcie, pożądanie i sygnały somatyczne; nie każdy bodziec sensoryczny i nie każdą emocję. Źródłowe przypisanie <code>pozadanie → cialo</code> jest od tej wersji rozstrzygnięte i aktywne.</p>
+<p><strong>Relacja tag ↔ grupa:</strong></p>
+<div class="box">
+  <code>tag_group(</code><br/>
+  <code>&nbsp;&nbsp;tag TEXT NOT NULL,</code><br/>
+  <code>&nbsp;&nbsp;group_name TEXT NOT NULL REFERENCES tag_groups(group_name),</code><br/>
+  <code>&nbsp;&nbsp;PRIMARY KEY (tag, group_name)</code><br/>
+  <code>)</code>
+</div>
+<p>To jest świadomie relacja <strong>wiele-do-wielu</strong>. Jeden tag może należeć do kilku grup, a jedna grupa może zawierać wiele tagów. Pole <code>tag</code> wskazuje na klucz <code>tag</code> z osobnego CSV; tego FK nie da się wymusić wewnątrz samego pliku TXT/SQL, więc sprawdzamy go kontrolą spójności.</p>
+<p><strong>Relacja tag ↔ oś:</strong></p>
+<div class="box">
+  <code>tag_axis(</code><br/>
+  <code>&nbsp;&nbsp;tag TEXT NOT NULL,</code><br/>
+  <code>&nbsp;&nbsp;axis_name TEXT NOT NULL REFERENCES axes(axis_name),</code><br/>
+  <code>&nbsp;&nbsp;PRIMARY KEY (tag, axis_name)</code><br/>
+  <code>)</code>
+</div>
+<p>To również jest relacja <strong>wiele-do-wielu</strong>: jeden tag może należeć do wielu osi, jedna oś może mieć wiele tagów. Nie ma bezpośredniej tabeli <code>tag_family</code>, bo relacja tag ↔ rodzina jest <strong>wyliczana</strong> przez <code>tag_axis → axes → families</code>.</p>
+
+<h3>Po dodaniu nowego taga — krótka procedura spójności</h3>
+<ol>
+  <li>Dodać dokładnie jeden rekord <code>tag, definition</code> do aktywnego <code>sol-definicje-tagow-CSV</code>. Nazwa <code>tag</code> musi być unikalna i spełniać regułę <code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code>.</li>
+  <li>Dodać co najmniej jedno przypisanie w <code>tag_group</code>; jeżeli tag sensownie należy do kilku grup, dodać kilka rekordów. Nie wciskać go sztucznie do jednej grupy tylko dlatego, że stary HTML tak wyglądał.</li>
+  <li>Dodać co najmniej jedno przypisanie w <code>tag_axis</code>; tag może należeć do wielu osi.</li>
+  <li>Jeżeli potrzebna jest nowa grupa, oś albo rodzina, najpierw zdefiniować ją w odpowiedniej tabeli, potem dopiero użyć jej w relacji. Oś zawsze wskazuje dokładnie jedną istniejącą rodzinę.</li>
+  <li>Sprawdzić integralność: każdy <code>tag_group.tag</code> i <code>tag_axis.tag</code> istnieje w CSV tagów; każda grupa i oś istnieje w swoich tabelach; każda oś wskazuje istniejącą rodzinę; brak duplikatów kluczy złożonych.</li>
+  <li>Nie zmieniać historycznych snapshotów Tags tylko dlatego, że powstał nowy tag. Nowy tag zaczyna być dostępny dla nowych tagowań albo świadomego retagowania.</li>
+  <li>Zwiększyć wersję tylko plików, których treść faktycznie się zmieniła. Memento aktualizować wtedy, gdy zmienia się reguła, architektura albo procedura, a nie przy każdym pojedynczym nowym tagu.</li>
+</ol>
+
+<h3>Wszystkie relacje i krotności — EXPLICITE</h3>
+<div class="box">
+  <strong>Middle End ↔ Lyrics</strong><br/>
+  <code>Middle End N → 0..1 Lyrics</code><br/>
+  <code>Lyrics 1 → 0..N Middle End</code><br/><br/>
+
+  <strong>Lyrics ↔ snapshoty Tags</strong><br/>
+  <code>Lyrics 1 → 0..N Tag snapshots</code><br/>
+  <code>Tag snapshot N → 1 Lyrics</code><br/><br/>
+
+  <strong>Tag snapshot ↔ tag_catalog</strong><br/>
+  <code>Tag snapshots N ↔ M tag_catalog</code> — relacja semantyczna, zakodowana w tekstowej komórce <code>tags</code>; nie ma fizycznego FK bez rozpakowania gramatyki.<br/><br/>
+
+  <strong>tag_catalog ↔ tag_groups</strong><br/>
+  <code>N ↔ M</code> przez <code>tag_group</code>.<br/><br/>
+
+  <strong>tag_catalog ↔ axes</strong><br/>
+  <code>N ↔ M</code> przez <code>tag_axis</code>.<br/><br/>
+
+  <strong>families ↔ axes</strong><br/>
+  <code>families 1 → 0..N axes</code><br/>
+  <code>axis N → 1 family</code><br/><br/>
+
+  <strong>tag_catalog ↔ families</strong><br/>
+  <code>N ↔ M</code> pośrednio przez <code>tag_axis → axes → families</code>; relacji nie duplikujemy osobną tabelą.
+</div>
+<p><strong>Klucze bez udawania:</strong> <code>utwu_id</code>, <code>lyrics_id</code>, <code>tag</code>, <code>group_name</code>, <code>axis_name</code> i <code>family_name</code> są PRIMARY KEY tam, gdzie wskazano. Tabele łącznikowe <code>tag_group</code> i <code>tag_axis</code> mają klucze złożone z dwóch istniejących kluczy. Snapshoty Tags nadal <strong>nie mają sztucznego osobnego PRIMARY KEY</strong>; <code>lyrics_id</code> nie jest tam unikalne, a <code>tagged_at</code> nie jest traktowane jako klucz.</p>
+<p><strong>Nie istnieją bezpośrednie relacje</strong> grupa ↔ oś, grupa ↔ rodzina ani snapshot ↔ grupa/oś/rodzina. Jeżeli kiedyś pojawi się realna potrzeba takiej relacji, dodajemy ją wtedy, a nie profilaktycznie w imię metafizyki baz danych.</p>
+
+<h2>7. Klucze — po ludzku EXPLICITE</h2>
+<p><code>utwu_id</code> odpowiada na pytanie: <strong>„który konkretnie utwór / wersja nagrania?”</strong></p>
+<p><code>lyrics_id</code> odpowiada na pytanie: <strong>„który konkretnie tekst?”</strong></p>
+<p>Oryginał, radio edit, remaster albo live mogą być różnymi rekordami i mieć różne <code>utwu_id</code>, ale jeśli słowa są identyczne 1:1, wszystkie mogą wskazywać ten sam <code>lyrics_id</code>.</p>
+<div class="box"><code>wiele utwu_id → jeden lyrics_id</code></div>
+<p>To jest relacja <strong>many-to-one</strong> z punktu widzenia Middle Endu. Nie kopiujemy tego samego tekstu kilka razy tylko po to, żeby każda wersja utworu miała własny blok liter.</p>
+
+<h2>8. Jak ta relacja wygląda teraz w danych</h2>
+<p>W Middle Endzie <strong>909 rekordów ma <code>lyrics_id</code></strong>: 840 ma status <code>full</code>, 19 ma <code>canonicaltext</code>, 0 ma <code>partial</code>, a 50 ma <code>paraphase</code>. Bez <code>lyrics_id</code> pozostaje 68 rekordów i wszystkie mają status <code>instrumental</code>.</p>
+<p><strong>Logika <code>lyrics_id ↔ lyrics_status</code> jest spójna dla 977/977 rekordów według nowego modelu.</strong> Walidator <code>sol-sprawdz-integralnosc-PY-v01-03.py</code> obsługuje <code>paraphase</code>; ostatnie uruchomienie zakończyło się wynikiem OK, bez błędów i ostrzeżeń.</p>
+<div class="box">
+  <code>lyrics_id + full: 840</code><br/>
+  <code>lyrics_id + canonicaltext: 19</code><br/>
+  <code>lyrics_id + partial: 0</code><br/>
+  <code>lyrics_id + paraphase: 50</code><br/>
+  <code>brak lyrics_id + missing: 0</code><br/>
+  <code>brak lyrics_id + instrumental: 68</code>
+</div>
+<p><strong>Kierunek →:</strong> każdy rekord z <code>lyrics_id</code> musi mieć status <code>full</code>, <code>canonicaltext</code>, <code>partial</code> albo <code>paraphase</code>.</p>
+<p><strong>Kierunek ←:</strong> każdy rekord ze statusem <code>full</code>, <code>canonicaltext</code>, <code>partial</code> albo <code>paraphase</code> musi mieć <code>lyrics_id</code>.</p>
+<p>Te 909 rekordów wskazuje na <strong>876 różnych <code>lyrics_id</code></strong>. Obecnie <strong>32 różne teksty</strong> są współdzielone przez więcej niż jeden <code>utwu_id</code>; największa aktualna krotność to 3 nagrania / rekordy na jeden tekst.</p>
+<p>Model nadal dopuszcza relację wiele <code>utwu_id</code> → jeden <code>lyrics_id</code>. Status <code>canonicaltext</code> nie tworzy nowego rodzaju identyfikatora i nie kopiuje tekstu tylko dlatego, że wykonawcy są różni.</p>
+
+<h2>9. Sześć Lyrics poza głównym wskazaniem Middle Endu</h2>
+<p>W logicznej tabeli Lyrics jest <strong>6 tekstów, które nie są obecnie użyte jako główny <code>lyrics_id</code> żadnego rekordu Middle Endu</strong>. Jest to stan celowy i dozwolony przez model.</p>
+<ul>
+  <li><code>lyrics-000429</code> — stary <code>utw-00433</code>, <em>Nim wstanie dzień</em>, Krzysztof Komeda-Trzciński / Edmund Fetting; zachowana sierota historyczna.</li>
+  <li><code>lyrics-000586</code> — stary <code>utw-00591</code>, <em>Ievan Polkka</em>, Korpiklaani; zachowana sierota historyczna.</li>
+  <li><code>lyrics-000764</code> — stary <code>utw-00773</code>, <em>California Dreamin' - Single Version</em>, The Mamas &amp; The Papas; zachowana sierota historyczna.</li>
+  <li><code>lyrics-000825</code> — dodatkowa ukraińska parafraza <em>Carol of the Bells / Щедрик</em>; główny rekord używa angielskiej parafrazy <code>lyrics-000826</code>.</li>
+  <li><code>lyrics-000839</code> — historyczna parafraza <em>Czy widziałeś już tę smugę?</em>, Limboski; aktualny rekord używa pełnego <code>lyrics-000881</code>, a <code>match_note</code> zachowuje <code>paraphase=lyrics-000839</code>.</li>
+  <li><code>lyrics-000858</code> — historyczna parafraza <em>Nie stało się nic (Mierzeja 2 | Empik Go)</em>; aktualny rekord używa pełnego <code>lyrics-000882</code>, a <code>match_note</code> zachowuje <code>paraphase=lyrics-000858</code>.</li>
+</ul>
+<p>Naprawione bieżące rekordy Middle Endu dla pierwszych trzech sierot są osobne: <code>utwu-000388</code> = Edmund Fetting, <code>utwu-000200</code> = Riikka, <code>utwu-000444</code> = Amason. Stary błąd polegał na sklejeniu różnych nagrań/wykonań pod jednym rekordem. Teraz zachowujemy dane bez fabrykowania pewności.</p>
+
+<h2>10. Zasady nazywania i wersjonowania</h2>
+<p>Schemat nazwy:</p>
+<div class="box"><code>sol-&lt;co-to-jest&gt;-&lt;TYP&gt;-vNN-NN.ext</code></div>
+<p>Typ pliku jawnie wielkimi literami: <code>CSV</code>, <code>HTML</code>, <code>XLSX</code>, <code>DOCX</code>. Rozszerzenie systemowe tylko raz na końcu. Wersja ma myślnik: <code>v07-00</code>, nie <code>v07.00</code>.</p>
+<p><strong>Mały bump</strong> = zwykła korekta/treść/czyszczenie. <strong>Duży bump</strong> = zmiana architektury, roli pliku albo modelu danych. Seria <strong>v07</strong> wprowadziła osobny <code>lyrics_id</code>. Seria <strong>v08</strong> zaczyna się od decyzji o pełnym rozdzieleniu Middle End, Lyrics i Tags. Seria Tags <strong>v09</strong> zaczyna się od fizycznego odejścia od JSON-u na rzecz snapshotu <code>lyrics_id | tagged_at | tags</code>. Memento <strong>v09-00</strong> dodało jawny model małych słowników. Memento <strong>v09-01</strong> zapisuje fizyczny podział tej warstwy na CSV z tagami i TXT z SQL-em ontologii, dodaje 17. oś <code>cialo</code> oraz procedurę spójności po dodaniu nowego taga. Memento <strong>v09-02</strong> ustala kanoniczną składnię nazw tagów: małe litery ASCII, pojedyncze minusy jako separatory i opcjonalnie cyfry; bez innych znaków. Memento <strong>v10-00</strong> wprowadza piąty stan <code>lyrics_status=canonicaltext</code> i jawnie rozdziela autora / tekst dzieła od wykonawcy konkretnego nagrania.</p>
+<p>Przy nowej wersji aktywnego pliku: <strong>utwórz → zapisz na serwerze → sprawdź, że istnieje i jest poprawny → dopiero wtedy usuń poprzednią aktywną wersję</strong>.</p>
+
+<h2>11. Żywe formaty i rokoko</h2>
+<p><strong>Żywe formaty robocze: HTML, CSV oraz TXT używany dla czytelnego SQL-u ontologii.</strong> TXT jest tu świadomie zwykłym tekstem, nie binarną bazą. Aktualizujemy tylko pliki, których treść faktycznie się zmienia.</p>
+<p><strong>DOCX i XLSX są ozdobnikami rokokowymi.</strong> Są snapshotami do oglądania lub użycia pomocniczego. Mogą być stare i nie synchronizujemy ich automatycznie. Nie wolno wyciągać z ich numeru wersji wniosku, że aktywny CSV/HTML ma się cofnąć.</p>
+
+
+<h2>Zrealizowane — canonical branch bez wykonawcy jako klucza</h2>
+
+<div class="box">
+  <strong>Zrealizowane 2026-09-06.</strong><br/><br/>
+
+  W gałęzi <code>canonicaltext</code> <strong>nie wymagać zgodności wykonawcy</strong>.
+  Wykonawca służy do identyfikacji konkretnego nagrania, ale przy szukaniu
+  kanonicznego tekstu dzieła przestaje być kluczem wyszukiwania i walidacji autorstwa.
+  <br/><br/>
+
+  Innymi słowy: relacja <code>artist_* → lyrics</code> obowiązuje dla próby
+  identyfikacji konkretnej wersji nagrania, ale <strong>nie obowiązuje jako warunek
+  znalezienia tekstu dzieła</strong> w gałęzi <code>canonicaltext</code>.
+  <br/><br/>
+
+  Przykład wzorcowy: chór z Gdańska wykonujący <em>Szczedryka</em> nie jest przez to
+  autorem tekstu. Szukanie kanonicznego tekstu <em>Szczedryka</em> ma identyfikować
+  dzieło, a nie żądać zgodności z nazwą chóru wykonującego konkretne nagranie.
+  <br/><br/>
+
+  Konsekwencja dla skryptu została wdrożona w <code>sol-pobierz-slowa-standalone-PY-v02-02.py</code>: API / wyszukiwarki dostały osobną ścieżkę
+  <code>canonical work lookup</code>, gdzie podstawowym kluczem jest rozpoznane dzieło
+  / alias dzieła / tytuł kanoniczny, a wykonawca jest metadanym pomocniczym
+  konkretnego <code>utwu_id</code>, nie warunkiem znalezienia tekstu.
+</div>
+<p>
+  To jest zmiana architektoniczna, nie kosmetyczna heurystyka: rozdziela
+  <strong>tożsamość nagrania</strong> od <strong>tożsamości tekstu dzieła</strong>.
+</p>
+
+
+<h2>11b. Drugi przebieg wyszukiwania — decyzje po kontroli Poirot</h2>
+<p>Surowy wynik: 8 <code>canonicaltext</code>, 2 <code>instrumental</code>, 74 <code>missing</code>. Wyników nie przyjęto automatycznie.</p>
+<div class="box">
+  <strong>Przyjęte canonicaltext:</strong><br/>
+  The Carol of the Old Ones → <code>lyrics-000813</code><br/>
+  Ajai Alai → <code>lyrics-000814</code><br/>
+  Szczedryk → <code>lyrics-000815</code><br/>
+  Om Mani Padme Hum → <code>lyrics-000816</code><br/>
+  Vajrasattva → <code>lyrics-000817</code><br/><br/>
+  <strong>Przyjęte instrumental:</strong><br/>
+  Beethoven IX, część III Adagio<br/>
+  Mahler V, część I Trauermarsch
+</div>
+<p>Nadal nierozstrzygnięte: <em>Carol of the Bells - Remastered</em>, <em>Durgā Sūktam</em>, <em>Heart Sutra</em> oraz <em>Shchedryk — Sharovaari Orchestral Version</em>.</p>
+
+
+<h2>11c. Instrumentalne — ręczne domknięcie 12 rekordów z listy missing</h2>
+<p>
+Po osobnym przeglądzie bieżącej listy <code>missing</code> wybrano 12 rekordów
+jako kandydatów instrumentalnych. Decyzją użytkownika wszystkie 12 zamknięto
+jako <code>instrumental</code>. To jest decyzja dla tych konkretnych rekordów,
+nie heurystyka globalna.
+</p>
+<div class="box">
+  <code>missing: 77 → 65</code><br/>
+  <code>instrumental: 56 → 68</code><br/>
+  <code>lyrics_id</code> bez zmian
+</div>
+
+
+<h2>11d. Canonical probe — dopięcie wyników z istniejącym dowodem tekstowym</h2>
+<p>
+Z ostatniego probe przyjęto wyłącznie przypadki, w których poprzedni krok dawał już
+konkretny tekst ze źródła zgodnego z ręcznie rozpoznanym dziełem, albo istniał już
+w bazie właściwy <code>lyrics_id</code>. Samo <code>C1/C2</code> bez poprawnego tekstu
+nie wystarcza do zmiany danych.
+</p>
+<div class="box">
+  Long Vajrasattva Purifying Mantra → <code>lyrics-000817</code> (istniejący Vajrasattva)<br/>
+  Amara Terra Mia → <code>lyrics-000818</code><br/>
+  Video Games — oba rekordy → <code>lyrics-000819</code><br/>
+  Juz nigdy → <code>lyrics-000820</code><br/>
+  Piangi con me → <code>lyrics-000821</code><br/>
+  Make It Wit Chu → <code>lyrics-000822</code><br/>
+  Do polityka → <code>lyrics-000823</code><br/>
+  Get the Party Started → <code>lyrics-000824</code>
+</div>
+<p>
+Zmiana obejmuje 9 rekordów Middle Endu i 7 nowych rekordów Lyrics.
+<code>canonicaltext: 5 → 14</code>, <code>missing: 65 → 56</code>.
+Pozostałe tropy z probe pozostają nierozstrzygnięte, jeśli rozpoznano tylko dzieło
+albo znaleziony tekst był błędny / niezweryfikowany.
+</p>
+
+<h2>12. Twarde zasady projektu Spotify</h2>
+<ul>
+  <li>Wykonujemy dokładnie polecenie. Bez dokładania „przy okazji” nowych operacji.</li>
+  <li>Nie tworzymy zbędnych plików roboczych, checkpointów, kopii, archiwów ani dodatkowych wariantów.</li>
+  <li>Nie ruszamy starych plików poza ustaloną procedurą wersjonowania albo wyraźnym poleceniem.</li>
+  <li>Nie zmieniamy procedury tagowania bez wyraźnej zgody.</li>
+  <li>Zero heurystyk semantycznych: nie tagujemy z tytułu, wykonawcy, podobnych utworów ani poprzednich tagów.</li>
+  <li>Każdy utwór do tagowania trzeba przeczytać osobno i w całości.</li>
+  <li>Jeśli Maciek prosi o N utworów, robimy N utworów.</li>
+  <li>Nie robimy statystyk, analiz ani „porządkowania”, jeśli nie zostały zamówione.</li>
+  <li>Jedna szafa out z pokoju. Nie przebudowujemy pałacu dlatego, że przesunęliśmy krzesło.</li>
+</ul>
+
+<h2>13. Relacja Maćka z GitHubem</h2>
+<p>GitHub ma w życiu Maćka rolę bardzo precyzyjną: jest miejscem do trzymania rzeczy, których Maciek <strong>nie chce nigdy używać ani oglądać</strong>.</p>
+<p>Nie traktujemy GitHuba jako domyślnego narzędzia pracy, obowiązkowego elementu workflow ani miejsca, do którego należy coś wrzucać „bo tak się robi”. Jeśli coś ma istnieć wyłącznie po to, żeby Maciek nigdy tam nie zaglądał, GitHub zaczyna mieć sens. Cyfrowe mauzoleum, tylko z commitami zamiast trumien.</p>
+
+<h2>14. Co jest źródłem prawdy na dziś</h2>
+<p><strong>Architektura aktualna:</strong> niniejsze Memento v10-09. <strong>Middle End:</strong> v08-11, 977 rekordów: 840 <code>full</code>, 19 <code>canonicaltext</code>, 0 <code>partial</code>, 50 <code>paraphase</code>, 68 <code>instrumental</code>, 0 <code>missing</code>. <strong>Lyrics:</strong> dwa aktywne CSV, razem 882 unikalne teksty: główny v07-00 (796) + kontynuacja v01-08 (86). <strong>Tags:</strong> v09-14, 888 snapshotów dla 882 <code>lyrics_id</code>, 9814 przypisań tagów; każdy z 882 Lyrics ma co najmniej jeden niepusty snapshot tagowania. <strong>Definicje tagów:</strong> <code>sol-definicje-tagow-CSV-v01-02.csv</code>. <strong>Ontologia:</strong> <code>sol-ontologia-tagow-TXT-v01-03.txt</code>. <strong>Walidator:</strong> <code>sol-sprawdz-integralnosc-PY-v01-03.py</code>. <strong>Końcowy audyt danych:</strong> <code>SOL-audyt-danych-2026-09-07.html</code>.</p>
+<p><strong>Końcowy audyt danych 2026-09-07:</strong> kompletny aktywny zestaw przeszedł walidator z wynikiem <code>0 błędów / 0 ostrzeżeń / OK</code>. Middle End ma 977 unikalnych <code>utwu_id</code>; Lyrics ma 882 unikalne i niepuste rekordy; Tags obejmuje wszystkie 882 Lyrics. Duplikaty i snapshoty Tags pozostają jako historia. Raport: <code>SOL-audyt-danych-2026-09-07.html</code>.</p>
+<p>Kopia <code>sol-middleend-backup-CSV-v07-03.csv</code> zamraża stan sprzed migracji i zawiera dawny <code>tags_json</code>. Aktywny Middle End jest już po migracji i tej kolumny nie ma.</p>
+<p>Nie tworzymy następnego poziomu architektury, dopóki realny problem go nie wymaga. Tym razem realny problem właśnie go wymagał: trzy różne byty nie powinny mieszkać w jednym CSV tylko dlatego, że wyglądało to „prościej”.</p>
+
+<h2>15. Stan <code>paraphase</code> — 2026-09-07</h2>
+<p><code>paraphase</code> oznacza roboczą parafrazę sensu utworu. Parafraza jest zapisana jako rekord Lyrics i ma własne <code>lyrics_id</code>, ale nie jest tekstem 1:1 i nie wolno traktować jej jak transkrypcji lub cytatu.</p>
+<p>Po dwóch późniejszych podmianach parafrazy na pełny tekst Middle End ma obecnie <strong>50 rekordów <code>paraphase</code></strong>. Dwa nagrania <em>Złote łezki</em> nadal współdzielą <code>lyrics-000836</code>. <em>Carol of the Bells</em> wskazuje angielską daleką parafrazę <code>lyrics-000826</code>; dodatkowa ukraińska parafraza <code>lyrics-000825</code> pozostaje osobnym rekordem Lyrics.</p>
+<p><em>Bhagavad Gītā Chapter 11</em> ma status <code>paraphase</code> i wskazuje <code>lyrics-000844</code>. <em>Dom Sąsiedni</em> ma status <code>paraphase</code> z <code>lyrics-000876</code>. Dwa dawne rekordy <code>paraphase</code> zostały zastąpione pełnymi tekstami: <em>Czy widziałeś już tę smugę?</em> → <code>lyrics-000881</code>, z zachowanym <code>paraphase=lyrics-000839</code>; <em>Nie stało się nic (Mierzeja 2 | Empik Go)</em> → <code>lyrics-000882</code>, z zachowanym <code>paraphase=lyrics-000858</code>. Aktualnie liczba rekordów <code>partial</code> wynosi 0.</p>
+<p>Ostatnie 5 rekordów <code>missing</code> zostało domknięte jako <code>canonicaltext</code>: Shiva Saṅkalpa Sūktam → <code>lyrics-000877</code>, Durgā Sūktam → <code>lyrics-000878</code>, Heart Sutra → <code>lyrics-000879</code>, a oba nagrania <em>Prząśniczki</em> współdzielą <code>lyrics-000880</code>. Aktualnie liczba rekordów <code>missing</code> wynosi 0.</p>
+
+<hr/>
+<p class="meta">Memento ma pamiętać stan faktyczny i decyzje. Jeśli coś się zmieni, aktualizujemy ten dokument, zamiast budować archeologię z czatów.</p>
+</main>
+
+<p><strong>v10-03:</strong> 12 kolejnych rekordów zamknięto ręcznie jako instrumental; Middle End v08-05, 68 instrumental i 65 missing.</p>
+<p><strong>v10-05:</strong> dopięto 9 rekordów jako canonicaltext na podstawie istniejącego dowodu tekstowego; Middle End v08-07, 14 canonicaltext i 56 missing.</p>
+
+<p><strong>v10-05:</strong> dodano stan <code>paraphase</code>; 17 rekordów Middle Endu ma parafrazę z <code>lyrics_id</code>, Lyrics wzrosło do 841 tekstów, a <code>missing</code> spadło do 39.</p>
+<p><strong>v10-06:</strong> rozszerzono <code>paraphase</code> do 52 rekordów Middle Endu; kontynuacja Lyrics v01-05 ma 80 rekordów, łącznie Lyrics = 876; <code>partial</code> spadło do 0, a <code>missing</code> do 5. Bhagavad Gītā Chapter 11 oraz Dom Sąsiedni są teraz <code>paraphase</code>.</p>
+<p><strong>v10-07:</strong> domknięto ostatnie 5 rekordów <code>missing</code> jako <code>canonicaltext</code>; Middle End v08-09 ma 19 <code>canonicaltext</code> i 0 <code>missing</code>; kontynuacja Lyrics v01-06 ma 84 rekordy, łącznie Lyrics = 880.</p>
+<p><strong>v10-08:</strong> zaktualizowano źródło prawdy po wdrożeniu walidatora <code>sol-sprawdz-integralnosc-PY-v01-03.py</code>, który obsługuje <code>paraphase</code>. Zestaw danych bez zmian.</p>
+<p><strong>v10-09:</strong> zaktualizowano stan po zakończeniu tagowania i końcowym audycie 2026-09-07: Middle End v08-11, Lyrics 882, Tags v09-14; 0 błędów, 0 ostrzeżeń; snapshoty i duplikaty Tags pozostają jako historia.</p>
+
+</body>
+</html>
