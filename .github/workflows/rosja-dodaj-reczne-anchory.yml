@@ -1,0 +1,110 @@
+name: ROSJA - reczne anchory bez heurystyk
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'rosja/SOL_dodaj-reczne-anchory.py'
+      - '.github/workflows/rosja-dodaj-reczne-anchory.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  anchory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Synchronizuj main przed zmianami
+        run: git pull --rebase origin main
+
+      - name: Zapamiętaj sumy zamrożonych źródeł
+        run: |
+          sha256sum \
+            rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html \
+            rosja/a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html \
+            rosja/d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html \
+            rosja/d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html \
+            rosja/d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html \
+            rosja/d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html \
+            rosja/d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html \
+            rosja/d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html \
+            rosja/d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html \
+            rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html \
+            rosja/monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html \
+            > /tmp/rosja-zamrozone.sha256
+
+      - name: Dodaj dokładnie ręcznie wskazane anchory
+        run: python rosja/SOL_dodaj-reczne-anchory.py
+
+      - name: Potwierdź brak zmian w zamrożonych źródłach
+        run: sha256sum -c /tmp/rosja-zamrozone.sha256
+
+      - name: Uruchom ponownie dotychczasowy audyt na nowych plikach
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rosja-zamrozone
+          mv \
+            rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html \
+            rosja/a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html \
+            rosja/d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html \
+            rosja/d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html \
+            rosja/d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html \
+            rosja/d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html \
+            rosja/d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html \
+            rosja/d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html \
+            rosja/d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html \
+            rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html \
+            rosja/monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html \
+            /tmp/rosja-zamrozone/
+          trap 'mv /tmp/rosja-zamrozone/*.html rosja/ 2>/dev/null || true' EXIT
+          python rosja/SOL_audyt-anchorow.py
+          mv /tmp/rosja-zamrozone/*.html rosja/
+          trap - EXIT
+
+      - name: Wymuś zerowy wynik braków
+        run: |
+          grep -Fx 'H1–H6 sprawdzone: 620' rosja/SOL_raport-audyt-anchorow-rosja.txt
+          grep -Fx 'Nagłówki z id: 620' rosja/SOL_raport-audyt-anchorow-rosja.txt
+          grep -Fx 'Nagłówki bez id: 0' rosja/SOL_raport-audyt-anchorow-rosja.txt
+          grep -Fx 'Powielone wartości id (grupy): 0' rosja/SOL_raport-audyt-anchorow-rosja.txt
+          grep -Fx 'Puste id: 0' rosja/SOL_raport-audyt-anchorow-rosja.txt
+          grep -Fx 'Niedziałające audytowalne linki #fragment: 0' rosja/SOL_raport-audyt-anchorow-rosja.txt
+
+      - name: Zapisz wynik
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            rosja/*-anchory.html \
+            rosja/SOL_reczne-anchory-rosja.tsv \
+            rosja/SOL_mapa-sekcji-i-anchorow-rosja.tsv \
+            rosja/SOL_raport-audyt-anchorow-rosja.txt \
+            rosja/kolumbryna/index.html \
+            rosja/audyt/index.html \
+            rosja/dark-legitimacy/index.html \
+            rosja/disinfolklore/index.html \
+            rosja/disinfolklore-swot/index.html \
+            rosja/rosyjskie-samobojstwa/index.html \
+            rosja/putin-cornered/index.html \
+            rosja/jalta-3/index.html \
+            rosja/jalta-3-apendyks/index.html \
+            rosja/ropa-gaz/index.html \
+            rosja/monopole/index.html
+          if git diff --cached --quiet; then
+            echo 'Brak zmian do zapisania.'
+            exit 0
+          fi
+          git commit -m 'ROSJA: dodaj ręczne anchory do zamrożonych dokumentów'
+          git push
+
+      - name: Pokaż raport
+        run: cat rosja/SOL_raport-audyt-anchorow-rosja.txt >> "$GITHUB_STEP_SUMMARY"
