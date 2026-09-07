@@ -10,7 +10,7 @@
   <p class="kicker">13 analiz</p>
   <h1>Tagi, osie, walencja, kierunek i czas</h1>
   <p>Jedna strona, trzynaście prostych przekrojów tych samych danych. Bez dorabiania trzynastu osobnych kokpitów do jednego samolotu.</p>
-  <p class="muted">Analizy czasowe używają okien po {{ data.chunk_size }} zdarzeń.</p>
+  <p class="muted">Analizy czasowe: okno {{ data.chunk_size }} zdarzeń, krok {{ data.step }} zdarzeń.</p>
 </section>
 
 <section class="panel"><h2>1. Tagowość</h2>{{ ranking(data.top_tags) }}</section>
