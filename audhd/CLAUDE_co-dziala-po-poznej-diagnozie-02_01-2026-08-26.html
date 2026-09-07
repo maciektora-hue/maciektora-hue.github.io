@@ -1,73 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Co działa po późnej diagnozie — 02.01</title>
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: #1a1612;
+  color: #ebe5d6;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 100%;
+  padding: 16px 14px 60px;
+  margin: 0;
+}
+h1 { font-size: 26px; margin: 0.4em 0 0.4em; word-wrap: break-word; }
+h2 { font-size: 21px; margin: 1.3em 0 0.4em; word-wrap: break-word; }
+p { margin: 0.6em 0; word-wrap: break-word; word-break: break-word; }
+ul { margin: 0.5em 0; padding-left: 1.4em; }
+li { margin: 0.3em 0; }
+@media (max-width: 768px) {
+  body { font-size: 17px; padding: 14px 12px 50px; }
+  h1 { font-size: 23px; }
+  h2 { font-size: 19px; }
+}
 </style>
 </head>
 <body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
-    }
-  }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
-  }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+
+<h1 id="co-dziala-po-poznej-diagnozie">Co działa po późnej diagnozie</h1>
+
+<p>Menu tego, co wymyślono dla dorosłych po świeżej diagnozie i co zazwyczaj działa. Do wybierania, nie do zaliczenia w całości.</p>
+
+<h2 id="mapa-terenu-piec-rzeczy-ktore-rozstrzygaja">Mapa terenu — pięć rzeczy, które rozstrzygają</h2>
+<p>Zanim menu — mapa. U ludzi, którzy przeszli późną diagnozę autyzmu, ADHD albo obu naraz, o przebiegu rozstrzyga pięć rzeczy. Po pierwsze: relacje i stan psychiczny wokół diagnozy ważą więcej niż sama diagnoza. Po drugie: lata bez rozpoznania nie są neutralne — odkładają się w zdrowiu psychicznym i ten dług też trzeba obsłużyć. Po trzecie, oś środkowa: tym, co realnie zmienia życie, jest zrozumienie — możliwość ponownego przeczytania własnej historii, nie papier. Po czwarte, uczciwie: etykieta ma ciężar — bywa stemplem, który trzeba nosić i tłumaczyć, i wolno się z nim obchodzić po swojemu. Po piąte: gotowość — ta sama prawda w złym momencie życia robi co innego niż w dobrym, więc tempo wchodzenia w temat jest twoje.</p>
+
+<h2 id="kurs-o-sobie">Kurs o sobie</h2>
+<p>Kilkanaście spotkań w małej grupie, tydzień po tygodniu jeden temat. Sprawdzone tematy takiego kursu:</p>
+<ul>
+  <li>opowiedzenie własnej historii od nowa — tym razem z kluczem w ręku;</li>
+  <li>co czuję wobec diagnozy i czy etykieta ogranicza, czy wyzwala;</li>
+  <li>komu mówić, jak i po co — ujawnianie w różnych sytuacjach;</li>
+  <li>komunikacja wprost i między wierszami: reguły jawne kontra niepisane, sygnały bez słów;</li>
+  <li>emocje — znajdowanie ich i miarkowanie; twarze; empatia; różnica między umiejętnościami społecznymi a prawdziwym połączeniem;</li>
+  <li>zmysły: stimming, nadwrażliwość i niedowrażliwość, przeciążenia, wrażliwość emocjonalna;</li>
+  <li>co stoi między chęcią a zrobieniem — start, strategie, czas;</li>
+  <li>uwaga i nierówne profile zdolności — czemu jedno idzie genialnie, a drugie wcale.</li>
+</ul>
+<p>Efekt, który ludzie zgłaszają: widzę, co się ze mną dzieje, i umiem znaleźć wyjście — zamiast szarpać się na ślepo. Bywa, że po czymś takim człowiek pierwszy raz od lat mniej maskuje. Działa na żywo i przez internet; przez internet mniej kosztuje energii, więc zostaje jej na treść.</p>
+
+<h2 id="prowadzacy-z-tego-samego-plemienia">Prowadzący z tego samego plemienia</h2>
+<p>Wszystko powyższe działa wyraźnie lepiej, gdy prowadzi osoba, która sama ma diagnozę. Dwa powody: rozumie bez tłumaczenia — i jest żywym dowodem, że z tą diagnozą da się być dorosłym, całym człowiekiem. To nie dodatek, to składnik czynny.</p>
+
+<h2 id="ludzie-w-tej-samej-lodzi">Ludzie w tej samej łodzi</h2>
+<p>Regularny kontakt z innymi późno zdiagnozowanymi — grupa, spotkania, choćby czytanie cudzych historii. Najczęściej powtarzany efekt całej tej literatury: przestaję czuć się sam w swoich doświadczeniach; nie muszę się tłumaczyć z własnego systemu operacyjnego; mniej maskuję, bo nie ma przed kim. Ludzie mówią wprost, że samo dzielenie się bywa ważniejsze niż część wykładowa kursów. U pięćdziesięciolatków dochodzi jeszcze jedno zdanie: nagle pierwsze pięćdziesiąt lat mojego życia nabrało sensu.</p>
+
+<h2 id="czlowiek-zamiast-listy-numerow">Człowiek zamiast listy numerów</h2>
+<p>Lista adresów i ulotki nie działają — dzwonienie po obcych instytucjach to dokładnie ta rzecz, którą diagnoza właśnie nazwała trudną. Działa odwrotność: jeden konkretny człowiek, który na początku towarzyszy — pomoże zadzwonić, pójdzie razem pierwszy raz, pomoże załatwić sprawę, a potem stopniowo się wycofuje. Tam, gdzie to zrobiono, ludzie zaczynali wychodzić z domu, załatwiać, pracować — i nazywali to ratunkiem, czasem dosłownie.</p>
+
+<h2 id="pakiet-na-start">Pakiet na start</h2>
+<p>Darmowy materiał do samodzielnego przejścia w swoim tempie: co znaczy ta diagnoza, historie innych, pierwsze kroki. Dobry na sam początek, zwłaszcza zanim znajdzie się grupę — z jasnym zastrzeżeniem samych użytkowników: to mapa na granicy nowego kraju, nie zamieszkanie w nim.</p>
+
+<h2 id="czego-sie-domagac-lista-24-glosow">Czego się domagać — lista 24 głosów</h2>
+<p>Późno zdiagnozowani dorośli uzgodnili między sobą, w czterech rundach, pełną listę tego, co wsparcie po diagnozie ma zawierać. Ze stu pięćdziesięciu trzech zgłoszonych punktów zgodę co najmniej ośmiu na dziesięciu osób dostały te dwadzieścia cztery, w kolejności ważności:</p>
+<ol>
+  <li>dostęp do wsparcia niezależnie od tego, gdzie mieszkam;</li>
+  <li>specjaliści z aktualną, porządną wiedzą o autyzmie;</li>
+  <li>specjaliści od zdrowia psychicznego, którzy znają autyzm;</li>
+  <li>pomoc w przetrawieniu tego, czym jest późna diagnoza — na równi z: kontakt prowadzony tak, jak ja wolę (dzwonić albo pisać, ale konsekwentnie);</li>
+  <li>indywidualny plan wsparcia skrojony pod moje potrzeby;</li>
+  <li>dostęp do pomocy wtedy, kiedy jej potrzebuję — na równi z: usługi projektowane wspólnie z ludźmi ze spektrum;</li>
+  <li>pomoc z autystycznym zmęczeniem (wyczerpaniem z życia w świecie ustawionym pod innych) — na równi z: plan zawiera moje własne, dopasowane sposoby radzenia sobie;</li>
+  <li>pomoc w dostępie do wsparcia, gdy blokuje mnie lęk przed ludźmi;</li>
+  <li>plan patrzy na całego człowieka, nie na jedną szufladę;</li>
+  <li>wsparcie sam na sam;</li>
+  <li>plan uwzględnia moje pozostałe rozpoznania i dolegliwości;</li>
+  <li>dofinansowanie sprzętu, który realnie pomaga — na przykład słuchawek wygłuszających — na równi z: wsparcie zaczyna się w momencie, który jest dobry dla mnie;</li>
+  <li>wizyty kontrolne, nie jednorazowe pożegnanie;</li>
+  <li>plan bierze pod uwagę przeszłe rany, jeśli są;</li>
+  <li>pomoc w odzyskaniu steru i wiary we własną sprawczość;</li>
+  <li>możliwość wsparcia od razu po diagnozie, jeśli chcę;</li>
+  <li>plan uwzględnia mój wiek — czterdziestolatek to nie dziecko z orzeczeniem;</li>
+  <li>usługi zrobione pod spektrum i włączające, nie przerabiane naprędce;</li>
+  <li>pomoc w zbudowaniu dobrego zdania o sobie-autystycznym;</li>
+  <li>pomoc w dostępie do zwykłej opieki zdrowotnej.</li>
+</ol>
+<p>Dwie rzeczy warte dopisania od strony gabinetów, których na liście nie ma, a które tam, gdzie działają, robią różnicę: powrót do człowieka po dwóch–czterech miesiącach od diagnozy zamiast jednego pożegnalnego spotkania — oraz wsparcie, które samo wychodzi z ofertą, bo proszenie o pomoc jest częścią trudności, nie testem motywacji.</p>
+
+<h2 id="czego-sie-spodziewac-po-sobie">Czego się spodziewać po sobie</h2>
+<p>Trzy rzeczy, o których warto wiedzieć zawczasu, bo wiedza o nich sama w sobie pomaga. Ulga i żałoba przychodzą razem — ulga, że wreszcie wiadomo, i żal po latach przemaskowanych; to nie sprzeczność, to komplet. Moment ma znaczenie — ta sama prawda w złym okresie życia robi co innego niż w dobrym, więc tempo wchodzenia w temat wolno dawkować samemu. I najtrudniejsze zwykle nie jest zrozumieć siebie, tylko wytłumaczyć siebie innym — na to przydają się gotowe słowa, cudze historie i ludzie, którzy przećwiczyli to wcześniej.</p>
+
+<hr style="border:0;border-top:1px solid #6b5d4e;">
+
+<p>Plik: co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html</p>
+<p>Wersja: 02.01 · Data: 2026-08-26 · Godzina: 23:29 (Europe/Warsaw)</p>
+<p>Stworzono z pomocą Claude (Anthropic), wariant: Claude Opus 5. Wyciąg z pięciu prac Appendixu 2 listy CHATGPT_dluga-lista-publikacji-4_03 (Crane 2021, Crowson 2024, Norris 2025, Edwards 2025, French i Cassidy 2026) oraz dziewiętnastu badań objętych przeglądem Norris. Wersja 02.00: dodana mapa terenu, tematy kursu listą i pełna lista 24 uzgodnionych punktów. Wersja 02.01: kolorystyka beż na ciemnym tle.</p>
+
 </body>
 </html>

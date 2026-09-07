@@ -1,73 +1,266 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autyzm i regulacja mówienia — teza i mechanizm</title>
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f5efe6;
+    color: #3b2a1a;
+    font-family: 'Anivers', 'Ubuntu', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 40px 20px 80px;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  .meta-header {
+    font-size: 12px;
+    color: #8a7a6a;
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  h1 {
+    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: #6a5a4a;
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
+  h2 {
+    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-family: 'Antykwa Półtawskiego', 'Georgia', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+
+  p { margin-bottom: 16px; }
+  ol, ul { margin: 12px 0 20px 24px; }
+  li { margin-bottom: 8px; }
+
+  .teza-box {
+    background: #ece5da;
+    padding: 24px 28px;
+    border-left: 4px solid #6a5a4a;
+    margin: 24px 0 32px 0;
+    font-size: 17px;
+  }
+
+  .teza-box p:last-child { margin-bottom: 0; }
+
+  .nb {
+    background: #f0e8db;
+    padding: 14px 18px;
+    border-left: 3px solid #a89a8a;
+    margin: 16px 0;
+    font-size: 16px;
+  }
+
+  .przyklad {
+    background: #ede4d4;
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin: 16px 0;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid #d4c4b0;
+    margin: 40px 0;
+  }
+
+  .zrodla { font-size: 15px; line-height: 1.6; }
+  .zrodla li { margin-bottom: 14px; }
+  .zrodla a { color: #4a3a2a; text-decoration: underline; word-break: break-all; }
+
+  .footer-meta {
+    font-size: 11px;
+    color: #8a7a6a;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #d4c4b0;
+    line-height: 1.8;
+  }
 </style>
 </head>
 <body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
-    }
-  }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
-  }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+<div class="container">
+
+<div class="meta-header">
+  dokument: autyzm-regulacja-mowienia-v01.00-2026-05-14.html<br>
+  wersja: 01.00<br>
+  data: 2026-05-14, 16:55 CEST<br>
+  stworzony z pomocą: Claude (Anthropic) · model: Claude Opus 4.7 (claude-opus-4-7)<br>
+  rodzaj: notatka konceptualna — teza o bimodalnej regulacji mówienia u osób autystycznych i wynikającej z niej podatności na manipulację
+</div>
+
+<h1 id="autyzm-i-regulacja-mowienia">Autyzm i regulacja mówienia</h1>
+<p class="subtitle">Bardzo za mało albo bardzo za dużo — i co z tego wynika</p>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="teza-w-postaci-kompaktowej">Teza w postaci kompaktowej</h2>
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="teza-box">
+<p>Osoby autystyczne zazwyczaj mówią albo bardzo za mało, albo bardzo za dużo w stosunku do tego, czego sytuacja społeczna od nich oczekuje. Środek — neurotypowa, intuicyjnie wyważana ilość — jest dla osoby autystycznej obszarem, w którym trzeba operować świadomie i z wysiłkiem, a nie automatycznie.</p>
+
+<p>W trybie „za dużo" osobę autystyczną łatwo „rozkręcić" — wystarczy okazać autentyczne zainteresowanie tematem, w którym dana osoba ma kompetencję. Wtedy potrafi powiedzieć wszystko, co wie, w tym rzeczy, których ze względu na relacje międzyludzkie, dyskrecję zawodową albo własny interes nie powinno się mówić wcale.</p>
+
+<p>Pracodawcy, szefowie i osoby z większą społeczną biegłością — często nieświadomie, czasem celowo — wykorzystują tę asymetrię. Najczęściej do wewnątrzbiurowych rozgrywek, do pozyskiwania informacji o innych pracownikach, do wybadania nastrojów w zespole, do uzyskania krytyki kogoś nieobecnego.</p>
+</div>
+
+<div class="przyklad">
+Typowa scena: szef wpada do gabinetu, siada na biurku, mówi „słuchaj, ja się znam na tych liczbach średnio, opowiedz mi jak to wszystko działa". Autystyczny pracownik, szczęśliwy że ktoś wreszcie pyta, zaczyna od architektury systemu. Po 40 minutach szef wie wszystko o procedurach, o tym, kto je obchodzi, kto pracuje wolno, kto źle, gdzie są dziury w kontroli, co o całości myśli sam pracownik. Pracownik wraca do biurka z poczuciem produktywnej rozmowy. Trzy tygodnie później dwie osoby tracą pracę, a on nie rozumie, skąd szef wiedział.
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="rozwiniecie">Rozwinięcie</h2>
+<!-- ═══════════════════════════════════════════ -->
+
+<h3 id="skad-sie-bierze-bimodalnosc-za-malo-lub-za-duzo">Skąd się bierze bimodalność „za mało lub za dużo"</h3>
+
+<p>U osób neurotypowych ilość mówienia jest regulowana automatycznie, podświadomie, w czasie rzeczywistym — przez ciągłe odczytywanie sygnałów zwrotnych od rozmówcy (kontakt wzrokowy, mimika, postawa ciała, mikroskinienia głową, długość pauz). Ta regulacja używa zasobów, ale nie wymaga świadomej uwagi. Działa w tle.</p>
+
+<p>U osób autystycznych ten kanał działa inaczej. Sygnały społeczne dochodzą wolniej, niekompletnie albo trafiają do świadomego, korowego procesu interpretacji, który już z definicji nie jest w czasie rzeczywistym. Konsekwencja jest dwoista, zależnie od strategii radzenia sobie z tym deficytem:</p>
+
+<ul>
+<li><strong>Tryb „za mało".</strong> Jeśli system społeczny jest dla danej osoby przeciążający albo źle skalibrowany, domyślnym wyjściem jest milczenie. Mówić mało, nie inicjować, czekać aż ktoś zapyta wprost. Bezpiecznie. Nie generuje zewnętrznego konfliktu, choć generuje wewnętrzną izolację.</li>
+<li><strong>Tryb „za dużo".</strong> Kiedy temat dotyka obszaru kompetencji, zainteresowania, monotropowej fascynacji — uruchamia się przeciwny biegun. Wewnętrzna kompresja informacji szuka ujścia, słuchacz wydaje się zainteresowany (jakkolwiek subtelnie sygnalizowałby co innego), monolog się rozwija. Brak automatycznego mechanizmu „on już chce iść". Brak automatycznego filtra „tego nie powinienem mu mówić w tym kontekście".</li>
+</ul>
+
+<p>Murray, Lesser i Lawson (2005) opisują to przez teorię monotropizmu: autystyczna uwaga działa wąsko i głęboko, a nie szeroko i płytko. Kiedy jest na temacie — jest na nim całkowicie, w tym zasoby normalnie używane do monitorowania kontekstu społecznego są zaalokowane do tematu, nie do kontekstu.</p>
+
+<h3 id="pragmatyka-jezyka-gdzie-lezy-specyficzny-problem">Pragmatyka języka — gdzie leży specyficzny problem</h3>
+
+<p>Loukusa i Moilanen (2009) w przeglądzie literatury pokazują, że deficyty pragmatyczne są obecne w autyzmie nawet wtedy, kiedy strukturalne aspekty języka (gramatyka, słownictwo) są zachowane lub ponadprzeciętne. Pragmatyka — czyli reguły społecznego użycia języka — to oddzielny system. Składa się na nią między innymi to, co Paul Grice (1975) ujął jako cztery maksymy konwersacyjne: ilości (mów tyle, ile potrzeba), jakości (mów prawdę), istotności (mów na temat), sposobu (mów jasno).</p>
+
+<p>Maksyma ilości jest tu najistotniejsza. U osoby autystycznej jest często naruszana w obie strony: w trybie „za mało" — mniej informacji niż słuchacz potrzebuje do zrozumienia kontekstu („nie powiedziałem dlaczego, bo to oczywiste"). W trybie „za dużo" — więcej informacji niż słuchacz potrzebuje albo chce („opowiem ci wszystko, co wiem na ten temat, bo to ciekawe").</p>
+
+<p>U osób neurotypowych maksyma ilości jest stosowana automatycznie. U osób autystycznych jej zachowanie wymaga świadomego, jawnego pytania samego siebie: „ile tej osoby naprawdę potrzeba". To pytanie kosztuje energię i często odpada pierwsze, kiedy zasobów brakuje.</p>
+
+<h3 id="dlaczego-latwo-rozkrecic-osobe-autystyczna">Dlaczego łatwo „rozkręcić" osobę autystyczną</h3>
+
+<p>Mechanizm jest prosty i wynika bezpośrednio z trybu „za dużo". Wystarczą trzy elementy:</p>
+
+<ol>
+<li><strong>Temat z obszaru kompetencji lub zainteresowania.</strong> Uruchamia tryb monotropowy. Uwaga osoby autystycznej skupia się na temacie, kontekst społeczny schodzi na drugi plan.</li>
+<li><strong>Sygnał autentycznego zainteresowania od rozmówcy.</strong> „Naprawdę chcę to zrozumieć". „Opowiedz mi". „Nigdy mi tego nikt nie wytłumaczył". Dla osoby autystycznej, która rzadko spotyka się z takim zainteresowaniem swoim tematem, jest to silnie nagradzające i obniża czujność co do intencji.</li>
+<li><strong>Brak jawnych granic czasowych albo tematycznych.</strong> Nie ma „mam piętnaście minut". Nie ma „interesuje mnie tylko procedura, nie ludzie". Brak granicy zewnętrznej + brak granicy wewnętrznej = monolog się rozwija aż do wyczerpania tematu.</li>
+</ol>
+
+<p>W tym trybie osoba autystyczna powie też rzeczy, których w stanie normalnej regulacji społecznej nie powiedziałaby — bo zwykle są blokowane nie przez ich treść, lecz przez metareguły relacyjne („o nieobecnych źle się nie mówi", „nie zdradza się szczegółów wewnętrznych zespołu komuś z zewnątrz", „nie krytykuje się przełożonego przed jego przełożonym"). Te metareguły są pragmatyczne, nie merytoryczne. Kiedy tryb monotropowy jest na pełnych obrotach, są one filtrem, który spadł pierwszy.</p>
+
+<h3 id="jak-to-wyglada-od-strony-wykorzystujacego">Jak to wygląda od strony wykorzystującego</h3>
+
+<p>Najczęściej nieświadomie. Przełożony, który chce wiedzieć, co naprawdę dzieje się w zespole, intuicyjnie wybiera do rozmowy osobę, która „wszystko wie i chętnie opowiada". To racjonalna strategia społeczna: kierować pytania tam, skąd najłatwiej dostać szczerą odpowiedź. Tylko że dla osoby autystycznej koszt tej szczerości jest niewspółmiernie wyższy niż dla osoby neurotypowej w analogicznej rozmowie.</p>
+
+<p>Świadome wykorzystanie też się zdarza. Hartley i Fisher (2018) w eksperymentalnym badaniu z Ultimatum Game i Dictator Game pokazali, że dzieci autystyczne trzy razy częściej akceptują niesprawiedliwe oferty i o 37% rzadziej odwzajemniają fair offers — czyli wykazują systemowo niższy próg tolerancji na bycie wykorzystywanym. Dorosłe osoby autystyczne to często wiedzą o sobie, ale wiedza jest abstrakcyjna; w realnej sytuacji, w realnym czasie, w obecności autentycznie zainteresowanego rozmówcy, ten próg nadal nie podnosi się sam.</p>
+
+<p>Dochodzi do tego efekt Hull i wsp. (2017) — wieloletnie społeczne maskowanie. Osoby autystyczne, szczególnie późno zdiagnozowane, mają za sobą dekady tłumienia własnego stylu komunikacji, żeby pasować. Kiedy ktoś wreszcie sygnalizuje „możesz mówić jak ci wygodnie, chcę zrozumieć" — następuje zwolnienie hamulca. Wszystko, co zostało stłumione, wychodzi naraz. To samo w sobie jest produktywne i potrzebne (zob. Milton 2012 i 2022 o problemie podwójnej empatii — niedopasowanie ASD–NT nie jest deficytem ASD, tylko obustronnym niedopasowaniem stylów). Problem powstaje wtedy, kiedy „możesz mówić jak ci wygodnie" jest narzędziem, nie zaproszeniem.</p>
+
+<h3 id="co-z-tym-zrobic">Co z tym zrobić</h3>
+
+<p>Trzy reguły z praktyki:</p>
+
+<ol>
+<li><strong>Zewnętrzny licznik czasu.</strong> Zegar na biurku, alarm w telefonie. Trzy minuty na odpowiedź. Pięć minut na monolog. Wtedy się przerywa, niezależnie czy temat jest skończony. Wewnętrzna regulacja zawodzi, zewnętrzna — fizyczna, mechaniczna — działa.</li>
+<li><strong>Lista tematów off-limits.</strong> Przed wejściem do sytuacji zawodowej, w której wiadomo, że będzie rozmowa — wypisać sobie, czego się nie mówi. Wewnętrznie, na kartce, w notatce. „O Markusie nic. O wczorajszym spięciu nic. O własnym nastroju w pracy nic." Lista odbiera pracę filtrowi pragmatycznemu, który w trybie monotropowym i tak by zawiódł.</li>
+<li><strong>Reguła 24 godzin dla informacji zwrotnych.</strong> Jeśli ktoś prosi o opinię o czymś albo o kimś — „przemyślę i odezwę się jutro". Każda opinia wygłoszona natychmiast jest opinią wygłoszoną pod wpływem trybu, w którym nie ma czasu na filtr pragmatyczny.</li>
+</ol>
+
+<div class="nb">
+<strong>Co nie jest częścią tej tezy.</strong> „Mówienie za dużo" u osób autystycznych nie jest objawem braku kontroli, niedojrzałości emocjonalnej ani potrzeby uwagi. Jest skutkiem strukturalnie innej regulacji pragmatycznej, w której kanał automatyczny działa inaczej niż u osób neurotypowych, a kanał świadomy musi nadrobić wszystko, czego automat nie zrobił. To w pełni odpowiada ramie podwójnej empatii Miltona (2012, 2022): autystyczny styl komunikacji nie jest gorszy ani lepszy od neurotypowego — jest po prostu inny i niedopasowany do większościowych norm społecznych. Wykorzystanie tego niedopasowania jest problemem etycznym tej drugiej strony, nie wadą osoby autystycznej.
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="zrodla">Źródła</h2>
+<!-- ═══════════════════════════════════════════ -->
+
+<ol class="zrodla">
+
+<li>
+<strong>Grice, H. P. (1975).</strong> Logic and conversation. In P. Cole &amp; J. L. Morgan (Eds.), <em>Syntax and Semantics, Vol. 3: Speech Acts</em> (pp. 41–58). New York: Academic Press.<br>
+DOI: <a href="https://doi.org/10.1163/9789004368811_003">10.1163/9789004368811_003</a><br>
+[klasyczna teoria maksym konwersacyjnych — ilości, jakości, istotności, sposobu]
+</li>
+
+<li>
+<strong>Loukusa, S., &amp; Moilanen, I. (2009).</strong> Pragmatic inference abilities in individuals with Asperger syndrome or high-functioning autism. A review. <em>Research in Autism Spectrum Disorders</em>, 3(4), 890–904.<br>
+DOI: <a href="https://doi.org/10.1016/j.rasd.2009.05.002">10.1016/j.rasd.2009.05.002</a><br>
+[deficyty pragmatyczne w autyzmie wysokofunkcjonującym przy zachowanej strukturze języka]
+</li>
+
+<li>
+<strong>Murray, D., Lesser, M., &amp; Lawson, W. (2005).</strong> Attention, monotropism and the diagnostic criteria for autism. <em>Autism</em>, 9(2), 139–156.<br>
+DOI: <a href="https://doi.org/10.1177/1362361305051398">10.1177/1362361305051398</a><br>
+PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/15857859/">15857859</a><br>
+[teoria monotropizmu — wąska i głęboka alokacja uwagi, w tym przekierowanie zasobów społecznych do tematu]
+</li>
+
+<li>
+<strong>Milton, D. E. M. (2012).</strong> On the ontological status of autism: the „double empathy problem". <em>Disability &amp; Society</em>, 27(6), 883–887.<br>
+DOI: <a href="https://doi.org/10.1080/09687599.2012.710008">10.1080/09687599.2012.710008</a><br>
+[rama interpretacyjna — niedopasowanie komunikacyjne ASD–NT jako obustronne, nie jednostronny deficyt ASD]
+</li>
+
+<li>
+<strong>Milton, D., Gurbuz, E., &amp; López, B. (2022).</strong> The „double empathy problem": Ten years on. <em>Autism</em>, 26(8), 1901–1903.<br>
+DOI: <a href="https://doi.org/10.1177/13623613221129123">10.1177/13623613221129123</a><br>
+[uaktualnienie problemu podwójnej empatii po dekadzie badań]
+</li>
+
+<li>
+<strong>Hull, L., Petrides, K. V., Allison, C., Smith, P., Baron-Cohen, S., Lai, M.-C., &amp; Mandy, W. (2017).</strong> „Putting on My Best Normal": Social Camouflaging in Adults with Autism Spectrum Conditions. <em>Journal of Autism and Developmental Disorders</em>, 47(8), 2519–2534.<br>
+DOI: <a href="https://doi.org/10.1007/s10803-017-3166-5">10.1007/s10803-017-3166-5</a><br>
+PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/28527095/">28527095</a><br>
+PMC: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5509825/">PMC5509825</a><br>
+[społeczne maskowanie u dorosłych — koszt długotrwałego tłumienia własnego stylu komunikacji]
+</li>
+
+<li>
+<strong>Hartley, C., &amp; Fisher, S. (2018).</strong> Do Children with Autism Spectrum Disorder Share Fairly and Reciprocally? <em>Journal of Autism and Developmental Disorders</em>, 48(8), 2714–2726.<br>
+DOI: <a href="https://doi.org/10.1007/s10803-018-3528-7">10.1007/s10803-018-3528-7</a><br>
+PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/29512018/">29512018</a><br>
+PMC: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6061008/">PMC6061008</a><br>
+[eksperymentalne dowody na wyższą tolerancję wobec niesprawiedliwych ofert i niższe odwzajemnianie — podatność na wykorzystanie]
+</li>
+
+</ol>
+
+<div class="footer-meta">
+  autyzm-regulacja-mowienia-v01.00-2026-05-14.html · wersja 01.00 · 2026-05-14, 16:55 CEST<br>
+  stworzony z pomocą Claude (Anthropic) · Claude Opus 4.7 (claude-opus-4-7)<br>
+  rodzaj: notatka konceptualna (teza + rozwinięcie + źródła)
+</div>
+
+</div>
 </body>
 </html>

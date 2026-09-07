@@ -1,73 +1,276 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilu w Polsce jest osób z AuDHD? Wstęp do oszacowania - v03.00</title>
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: #ffffff;
+  color: #000000;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 100%;
+  padding: 16px 14px 60px;
+  margin: 0;
+}
+h1, h2, h3 { font-family: Georgia, serif; font-weight: 700; color: #000000; }
+h1 { font-size: 28px; margin: 0.4em 0 0.2em; word-wrap: break-word; }
+h2 { font-size: 22px; margin: 1.4em 0 0.4em; word-wrap: break-word; }
+h3 { font-size: 18px; margin: 1em 0 0.3em; word-wrap: break-word; }
+p { margin: 0.6em 0; word-wrap: break-word; word-break: break-word; }
+ul, ol { margin: 0.5em 0; padding-left: 1.4em; }
+li { margin: 0.25em 0; word-wrap: break-word; word-break: break-word; }
+strong { font-weight: 700; }
+hr { border: none; border-top: 1px solid #000000; margin: 1.6em 0; }
+.meta { font-size: 14px; margin-bottom: 1.2em; }
+@media (max-width: 768px) {
+  body { font-size: 17px; padding: 14px 12px 50px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 17px; }
+}
 </style>
 </head>
 <body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
-    }
-  }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
-  }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+
+<h1 id="ilu-w-polsce-jest-osob-z-audhd">Ilu w Polsce jest osób z AuDHD?</h1>
+<p>Wstęp do oszacowania — ekstrapolacja, założenia, zakres scenariuszy.</p>
+<p class="meta">opracowanie naukowo-badawcze · wstęp · v03.00 · 2026-08-10, godz. 02:20 CEST</p>
+
+<h2 id="streszczenie">Streszczenie</h2>
+<p>Pytanie o liczbę dorosłych osób z AuDHD (współwystępowaniem spektrum autyzmu i ADHD) w Polsce nie ma bezpośredniej odpowiedzi w danych krajowych. Nie istnieje populacyjne badanie epidemiologiczne, które mierzyłoby AuDHD wprost; nie istnieje też wskaźnik częstości ASD u dorosłych Polaków oparty na ocenie reprezentatywnej próby.</p>
+<p>Niniejszy wstęp porządkuje to, co wiadomo, oddziela mocno udokumentowane wartości od ekstrapolacji, i przedstawia dwie drogi rachunku oraz zestawienie z danymi systemowymi. Po domknięciu wewnętrznym założeń i po zakotwiczeniu współczynnika współwystępowania na danych z meta-analiz obejmujących próby populacyjne, wynik centralny to <strong>około 175 000 dorosłych</strong>, z przedziałem przy centralnych założeniach o częstości <strong>130 000–230 000</strong> i pełnym zakresem scenariuszy <strong>85 000–420 000</strong>. Wszystkie wartości należy czytać jako rząd wielkości, nie jako pomiar.</p>
+<p>Z tej szacowanej populacji formalną podwójną diagnozę (ASD + ADHD) ma prawdopodobnie mniej niż 1,5%.</p>
+
+<h2 id="1-pytanie-badawcze-i-jego-ograniczenia">1. Pytanie badawcze i jego ograniczenia</h2>
+<p>AuDHD to nieformalna, opisowa nazwa współwystępowania spektrum autyzmu (ASD) i zespołu nadpobudliwości psychoruchowej z deficytem uwagi (ADHD). Nie jest osobną jednostką klasyfikacyjną ani w DSM-5-TR, ani w ICD-11. W polskiej dokumentacji medycznej osoba z tym profilem otrzymuje dwa odrębne rozpoznania: F84 (ASD) i F90 (ADHD), o ile lekarz w ogóle uzna oba.</p>
+<p>Pytanie „ilu w Polsce jest osób z AuDHD” napotyka cztery niezależne luki danych:</p>
+<ul>
+  <li><strong>Brak polskich danych populacyjnych dla ASD u dorosłych.</strong> Badanie EZOP II (2018–2021), największe krajowe badanie zdrowia psychicznego, mierzyło ASD wyłącznie u dzieci (narzędziem MINI Kid). U dorosłych żadne badanie reprezentatywne nigdy nie zostało przeprowadzone.</li>
+  <li><strong>Niespójne dane dla ADHD u dorosłych.</strong> System sprawozdawczy podaje liczbę leczonych, czyli takich, którzy weszli w system, dostali rozpoznanie i mają na nie świadczenia. Ta liczba pomija osoby z profilem klinicznym, ale bez wizyty u psychiatry.</li>
+  <li><strong>Zakaz współrozpoznania w DSM-IV (1994–2013).</strong> Przez prawie dwie dekady kryterium E ADHD wykluczało jednoczesną diagnozę PDD/ASD. Dzieckiem w tym okresie byli urodzeni mniej więcej w latach 1985–2008, czyli osoby dziś w wieku 18–41 lat. Ta grupa nie mogła dostać obu rozpoznań nawet teoretycznie.</li>
+  <li><strong>Masking.</strong> Profil AuDHD u dorosłych, zwłaszcza u kobiet, osób queer i osób z wysokim IQ, jest systemowo niewykrywany, bo objawy ADHD i ASD wzajemnie się znoszą obserwacyjnie. Stereotyp obu stanów to dziecko, najczęściej chłopiec.</li>
+</ul>
+<p>Skoro nie ma pomiaru — robi się rachunek. Skoro rachunek opiera się na założeniach — wypisuje się je.</p>
+
+<h3 id="1-1-trzy-rozne-bariery-nie-jedna">1.1. Trzy różne bariery, nie jedna</h3>
+<p>Zakaz współrozpoznania z DSM-IV bywa opisywany jako jedyna przeszkoda historyczna. W rzeczywistości dotyczące dorosłych Polaków bariery są trzy i są jakościowo różne:</p>
+<ul>
+  <li><strong>Urodzeni przed około 1985.</strong> Zespół Aspergera wszedł do ICD-10 w 1992 roku i do DSM-IV w 1994. Wcześniej rozpoznawano w praktyce wyłącznie autyzm w postaci klasycznej. Dla tej kohorty problem nie polega na niedodiagnozowaniu, tylko na braku kategorii, która mogłaby zostać zastosowana.</li>
+  <li><strong>Urodzeni około 1985–2008.</strong> Kategoria już istniała, ale kryterium E DSM-IV zabraniało postawienia drugiego rozpoznania obok pierwszego.</li>
+  <li><strong>Urodzeni po 2008.</strong> Oba rozpoznania są formalnie możliwe od DSM-5 (2013), ale polski system diagnostyczny nie nadążał za tą zmianą.</li>
+</ul>
+<p>Rozróżnienie ma znaczenie dla wnioskowania: dla najstarszej kohorty retrospekcja diagnostyczna nie ma się o co oprzeć, bo nie istnieje żaden dokument z dzieciństwa, w którym cokolwiek mogłoby zostać zapisane.</p>
+
+<h2 id="2-stan-wiedzy">2. Stan wiedzy</h2>
+
+<h3 id="2-1-czestosc-asd-u-doroslych">2.1. Częstość ASD u dorosłych</h3>
+<p>Globalna mediana częstości ASD oszacowana na podstawie badań populacyjnych po 2000 roku wynosi 62 na 10 000, czyli około 0,62% (Fombonne i wsp.). Nowsze szacunki idą wyżej: w USA mówi się o 1 na 36 dzieci (CDC 2023, około 2,8%), w Wielkiej Brytanii o 1,1% dorosłych (Brugha 2011), w syntezach europejskich o 1–1,5% populacji ogólnej. Różnice wynikają z kryteriów (DSM-IV kontra DSM-5), narzędzi przesiewowych, kohorty (dzieci kontra dorośli) i jakości systemu wykrywania.</p>
+<p>Polska:</p>
+<ul>
+  <li>Płatos i Pisula (2019) zastosowali medianę 62 na 10 000 do polskich danych populacyjnych GUS, uzyskując około 74 tys. młodych dorosłych w spektrum (18–39 lat).</li>
+  <li>Skonieczna-Żydecka i wsp. (2017) w regionach pomorskim i zachodniopomorskim podają częstość u dzieci na poziomie pośrednim względem reszty Europy.</li>
+  <li>NFZ (2012) raportował 13 261 osób do 18 roku życia ze świadczeniem na F84, czyli 3,4 na 10 000 — wartość ośmiokrotnie niższa niż mediany europejskie, co odzwierciedla nie częstość, tylko niedoszacowanie systemu.</li>
+</ul>
+<p><strong>Założenie A1.</strong> Rzeczywista częstość ASD u dorosłych Polaków mieści się w przedziale <strong>1,0–2,5%</strong>, z wartością centralną <strong>1,5%</strong>. Założenie konserwatywne dla dolnej granicy, liberalne dla górnej. Zakłada, że Polska nie różni się od krajów Europy Zachodniej w biologii, tylko w wykrywalności.</p>
+
+<h3 id="2-2-czestosc-adhd-u-doroslych">2.2. Częstość ADHD u dorosłych</h3>
+<p>Meta-analiza Song i wsp. (2021) na danych globalnych podaje dwa szacunki:</p>
+<ul>
+  <li>ADHD utrzymujące się z dzieciństwa: 2,58% dorosłej populacji.</li>
+  <li>ADHD objawowe, niezależnie od historii dziecięcej: 6,76%.</li>
+</ul>
+<p>Przegląd przeglądów Ayano i wsp. (2024) potwierdza ten przedział, lokując punktowy szacunek dla dorosłych w okolicach 3–5%. Faraone i wsp. (2024, Nature Reviews Disease Primers) podaje 4–5% jako wartość roboczą dla dorosłych z klinicznym ADHD.</p>
+<p>Polska (dane sprawozdawcze Centrum e-Zdrowia za 2024 rok, publikacja 23 maja 2025):</p>
+<ul>
+  <li>Liczba pacjentów ze świadczeniem z rozpoznaniem głównym F84 — nieraportowana osobno.</li>
+  <li>Liczba pacjentów ze świadczeniem z rozpoznaniem głównym F90: <strong>64 090</strong> w 2024 roku, wzrost o około 34% względem 2023 i o 100% względem 2010 (32 035). Stanowi to 2% wszystkich pacjentów leczonych z powodu zaburzeń psychicznych i zaburzeń zachowania.</li>
+  <li>Struktura wieku: grupa 0–12 lat to 58% ogółu, grupa 13–17 lat około 25%.</li>
+  <li><strong>Liczba dorosłych — niejednoznaczna.</strong> Z opublikowanych odsetków wychodzi około 11 000 (17,1% z 64 090). Z opublikowanych liczb bezwzględnych dla grup dziecięcych (38 676 oraz 16 487) wychodzi 8 927. Różnica nie została w źródłach wyjaśniona. W dalszej części przyjmuje się przedział <strong>9–11 tys.</strong></li>
+  <li>Dla porównania: w 2010 roku dorosłych z rozpoznaniem F90 było 1 443. Wzrost ośmiokrotny w czternastu latach.</li>
+  <li>Ministerstwo Zdrowia (2024) raportuje 6 943 dorosłych z rozpoznaniem F90; różnica wynika z innej definicji (pacjent leczony kontra aktywne rozpoznanie w roku sprawozdawczym).</li>
+</ul>
+<p>Środowisko psychiatryczne (Centrum Dobrej Terapii, PsychoMedic, rekomendacje PTP 2024) szacuje rzeczywistą liczbę dorosłych z ADHD w Polsce na około 1 milion.</p>
+<p><strong>Założenie A2.</strong> Rzeczywista częstość ADHD u dorosłych Polaków mieści się w przedziale <strong>2,5–6,0%</strong>, z wartością centralną <strong>4,0%</strong>. Niska granica odpowiada ADHD utrzymującemu się z dzieciństwa według Song 2021; wysoka — dolnemu końcowi ADHD objawowego. Pomija się profile podprogowe.</p>
+
+<h3 id="2-3-stopien-nakladania-asd-i-adhd">2.3. Stopień nakładania ASD i ADHD</h3>
+<p>To jest współczynnik, który w całym rachunku waży najwięcej, i to w nim v01.00 miał największy błąd. Wartości publikowane rozjeżdżają się nie losowo, tylko <strong>systematycznie według rodzaju próby</strong>.</p>
+<p>Odsetek osób z ASD mających też ADHD (dalej f1), według źródła:</p>
+<ul>
+  <li><strong>Próby populacyjne i rejestrowe:</strong> około <strong>28%</strong> (95% CI 25–32) — meta-analiza 96 badań (Lai, Mandy i wsp., Lancet Psychiatry). Autorzy odnotowują wprost, że wartości z prób klinicznych są wyższe niż z populacyjnych i rejestrowych.</li>
+  <li><strong>Populacyjna próba szkolna:</strong> <strong>32,8%</strong> — badanie EPINED (Canals i wsp. 2024, Autism Research), Hiszpania.</li>
+  <li><strong>Próby mieszane, wartość zbiorcza:</strong> <strong>38,5%</strong> punktowo (95% CI 34,0–43,2) i <strong>40,2%</strong> życiowo (95% CI 34,9–45,7) — Cortese i wsp. 2025, Expert Review of Neurotherapeutics.</li>
+  <li><strong>Próby kliniczne:</strong> <strong>50–70%</strong>, z rozrzutem między badaniami 10–90% — Rong i wsp. 2021.</li>
+</ul>
+<p>Wartość 45–60%, przyjęta w v01.00 i v02.00, pochodziła wyłącznie z ostatniej kategorii. To był błąd doboru: do rachunku populacyjnego wchodził współczynnik zmierzony na pacjentach poradni.</p>
+<p>Odsetek osób z ADHD mających też ASD (dalej f2) jest zmierzony gorzej: szacunki kliniczne 15–30%, badania podłużne dorosłych pokazują do 45% z istotnymi cechami autystycznymi, ale cechy to nie pełne kryteria diagnostyczne. W tej wersji f2 <strong>nie jest zakładane osobno</strong> — wynika z warunku domknięcia (sekcja 4.3a), bo dwa niezależnie zgadywane współczynniki dawałyby wynik wewnętrznie sprzeczny.</p>
+<p><strong>Założenie A3.</strong> f1 mieści się w przedziale <strong>28–55%</strong>, z wartością centralną <strong>38,5%</strong> (wartość zbiorcza Cortese 2025). Dolna granica odpowiada próbom populacyjnym, górna — klinicznym. f2 jest wielkością pochodną.</p>
+
+<h3 id="2-4-populacja-doroslych-w-polsce">2.4. Populacja dorosłych w Polsce</h3>
+<p>Według GUS na 31 marca 2026 ludność Polski wynosiła około 37,28 mln. Mediana wieku — 43 lata. Przyjmując strukturę wiekową z rewizji ONZ 2024, liczbę dorosłych (18 lat i więcej) można oszacować na około 30,5 mln.</p>
+<p><strong>Założenie A4.</strong> Populacja dorosłych = <strong>30,5 mln</strong>. To wartość roboczo zaokrąglona; rzeczywista prawdopodobnie 30,2–30,8 mln. W skali rachunku nieistotne (plus minus 2%).</p>
+
+<h2 id="3-material-i-metoda">3. Materiał i metoda</h2>
+<p>Rachunek prowadzi się dwiema drogami (A i B), a wynik zestawia się z danymi systemowymi (C). Droga C nie jest trzecią estymacją — nie liczy wielkości populacji, tylko mierzy, jaka jej część jest widoczna w systemie.</p>
+
+<h3 id="3-1-model-jest-warunkowy-nie-niezaleznosciowy">3.1. Model jest warunkowy, nie niezależnościowy</h3>
+<p>To jest rozróżnienie kluczowe dla interpretacji całego rachunku, więc wypisuje się je wprost.</p>
+<p>Model niezależnościowy zakładałby, że posiadanie ASD nie zmienia szansy na ADHD, i liczył iloczyn dwóch częstości populacyjnych. Dałby wynik: 1,5% razy 4,0% razy 30,5 mln, czyli około <strong>18 300 osób</strong>. To wartość około dziesięciokrotnie niższa od wyniku niniejszej pracy i jawnie sprzeczna z całą literaturą współrozpoznania.</p>
+<p>Rachunek stosowany tutaj jest <strong>warunkowy</strong>: mnoży częstość jednego stanu przez częstość drugiego <em>pod warunkiem</em> obecności pierwszego. Współczynniki f1 i f2 są właśnie takimi częstościami warunkowymi.</p>
+<p>Konsekwencja praktyczna: <strong>korelacja między ASD a ADHD jest już w rachunku zawarta</strong> — siedzi w wartości f1. Dodawanie osobnej korekty „na korelację” byłoby policzeniem tego samego dwa razy. Wersja 01.00 opisywała model błędnie jako niezależnościowy i zapowiadała taką korektę.</p>
+
+<h3 id="3-2-drogi-rachunku">3.2. Drogi rachunku</h3>
+<ul>
+  <li><strong>Droga A — od strony autyzmu.</strong> AuDHD = populacja dorosłych razy częstość ASD razy f1. Droga wiodąca, bo f1 jest zmierzone lepiej niż f2.</li>
+  <li><strong>Droga B — od strony ADHD.</strong> AuDHD = populacja dorosłych razy częstość ADHD razy f2. Droga kontrolna: sprawdza, jakiego f2 wymagałby wynik drogi A.</li>
+  <li><strong>Droga C — zestawienie z danymi systemowymi.</strong> Ile osób z szacowanej populacji ma faktycznie obie diagnozy w opiece zdrowotnej. Różnica = rozmiar luki diagnostycznej.</li>
+</ul>
+<p>Drogi A i B nie są niezależne: dzielą tę samą podstawę populacyjną i tę samą literaturę współrozpoznania. Zbieżność ich wyników nie jest więc dowodem — i dlatego została zastąpiona twardszym kryterium: warunkiem domknięcia.</p>
+
+<h2 id="4-wyniki">4. Wyniki</h2>
+
+<h3 id="4-1-droga-a-od-strony-autyzmu">4.1. Droga A — od strony autyzmu</h3>
+<p>Częstość ASD 1,5% z 30,5 mln dorosłych daje <strong>457 500</strong> dorosłych w spektrum. Wynik zależy od tego, które f1 się przyjmie:</p>
+<ul>
+  <li>f1 = 28% (próby populacyjne) → <strong>128 100</strong></li>
+  <li>f1 = 32,8% (próba szkolna EPINED) → <strong>150 100</strong></li>
+  <li>f1 = 38,5% (wartość zbiorcza, przyjęta jako centralna) → <strong>176 100</strong></li>
+  <li>f1 = 50% (próby kliniczne) → <strong>228 800</strong></li>
+</ul>
+
+<h3 id="4-2-droga-b-od-strony-adhd">4.2. Droga B — od strony ADHD</h3>
+<p>Częstość ADHD 4,0% z 30,5 mln dorosłych daje <strong>1 220 000</strong> dorosłych z ADHD. Każdy wynik drogi A implikuje określone f2:</p>
+<ul>
+  <li>128 100 → f2 = <strong>10,5%</strong></li>
+  <li>150 100 → f2 = <strong>12,3%</strong></li>
+  <li>176 100 → f2 = <strong>14,4%</strong></li>
+  <li>228 800 → f2 = <strong>18,8%</strong></li>
+</ul>
+<p>Wartość centralna 14,4% leży poniżej klinicznego przedziału 15–30% — co jest spójne z obserwacją, że próby kliniczne zawyżają współwystępowanie w obie strony.</p>
+
+<h3 id="4-3-zestawienie-drog">4.3. Zestawienie dróg</h3>
+<p>Wynik centralny: <strong>około 176 000</strong> przy f1 = 38,5% i f2 = 14,4%. Przedział wynikający z niepewności samego f1, przy centralnych założeniach o częstości: <strong>128 000–229 000</strong>.</p>
+<p>Wersja 02.00 podawała 219 600. Różnica bierze się wyłącznie z podmiany f1 z wartości klinicznej (48%) na zbiorczą (38,5%). Żadna inna liczba się nie zmieniła.</p>
+
+<h3 id="4-3a-domkniecie-wewnetrzne-zalozen">4.3a. Domknięcie wewnętrzne założeń</h3>
+<p>Ta sama liczba osób z AuDHD musi dać się policzyć z obu stron. Stąd warunek domknięcia:</p>
+<p><strong>częstość ASD razy f1 = częstość ADHD razy f2</strong></p>
+<p>W scenariuszu centralnym populacje ASD i ADHD stoją w stosunku 1 do 2,667. Warunek wymaga więc, żeby f1 było 2,667 razy większe od f2. Konsekwencja: <strong>f1 i f2 nie mogą być wybierane niezależnie</strong>. Wybranie jednego wyznacza drugie.</p>
+<p>Wartości centralne z v01.00 (45% i 20%) dają stosunek 2,25 — nie domykają się, i to jest źródło całego rozjazdu dróg A i B w tamtej wersji. Wartości z v02.00 (48% i 18%) domykały się poprawnie, ale były zakotwiczone na próbach klinicznych.</p>
+<p>W tej wersji kotwicą jest f1, bo jest zmierzone na próbach populacyjnych i ma podane przedziały ufności. f2 wychodzi z rachunku. Dla wartości centralnej: 457 500 razy 0,385 = 176 138, a 176 138 podzielone przez 1 220 000 daje f2 = 14,44%.</p>
+<p><strong>Wartość punktowa: około 176 000 dorosłych.</strong></p>
+<p>Pełny zakres scenariuszy, uwzględniający jednoczesną zmienność częstości ASD (1,0–2,5%) i f1 (28–55%):</p>
+<ul>
+  <li>minimum: 305 000 razy 0,28 = <strong>85 400</strong></li>
+  <li>maksimum: 762 500 razy 0,55 = <strong>419 400</strong></li>
+</ul>
+<p><strong>Wynik końcowy: około 175 000 dorosłych z AuDHD w Polsce w 2026 roku.</strong> Przedział przy centralnych założeniach o częstości: 130 000–230 000. Pełny zakres scenariuszy: 85 000–420 000. To 0,28–1,38% dorosłej populacji, czyli między co siedemdziesiątą trzecią a co trzysta pięćdziesiątą siódmą osobą dorosłą. Wartość centralna odpowiada co sto siedemdziesiątej trzeciej osobie.</p>
+<p>Sufit z góry: Cortese i wsp. 2025 przytaczają badanie samoopisowe w populacji nastolatków i młodych dorosłych, gdzie współwystępowanie ASD i ADHD wynosi 2,7%. Przeniesione na dorosłych Polaków dałoby ponad 820 tys. To dwukrotnie powyżej górnej granicy niniejszego rachunku, ale mierzy cechy zgłaszane przez badanych, nie rozpoznania spełniające kryteria. Wartość tę należy traktować jako górne ograniczenie, nie jako konkurencyjny szacunek.</p>
+
+<h3 id="4-4-droga-c-diagnozy-systemowe">4.4. Droga C — diagnozy systemowe</h3>
+<p>Ile z tych osób ma faktycznie obie diagnozy w dokumentacji?</p>
+<ul>
+  <li><strong>Dorośli ze świadczeniem z rozpoznaniem F90:</strong> 9–11 tys. (CeZ, dane za 2024)</li>
+  <li><strong>Dorośli z aktywnym rozpoznaniem F90 w roku:</strong> 6 943 (MZ 2024)</li>
+  <li><strong>Dorośli ze świadczeniem z rozpoznaniem F84:</strong> brak danych — nieraportowane osobno</li>
+  <li><strong>Dorośli z F84 i F90 jednocześnie:</strong> brak danych — nieraportowane</li>
+</ul>
+<p>Przyjmując liberalnie, że spośród 11 tys. dorosłych z ADHD około 20% ma też formalnie F84 (mało prawdopodobne; w USA na podobnej kohorcie ubezpieczeniowej 1,7%), to maksimum <strong>2200 osób</strong> w Polsce ma obie diagnozy formalnie. Realistycznie — kilkaset.</p>
+<p><strong>Lejek diagnostyczny:</strong> z szacowanych 176 000 dorosłych z profilem AuDHD formalną podwójną diagnozę ma rzędu 500–2200 osób. To 0,3–1,3%. Pozostałe 99% żyje bez nazwy na to, co przeżywa, albo z jedną z dwóch diagnoz, albo z rozpoznaniami zastępczymi (najczęściej depresja, GAD, zaburzenia osobowości).</p>
+
+<h2 id="5-porownania-zewnetrzne">5. Porównania zewnętrzne</h2>
+<p>Uwaga interpretacyjna: wartości poniżej pochodzą z dwóch różnych rodzajów źródeł i nie są wprost porównywalne. Szacunki częstości mówią, ile osób ma dany profil; dane rozliczeniowe mówią, ile osób system o tym wie. Rozdzielono je poniżej.</p>
+<p><strong>Szacowana częstość:</strong></p>
+<ul>
+  <li>USA: ASD u dorosłych około 2,2% (CDC 2020, samoraport), ADHD u dorosłych około 4,4%.</li>
+  <li>Wielka Brytania: ASD u dorosłych około 1,1% (Brugha 2011), ADHD u dorosłych około 3,4% (Faraone 2024).</li>
+  <li>Polska, szacunek tej pracy: ASD u dorosłych 1,5%, ADHD u dorosłych 4,0%. Brak danych pierwotnych.</li>
+</ul>
+<p><strong>Widoczność w systemie rozliczeniowym:</strong></p>
+<ul>
+  <li>Niemcy: ASD 0,38% w grupie 0–24 lata, wzrost z 0,22% w latach 2006–2012 (Bachmann, Gerste, Hoffmann 2018, Autism). ADHD u dzieci 4,33% (95% CI 4,31–4,34), z rozrzutem między powiatami od 1,6% do 9,7% (Akmatov i wsp. 2018).</li>
+  <li>Wielka Brytania: 0,51% wszystkich grup wiekowych w dokumentacji medycznej (badanie kohorty walijskiej, Underwood i wsp.).</li>
+  <li>Polska: ASD u dorosłych — brak raportowania. ADHD u dorosłych około 0,03–0,04% (9–11 tys. na 30,5 mln).</li>
+</ul>
+<p>Uwaga do v01.00: podawana tam wartość 0,8% dla ASD w Niemczech z przypisem do BfArM została usunięta. BfArM zajmuje się lekami i wyrobami medycznymi, nie epidemiologią ASD, a rzeczywista niemiecka wartość rozliczeniowa jest dwukrotnie niższa.</p>
+<p>Wniosek z porównania: <strong>każdy system rozliczeniowy pokazuje mniej niż wynosi szacowana częstość</strong>, także w krajach z lepszą opieką. W Niemczech odstęp to około trzykrotność, w Wielkiej Brytanii dwukrotność, w Polsce dla ADHD u dorosłych około stukrotność. Różnica nie jest skutkiem odmiennej biologii, tylko opóźnienia diagnostycznego całej kohorty urodzonej przed 2000 rokiem.</p>
+
+<h2 id="6-ograniczenia">6. Ograniczenia</h2>
+<ul>
+  <li><strong>Współczynnik współwystępowania zależy od rodzaju próby.</strong> To jest główne ograniczenie i zarazem główna poprawka względem v01.00 i v02.00. Do poradni trafiają osoby z cięższym obrazem i częściej z kilkoma problemami naraz, więc odsetek współwystępowania mierzony w klinice jest systematycznie wyższy niż w populacji ogólnej (efekt Berksona). Meta-analiza Lai i Mandy potwierdza tę różnicę wprost. Przyjęcie wartości zbiorczej 38,5% zamiast klinicznej 48% obniżyło wynik o około 20%. Możliwe, że nadal jest za wysoko: wartość czysto populacyjna 28% dałaby 128 tys.</li>
+  <li><strong>Większość danych o współwystępowaniu dotyczy dzieci.</strong> Wszystkie cztery wartości f1 pochodzą z badań prowadzonych głównie na populacjach dziecięcych i młodzieżowych. Przeniesienie ich na dorosłych jest założeniem nieweryfikowalnym w obecnych danych.</li>
+  <li><strong>Szerokość kryteriów.</strong> AuDHD jako pojęcie środowiskowo-kliniczne obejmuje także osoby z pełnymi kryteriami jednej diagnozy i podprogowymi cechami drugiej. Licząc szerzej, populacja jest większa; przytoczone wyżej badanie samoopisowe sugeruje nawet 2,7% populacji.</li>
+  <li><strong>Brak korekty na płeć i wiek.</strong> Częstość ADHD spada z wiekiem, a raczej spada wykrywalność i samoidentyfikacja. Częstość ASD u kobiet jest historycznie zaniżana. Rachunek przyjmuje jednorodną populację dorosłych.</li>
+  <li><strong>Specyfika polska.</strong> W rozliczeniach z NFZ obowiązuje nadal ICD-10 dla rozpoznań i ICD-9 dla procedur. ICD-11 jest obowiązującą klasyfikacją WHO od 1 stycznia 2022 roku, ale w Polsce nie weszła w życie; drugi etap prac wdrożeniowych ma potrwać do 30 listopada 2027 roku, a data pełnego przejścia nie została wyznaczona. Wersja 01.00 błędnie podawała, że ICD-11 zostało w Polsce formalnie wdrożone w 2022 roku.</li>
+  <li><strong>Kod F90 nie jest zaprojektowany dla dorosłych.</strong> W ICD-10 nosi nazwę „zaburzenia hiperkinetyczne” i opisany jest jako stan o początku w dzieciństwie. To dodatkowa bariera strukturalna, niezależna od świadomości lekarzy.</li>
+  <li><strong>Niespójność danych sprawozdawczych.</strong> Liczba dorosłych z F90 za 2024 rok wynosi 8 927 albo 10 959 zależnie od tego, czy liczy się ją z liczb bezwzględnych, czy z odsetków publikowanych dla tego samego zestawienia. Różnica 23% w źródle uznawanym za twarde.</li>
+  <li><strong>Niepewność nie została policzona.</strong> Warunek domknięcia wiąże f1 z f2 zamiast pozwalać im błądzić osobno, co redukuje składanie się niepewności, ale go nie usuwa. Rzetelna analiza wrażliwości wymaga symulacji — zadanie na kolejną wersję.</li>
+  <li><strong>Zakres scenariuszy to nie przedział ufności.</strong> Nie ma tu próby ani estymatora, więc podane widetki nie są przedziałem ufności w sensie statystycznym. Są zakresem wartości dopuszczalnych przy przyjętych założeniach.</li>
+</ul>
+
+<h2 id="7-wnioski-wstepne-i-kierunki-dalszego-opracowania">7. Wnioski wstępne i kierunki dalszego opracowania</h2>
+<ul>
+  <li>Liczba dorosłych z AuDHD w Polsce w 2026 roku to najprawdopodobniej <strong>około 175 000</strong>, z przedziałem 130 000–230 000 przy centralnych założeniach o częstości i pełnym zakresem scenariuszy 85 000–420 000.</li>
+  <li>Z tej populacji formalną podwójną diagnozę ma rzędu <strong>500–2200 osób</strong>, czyli około 1%. Reszta funkcjonuje bez nazwy lub z rozpoznaniami zastępczymi.</li>
+  <li>Wynik jest o około 20% niższy niż w v02.00 i o 25% niższy niż w v01.00. Cała różnica pochodzi z jednej podmiany: współczynnik współwystępowania przestał być brany z prób klinicznych.</li>
+  <li>Rachunek nie jest pomiarem. Jego sensowność opiera się na istnieniu rozwiązania wewnętrznie spójnego oraz na tym, że każdy kraj z twardymi danymi pokazuje ten sam wzór: system widzi ułamek tego, co szacują badania populacyjne.</li>
+  <li>Główne źródło niepewności to brak polskich danych pierwotnych dla ASD u dorosłych. EZOP III, gdyby kiedykolwiek powstał, powinien obejmować ten obszar.</li>
+</ul>
+<p>Kierunki dalszego opracowania:</p>
+<ul>
+  <li>Analiza wrażliwości — symulacja pokazująca faktyczny kształt niepewności i to, który wskaźnik najmocniej rozjeżdża wynik.</li>
+  <li>Struktura wiekowa — rozbicie z uwzględnieniem trzech różnych barier opisanych w sekcji 1.1.</li>
+  <li>Struktura płciowa — rozbicie z uwzględnieniem znanego niedoszacowania u kobiet.</li>
+  <li>Rozkład geograficzny — niemieckie dane pokazują sześciokrotny rozrzut między powiatami; polskie dane wojewódzkie są dostępne w zestawieniu CeZ i nie zostały jeszcze wykorzystane.</li>
+  <li>Rozpoznania zastępcze — co ta populacja faktycznie dostała w dokumentacji zamiast właściwego rozpoznania.</li>
+  <li>Trajektoria diagnostyczna — w jakim tempie ta populacja będzie wykrywana w ciągu kolejnych 10–20 lat.</li>
+  <li>Koszty społeczne nierozpoznanego AuDHD.</li>
+</ul>
+
+<h2 id="8-zrodla">8. Źródła</h2>
+<p>Częstość ADHD:</p>
+<ul>
+  <li>Song P, Zha M, Yang Q i wsp. (2021). The prevalence of adult attention-deficit hyperactivity disorder: A global systematic review and meta-analysis. J Glob Health 11:04009.</li>
+  <li>Ayano G, Tsegay L, Gizachew Y i wsp. (2024). Prevalence of ADHD in Adults: An Umbrella Review of International Studies. Eur Psychiatry.</li>
+  <li>Faraone SV, Bellgrove MA, Brikell I i wsp. (2024). Attention-deficit/hyperactivity disorder. Nat Rev Dis Primers 10:11.</li>
+</ul>
+<p>Współwystępowanie ASD i ADHD:</p>
+<ul>
+  <li>Lai MC, Kassee C, Besney R i wsp. Prevalence of co-occurring mental health diagnoses in the autism population: a systematic review and meta-analysis. Lancet Psychiatry. Wartość zbiorcza dla ADHD 28% (95% CI 25–32) ze 96 badań; wskazanie, że próby kliniczne dają wartości wyższe niż populacyjne i rejestrowe.</li>
+  <li>Cortese S i wsp. (2025). An update on the comorbidity of ADHD and ASD and its clinical management. Expert Rev Neurother 26:75–89. Wartości zbiorcze ADHD w populacjach ASD: 38,5% punktowo, 40,2% życiowo.</li>
+  <li>Canals J i wsp. (2024). Prevalence of comorbidity of autism and ADHD and associated characteristics in school population: EPINED study. Autism Res. Współwystępowanie w populacji szkolnej 0,51%; ADHD u dzieci autystycznych 32,76%.</li>
+  <li>Rong Y, Yang CJ, Jin Y, Wang Y. (2021). Prevalence of ADHD in individuals with ASD: a meta-analysis. Res Autism Spectr Disord 83:101759. Wartości kliniczne 50–70%.</li>
+  <li>Hours C, Recasens C, Baleyte JM. (2022). ASD and ADHD Comorbidity: What Are We Talking About? Front Psychiatry.</li>
+</ul>
+<p>Częstość ASD:</p>
+<ul>
+  <li>Brugha TS i wsp. (2011). Epidemiology of autism spectrum disorders in adults in the community in England. Arch Gen Psychiatry 68:459–465.</li>
+  <li>Bachmann CJ, Gerste B, Hoffmann F. (2018). Diagnoses of autism spectrum disorders in Germany: Time trends in administrative prevalence and diagnostic stability. Autism 22(3). Częstość rozliczeniowa 0,22% (2006) → 0,38% (2012) w grupie 0–24 lata.</li>
+  <li>Akmatov MK i wsp. (2018). Trends and regional variations in the administrative prevalence of ADHD among children and adolescents in Germany. Częstość rozliczeniowa 4,33%, rozrzut powiatowy 1,6–9,7%.</li>
+  <li>Underwood J, DelPozo-Banos M, Frizzati A i wsp. Częstość autyzmu w dokumentacji medycznej Walii 0,51%, lata 2001–2016.</li>
+  <li>Płatos M, Pisula E. (2019). Service use, unmet needs, and barriers to services among adolescents and young adults with ASD in Poland. BMC Health Serv Res 19:587.</li>
+  <li>Skonieczna-Żydecka K i wsp. (2017). The Prevalence of Autism Spectrum Disorders in West Pomeranian and Pomeranian Regions of Poland. J Appl Res Intellect Disabil.</li>
+  <li>Zakrocka M i wsp. (2025). Autism spectrum disorder: definition, global epidemiology, prevalence in Poland and worldwide, and heredity. JEHS 78:57619.</li>
+</ul>
+<p>Dane systemowe i populacyjne, Polska:</p>
+<ul>
+  <li>Centrum e-Zdrowia. Zaburzenia psychiczne oraz zespół nadpobudliwości psychoruchowej (ADHD) w latach 2010–2024. Zestawienie opublikowane 23 maja 2025, dane według stanu bazy Centrali NFZ na 12 maja 2025, z podziałem na grupy wiekowe i województwa. Załącznik: dane_zaburzenia_psychiczne_2010_2024.xlsx. Źródło pierwotne, zastępuje przypis prasowy z v01.00.</li>
+  <li>Murawiec S. (2024). Komentarz do rekomendacji: Diagnostyka i postępowanie terapeutyczne u dorosłych z ADHD. Psychiatria Spersonalizowana 3(3-4):74–76.</li>
+  <li>Kiejna A i wsp. (2015). Rozpowszechnienie wybranych zaburzeń psychicznych w populacji dorosłych Polaków — badanie EZOP Polska. Psychiatr Pol.</li>
+  <li>GUS (2026). Stan ludności Polski na 31 marca 2026. Komunikat z 24 kwietnia 2026.</li>
+  <li>Ministerstwo Zdrowia. Wsparcie wdrożenia ICD-11 w polskim systemie ochrony zdrowia, II etap prac, projekt FERS.04.15-IP.07-0004/24, realizacja 11.10.2024 – 30.11.2027. Podstawa dla stwierdzenia, że ICD-11 nie obowiązuje w Polsce w rozliczeniach.</li>
+</ul>
+
+<hr>
+
+<p class="meta">Ilu w Polsce jest osób z AuDHD? Wstęp do oszacowania<br>
+wersja 03.00 · 2026-08-10, godz. 02:20 CEST<br>
+Maciej Tora, opracowane z pomocą Claude Opus 5 (Anthropic), wariant prosty html według standardu infok vA.07.01<br>
+źródła danych: GUS I kwartał 2026, Centrum e-Zdrowia 2025 (dane NFZ za 2024), EZOP I i II, meta-analizy Lai/Mandy, Cortese 2025, Canals 2024, Rong 2021, Song 2021, Faraone 2024, Bachmann 2018, Akmatov 2018, Płatos 2019<br>
+charakter: wstęp do dłuższego opracowania; rachunek ekstrapolacyjny, nie pomiar</p>
+
 </body>
 </html>

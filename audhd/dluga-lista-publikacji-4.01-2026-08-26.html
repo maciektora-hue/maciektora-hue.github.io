@@ -2,72 +2,336 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Długa lista publikacji — 4.00</title>
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
-</style>
-</head>
-<body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
+  :root {
+    --bg: #f5efe6;
+    --ink: #3b2a1a;
+    --ink-soft: #5b4838;
+    --accent: #7a3b2b;
+    --rule: #c9b89a;
+    --link: #5a4030;
+  }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: "Anivers", "Ubuntu", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-size: 19px;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 0 1.2em 6em;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  @media (max-width: 700px) {
+    body {
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0.5em auto;
+      padding: 0 0.8em 3em;
     }
   }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
+  h1, h2 {
+    font-family: "Antykwa Półtawskiego", "EB Garamond", "Georgia", serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--accent);
   }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+  h1 { font-size: 1.85em; margin: 0.4em 0 0.3em; color: var(--ink); }
+  h2 { font-size: 1.35em; margin: 2.5em 0 0.6em; }
+  p { margin: 0.7em 0; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+  a { color: var(--link); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  
+  ul {
+    padding-left: 1.4em;
+  }
+  ol {
+    padding-left: 2em;
+  }
+  ol li {
+    padding-left: 0.3em;
+  }
+  ol li::marker {
+    color: var(--ink-soft);
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.95em;
+  }
+  li {
+    margin: 1.1em 0;
+    line-height: 1.55;
+  }
+  
+  .year {
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.88em;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-right: 0.4em;
+    white-space: nowrap;
+  }
+  .cytat {
+    margin-top: 0.5em;
+    padding: 0.6em 0.9em;
+    background: rgba(122, 59, 43, 0.05);
+    border-left: 2px solid var(--rule);
+    font-size: 0.92em;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .cytat .link {
+    display: block;
+    margin-top: 0.3em;
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  ol.lista-publikacji,
+  ol.lista-top10 {
+    list-style: decimal outside;
+    padding-left: 2.5em;
+    margin-top: 1.5em;
+  }
+  ol.lista-publikacji > li,
+  ol.lista-top10 > li {
+    margin-bottom: 1.4em;
+    padding-left: 0.5em;
+    line-height: 1.55;
+  }
+  ol.lista-publikacji > li::marker,
+  ol.lista-top10 > li::marker {
+    color: var(--ink-soft);
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.88em;
+    font-weight: 400;
+  }
+  p.podtytul {
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-top: -0.5em;
+    margin-bottom: 1.5em;
+  }
+  .zestawienie {
+    background: rgba(139, 87, 42, 0.04);
+    border: 1px solid rgba(139, 87, 42, 0.15);
+    border-radius: 6px;
+    padding: 1.2em 1.6em;
+    margin: 1.8em 0 2em 0;
+  }
+  .zestawienie h2 {
+    font-size: 1.15em;
+    margin-bottom: 0.7em;
+    color: var(--ink);
+  }
+  .zestawienie p {
+    margin: 0;
+    line-height: 1.6;
+  }
+  .zestawienie p strong {
+    font-family: "Ubuntu Mono", monospace;
+  }
+  .top10-section {
+    background: rgba(139, 87, 42, 0.03);
+    border: 1px solid rgba(139, 87, 42, 0.12);
+    border-radius: 6px;
+    padding: 1.2em 1.6em 0.6em 1.6em;
+    margin: 2em 0;
+  }
+  .top10-section h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: var(--ink);
+  }
+  .top10-section .top10-intro {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 0.95em;
+    margin: 0.4em 0 0 0;
+  }
+  hr.separator {
+    border: none;
+    border-top: 1px dashed rgba(139, 87, 42, 0.3);
+    margin: 2.5em 0;
+  }
+</style>
+</head>
+
+<body>
+<article>
+<h1 id="dluga-lista-publikacji">Długa lista publikacji</h1>
+<section>
+
+<div class="zestawienie">
+<h2 style="margin-top:0;" id="zestawienie">Zestawienie</h2>
+<p>Książki, rozdziały i prace dyplomowe: <strong>25</strong> (książki samodzielne: 19; rozdziały w książkach: 5; thesis: 1). Artykuły naukowe: <strong>77</strong> (z DOI: 72; bez DOI: 5). Łącznie: <strong>102</strong> pozycje (lista główna: 77; Appendix 1: 20; Appendix 2: 5).</p>
+</div>
+
+
+<div class="top10-section">
+<h2 id="15-najwazniejszych-dla-tego-korpusu">15 najważniejszych dla tego korpusu</h2>
+<p class="top10-intro">Wybór dla osoby AuDHD w środowisku korporacyjnym: maskowanie, otwarte pętle, podwójna empatia, monotropizm, samoleczenie, ryzyko oraz bezpośrednie nakładanie się ASD i ADHD w dorosłości. Pierwotny TOP 10 zachowano; pięć nowych pozycji dopisano z Appendix 1.</p>
+
+<ol class="lista-top10">
+<li>Milton, D., Gurbuz, E., &amp; López, B. (2022). The 'double empathy problem': Ten years on. <em>Autism</em>, 26(8), 1901–1903. DOI: <a class="link" href="https://doi.org/10.1177/13623613221129123">10.1177/13623613221129123</a></li>
+<li>Murray, D., Lesser, M., &amp; Lawson, W. (2005). Attention, monotropism and the diagnostic criteria for autism. <em>Autism</em>, 9(2), 139–156.<br>DOI: <a class="link" href="https://doi.org/10.1177/1362361305051398">10.1177/1362361305051398</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/15857859/">https://pubmed.ncbi.nlm.nih.gov/15857859/</a></li>
+<li>Hull, L., Petrides, K. V., Allison, C., Smith, P., Baron-Cohen, S., Lai, M.-C., &amp; Mandy, W. (2017). "Putting on My Best Normal": Social Camouflaging in Adults with Autism Spectrum Conditions. <em>Journal of Autism and Developmental Disorders</em>, 47(8), 2519–2534.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-017-3166-5">10.1007/s10803-017-3166-5</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/28527095/">https://pubmed.ncbi.nlm.nih.gov/28527095/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5509825/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5509825/</a></li>
+<li>Crane, L., Goddard, L., &amp; Pring, L. (2013). Autobiographical memory in adults with autism spectrum disorder: the role of depressed mood, rumination, working memory and theory of mind. <em>Autism</em>, 17(2), 205–219.<br>DOI: <a class="link" href="https://doi.org/10.1177/1362361311418690">10.1177/1362361311418690</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/21975036/">https://pubmed.ncbi.nlm.nih.gov/21975036/</a></li>
+<li>Egan, V., Linenberg, O., &amp; O'Nions, E. (2019). The measurement of adult pathological demand avoidance traits. <em>Journal of Autism and Developmental Disorders</em>, 49(2), 481–494.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-018-3722-7">10.1007/s10803-018-3722-7</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6373319/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6373319/</a></li>
+<li>Kinnaird, E., Stewart, C., &amp; Tchanturia, K. (2019). Investigating alexithymia in autism: A systematic review and meta-analysis. <em>European Psychiatry</em>, 55, 80–89.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.eurpsy.2018.09.004">10.1016/j.eurpsy.2018.09.004</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/30399531/">https://pubmed.ncbi.nlm.nih.gov/30399531/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6331035/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6331035/</a></li>
+<li>Cooper, K., Smith, L. G. E., &amp; Russell, A. (2017). Social identity, self-esteem, and mental health in autism. <em>European Journal of Social Psychology</em>, 47(7), 844–854. DOI: <a class="link" href="https://doi.org/10.1002/ejsp.2297">10.1002/ejsp.2297</a></li>
+<li>Cassidy, S., Bradley, L., Shaw, R., &amp; Baron-Cohen, S. (2018). Risk markers for suicidality in autistic adults. <em>Molecular Autism</em>, 9, 42. DOI: <a class="link" href="https://doi.org/10.1186/s13229-018-0226-4">10.1186/s13229-018-0226-4</a>. PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/30083306/">https://pubmed.ncbi.nlm.nih.gov/30083306/</a></li>
+<li>Mariani, J. J., Khantzian, E. J., &amp; Levin, F. R. (2014). The Self-Medication Hypothesis and Psychostimulant Treatment of Cocaine Dependence: An Update. <em>The American Journal on Addictions</em>, 23(2), 189–193.<br>DOI: <a class="link" href="https://doi.org/10.1111/j.1521-0391.2013.12086.x">10.1111/j.1521-0391.2013.12086.x</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/25187055/">https://pubmed.ncbi.nlm.nih.gov/25187055/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4227391/">https://pmc.ncbi.nlm.nih.gov/articles/PMC4227391/</a></li>
+<li>Chapman, R., &amp; Botha, M. (2023). Neurodivergence-informed therapy. <em>Developmental Medicine &amp; Child Neurology</em>, 65(3), 310–317.<br>DOI: <a class="link" href="https://doi.org/10.1111/dmcn.15384">10.1111/dmcn.15384</a></li>
+<li>Waldren, L. H., Leung, F. Y. N., Hargitai, L. D., Burgoyne, A. P., Liceralde, V. R. T., Livingston, L. A., &amp; Shah, P. (2024). Unpacking the overlap between Autism and ADHD in adults: A multi-method approach. <em>Cortex</em>, 173, 120–137.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.cortex.2023.12.016">10.1016/j.cortex.2023.12.016</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/38387375/">https://pubmed.ncbi.nlm.nih.gov/38387375/</a></li>
+<li>Shakeshaft, A., Heron, J., Blakey, R., Riglin, L., Davey Smith, G., Stergiakouli, E., Tilling, K., &amp; Thapar, A. (2023). Co-development of attention deficit hyperactivity disorder and autistic trait trajectories from childhood to early adulthood. <em>Journal of Child Psychology and Psychiatry</em>, 64(11), 1596–1607.<br>DOI: <a class="link" href="https://doi.org/10.1111/jcpp.13851">10.1111/jcpp.13851</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7615536/">https://pmc.ncbi.nlm.nih.gov/articles/PMC7615536/</a></li>
+<li>Yerys, B. E., McQuaid, G. A., Lee, N. R., &amp; Wallace, G. L. (2022). Co-occurring ADHD symptoms in autistic adults are associated with less independence in daily living activities and lower subjective quality of life. <em>Autism</em>, 26(8), 2188–2195.<br>DOI: <a class="link" href="https://doi.org/10.1177/13623613221112198">10.1177/13623613221112198</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/35916251/">https://pubmed.ncbi.nlm.nih.gov/35916251/</a></li>
+<li>Hayashi, W., Hanawa, Y., Saga, N., Nakamura, D., &amp; Iwanami, A. (2022). ASD symptoms in adults with ADHD: a comparative study using ADOS-2. <em>European Archives of Psychiatry and Clinical Neuroscience</em>, 272(8), 1481–1494.<br>DOI: <a class="link" href="https://doi.org/10.1007/s00406-021-01362-9">10.1007/s00406-021-01362-9</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/34993599/">https://pubmed.ncbi.nlm.nih.gov/34993599/</a></li>
+<li>Wurth, P., Fuermaier, A. B. M., Strand, A. H., &amp; Thorell, L. B. (2025). Diagnosis acceptance, masking, and perceived benefits and challenges in adults with ADHD and ASD: associations with quality of life. <em>Frontiers in Psychiatry</em>, 16, 1668780.<br>DOI: <a class="link" href="https://doi.org/10.3389/fpsyt.2025.1668780">10.3389/fpsyt.2025.1668780</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/41169493/">https://pubmed.ncbi.nlm.nih.gov/41169493/</a></li>
+</ol>
+</div>
+
+<hr class="separator">
+
+<p><strong>Lista główna: 77 pozycji.</strong> Sortowanie chronologiczne według roku, potem pierwszego autora. Appendix 1 zawiera 20 pozycji uzupełniających ASD ↔ ADHD / AuDHD; Appendix 2 — 5 prac o okresie po późnej diagnozie i wsparciu postdiagnostycznym. Łącznie dokument obejmuje 102 publikacje.</p>
+
+<ol class="lista-publikacji">
+<li>Boole, G. (1854). <em>An Investigation of the Laws of Thought, on Which are Founded the Mathematical Theories of Logic and Probabilities</em>. London: Walton &amp; Maberly; Cambridge: Macmillan &amp; Co.</li>
+<li>Darwin, C. (1859). <em>On the Origin of Species by Means of Natural Selection, or the Preservation of Favoured Races in the Struggle for Life</em>. London: John Murray.</li>
+<li>Ebbinghaus, H. (1885). <em>Über das Gedächtnis: Untersuchungen zur experimentellen Psychologie</em>. Leipzig: Duncker &amp; Humblot.</li>
+<li>Breuer, J., &amp; Freud, S. (1895). <em>Studien über Hysterie</em>. Leipzig &amp; Wien: Franz Deuticke.</li>
+<li>Bleuler, E. (1911). <em>Dementia Praecox oder Gruppe der Schizophrenien</em>. Leipzig &amp; Wien: Franz Deuticke.</li>
+<li>Bradley, C. (1937). The behavior of children receiving benzedrine. <em>American Journal of Psychiatry</em>, 94(3), 577–585.<br>DOI: <a class="link" href="https://doi.org/10.1176/ajp.94.3.577">10.1176/ajp.94.3.577</a></li>
+<li>Deutsch, H. (1942). Some forms of emotional disturbance and their relationship to schizophrenia. <em>Psychoanalytic Quarterly</em>, 11(3), 301–321.<br>DOI: <a class="link" href="https://doi.org/10.1080/21674086.1942.11925501">10.1080/21674086.1942.11925501</a></li>
+<li>Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information. <em>Psychological Review</em>, 63(2), 81–97.<br>DOI: <a class="link" href="https://doi.org/10.1037/h0043158">10.1037/h0043158</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/13310704/">https://pubmed.ncbi.nlm.nih.gov/13310704/</a></li>
+<li>Chomsky, N. (1957). <em>Syntactic Structures</em>. The Hague: Mouton &amp; Co. (Janua Linguarum, series minor, no. 4).</li>
+<li>Beck, A. T. (1963). Thinking and depression: I. Idiosyncratic content and cognitive distortions. <em>Archives of General Psychiatry</em>, 9(4), 324–333.<br>DOI: <a class="link" href="https://doi.org/10.1001/archpsyc.1963.01720160014002">10.1001/archpsyc.1963.01720160014002</a></li>
+<li>Millon, T. (1969). <em>Modern Psychopathology: A Biosocial Approach to Maladaptive Learning and Functioning</em>. Philadelphia: W. B. Saunders.</li>
+<li>Tulving, E. (1972). Episodic and semantic memory. In E. Tulving &amp; W. Donaldson (Eds.), <em>Organization of Memory</em> (pp. 381–403). New York: Academic Press.</li>
+<li>Rosch, E. (1973). Natural categories. <em>Cognitive Psychology</em>, 4(3), 328–350.<br>DOI: <a class="link" href="https://doi.org/10.1016/0010-0285(73)90017-0">10.1016/0010-0285(73)90017-0</a></li>
+<li>Sifneos, P. E. (1973). The prevalence of "alexithymic" characteristics in psychosomatic patients. <em>Psychotherapy and Psychosomatics</em>, 22(2), 255–262.<br>DOI: <a class="link" href="https://doi.org/10.1159/000286529">10.1159/000286529</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/4770536/">https://pubmed.ncbi.nlm.nih.gov/4770536/</a></li>
+<li>Tulving, E., &amp; Thomson, D. M. (1973). Encoding specificity and retrieval processes in episodic memory. <em>Psychological Review</em>, 80(5), 352–373.<br>DOI: <a class="link" href="https://doi.org/10.1037/h0020071">10.1037/h0020071</a></li>
+<li>Grice, H. P. (1975). Logic and conversation. In P. Cole &amp; J. L. Morgan (Eds.), <em>Syntax and Semantics, Vol. 3: Speech Acts</em> (pp. 41–58). New York: Academic Press.<br><a class="link" href="https://doi.org/10.1163/9789004368811_003">https://doi.org/10.1163/9789004368811_003</a></li>
+<li>Ross, L. (1977). The intuitive psychologist and his shortcomings: Distortions in the attribution process. In L. Berkowitz (Ed.), <em>Advances in Experimental Social Psychology</em> (Vol. 10, pp. 173–220). New York: Academic Press.<br>DOI: <a class="link" href="https://doi.org/10.1016/S0065-2601(08)60357-3">10.1016/S0065-2601(08)60357-3</a></li>
+<li>American Psychiatric Association. (1980). <em>Diagnostic and Statistical Manual of Mental Disorders</em> (3rd ed., DSM-III). Washington, DC: American Psychiatric Association.</li>
+<li>Gardner, H. (1983). <em>Frames of Mind: The Theory of Multiple Intelligences</em>. New York: Basic Books.</li>
+<li>Baron-Cohen, S., Leslie, A. M., &amp; Frith, U. (1985). Does the autistic child have a "theory of mind"? <em>Cognition</em>, 21(1), 37–46.<br>DOI: <a class="link" href="https://doi.org/10.1016/0010-0277(85)90022-8">10.1016/0010-0277(85)90022-8</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/2934210/">https://pubmed.ncbi.nlm.nih.gov/2934210/</a></li>
+<li>Khantzian, E. J. (1985). The self-medication hypothesis of addictive disorders: focus on heroin and cocaine dependence. <em>American Journal of Psychiatry</em>, 142(11), 1259–1264.<br>DOI: <a class="link" href="https://doi.org/10.1176/ajp.142.11.1259">10.1176/ajp.142.11.1259</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/3904487/">https://pubmed.ncbi.nlm.nih.gov/3904487/</a></li>
+<li>Frith, U. (1989). <em>Autism: Explaining the Enigma</em>. Oxford: Basil Blackwell.</li>
+<li>Murray, D. K. C. (1992). Attention tunnelling and autism. In <em>Living with Autism: The Individual, the Family, and the Professional</em>. Durham Conference Proceedings, University of Sunderland.</li>
+<li>World Health Organization. (1992). <em>The ICD-10 Classification of Mental and Behavioural Disorders: Clinical Descriptions and Diagnostic Guidelines</em>. Geneva: World Health Organization.</li>
+<li>Linehan, M. M. (1993). <em>Cognitive-Behavioral Treatment of Borderline Personality Disorder</em>. New York: Guilford Press.</li>
+<li>Baron-Cohen, S. (1995). <em>Mindblindness: An Essay on Autism and Theory of Mind</em>. Cambridge, MA: MIT Press.</li>
+<li>Barkley, R. A. (1997). <em>ADHD and the Nature of Self-Control</em>. New York: Guilford Press.</li>
+<li>Barkley, R. A. (1997). Behavioral inhibition, sustained attention, and executive functions: Constructing a unifying theory of ADHD. <em>Psychological Bulletin</em>, 121(1), 65–94.<br>DOI: <a class="link" href="https://doi.org/10.1037/0033-2909.121.1.65">10.1037/0033-2909.121.1.65</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/9000892/">https://pubmed.ncbi.nlm.nih.gov/9000892/</a></li>
+<li>Khantzian, E. J. (1997). The self-medication hypothesis of substance use disorders: a reconsideration and recent applications. <em>Harvard Review of Psychiatry</em>, 4(5), 231–244.<br>DOI: <a class="link" href="https://doi.org/10.3109/10673229709030550">10.3109/10673229709030550</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/9385000/">https://pubmed.ncbi.nlm.nih.gov/9385000/</a></li>
+<li>Singer, J. (1998). <em>Odd People In: The Birth of Community Amongst People on the Autism Spectrum. A Personal Exploration of a New Social Movement Based on Neurological Diversity</em>. Honours thesis, University of Technology Sydney.</li>
+<li>Singer, J. (1999). 'Why can't you be normal for once in your life?' From a 'problem with no name' to the emergence of a new category of difference. In M. Corker &amp; S. French (Eds.), <em>Disability Discourse</em> (pp. 59–67). Buckingham: Open University Press.</li>
+<li>Castaneda, R., Levy, R., Hardy, M., &amp; Trujillo, M. (2000). Long-acting stimulants for the treatment of attention-deficit disorder in cocaine-dependent adults. <em>Psychiatric Services</em>, 51(2), 169–171.<br>DOI: <a class="link" href="https://doi.org/10.1176/appi.ps.51.2.169">10.1176/appi.ps.51.2.169</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/10654994/">https://pubmed.ncbi.nlm.nih.gov/10654994/</a></li>
+<li>Jolliffe, T., &amp; Baron-Cohen, S. (2001). A test of central coherence theory: Can adults with high-functioning autism or Asperger syndrome integrate fragments of an object? <em>Cognitive Neuropsychiatry</em>, 6(3), 193–216.<br>DOI: <a class="link" href="https://doi.org/10.1080/13546800042000124">10.1080/13546800042000124</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/16571517/">https://pubmed.ncbi.nlm.nih.gov/16571517/</a></li>
+<li>Ding, Y. C., Chi, H. C., Grady, D. L., Morishima, A., Kidd, J. R., Kidd, K. K., Flodman, P., Spence, M. A., Schuck, S., Swanson, J. M., Zhang, Y. P., &amp; Moyzis, R. K. (2002). Evidence of positive selection acting at the human dopamine receptor D4 gene locus. <em>Proceedings of the National Academy of Sciences</em>, 99(1), 309–314.<br>DOI: <a class="link" href="https://doi.org/10.1073/pnas.012464099">10.1073/pnas.012464099</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/11756666/">https://pubmed.ncbi.nlm.nih.gov/11756666/</a></li>
+<li>Newson, E., Le Maréchal, K., &amp; David, C. (2003). Pathological demand avoidance syndrome: A necessary distinction within the pervasive developmental disorders. <em>Archives of Disease in Childhood</em>, 88(7), 595–600.<br>DOI: <a class="link" href="https://doi.org/10.1136/adc.88.7.595">10.1136/adc.88.7.595</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/12818906/">https://pubmed.ncbi.nlm.nih.gov/12818906/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1763174/">https://pmc.ncbi.nlm.nih.gov/articles/PMC1763174/</a></li>
+<li>Young, J. E., Klosko, J. S., &amp; Weishaar, M. E. (2003). <em>Schema Therapy: A Practitioner's Guide</em>. New York: Guilford Press.</li>
+<li>Murray, D., Lesser, M., &amp; Lawson, W. (2005). Attention, monotropism and the diagnostic criteria for autism. <em>Autism</em>, 9(2), 139–156.<br>DOI: <a class="link" href="https://doi.org/10.1177/1362361305051398">10.1177/1362361305051398</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/15857859/">https://pubmed.ncbi.nlm.nih.gov/15857859/</a></li>
+<li>Happé, F., &amp; Frith, U. (2006). The weak coherence account: Detail-focused cognitive style in autism spectrum disorders. <em>Journal of Autism and Developmental Disorders</em>, 36(1), 5–25.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-005-0039-0">10.1007/s10803-005-0039-0</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/16450045/">https://pubmed.ncbi.nlm.nih.gov/16450045/</a></li>
+<li>Crane, L., &amp; Goddard, L. (2008). Episodic and semantic autobiographical memory in adults with autism spectrum disorders. <em>Journal of Autism and Developmental Disorders</em>, 38(3), 498–506.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-007-0420-2">10.1007/s10803-007-0420-2</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/17668308/">https://pubmed.ncbi.nlm.nih.gov/17668308/</a></li>
+<li>Crespi, B., &amp; Badcock, C. (2008). Psychosis and autism as diametrical disorders of the social brain. <em>Behavioral and Brain Sciences</em>, 31(3), 241–261. DOI: <a class="link" href="https://doi.org/10.1017/S0140525X08004214">10.1017/S0140525X08004214</a></li>
+<li>Loukusa, S., &amp; Moilanen, I. (2009). Pragmatic inference abilities in individuals with Asperger syndrome or high-functioning autism. A review. <em>Research in Autism Spectrum Disorders</em>, 3(4), 890–904.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.rasd.2009.05.002">10.1016/j.rasd.2009.05.002</a></li>
+<li>Spikins, P. (2009). Autism, the integrations of 'difference' and the origins of modern human behaviour. <em>Cambridge Archaeological Journal</em>, 19(2), 179–201.<br>DOI: <a class="link" href="https://doi.org/10.1017/S0959774309000262">10.1017/S0959774309000262</a></li>
+<li>Heckers, S. (2011). Bleuler and the neurobiology of schizophrenia. <em>Schizophrenia Bulletin</em>, 37(6), 1131–1135.<br><a class="link" href="https://pubmed.ncbi.nlm.nih.gov/21505113/">https://pubmed.ncbi.nlm.nih.gov/21505113/</a></li>
+<li>Reser, J. E. (2011). Conceptualizing the autism spectrum in terms of natural selection and behavioral ecology: the solitary forager hypothesis. <em>Evolutionary Psychology</em>, 9(2), 207–238.<br>DOI: <a class="link" href="https://doi.org/10.1177/147470491100900209">10.1177/147470491100900209</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/22947969/">https://pubmed.ncbi.nlm.nih.gov/22947969/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10480880/">https://pmc.ncbi.nlm.nih.gov/articles/PMC10480880/</a></li>
+<li>Milton, D. E. M. (2012). On the ontological status of autism: the 'double empathy problem'. <em>Disability &amp; Society</em>, 27(6), 883–887.<br>DOI: <a class="link" href="https://doi.org/10.1080/09687599.2012.710008">10.1080/09687599.2012.710008</a></li>
+<li>Bird, G., &amp; Cook, R. (2013). Mixed emotions: the contribution of alexithymia to the emotional symptoms of autism. <em>Translational Psychiatry</em>, 3, e285.<br>DOI: <a class="link" href="https://doi.org/10.1038/tp.2013.61">10.1038/tp.2013.61</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/23880881/">https://pubmed.ncbi.nlm.nih.gov/23880881/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3731793/">https://pmc.ncbi.nlm.nih.gov/articles/PMC3731793/</a></li>
+<li>Crane, L., Goddard, L., &amp; Pring, L. (2013). Autobiographical memory in adults with autism spectrum disorder: the role of depressed mood, rumination, working memory and theory of mind. <em>Autism</em>, 17(2), 205–219.<br>DOI: <a class="link" href="https://doi.org/10.1177/1362361311418690">10.1177/1362361311418690</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/21975036/">https://pubmed.ncbi.nlm.nih.gov/21975036/</a></li>
+<li>Dinsdale, N. L., Hurd, P. L., Wakabayashi, A., Elliot, M., &amp; Crespi, B. J. (2013). How are autism and schizotypy related? Evidence from a non-clinical population. <em>PLOS ONE</em>, 8(5), e63316.<br>DOI: <a class="link" href="https://doi.org/10.1371/journal.pone.0063316">10.1371/journal.pone.0063316</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3655150/">https://pmc.ncbi.nlm.nih.gov/articles/PMC3655150/</a></li>
+<li>Sirois, F., &amp; Pychyl, T. (2013). Procrastination and the priority of short-term mood regulation: Consequences for future self. <em>Social and Personality Psychology Compass</em>, 7(2), 115–127.<br>DOI: <a class="link" href="https://doi.org/10.1111/spc3.12011">10.1111/spc3.12011</a></li>
+<li>Mariani, J. J., Khantzian, E. J., &amp; Levin, F. R. (2014). The Self-Medication Hypothesis and Psychostimulant Treatment of Cocaine Dependence: An Update. <em>The American Journal on Addictions</em>, 23(2), 189–193.<br>DOI: <a class="link" href="https://doi.org/10.1111/j.1521-0391.2013.12086.x">10.1111/j.1521-0391.2013.12086.x</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/25187055/">https://pubmed.ncbi.nlm.nih.gov/25187055/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4227391/">https://pmc.ncbi.nlm.nih.gov/articles/PMC4227391/</a></li>
+<li>Peñas-Lledó, E. M., &amp; Llerena, A. (2014). CYP2D6 variation, behaviour and psychopathology: implications for pharmacogenomics-guided clinical trials. <em>British Journal of Clinical Pharmacology</em>, 77(4), 673–683.<br>DOI: <a class="link" href="https://doi.org/10.1111/bcp.12227">10.1111/bcp.12227</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/24033670/">https://pubmed.ncbi.nlm.nih.gov/24033670/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3971983/">https://pmc.ncbi.nlm.nih.gov/articles/PMC3971983/</a></li>
+<li>Zeman, A., Dewar, M., &amp; Della Sala, S. (2015). Lives without imagery — congenital aphantasia. <em>Cortex</em>, 73, 378–380.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.cortex.2015.05.019">10.1016/j.cortex.2015.05.019</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/26115582/">https://pubmed.ncbi.nlm.nih.gov/26115582/</a></li>
+<li>Bargiela, S., Steward, R., &amp; Mandy, W. (2016). The Experiences of Late-diagnosed Women with Autism Spectrum Conditions: An Investigation of the Female Autism Phenotype. <em>Journal of Autism and Developmental Disorders</em>, 46(10), 3281–3294.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-016-2872-8">10.1007/s10803-016-2872-8</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/27457364/">https://pubmed.ncbi.nlm.nih.gov/27457364/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5040731/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5040731/</a></li>
+<li>Singer, J. (2016). <em>NeuroDiversity: The Birth of an Idea</em>. Self-published.</li>
+<li>Barrett, L. F. (2017). The theory of constructed emotion: an active inference account of interoception and categorization. <em>Social Cognitive and Affective Neuroscience</em>, 12(1), 1–23.<br>DOI: <a class="link" href="https://doi.org/10.1093/scan/nsw154">10.1093/scan/nsw154</a></li>
+<li>Cooper, K., Smith, L. G. E., &amp; Russell, A. (2017). Social identity, self-esteem, and mental health in autism. <em>European Journal of Social Psychology</em>, 47(7), 844–854. DOI: <a class="link" href="https://doi.org/10.1002/ejsp.2297">10.1002/ejsp.2297</a></li>
+<li>Hull, L., Petrides, K. V., Allison, C., Smith, P., Baron-Cohen, S., Lai, M.-C., &amp; Mandy, W. (2017). "Putting on My Best Normal": Social Camouflaging in Adults with Autism Spectrum Conditions. <em>Journal of Autism and Developmental Disorders</em>, 47(8), 2519–2534.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-017-3166-5">10.1007/s10803-017-3166-5</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/28527095/">https://pubmed.ncbi.nlm.nih.gov/28527095/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5509825/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5509825/</a></li>
+<li>Cassidy, S., Bradley, L., Shaw, R., &amp; Baron-Cohen, S. (2018). Risk markers for suicidality in autistic adults. <em>Molecular Autism</em>, 9, 42. DOI: <a class="link" href="https://doi.org/10.1186/s13229-018-0226-4">10.1186/s13229-018-0226-4</a>. PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/30083306/">https://pubmed.ncbi.nlm.nih.gov/30083306/</a></li>
+<li>O'Nions, E., et al. (2018). Dimensions of difficulty in children reported to have an autism spectrum diagnosis and features of extreme/'pathological' demand avoidance. <em>Child and Adolescent Mental Health</em>, 23(3), 220–227. DOI: <a class="link" href="https://doi.org/10.1111/camh.12242">10.1111/camh.12242</a></li>
+<li>Price, D. (2018). Laziness does not exist (but unseen barriers do). <em>Human Parts / Medium</em>.</li>
+<li>Aran, A., Eylon, M., Harel, M., Polianski, L., Nemirovski, A., Tepper, S., Schnapp, A., Cassuto, H., Wattad, N., &amp; Tam, J. (2019). Lower circulating endocannabinoid levels in children with autism spectrum disorder. <em>Molecular Autism</em>, 10, 2.<br>DOI: <a class="link" href="https://doi.org/10.1186/s13229-019-0256-6">10.1186/s13229-019-0256-6</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/30728928/">https://pubmed.ncbi.nlm.nih.gov/30728928/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6354384/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6354384/</a></li>
+<li>Cooper, R. A., &amp; Simons, J. S. (2019). Exploring the neurocognitive basis of episodic recollection in autism. <em>Psychonomic Bulletin &amp; Review</em>, 26(1), 163–181.<br>DOI: <a class="link" href="https://doi.org/10.3758/s13423-018-1504-z">10.3758/s13423-018-1504-z</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/29987766/">https://pubmed.ncbi.nlm.nih.gov/29987766/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6424931/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6424931/</a></li>
+<li>Egan, V., Linenberg, O., &amp; O'Nions, E. (2019). The measurement of adult pathological demand avoidance traits. <em>Journal of Autism and Developmental Disorders</em>, 49(2), 481–494.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-018-3722-7">10.1007/s10803-018-3722-7</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6373319/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6373319/</a></li>
+<li>Kinnaird, E., Stewart, C., &amp; Tchanturia, K. (2019). Investigating alexithymia in autism: A systematic review and meta-analysis. <em>European Psychiatry</em>, 55, 80–89.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.eurpsy.2018.09.004">10.1016/j.eurpsy.2018.09.004</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/30399531/">https://pubmed.ncbi.nlm.nih.gov/30399531/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6331035/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6331035/</a></li>
+<li>Robin, J., et al. (2019). Positive Effect of Visual Cuing in Episodic Memory and Episodic Future Thinking in Adolescents With Autism Spectrum Disorder. <em>Frontiers in Psychology</em>, 10, 1513. PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6629950/">https://pmc.ncbi.nlm.nih.gov/articles/PMC6629950/</a></li>
+<li>Stagg, S. D., &amp; Belcher, H. (2019). Living with autism without knowing: receiving a diagnosis in later life. <em>Health Psychology and Behavioural Medicine</em>, 7(1), 348–361.<br>DOI: <a class="link" href="https://doi.org/10.1080/21642850.2019.1684920">10.1080/21642850.2019.1684920</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/34040855/">https://pubmed.ncbi.nlm.nih.gov/34040855/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8114403/">https://pmc.ncbi.nlm.nih.gov/articles/PMC8114403/</a></li>
+<li>Leedham, A., Thompson, A. R., Smith, R., &amp; Freeth, M. (2020). 'I was exhausted trying to figure it out': The experiences of females receiving an autism diagnosis in middle to late adulthood. <em>Autism</em>, 24(1), 135–146.<br>DOI: <a class="link" href="https://doi.org/10.1177/1362361319853442">10.1177/1362361319853442</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/31144507/">https://pubmed.ncbi.nlm.nih.gov/31144507/</a></li>
+<li>Botha, M. (2021). Academic, activist, or advocate? Angry, entangled, and emerging: A critical reflection on autism knowledge production. <em>Frontiers in Psychology</em>, 12, 727542. DOI: <a class="link" href="https://doi.org/10.3389/fpsyg.2021.727542">10.3389/fpsyg.2021.727542</a></li>
+<li>Price, D. (2021). <em>Laziness Does Not Exist</em>. New York: Atria Books.</li>
+<li>Weir, E., Allison, C., Warrier, V., &amp; Baron-Cohen, S. (2021). Increased prevalence of psychiatric conditions and substance use among autistic individuals: A UK Biobank study. <em>The Lancet Psychiatry</em>, 8(8), 706–718.</li>
+<li>Belcher, H. L., Morein-Zamir, S., Mandy, W., &amp; Ford, R. M. (2022). Camouflaging Intent, First Impressions, and Age of ASC Diagnosis in Autistic Men and Women. <em>Journal of Autism and Developmental Disorders</em>, 52(8), 3413–3426.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-021-05221-3">10.1007/s10803-021-05221-3</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/34342806/">https://pubmed.ncbi.nlm.nih.gov/34342806/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9296412/">https://pmc.ncbi.nlm.nih.gov/articles/PMC9296412/</a></li>
+<li>Harris, S. S., Green, S. M., Kumar, M., &amp; Urs, N. M. (2022). A role for cortical dopamine in the paradoxical calming effects of psychostimulants. <em>Scientific Reports</em>, 12, 3129. DOI: <a class="link" href="https://doi.org/10.1038/s41598-022-07029-2">10.1038/s41598-022-07029-2</a>. PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8873208/">https://pmc.ncbi.nlm.nih.gov/articles/PMC8873208/</a></li>
+<li>Milton, D., Gurbuz, E., &amp; López, B. (2022). The 'double empathy problem': Ten years on. <em>Autism</em>, 26(8), 1901–1903. DOI: <a class="link" href="https://doi.org/10.1177/13623613221129123">10.1177/13623613221129123</a></li>
+<li>Chapman, R., &amp; Botha, M. (2023). Neurodivergence-informed therapy. <em>Developmental Medicine &amp; Child Neurology</em>, 65(3), 310–317.<br>DOI: <a class="link" href="https://doi.org/10.1111/dmcn.15384">10.1111/dmcn.15384</a></li>
+<li>Wilson, R. B., et al. (2023). Autistic women's experiences of self-compassion after receiving their diagnosis in adulthood. <em>Autism</em>, 27(7), 1336–1347. DOI: <a class="link" href="https://doi.org/10.1177/13623613221136752">10.1177/13623613221136752</a></li>
+<li>Neff, M. A. (2024). <em>Self-Care for Autistic People: 100+ Ways to Recharge, De-Stress, and Unmask!</em> Avon, MA: Adams Media (Simon &amp; Schuster).</li>
+<li>Holborn, T., Schifano, F., Smith, E., &amp; Deluca, P. (2025). The Use of Novel Stimulants in ADHD Self-Medication. <em>Brain Sciences</em>, 15(3), 292. DOI: <a class="link" href="https://doi.org/10.3390/brainsci15030292">10.3390/brainsci15030292</a></li>
+</ol>
+
+<hr class="separator">
+
+<h2 id="appendix-1-asd-adhd-audhd-uzupelnienie">Appendix 1 — ASD ↔ ADHD / AuDHD: uzupełnienie</h2>
+<p class="podtytul">20 nowych artykułów dodanych 2026-08-26: 7 pozycji wyprowadzonych z bibliografii/cytowań artykułu Centrum Aura oraz 13 pozycji dobranych dodatkowo pod zidentyfikowane luki: bezpośredni fenotyp ASD+ADHD, przebieg przez życie, rodziny i genetyka, funkcjonowanie dorosłych, diagnostyka różnicowa i maskowanie. Pozycje nie dublują listy głównej 77.</p>
+
+<ol class="lista-publikacji">
+<li>Reiersen, A. M., Constantino, J. N., Grimmer, M., Martin, N. G., &amp; Todd, R. D. (2008). Evidence for shared genetic influences on self-reported ADHD and autistic symptoms in young adult Australian twins. <em>Twin Research and Human Genetics</em>, 11(6), 579–585.<br>DOI: <a class="link" href="https://doi.org/10.1375/twin.11.6.579">10.1375/twin.11.6.579</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/19016613/">https://pubmed.ncbi.nlm.nih.gov/19016613/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2840992/">https://pmc.ncbi.nlm.nih.gov/articles/PMC2840992/</a></li>
+<li>Ronald, A., Simonoff, E., Kuntsi, J., Asherson, P., &amp; Plomin, R. (2008). Evidence for overlapping genetic influences on autistic and ADHD behaviours in a community twin sample. <em>Journal of Child Psychology and Psychiatry</em>, 49(5), 535–542.<br>DOI: <a class="link" href="https://doi.org/10.1111/j.1469-7610.2007.01857.x">10.1111/j.1469-7610.2007.01857.x</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/18221348/">https://pubmed.ncbi.nlm.nih.gov/18221348/</a></li>
+<li>Szaniawska, M. (2010). Trudna diagnoza – dylematy rzetelnej oceny ADHD u dorosłych pacjentów. Część I. Obraz kliniczny, trudności diagnostyczne, leczenie. <em>Psychiatria i Psychologia Kliniczna</em>, 10(3), 205–210.<br>Pełny opis: <a class="link" href="https://www.psychiatria.com.pl/index.php/wydawnictwa/2010-vol-10-no-3/trudna-diagnoza-dylematy-rzetelnej-oceny-adhd-u-doroslych-pacjentow-czesc-i-obraz-kliniczny-trudnosci-diagnostyczne-leczenie">psychiatria.com.pl</a></li>
+<li>van Steijn, D. J., Richards, J. S., Oerlemans, A. M., de Ruiter, S. W., van Aken, M. A. G., Franke, B., Buitelaar, J. K., &amp; Rommelse, N. N. J. (2012). The co-occurrence of autism spectrum disorder and attention-deficit/hyperactivity disorder symptoms in parents of children with ASD or ASD with ADHD. <em>Journal of Child Psychology and Psychiatry</em>, 53(9), 954–963.<br>DOI: <a class="link" href="https://doi.org/10.1111/j.1469-7610.2012.02556.x">10.1111/j.1469-7610.2012.02556.x</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/22537103/">https://pubmed.ncbi.nlm.nih.gov/22537103/</a></li>
+<li>Leitner, Y. (2014). The co-occurrence of autism and attention deficit hyperactivity disorder in children – what do we know? <em>Frontiers in Human Neuroscience</em>, 8, 268.<br>DOI: <a class="link" href="https://doi.org/10.3389/fnhum.2014.00268">10.3389/fnhum.2014.00268</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4010758/">https://pmc.ncbi.nlm.nih.gov/articles/PMC4010758/</a></li>
+<li>Musser, E. D., Hawkey, E., Kachan-Liu, S. S., Lees, P., Roullet, J.-B., Goddard, K., Steiner, R. D., &amp; Nigg, J. T. (2014). Shared familial transmission of autism spectrum and attention-deficit/hyperactivity disorders. <em>Journal of Child Psychology and Psychiatry</em>, 55(7), 819–827.<br>DOI: <a class="link" href="https://doi.org/10.1111/jcpp.12201">10.1111/jcpp.12201</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/24444366/">https://pubmed.ncbi.nlm.nih.gov/24444366/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4211282/">https://pmc.ncbi.nlm.nih.gov/articles/PMC4211282/</a></li>
+<li>Ghirardi, L., Brikell, I., Kuja-Halkola, R., Freitag, C. M., Franke, B., Asherson, P., Lichtenstein, P., &amp; Larsson, H. (2018). The familial co-aggregation of ASD and ADHD: a register-based cohort study. <em>Molecular Psychiatry</em>, 23(2), 257–262.<br>DOI: <a class="link" href="https://doi.org/10.1038/mp.2017.17">10.1038/mp.2017.17</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/28242872/">https://pubmed.ncbi.nlm.nih.gov/28242872/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5794881/">https://pmc.ncbi.nlm.nih.gov/articles/PMC5794881/</a></li>
+<li>Carta, A., Fucà, E., Guerrera, S., Napoli, E., Valeri, G., &amp; Vicari, S. (2020). Characterization of Clinical Manifestations in the Co-occurring Phenotype of Attention Deficit/Hyperactivity Disorder and Autism Spectrum Disorder. <em>Frontiers in Psychology</em>, 11, 861.<br>DOI: <a class="link" href="https://doi.org/10.3389/fpsyg.2020.00861">10.3389/fpsyg.2020.00861</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7244252/">https://pmc.ncbi.nlm.nih.gov/articles/PMC7244252/</a></li>
+<li>Rong, Y., Yang, C.-J., Jin, Y., &amp; Wang, Y. (2021). Prevalence of attention-deficit/hyperactivity disorder in individuals with autism spectrum disorder: A meta-analysis. <em>Research in Autism Spectrum Disorders</em>, 83, 101759.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.rasd.2021.101759">10.1016/j.rasd.2021.101759</a></li>
+<li>Hayashi, W., Hanawa, Y., Saga, N., Nakamura, D., &amp; Iwanami, A. (2022). ASD symptoms in adults with ADHD: a comparative study using ADOS-2. <em>European Archives of Psychiatry and Clinical Neuroscience</em>, 272(8), 1481–1494.<br>DOI: <a class="link" href="https://doi.org/10.1007/s00406-021-01362-9">10.1007/s00406-021-01362-9</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/34993599/">https://pubmed.ncbi.nlm.nih.gov/34993599/</a></li>
+<li>Mattheisen, M., Grove, J., Als, T. D., et al. (2022). Identification of shared and differentiating genetic architecture for autism spectrum disorder, attention-deficit hyperactivity disorder and case subgroups. <em>Nature Genetics</em>, 54, 1470–1478.<br>DOI: <a class="link" href="https://doi.org/10.1038/s41588-022-01171-3">10.1038/s41588-022-01171-3</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10848300/">https://pmc.ncbi.nlm.nih.gov/articles/PMC10848300/</a></li>
+<li>Szurpita, M., &amp; Radziwiłłowicz, W. (2022). Zaburzenia neurorozwojowe – diagnostyka, obraz kliniczny i jego dynamika. Współczesne pytania i kierunki poszukiwań badawczych. <em>Psychologia Rozwojowa</em>, 27(2), 9–25.<br>DOI: <a class="link" href="https://doi.org/10.4467/20843879PR.22.008.17465">10.4467/20843879PR.22.008.17465</a></li>
+<li>Yerys, B. E., McQuaid, G. A., Lee, N. R., &amp; Wallace, G. L. (2022). Co-occurring ADHD symptoms in autistic adults are associated with less independence in daily living activities and lower subjective quality of life. <em>Autism</em>, 26(8), 2188–2195.<br>DOI: <a class="link" href="https://doi.org/10.1177/13623613221112198">10.1177/13623613221112198</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/35916251/">https://pubmed.ncbi.nlm.nih.gov/35916251/</a></li>
+<li>Lebeña, A., Faresjö, Å., Faresjö, T., &amp; Ludvigsson, J. (2023). Clinical implications of ADHD, ASD, and their co-occurrence in early adulthood—the prospective ABIS-study. <em>BMC Psychiatry</em>, 23, 851.<br>DOI: <a class="link" href="https://doi.org/10.1186/s12888-023-05298-3">10.1186/s12888-023-05298-3</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/37974102/">https://pubmed.ncbi.nlm.nih.gov/37974102/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10655481/">https://pmc.ncbi.nlm.nih.gov/articles/PMC10655481/</a></li>
+<li>Shakeshaft, A., Heron, J., Blakey, R., Riglin, L., Davey Smith, G., Stergiakouli, E., Tilling, K., &amp; Thapar, A. (2023). Co-development of attention deficit hyperactivity disorder and autistic trait trajectories from childhood to early adulthood. <em>Journal of Child Psychology and Psychiatry</em>, 64(11), 1596–1607.<br>DOI: <a class="link" href="https://doi.org/10.1111/jcpp.13851">10.1111/jcpp.13851</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7615536/">https://pmc.ncbi.nlm.nih.gov/articles/PMC7615536/</a></li>
+<li>Waldren, L. H., Leung, F. Y. N., Hargitai, L. D., Burgoyne, A. P., Liceralde, V. R. T., Livingston, L. A., &amp; Shah, P. (2024). Unpacking the overlap between Autism and ADHD in adults: A multi-method approach. <em>Cortex</em>, 173, 120–137.<br>DOI: <a class="link" href="https://doi.org/10.1016/j.cortex.2023.12.016">10.1016/j.cortex.2023.12.016</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/38387375/">https://pubmed.ncbi.nlm.nih.gov/38387375/</a></li>
+<li>Adamis, D., Langan, N., Gavin, B., &amp; McNicholas, F. (2025). Coexistence of autism spectrum disorder traits in adults diagnosed with attention-deficit/hyperactivity disorder: longitudinal outcomes. <em>Irish Journal of Psychological Medicine</em>, 42, 271–280.<br>DOI: <a class="link" href="https://doi.org/10.1017/ipm.2025.10090">10.1017/ipm.2025.10090</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/40827121/">https://pubmed.ncbi.nlm.nih.gov/40827121/</a></li>
+<li>Czechowski, K. M. (2025). Zaburzenia ze spektrum autyzmu (ASD) – kompleksowy przegląd procesu diagnostycznego i chorób współistniejących. <em>Niepełnosprawność – Zagadnienia, Problemy, Rozwiązania</em>, 1(54).<br>DOI: <a class="link" href="https://doi.org/10.61531/141nlr">10.61531/141nlr</a></li>
+<li>Wurth, P., Fuermaier, A. B. M., Strand, A. H., &amp; Thorell, L. B. (2025). Diagnosis acceptance, masking, and perceived benefits and challenges in adults with ADHD and ASD: associations with quality of life. <em>Frontiers in Psychiatry</em>, 16, 1668780.<br>DOI: <a class="link" href="https://doi.org/10.3389/fpsyt.2025.1668780">10.3389/fpsyt.2025.1668780</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/41169493/">https://pubmed.ncbi.nlm.nih.gov/41169493/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12568611/">https://pmc.ncbi.nlm.nih.gov/articles/PMC12568611/</a></li>
+<li>Zhong, Q., &amp; Porter, M. (2026). Autism Spectrum Disorder Symptoms in Individuals with a Primary Diagnosis of Attention-Deficit/Hyperactivity Disorder: A Systematic Review. <em>Review Journal of Autism and Developmental Disorders</em>, 13, 424–441. Published online 2024.<br>DOI: <a class="link" href="https://doi.org/10.1007/s40489-024-00443-4">10.1007/s40489-024-00443-4</a></li>
+</ol>
+
+<hr class="separator">
+
+<h2 id="appendix-2-po-poznej-diagnozie-co-dalej">Appendix 2 — Po późnej diagnozie: co dalej?</h2>
+<p class="podtytul">5 prac dodanych 2026-08-26 jako osobna odpowiedź na lukę praktyczną: nie „czym jest AuDHD / autyzm u dorosłych?”, lecz co dzieje się po rozpoznaniu w dorosłości, jakich form wsparcia ludzie potrzebują, co pomaga w przetworzeniu diagnozy, odzyskiwaniu sprawczości i budowaniu życia po zmianie mapy. To nie jest jeszcze kompletna instrukcja kliniczna, ale jest najbliższym obecnie korpusem empirycznym do pytania „mam późną diagnozę — i co teraz?”.</p>
+
+<ol class="lista-publikacji">
+<li>Crane, L., Hearst, C., Ashworth, M., Davies, J., &amp; Hill, E. L. (2021). Supporting Newly Identified or Diagnosed Autistic Adults: An Initial Evaluation of an Autistic-Led Programme. <em>Journal of Autism and Developmental Disorders</em>, 51(3), 892–905.<br>DOI: <a class="link" href="https://doi.org/10.1007/s10803-020-04486-4">10.1007/s10803-020-04486-4</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/32266684/">https://pubmed.ncbi.nlm.nih.gov/32266684/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7954714/">https://pmc.ncbi.nlm.nih.gov/articles/PMC7954714/</a></li>
+
+<li>Crowson, S., Poole, D., Scargill, K., &amp; Freeth, M. (2024). Understanding the post-diagnostic support priorities of autistic adults in the United Kingdom: A co-produced modified Delphi study. <em>Autism</em>, 28(4), 854–865.<br>DOI: <a class="link" href="https://doi.org/10.1177/13623613231196805">10.1177/13623613231196805</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/37776060/">https://pubmed.ncbi.nlm.nih.gov/37776060/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10981182/">https://pmc.ncbi.nlm.nih.gov/articles/PMC10981182/</a></li>
+
+<li>Norris, J. E., Harvey, R., &amp; Hull, L. (2025). Post-diagnostic support for adults diagnosed with autism in adulthood in the UK: A systematic review with narrative synthesis. <em>Autism</em>, 29(2), 284–309.<br>DOI: <a class="link" href="https://doi.org/10.1177/13623613241273073">10.1177/13623613241273073</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/39253875/">https://pubmed.ncbi.nlm.nih.gov/39253875/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11816465/">https://pmc.ncbi.nlm.nih.gov/articles/PMC11816465/</a></li>
+
+<li>Edwards, C., Love, A. M. A., Cai, R. Y., Heyworth, M., Johnston, A., Aldridge, F., &amp; Gibbs, V. (2025). “I’m not feeling alone in my experiences”: How newly diagnosed autistic adults engage with a neurodiversity-affirming “Welcome Pack”. <em>Autism</em>, 29(8), 2072–2083.<br>DOI: <a class="link" href="https://doi.org/10.1177/13623613251335070">10.1177/13623613251335070</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/40277162/">https://pubmed.ncbi.nlm.nih.gov/40277162/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12255835/">https://pmc.ncbi.nlm.nih.gov/articles/PMC12255835/</a></li>
+
+<li>French, B., &amp; Cassidy, S. (2026). “Going Through Life on Hard Mode”—The Experience of Late Diagnosis of Autism and/or ADHD: A Qualitative Study. <em>Autism in Adulthood</em>, 8(1), 127–136. First published online 2024.<br>DOI: <a class="link" href="https://doi.org/10.1089/aut.2024.0085">10.1089/aut.2024.0085</a><br>PubMed: <a class="link" href="https://pubmed.ncbi.nlm.nih.gov/42369101/">https://pubmed.ncbi.nlm.nih.gov/42369101/</a><br>PMC: <a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13294709/">https://pmc.ncbi.nlm.nih.gov/articles/PMC13294709/</a></li>
+</ol>
+
+</section>
+
+<footer>
+<p>Plik: <code>dluga-lista-publikacji-4.01-2026-08-26.html</code></p>
+<p>Wersja: 4.01 · Data aktualizacji: 2026-08-26 · Wersja bazowa: 4.00 z 2026-08-26</p>
+<p>Wersja bazowa stworzona z pomocą Claude (Anthropic), wariant: <strong>Claude Opus 4.7</strong>. Aktualizacja 4.00 oraz Appendix 2 w wersji 4.01 opracowane z pomocą ChatGPT (OpenAI), model: <strong>GPT-5.6 Sol</strong>.</p>
+<p>Lista główna: <strong>77</strong> pozycji; Appendix 1: <strong>20</strong>; Appendix 2: <strong>5</strong>; łącznie: <strong>102</strong>. Wybór rozszerzony: <strong>TOP 15</strong>.</p>
+</footer>
+</article>
 </body>
 </html>

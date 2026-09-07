@@ -2,72 +2,249 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architektury pamięci — opowieść o tym, kto naprawdę zbudował IT</title>
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
+  :root {
+    --bg: #f5efe6;
+    --ink: #3b2a1a;
+    --ink-soft: #5b4838;
+    --accent: #7a3b2b;
+    --rule: #c9b89a;
+    --link: #5a4030;
+  }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: "Anivers", "Ubuntu", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-size: 19px;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 0 1.2em 6em;
+    box-sizing: border-box;
+  }
+  @media (max-width: 600px) {
+    body { font-size: 18px; margin: 1em auto; padding: 0 1em 4em; }
+  }
+  h1, h2 {
+    font-family: "Antykwa Półtawskiego", "EB Garamond", "Georgia", serif;
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  h1 { font-size: 2.0em; margin: 0.4em 0 0.6em; }
+  h2 {
+    font-size: 1.4em;
+    margin: 2.5em 0 0.6em;
+    color: var(--accent);
+  }
+  p { margin: 0.8em 0; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+  a { color: var(--link); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  code { font-family: "Ubuntu Mono", "Menlo", "Consolas", monospace; font-size: 0.9em; background: rgba(0,0,0,0.04); padding: 0.05em 0.3em; border-radius: 2px; }
+  blockquote {
+    margin: 1.2em 0;
+    padding: 0.5em 1.2em;
+    border-left: 3px solid var(--rule);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  hr {
+    border: 0;
+    text-align: center;
+    margin: 2.5em 0;
+  }
+  hr:after {
+    content: "✦   ✦   ✦";
+    color: var(--rule);
+    letter-spacing: 0.8em;
+    font-size: 0.8em;
+  }
+  .meta {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--rule);
+    font-size: 0.9em;
+    color: var(--ink-soft);
+  }
 </style>
 </head>
 <body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
-    }
-  }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
-  }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+
+<h1 id="architektury-pamieci">Architektury pamięci</h1>
+
+<h2 id="bell-labs-sierpien-1969">Bell Labs, sierpień 1969</h2>
+
+<p>Bonnie Thompson pakuje walizki. Wraz z rocznym synem Coreyem leci do San Diego — odwiedzić rodziców i pokazać im wnuka, którego jeszcze nie widzieli. Wyjeżdża na miesiąc. Jej mąż Ken zostaje w New Jersey, w domu, z biurem niedaleko, w Bell Labs.</p>
+
+<p>Ken Thompson ma 26 lat. Jest programistą. Pracuje w grupie, która miała robić Multics — gigantyczny system operacyjny, wspólny projekt MIT, General Electric i Bell Labs, który miał obsłużyć tysiące użytkowników jednocześnie. Bell Labs właśnie wycofał się z projektu, bo Multics urósł za bardzo, kosztował za dużo i niczego pewnego nie produkował. Thompson zostaje z niczym i z grą, którą napisał na Multics — Space Travel — która teraz nie ma na czym chodzić.</p>
+
+<p>Znajduje w korytarzu Bell Labs zapomniany komputer. <a href="https://en.wikipedia.org/wiki/PDP-7">PDP-7</a>, mały, słaby, 18-bitowy, cztery kilobajty pamięci. Stoi nieużywany od miesięcy. Thompson decyduje, że napisze na niego własny system operacyjny. Sam. Po to, żeby gra znowu chodziła.</p>
+
+<p>Gdy żona wyjeżdża, ma plan. Tydzień na kernel — rdzeń systemu. Tydzień na shell — interpreter komend. Tydzień na editor. Tydzień na asembler — żeby system mógł się sam kompilować. <a href="https://opensource.com/article/20/8/unix-history">Brian Kernighan opowiada to tak</a>, jakby to było normalne: <em>"Bonnie pojechała na trzy tygodnie wakacji, a Ken akurat oszacował, że ma przed sobą trzy tygodnie roboty do skończenia całego systemu operacyjnego"</em>.</p>
+
+<p>Wszystko pisze w asemblerze PDP-7. Sam Thompson w wywiadzie z 1989 roku <a href="https://dspinellis.github.io/oral-history-of-unix/mike/transcripts/thompson.htm">mówi to bez emfazy</a>: <em>"przeznaczyłem tydzień na shell, na system operacyjny, na editor i na asembler, żeby reprodukował sam siebie. Przez ten miesiąc, kiedy jej nie było — to było lato 69 — całość została zupełnie napisana od nowa, w formie wyglądającej jak system operacyjny"</em>.</p>
+
+<p>To jest sierpień 1969. W lipcu Apollo 11 wylądował na Księżycu. We wrześniu w Kalifornii ARPANET wyśle pierwszy pakiet. Thompson, sam, w domu, w cztery tygodnie, napisał coś, co potem nazwie <a href="https://en.wikipedia.org/wiki/Unix">Unix</a> — i od tego pomysłu, prosto i bez przerwy, można doprowadzić linię do każdego współczesnego komputera. Linux jest Uniksem. macOS jest Uniksem. Android jest Linuksem. Serwery Google'a, Amazonu, Facebooka — Linux. Twój telefon, prawdopodobnie, w tej chwili, wykonuje kod, którego prapraprababka jest tym, co Thompson stukał w klawiaturę PDP-7 podczas gdy jego żona była u rodziców.</p>
+
+<p>Kolega Thompsona z Bell Labs, <a href="https://en.wikipedia.org/wiki/Dennis_Ritchie">Dennis Ritchie</a>, dołącza do projektu wkrótce potem. Thompson zaprojektował Uniksa po asemblerowemu — co znaczyło, że żeby przenieść system na inną maszynę, trzeba było napisać go od nowa, ręcznie, w asemblerze tej innej maszyny. Ritchie postanawia z tym skończyć. W 1972 i 1973 roku pisze język programowania, który ma cechę unikalną: <em>kompiluje się do bezpośredniego kodu maszynowego</em>, ale jednocześnie pozwala napisać kod tak abstrakcyjnie, że ten sam kod skompiluje się na innym sprzęcie. Nazywa go <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>, bo poprzedni nazywał się B (i był pierwszą próbą Thompsona).</p>
+
+<p>W C nie ma żadnej warstwy abstrakcji nad maszyną. Nie ma garbage collectora. Nie ma sprawdzania granic tablicy. Nie ma typu <em>string</em> — są tablice znaków zakończone bajtem zerowym. Wskaźnik to dosłownie liczba — adres bajta w pamięci. Można go odczytać, modyfikować, robić na nim arytmetykę. Programista, który zapomni odzwolnić zaalokowaną pamięć, produkuje wyciek. Programista, który zwolni ten sam blok dwa razy, dostaje to, co standard nazywa "niezdefiniowanym zachowaniem" — kompilator może wykonać dowolny kod, włącznie z usunięciem całej funkcji jako martwej.</p>
+
+<p>Ritchie i Thompson dostają w 1983 roku <a href="https://amturing.acm.org/award_winners/ritchie_1506389.cfm">Nagrodę Turinga</a> — informatyczny ekwiwalent Nobla — za "rozwój generycznej teorii systemów operacyjnych i konkretnie za implementację Uniksa". Ritchie umiera 12 października 2011 roku, w domu w Berkeley Heights w New Jersey, sam, sąsiedzi znaleźli go po kilku dniach. Pięć dni wcześniej zmarł Steve Jobs. Świat opłakuje Jobsa. Świat informatyki opłakuje cicho Ritchiego, którego śmierci większość ludzi w ogóle nie zauważyła. Bez kodu Jobsa nie byłoby iPhone'a. Bez kodu Ritchiego nie byłoby Jobsa.</p>
+
+<p>Ken Thompson wciąż żyje. Ma 82 lata. Po Bell Labs poszedł do Google'a, gdzie współzaprojektował język Go. Lubi szachy.</p>
+
+<hr>
+
+<h2 id="stanford-30-marca-1977">Stanford, 30 marca 1977</h2>
+
+<p>Donald Knuth dostaje pocztą paczkę. Otwiera ją. W środku są szczotki — czyli próbne wydruki, w drukarstwie nazywane <em>galley proofs</em> — drugiego wydania jego książki <em>The Art of Computer Programming, Volume 2</em>. Pierwsze wydanie wyszło w 1968. Książkę składano wtedy <em>na gorącym ołowiu</em>, na maszynie Monotype, ostatnią technologią dziewiętnastego wieku. Wynik wyglądał, według samego Knutha, klasycznie. Przez te dziewięć lat technologia się zmieniła. Drugie wydanie składano fototypograficznie. Knuth patrzy na szczotki i jest <a href="https://en.wikipedia.org/wiki/TeX">zniesmaczony</a>. Czcionki są okropne. Matematyka — niepoprawnie wyrównana. Ligatury — pogubione. Litera <em>i</em> z kropką wyglądającą jak owad.</p>
+
+<p>Knuth ma 39 lat. Jest profesorem informatyki w Stanford. Pisze od 1962 roku siedmiotomowe dzieło o algorytmach. Bill Gates później powie: <em>"jeśli ktoś przeczyta to całe, niech mi wyśle CV"</em>. W 1977 ukończone są tomy 1, 2 i 3. Tomu 4 jest fragment. Tomu 5, 6, 7 — pomysł.</p>
+
+<p>13 maja 1977 — sześć tygodni po otrzymaniu szczotek — Knuth pisze do siebie notatkę. Opisuje w niej system składu komputerowego, który pozwoliłby <em>autorowi</em> mieć pełną kontrolę nad tym, jak wygląda jego książka. Każda spacja, każda ligatura, każde światło między literami — definiowane matematycznie, nie wybierane z gotowych fontów. Nazywa system <a href="https://en.wikipedia.org/wiki/TeX">TeX</a>. Na sabatical w 1978 roku zaczyna go pisać.</p>
+
+<p>Plan: rok pracy. Skończyć TeX. Wrócić do <em>The Art of Computer Programming</em>.</p>
+
+<p>Faktycznie: <a href="https://signalvnoise.com/posts/3183-the-art-of-computer-typography">dziesięć lat</a>. Składnia TeX-a jest zamrożona dopiero w 1989. W międzyczasie Knuth pisze drugi system: <a href="https://en.wikipedia.org/wiki/Metafont">Metafont</a>, język do projektowania krojów pism. Bo żeby TeX składał ładnie, potrzebuje ładnych fontów; a ładnych fontów cyfrowych w 1978 roku nie ma. Więc Knuth projektuje cały krój pisma — Computer Modern. Każdą literę. Matematycznie. Z parametrami, którymi można ten sam krój wygenerować jako pismo poważne, kursywą, pogrubione, jako maszynopis, jako serif, sans-serif. <em>Meta</em>-font.</p>
+
+<p>Tom 4 <em>The Art of Computer Programming</em> ukaże się w częściach: 4A w 2011 (czterdzieści trzy lata po tomie 3), 4B w 2022, kolejne fascykuły wciąż się piszą. Knuth ma w 2026 roku 88 lat. Zatrzymał się przy MMIX-ie — fikcyjnym procesorze, który wymyślił specjalnie do książki, żeby nauczać algorytmów na nowoczesnej architekturze. Pracuje dalej.</p>
+
+<p>To jest człowiek, który zrobił rzecz, której nie da się zrobić zachowawczo. Zatrzymał na dziesięć lat <em>swoje główne dzieło życia</em>, żeby napisać system składu, bo nie podobały mu się czcionki w drugim wydaniu książki. Trzeba na to mieć specyficzny mózg.</p>
+
+<p>I jeszcze jedno. W przedmowie do każdej swojej książki Knuth obiecuje wypłacić <a href="https://en.wikipedia.org/wiki/Knuth_reward_check">2,56 dolara</a> pierwszej osobie, która znajdzie błąd. Dlaczego 2,56? Bo 256 centów to "jeden dolar szesnastkowy" — w systemie szesnastkowym, którym posługują się komputery, $1.00 hex = 256 dziesiętnie. Cenne sugestie kosztują 32 centy, czyli 0.20 dolarów hex. Knuth wypisał ponad 2000 takich czeków. Średnia wartość czeku przekraczała 8 dolarów (bo niektóre błędy się dublowały i były warte więcej). W październiku 2008 musiał przestać wystawiać prawdziwe czeki, bo skanowano je z internetu i fałszowano konto bankowe. Stworzył wtedy <em>Bank of San Serriffe</em> — fikcyjny bank w fikcyjnym państwie — i wypisuje teraz "certyfikaty depozytowe" na swoim własnym papierze listownym. <a href="https://www-cs-faculty.stanford.edu/~knuth/faq.html">Knuth nie używa e-maila od 1990 roku</a>. Mówi, że e-mail jest świetny do pilnych wiadomości, ale fatalny do przemyślanych odpowiedzi.</p>
+
+<hr>
+
+<h2 id="cambridge-massachusetts-1980-2019">Cambridge, Massachusetts, 1980-2019</h2>
+
+<p>W czerwcu 1980 roku <a href="https://en.wikipedia.org/wiki/Richard_Stallman">Richard Matthew Stallman</a> ma 27 lat i pracuje w MIT AI Lab. Drukarka laserowa Xerox właśnie się zacina po raz tysięczny i Stallman chce poprawić sterownik, żeby informował, kiedy się zatnie. Xerox odmawia mu kodu źródłowego. To jest moment, w którym według wszystkich biografii Stallmana — <a href="https://www.oreilly.com/openbook/freedom/ch01.html">Sam Williams w "Free as in Freedom"</a> opisuje to scenicznie — pęka mu coś w środku. Następne 40 lat życia Stallman poświęca jednej idei: oprogramowanie <em>musi być wolne</em>. Każdy musi mieć prawo czytać kod, modyfikować go i rozpowszechniać.</p>
+
+<p>W 1983 roku ogłasza projekt GNU — system operacyjny w pełni wolny od kodu firmowego. W 1985 zakłada Free Software Foundation. W 1989 publikuje GNU General Public License — licencję, która zmienia świat oprogramowania. Każdy program wydany na GPL musi mieć dostępny kod, a każda modyfikacja musi być wydana na tej samej licencji. To jest <em>copyleft</em> — wirusowa licencja, która rozprzestrzenia wolność. Gdy w 1991 fiński student Linus Torvalds napisze jądro Linux i wyda je na GPL, eksplozja jest gotowa. W 2020 roku 96,3% wszystkich serwerów internetu pracuje na Linuksie.</p>
+
+<p>I teraz druga warstwa Stallmana. <a href="https://lwn.net/Articles/799566/">Mieszkał w swoim biurze w MIT.</a> Dosłownie. Miał materac na podłodze. Spał tam. <a href="https://geoff.greer.fm/2019/09/30/in-defense-of-richard-stallman/">"Mattress in office. Lived and slept there. For years."</a> Nie miał własnego mieszkania w Bostonie przez dekady. Gdy MIT remontowało budynek, Stallman szukał innego biura. Miał do niedawna na drzwiach kartkę: "Pokój gościnny otwarty dla każdego stażysty z dobrego programu, który nie ma gdzie spać".</p>
+
+<p>Nie używa Microsoftu. Nie używa Apple'a. <a href="https://stallman.org/stallman-computing.html">Nie używa JavaScriptu</a> w żadnej przeglądarce — wyłącza go domyślnie, bo JavaScript pozwala na uruchamianie zamkniętego kodu, którego użytkownik nie kontroluje. Nie ma smartfona. Nie ma karty kredytowej. Płaci gotówką. Nie używa Amazonu. Nie pije coca-coli (boycottuje firmę za morderstwa związkowców w Kolumbii w latach 90.). Pieczatkuje swoje listy słowami "<em>Happy hacking, RMS</em>". W stopkach maili poleca konkretne dystrybucje Linuksa, które są w pełni wolne — GuixSD, Trisquel, Parabola.</p>
+
+<p>Sam Stallman wielokrotnie sugerował, że ma autyzm. <a href="https://www.oreilly.com/openbook/freedom/ch05.html">Pisarz Sam Williams w "Free as in Freedom" ujmuje to tak</a>: <em>"Jeśli — jak sam Stallman czasem podejrzewa — jego osobowość jest produktem autyzmu lub zespołu Aspergera, jego oczy z pewnością potwierdzają tę diagnozę. Nawet w najwyższym stanie intensywności mają tendencję do zachmurzania się i dystansowania, jak oczy zranionego zwierzęcia, które się przygotowuje do umarcia spokojnie pod krzakiem"</em>.</p>
+
+<p>We wrześniu 2019 roku Stallman traci wszystko. Po skandalu wokół Jeffreya Epsteina, na prywatnej liście mailowej MIT-u, Stallman pisze komentarz w obronie zmarłego kolegi Marvina Minsky'ego — używa terminologii prawniczej w sposób, który dla osoby autystycznej jest naturalny, dla reszty świata jest skandaliczny. Komentarz wycieka. Stallman zostaje zmuszony do rezygnacji z Free Software Foundation, którą sam założył 35 lat wcześniej. Z MIT, gdzie spał na materacu od dekad. Z GNU, choć z tego ostatniego po kilku miesiącach się wycofał. <a href="https://geoff.greer.fm/2019/09/30/in-defense-of-richard-stallman/">Po wyrzuceniu z MIT przez kilka miesięcy nie wiadomo było, gdzie mieszka.</a> Eric Raymond, jego dawny ideologiczny przeciwnik, próbował go odnaleźć i nie mógł.</p>
+
+<p>Wraca do FSF w 2021 roku. Nadal nie używa e-maila w trybie tekstu HTML. Nadal czyta strony WWW przez konwersję do tekstu. Nadal jest podejrzany dla branży i nadal — bez jego wirusowej licencji GPL — nie istnieje Linux, nie istnieje wolne oprogramowanie, nie istnieje żaden serwer obecnego internetu w formie, w której znamy.</p>
+
+<hr>
+
+<h2 id="helsinki-14-czerwca-2012">Helsinki, 14 czerwca 2012</h2>
+
+<p>Aalto Talk. Sala wykładowa pełna studentów. <a href="https://www.youtube.com/watch?v=_36yNWw_07g">Linus Torvalds</a> siedzi w fotelu, w niebieskim T-shircie, z mikrofonem przy klapie. Ma 42 lata. Mieszka w Portland, Oregon. Pingwin Tux na ramieniu — maskotka Linuksa, którą Torvalds wybrał po incydencie w zoo w Canberra w 1993 roku, gdy ugryzł go tam pingwin (Torvalds nazywa to "<em>penguinitis</em>" — chorobą, której objawem jest siedzenie do trzeciej w nocy i myślenie o pingwinach). Studenci pytają o różne rzeczy. Wreszcie pyta studentka: <em>"co z NVIDIA i Linuksem na laptopach? Mam Optimusa, sterowniki nie działają, robię różne hacki, czy macie z tym jakiś plan?"</em></p>
+
+<p>Torvalds odpowiada spokojnie. <em>"NVIDIA była jedną z naszych największych bolączek wśród producentów sprzętu, co jest naprawdę smutne, bo NVIDIA próbuje sprzedawać dużo chipów na rynku Androida"</em> — powtarza wprost, dla kamery — <em>"i Android oczywiście opiera się na Linuksie"</em>. Patrzy w bok, potem prosto w obiektyw kamery. Twarz mu się zmienia. <em>"So..."</em> — robi pauzę — <em>"NVIDIA"</em> — <a href="https://www.theregister.com/2012/06/18/torvalds_curses_nvidia/">unosi środkowy palec do kamery</a> — <em>"FUCK YOU."</em></p>
+
+<p>Sala wybucha śmiechem. Torvalds ma rozbawiony uśmiech, ale palec jest poważny, trzymany przez kilka długich sekund w kamerze. Klip rozprzestrzenia się tego samego dnia po internecie. NVIDIA odpowiada przez PR <a href="https://siliconangle.com/2012/06/16/linus-torvalds-to-nvidia-fk-you/">grzeczną notką</a> o tym, że "dostarcza własne sterowniki" — co dokładnie potwierdza, dlaczego Torvalds pokazał palca. Sterowniki NVIDII są zamknięte i nie integrują się z jądrem Linuksa, każda nowa wersja jądra wymaga rekompilacji, każda dystrybucja ma z tym piekło.</p>
+
+<p>To nie jest jednorazowy wybuch Torvaldsa. Archiwum <em>Linux Kernel Mailing List</em> pełne jest tego rodzaju listów. W 2012 roku do programisty, który zaproponował zmianę w stylu kodu: <em>"Mind-bogglingly stupid. Gloriously misguided. Where do I begin?"</em>. W 2007, w słynnej wypowiedzi przeciwko C++: <em>"C++ is a horrible language. (...) C++ leads to really, really bad design choices."</em>. <em>"You invariably start using the 'nice' library features of the language like STL and Boost and other total and utter crap that may help you program, but causes huge amounts of pain when they don't work."</em></p>
+
+<p>W 2018 roku, po wyjątkowo brutalnym wybuchu na liście — Torvalds wyzywa konkretnych programistów od idiotów — <a href="https://lkml.org/lkml/2018/9/16/167">pisze publiczny list</a>: <em>"Potrzebuję zrobić sobie przerwę. (...) Nigdy nie byłem typem osoby społecznej i poważnie niedoceniałem ile uczuć ranię swoim stylem. Nie chcę szkodzić projektowi"</em>. Bierze przerwę na cztery miesiące. Wraca z kodeksem postępowania, którego sam nie do końca przestrzega. Linux pisze dalej. Co tydzień release candidate. Co dwa-trzy miesiące pełny release. Bez przerwy od 1991 roku.</p>
+
+<p>W 2016 roku, w wywiadzie dla TED, Torvalds <a href="https://www.ted.com/talks/linus_torvalds_the_mind_behind_linux/transcript">mówi wprost</a>: <em>"Nie jestem osobą towarzyską. Jestem inżynierem. (...) Nie dbam o waszą wizję. Nie dbam o waszą strategię. Pokażcie mi kod"</em>. <em>"Talk is cheap. Show me the code"</em> — to zdanie, którego używa od lat na LKML. Stało się hasłem.</p>
+
+<p>Pisze Linuksa na początku — październik 1991 — dla siebie, na własny PC z procesorem 386, z którego chce zrobić unixowe biurko studenckie. Wrzuca w sieci ogłoszenie: <em>"Hello everybody out there using minix — I'm doing a (free) operating system (just a hobby, won't be big and professional like gnu)"</em>. Komputery które dziś czytają tę stronę WWW, bardzo prawdopodobnie wszystkie w łańcuchu od twojego telefonu przez router do serwera Anthropic, działają na potomkach tego "hobby".</p>
+
+<p>Ten sam mózg, który publicznie pokazuje palca CEO firmy o wartości stu miliardów dolarów, jest mózgiem, który w 1991 roku — sam, w pokoju studenckim w Helsinkach — napisał coś, co dwadzieścia pięć lat później napędza 96% wszystkich serwerów internetu. Nie da się jednego oddzielić od drugiego. Te same cechy — bezpośredniość, brak filtra społecznego, niesamowita zdolność do trzymania w głowie ogromnego grafu zależności pamięciowych jądra systemu, gotowość do publicznej konfrontacji bez kalkulacji kosztów — robią obie rzeczy.</p>
+
+<hr>
+
+<h2 id="san-francisco-garaz-1976">San Francisco, garaż, 1976</h2>
+
+<p>Steve Wozniak ma 25 lat, pracuje w HP. Po godzinach lutuje w garażu w Los Altos. Nie ma na to żadnego biznesplanu. Robi to dla zabawy. Steve Jobs, który jest jego przyjacielem od liceum, ma 21 lat i obowiązek wymyślania, jak na tym zarobić.</p>
+
+<p>Wozniak <a href="https://www.thehenryford.org/explore/stories-of-innovation/visionaries/steve-wozniak/">projektuje Apple I sam</a>. Hardware. Płytka drukowana. System operacyjny. Język programowania. Wszystko. Pięciokrotnie próbował zaoferować ten projekt swojemu pracodawcy, czyli HP. <a href="https://en.wikipedia.org/wiki/Steve_Wozniak">HP odmówił mu pięć razy.</a> Powiedzieli, że to nie jest produkt dla nich. Jobs, gdy widzi to wszystko, mówi Wozniakowi: <em>"Załóżmy własną firmę. Nawet jeśli się nie uda, możemy powiedzieć wnukom, że mieliśmy własną firmę"</em>. Wozniak sprzedaje swój kalkulator naukowy HP-65, Jobs sprzedaje swojego volkswagena. Zakładają Apple Computer Company 1 kwietnia 1976.</p>
+
+<p>Wozniak projektuje też Apple II — następcę. Sam. Wbudowuje osiem slotów rozszerzeń. Jobs walczy o dwa, bo "jest elegancko". Wozniak walczy o osiem, bo widział na spotkaniach <a href="https://en.wikipedia.org/wiki/Homebrew_Computer_Club">Homebrew Computer Club</a>, jak ludzie chcą wkładać własne rzeczy do komputera. <a href="https://fs.blog/knowledge-project-podcast/outliers-steve-wozniak/">Wozniak wygrywa</a>. Te osiem slotów potem zbuduje cały ekosystem firm robiących karty rozszerzeń dla Apple II i uratuje Apple finansowo na dekadę.</p>
+
+<p>O Wozniaku publicznie mówi się od dawna, że ma cechy autystyczne. Pisarze biograficzni — między innymi <a href="http://www.phy6.org/outreach/books/Wozniak.htm">recenzent jego autobiografii <em>iWoz</em> z 2010 roku</a> — opisują go wprost: <em>"obvious case of Asperger's autism"</em>. Sam Wozniak nigdy się oficjalnie nie zdiagnozował, ale w wywiadach mówi rzeczy, które mówi człowiek z konkretnym profilem. <a href="https://womenlovetech.com/interview-apple-co-founder-steve-wozniak/">W rozmowie z 2018 roku</a>: <em>"Most of school I had been an outsider. You might call it a nerd. (...) After my plane crash I can't form new memories. I recognize faces from before, immediately, after 40 years. After the crash — nothing"</em>.</p>
+
+<p>I dodaje: <em>"I decided when I was about 20 that I'm going to do things that entertain me. Games, movies, puzzles, music, jokes. Frowns. That was a tougher one. I'm not going to argue with people, because you have a chance to walk away from people unhappy"</em>. To jest opisowy AuDHD-style coping mechanism. Hyperfokus na zabawę, świadome odsuwanie od konfliktu, projektowanie życia tak, by ograniczyć wymianę emocjonalną do tego, co da się obsłużyć.</p>
+
+<p>Wozniak <a href="https://en.wikipedia.org/wiki/Steve_Wozniak">7 lutego 1981 roku rozbija się samolotem</a>. Beechcraft Bonanza, którego nie był wykwalifikowany pilotować. Strom przy starcie. Samolot stulił się przy ziemi, przebił dwa płoty, wbił w nasyp. Wozniak budzi się i nie pamięta, że jest pilotem. Nie pamięta, kiedy się ożenił. Nie pamięta swojej obecnej żony. Wraca do pamięci stopniowo, ale część jest stracona na zawsze. To nie jest opowieść symboliczna — to są fakty z życia człowieka, który zaprojektował komputer, na którym ty czytasz tę stronę (bo Apple I jest dziadkiem każdego współczesnego MacBooka, a Apple II jest pradziadkiem komputera osobistego jako kategorii).</p>
+
+<hr>
+
+<h2 id="i-tu-jest-najmocniejsze-kategorii-nie-bylo">I tu jest najmocniejsze: kategorii nie było</h2>
+
+<p>Ken Thompson urodził się w 1943. Dennis Ritchie w 1941. Donald Knuth w 1938. Richard Stallman w 1953. Steve Wozniak w 1950. Linus Torvalds w 1969. Bill Joy w 1954. Larry Wall, twórca Perla — w 1954. Guido van Rossum — 1956.</p>
+
+<p>Hans Asperger opublikował swój opis "psychopatii autystycznej" — czyli tego, co my dziś nazywamy zespołem Aspergera lub autyzmem wysokofunkcjonującym — <a href="https://en.wikipedia.org/wiki/Hans_Asperger">w 1944 roku</a>. Po niemiecku. W okupowanym Wiedniu. Tekst nie został przetłumaczony na angielski aż do lat 80. <a href="https://en.wikipedia.org/wiki/DSM-III">DSM-III z 1980 roku</a> wprowadza autyzm jako odrębną jednostkę diagnostyczną, ale tylko w jego ciężkich, dziecięcych formach. Asperger jako kategoria diagnostyczna pojawia się dopiero w <a href="https://en.wikipedia.org/wiki/DSM-IV">DSM-IV z 1994 roku</a>.</p>
+
+<p>I teraz najważniejsze. <strong>DSM-IV explicite zakazywał współwystępowania autyzmu i ADHD.</strong> Według kryteriów z 1994 roku, jeśli ktoś miał diagnozę autyzmu, <em>nie mógł</em> mieć diagnozy ADHD. I odwrotnie. Były ze sobą wzajemnie wykluczające się jednostki. Dopiero <a href="https://en.wikipedia.org/wiki/DSM-5">DSM-5</a>, opublikowany w maju 2013 roku, dopuścił współdiagnozę. Czyli kategoria <em>AuDHD</em> — autyzm plus ADHD — w sensie diagnostycznym istnieje od 13 lat.</p>
+
+<p>Co to znaczy konkretnie? Że gdy Ken Thompson pisał Uniksa w sierpniu 1969, kategorii Aspergera nie było w żadnej anglojęzycznej psychiatrii. Gdy Knuth pisał TeXa w 1978, Asperger jeszcze nie pojawił się w DSM. Gdy Stallman zakładał FSF w 1985, autyzm był diagnozowany tylko u dzieci. Gdy Torvalds wypuszczał Linuksa w 1991, ADHD u dorosłych było uznawane za rzadkie i kontrowersyjne. Gdy Wozniak miał wypadek lotniczy w 1981, koncepcji autyzmu wysokofunkcjonującego praktycznie w klinicznym sensie nie istniała.</p>
+
+<p>Wszyscy oni — <em>strukturalnie</em> — nie mogli mieć diagnozy AuDHD, kiedy budowali to, co budowali. Kategoria diagnostyczna nie istniała. Mogli być — i byli nazywani — <em>ekscentrycznymi geniuszami</em>, <em>trudnymi we współpracy</em>, <em>nieobliczalnymi</em>, <em>maniakalnie skupionymi</em>, <em>dziwakami</em>. Ale nie autystycznymi, nie z ADHD, nie AuDHD. Bo tych słów albo nie było, albo nie pasowały do dorosłego inżyniera, albo wzajemnie się wykluczały.</p>
+
+<p>Jeśli się zsumuje to, co o nich wiadomo z biografii, list, wywiadów i obserwacji współpracowników — Stallman śpiący w biurze MIT przez dekady, Torvalds publicznie pokazujący palca firmie wartej miliardy, Knuth zatrzymujący swoje główne dzieło na dziesięć lat by przeprojektować czcionki, Wozniak budujący w pojedynkę komputer w garażu, Thompson piszący system operacyjny w cztery tygodnie podczas gdy żona była u rodziców — pojawia się wzorzec, który dziś nazywamy AuDHD, lub szerzej neuroróżnorodnością.</p>
+
+<p>To nie są <em>wszyscy</em> twórcy IT. To są ludzie, którzy zbudowali <em>fundamenty</em> — kompilatory, jądra, języki niskopoziomowe, podstawowe protokoły. Ludzie, którzy budowali aplikacje na tych fundamentach, byli średnio bardziej zwyczajni. Ale fundamenty robili ci.</p>
+
+<hr>
+
+<h2 id="i-dlaczego-to-ma-znaczenie-z-perspektywy-pamieci">I dlaczego to ma znaczenie z perspektywy pamięci</h2>
+
+<p>Wskaźnik w języku C jest dosłownie liczbą — adresem komórki pamięci. Programista C trzyma w głowie graf wszystkich aktywnych alokacji: które bloki są na stosie, które na stercie, które wskaźniki na nie wskazują, kto je zwolni, kiedy, w jakiej kolejności. Bez tego grafu w głowie kod nie działa. Z błędem w tym grafie program się zawiesza, czasem natychmiast, częściej dwa miesiące po wdrożeniu, na produkcyjnym serwerze, w środku weekendu.</p>
+
+<p>Mózg, który automatycznie kompresuje detale do streszczeń — czyli pamięć typu "<a href="https://en.wikipedia.org/wiki/Weak_central_coherence_theory">central coherence</a>" według klasyfikacji Frith z 1989 roku — w C traci trakcję. Zapomina, który blok zwolnił. Robi błędy <em>use-after-free</em>. Programuje przez schemat: "tu otwieramy plik, robimy coś, zamykamy plik". Ale gdy schemat zawiedzie — gdy między otwarciem a zamknięciem coś rzuci wyjątek i przepływ wykonania pójdzie inną ścieżką — schemat-mózg nie pamięta, że plik został otwarty. Bo schemat to skompresowana wersja: "operacja na pliku". A nie: "plik konkretnie pod adresem 0x7ffe2c800000, otwarty o 14:23:17, jeszcze niezamknięty".</p>
+
+<p>Mózg, który nie kompresuje detali — który trzyma <em>wskaźniki</em> do konkretnych zdarzeń, miejsc, faktów, w pełnej rozdzielczości, indeksowanych po anomalii a nie po kategorii — w C czuje się jak w domu. Bo <em>tak właśnie pamięta świat</em>. To jest pamięć, którą Dinah Murray, autystyczna badaczka, opisała w 1992 roku jako <a href="https://monotropism.org/">monotropizm</a>: uwaga skupia się głęboko na jednym, kosztem szerokiego pola; szczegóły są przechowywane w pełnej rozdzielczości; przełączanie kontekstu jest kosztowne, ale wewnątrz kontekstu — pamięć jest niemal absolutna. Przeniesione do programowania: idealna konstytucja umysłu do pisania jąder systemów operacyjnych, gdzie cały graf zależności pamięciowych musi siedzieć w głowie programisty, bo kompilator nie pomoże.</p>
+
+<p>I jest też druga warstwa. ADHD-mózg ma <a href="https://www.additudemag.com/working-memory-powers-executive-function/">deficyt pamięci roboczej</a> — to klasyczne odkrycie Russella Barkleya z 1997 roku. Ale ma też mechanizm hyperfokusu: gdy temat jest interesujący, gdy uruchamia się dopaminergiczna nagroda, pamięć robocza działa w zupełnie innym trybie. Programista ADHD nie potrafi pamiętać, gdzie zostawił klucze (klucze są nudne), ale potrafi przez 16 godzin bez przerwy debugować problem z race condition w kernelu (race condition jest fascynujący). To jest dokładnie ten profil, który Thompson opisał o sobie w wywiadzie z 1989 — pisał Uniksa w cztery tygodnie, jeden tydzień na komponent, bo żona była u rodziców i nie miał innych obowiązków. Klasyczny opis ADHD-hyperfokusu w warunkach pełnego skupienia.</p>
+
+<p>AuDHD — autyzm plus ADHD — to mózg, który ma <em>jedno i drugie</em>. Pamięć pointer-based jak w autyzmie (pełna rozdzielczość detali, indeksowanie po anomalii), plus dynamika ADHD (silny hyperfokus, ale tylko gdy temat zapali). To jest dokładnie konstytucja umysłowa, która pisze TeXa przez dziesięć lat zamiast roku. Która nie wychodzi z biura MIT przez dziesięciolecia. Która projektuje cały komputer sama. Która pisze jądro systemu operacyjnego w pokoju studenckim. I która potem publicznie pokazuje palca CEO NVIDIA.</p>
+
+<hr>
+
+<h2 id="javascript-jako-wyjatek-potwierdzajacy">JavaScript jako wyjątek potwierdzający</h2>
+
+<p>I teraz najważniejszy kontrprzykład. Brendan Eich w maju 1995 roku dostaje 10 dni na zaprojektowanie języka skryptowego do przeglądarki Netscape Navigator 2.0. <a href="https://thehistoryoftheweb.com/the-10-day-programming-language-is-a-myth/">Pisze prototyp w dziesięć dni</a>. Pełna integracja zajmuje kilka miesięcy. Język nazywa się Mocha, potem LiveScript, w grudniu 1995 — w wyniku marketingowej umowy z Sun Microsystems — ostatecznie <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>. Eich w wywiadach przyznawał: <em>"byłem pod presją działu marketingu, żeby wyglądał jak Java, ale nie urósł zbyt wielki dla swojej rangi… miał być głupim młodszym braciszkiem"</em>.</p>
+
+<p>JavaScript ma fundamentalne dziwactwa semantyczne, których nie da się usunąć ze względu na kompatybilność wsteczną. <code>[] + [] === ""</code>. <code>null == undefined</code> jest prawdą, ale <code>null !== undefined</code> też jest prawdą. <code>NaN !== NaN</code>. <code>typeof null === "object"</code>. Filozofia języka: <em>fail silently, do something</em>. Strona ma się załadować, klient ma coś zobaczyć, lepiej narysować niewłaściwy ekran niż nie narysować nic. To jest filozofia, która wygrała komercyjnie — JavaScript jest dziś najczęściej używanym językiem świata Web-u, TypeScript (jego nadzbiór z dodaną typizacją) jest najczęściej używanym językiem na <a href="https://github.blog/news-insights/octoverse/octoverse-2025/">GitHubie ogółem od 2025</a>.</p>
+
+<p>I teraz najmocniejszy fakt. <strong>Silniki JavaScriptu — V8 w Chrome, SpiderMonkey w Firefoxie, JavaScriptCore w Safari — są napisane w C++, nie w JavaScripcie</strong>. Wszystkie trzy. <a href="https://v8.dev/">V8</a> ma kilkaset tysięcy linii C++. SpiderMonkey — historycznie w C i C++. JavaScriptCore — w C++. Każdy z tych silników kompiluje JavaScript w locie do kodu maszynowego, wykonuje go, zarządza pamięcią. Same nie mogłyby być napisane w JavaScripcie, bo JavaScript nie ma deterministycznej semantyki potrzebnej do napisania kompilatora. Specyfikacja <a href="https://262.ecma-international.org/">ECMAScript</a> ma setki stron, z których znaczna część jest oznaczona jako <em>implementation-defined</em> — czyli trzy główne silniki mogą się różnić w zachowaniu i wszystkie trzy są zgodne ze standardem.</p>
+
+<p>Programista JavaScriptu, gdy jego kod nie działa, dostaje radę: <em>spróbuj inaczej, zobacz co Chrome robi, sprawdź StackOverflow</em>. Programista C, gdy jego kod nie działa, dostaje radę: <em>uruchom valgrind, sprawdź mapę pamięci, prześledź każde wywołanie malloc</em>. To nie są te same dyscypliny umysłowe. JavaScript jest językiem, który NT-mózg może pisać <em>wygodnie</em> — bo nie wymaga trzymania w głowie pełnego grafu. Wymaga schematu: <em>kliknięcie wywołuje funkcję, która coś robi z DOM-em</em>. Schemat-mózg umie pracować na schematach.</p>
+
+<p>JavaScript jest językiem skalowania społecznego — językiem, w którym po dwumiesięcznym kursie można zatrudnić kogoś, kto napisze działającą stronę. C jest językiem, w którym po dwumiesięcznym kursie nie można zatrudnić nikogo, bo kandydat zrobi w pierwszym tygodniu trzy buffer overflows i otworzy bramę dla każdego skanera bezpieczeństwa w Internecie.</p>
+
+<p>To nie znaczy, że JavaScript jest gorszy. To znaczy, że jest <em>czym innym</em>. Jest interfejsem. Tak jak Python (z 1991 roku, Guido van Rossum) jest interfejsem do bibliotek pisanych w C — <a href="https://numpy.org/">NumPy</a>, Pandas, TensorFlow, PyTorch, wszystkie mają jądra w C lub C++. Python pozwala programiście kompetentnemu w domenie problemu (statystyka, biologia, fizyka) wywoływać kod napisany przez kogoś kompetentnego w architekturze maszyny. Te dwa typy kompetencji rzadko mieszkają w jednej głowie.</p>
+
+<hr>
+
+<h2 id="co-to-znaczy-z-perspektywy-2026-roku">Co to znaczy z perspektywy 2026 roku</h2>
+
+<p>Kiedy w marcu 2026 roku dostaje się formalną diagnozę AuDHD w Krakowie, w gabinecie psychiatry, można zauważyć, że kategoria, która jest nadawana, ma — jako <em>diagnostyczna jednostka</em> — 13 lat. Że zanim DSM-5 ją dopuścił, ludzie z tą architekturą mózgu po prostu istnieli, byli różnie nazywani, i — jeśli akurat trafili w odpowiednią dekadę i odpowiednią dziedzinę — pisali Uniksa, projektowali komputery, walczyli o wolność oprogramowania.</p>
+
+<p>Cała dziedzina, którą znamy jako "fundamenty IT", jest zbudowana przez ludzi, którzy w obecnym systemie diagnostycznym byliby zaklasyfikowani jako neuroróżnorodni. Nie z przypadku. Bo dziedzina <em>tego wymaga</em>. Trzymania w głowie ogromnego grafu zależności pamięciowych. Wielogodzinnego hyperfokusu. Indeksowania po anomalii zamiast po kategorii. Ignorowania presji społecznej, która mówi "to się nie da, to za trudne, to nie tak działa".</p>
+
+<p>Linus Torvalds nie napisałby Linuksa, gdyby był towarzyski, gdyby dbał o uczucia kolegów, gdyby umiał odpuścić techniczny detal dla świętego spokoju w zespole. Stallman nie zbudowałby ruchu wolnego oprogramowania, gdyby był elastyczny ideologicznie. Knuth nie napisałby TeX-a, gdyby umiał zaakceptować "wystarczająco dobre" czcionki w drugim wydaniu książki. Wozniak nie zaprojektowałby Apple I sam, gdyby był ekipą zarządczą.</p>
+
+<p>To są ludzie, których cechy w 2026 roku często prowadzą do wykluczenia z rynku pracy, chyba że przypadkowo trafią do dziedziny, która te cechy <em>premiuje</em>. Niskopoziomowa informatyka jest taką dziedziną. Nie z powodu inkluzywności. Z powodu strukturalnego wymogu.</p>
+
+<p>I jeszcze jedno. Wszyscy oni — Thompson, Ritchie, Knuth, Stallman, Torvalds, Wozniak, van Rossum — pracowali w epoce, w której komputery <em>były wymierne</em>. Każdy bajt miał adres. Każda funkcja miała koszt. Każda alokacja miała odpowiadające zwolnienie. Pamięć była fizyczna. Maszyna była widoczna. Kompilator pomagał, ale nie ratował z błędów.</p>
+
+<p>Współczesne programowanie aplikacyjne ukrywa to wszystko. Programista JavaScriptu nie wie, ile pamięci zajmuje obiekt. Programista Pythona nie wie, kiedy garbage collector startuje. Programista Java nie wie, na jakiej maszynie kod się fizycznie wykonuje. Te warstwy abstrakcji są napisane przez ludzi, którzy <em>wiedzieli</em> — przez Thompsona, Ritchiego, Stallmana, Torvaldsa. Są zapisem ich mózgów, sposobem, w jaki oni pamiętali świat.</p>
+
+<p>Gdy używasz dziś dowolnego komputera, telefonu, serwera — od momentu, w którym naciskasz klawisz, do momentu, w którym zobaczysz literę na ekranie — przebiegasz przez stos warstw, z których każda jest zapisem pamięci jakiegoś autystycznego, ADHD-owego, AuDHD-owego mózgu. Linus pisał kernel. Ritchie pisał C. Thompson pisał Unix. Stallman pisał gcc, gdb, emacs. Wozniak projektował hardware. Knuth pisał TeX, na którym składa się każdy artykuł naukowy o twojej diagnozie.</p>
+
+<p>To nie są geniusze, którzy <em>mimo</em> swojego dziwactwa zbudowali IT. To są ludzie, którzy <em>dlatego, że</em> mieli te konkretne mózgi, mogli zbudować to, co zbudowali. Świat informatyki, w której żyjesz, jest fizyczną manifestacją grupy ludzkich umysłów o konkretnym profilu poznawczym — profilu, który dziś nazywa się neuroróżnorodnością, a wczoraj nie miał nazwy w ogóle.</p>
+
+<div class="meta">
+  <p>Wersja: 2.00 · Data: 2026-04-29 · Godzina: 06:50 (Europe/Warsaw)</p>
+  <p>Zmiana w 2.00: pełne przepisanie. Wcześniejsze wersje (1.00, 1.01, 1.02) były pisane jako esej akademicki ze streszczeniem, tezami i strukturą §1-§9. Ta wersja to opowieść — sceny, postaci, konkrety biograficzne. Tezy są w warstwie narracyjnej, nie deklaratywnej.</p>
+  <p>Autorstwo: Maciej Tora (ur. 18.09.1980), opracowanie wspólnie z Claude Opus 4.7 (Anthropic).</p>
+  <p>Status: tekst do dalszej redakcji. Linki do źródeł w treści. Niektóre fakty (zwłaszcza biograficzne anegdoty) wymagają dalszej weryfikacji u źródeł pierwotnych.</p>
+</div>
+
 </body>
 </html>

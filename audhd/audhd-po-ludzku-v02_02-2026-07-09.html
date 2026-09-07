@@ -1,73 +1,138 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AuDHD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AuDHD po ludzku — v02.02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Source+Serif+4:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#062e28;--paper:#f1e7cb;--gold:#dfbd63;--muted:#c8ae6b;--line:rgba(223,189,99,.28);color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.65}
-main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:44px 0 72px}
-h1,h2,h3,h4,h5,h6{color:var(--gold);line-height:1.18;scroll-margin-top:18px}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.2em 0 .65em}h2{font-size:1.75rem;margin:1.7em 0 .55em}h3{font-size:1.35rem;margin:1.5em 0 .5em}h4,h5,h6{margin:1.35em 0 .45em}
-p{margin:.7em 0}a{color:var(--gold)}strong,b{color:#f5dc98}blockquote{margin:1.2em 0;padding:.2em 1em;border-left:3px solid var(--gold);color:#e8dbbd}
-ul,ol{padding-left:1.4em}li{margin:.28em 0}hr{border:0;border-top:1px solid var(--line);margin:2em 0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:1.2em 0}th,td{border:1px solid var(--line);padding:.45em .6em;vertical-align:top}th{color:var(--gold)}
-pre{overflow:auto;padding:1em;border:1px solid var(--line);background:rgba(0,0,0,.16)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}img{max-width:100%;height:auto}
-#status{color:var(--muted);padding:18vh 0;text-align:center}.error{color:#ffd0d0}
-@media(max-width:700px){body{font-size:17px}main{width:min(100% - 24px,920px);padding-top:28px}}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: #faf6ee;
+  color: #2a2419;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 100%;
+  padding: 16px 14px 60px;
+  margin: 0;
+}
+h1, h2, h3 { font-family: "EB Garamond", Georgia, serif; font-weight: 700; }
+h1 { color: #7a2c1e; font-size: 28px; margin: 0.4em 0 0.2em; word-wrap: break-word; }
+h2 { color: #7a2c1e; font-size: 22px; margin: 1.4em 0 0.4em; word-wrap: break-word; }
+h3 { color: #6b5d3e; font-size: 18px; margin: 1em 0 0.3em; }
+p { margin: 0.6em 0; word-wrap: break-word; }
+.meta { font-size: 14px; color: #6b5d3e; margin-bottom: 1.2em; }
+.jednozdaniowy { font-style: italic; border-left: 3px solid #7a2c1e; padding-left: 12px; margin: 0.8em 0; }
+.stopka { font-size: 14px; color: #6b5d3e; margin-top: 2.4em; border-top: 1px solid #e8dfc8; padding-top: 0.8em; }
+@media (max-width: 768px) {
+  body { font-size: 17px; padding: 14px 12px 50px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 17px; }
+}
 </style>
 </head>
 <body>
-<main id="doc"><p id="status">Ładowanie tekstu z SQL…</p></main>
-<script>
-const API='https://piosenki-api.onrender.com/api/content/audhd/structure';
-const doc=document.getElementById('doc');
-const filename=decodeURIComponent(location.pathname.split('/').pop());
-const isEnglish=/EN|equations-metaphysics/i.test(filename);
-document.documentElement.lang=isEnglish?'en':'pl';
-if(isEnglish) document.getElementById('status').textContent='Loading text from SQL…';
-function fail(msg){doc.innerHTML='<p class="error"></p>';doc.firstChild.textContent=msg;}
-function addMathJax(){
-  window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},startup:{typeset:false}};
-  const s=document.createElement('script');
-  s.async=true;
-  s.src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-  s.onload=()=>window.MathJax?.typesetPromise?.([doc]);
-  document.head.appendChild(s);
-}
-fetch(API,{cache:'no-store'})
-.then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();})
-.then(data=>{
-  const rows=(Array.isArray(data.rows)?data.rows:[])
-    .filter(r=>r.dokument_plik===filename && r.section_kind==='heading')
-    .sort((a,b)=>Number(a.source_order??a.kolejnosc)-Number(b.source_order??b.kolejnosc));
-  if(!rows.length)throw new Error(`SQL: brak dokumentu ${filename}`);
-  if(rows.some(r=>typeof r.content_html!=='string'))throw new Error('SQL/API: brak pola content_html');
-  document.title=rows[0].dokument_tytul||rows[0].sekcja_tytul||'AuDHD';
-  doc.innerHTML='';
-  for(const r of rows){
-    const level=Math.min(6,Math.max(1,parseInt(String(r.poziom).replace(/\D/g,''),10)||2));
-    const h=document.createElement('h'+level);
-    h.id=r.anchor||'';
-    h.textContent=r.sekcja_tytul||'';
-    doc.appendChild(h);
-    if(r.content_html){
-      const body=document.createElement('div');
-      body.className='section-content';
-      body.innerHTML=r.content_html;
-      doc.appendChild(body);
-    }
-  }
-  addMathJax();
-  if(location.hash){
-    requestAnimationFrame(()=>{
-      const id=decodeURIComponent(location.hash.slice(1));
-      document.getElementById(id)?.scrollIntoView();
-    });
-  }
-})
-.catch(err=>fail((isEnglish?'Could not load text from SQL: ':'Nie udało się wczytać tekstu z SQL: ')+err.message));
-</script>
+<h1 id="audhd-po-ludzku">AuDHD po ludzku</h1>
+<p class="meta">v02.02 · 2026-07-09</p>
+
+<p>Słowo na początek. To, co potocznie nazywa się „normalnym" człowiekiem, w języku psychiatrii — kiedy mowa o autyzmie albo ADHD — nazywa się <strong>neurotypowy</strong>. I tak jest w całym tym tekście: neurotypowy = ktoś, czyj mózg działa w sposób typowy dla większości, bez autyzmu, ADHD i podobnych. Nie „normalny", bo autyzm i ADHD to nie choroba ani wybrakowanie — to inny typ układu.</p>
+
+
+<h2 id="adhd">ADHD</h2>
+<p class="jednozdaniowy">ADHD polega na tym, że układ od dopaminy i noradrenaliny jest źle wyskalowany. Tło za niskie, sygnał chwiejny — przez co regulacja uwagi i napędu nie odpala na komendę, tylko reaguje na to, co akurat zatrzepie układ mocniej.</p>
+
+<p>Sprzęt jest sprawny. Ustawienia inne. Nic nie jest zepsute — po prostu ten sam mózg działa jak telefon z jasnością ekranu na 30% zamiast na normalnym poziomie. Dopamina to paliwo uwagi i chęci do działania. U kogoś z ADHD tego paliwa cały czas jest za mało w tle, a to co się pojawia — szybko odparowuje.</p>
+
+<p>Stąd dwie rzeczy, które z zewnątrz wyglądają na sprzeczność, a naprawdę są tym samym mechanizmem.</p>
+
+<p>Z jednej strony — nie da się usiąść i zrobić czegoś nudnego, ale ważnego. To nie jest „nie chce mi się". To nie jest lenistwo. Silnik po prostu nie odpala. Nie ma paliwa.</p>
+
+<p>Z drugiej strony — jak coś naprawdę wkręci (nowe, ciekawe, pod presją, ostatnia chwila), to ten sam człowiek nagle działa sześć godzin z rzędu, nie je, nie pije, nie zauważa że minął dzień. To jest hiperfokus. To nie „siła woli". To temat sam wstrzyknął dopaminę i silnik wreszcie zaskoczył.</p>
+
+<p>Dlatego ADHD to nie jest deficyt uwagi. To jest brak sterowania uwagą. Uwaga jest — tylko nie idzie tam, gdzie każesz. Idzie tam, gdzie coś zawoła głośniej.</p>
+
+<p>I dlatego leki na ADHD (jak Atenza, którą biorę) niczego nie „leczą". One podnoszą i stabilizują to tło. Sprawiają, że silnik nie stoi w pustym baku — jest paliwo na start, można ruszyć bez czekania aż coś zawoła.</p>
+
+<h2 id="autyzm">Autyzm</h2>
+<p class="jednozdaniowy">Autyzm polega na tym, że informacje ze wszystkich zmysłów (w tym propriocepcja oraz interocepcja!) trafiają w postaci prawie surowej, praktycznie bez filtrów których normalni ludzie mają dużo dobrze skalibrowanych: nie zwracają uwagi na kolor i fakturę koszuli przechodzącej osoby, nie czują gumki od dresów po 2h noszenia, nie słyszą gwaru rozmowy z sąsiedniego pokoju. Ale za to głód narasta powoli, a nie dopiero w momencie gdy skręca z głodu kiszki.</p>
+
+<h3 id="zmysly-o-ktorych-szkola-nie-mowi">Zmysły, o których szkoła nie mówi</h3>
+<p>W szkole uczą, że mamy pięć zmysłów: wzrok, słuch, węch, smak, dotyk. To za mało. Naprawdę mamy jeszcze co najmniej trzy, i one są w tym zdaniu wyżej ważne:</p>
+<p><strong>Propriocepcja</strong> — czucie własnego ciała. Gdzie masz rękę bez patrzenia. Jak napięty jest mięsień. Że twoje stopy istnieją i dotykają podłogi.</p>
+<p><strong>Zmysł równowagi</strong> — siedzi w uchu. Wie, że stoisz, przechylasz się, jedziesz windą w górę.</p>
+<p><strong>Interocepcja</strong> — czucie tego, co się dzieje w środku ciała. Głód, pełny pęcherz, że ci szybciej bije serce, że jesteś spięty, że coś jest nie tak.</p>
+<p>Autyzm dotyczy wszystkich zmysłów. Nie tylko tego, że komuś za głośno.</p>
+
+<h3 id="co-znaczy-surowe">Co znaczy „surowe"</h3>
+<p>Wyobraź sobie telewizor. Zwykły telewizor robi coś, o czym nie myślisz — wygładza obraz, przycisza tło, koloryzuje pod to, czego się spodziewa. Robi ładnie. Twój mózg robi to samo z rzeczywistością — bez przerwy, w tle, bez pytania cię o zdanie.</p>
+
+<p>Jesteś w kuchni. Lodówka szumi. Nie słyszysz jej. Mózg zdecydował, że lodówka szumi zawsze i przestał ci o tym mówić. Masz na sobie spodnie. Nie czujesz ich. Mózg zdecydował, że spodnie masz od rana i przestał ci o tym mówić. Ktoś w tramwaju miał czerwoną kurtkę. Widziałeś ją przez sekundę i już nie pamiętasz. Mózg zdecydował, że czerwona kurtka nie jest ważna.</p>
+
+<p>U autysty tej autokorekty jest dużo mniej. Lodówka szumi CIĄGLE. Spodnie czuć CIĄGLE. Ta czerwona kurtka w tramwaju wjechała do głowy razem z fakturą i odcieniem i została tam na godzinę.</p>
+
+<p>To jest męczące na sposób, którego nie da się wytłumaczyć komuś, kto tego nie ma. To nie jest bycie „wrażliwym". To nie jest „przewrażliwienie". To jest po prostu więcej danych do przerobienia w każdej minucie dnia. Cały czas.</p>
+
+<h3 id="to-samo-dotyczy-ludzi">To samo dotyczy ludzi</h3>
+<p>I to jest najważniejsze do zrozumienia — TO SAMO działa przy patrzeniu na drugiego człowieka. Zwykły mózg patrzy komuś w twarz i automatycznie wie: „on jest zmęczony", „ona jest zła, ale udaje że nie", „temu jest głupio". Robi to bez pytania, w tle, na zgadywanie. Autystyczny mózg musi to LICZYĆ. Świadomie. Za każdym razem. Jak matematykę.</p>
+
+<p>Dlatego autyzm ludzie mylą z „brakiem empatii". Odwrotnie — jest tam za dużo surowych danych o drugim człowieku, i za mało autokorekty, która by z tego zrobiła szybką odpowiedź „on się boi". Empatia jest. Tylko musi być policzona, nie odczuta na wejściu.</p>
+
+<h3 id="glod">Głód</h3>
+<p>Autystyczny mózg, który słyszy każdą lodówkę, jednocześnie NIE zauważa, że nie jesz od ośmiu godzin. To nie sprzeczność. To ten sam mechanizm od drugiej strony — sygnały ze środka ciała są dla mózgu ciche i tło je zagłusza. Głód pełznie sobie w tle, ledwo słyszalny — aż nagle skręca kiszki i to już nie jest głód, tylko awaria.</p>
+
+<h2 id="pamiec-przy-wspolnym-wystepowaniu-autyzmu-i-adhd">Pamięć przy wspólnym występowaniu autyzmu i adhd</h2>
+<p class="jednozdaniowy">Wspólne występowanie autyzmu i adhd powoduje, że pamięć takiej osoby działa inaczej niż u większości ludzi. Pamięć robocza i pamięć „że mam coś zrobić później" działają bardzo słabo. Pamięć faktów i systemów w ciekawym temacie jest fenomenalna. Pamięć autobiograficzna (własne przeżycia) działa inaczej: słaba co do odczuć, emocji i wrażeń, za to mocna co do faktów o tym przeżyciu.</p>
+
+<p>Autyzm i ADHD to nie są dwie wersje tej samej rzeczy. To są dwie osobne rzeczy, które lubią chodzić razem. I ciągną w przeciwne strony.</p>
+
+<p>Autyzm chce jednego tematu na cały dzień, tego samego jedzenia, tej samej trasy do pracy, żeby nic się nie zmieniało. ADHD chce nowego tematu co dwa tygodnie, żeby coś się działo, żeby był bodziec. Człowiek z jednym i drugim żyje w ciągłym przeciąganiu liny między tymi dwoma silnikami. Nie ma jak wygrać.</p>
+
+<p>Dlatego pamięć u kogoś z AuDHD nie jest ani „autystyczna", ani „ADHD-owa". Jest osobna. Rozpisuje się tak:</p>
+
+<h3 id="pamiec-robocza-maly-stol">Pamięć robocza — mały stół</h3>
+<p>Pamięć robocza to jest ten stół, na którym trzyma się to, o czym się teraz myśli. U kogoś z ADHD ten stół jest mały. Bardzo mały. Wchodzą na niego cztery rzeczy i piąta wypycha pierwszą. Dlatego się wchodzi do drugiego pokoju i nie pamięta po co. Ktoś mówi trzy rzeczy do zrobienia i człowiek pamięta dwie. Idzie do sklepu bez listy i wraca bez połowy zakupów.</p>
+
+<p>To ma jeszcze jeden brzydki efekt: jak coś zestresuje w trakcie, stres wchodzi na ten mały stół z najwyższym priorytetem i zrzuca z niego wszystko, co tam było. Bezpowrotnie. Dane przepadły i nie wrócą. I potem to wygląda na wybuch złości nie do zniesienia — ale to nie jest reakcja na stres. To reakcja na to, że przed sekundą w głowie była ważna myśl, a teraz jej NIE MA. Bufor się przepełnił i coś ważnego się z niego wysypało. Stąd te wybuchy. To nie temperament.</p>
+
+<h3 id="pamiec-ze-mam-cos-zrobic-pozniej">Pamięć „że mam coś zrobić później"</h3>
+<p>Ten sam problem. Ta osoba nie widzi tego zadania, ono dla niej nie istnieje w chwili, w której powinno. To nie jest „zapomniałem". To jest — tego po prostu nie ma w głowie w tamtym momencie.</p>
+
+<p>Dlatego kalendarze, karteczki, budziki, aplikacje, przypomnienia u kogoś z AuDHD to nie jest niesamodzielność. To są okulary do pamięci. Krótkowidz nie jest głupi ani leniwy, że nosi okulary. Tu jest tak samo.</p>
+
+<h3 id="pamiec-faktow-w-ciekawym-temacie">Pamięć faktów w ciekawym temacie</h3>
+<p>Druga skrajność. Ktoś z AuDHD wkręcony w temat pamięta o nim rzeczy w takich szczegółach, których neurotypowi po prostu nie kumają. Bo autystyczny mózg raz wkręcony wkręca się na maksa i pakuje wszystko w bardzo gęstą, uporządkowaną pamięć. Ta sama głowa, która nie pamięta, czy zjadła śniadanie, cytuje z pamięci datę i stronę.</p>
+
+<p>Neurotypowi zakładają, że jak ktoś pamięta jedno, to musi pamiętać drugie. Nie musi. Pamięć u AuDHD nie działa na zasadzie „ważne / nieważne", tylko „ciekawe / nieciekawe". Nudne, a ważne (rachunki, umówiona wizyta) — nie wejdzie. Ciekawe, a błahe (rzucona uwaga sprzed pięciu lat) — zostanie na zawsze.</p>
+
+<h3 id="pamiec-wlasnych-przezyc">Pamięć własnych przeżyć</h3>
+<p>Działa specyficznie. Fakty o wydarzeniu — kto był, gdzie, co powiedziane, ile trwało — są. Ale sam film z tego, sama emocja, samo wrażenie „jak to było" — słabe albo żadne. Trochę jakby ktoś oglądał opis swojego życia napisany przez kogoś obcego. Zdarzenia są, treści emocjonalnej pod nimi nie ma.</p>
+
+<h2 id="maskowanie">Maskowanie</h2>
+<p class="jednozdaniowy">Maskowanie polega na tym, że przez cały dzień świadomie udajesz kogoś bardziej „normalnego" niż jesteś — tłumisz odruchy, wkładasz cudzą mimikę, gasisz reakcje — a ta ciągła nadpraca w tle zżera zasoby, aż człowiek się wypala.</p>
+
+<p>Neurotypowy nie musi grać, że jest neurotypowy — po prostu nim jest. Osoba z AuDHD, żeby wtopić się w otoczenie, musi to wszystko robić ręcznie i bez przerwy. To kosztuje energię, której potem nie ma na nic innego. I najczęściej nikt z zewnątrz tego nie widzi — bo o to właśnie w maskowaniu chodzi.</p>
+
+<p>Jak to wygląda w praktyce:</p>
+<ul>
+<li>Tłumienie odruchowych ruchów, którymi ciało się rozładowuje (kręcenie czegoś w palcach, bujanie, powtarzalne gesty)</li>
+<li>Ukrywanie emocji</li>
+<li>Zachowywanie się jak wszyscy dookoła, nawet kiedy to niewygodne i nie ma sensu</li>
+<li>Wkładanie sztucznej mimiki, bo „taką się wypada mieć"</li>
+<li>Nieproszenie o pomoc</li>
+<li>Udawanie, że lubisz coś, czego się nie znosi (albo odwrotnie)</li>
+<li>Duszenie w sobie załamania albo wybuchu, kiedy układ już nie wyrabia (skrajnie niebezpieczne — odbija się na zdrowiu)</li>
+<li>Przyłapywanie się, że kłamie się częściej niż zwykle — żeby przykryć własną bezpośredniość</li>
+<li>Zmuszanie się do kontaktu wzrokowego, który fizycznie boli</li>
+<li>Ciągłe przepraszanie za słabą pamięć albo inną cechę, której po prostu nie da się ukryć</li>
+<li>Siłowe powstrzymywanie się przed zasypaniem kogoś swoim ulubionym tematem</li>
+<li>Tłumaczenie cech, których nie da się zamaskować, tym że jest się „perfekcjonistą" albo „po prostu zestresowanym"</li>
+<li>Udawanie, że nie jest się przebodźcowanym — co prowadzi prosto do wypalenia</li>
+</ul>
+
+<p class="stopka">Plik stworzony 2026-07-09 o godz. 01:09 przez Maćka z pomocą Claude Opus 4.7 (Anthropic).<br>v02.01 (2026-07-09, godz. 14:12): dodano sekcję „Maskowanie" — tłumaczenie grafiki na polski, z pomocą Claude Opus 4.8 (Anthropic).<br>v02.02 (2026-07-09, godz. 14:17): „neuronudny" zmieniono na „neurotypowy" w całym pliku; dodano notkę o terminie na początku. Z pomocą Claude Opus 4.8 (Anthropic).</p>
 </body>
 </html>
