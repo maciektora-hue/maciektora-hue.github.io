@@ -25,29 +25,26 @@ jobs:
           assert old.exists()
           t = old.read_text(encoding='utf-8')
 
-          # 1. Usuń historyczne "o co kaman" z 17 polskich podsekcji.
-          count_o = t.count('Po polsku — o co kaman')
+          # 1. Usuń "o co kaman" WYŁĄCZNIE z 17 nagłówków polskich podsekcji.
+          pat = r'(<h4 lang="pl" id="[^"]+">)Po polsku — o co kaman( <span class="rank">\[PL\]</span></h4>)'
+          t, count_o = re.subn(pat, r'\1Po polsku\2', t)
           assert count_o == 17, count_o
-          t = t.replace('Po polsku — o co kaman', 'Po polsku')
 
-          # 2. Ujednolić oznaczenia autorstwa.
+          # 2. Jedna konwencja autorstwa: Maciek [M], Klaudiusz [K], Sol [S].
           old_attr = '<p class="note"><b>Attribution markers.</b> <b>[M]</b> — Maciek. <b>[K]</b> — Klaudiusz (Claude). <b>[S]</b> — Sol (ChatGPT). They identify contribution or provenance where it matters.</p>'
           new_attr = '<p class="note"><b>Attribution markers.</b> <b>[M]</b> — Maciek; <b>[K]</b> — Klaudiusz; <b>[S]</b> — Sol. They identify contribution or provenance where it matters.</p>'
           assert old_attr in t
           t = t.replace(old_attr, new_attr, 1)
 
-          # Bracket labels: jedna forma, [K] i [S].
           t = t.replace('[Klaudiusz]', '[K]').replace('[Sol]', '[S]')
-
-          # Nazwa osoby/modelu: w narracji używamy Klaudiusz, nie Claude.
           t = re.sub(r'\bClaude\b', 'Klaudiusz', t)
 
           # Wersja robocza.
           t = t.replace('EN v08.05 – 2026-09-07', 'EN v08.06 – 2026-09-07')
           t = t.replace('EN v08.05 · 2026-09-07', 'EN v08.06 · 2026-09-07')
 
-          # Twarde kontrole.
-          assert 'Po polsku — o co kaman' not in t
+          # Kontrole tylko tego, co zmieniamy.
+          assert re.search(pat, t) is None
           assert t.count('>Po polsku <span class="rank">[PL]</span></h4>') == 17
           assert '[Klaudiusz]' not in t
           assert '[Sol]' not in t
