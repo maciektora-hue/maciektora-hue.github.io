@@ -1,0 +1,165 @@
+name: SOL A1 - dograj 9 TOMOW
+
+on:
+  push:
+    paths:
+      - '.github/workflows/SOL_a1_9_tomow.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  insert-a1-volumes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Sprawdz stan i dograj tylko brakujace TOMY A1
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP A1: ' + msg);
+          }
+
+          const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+          const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+          const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+          if (!urlMatch || !tokenMatch) stop('brak URL lub tokena w daneDoSql.txt');
+
+          const tsv = fs.readFileSync('rosja/SOL_mapa-struktury-A1-z-opisami.tsv', 'utf8')
+            .replace(/^\uFEFF/, '')
+            .trimEnd()
+            .split(/\r?\n/);
+          const headers = tsv[0].split('\t');
+          const rows = tsv.slice(1).map(line => {
+            const vals = line.split('\t');
+            return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']));
+          });
+          const toms = rows.filter(r => r.typ_struktury.trim() === 'TOM');
+          if (toms.length !== 9) stop(`TSV: oczekiwano 9 TOM, jest ${toms.length}`);
+
+          const wanted = new Map(toms.map(r => [r.anchor.trim(), r]));
+          if (wanted.size !== 9 || [...wanted.keys()].some(a => !a)) stop('TSV: pusty lub zduplikowany anchor TOM');
+
+          const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+          async function main() {
+            const docRes = await client.execute({
+              sql: "SELECT document_id FROM content_documents WHERE collection_id='rosja' AND document_code='A1'",
+              args: []
+            });
+            if (docRes.rows.length !== 1) stop(`A1 document_id: oczekiwano 1 rekordu, jest ${docRes.rows.length}`);
+            const documentId = Number(docRes.rows[0].document_id);
+
+            const h1Res = await client.execute({
+              sql: "SELECT section_id FROM content_sections WHERE document_id=? AND section_kind='heading' AND anchor='kolumbryna'",
+              args: [documentId]
+            });
+            if (h1Res.rows.length !== 1) stop(`H1 kolumbryna: oczekiwano 1 rekordu, jest ${h1Res.rows.length}`);
+            const h1Id = Number(h1Res.rows[0].section_id);
+
+            const pragma = await client.execute('PRAGMA table_info(content_sections)');
+            const columns = new Set(pragma.rows.map(r => String(r.name)));
+            if (!columns.has('structure_order')) stop('brak kolumny structure_order; nie wykonuje ALTER TABLE');
+
+            const before = await client.execute({
+              sql: `SELECT anchor, section_title, depth, section_order, structure_order, parent_section_id
+                    FROM content_sections
+                    WHERE document_id=? AND section_kind='volume'
+                    ORDER BY structure_order, section_order`,
+              args: [documentId]
+            });
+
+            const existingAnchors = new Set(before.rows.map(r => String(r.anchor)));
+            const unexpected = [...existingAnchors].filter(a => !wanted.has(a));
+            if (unexpected.length) stop(`nieoczekiwane TOMY w A1: ${unexpected.join(', ')}`);
+
+            for (const row of before.rows) {
+              const src = wanted.get(String(row.anchor));
+              const k = Number(src.kolejnosc);
+              const expectedOrder = 1000 + k;
+              if (String(row.section_title) !== src.sekcja_tytul.trim() ||
+                  Number(row.depth) !== 2 ||
+                  Number(row.section_order) !== expectedOrder ||
+                  Number(row.structure_order) !== k ||
+                  Number(row.parent_section_id) !== h1Id) {
+                stop(`istniejacy TOM ma inne dane: ${row.anchor}`);
+              }
+            }
+
+            const occupiedOrders = await client.execute({
+              sql: `SELECT section_order, anchor FROM content_sections
+                    WHERE document_id=? AND section_order IN (${toms.map(() => '?').join(',')})`,
+              args: [documentId, ...toms.map(r => 1000 + Number(r.kolejnosc))]
+            });
+            for (const row of occupiedOrders.rows) {
+              const a = String(row.anchor);
+              if (!wanted.has(a)) stop(`section_order ${row.section_order} zajety przez ${a}`);
+            }
+
+            let inserted = 0;
+            for (const src of toms) {
+              const anchor = src.anchor.trim();
+              if (existingAnchors.has(anchor)) continue;
+              const k = Number(src.kolejnosc);
+              await client.execute({
+                sql: `INSERT INTO content_sections(
+                        document_id, parent_section_id, section_kind, heading_level,
+                        depth, section_order, structure_order, section_title, anchor, description
+                      ) VALUES (?, ?, 'volume', NULL, 2, ?, ?, ?, ?, ?)`,
+                args: [
+                  documentId,
+                  h1Id,
+                  1000 + k,
+                  k,
+                  src.sekcja_tytul.trim(),
+                  anchor,
+                  src.opis.trim() || null
+                ]
+              });
+              inserted++;
+            }
+
+            const counts = await client.execute({
+              sql: `SELECT
+                      sum(CASE WHEN section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                      sum(CASE WHEN section_kind='volume' THEN 1 ELSE 0 END) AS volumes,
+                      count(*) AS nodes
+                    FROM content_sections WHERE document_id=?`,
+              args: [documentId]
+            });
+            const c = counts.rows[0];
+            if (Number(c.headings) !== 24 || Number(c.volumes) !== 9 || Number(c.nodes) !== 33) {
+              stop(`walidacja koncowa: H=${c.headings}, TOM=${c.volumes}, razem=${c.nodes}`);
+            }
+
+            const finalRows = await client.execute({
+              sql: `SELECT anchor FROM content_sections
+                    WHERE document_id=? AND section_kind='volume'
+                    ORDER BY structure_order`,
+              args: [documentId]
+            });
+            const finalAnchors = finalRows.rows.map(r => String(r.anchor));
+            if (finalAnchors.length !== 9 || finalAnchors.some(a => !wanted.has(a))) {
+              stop('walidacja anchorow TOM nie przeszla');
+            }
+
+            console.log(`OK A1: dodano ${inserted}; H=24; TOM=9; razem=33`);
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
