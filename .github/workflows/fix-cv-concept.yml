@@ -1,0 +1,53 @@
+name: Fix CV index concept
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-cv-concept.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          changes = {
+            'cv/index.html': [
+              ('Dwa wejścia</a>', 'Dwie głębokości</a>'),
+              ('Dwa wejścia<br>do środka.', 'Jeden profil.<br>Dwie głębokości.'),
+              ('Jeden profil czytany na dwóch głębokościach: krótka droga zawodowa albo maszynownia pod spodem.', 'Najpierw obraz zawodowy. Potem, jeśli potrzeba, maszynownia pod spodem.'),
+              ('Zacznij od tego, czego potrzebujesz.', 'Wybierz poziom szczegółu.'),
+              ('CV jest drogą bezpośrednią. Seventeen &amp; Seventeen schodzi głębiej: pojęcia, metody i logika stojąca za pracą.', 'CV daje obraz bezpośredni. Seventeen &amp; Seventeen pokazuje pojęcia, metody i logikę stojącą za pracą.'),
+              ('Dwa sposoby czytania profilu', 'Dwie głębokości czytania profilu'),
+              ('Krótka droga', 'Widok skrócony'),
+              ('Długa droga', 'Widok głęboki'),
+            ],
+            'cv/index-en.html': [
+              ('Two ways in</a>', 'Two depths</a>'),
+              ('Two ways<br>in.', 'One profile.<br>Two depths.'),
+              ('One profile, read at two different depths: the concise professional route, or the machinery underneath it.', 'Start with the professional picture. Go deeper only if you want the machinery underneath.'),
+              ('Start with what you need.', 'Choose the level of detail.'),
+              ('The CV is the direct route. Seventeen &amp; Seventeen is the deeper one: concepts, methods and the logic behind the work.', 'The CV gives the direct professional picture. Seventeen &amp; Seventeen shows the concepts, methods and logic behind the work.'),
+              ('Two ways to read the profile', 'Two depths for reading the profile'),
+              ('The short route', 'The concise view'),
+              ('The long route', 'The deep view'),
+            ]
+          }
+          for fn, pairs in changes.items():
+              p=Path(fn); t=p.read_text(encoding='utf-8')
+              for old,new in pairs:
+                  if old not in t: raise SystemExit(f'Missing: {old}')
+                  t=t.replace(old,new,1)
+              p.write_text(t,encoding='utf-8')
+          assert 'Four ways<br>into the same head.' in Path('index-en.html').read_text(encoding='utf-8')
+          print('SUCCESS')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add cv/index.html cv/index-en.html
+          git commit -m "CV: replace Two ways with Two depths"
+          git pull --rebase origin main
+          git push
