@@ -21,7 +21,9 @@ def build_windows(model, size=80, step=30, direction="teraz"):
             break
         start += step
 
-    if direction == "przeszlosc":
+    # spotify_order=1 to najnowsze polubienia. Domyślnie pokazujemy więc
+    # przeszłość po lewej i teraz po prawej.
+    if direction == "teraz":
         ranges.reverse()
 
     windows = []
@@ -145,7 +147,7 @@ def build_time_page_sliding(model, window_size=80, step=30, direction="teraz"):
         "direction": direction,
         "direction_label": (
             "od przeszłości do teraz"
-            if direction == "przeszlosc"
+            if direction == "teraz"
             else "od teraz w przeszłość"
         ),
         "max_order": model["max_order"],
