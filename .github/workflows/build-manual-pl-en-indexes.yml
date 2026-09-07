@@ -1,0 +1,291 @@
+name: Build manual PL EN indexes
+
+on:
+  push:
+    paths:
+      - '.github/workflows/build-manual-pl-en-indexes.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zbuduj reczne pary PL EN bez automatycznych redirectow
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          LANG_CSS = '''
+          .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 11px;
+            border: 1px solid currentColor;
+            border-radius: 999px;
+            color: inherit;
+            background: rgba(0,0,0,.10);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: .74rem;
+            font-weight: 800;
+            letter-spacing: .04em;
+            line-height: 1;
+            text-decoration: none;
+            white-space: nowrap;
+          }
+          .lang-switch:hover, .lang-switch:focus-visible { opacity: .82; }
+          '''
+
+          def add_css(text):
+              if '.lang-switch {' not in text:
+                  assert '</style>' in text
+                  text = text.replace('</style>', LANG_CSS + '\n</style>', 1)
+              return text
+
+          def add_alternates(text, pl='index.html', en='index-en.html'):
+              if 'hreflang="pl"' not in text:
+                  links = f'\n  <link rel="alternate" hreflang="pl" href="{pl}">\n  <link rel="alternate" hreflang="en" href="{en}">\n'
+                  assert '</head>' in text
+                  text = text.replace('</head>', links + '</head>', 1)
+              return text
+
+          def add_to_first_nav(text, href, label):
+              text = add_css(text)
+              m = re.search(r'<nav\b[^>]*>.*?</nav>', text, flags=re.S|re.I)
+              if m:
+                  block = m.group(0)
+                  assert 'class="lang-switch"' not in block
+                  block2 = block.replace('</nav>', f'  <a class="lang-switch" href="{href}" lang="{"en" if label == "English" else "pl"}">{label}</a>\n      </nav>', 1)
+                  return text[:m.start()] + block2 + text[m.end():]
+              raise AssertionError('Brak nav do wstawienia przełącznika')
+
+          def translate_exact(text, replacements):
+              for old, new in replacements:
+                  assert old in text, old
+                  text = text.replace(old, new)
+              return text
+
+          # ROOT: obecna treść była po angielsku mimo lang=pl. Zachowujemy ją jako EN,
+          # a index.html staje się rzeczywiście polski.
+          root_path = Path('index.html')
+          root_src = root_path.read_text(encoding='utf-8')
+          root_en = root_src.replace('<html lang="pl">', '<html lang="en">', 1)
+          root_en = root_en.replace('<title>Maciej Tora — wejście główne</title>', '<title>Maciej Tora — main entrance</title>', 1)
+          root_en = root_en.replace('<meta name="description" content="Maciej Tora — CV, równania, Rosyjska Kolumbryna i AuDHD.">', '<meta name="description" content="Maciej Tora — CV, equations, Russian Kolumbryna and AuDHD.">', 1)
+          root_en = root_en.replace('href="cv/"', 'href="cv/index-en.html"', 1)
+          root_en = root_en.replace('href="audhd/rownania/"', 'href="audhd/rownania/index-en.html"', 1)
+          root_en = root_en.replace('href="rosja/"', 'href="rosja/index-en.html"', 1)
+          root_en = root_en.replace('href="audhd/"', 'href="audhd/index-en.html"', 1)
+          root_en = add_css(root_en)
+          assert '<div class="top-note">Four doors. No menu maze.</div>' in root_en
+          root_en = root_en.replace('<div class="top-note">Four doors. No menu maze.</div>', '<div class="top-note">Four doors. No menu maze.</div>\n      <a class="lang-switch" href="index.html" lang="pl">Polski</a>', 1)
+          root_en = add_alternates(root_en)
+          Path('index-en.html').write_text(root_en, encoding='utf-8')
+
+          root_pl = root_src
+          root_pl = translate_exact(root_pl, [
+              ('<div class="brand"><strong>Maciej Tora</strong> public entrance</div>', '<div class="brand"><strong>Maciej Tora</strong> wejście publiczne</div>'),
+              ('<div class="top-note">Four doors. No menu maze.</div>', '<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>'),
+              ('Work · Mathematics · Strategy · Neurodivergence', 'Praca · Matematyka · Strategia · Neuroróżnorodność'),
+              ('Four ways<br>into the same head.', 'Cztery drogi<br>do tej samej głowy.'),
+              ('A professional profile, a handful of equations worth keeping, strategic writing about Russia, and the architecture of AuDHD. Different doors, same machinery underneath.', 'Profil zawodowy, kilka równań wartych zachowania, teksty strategiczne o Rosji i architektura AuDHD. Różne wejścia, ta sama maszynownia pod spodem.'),
+              ('Start wherever the question is.', 'Zacznij tam, gdzie jest pytanie.'),
+              ('The order below is intentional: work first, then mathematics, then geopolitics, then the operating system underneath the operator.', 'Kolejność jest celowa: najpierw praca, potem matematyka, geopolityka, a na końcu system operacyjny operatora.'),
+              ('<div class="door-kicker">Professional</div>', '<div class="door-kicker">Zawodowe</div>'),
+              ('The direct route: experience, AI enablement, mathematics, business, and a deeper 17×17 companion piece for anyone who wants the machinery, not only the timeline.', 'Droga bezpośrednia: doświadczenie, AI enablement, matematyka, biznes oraz głębsze 17×17 dla tych, których interesuje maszynownia, a nie tylko chronologia.'),
+              ('Best first stop', 'Najlepsze pierwsze wejście'),
+              ('>ENTER <', '>WEJDŹ <'),
+              ('<div class="door-kicker">Mathematics</div>', '<div class="door-kicker">Matematyka</div>'),
+              ('<h2>The equations</h2>', '<h2>Równania</h2>'),
+              ('The most beautiful and useful equations in the room. A small monument to the fact that reality occasionally consents to being written compactly.', 'Najpiękniejsze i najbardziej użyteczne równania w pokoju. Mały pomnik faktu, że rzeczywistość czasem zgadza się zostać zapisana zwięźle.'),
+              ('Beauty with units', 'Piękno z jednostkami'),
+              ('>OPEN <', '>OTWÓRZ <'),
+              ('<div class="door-kicker">Strategy</div>', '<div class="door-kicker">Strategia</div>'),
+              ('Strategic writing, maps, mechanisms and cross-links around Russia, state failure, legitimacy, resources, pressure and the strange persistence of systems that should have fallen over already.', 'Teksty strategiczne, mapy, mechanizmy i połączenia wokół Rosji: rozpad zdolności państwa, legitymizacja, zasoby, presja i dziwna trwałość systemów, które już dawno powinny się przewrócić.'),
+              ('Long-form strategic work', 'Długie analizy strategiczne'),
+              ('<div class="door-kicker">Architecture of mind</div>', '<div class="door-kicker">Architektura umysłu</div>'),
+              ('Late diagnosis, traits, regulation, masking, memory, burnout, cognition and the attempt to describe a nervous system without turning a person into a checklist.', 'Późna diagnoza, cechy, regulacja, maskowanie, pamięć, wypalenie, poznanie i próba opisania układu nerwowego bez zamieniania człowieka w checklistę.'),
+              ('Maps, essays, explanations', 'Mapy, eseje, wyjaśnienia'),
+              ('One repository · four public entrances', 'Jedno repozytorium · cztery publiczne wejścia'),
+          ])
+          root_pl = add_css(root_pl)
+          root_pl = root_pl.replace('<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>', '<div class="top-note">Cztery wejścia. Bez labiryntu menu.</div>\n      <a class="lang-switch" href="index-en.html" lang="en">English</a>', 1)
+          root_pl = add_alternates(root_pl)
+          root_path.write_text(root_pl, encoding='utf-8')
+
+          # CV: obecny index jest angielski. Kopia EN + polski index.
+          cv_path = Path('cv/index.html')
+          cv_src = cv_path.read_text(encoding='utf-8')
+          cv_en = add_to_first_nav(cv_src, 'index.html', 'Polski')
+          cv_en = add_alternates(cv_en)
+          Path('cv/index-en.html').write_text(cv_en, encoding='utf-8')
+
+          cv_pl = cv_src.replace('<html lang="en">', '<html lang="pl">', 1)
+          cv_pl = cv_pl.replace('<meta name="description" content="Maciej Tora — AI Enablement, PhD in Mathematics, Founder & CEO. CV and Seventeen & Seventeen.">', '<meta name="description" content="Maciej Tora — AI Enablement, doktor matematyki, Founder & CEO. CV i Seventeen & Seventeen.">', 1)
+          cv_pl = translate_exact(cv_pl, [
+              ('aria-label="Quick links"', 'aria-label="Szybkie linki"'),
+              ('>Two ways in</a>', '>Dwa wejścia</a>'),
+              ('>What connects them</a>', '>Co je łączy</a>'),
+              ('Two ways<br>in.', 'Dwa wejścia<br>do środka.'),
+              ('One profile, read at two different depths: the concise professional route, or the machinery underneath it.', 'Jeden profil czytany na dwóch głębokościach: krótka droga zawodowa albo maszynownia pod spodem.'),
+              ('Start with what you need.', 'Zacznij od tego, czego potrzebujesz.'),
+              ('The CV is the direct route. Seventeen &amp; Seventeen is the deeper one: concepts, methods and the logic behind the work.', 'CV jest drogą bezpośrednią. Seventeen &amp; Seventeen schodzi głębiej: pojęcia, metody i logika stojąca za pracą.'),
+              ('aria-label="Two ways to read the profile"', 'aria-label="Dwa sposoby czytania profilu"'),
+              ('The short route', 'Krótka droga'),
+              ('Experience, skills, education and the work I actually did.', 'Doświadczenie, umiejętności, wykształcenie i praca, którą rzeczywiście robiłem.'),
+              ('For recruiters, hiring managers and people who want the professional picture first: AI enablement, agentic workflows, governance, adoption, business value and the experience behind them.', 'Dla rekruterów, hiring managerów i osób, które najpierw chcą zobaczyć obraz zawodowy: AI enablement, agentic workflows, governance, adoption, wartość biznesową i doświadczenie stojące za nimi.'),
+              ('Best first read', 'Najlepsze pierwsze czytanie'),
+              ('READ THE CV', 'CZYTAJ CV'),
+              ('The long route', 'Długa droga'),
+              ('17 concepts from the AI job market. 17 concepts from the work behind the CV.', '17 pojęć z rynku pracy AI. 17 pojęć z pracy stojącej za CV.'),
+              ('For people who want to know how I think, not only where I worked: the vocabulary of the market set against the methods, constraints and ideas developed in practice.', 'Dla osób, które chcą wiedzieć, jak myślę, a nie tylko gdzie pracowałem: słownik rynku zestawiony z metodami, ograniczeniami i pomysłami wypracowanymi w praktyce.'),
+              ('Deeper evidence', 'Głębszy dowód'),
+              ('GO DEEPER', 'IDŹ GŁĘBIEJ'),
+              ('What connects them', 'Co je łączy'),
+              ('The CV says what I have done. <em>Seventeen &amp; Seventeen</em> shows how the machinery underneath it works.', 'CV mówi, co zrobiłem. <em>Seventeen &amp; Seventeen</em> pokazuje, jak działa maszynownia pod spodem.'),
+              ('Public CV gateway', 'Publiczna brama CV'),
+          ])
+          cv_pl = add_to_first_nav(cv_pl, 'index-en.html', 'English')
+          cv_pl = add_alternates(cv_pl)
+          cv_path.write_text(cv_pl, encoding='utf-8')
+
+          # Istniejące polskie indeksy: tylko jawny link do EN. Żadnego wykrywania języka.
+          for p in [Path('rosja/index.html'), Path('audhd/index.html')]:
+              t = p.read_text(encoding='utf-8')
+              t = add_to_first_nav(t, 'index-en.html', 'English')
+              t = add_alternates(t)
+              p.write_text(t, encoding='utf-8')
+
+          def gateway(title, kicker, lead, note, items, polish_href='index.html'):
+              cards = []
+              for i, (name, subtitle, href, badge) in enumerate(items, 1):
+                  cards.append(f'''<a class="card" href="{href}"><span class="no">{i:02d}</span><span class="badge">{badge}</span><h2>{name}</h2><p>{subtitle}</p><strong>OPEN →</strong></a>''')
+              return f'''<!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="color-scheme" content="dark">
+            <title>{title}</title>
+            <link rel="alternate" hreflang="pl" href="{polish_href}">
+            <link rel="alternate" hreflang="en" href="index-en.html">
+            <style>
+              :root{{--bg:#071b16;--bg2:#0d3026;--ink:#f1e6c8;--muted:#b9ad91;--gold:#e2bc58;--line:rgba(226,188,88,.28);--serif:Georgia,"Times New Roman",serif;--sans:Inter,system-ui,sans-serif}}
+              *{{box-sizing:border-box}} body{{margin:0;background:linear-gradient(145deg,var(--bg2),var(--bg));color:var(--ink);font-family:var(--sans);line-height:1.55;min-height:100vh}} a{{color:inherit}}
+              .shell{{width:min(1120px,calc(100% - 32px));margin:auto;padding:30px 0 48px}}
+              header{{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding-bottom:28px;border-bottom:1px solid var(--line)}}
+              .lang-switch{{display:inline-flex;padding:8px 12px;border:1px solid var(--gold);border-radius:999px;color:var(--gold);text-decoration:none;font-weight:800;font-size:.76rem;white-space:nowrap}}
+              .hero{{padding:64px 0 46px}} .kicker{{color:var(--gold);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}}
+              h1{{font-family:var(--serif);font-weight:500;font-size:clamp(3rem,8vw,6.4rem);line-height:.94;letter-spacing:-.045em;margin:10px 0 24px}} .lead{{max-width:800px;color:var(--muted);font-size:1.14rem}} .note{{margin-top:18px;color:var(--gold)}}
+              .grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}} .card{{position:relative;min-height:245px;padding:24px;border:1px solid var(--line);text-decoration:none;background:rgba(255,255,255,.035)}} .card:hover{{background:rgba(255,255,255,.06)}}
+              .no{{color:var(--gold);font-weight:900}} .badge{{float:right;color:var(--muted);font-size:.72rem;border:1px solid var(--line);padding:3px 7px}} .card h2{{font-family:var(--serif);font-size:1.8rem;font-weight:500;margin:34px 0 10px}} .card p{{color:var(--muted);margin:0 0 28px}} .card strong{{position:absolute;bottom:22px;left:24px;color:var(--gold);font-size:.78rem;letter-spacing:.06em}}
+              footer{{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}}
+              @media(max-width:720px){{.grid{{grid-template-columns:1fr}} header{{align-items:center}}}}
+            </style>
+          </head>
+          <body><div class="shell">
+            <header><strong>Maciej Tora</strong><a class="lang-switch" href="{polish_href}" lang="pl">Polski</a></header>
+            <section class="hero"><p class="kicker">{kicker}</p><h1>{title}</h1><p class="lead">{lead}</p><p class="note">{note}</p></section>
+            <main class="grid">{''.join(cards)}</main>
+            <footer>Manual language choice. No browser detection, no automatic redirects.</footer>
+          </div></body></html>'''
+
+          rosja_items = [
+              ('Topic map', 'Public map of themes, documents and cross-links.', 'mapa/', 'PL'),
+              ('Russian Kolumbryna', 'The opening document and the conceptual starting point.', 'kolumbryna/', 'PL'),
+              ('Gradually, then suddenly', 'System degradation, thresholds and non-linear failure.', 'gradually-suddenly/', 'PL'),
+              ('Target list', 'Targets, mechanisms and the structure of pressure.', 'lista-celow/', 'PL'),
+              ('Transition to wholesale', 'July 2026: the move from selective to broad pressure.', 'przejscie-na-hurt/', 'PL'),
+              ('Audit', 'Two revisions and an audit of the argument.', 'audyt/', 'PL'),
+              ('Stock versus flow', 'A separate look at reserves, throughput and depletion.', 'zapas-kontra-strumien/', 'PL'),
+              ('How states end', 'Mechanisms of state failure and terminal dynamics.', 'jak-koncza-sie-panstwa/', 'PL'),
+              ('Dark Legitimacy', 'A tool for reading legitimacy under pressure.', 'dark-legitimacy/', 'PL'),
+              ('Disinfolklore', 'A compilation of disinformation and folklore mechanisms.', 'disinfolklore/', 'PL'),
+              ('Disinfolklore SWOT', 'SWOT and adversarial review of the tool.', 'disinfolklore-swot/', 'PL'),
+              ('Russian self-destructions', 'A taxonomy of self-inflicted systemic damage.', 'rosyjskie-samobojstwa/', 'PL'),
+              ('Putin cornered', 'The cornered-animal frame and its limits.', 'putin-cornered/', 'PL'),
+              ('Yalta 3', 'Strategic analysis and a separate appendix.', 'jalta-3/', 'PL'),
+              ('Yalta 3 appendix', 'Companion appendix to the Yalta 3 analysis.', 'jalta-3-apendyks/', 'PL'),
+              ('Oil, gas, geopolitics', 'Energy flows and geopolitical leverage.', 'ropa-gaz/', 'PL'),
+              ('Monopolies and morality', 'Monopolies, transformation and the sources behind the argument.', 'monopole/', 'PL'),
+          ]
+          Path('rosja/index-en.html').write_text(gateway(
+              'Russian Kolumbryna', 'Strategy · Russia · system failure',
+              'A public entrance to the strategic work on Russia: logistics, energy, legitimacy, state capacity, pressure and non-linear failure.',
+              'The index is in English. The source documents are currently mostly in Polish, so each card is labelled honestly instead of pretending the translation already exists.',
+              rosja_items), encoding='utf-8')
+
+          audhd_items = [
+              ('What AuDHD means', 'The shortest explanation and a practical starting point.', 'co-to-znaczy/', 'PL'),
+              ('AuDHD in plain language', 'Needs, contradictions, regulation and everyday life from the inside.', 'po-ludzku/', 'PL'),
+              ('Traits and patterns', 'The broad map of adult AuDHD traits and mechanisms.', 'cechy/#spis-tresci', 'PL'),
+              ('After a late diagnosis', 'What actually helps after the label finally arrives.', 'po-diagnozie/', 'PL'),
+              ('Core or masking?', 'A closer look at traits, masking and interpretation.', 'rdzen-czy-maskowanie/', 'PL'),
+              ('20 research papers', 'A readable bridge into the research literature.', '20-prac/', 'PL'),
+              ('Publication list', 'A longer research bibliography.', 'publikacje/', 'PL'),
+              ('How many of us?', 'A preliminary estimate for AuDHD in Poland.', 'ilu-nas/', 'PL'),
+              ('Helping at your own expense', 'ADHD, helping and the cost of self-erasure.', 'pomaganie/', 'PL'),
+              ('Regulation and speaking', 'Autistic regulation, speech and overload.', 'mowienie/', 'PL'),
+              ('Objectivity', 'Autism, objectivity and the peculiar social life of precision.', 'obiektywnosc/', 'PL'),
+              ('Five love languages', 'A neurodivergent reading of a familiar relationship model.', 'jezyki-milosci/', 'PL'),
+              ('Founders and IT', 'AuDHD, founders and information technology.', 'fundatorzy-it/', 'PL'),
+              ('Memory — essay', 'An essay on competing memory architectures.', 'pamiec-esej/', 'PL'),
+              ('Memory — fiction', 'The same architecture explored as fiction.', 'pamiec-powiesc/', 'PL'),
+              ('Cognitive science and AI', 'Cognitive biases, AI and ways of thinking.', 'kognitywistyka-ai/', 'PL'),
+              ('The equations', 'Ten equations, metaphysics, and a shamelessly rigged jury.', 'rownania/index-en.html', 'EN / PL'),
+          ]
+          Path('audhd/index-en.html').write_text(gateway(
+              'AuDHD', 'Neurodivergence · cognition · lived architecture',
+              'A map of essays and explanations about late diagnosis, memory, regulation, masking, relationships, burnout and cognition.',
+              'This is a half-bilingual site by design. The index is English; most source texts remain Polish until an English version is deliberately made.',
+              audhd_items), encoding='utf-8')
+
+          # RÓWNANIA: dwie pełne wersje pod stabilnymi, ręcznymi adresami. Zero redirectu.
+          def equation_public(src_path, lang, other_href, other_label):
+              t = Path(src_path).read_text(encoding='utf-8')
+              t = add_css(t)
+              t = add_alternates(t)
+              bar = f'<div style="display:flex;justify-content:flex-end;margin:0 0 22px"><a class="lang-switch" href="{other_href}" lang="{"en" if other_label == "English" else "pl"}">{other_label}</a></div>'
+              assert '<main>' in t
+              t = t.replace('<main>', '<main>\n    ' + bar, 1)
+              if lang == 'en':
+                  t = t.replace('<html lang="pl">', '<html lang="en">', 1)
+              return t
+
+          pl_src = 'audhd/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html'
+          en_src = 'audhd/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html'
+          assert Path(pl_src).exists() and Path(en_src).exists()
+          Path('audhd/rownania/index.html').write_text(equation_public(pl_src, 'pl', 'index-en.html', 'English'), encoding='utf-8')
+          Path('audhd/rownania/index-en.html').write_text(equation_public(en_src, 'en', 'index.html', 'Polski'), encoding='utf-8')
+
+          # Kontrola twardych zasad.
+          pairs = [
+              (Path('index.html'), Path('index-en.html')),
+              (Path('cv/index.html'), Path('cv/index-en.html')),
+              (Path('rosja/index.html'), Path('rosja/index-en.html')),
+              (Path('audhd/index.html'), Path('audhd/index-en.html')),
+              (Path('audhd/rownania/index.html'), Path('audhd/rownania/index-en.html')),
+          ]
+          for pl, en in pairs:
+              a = pl.read_text(encoding='utf-8')
+              b = en.read_text(encoding='utf-8')
+              assert 'English' in a, pl
+              assert 'Polski' in b, en
+              assert 'navigator.language' not in a + b
+              assert 'location.replace' not in a + b
+              assert 'http-equiv="refresh"' not in a + b
+              print('OK', pl, '<->', en)
+
+          print('SUCCESS: manual PL/EN indexes, no automatic language logic')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html index-en.html cv/index.html cv/index-en.html rosja/index.html rosja/index-en.html audhd/index.html audhd/index-en.html audhd/rownania/index.html audhd/rownania/index-en.html
+          git commit -m "Dodaj reczne pary indeksow PL EN"
+          git push
