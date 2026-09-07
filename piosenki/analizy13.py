@@ -1,7 +1,7 @@
 from collections import Counter, defaultdict
 from itertools import combinations
 
-from czas_okna import build_windows
+from czas_okna import DEFAULT_STEP, DEFAULT_WINDOW_SIZE, build_windows
 from statystyki import legend, svg_chart
 
 
@@ -71,18 +71,12 @@ def _series_colors(series, palette):
 
 
 def _time_chart(labels, series, colors=None):
-    # spotify_order=1 oznacza najnowsze polubienie. Na wykresie czas ma płynąć
-    # od przeszłości po lewej do teraz po prawej.
-    ordered_series = [
-        {**item, "values": list(reversed(item["values"]))}
-        for item in series
-    ]
-    return svg_chart(list(reversed(labels)), ordered_series, colors)
+    # build_windows(..., direction="teraz") zwraca już kolejność:
+    # przeszłość po lewej -> najnowsze polubienia / teraz po prawej.
+    return svg_chart(labels, series, colors)
 
 
-def build_13_analyses(model, chunk_size=80, step=30):
-    # To samo okno czasowe co w osobnym widoku czasu: 80 zdarzeń,
-    # przesunięcie domyślnie o 30 zdarzeń. Okna zachodzą na siebie.
+def build_13_analyses(model, chunk_size=DEFAULT_WINDOW_SIZE, step=DEFAULT_STEP):
     chunks = build_windows(model, size=chunk_size, step=step, direction="teraz")
     labels = [c["label"] for c in chunks]
     n = len(chunks)
@@ -170,7 +164,7 @@ def build_13_analyses(model, chunk_size=80, step=30):
 
     changes = []
     if len(chunks) >= 2:
-        newest, oldest = chunks[0], chunks[-1]
+        oldest, newest = chunks[0], chunks[-1]
         names = set(newest["tags"]) | set(oldest["tags"])
         newest_total = newest["tag_total"] or 1
         oldest_total = oldest["tag_total"] or 1
