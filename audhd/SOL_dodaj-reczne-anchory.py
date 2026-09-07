@@ -87,7 +87,6 @@ def apply_to_file(path: Path, mappings: list[dict]) -> None:
     for a, b, repl in sorted(replacements, reverse=True):
         text = text[:a] + repl + text[b:]
 
-    # walidacja po zmianie
     ids_after = [m.group(2) for m in ID_RE.finditer(text) if m.group(2)]
     dup_after = [k for k, v in Counter(ids_after).items() if v > 1]
     if dup_after:
@@ -111,6 +110,8 @@ def update_map(manifest: list[dict]) -> None:
         raise SystemExit("STOP: mapa TSV bez naglowka")
     if len(rows) != 338:
         raise SystemExit(f"STOP: oczekiwano 338 wierszy mapy, jest {len(rows)}")
+    if "url_zrodlowy" not in fields:
+        raise SystemExit("STOP: mapa TSV nie ma kolumny url_zrodlowy")
 
     for r in manifest:
         candidates = [x for x in rows if x["dokument_kod"] == r["dokument_kod"] and x["dokument_plik"] == r["dokument_plik"] and x["poziom"] == r["poziom"] and x["sekcja_tytul"] == r["sekcja_tytul"]]
@@ -121,7 +122,7 @@ def update_map(manifest: list[dict]) -> None:
             raise SystemExit(f"STOP: mapa ma inny anchor: {x['anchor']!r} != {r['anchor']!r}")
         x["anchor"] = r["anchor"]
         x["anchor_status"] = "OK"
-        x["deep_link"] = x["url_stabilny"].rstrip("#") + "#" + r["anchor"]
+        x["deep_link"] = x["url_zrodlowy"].rstrip("#") + "#" + r["anchor"]
 
     with MAP_PATH.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, delimiter="\t", lineterminator="\n")
