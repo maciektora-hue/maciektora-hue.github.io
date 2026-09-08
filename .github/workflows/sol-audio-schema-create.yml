@@ -1,0 +1,108 @@
+name: SOL audio schema — utworzenie tabel w Turso
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-audio-schema-create.yml'
+      - 'piosenki/SOL_audio-schema-v01.sql'
+
+permissions:
+  contents: read
+
+jobs:
+  create-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Create audio tables only
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import sqlite3
+          from pathlib import Path
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          sql = Path('piosenki/SOL_audio-schema-v01.sql').read_text(encoding='utf-8')
+
+          forbidden = ('INSERT ', 'UPDATE ', 'DELETE ', 'REPLACE ')
+          upper = sql.upper()
+          bad = [word.strip() for word in forbidden if word in upper]
+          if bad:
+              raise RuntimeError('DDL-ONLY: znaleziono niedozwolone polecenia danych: ' + repr(bad))
+
+          statements = []
+          buf = ''
+          for line in sql.splitlines(True):
+              buf += line
+              if sqlite3.complete_statement(buf):
+                  statement = buf.strip()
+                  if statement:
+                      statements.append(statement)
+                  buf = ''
+          if buf.strip():
+              raise RuntimeError('Niekompletne polecenie SQL na końcu migracji')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          try:
+              for statement in statements:
+                  normalized = statement.lstrip().upper()
+                  if normalized.startswith('PRAGMA FOREIGN_KEYS'):
+                      continue
+                  conn.execute(statement)
+          except Exception:
+              try:
+                  conn.rollback()
+              except Exception:
+                  pass
+              raise
+
+          expected_tables = ['audio', 'audio_middle_end', 'audio_feature_snapshots']
+          existing = {
+              row[0]
+              for row in conn.execute(
+                  "SELECT name FROM sqlite_master WHERE type='table'"
+              ).fetchall()
+          }
+          missing = [name for name in expected_tables if name not in existing]
+          if missing:
+              raise RuntimeError('BRAKUJE TABEL: ' + repr(missing))
+
+          counts = {
+              name: conn.execute(f'SELECT COUNT(*) FROM {name}').fetchone()[0]
+              for name in expected_tables
+          }
+          if any(counts.values()):
+              raise RuntimeError('OCZEKIWANO PUSTYCH TABEL, JEST: ' + repr(counts))
+
+          snapshot_cols = conn.execute(
+              'PRAGMA table_info(audio_feature_snapshots)'
+          ).fetchall()
+          if len(snapshot_cols) != 190:
+              raise RuntimeError(
+                  f'BLEDNA LICZBA KOLUMN audio_feature_snapshots: {len(snapshot_cols)} zamiast 190'
+              )
+
+          print('AUDIO_SCHEMA_TABLES=' + repr(expected_tables))
+          print('AUDIO_SCHEMA_COUNTS=' + repr(counts))
+          print('AUDIO_SNAPSHOT_COLUMNS=' + str(len(snapshot_cols)))
+          print('AUDIO_SCHEMA_OK')
+          conn.close()
+          PY
