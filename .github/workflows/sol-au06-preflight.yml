@@ -1,0 +1,126 @@
+name: SOL AU06 preflight
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-au06-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-au06:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check AU06 without writing
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import libsql
+
+          expected = [
+              (1,1,17,'memory_architecture'),
+              (1,2,105,'foundations_of_information_technology'),
+              (1,3,484,'technology_creators'),
+              (1,4,18,'cognitive_architecture'),
+              (1,5,134,'history_of_computing'),
+              (2,1,29,'bell_labs'),
+              (2,2,491,'unix'),
+              (2,3,159,'ken_thompson'),
+              (2,4,134,'history_of_computing'),
+              (3,1,71,'donald_knuth'),
+              (3,2,433,'computer_configuration'),
+              (3,3,479,'tex'),
+              (3,4,134,'history_of_computing'),
+              (4,1,400,'richard_stallman'),
+              (4,2,504,'free_software'),
+              (4,3,116,'gnu'),
+              (4,4,161,'source_code'),
+              (5,1,210,'linus_torvalds'),
+              (5,2,211,'linux'),
+              (5,3,355,'programming'),
+              (5,4,134,'history_of_computing'),
+              (6,1,449,'steve_wozniak'),
+              (6,2,13,'apple'),
+              (6,3,174,'personal_computers'),
+              (6,4,134,'history_of_computing'),
+              (7,1,133,'diagnostic_history'),
+              (7,2,160,'diagnostic_classification'),
+              (7,3,516,'co_occurring_autism_and_adhd'),
+              (7,4,163,'cohort'),
+              (7,5,472,'neurodiversity_awareness'),
+              (8,1,306,'pointer_based_memory'),
+              (8,2,157,'c_programming_language'),
+              (8,3,355,'programming'),
+              (8,4,18,'cognitive_architecture'),
+              (9,1,153,'javascript'),
+              (9,2,357,'programming_language_design'),
+              (9,3,2,'abstraction'),
+              (9,4,134,'history_of_computing'),
+              (10,1,348,'late_diagnosis'),
+              (10,2,133,'diagnostic_history'),
+              (10,3,160,'diagnostic_classification'),
+              (10,4,516,'co_occurring_autism_and_adhd'),
+              (10,5,99,'audhd_phenotype'),
+          ]
+
+          if len(expected) != 43:
+              raise RuntimeError(f'Expected 43 assignments, got {len(expected)}')
+          if len({(so, ko) for so, ko, _, _ in expected}) != 43:
+              raise RuntimeError('Duplicate (section_order, keyword_order)')
+          if len({(so, cid) for so, _, cid, _ in expected}) != 43:
+              raise RuntimeError('Duplicate (section_order, concept_id)')
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+
+          docs = conn.execute(
+              "SELECT document_id FROM content_documents WHERE collection_id='audhd' AND document_code='AU06'"
+          ).fetchall()
+          if len(docs) != 1:
+              raise RuntimeError(f'AU06 document count != 1: {docs!r}')
+          document_id = int(docs[0][0])
+
+          sections = conn.execute(
+              'SELECT section_id, section_order FROM content_sections WHERE document_id=? ORDER BY section_order',
+              (document_id,),
+          ).fetchall()
+          if len(sections) != 10:
+              raise RuntimeError(f'AU06 section count != 10: {len(sections)}')
+          orders = [int(r[1]) for r in sections]
+          if orders != list(range(1, 11)):
+              raise RuntimeError(f'AU06 section orders invalid: {orders}')
+
+          for _, _, concept_id, concept_key in expected:
+              row = conn.execute(
+                  'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
+                  (concept_id,),
+              ).fetchone()
+              if row is None or row[0] != concept_key:
+                  raise RuntimeError(
+                      f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}'
+                  )
+
+          existing = conn.execute(
+              '''SELECT s.section_order, k.keyword_order, k.concept_id
+                 FROM content_section_keywords k
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
+                 ORDER BY s.section_order, k.keyword_order''',
+              (document_id,),
+          ).fetchall()
+
+          print(f'AU06_PREFLIGHT_OK document_id={document_id} sections=10 concepts=43 existing={len(existing)}')
+          if existing:
+              print('AU06_EXISTING=' + repr(existing))
+          conn.close()
+          PY
