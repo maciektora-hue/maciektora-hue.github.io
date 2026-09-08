@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KLASTRUJEMY — dlaczego 3 wyspy?</title>
+<style>
+:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--text:#e7c27a;--muted:#c7b58d;--line:#556b5e;--strong:#f3d796}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+main{max-width:900px;margin:0 auto;padding:28px 20px 64px} h1{font-size:1.85rem;line-height:1.15;margin:0 0 .35rem}
+h2{font-size:1.22rem;margin:1.9rem 0 .65rem} h3{font-size:1.05rem;margin:1.25rem 0 .35rem}
+p,li{max-width:78ch} strong{color:var(--strong)} .meta,.muted{color:var(--muted)}
+.box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
+.score{display:grid;grid-template-columns:3.2rem 1fr;gap:.5rem 1rem;border-bottom:1px solid var(--line);padding:.75rem 0}
+.score:last-child{border-bottom:0} code{color:var(--strong)}
+</style>
+</head>
+<body><main>
+<h1>KLASTRUJEMY — dlaczego 3 wyspy?</h1>
+<p class="meta">2026-09-08 · <code>audio_features_v08.csv</code> · 856 utworów · sanityzacja 1.0 zakończona</p>
+
+<div class="box"><strong>Wniosek:</strong> jako główną rozdzielczość mapy audio przyjmujemy <strong>3 wyspy</strong>. Nie oznacza to trzech gatunków ani trzech zamkniętych klas. To trzy najbardziej odporne rdzenie w ciągłej przestrzeni brzmienia.</div>
+
+<h2>Jak to policzono</h2>
+<ol>
+<li>Start: 856 rekordów po sanityzacji 1.0.</li>
+<li>Nie używano długości pliku, parametrów technicznych, stereo ani surowej głośności/masteringu.</li>
+<li>Policzono trzy niezależne reprezentacje audio: <strong>interpretowalną</strong> (22 cechy), <strong>rozszerzoną</strong> (43 cechy z MFCC i kontrastami widmowymi) oraz <strong>kompaktową</strong> (18 cech).</li>
+<li>Każdą cechę przycięto na 1. i 99. percentylu, następnie użyto <strong>RobustScaler</strong>.</li>
+<li>PCA zachowywało co najmniej 90% wariancji. W zależności od reprezentacji zostało 10–19 wymiarów.</li>
+<li>Dla <strong>k = 3, 4, 5, 6, 7</strong> liczono K-means wielokrotnie, a następnie oceniano nie tylko pełne klastry, lecz przede wszystkim ich najlepiej określone rdzenie.</li>
+<li>Rdzenie sprawdzano przy pokryciu 20%, 30%, 40%, 50% i 60% zbioru. To nie jest założenie o wielkości wysp, tylko test: czy wynik utrzymuje się, gdy „linia brzegowa” przesuwa się do środka i na zewnątrz.</li>
+</ol>
+
+<h2>Trzy kryteria</h2>
+<p><strong>Separacja rdzeni.</strong> Silhouette liczony tylko dla najbardziej jednoznacznych punktów. Im wyższy, tym wyspy bardziej od siebie oddzielone.</p>
+<p><strong>Stabilność.</strong> 30 razy losowo zostawiano 80% utworów i liczono podział ponownie. Zgodność mierzono Adjusted Rand Index (ARI).</p>
+<p><strong>Odporność na zmianę okularów.</strong> Sprawdzano, czy rdzenie podobnie układają się w trzech różnych zestawach cech. To chroni przed sytuacją, w której „wyspa” istnieje tylko dlatego, że wybraliśmy akurat wygodną rodzinę parametrów.</p>
+
+<h2>Wyniki 3–7 wysp</h2>
+<div class="box">
+<div class="score"><strong>3</strong><div>separacja rdzeni <strong>0,315</strong> · stabilność <strong>0,808</strong> · zgodność rdzeni między reprezentacjami <strong>0,806</strong></div></div>
+<div class="score"><strong>4</strong><div>0,306 · 0,776 · 0,760</div></div>
+<div class="score"><strong>5</strong><div>0,286 · 0,723 · 0,802</div></div>
+<div class="score"><strong>6</strong><div>0,249 · 0,729 · 0,804</div></div>
+<div class="score"><strong>7</strong><div>0,233 · 0,656 · 0,762</div></div>
+</div>
+
+<h2>Dlaczego nie 4, 5, 6 albo 7?</h2>
+<p><strong>4:</strong> prawie dorównuje 3 pod względem separacji, ale jest mniej stabilne i mniej odporne na zmianę zestawu cech. Czwarta grupa wygląda raczej jak rozcięcie jednego z trzech lądów.</p>
+<p><strong>5:</strong> rdzenie są nadal sensowne i odporne, dlatego wcześniejsze „5 archetypów” nie było błędem. Jako główny poziom mapy ma jednak słabszą separację i stabilność. Lepiej traktować je później jako możliwe <strong>regiony wewnątrz trzech wysp</strong>.</p>
+<p><strong>6:</strong> zgodność rdzeni pozostaje wysoka, ale separacja wyraźnie spada. Model zaczyna produkować podziały drugiego rzędu.</p>
+<p><strong>7:</strong> spadają wszystkie główne wskaźniki. To już więcej administracji niż geografii.</p>
+
+<h2>Ważne zastrzeżenie</h2>
+<p>Nie znaleziono ostrej, „naturalnej” linii brzegowej. Separacja maleje płynnie, gdy poszerzamy rdzenie. Dlatego <strong>3 wyspy są poziomem roboczym mapy</strong>, nie ontologią muzyki. Reszta zbioru może tworzyć mosty, kontynent/strefę przejściową i peryferia.</p>
+
+<h2>Reguła dalszej pracy</h2>
+<div class="box">
+<strong>Mapa 1.0:</strong> 3 wyspy główne + mosty między nimi + kontynent/strefa przejściowa + peryferia.<br>
+Dopiero wewnątrz wysp sprawdzamy, czy istnieją sensowne podwyspy / regiony.
+</div>
+
+</main></body></html>
