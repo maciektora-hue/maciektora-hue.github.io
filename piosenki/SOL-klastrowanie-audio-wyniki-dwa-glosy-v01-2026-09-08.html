@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sygnatury 3 wysp — wyniki na dwa głosy</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#18231f; --panel:#223129; --panel2:#111a17;
+  --text:#e7c27a; --strong:#f3d796; --muted:#c7b58d; --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.58
+}
+main{max-width:980px;margin:0 auto;padding:30px 20px 70px}
+h1{font-size:1.95rem;line-height:1.15;margin:0 0 .35rem}
+h2{font-size:1.28rem;margin:2.2rem 0 .75rem}
+h3{font-size:1.05rem;margin:0 0 .45rem}
+p,li{max-width:82ch}
+strong,a,code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.intro,.pair,.summary{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:15px 17px;margin:1rem 0
+}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.voice{padding:2px 4px}
+.voice + .voice{border-left:1px solid var(--line);padding-left:18px}
+.label{
+  display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--strong);margin-bottom:.35rem
+}
+.tech{color:var(--muted)}
+ul{padding-left:1.25rem}
+.glossary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px
+}
+.term{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel2)}
+.term strong{display:block;margin-bottom:.25rem}
+@media(max-width:760px){
+  .pair{grid-template-columns:1fr}
+  .voice + .voice{border-left:0;border-top:1px solid var(--line);padding-left:4px;padding-top:14px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1 id="sygnatury-trzech-wysp-dwa-glosy">Sygnatury 3 wysp — wyniki na dwa głosy</h1>
+<p class="meta">Głębia · Światło · Ruch · audio_features_v08.csv · 343 utwory w rdzeniach wysp</p>
+
+<div class="intro">
+<p><strong>Po co ten plik?</strong> Te same wyniki są opisane dwa razy obok siebie.</p>
+<p><strong>Głos 1</strong> mówi normalnym językiem: co słychać i co to znaczy.
+<strong>Głos 2</strong> mówi językiem technicznym: jakie cechy sygnału za tym stoją.</p>
+</div>
+
+<h2 id="slownik-pojec">Mini-słownik</h2>
+<div class="glossary">
+<div class="term"><strong>Widmo</strong>Jak energia dźwięku rozkłada się od basu do najwyższych częstotliwości.</div>
+<div class="term"><strong>Centroid widmowy</strong>Umowny środek ciężkości widma. Wyżej = zwykle jaśniej.</div>
+<div class="term"><strong>ZCR</strong>Jak często fala przecina zero. Często rośnie przy jaśniejszym, bardziej ziarnistym sygnale.</div>
+<div class="term"><strong>Flux widmowy</strong>Jak mocno widmo zmienia się z chwili na chwilę.</div>
+<div class="term"><strong>Chroma</strong>Udział klas dźwięków C, C♯, D, E itd., bez względu na oktawę.</div>
+<div class="term"><strong>Onset</strong>Początek zdarzenia dźwiękowego: uderzenia, nuty, sylaby, akordu.</div>
+<div class="term"><strong>MFCC</strong>Liczby opisujące ogólny kształt barwy. Dobre dla algorytmu, mało intuicyjne dla człowieka.</div>
+<div class="term"><strong>Kontrast widmowy</strong>Jak mocno lokalne szczyty widma wystają ponad doliny pomiędzy nimi.</div>
+</div>
+
+<h2 id="barwa-nie-tempo">1. Najważniejsza rzecz: wyspy różni przede wszystkim barwa, nie tempo</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Największa różnica między Głębią, Światłem i Ruchem nie polega na tym, że jedna wyspa jest szybka, a druga wolna.
+Najważniejsze jest <strong>gdzie siedzi energia dźwięku</strong>: czy nisko, w środku, czy wysoko.</p>
+<p>Tempo prawie nie buduje tej mapy.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Najsilniej różnicują rdzenie: ZCR, centroid widmowy, rolloff 85%, udział energii 4–12 kHz, flux widmowy,
+udział 12–20 kHz, entropia chroma i szerokość widma.</p>
+<p>Rodzina cech pasmowych sama odtwarza etykiety rdzeni z balanced accuracy ok. <strong>0,958</strong>,
+jasność/kształt widma ok. <strong>0,953</strong>, a BPM tylko ok. <strong>0,358</strong>.</p>
+</div>
+</div>
+
+<h2 id="glebia">2. Głębia</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p><strong>Głębia</strong> jest ciemna, cięższa od dołu i bardziej skupiona.
+Ma więcej basu, mniej góry i wyraźniejsze pojedyncze wejścia dźwięków.</p>
+<p>To nie jest po prostu „wolniejsza muzyka”. To raczej muzyka, która ma <strong>fundament, ciężar i miejsce na ciszę</strong>.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Niskie wartości centroidu, ZCR i fluxu; wysoki udział 20–250 Hz; mały udział 1–12 kHz;
+niska entropia chroma i wysoki kontrast chroma; mocniejsze onsety.</p>
+<p>Ma też najwyższy kontrast widmowy w dolnych i niższych średnich pasmach oraz charakterystyczny układ MFCC 1–2.</p>
+</div>
+</div>
+
+<h2 id="swiatlo">3. Światło</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p><strong>Światło</strong> jest najjaśniejsze, najbardziej pełne góry i „powietrza”.
+Ale ważne: to światło często nie jest czyste i szkliście gładkie. Jest też <strong>ziarniste, szorstkie i ruchliwe</strong>.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Najwyższy centroid, ZCR, szerokość widma, udział energii 4–20 kHz, flatness i flux.
+Niższy kontrast widmowy niż w Głębi. MFCC 1 mocno odróżnia Światło od pozostałych rdzeni.</p>
+</div>
+</div>
+
+<h2 id="ruch">4. Ruch</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p><strong>Ruch</strong> nie jest po prostu połową drogi między dwiema innymi wyspami.
+Ma własny charakter: siedzi mocniej w środku pasma, jest płynniejszy i mniej punktowy.</p>
+<p>To wyspa, w której dźwięk bardziej <strong>przepływa</strong> niż stoi na ciężkim fundamencie albo iskrzy wysoko.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Najmocniejszy udział 1–4 kHz, wysoki flux, wysoka entropia chroma, niższy kontrast chroma,
+słabsze onsety niż w Głębi. MFCC 2 jest szczególnie charakterystyczny dla Ruchu.</p>
+<p>Przeciętnie ma też nieco większą szerokość stereo i mniejszą korelację L–R.</p>
+</div>
+</div>
+
+<h2 id="oddychanie-wysp">5. Jak wyspy „oddychają”</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Każda wyspa zmienia się w czasie inaczej.</p>
+<ul>
+<li><strong>Głębia</strong> bardziej faluje głośnością i schodzi głębiej w ciche fragmenty.</li>
+<li><strong>Światło</strong> mniej faluje głośnością, ale bardziej zmienia jasność i ziarnistość.</li>
+<li><strong>Ruch</strong> jest pośrodku.</li>
+</ul>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Zakres między cichymi i głośnymi fragmentami wynosi typowo ok. 14,4 dB w Głębi,
+12,9 dB w Ruchu i 12,0 dB w Świetle.</p>
+<p>Głębia ma większą zmienność poziomu RMS, Światło większą zmienność cech spektralnych związanych z jasnością i flatness.</p>
+</div>
+</div>
+
+<h2 id="swiatlo-czy-szum">6. Światło czy szum?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Dużo góry nie zawsze znaczy to samo. Może być czysta i uporządkowana albo ziarnista i szumowa.</p>
+<p>Światło bardzo często łączy jedno z drugim: <strong>dużo góry + dużo ziarnistości</strong>.
+Ruch ma oba warianty. Głębia zwykle ma mało obu.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>W Świetle ok. 90% rdzenia jest jednocześnie powyżej wspólnego punktu odniesienia dla energii 4–20 kHz
+i dla spectral flatness. W Ruchu częsty jest zarówno wariant jasny-ziarnisty, jak i jasny-uporządkowany.</p>
+</div>
+</div>
+
+<h2 id="harmonia-skupiona-czy-rozlana">7. Harmonia: skupiona czy rozlana?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Głębia częściej ma kilka dźwięków wyraźnie ważniejszych od reszty.
+Ruch i Światło częściej rozlewają harmoniczną uwagę szerzej.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Głębia ma niższą entropię chroma i wyższy chroma peak contrast.
+Ruch ma najbardziej rozproszony profil chroma. Światło jest pod tym względem bliżej Ruchu niż Głębi.</p>
+</div>
+</div>
+
+<h2 id="chroma-c-d-e-g">8. Chroma: C, D, E, G…</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Najmocniejsze klasy dźwięków są podobne na wszystkich wyspach:
+<strong>E, G i A</strong> powtarzają się często wszędzie.</p>
+<p>To raczej wspólna właściwość całej biblioteki niż coś, co dzieli wyspy.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Średnie profile chroma pokazują E, G i A jako jedne z największych składowych we wszystkich rdzeniach.
+Różnice między poszczególnymi klasami chroma są znacznie słabsze niż różnice spektralne.</p>
+<p>Światło ma relatywnie więcej A i D; Ruch więcej G i D; Głębia trochę więcej F, F♯/G♭ i G♯/A♭.</p>
+</div>
+</div>
+
+<h2 id="bas-fundament-czy-puls">9. Bas: fundament czy puls?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Głębia ma dużo basu, ale nie wygląda na wyspę „ciągłego łupania basem”.
+Częściej jest to <strong>fundament z mocnymi, ale rzadszymi akcentami</strong>.</p>
+<p>Ruch i Światło, jeśli mają dużo basu, częściej łączą go z gęstszą siatką drobniejszych zdarzeń.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Wśród basowych utworów Głębi dominują przypadki z wysokim onset strength i niższą onset density.
+W Ruchu i Świetle częstszy jest układ niższej siły pojedynczego onsetu przy większej gęstości zdarzeń.</p>
+<p>To nadal pośredni wniosek, bo obecny CSV nie zapisuje osobno historii pasma 20–250 Hz.</p>
+</div>
+</div>
+
+<h2 id="wejscia-miekkie-czy-twarde">10. Miękkie czy twarde wejścia?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<ul>
+<li><strong>Głębia:</strong> mniej wejść, ale mocniejszych.</li>
+<li><strong>Światło:</strong> więcej wejść, ale słabszych.</li>
+<li><strong>Ruch:</strong> pomiędzy.</li>
+</ul>
+<p>To dobrze pasuje do obrazu: Głębia punktowa, Światło ziarniste, Ruch płynny.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Typowa gęstość onsetów: Głębia ok. 2,55/s, Ruch ok. 2,68/s, Światło ok. 2,79/s.
+Jednocześnie onset strength jest najwyższy w Głębi.</p>
+</div>
+</div>
+
+<h2 id="ksztalt-srodka-pasma">11. Kształt środka pasma</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>To chyba najładniejszy gradient całej mapy:</p>
+<p><strong>Głębia = dolny środek → Ruch = środek → Światło = górny środek.</strong></p>
+<p>I to dobrze tłumaczy, dlaczego Ruch jest główną drogą między dwiema pozostałymi wyspami.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>W obrębie 250 Hz–4 kHz:</p>
+<ul>
+<li>Głębia skupia największy udział w 250–500 Hz;</li>
+<li>Ruch ma najbardziej równomierny rozkład i silniejsze 1–2 kHz;</li>
+<li>Światło ma największy udział 2–4 kHz.</li>
+</ul>
+</div>
+</div>
+
+<h2 id="mikrodynamika">12. Mikrodynamika</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Głębia ma więcej miejsca na cofnięcie i ciszę.
+Nie dlatego, że wali wyższymi pikami, tylko dlatego, że <strong>głębiej schodzi w dół</strong>.</p>
+<p>Światło jest bardziej stale obecne. Ruch znowu leży pomiędzy.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Największa różnica między wyspami leży po stronie dolnych percentyli frame RMS,
+a nie po stronie najwyższych peaków. Typowe zejście od mediany do cichych fragmentów:
+Głębia ok. 9,7 dB, Ruch 8,9 dB, Światło 7,9 dB.</p>
+</div>
+</div>
+
+<h2 id="stereo">13. Stereo</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Ruch jest przeciętnie trochę szerzej rozłożony na boki.
+Głębia i Światło są pod tym względem bardziej podobne, niż można by się spodziewać.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Ruch ma niższą średnią korelację L–R i nieco większą stereo width.
+Balans lewy–prawy pozostaje blisko środka we wszystkich trzech rdzeniach.</p>
+<p>Obecny CSV nie pozwala mierzyć zmian szerokości stereo w czasie.</p>
+</div>
+</div>
+
+<h2 id="czego-jeszcze-nie-umiemy">14. Czego jeszcze nie umiemy</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Po ludzku</div>
+<p>Na razie wiemy bardzo dużo o tym, <strong>jaki utwór jest przeciętnie</strong>.
+Znacznie mniej wiemy o tym, <strong>jak przebiega od początku do końca</strong>.</p>
+<p>Nie potrafimy jeszcze uczciwie odróżnić: narastania, opadania, falowania, powrotów, refrenowego „wracania do domu” czy jednorazowego przełamania.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technicznie</div>
+<p>Obecny ekstraktor zachowuje głównie statystyki podsumowujące i miary zmienności,
+ale nie pełną kolejność ramek lub segmentów czasowych.</p>
+<p>Do następnej wersji warto zapisać np. 20 kolejnych segmentów dla:
+RMS, centroidu, energii pasmowej, fluxu, chroma concentration i stereo width.</p>
+</div>
+</div>
+
+<div class="summary">
+<h2 id="najkrotsze-podsumowanie">Najkrótsze podsumowanie</h2>
+<p><strong>Po ludzku:</strong><br>
+Głębia = dół, skupienie, mocniejsze punkty i więcej miejsca na ciszę.<br>
+Światło = góra, ziarnistość, szerokość widma i drobniejsza aktywność.<br>
+Ruch = środek pasma, przepływ, rozproszenie i większa przestrzeń stereo.</p>
+
+<p class="tech"><strong>Technicznie:</strong><br>
+Głębia: niski centroid/ZCR/flux, wysoki bass fraction, niski chroma entropy, wysoki onset strength.<br>
+Światło: wysoki centroid/ZCR/bandwidth/flatness/high-band fraction/flux.<br>
+Ruch: wysoki 1–4 kHz fraction, wysoki chroma entropy, niższy chroma contrast, większa stereo width.</p>
+</div>
+
+</main>
+</body>
+</html>
