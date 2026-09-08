@@ -28,32 +28,7 @@ jobs:
             exit 1
           fi
           git checkout -B SOL-audhd-tile origin/main
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('audhd/index.html')
-          s = p.read_text(encoding='utf-8')
-          needle = '''          <article class="path">
-            <h3>Mam diagnozę. I co teraz?</h3>
-            <div>
-              <p>O tym, co rzeczywiście pomaga, kiedy nazwa już jest, a życie nie przeprojektowało się samo przez noc.</p>
-              <a href="po-diagnozie/">Co działa po późnej diagnozie ↗</a>
-            </div>
-          </article>
-'''
-          add = needle + '''          <article class="path">
-            <h3>Chcę zobaczyć wszystkie sekcje</h3>
-            <div>
-              <p>Pełna lista 338 sekcji z anchorami i bezpośrednimi linkami, wczytywana z SQL.</p>
-              <a href="SOL_mapa-sekcji-i-anchorow-audhd.html">Lista wszystkich sekcji ↗</a>
-            </div>
-          </article>
-'''
-          if s.count(needle) != 1:
-              raise SystemExit(f'STOP: wzorzec sekcji wystepuje {s.count(needle)} razy')
-          if 'href="SOL_mapa-sekcji-i-anchorow-audhd.html"' in s:
-              raise SystemExit('STOP: kafelek juz istnieje')
-          p.write_text(s.replace(needle, add, 1), encoding='utf-8')
-          PY
+          python3 -c 'from pathlib import Path; p=Path("audhd/index.html"); s=p.read_text(encoding="utf-8"); needle="          <article class=\"path\">\n            <h3>Mam diagnozę. I co teraz?</h3>\n            <div>\n              <p>O tym, co rzeczywiście pomaga, kiedy nazwa już jest, a życie nie przeprojektowało się samo przez noc.</p>\n              <a href=\"po-diagnozie/\">Co działa po późnej diagnozie ↗</a>\n            </div>\n          </article>\n"; add=needle+"          <article class=\"path\">\n            <h3>Chcę zobaczyć wszystkie sekcje</h3>\n            <div>\n              <p>Pełna lista 338 sekcji z anchorami i bezpośrednimi linkami, wczytywana z SQL.</p>\n              <a href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\">Lista wszystkich sekcji ↗</a>\n            </div>\n          </article>\n"; assert s.count(needle)==1, f"STOP: wzorzec sekcji wystepuje {s.count(needle)} razy"; assert "href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\"" not in s, "STOP: kafelek juz istnieje"; p.write_text(s.replace(needle, add, 1), encoding="utf-8")'
           test "$(git diff --name-only | wc -l)" -eq 1
           test "$(git diff --name-only)" = 'audhd/index.html'
           grep -q 'href="SOL_mapa-sekcji-i-anchorow-audhd.html"' audhd/index.html
