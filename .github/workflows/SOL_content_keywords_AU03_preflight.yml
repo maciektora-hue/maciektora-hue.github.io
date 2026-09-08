@@ -1,4 +1,4 @@
-name: SOL content keywords AU03 - insert
+name: SOL content keywords AU04 - preflight
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  insert:
+  preflight:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,12 +18,12 @@ jobs:
         with:
           node-version: '20'
       - run: npm install --no-save @libsql/client
-      - name: Wstaw 43 przypisania AU03
+      - name: Sprawdz AU04
         run: |
           node <<'NODE'
           const fs = require('fs');
           const { createClient } = require('@libsql/client');
-          const stop = m => { throw new Error('STOP AU03 INSERT: ' + m); };
+          const stop = m => { throw new Error('STOP AU04 PREFLIGHT: ' + m); };
           (async () => {
             const txt = fs.readFileSync('daneDoSql.txt', 'utf8');
             const u = txt.match(/libsql:\/\/[^\s]+/);
@@ -34,67 +34,36 @@ jobs:
             const m = await db.execute({sql:'SELECT value FROM content_meta WHERE key=?', args:['content_keywords_data_v1']});
             if (m.rows.length !== 1 || String(m.rows[0].value) !== 'done') stop('brak markera danych');
 
-            const q = await db.execute(`SELECT s.section_id,s.section_order,s.anchor FROM content_sections s JOIN content_documents d ON d.document_id=s.document_id WHERE d.collection_id='audhd' AND d.document_code='AU03' ORDER BY s.section_order`);
+            const q = await db.execute(`SELECT s.section_id,s.section_order,s.anchor FROM content_sections s JOIN content_documents d ON d.document_id=s.document_id WHERE d.collection_id='audhd' AND d.document_code='AU04' ORDER BY s.section_order`);
             const anchors = [
-              'ten-equations-metaphysics-and-a-jury-packed-with-friends',
-              'principle-of-stationary-action',
-              'einstein-field-equation',
-              'boltzmann-and-the-second-law',
-              'bellchsh-and-the-tsirelson-bound',
-              'uncertainty-relation',
-              'maxwell-in-two-lines',
-              'dirac-equation',
-              'navierstokes-equations-outside-the-competition',
-              'landauer-s-limit',
+              'dziesiec-rownan-metafizyka-i-komisja-po-znajomosci',
+              'zasada-stacjonarnego-dzialania',
+              'rownanie-pola-einsteina',
+              'boltzmann-i-druga-zasada',
+              'bellchsh-i-granica-tsirelsona',
+              'nierownosc-nieoznaczonosci',
+              'maxwell-w-dwoch-liniach',
+              'rownanie-diraca',
+              'rownania-navierastokesa-poza-konkursem',
+              'granica-landauera',
               'wheelerdewitt',
-              'competition-jury',
-              'assessment-of-impartiality'
+              'komisja-konkursowa',
+              'ocena-bezstronnosci'
             ];
             if (q.rows.length !== anchors.length) stop(`sekcje=${q.rows.length}`);
             q.rows.forEach((r,i)=>{ if(Number(r.section_order)!==i+1 || String(r.anchor)!==anchors[i]) stop(`sekcja ${i+1} niezgodna`); });
-            const sid = Object.fromEntries(q.rows.map(r=>[String(r.anchor),Number(r.section_id)]));
-            const ids = anchors.map(a=>sid[a]);
-            const ph = ids.map(()=>'?').join(',');
 
-            const existing = await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
-            if(Number(existing.rows[0].n)!==0) stop(`istniejace przypisania=${existing.rows[0].n}`);
+            const ids=q.rows.map(r=>Number(r.section_id));
+            const ph=ids.map(()=>'?').join(',');
+            const links=await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
+            if(Number(links.rows[0].n)!==0) stop(`istniejace przypisania=${links.rows[0].n}`);
 
-            const bySection = [
-              ['ten-equations-metaphysics-and-a-jury-packed-with-friends',['fundamental_equations','physics','metaphysics']],
-              ['principle-of-stationary-action',['principle_of_stationary_action','physics','metaphysics']],
-              ['einstein-field-equation',['general_relativity','spacetime','geometry']],
-              ['boltzmann-and-the-second-law',['second_law_of_thermodynamics','entropy','thermodynamics']],
-              ['bellchsh-and-the-tsirelson-bound',['bell_inequalities','nonlocality','quantum_mechanics','metaphysics']],
-              ['uncertainty-relation',['uncertainty_principle','quantum_mechanics']],
-              ['maxwell-in-two-lines',['maxwell_s_equations','electromagnetism','electromagnetic_field']],
-              ['dirac-equation',['dirac_equation','quantum_mechanics','relativity','spin','antimatter']],
-              ['navierstokes-equations-outside-the-competition',['navier_stokes_equations','fluid_mechanics','turbulence']],
-              ['landauer-s-limit',['landauer_limit','information_thermodynamics','entropy','thermodynamics']],
-              ['wheelerdewitt',['wheeler_dewitt_equation','quantum_gravity','quantum_cosmology','spacetime']],
-              ['competition-jury',['impartiality','objectivity','cognitive_bias']],
-              ['assessment-of-impartiality',['impartiality','objectivity','cognitive_bias']]
-            ];
-            const plan=[];
-            for (const [anchor,keys] of bySection) keys.forEach((key,i)=>plan.push([anchor,i+1,key]));
-            if(plan.length!==43) stop(`plan=${plan.length}`);
-
-            const keys=[...new Set(plan.map(x=>x[2]))];
-            if(keys.length!==32) stop(`unikalne concept_key=${keys.length}`);
+            const keys=['fundamental_equations','physics','metaphysics','principle_of_stationary_action','general_relativity','spacetime','geometry','second_law_of_thermodynamics','entropy','thermodynamics','bell_inequalities','nonlocality','quantum_mechanics','uncertainty_principle','maxwell_s_equations','electromagnetism','electromagnetic_field','dirac_equation','relativity','spin','antimatter','navier_stokes_equations','fluid_mechanics','turbulence','landauer_limit','information_thermodynamics','wheeler_dewitt_equation','quantum_gravity','quantum_cosmology','impartiality','objectivity','cognitive_bias'];
             const kp=keys.map(()=>'?').join(',');
-            const cq=await db.execute({sql:`SELECT concept_id,concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
-            if(cq.rows.length!==keys.length) stop(`concept_key=${cq.rows.length}/${keys.length}`);
-            const cid=Object.fromEntries(cq.rows.map(r=>[String(r.concept_key),Number(r.concept_id)]));
+            const c=await db.execute({sql:`SELECT concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
+            if(c.rows.length!==keys.length) stop(`concept_key=${c.rows.length}/${keys.length}`);
 
-            const statements=plan.map(([anchor,order,key])=>({sql:'INSERT INTO content_section_keywords(section_id,concept_id,keyword_order) VALUES (?,?,?)',args:[sid[anchor],cid[key],order]}));
-            await db.batch(statements,'write');
-
-            const check=await db.execute({sql:`SELECT section_id,keyword_order FROM content_section_keywords WHERE section_id IN (${ph}) ORDER BY section_id,keyword_order`,args:ids});
-            if(check.rows.length!==43) stop(`po insercie=${check.rows.length}`);
-            const counts=ids.map(id=>check.rows.filter(r=>Number(r.section_id)===id).length);
-            const wanted=[3,3,3,3,4,2,3,5,3,4,4,3,3];
-            if(JSON.stringify(counts)!==JSON.stringify(wanted)) stop(`liczby=${counts}`);
-            if(counts.some(n=>n<1 || n>5)) stop(`poza zakresem 1-5: ${counts}`);
-
-            console.log('OK AU03 INSERT: 43 przypisania; sekcje 3/3/3/3/4/2/3/5/3/4/4/3/3; zakres 1-5 zachowany.');
+            console.log('OK AU04 PREFLIGHT: 13 sekcji; 0 przypisan; 32/32 concept_key.');
+            q.rows.forEach(r=>console.log(`SECTION ${r.section_order}: section_id=${r.section_id}; anchor=${r.anchor}`));
           })().catch(e=>{console.error(e.message);process.exit(1)});
           NODE
