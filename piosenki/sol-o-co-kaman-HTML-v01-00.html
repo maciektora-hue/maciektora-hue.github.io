@@ -261,6 +261,130 @@
 
 <p>Akceptowalny stan po zmianie produkcyjnej: <strong>0 błędów, 0 ostrzeżeń, WYNIK OK</strong>.</p>
 
+
+<h2>16. Architektura audio V1 — stan projektowy</h2>
+<p>Warstwa audio jest projektowana jako rozszerzenie istniejącego modelu piosenek. Nie zastępuje <code>middle_end</code> i nie zmienia znaczenia <code>utwu_id</code>. Stan na 2026-09-09: schemat został uzgodniony, ale migracja nie została jeszcze wykonana na Turso.</p>
+
+<p>Aktualnym źródłem danych pomiarowych jest <code>audio_features_v08.csv</code>: 856 rekordów i 191 kolumn. Pierwsze 6 kolumn opisuje plik audio; pozostałe 185 kolumn opisuje konfigurację ekstraktora i wyniki cech audio. Cechy zostały policzone ekstraktorem v05; oznaczenie v08 dotyczy oczyszczonego zbioru po sanityzacji 1.0, nie nowej wersji ekstraktora.</p>
+
+<div class="box">
+<code>audio</code> — konkretny plik audio<br/>
+<code>audio_middle_end</code> — powiązanie pliku audio z kanonicznym <code>utwu_id</code><br/>
+<code>audio_feature_snapshots</code> — wynik jednej ekstrakcji cech dla konkretnego <code>audio_id</code>
+</div>
+
+<h2>17. Schemat Audio</h2>
+<p>Jedna pozycja oznacza jeden konkretny przeanalizowany plik audio.</p>
+
+<div class="box">
+<code>audio_id TEXT PRIMARY KEY</code><br/>
+<code>source_filename TEXT NOT NULL UNIQUE</code><br/>
+<code>source_relative_path TEXT NULL</code><br/>
+<code>youtube_video_id TEXT NOT NULL UNIQUE</code><br/>
+<code>file_size_mb REAL NOT NULL</code><br/>
+<code>duration_seconds REAL NOT NULL</code><br/>
+<code>sample_rate_hz INTEGER NOT NULL</code><br/>
+<code>channels INTEGER NOT NULL</code><br/>
+<code>imported_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP</code>
+</div>
+
+<p><code>audio_id</code> jest stabilnym wewnętrznym identyfikatorem pliku w formacie <code>audio-0001</code>, <code>audio-0002</code> itd. Powstaje z istniejącego czterocyfrowego prefiksu nazwy pliku. Luki po sanityzacji pozostają; usuniętych numerów nie używamy ponownie.</p>
+
+<p><code>youtube_video_id</code> jest identyfikatorem zewnętrznego źródła i nie zastępuje <code>audio_id</code>. W v08 wszystkie 856 wartości są unikalne.</p>
+
+<p>W V1 nie przechowujemy osobno <code>container</code>, <code>codec</code> ani <code>file_hash</code>. Codec i hash nie występują w v08, a kontener wynika obecnie z pliku <code>.webm</code>. Nie przechowujemy też tytułu ani artysty w tabeli <code>audio</code>.</p>
+
+<h2>18. Schemat Audio Middle End</h2>
+<p><code>audio_middle_end</code> przechowuje wyłącznie decyzję, jakiemu kanonicznemu utworowi odpowiada konkretny plik audio.</p>
+
+<div class="box">
+<code>audio_id TEXT PRIMARY KEY REFERENCES audio(audio_id)</code><br/>
+<code>utwu_id TEXT NULL REFERENCES middle_end(utwu_id)</code><br/>
+<code>match_status TEXT NOT NULL</code><br/>
+<code>match_note TEXT NULL</code>
+</div>
+
+<p>Dozwolone wartości <code>match_status</code>:</p>
+<div class="box">
+<code>matched</code> — zweryfikowane właściwe audio dla <code>utwu_id</code><br/>
+<code>out</code> — niewłaściwe pobranie / niewłaściwa wersja<br/>
+<code>uncertain</code> — powiązanie jeszcze nierozstrzygnięte
+</div>
+
+<p>Dla <code>matched</code> wymagane jest niepuste <code>utwu_id</code>. <code>audio_id</code> i <code>utwu_id</code> mają różne znaczenie: pierwszy identyfikuje konkretny plik, drugi kanoniczny rekord utworu. Jeden <code>utwu_id</code> może w przyszłości mieć więcej niż jedno źródło audio.</p>
+
+<p>W oczyszczonym aktywnym zbiorze v08 powinny docelowo występować tylko rekordy <code>matched</code>. Statusy <code>out</code> i <code>uncertain</code> są potrzebne dla historii i przyszłych importów, ale nie mają wracać do aktywnej analizy v08.</p>
+
+<h2>19. Schemat Audio Feature Snapshots</h2>
+<p>Jedna pozycja oznacza jeden kompletny wynik działania konkretnej wersji ekstraktora na jednym <code>audio_id</code>.</p>
+
+<div class="box">
+<code>snapshot_id INTEGER PRIMARY KEY</code><br/>
+<code>audio_id TEXT NOT NULL REFERENCES audio(audio_id)</code><br/>
+<code>analyzer_version TEXT NOT NULL</code><br/>
+<code>dataset_version TEXT NOT NULL</code><br/>
+<code>analyzed_at TEXT NULL</code><br/>
+<code>+ 185 kolumn konfiguracji i cech z audio_features_v08.csv</code><br/><br/>
+<code>UNIQUE(audio_id, analyzer_version, dataset_version)</code>
+</div>
+
+<p>Dla pierwszego importu: <code>analyzer_version = 'v05'</code>, <code>dataset_version = 'v08'</code>. <code>analyzed_at</code> pozostaje NULL, ponieważ dokładny czas analizy nie jest zapisany w CSV.</p>
+
+<p>Snapshot jest szerokim rekordem. 185 parametrów pozostaje kolumnami, ponieważ tworzą jeden wektor cech jednego pliku. Nie rozbijamy ich na model <code>feature_name/value</code>.</p>
+
+<p>Do snapshotu nie trafiają nazwa pliku, ścieżka, rozmiar, długość, sample rate ani liczba kanałów. Te fakty należą do tabeli <code>audio</code>.</p>
+
+<h2>20. Klucze, FK, krotności i zasady referencyjne audio</h2>
+
+<div class="box">
+<strong>Klucze główne</strong><br/>
+<code>audio.audio_id</code> — PK<br/>
+<code>audio_middle_end.audio_id</code> — PK i FK → <code>audio.audio_id</code><br/>
+<code>audio_feature_snapshots.snapshot_id</code> — PK<br/><br/>
+
+<strong>Klucze obce</strong><br/>
+<code>audio_middle_end.utwu_id → middle_end.utwu_id</code><br/>
+<code>audio_feature_snapshots.audio_id → audio.audio_id</code><br/><br/>
+
+<strong>Unikalność</strong><br/>
+<code>audio.source_filename</code> — UNIQUE<br/>
+<code>audio.youtube_video_id</code> — UNIQUE<br/>
+<code>(audio_id, analyzer_version, dataset_version)</code> — UNIQUE w snapshotach
+</div>
+
+<p>Nie istnieje bezpośredni FK <code>audio_feature_snapshots.utwu_id → middle_end.utwu_id</code>. Snapshot opisuje plik audio, więc droga do utworu jest jawna:</p>
+
+<div class="box">
+<code>audio_feature_snapshots → audio → audio_middle_end → middle_end</code>
+</div>
+
+<p>Krotności:</p>
+<div class="box">
+<code>audio 1 → 0..1 audio_middle_end</code><br/>
+<code>middle_end 1 → 0..N audio_middle_end</code><br/>
+<code>audio 1 → 0..N audio_feature_snapshots</code>
+</div>
+
+<p>Na wszystkich trzech relacjach FK przyjmujemy <code>ON UPDATE CASCADE</code> oraz <code>ON DELETE RESTRICT</code>. Usunięcie rekordu katalogowego nie może automatycznie kasować historii pomiarów audio.</p>
+
+<p>Indeksy pomocnicze:</p>
+<div class="box">
+<code>idx_audio_middle_end_utwu_id ON audio_middle_end(utwu_id)</code><br/>
+<code>idx_audio_feature_snapshots_audio_id ON audio_feature_snapshots(audio_id)</code>
+</div>
+
+<h2>21. Integralność warstwy audio</h2>
+<ul>
+  <li>każdy rekord <code>audio_middle_end</code> musi wskazywać istniejący <code>audio.audio_id</code>,</li>
+  <li>każdy rekord <code>matched</code> musi mieć istniejący <code>middle_end.utwu_id</code>,</li>
+  <li>każdy snapshot musi wskazywać istniejący <code>audio.audio_id</code>,</li>
+  <li>nie może istnieć duplikat <code>(audio_id, analyzer_version, dataset_version)</code>,</li>
+  <li>snapshot nie może dublować metadanych należących do tabeli <code>audio</code>,</li>
+  <li>pierwszy import v08 ma zachować 856 aktywnych rekordów po sanityzacji 1.0.</li>
+</ul>
+
+<p>Przygotowany projekt migracji nosi nazwę <code>SOL_audio-schema-v01.sql</code>. Na etapie zapisania tej architektury plik migracji nie został jeszcze wykonany na Turso.</p>
+
 </main>
 </body>
 </html>
