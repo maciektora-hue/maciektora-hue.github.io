@@ -1,0 +1,71 @@
+name: SOL AU09 preflight
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-au09-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-au09:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check AU09 without writing
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, base64
+          import libsql
+
+          raw = base64.b64decode('MQkxCTk5CWF1ZGhkX3BoZW5vdHlwZQoxCTIJMTA2CWZvdW5kZXJzX29mX2luZm9ybWF0aW9uX3RlY2hub2xvZ3kKMQkzCTE4CWNvZ25pdGl2ZV9hcmNoaXRlY3R1cmUKMQk0CTEzMgloeXBvdGhlc2lzCjEJNQkxNDQJY29tcHV0ZXJfc2NpZW5jZQoyCTEJMTMyCWh5cG90aGVzaXMKMgkyCTE5NQljb3JyZWxhdGlvbgoyCTMJMTg0CW5lY2Vzc2l0eQoyCTQJOTkJYXVkaGRfcGhlbm90eXBlCjMJMQkxMzIJaHlwb3RoZXNpcwozCTIJMTk1CWNvcnJlbGF0aW9uCjMJMwk5OQlhdWRoZF9waGVub3R5cGUKMwk0CTEwNglmb3VuZGVyc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjQJMQkxMzIJaHlwb3RoZXNpcwo0CTIJMTg0CW5lY2Vzc2l0eQo0CTMJOTkJYXVkaGRfcGhlbm90eXBlCjQJNAkxMDUJZm91bmRhdGlvbnNfb2ZfaW5mb3JtYXRpb25fdGVjaG5vbG9neQo0CTUJMTgJY29nbml0aXZlX2FyY2hpdGVjdHVyZQo1CTEJMTA1CWZvdW5kYXRpb25zX29mX2luZm9ybWF0aW9uX3RlY2hub2xvZ3kKNQkyCTEwNglmb3VuZGVyc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjUJMwkyODQJc29mdHdhcmUKNQk0CTU5CW9wZXJhdGlvbmFsX2RlZmluaXRpb24KNgkxCTE2Mwljb2hvcnQKNgkyCTEzMwlkaWFnbm9zdGljX2hpc3RvcnkKNgkzCTEzNAloaXN0b3J5X29mX2NvbXB1dGluZwo2CTQJNDcyCW5ldXJvZGl2ZXJzaXR5X2F3YXJlbmVzcwo3CTEJMTMzCWRpYWdub3N0aWNfaGlzdG9yeQo3CTIJMTYwCWRpYWdub3N0aWNfY2xhc3NpZmljYXRpb24KNwkzCTEzNAloaXN0b3J5X29mX2NvbXB1dGluZwo3CTQJMzE5CWluZm9ybWF0aW9uX3RlY2hub2xvZ3lfcGlvbmVlcnMKOAkxCTI0OQl1bmRlcmRpYWdub3Npcwo4CTIJMzE5CWluZm9ybWF0aW9uX3RlY2hub2xvZ3lfcGlvbmVlcnMKOAkzCTEzMwlkaWFnbm9zdGljX2hpc3RvcnkKOAk0CTQ3MgluZXVyb2RpdmVyc2l0eV9hd2FyZW5lc3MKOQkxCTE2Mwljb2hvcnQKOQkyCTM0OAlsYXRlX2RpYWdub3Npcwo5CTMJMjQ5CXVuZGVyZGlhZ25vc2lzCjkJNAk2NQlhZHVsdF9kaWFnbm9zdGljX2Fzc2Vzc21lbnQKMTAJMQkxMDYJZm91bmRlcnNfb2ZfaW5mb3JtYXRpb25fdGVjaG5vbG9neQoxMAkyCTY1CWFkdWx0X2RpYWdub3N0aWNfYXNzZXNzbWVudAoxMAkzCTQ3MgluZXVyb2RpdmVyc2l0eV9hd2FyZW5lc3MKMTAJNAkxNDQJY29tcHV0ZXJfc2NpZW5jZQoxMQkxCTY3CWRpYWdub3NpcwoxMQkyCTczCXBlcnNvbl9lbnZpcm9ubWVudF9maXQKMTEJMwk0MjIJb2NjdXBhdGlvbmFsX3NlbGVjdGlvbgoxMQk0CTk5CWF1ZGhkX3BoZW5vdHlwZQoxMgkxCTIzNAltb3RpdmF0aW9uCjEyCTIJNDY5CXNvY2lhbF9lbnZpcm9ubWVudAoxMgkzCTk5CWF1ZGhkX3BoZW5vdHlwZQoxMgk0CTEwNglmb3VuZGVyc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjEzCTEJOTkJYXVkaGRfcGhlbm90eXBlCjEzCTIJNTM2CWNvZ25pdGl2ZV9hYmlsaXRpZXMKMTMJMwkyMzQJbW90aXZhdGlvbgoxMwk0CTEwNQlmb3VuZGF0aW9uc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjE0CTEJMjMzCW1vbm90cm9waXNtCjE0CTIJNDkyCWF0dGVudGlvbgoxNAkzCTE3MAljb21waWxlcnMKMTQJNAkxOAljb2duaXRpdmVfYXJjaGl0ZWN0dXJlCjE1CTEJNTI5CXNwZWNpYWxfaW50ZXJlc3RzCjE1CTIJMjM0CW1vdGl2YXRpb24KMTUJMwk5OQlhdWRoZF9waGVub3R5cGUKMTYJMQk0MDMJcGF0dGVybl9yZWNvZ25pdGlvbgoxNgkyCTIzNwlzeXN0ZW1zX3RoaW5raW5nCjE2CTMJMTgJY29nbml0aXZlX2FyY2hpdGVjdHVyZQoxNwkxCTEzMAloeXBlcmZvY3VzCjE3CTIJNDkyCWF0dGVudGlvbgoxNwkzCTM3NQlmbG93CjE3CTQJOTkJYXVkaGRfcGhlbm90eXBlCjE4CTEJNDkwCWRlbWFuZF9hdm9pZGFuY2UKMTgJMgkzOTEJcmVmYWN0b3JpbmcKMTgJMwkyNglhdXRvbm9teQoxOAk0CTM1OQlzeXN0ZW1zX2Rlc2lnbgoxOQkxCTI2CWF1dG9ub215CjE5CTIJNTgJdGVjaG5pY2FsX2RlY2lzaW9uX21ha2luZwoxOQkzCTQ5NAlzb2NpYWxfdmFsaWRhdGlvbgoxOQk0CTEwNglmb3VuZGVyc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjIwCTEJMTU2CXByb2dyYW1taW5nX2xhbmd1YWdlcwoyMAkyCTE4CWNvZ25pdGl2ZV9hcmNoaXRlY3R1cmUKMjAJMwkzNTUJcHJvZ3JhbW1pbmcKMjAJNAk5OQlhdWRoZF9waGVub3R5cGUKMjEJMQkxNTYJcHJvZ3JhbW1pbmdfbGFuZ3VhZ2VzCjIxCTIJMTU3CWNfcHJvZ3JhbW1pbmdfbGFuZ3VhZ2UKMjEJMwkzODgJcHl0aG9uCjIxCTQJMTUzCWphdmFzY3JpcHQKMjEJNQk0NTcJY29nbml0aXZlX3N0eWxlCjIyCTEJMTU3CWNfcHJvZ3JhbW1pbmdfbGFuZ3VhZ2UKMjIJMgkyODgJbWVtb3J5CjIyCTMJMjg3CW9wZW5fbG9vcHMKMjIJNAkzNzEJZXhlY3V0aXZlX292ZXJsb2FkCjIzCTEJMzg4CXB5dGhvbgoyMwkyCTI1CW1lbW9yeV9hdXRvbWF0aW9uCjIzCTMJMjc1CW1lbW9yeV9kZWNsdXR0ZXJpbmcKMjMJNAkxMDcJZXhlY3V0aXZlX2Z1bmN0aW9uCjI0CTEJMTUzCWphdmFzY3JpcHQKMjQJMgk4OQlmbGV4aWJpbGl0eQoyNAkzCTE4Nwljb250ZXh0X2RlcGVuZGVuY2UKMjQJNAk0NTcJY29nbml0aXZlX3N0eWxlCjI1CTEJMTUzCWphdmFzY3JpcHQKMjUJMgkyNTIJYW1iaWd1aXR5CjI1CTMJMTgJY29nbml0aXZlX2FyY2hpdGVjdHVyZQoyNQk0CTk5CWF1ZGhkX3BoZW5vdHlwZQoyNgkxCTE1MwlqYXZhc2NyaXB0CjI2CTIJNDMxCXNvY2lhbF9zY2FsaW5nCjI2CTMJMzM1CXRlY2hub2xvZ3lfcG9wdWxhcml0eQoyNgk0CTg5CWZsZXhpYmlsaXR5CjI3CTEJMglhYnN0cmFjdGlvbgoyNwkyCTIyNwltZXRhcHJvZ3JhbW1pbmcKMjcJMwkxNzAJY29tcGlsZXJzCjI3CTQJMjM3CXN5c3RlbXNfdGhpbmtpbmcKMjcJNQkyMjUJbWV0YV9sZXZlbAoyOAkxCTE4CWNvZ25pdGl2ZV9hcmNoaXRlY3R1cmUKMjgJMgkxNwltZW1vcnlfYXJjaGl0ZWN0dXJlCjI4CTMJOTkJYXVkaGRfcGhlbm90eXBlCjI4CTQJMjg4CW1lbW9yeQoyOQkxCTI4OAltZW1vcnkKMjkJMgkxOAljb2duaXRpdmVfYXJjaGl0ZWN0dXJlCjI5CTMJMzA0CXNjaGVtYXRpY19tZW1vcnkKMjkJNAkzMDUJc3RydWN0dXJhbF9tZW1vcnkKMzAJMQkzMDQJc2NoZW1hdGljX21lbW9yeQozMAkyCTE3MQljb21wcmVzc2lvbgozMAkzCTI0MQluYXJyYXRpdmUKMzAJNAkxODUJbWVtb3J5X2NvbnNvbGlkYXRpb24KMzEJMQk5OQlhdWRoZF9waGVub3R5cGUKMzEJMgkzMDUJc3RydWN0dXJhbF9tZW1vcnkKMzEJMwk0NjQJZGV0YWlscwozMQk0CTE4CWNvZ25pdGl2ZV9hcmNoaXRlY3R1cmUKMzIJMQk5OQlhdWRoZF9waGVub3R5cGUKMzIJMgkzMDUJc3RydWN0dXJhbF9tZW1vcnkKMzIJMwkxNzEJY29tcHJlc3Npb24KMzIJNAkyMzcJc3lzdGVtc190aGlua2luZwozMwkxCTMwNglwb2ludGVyX2Jhc2VkX21lbW9yeQozMwkyCTI4OAltZW1vcnkKMzMJMwk0MzAJc2NhbGFiaWxpdHkKMzMJNAk5OQlhdWRoZF9waGVub3R5cGUKMzQJMQkzODIJbWVtb3J5X3JldHJpZXZhbAozNAkyCTMwNglwb2ludGVyX2Jhc2VkX21lbW9yeQozNAkzCTI5MAlhc3NvY2lhdGl2ZV9tZW1vcnkKMzQJNAkzOTcJcmVjb25zdHJ1Y3Rpb24KMzUJMQkyMjUJbWV0YV9sZXZlbAozNQkyCTM5OAlyZWN1cnNpb24KMzUJMwkzMDYJcG9pbnRlcl9iYXNlZF9tZW1vcnkKMzUJNAkyCWFic3RyYWN0aW9uCjM2CTEJNDgJY3ljbGVzCjM2CTIJMzk4CXJlY3Vyc2lvbgozNgkzCTQxNglzZWxmX3JlZmVyZW5jZQozNgk0CTIzNwlzeXN0ZW1zX3RoaW5raW5nCjM3CTEJNDEJYm9vdHN0cmFwCjM3CTIJMTcwCWNvbXBpbGVycwozNwkzCTM5OAlyZWN1cnNpb24KMzcJNAkxMDUJZm91bmRhdGlvbnNfb2ZfaW5mb3JtYXRpb25fdGVjaG5vbG9neQozOAkxCTE3OAljb25mYWJ1bGF0aW9uCjM4CTIJMjk1CWVwaXNvZGljX21lbW9yeQozOAkzCTM5NwlyZWNvbnN0cnVjdGlvbgozOAk0CTk5CWF1ZGhkX3BoZW5vdHlwZQozOQkxCTk5CWF1ZGhkX3BoZW5vdHlwZQozOQkyCTM1Nglsb3dfbGV2ZWxfcHJvZ3JhbW1pbmcKMzkJMwkzMDYJcG9pbnRlcl9iYXNlZF9tZW1vcnkKMzkJNAkyODgJbWVtb3J5CjQwCTEJOTkJYXVkaGRfcGhlbm90eXBlCjQwCTIJMTA1CWZvdW5kYXRpb25zX29mX2luZm9ybWF0aW9uX3RlY2hub2xvZ3kKNDAJMwkxOTcJY29nbml0aXZlX2Nvc3QKNDAJNAkxOAljb2duaXRpdmVfYXJjaGl0ZWN0dXJlCjQxCTEJMTkwCWNvdW50ZXJleGFtcGxlCjQxCTIJOTYJZmFsc2lmaWNhdGlvbgo0MQkzCTEzMgloeXBvdGhlc2lzCjQxCTQJMTA2CWZvdW5kZXJzX29mX2luZm9ybWF0aW9uX3RlY2hub2xvZ3kKNDIJMQkxMzIJaHlwb3RoZXNpcwo0MgkyCTk5CWF1ZGhkX3BoZW5vdHlwZQo0MgkzCTEwNQlmb3VuZGF0aW9uc19vZl9pbmZvcm1hdGlvbl90ZWNobm9sb2d5CjQyCTQJMTgJY29nbml0aXZlX2FyY2hpdGVjdHVyZQ==').decode('utf-8')
+          expected=[]
+          for line in raw.splitlines():
+              so,ko,cid,key=line.split('\t')
+              expected.append((int(so),int(ko),int(cid),key))
+
+          if len(expected) != 170:
+              raise RuntimeError(f'Expected 170 assignments, got {len(expected)}')
+          if len({(r[0],r[1]) for r in expected}) != 170:
+              raise RuntimeError('Duplicate (section_order, keyword_order)')
+          if len({(r[0],r[2]) for r in expected}) != 170:
+              raise RuntimeError('Duplicate (section_order, concept_id)')
+
+          token=os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+          conn=libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+
+          docs=conn.execute("SELECT document_id FROM content_documents WHERE collection_id='audhd' AND document_code='AU09'").fetchall()
+          if len(docs) != 1:
+              raise RuntimeError(f'AU09 document count != 1: {docs!r}')
+          document_id=int(docs[0][0])
+
+          sections=conn.execute('SELECT section_id, section_order FROM content_sections WHERE document_id=? ORDER BY section_order',(document_id,)).fetchall()
+          if len(sections) != 42:
+              raise RuntimeError(f'AU09 section count != 42: {len(sections)}')
+          orders=[int(r[1]) for r in sections]
+          if orders != list(range(1,43)):
+              raise RuntimeError(f'AU09 section orders invalid: {orders}')
+
+          for _,_,concept_id,concept_key in expected:
+              row=conn.execute('SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',(concept_id,)).fetchone()
+              if row is None or row[0] != concept_key:
+                  raise RuntimeError(f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}')
+
+          existing=conn.execute('''SELECT s.section_order, k.keyword_order, k.concept_id
+                                   FROM content_section_keywords k
+                                   JOIN content_sections s ON s.section_id=k.section_id
+                                   WHERE s.document_id=?
+                                   ORDER BY s.section_order, k.keyword_order''',(document_id,)).fetchall()
+          print(f'AU09_PREFLIGHT_OK document_id={document_id} sections=42 concepts=170 existing={len(existing)}')
+          if existing:
+              print('AU09_EXISTING=' + repr(existing))
+          conn.close()
+          PY
