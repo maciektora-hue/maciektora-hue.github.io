@@ -1,4 +1,4 @@
-name: SOL AuDHD - dodaj kafelek listy sekcji
+name: SOL AuDHD - przenies kafelek listy sekcji
 
 on:
   push:
@@ -16,25 +16,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Dodaj tylko jeden kafelek do audhd/index.html
+      - name: Przenies kafelek do pierwszej sekcji audhd/index.html
         shell: bash
         run: |
           set -euo pipefail
           git fetch origin main
-          EXPECTED='0e9ac2db71eda611ca8492516b8d63de1d825b83'
+          EXPECTED='ea5b88e148da0c659565db3b88d58dc9029a7164'
           ACTUAL="$(git rev-parse origin/main)"
           if [ "$ACTUAL" != "$EXPECTED" ]; then
             echo "STOP: main zmienil sie: $ACTUAL"
             exit 1
           fi
           git checkout -B SOL-audhd-tile origin/main
-          python3 -c 'from pathlib import Path; p=Path("audhd/index.html"); s=p.read_text(encoding="utf-8"); needle="          <article class=\"path\">\n            <h3>Mam diagnozę. I co teraz?</h3>\n            <div>\n              <p>O tym, co rzeczywiście pomaga, kiedy nazwa już jest, a życie nie przeprojektowało się samo przez noc.</p>\n              <a href=\"po-diagnozie/\">Co działa po późnej diagnozie ↗</a>\n            </div>\n          </article>\n"; add=needle+"          <article class=\"path\">\n            <h3>Chcę zobaczyć wszystkie sekcje</h3>\n            <div>\n              <p>Pełna lista 338 sekcji z anchorami i bezpośrednimi linkami, wczytywana z SQL.</p>\n              <a href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\">Lista wszystkich sekcji ↗</a>\n            </div>\n          </article>\n"; assert s.count(needle)==1, f"STOP: wzorzec sekcji wystepuje {s.count(needle)} razy"; assert "href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\"" not in s, "STOP: kafelek juz istnieje"; p.write_text(s.replace(needle, add, 1), encoding="utf-8")'
+          python3 -c 'from pathlib import Path; p=Path("audhd/index.html"); s=p.read_text(encoding="utf-8"); wrong="          <article class=\"path\">\n            <h3>Chcę zobaczyć wszystkie sekcje</h3>\n            <div>\n              <p>Pełna lista 338 sekcji z anchorami i bezpośrednimi linkami, wczytywana z SQL.</p>\n              <a href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\">Lista wszystkich sekcji ↗</a>\n            </div>\n          </article>\n"; intro="        <a href=\"co-to-znaczy/\">Najkrótsze wyjaśnienie ↗</a>\n        <a href=\"cechy/#spis-tresci\">Pełna mapa cech ↗</a>\n        <a href=\"#teksty\">Opisy wszystkich tekstów ↓</a>\n"; new=intro+"        <a href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\">Lista wszystkich sekcji ↗</a>\n"; assert s.count(wrong)==1, f"STOP: bledny kafelek wystepuje {s.count(wrong)} razy"; assert s.count(intro)==1, f"STOP: intro wystepuje {s.count(intro)} razy"; s=s.replace(wrong,"",1); s=s.replace(intro,new,1); p.write_text(s,encoding="utf-8")'
           test "$(git diff --name-only | wc -l)" -eq 1
           test "$(git diff --name-only)" = 'audhd/index.html'
-          grep -q 'href="SOL_mapa-sekcji-i-anchorow-audhd.html"' audhd/index.html
+          test "$(grep -c 'href=\"SOL_mapa-sekcji-i-anchorow-audhd.html\"' audhd/index.html)" -eq 1
           git diff --check
           git config user.name 'maciektora-hue'
           git config user.email 'maciek.tora@gmail.com'
           git add audhd/index.html
-          git commit -m 'AuDHD: dodaj kafelek listy sekcji'
+          git commit -m 'AuDHD: przenies kafelek listy sekcji do pierwszej sekcji'
           git push origin HEAD:main
