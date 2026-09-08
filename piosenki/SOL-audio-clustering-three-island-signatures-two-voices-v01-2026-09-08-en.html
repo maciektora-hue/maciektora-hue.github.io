@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Three-island signatures — results in two voices</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#18231f; --panel:#223129; --panel2:#111a17;
+  --text:#e7c27a; --strong:#f3d796; --muted:#c7b58d; --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.58
+}
+main{max-width:980px;margin:0 auto;padding:30px 20px 70px}
+h1{font-size:1.95rem;line-height:1.15;margin:0 0 .35rem}
+h2{font-size:1.28rem;margin:2.2rem 0 .75rem}
+h3{font-size:1.05rem;margin:0 0 .45rem}
+p,li{max-width:82ch}
+strong,a,code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.intro,.pair,.summary{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:15px 17px;margin:1rem 0
+}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.voice{padding:2px 4px}
+.voice + .voice{border-left:1px solid var(--line);padding-left:18px}
+.label{
+  display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--strong);margin-bottom:.35rem
+}
+.tech{color:var(--muted)}
+ul{padding-left:1.25rem}
+.glossary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px
+}
+.term{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel2)}
+.term strong{display:block;margin-bottom:.25rem}
+@media(max-width:760px){
+  .pair{grid-template-columns:1fr}
+  .voice + .voice{border-left:0;border-top:1px solid var(--line);padding-left:4px;padding-top:14px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1 id="three-island-signatures-two-voices">Three-island signatures — results in two voices</h1>
+<p class="meta">Depth · Light · Motion · audio_features_v08.csv · 343 tracks in the island cores</p>
+
+<div class="intro">
+<p><strong>Why this file?</strong> The same findings are described twice, side by side.</p>
+<p><strong>Voice 1</strong> uses plain language: what the difference sounds like and what it means.
+<strong>Voice 2</strong> uses technical language: which signal features are responsible for it.</p>
+</div>
+
+<h2 id="mini-glossary">Mini-glossary</h2>
+<div class="glossary">
+<div class="term"><strong>Spectrum</strong>How sound energy is distributed from the bass range up to the highest frequencies.</div>
+<div class="term"><strong>Spectral centroid</strong>The spectrum's approximate centre of gravity. Higher usually means brighter.</div>
+<div class="term"><strong>ZCR</strong>Zero-crossing rate: how often the waveform crosses zero. It often increases in brighter, rougher or more finely textured signals.</div>
+<div class="term"><strong>Spectral flux</strong>How strongly the spectrum changes from one short moment to the next.</div>
+<div class="term"><strong>Chroma</strong>The relative presence of pitch classes such as C, C♯, D, E and so on, regardless of octave.</div>
+<div class="term"><strong>Onset</strong>The beginning of a sound event: a hit, note, syllable, chord or similar event.</div>
+<div class="term"><strong>MFCC</strong>Numbers describing the overall shape of timbre. Very useful to an algorithm, but not very intuitive to a human reader.</div>
+<div class="term"><strong>Spectral contrast</strong>How strongly local spectral peaks stand out above the valleys between them.</div>
+</div>
+
+<h2 id="timbre-not-tempo">1. The main finding: the islands differ primarily in timbre, not tempo</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>The biggest difference between Depth, Light and Motion is not that one island is fast and another is slow.
+What matters most is <strong>where the sound energy sits</strong>: low, in the middle, or high.</p>
+<p>Tempo contributes very little to the shape of this map.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>The strongest separators of the island cores are ZCR, spectral centroid, 85% rolloff, the 4–12 kHz energy fraction,
+spectral flux, the 12–20 kHz fraction, chroma entropy and spectral bandwidth.</p>
+<p>The band-energy feature family alone reconstructs the core labels with a balanced accuracy of about <strong>0.958</strong>;
+brightness/spectral-shape features reach about <strong>0.953</strong>, while BPM reaches only about <strong>0.358</strong>.</p>
+</div>
+</div>
+
+<h2 id="depth">2. Depth</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p><strong>Depth</strong> is darker, heavier in the low end and more focused.
+It contains more bass, less high-frequency energy and more clearly marked individual sound events.</p>
+<p>This is not simply “slower music”. It is music with more <strong>foundation, weight and room for quiet</strong>.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Low spectral centroid, ZCR and flux; a high 20–250 Hz fraction; a low 1–12 kHz fraction;
+low chroma entropy, high chroma peak contrast and stronger onsets.</p>
+<p>It also has the highest spectral contrast in the lower and lower-mid frequency bands, together with a characteristic MFCC 1–2 profile.</p>
+</div>
+</div>
+
+<h2 id="light">3. Light</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p><strong>Light</strong> is the brightest island, with the strongest upper-frequency presence and the most “air”.
+But importantly, this brightness is often not clean and glass-smooth. It is also <strong>grainy, rough and active</strong>.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Highest spectral centroid, ZCR, bandwidth, 4–20 kHz energy fraction, spectral flatness and flux.
+Lower spectral contrast than Depth. MFCC 1 strongly distinguishes Light from the other cores.</p>
+</div>
+</div>
+
+<h2 id="motion">4. Motion</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p><strong>Motion</strong> is not simply halfway between the other two islands.
+It has its own character: more energy in the midrange, a smoother flow and less sharply punctuated events.</p>
+<p>It is the island where sound tends to <strong>flow</strong> rather than sit on a heavy foundation or sparkle high above it.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Strongest 1–4 kHz contribution, high spectral flux, high chroma entropy, lower chroma contrast
+and weaker onsets than Depth. MFCC 2 is particularly characteristic of Motion.</p>
+<p>On average, it also has slightly greater stereo width and lower left–right channel correlation.</p>
+</div>
+</div>
+
+<h2 id="how-the-islands-breathe">5. How the islands “breathe”</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>Each island changes over time in a different way.</p>
+<ul>
+<li><strong>Depth</strong> fluctuates more in loudness and drops further into quieter passages.</li>
+<li><strong>Light</strong> fluctuates less in loudness, but changes more in brightness and graininess.</li>
+<li><strong>Motion</strong> sits between the two.</li>
+</ul>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>The typical range between quiet and loud passages is about 14.4 dB in Depth,
+12.9 dB in Motion and 12.0 dB in Light.</p>
+<p>Depth shows greater RMS-level variability, while Light shows greater variability in spectral features related to brightness and flatness.</p>
+</div>
+</div>
+
+<h2 id="light-or-noise">6. Light or noise?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>A lot of high-frequency energy does not always mean the same thing. It can be clean and ordered, or grainy and noise-like.</p>
+<p>Light very often combines the two: <strong>strong high-frequency energy + strong graininess</strong>.
+Motion contains both variants. Depth usually contains little of either.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>In Light, about 90% of the core lies above the common reference point for both 4–20 kHz energy
+and spectral flatness. In Motion, both bright-grainy and bright-but-more-ordered variants are common.</p>
+</div>
+</div>
+
+<h2 id="focused-or-diffuse-harmony">7. Harmony: focused or diffuse?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>Depth more often has a few pitch classes that stand out clearly above the rest.
+Motion and Light more often spread harmonic attention across a wider set of notes.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Depth has lower chroma entropy and higher chroma peak contrast.
+Motion has the most diffuse chroma profile. In this respect, Light is closer to Motion than to Depth.</p>
+</div>
+</div>
+
+<h2 id="chroma-c-d-e-g">8. Chroma: C, D, E, G…</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>The strongest pitch classes are similar across all three islands:
+<strong>E, G and A</strong> recur prominently everywhere.</p>
+<p>This looks more like a shared property of the whole library than something that separates the islands.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Mean chroma profiles show E, G and A among the strongest components in all three cores.
+Differences between individual chroma classes are much weaker than the spectral differences.</p>
+<p>Light has relatively more A and D; Motion more G and D; Depth slightly more F, F♯/G♭ and G♯/A♭.</p>
+</div>
+</div>
+
+<h2 id="bass-foundation-or-pulse">9. Bass: foundation or pulse?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>Depth contains a lot of bass, but it does not look like an island of constant bass pounding.
+More often, the bass behaves as a <strong>foundation with strong but less frequent accents</strong>.</p>
+<p>When Motion and Light contain a lot of bass, they more often combine it with a denser grid of smaller sound events.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Among bass-heavy tracks in Depth, the dominant pattern is high onset strength with lower onset density.
+In Motion and Light, lower individual onset strength combined with higher event density is more common.</p>
+<p>This remains an indirect conclusion because the current CSV does not preserve the separate time history of the 20–250 Hz band.</p>
+</div>
+</div>
+
+<h2 id="soft-or-hard-onsets">10. Soft or hard onsets?</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<ul>
+<li><strong>Depth:</strong> fewer sound events, but stronger ones.</li>
+<li><strong>Light:</strong> more sound events, but weaker ones.</li>
+<li><strong>Motion:</strong> in between.</li>
+</ul>
+<p>This fits the broader picture well: Depth is more punctuated, Light more grainy, Motion more fluid.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Typical onset density: Depth about 2.55/s, Motion about 2.68/s, Light about 2.79/s.
+At the same time, onset strength is highest in Depth.</p>
+</div>
+</div>
+
+<h2 id="midrange-shape">11. The shape of the midrange</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>This is probably the cleanest gradient on the whole map:</p>
+<p><strong>Depth = lower mids → Motion = central mids → Light = upper mids.</strong></p>
+<p>That also helps explain why Motion forms the main route between the other two islands.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Within 250 Hz–4 kHz:</p>
+<ul>
+<li>Depth places the largest share in 250–500 Hz;</li>
+<li>Motion has the most even distribution and stronger 1–2 kHz energy;</li>
+<li>Light has the largest 2–4 kHz share.</li>
+</ul>
+</div>
+</div>
+
+<h2 id="microdynamics">12. Microdynamics</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>Depth leaves more room for retreat and quiet.
+Not because it produces higher peaks, but because it <strong>drops further into quieter moments</strong>.</p>
+<p>Light remains more continuously present. Motion once again sits between the two.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>The largest difference between the islands appears in the lower frame-RMS percentiles,
+not in the highest peaks. Typical drop from the median level into quieter passages:
+Depth about 9.7 dB, Motion 8.9 dB, Light 7.9 dB.</p>
+</div>
+</div>
+
+<h2 id="stereo">13. Stereo</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>Motion is, on average, spread a little wider across the stereo field.
+Depth and Light are more similar to each other in this respect than one might expect.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>Motion has lower mean left–right channel correlation and slightly greater stereo width.
+Left–right balance remains close to centre in all three cores.</p>
+<p>The current CSV does not allow us to measure changes in stereo width over time.</p>
+</div>
+</div>
+
+<h2 id="what-we-still-cannot-measure">14. What we still cannot measure</h2>
+<div class="pair">
+<div class="voice">
+<div class="label">Plain language</div>
+<p>At this point, we know a great deal about <strong>what a track is like on average</strong>.
+We know much less about <strong>how it unfolds from beginning to end</strong>.</p>
+<p>We still cannot reliably distinguish gradual build-ups, fades, waves, returns, chorus-like “coming home”, or a single major break in the track.</p>
+</div>
+<div class="voice tech">
+<div class="label">Technical</div>
+<p>The current extractor mainly retains summary statistics and measures of variability,
+but not the full temporal order of frames or segments.</p>
+<p>In the next version, it would be useful to retain, for example, 20 consecutive segments for:
+RMS, spectral centroid, band energy, spectral flux, chroma concentration and stereo width.</p>
+</div>
+</div>
+
+<div class="summary">
+<h2 id="shortest-summary">Shortest summary</h2>
+<p><strong>Plain language:</strong><br>
+Depth = low end, focus, stronger punctuated events and more room for quiet.<br>
+Light = high end, graininess, broad spectral spread and finer-grained activity.<br>
+Motion = midrange, flow, diffusion and greater stereo spaciousness.</p>
+
+<p class="tech"><strong>Technical:</strong><br>
+Depth: low centroid/ZCR/flux, high bass fraction, low chroma entropy, high onset strength.<br>
+Light: high centroid/ZCR/bandwidth/flatness/high-band fraction/flux.<br>
+Motion: high 1–4 kHz fraction, high chroma entropy, lower chroma contrast, greater stereo width.</p>
+</div>
+
+</main>
+</body>
+</html>
