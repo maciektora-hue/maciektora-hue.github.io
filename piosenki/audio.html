@@ -5,38 +5,182 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Analiza audio piosenek — landing page</title>
 <style>
-:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-main{max-width:940px;margin:0 auto;padding:30px 20px 70px}h1{font-size:2rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.25rem;margin:2rem 0 .7rem}h3{font-size:1.05rem;margin:.1rem 0 .35rem}p,li{max-width:80ch}a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}strong{color:var(--strong)}code{color:var(--strong)}.meta,.muted{color:var(--muted)}.hero,.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:15px 17px;margin:1rem 0}.hero{border-width:2px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.card{margin:0}.card p{margin:.35rem 0 .2rem}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.12rem .55rem;margin:.12rem .18rem .12rem 0;font-size:.84rem;color:var(--muted)}.n{font-size:.88rem;color:var(--muted);font-weight:400}nav ol{padding-left:1.35rem}.files ul{padding-left:1.25rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted)}
+:root{
+  color-scheme:dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --panel2:#111a17;
+  --text:#e7c27a;
+  --strong:#f3d796;
+  --muted:#c7b58d;
+  --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.55
+}
+main{max-width:940px;margin:0 auto;padding:30px 20px 70px}
+h1{font-size:2rem;line-height:1.15;margin:0 0 .35rem}
+h2{font-size:1.25rem;margin:2rem 0 .7rem}
+h3{font-size:1.05rem;margin:.1rem 0 .35rem}
+p,li{max-width:80ch}
+a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
+strong{color:var(--strong)}
+code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.hero,.card{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:15px 17px;margin:1rem 0
+}
+.hero{border-width:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{margin:0}
+.card p{margin:.35rem 0 .2rem}
+.tag{
+  display:inline-block;border:1px solid var(--line);border-radius:999px;
+  padding:.12rem .55rem;margin:.12rem .18rem .12rem 0;
+  font-size:.84rem;color:var(--muted)
+}
+.n{font-size:.88rem;color:var(--muted);font-weight:400}
+nav ol{padding-left:1.35rem}
+.files ul{padding-left:1.25rem}
+footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted)}
 </style>
 </head>
 <body>
 <main>
 <p class="meta"><a href="index.html">← Analiza piosenek</a></p>
+
 <h1>Analiza audio piosenek</h1>
 <p class="meta">Landing page · stan roboczy po sanityzacji 1.0 · 2026-09-08</p>
-<div class="hero"><p><strong>Aktualny stan:</strong> analizujemy osobny, celowo oczyszczony zbiór audio <code>audio_features_v08.csv</code>: <strong>856 utworów</strong>. Nie musi mieć tej samej liczby rekordów co główny zbiór Spotify / tekstów / tagów.</p><p><strong>Aktualny model roboczy:</strong> nie „pudełka z klastrami”, tylko <strong>krajobraz 3 wysp</strong> z mostami, kontynentem / strefą przejściową i peryferiami.</p></div>
-<nav><h2>Najlepsza kolejność czytania</h2><ol>
-<li><a href="SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html">Sanityzacja audio 1.0 — kamień milowy</a><br><span class="muted">Dlaczego powstał osobny zbiór audio i skąd 856 rekordów.</span></li>
-<li><a href="SOL-klastrowanie-audio-hipotezy-robocze-2026-09-08.html">KLASTRUJEMY — dwie hipotezy robocze</a><br><span class="muted">Pełne klastry vs wyspy + reszta.</span></li>
-<li><a href="SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html">Analiza dwóch hipotez</a><br><span class="muted">Dlaczego model wysp lepiej opisuje szczegółową geometrię zbioru.</span></li>
-<li><a href="SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html">Dlaczego 3 wyspy, a nie 4–7</a><br><span class="muted">Separacja, stabilność, zgodność między różnymi reprezentacjami cech.</span></li>
-<li><a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">Mapa 3 wysp — opis po ludzku</a><br><span class="muted">Głębia, Światło, Ruch, mosty, kontynent i peryferia.</span></li>
-</ol></nav>
+
+<div class="hero">
+<p><strong>Aktualny stan:</strong> analizujemy osobny, celowo oczyszczony zbiór audio
+<code>audio_features_v08.csv</code>: <strong>856 utworów</strong>.
+Nie musi mieć tej samej liczby rekordów co główny zbiór Spotify / tekstów / tagów.</p>
+<p><strong>Aktualny model roboczy:</strong> nie „pudełka z klastrami”, tylko
+<strong>krajobraz 3 wysp</strong> z mostami, kontynentem / strefą przejściową i peryferiami.</p>
+</div>
+
+<nav>
+<h2>Najlepsza kolejność czytania</h2>
+<ol>
+<li><a href="SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html">Sanityzacja audio 1.0 — kamień milowy</a><br>
+<span class="muted">Dlaczego powstał osobny zbiór audio i skąd 856 rekordów.</span></li>
+
+<li><a href="SOL-klastrowanie-audio-hipotezy-robocze-2026-09-08.html">KLASTRUJEMY — dwie hipotezy robocze</a><br>
+<span class="muted">Pełne klastry vs wyspy + reszta.</span></li>
+
+<li><a href="SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html">Analiza dwóch hipotez</a><br>
+<span class="muted">Dlaczego model wysp lepiej opisuje szczegółową geometrię zbioru.</span></li>
+
+<li><a href="SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html">Dlaczego 3 wyspy, a nie 4–7</a><br>
+<span class="muted">Separacja, stabilność, zgodność między różnymi reprezentacjami cech.</span></li>
+
+<li><a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">Mapa 3 wysp — opis po ludzku</a><br>
+<span class="muted">Głębia, Światło, Ruch, mosty, kontynent i peryferia.</span></li>
+<li><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">Sygnatury 3 wysp — wyniki na dwa głosy</a><br>
+<span class="muted">Aktualne podsumowanie wyników: po ludzku i równolegle językiem technicznym.</span></li>
+</ol>
+</nav>
+
+<h2>Wyniki: sygnatury 3 wysp</h2>
+<div class="grid">
+<div class="card">
+<h3>Po polsku</h3>
+<p><strong>Głębia · Światło · Ruch</strong> opisane równolegle na dwa sposoby: normalnym językiem oraz językiem analizy sygnału.</p>
+<p><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">Sygnatury 3 wysp — wyniki na dwa głosy</a></p>
+</div>
+<div class="card">
+<h3>English</h3>
+<p>Careful English version of the same analysis: <strong>Depth · Light · Motion</strong>, with plain-language and technical explanations side by side.</p>
+<p><a href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html" lang="en">Three-island signatures — results in two voices</a></p>
+</div>
+</div>
+
 <h2>Mapa 1.0</h2>
 <div class="grid">
-<div class="card"><h3>Wyspa Głębi <span class="n">166</span></h3><p>Ciemniejsza, basowa i tonalnie skupiona. Zwarta, mniej jaskrawa, cięższa od dołu.</p><a href="SOL_audio-mapa-3-wysp-01-wyspa-glebi-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Wyspa Światła <span class="n">60</span></h3><p>Jasna, szerokopasmowa, iskrząca. Więcej góry, powietrza i drobnych zmian widmowych.</p><a href="SOL_audio-mapa-3-wysp-02-wyspa-swiatla-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Wyspa Ruchu <span class="n">117</span></h3><p>Środek pasma, przepływ i harmoniczne rozproszenie. Najważniejszy pośrednik między skrajnościami.</p><a href="SOL_audio-mapa-3-wysp-03-wyspa-ruchu-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Most Głębia ↔ Ruch <span class="n">101</span></h3><p>Największa przeprawa w krajobrazie.</p><a href="SOL_audio-mapa-3-wysp-04-most-glebia-ruch-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Most Ruch ↔ Światło <span class="n">46</span></h3><p>Przejście od brzmienia bardziej środkowego i płynnego do jasnego i szerokopasmowego.</p><a href="SOL_audio-mapa-3-wysp-05-most-swiatlo-ruch-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Most Głębia ↔ Światło <span class="n">2</span></h3><p>Prawie nie istnieje. Skrajne wyspy zwykle komunikują się przez Ruch.</p><a href="SOL_audio-mapa-3-wysp-06-most-glebia-swiatlo-v01-2026-09-08.csv">lista CSV</a></div>
-<div class="card"><h3>Kontynent / strefa przejściowa <span class="n">297</span></h3><p>Największy ciągły obszar: hybrydy, przejścia i utwory bez jednej dominującej wyspy.</p><a href="SOL_audio-mapa-3-wysp-07-kontynent-cz1-v01-2026-09-08.csv">część 1</a> · <a href="SOL_audio-mapa-3-wysp-07-kontynent-cz2-v01-2026-09-08.csv">część 2</a> · <a href="SOL_audio-mapa-3-wysp-07-kontynent-cz3-v01-2026-09-08.csv">część 3</a></div>
-<div class="card"><h3>Peryferia <span class="n">67</span></h3><p>Akustycznie najrzadsze okolice biblioteki. Nietypowe nie znaczy błędne ani nielubiane.</p><a href="SOL_audio-mapa-3-wysp-08-peryferia-v01-2026-09-08.csv">lista CSV</a></div>
+<div class="card">
+<h3>Wyspa Głębi <span class="n">166</span></h3>
+<p>Ciemniejsza, basowa i tonalnie skupiona. Zwarta, mniej jaskrawa, cięższa od dołu.</p>
+<a href="SOL_audio-mapa-3-wysp-01-wyspa-glebi-v01-2026-09-08.csv">lista CSV</a>
 </div>
-<h2>Pliki techniczne</h2><div class="files"><ul><li><a href="SOL_audio-analysis-05.md">Dokumentacja ekstrakcji cech audio</a></li><li><a href="SOL_audio-analysis-05.py">Skrypt analizy audio</a></li></ul></div>
-<h2>Skrót dla AI</h2><div class="card"><span class="tag">sanityzacja 1.0 zakończona</span><span class="tag">856 utworów</span><span class="tag">3 wyspy</span><span class="tag">149 mosty</span><span class="tag">297 kontynent</span><span class="tag">67 peryferia</span><p class="muted">Nie traktować wysp jako gatunków muzycznych ani twardych klas. To stabilne rdzenie w przestrzeni cech audio. Pełna mapa zachowuje również mosty i obszary przejściowe.</p></div>
-<footer>Ta strona jest punktem wejścia do aktualnej gałęzi analizy audio. Jeśli powstanie nowa mapa lub kolejny etap sanityzacji, ten plik powinien wskazywać wersję aktualną.</footer>
+
+<div class="card">
+<h3>Wyspa Światła <span class="n">60</span></h3>
+<p>Jasna, szerokopasmowa, iskrząca. Więcej góry, powietrza i drobnych zmian widmowych.</p>
+<a href="SOL_audio-mapa-3-wysp-02-wyspa-swiatla-v01-2026-09-08.csv">lista CSV</a>
+</div>
+
+<div class="card">
+<h3>Wyspa Ruchu <span class="n">117</span></h3>
+<p>Środek pasma, przepływ i harmoniczne rozproszenie. Najważniejszy pośrednik między skrajnościami.</p>
+<a href="SOL_audio-mapa-3-wysp-03-wyspa-ruchu-v01-2026-09-08.csv">lista CSV</a>
+</div>
+
+<div class="card">
+<h3>Most Głębia ↔ Ruch <span class="n">101</span></h3>
+<p>Największa przeprawa w krajobrazie.</p>
+<a href="SOL_audio-mapa-3-wysp-04-most-glebia-ruch-v01-2026-09-08.csv">lista CSV</a>
+</div>
+
+<div class="card">
+<h3>Most Ruch ↔ Światło <span class="n">46</span></h3>
+<p>Przejście od brzmienia bardziej środkowego i płynnego do jasnego i szerokopasmowego.</p>
+<a href="SOL_audio-mapa-3-wysp-05-most-swiatlo-ruch-v01-2026-09-08.csv">lista CSV</a>
+</div>
+
+<div class="card">
+<h3>Most Głębia ↔ Światło <span class="n">2</span></h3>
+<p>Prawie nie istnieje. Skrajne wyspy zwykle komunikują się przez Ruch.</p>
+<a href="SOL_audio-mapa-3-wysp-06-most-glebia-swiatlo-v01-2026-09-08.csv">lista CSV</a>
+</div>
+
+<div class="card">
+<h3>Kontynent / strefa przejściowa <span class="n">297</span></h3>
+<p>Największy ciągły obszar: hybrydy, przejścia i utwory bez jednej dominującej wyspy.</p>
+<a href="SOL_audio-mapa-3-wysp-07-kontynent-cz1-v01-2026-09-08.csv">część 1</a> ·
+<a href="SOL_audio-mapa-3-wysp-07-kontynent-cz2-v01-2026-09-08.csv">część 2</a> ·
+<a href="SOL_audio-mapa-3-wysp-07-kontynent-cz3-v01-2026-09-08.csv">część 3</a>
+</div>
+
+<div class="card">
+<h3>Peryferia <span class="n">67</span></h3>
+<p>Akustycznie najrzadsze okolice biblioteki. Nietypowe nie znaczy błędne ani nielubiane.</p>
+<a href="SOL_audio-mapa-3-wysp-08-peryferia-v01-2026-09-08.csv">lista CSV</a>
+</div>
+</div>
+
+<h2>Pliki techniczne</h2>
+<div class="files">
+<ul>
+<li><a href="SOL_audio-analysis-05.md">Dokumentacja ekstrakcji cech audio</a></li>
+<li><a href="SOL_audio-analysis-05.py">Skrypt analizy audio</a></li>
+</ul>
+</div>
+
+<h2>Skrót dla AI</h2>
+<div class="card">
+<span class="tag">sanityzacja 1.0 zakończona</span>
+<span class="tag">856 utworów</span>
+<span class="tag">3 wyspy</span>
+<span class="tag">149 mosty</span>
+<span class="tag">297 kontynent</span>
+<span class="tag">67 peryferia</span>
+<p class="muted">
+Nie traktować wysp jako gatunków muzycznych ani twardych klas.
+To stabilne rdzenie w przestrzeni cech audio.
+Pełna mapa zachowuje również mosty i obszary przejściowe.
+</p>
+</div>
+
+<footer>
+Ta strona jest punktem wejścia do aktualnej gałęzi analizy audio.
+Jeśli powstanie nowa mapa lub kolejny etap sanityzacji, ten plik powinien wskazywać wersję aktualną.
+</footer>
+
 </main>
 </body>
 </html>
