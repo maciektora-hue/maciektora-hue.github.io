@@ -49,6 +49,10 @@ HYPOTHESES = [
         "title": "czułość · strach · zazdrość",
         "tags": ["czulosc", "strach", "zazdrosc"],
     },
+    {
+        "title": "gniew · wstyd · frustracja",
+        "tags": ["gniew", "wstyd", "frustracja"],
+    },
 ]
 
 
