@@ -58,4 +58,8 @@ jobs:
           PY
 
       - name: Wpisz tylko description dla AuDHD
-        run: node /tmp/SOL_import-opisy-sql.js /tmp/SOL_opisy-sekcji-audhd.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp /tmp/SOL_import-opisy-sql.js ./SOL_import-opisy-sql.js
+          node ./SOL_import-opisy-sql.js /tmp/SOL_opisy-sekcji-audhd.json
