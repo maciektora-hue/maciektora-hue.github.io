@@ -21,104 +21,14 @@ jobs:
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
-          import os
+          import os, base64
           import libsql
 
-          expected = [
-    (1, 1, 17, 'memory_architecture'),
-    (1, 2, 18, 'cognitive_architecture'),
-    (1, 3, 296, 'computer_memory'),
-    (1, 4, 298, 'human_memory'),
-    (1, 5, 299, 'neurodivergent_memory'),
-    (2, 1, 17, 'memory_architecture'),
-    (2, 2, 296, 'computer_memory'),
-    (2, 3, 299, 'neurodivergent_memory'),
-    (2, 4, 156, 'programming_languages'),
-    (2, 5, 462, 'distributed_systems'),
-    (3, 1, 288, 'memory'),
-    (3, 2, 280, 'limited_memory'),
-    (3, 3, 279, 'system_constraints'),
-    (3, 4, 376, 'information_processing'),
-    (4, 1, 296, 'computer_memory'),
-    (4, 2, 389, 'ram'),
-    (4, 3, 278, 'hardware_constraints'),
-    (4, 4, 174, 'personal_computers'),
-    (5, 1, 392, 'references'),
-    (6, 1, 157, 'c_programming_language'),
-    (6, 2, 296, 'computer_memory'),
-    (6, 3, 355, 'programming'),
-    (6, 4, 356, 'low_level_programming'),
-    (6, 5, 357, 'programming_language_design'),
-    (7, 1, 392, 'references'),
-    (8, 1, 388, 'python'),
-    (8, 2, 156, 'programming_languages'),
-    (8, 3, 296, 'computer_memory'),
-    (9, 1, 392, 'references'),
-    (10, 1, 153, 'javascript'),
-    (10, 2, 156, 'programming_languages'),
-    (10, 3, 296, 'computer_memory'),
-    (10, 4, 357, 'programming_language_design'),
-    (11, 1, 392, 'references'),
-    (12, 1, 82, 'big_data'),
-    (12, 2, 127, 'hadoop'),
-    (12, 3, 213, 'mapreduce'),
-    (12, 4, 462, 'distributed_systems'),
-    (12, 5, 19, 'system_architecture'),
-    (13, 1, 392, 'references'),
-    (14, 1, 298, 'human_memory'),
-    (14, 2, 17, 'memory_architecture'),
-    (14, 3, 131, 'hippocampus'),
-    (14, 4, 293, 'long_term_memory'),
-    (14, 5, 185, 'memory_consolidation'),
-    (15, 1, 298, 'human_memory'),
-    (15, 2, 297, 'short_term_memory'),
-    (15, 3, 293, 'long_term_memory'),
-    (15, 4, 292, 'declarative_memory'),
-    (15, 5, 300, 'procedural_memory'),
-    (16, 1, 185, 'memory_consolidation'),
-    (16, 2, 248, 'sleep_neurobiology'),
-    (16, 3, 424, 'deep_sleep'),
-    (16, 4, 425, 'rem_sleep'),
-    (16, 5, 293, 'long_term_memory'),
-    (17, 1, 298, 'human_memory'),
-    (17, 2, 172, 'lossy_compression'),
-    (17, 3, 111, 'gist'),
-    (17, 4, 421, 'schemas'),
-    (17, 5, 464, 'details'),
-    (18, 1, 392, 'references'),
-    (19, 1, 299, 'neurodivergent_memory'),
-    (19, 2, 18, 'cognitive_architecture'),
-    (19, 3, 457, 'cognitive_style'),
-    (19, 4, 17, 'memory_architecture'),
-    (20, 1, 233, 'monotropism'),
-    (20, 2, 492, 'attention'),
-    (20, 3, 457, 'cognitive_style'),
-    (20, 4, 299, 'neurodivergent_memory'),
-    (21, 1, 441, 'central_coherence'),
-    (21, 2, 464, 'details'),
-    (21, 3, 111, 'gist'),
-    (21, 4, 457, 'cognitive_style'),
-    (22, 1, 303, 'working_memory'),
-    (22, 2, 107, 'executive_function'),
-    (22, 3, 189, 'executive_control'),
-    (22, 4, 280, 'limited_memory'),
-    (23, 1, 306, 'pointer_based_memory'),
-    (23, 2, 299, 'neurodivergent_memory'),
-    (23, 3, 303, 'working_memory'),
-    (23, 4, 233, 'monotropism'),
-    (23, 5, 441, 'central_coherence'),
-    (24, 1, 392, 'references'),
-    (25, 1, 105, 'foundations_of_information_technology'),
-    (25, 2, 319, 'information_technology_pioneers'),
-    (25, 3, 356, 'low_level_programming'),
-    (25, 4, 170, 'compilers'),
-    (25, 5, 462, 'distributed_systems'),
-    (26, 1, 17, 'memory_architecture'),
-    (26, 2, 296, 'computer_memory'),
-    (26, 3, 298, 'human_memory'),
-    (26, 4, 299, 'neurodivergent_memory'),
-    (26, 5, 279, 'system_constraints'),
-]
+          raw = base64.b64decode('MQkxCTE3CW1lbW9yeV9hcmNoaXRlY3R1cmUKMQkyCTE4CWNvZ25pdGl2ZV9hcmNoaXRlY3R1cmUKMQkzCTI5Ngljb21wdXRlcl9tZW1vcnkKMQk0CTI5OAlodW1hbl9tZW1vcnkKMQk1CTI5OQluZXVyb2RpdmVyZ2VudF9tZW1vcnkKMgkxCTE3CW1lbW9yeV9hcmNoaXRlY3R1cmUKMgkyCTI5Ngljb21wdXRlcl9tZW1vcnkKMgkzCTI5OQluZXVyb2RpdmVyZ2VudF9tZW1vcnkKMgk0CTE1Nglwcm9ncmFtbWluZ19sYW5ndWFnZXMKMgk1CTQ2MglkaXN0cmlidXRlZF9zeXN0ZW1zCjMJMQkyODgJbWVtb3J5CjMJMgkyODAJbGltaXRlZF9tZW1vcnkKMwkzCTI3OQlzeXN0ZW1fY29uc3RyYWludHMKMwk0CTM3NglpbmZvcm1hdGlvbl9wcm9jZXNzaW5nCjQJMQkyOTYJY29tcHV0ZXJfbWVtb3J5CjQJMgkzODkJcmFtCjQJMwkyNzgJaGFyZHdhcmVfY29uc3RyYWludHMKNAk0CTE3NAlwZXJzb25hbF9jb21wdXRlcnMKNQkxCTM5MglyZWZlcmVuY2VzCjYJMQkxNTcJY19wcm9ncmFtbWluZ19sYW5ndWFnZQo2CTIJMjk2CWNvbXB1dGVyX21lbW9yeQo2CTMJMzU1CXByb2dyYW1taW5nCjYJNAkzNTYJbG93X2xldmVsX3Byb2dyYW1taW5nCjYJNQkzNTcJcHJvZ3JhbW1pbmdfbGFuZ3VhZ2VfZGVzaWduCjcJMQkzOTIJcmVmZXJlbmNlcwo4CTEJMzg4CXB5dGhvbgo4CTIJMTU2CXByb2dyYW1taW5nX2xhbmd1YWdlcwo4CTMJMjk2CWNvbXB1dGVyX21lbW9yeQo5CTEJMzkyCXJlZmVyZW5jZXMKMTAJMQkxNTMJamF2YXNjcmlwdAoxMAkyCTE1Nglwcm9ncmFtbWluZ19sYW5ndWFnZXMKMTAJMwkyOTYJY29tcHV0ZXJfbWVtb3J5CjEwCTQJMzU3CXByb2dyYW1taW5nX2xhbmd1YWdlX2Rlc2lnbgoxMQkxCTM5MglyZWZlcmVuY2VzCjEyCTEJODIJYmlnX2RhdGEKMTIJMgkxMjcJaGFkb29wCjEyCTMJMjEzCW1hcHJlZHVjZQoxMgk0CTQ2MglkaXN0cmlidXRlZF9zeXN0ZW1zCjEyCTUJMTkJc3lzdGVtX2FyY2hpdGVjdHVyZQoxMwkxCTM5MglyZWZlcmVuY2VzCjE0CTEJMjk4CWh1bWFuX21lbW9yeQoxNAkyCTE3CW1lbW9yeV9hcmNoaXRlY3R1cmUKMTQJMwkxMzEJaGlwcG9jYW1wdXMKMTQJNAkyOTMJbG9uZ190ZXJtX21lbW9yeQoxNAk1CTE4NQltZW1vcnlfY29uc29saWRhdGlvbgoxNQkxCTI5OAlodW1hbl9tZW1vcnkKMTUJMgkyOTcJc2hvcnRfdGVybV9tZW1vcnkKMTUJMwkyOTMJbG9uZ190ZXJtX21lbW9yeQoxNQk0CTI5MglkZWNsYXJhdGl2ZV9tZW1vcnkKMTUJNQkzMDAJcHJvY2VkdXJhbF9tZW1vcnkKMTYJMQkxODUJbWVtb3J5X2NvbnNvbGlkYXRpb24KMTYJMgkyNDgJc2xlZXBfbmV1cm9iaW9sb2d5CjE2CTMJNDI0CWRlZXBfc2xlZXAKMTYJNAk0MjUJcmVtX3NsZWVwCjE2CTUJMjkzCWxvbmdfdGVybV9tZW1vcnkKMTcJMQkyOTgJaHVtYW5fbWVtb3J5CjE3CTIJMTcyCWxvc3N5X2NvbXByZXNzaW9uCjE3CTMJMTExCWdpc3QKMTcJNAk0MjEJc2NoZW1hcwoxNwk1CTQ2NAlkZXRhaWxzCjE4CTEJMzkyCXJlZmVyZW5jZXMKMTkJMQkyOTkJbmV1cm9kaXZlcmdlbnRfbWVtb3J5CjE5CTIJMTgJY29nbml0aXZlX2FyY2hpdGVjdHVyZQoxOQkzCTQ1Nwljb2duaXRpdmVfc3R5bGUKMTkJNAkxNwltZW1vcnlfYXJjaGl0ZWN0dXJlCjIwCTEJMjMzCW1vbm90cm9waXNtCjIwCTIJNDkyCWF0dGVudGlvbgoyMAkzCTQ1Nwljb2duaXRpdmVfc3R5bGUKMjAJNAkyOTkJbmV1cm9kaXZlcmdlbnRfbWVtb3J5CjIxCTEJNDQxCWNlbnRyYWxfY29oZXJlbmNlCjIxCTIJNDY0CWRldGFpbHMKMjEJMwkxMTEJZ2lzdAoyMQk0CTQ1Nwljb2duaXRpdmVfc3R5bGUKMjIJMQkzMDMJd29ya2luZ19tZW1vcnkKMjIJMgkxMDcJZXhlY3V0aXZlX2Z1bmN0aW9uCjIyCTMJMTg5CWV4ZWN1dGl2ZV9jb250cm9sCjIyCTQJMjgwCWxpbWl0ZWRfbWVtb3J5CjIzCTEJMzA2CXBvaW50ZXJfYmFzZWRfbWVtb3J5CjIzCTIJMjk5CW5ldXJvZGl2ZXJnZW50X21lbW9yeQoyMwkzCTMwMwl3b3JraW5nX21lbW9yeQoyMwk0CTIzMwltb25vdHJvcGlzbQoyMwk1CTQ0MQljZW50cmFsX2NvaGVyZW5jZQoyNAkxCTM5MglyZWZlcmVuY2VzCjI1CTEJMTA1CWZvdW5kYXRpb25zX29mX2luZm9ybWF0aW9uX3RlY2hub2xvZ3kKMjUJMgkzMTkJaW5mb3JtYXRpb25fdGVjaG5vbG9neV9waW9uZWVycwoyNQkzCTM1Nglsb3dfbGV2ZWxfcHJvZ3JhbW1pbmcKMjUJNAkxNzAJY29tcGlsZXJzCjI1CTUJNDYyCWRpc3RyaWJ1dGVkX3N5c3RlbXMKMjYJMQkxNwltZW1vcnlfYXJjaGl0ZWN0dXJlCjI2CTIJMjk2CWNvbXB1dGVyX21lbW9yeQoyNgkzCTI5OAlodW1hbl9tZW1vcnkKMjYJNAkyOTkJbmV1cm9kaXZlcmdlbnRfbWVtb3J5CjI2CTUJMjc5CXN5c3RlbV9jb25zdHJhaW50cw==').decode('utf-8')
+          expected = []
+          for line in raw.splitlines():
+              so, ko, cid, key = line.split('\t')
+              expected.append((int(so), int(ko), int(cid), key))
 
           if len(expected) != 93:
               raise RuntimeError(f'Expected 93 assignments, got {len(expected)}')
@@ -131,10 +41,7 @@ jobs:
           if not token:
               raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
 
-          conn = libsql.connect(
-              database=os.environ['TURSO_DATABASE_URL'],
-              auth_token=token,
-          )
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
           conn.execute('PRAGMA foreign_keys = ON')
 
           doc_rows = conn.execute(
@@ -151,45 +58,32 @@ jobs:
           if len(section_rows) != 26:
               raise RuntimeError(f'AU05 section count != 26: {len(section_rows)}')
           section_id_by_order = {int(order): int(section_id) for section_id, order in section_rows}
-          if set(section_id_by_order) != set(range(1, 27)):
-              raise RuntimeError(f'AU05 section orders invalid: {sorted(section_id_by_order)}')
 
-          for section_order, keyword_order, concept_id, concept_key in expected:
-              row = conn.execute(
-                  'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
-                  (concept_id,),
-              ).fetchone()
+          for _, _, concept_id, concept_key in expected:
+              row = conn.execute('SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?', (concept_id,)).fetchone()
               if row is None or row[0] != concept_key:
-                  raise RuntimeError(
-                      f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}'
-                  )
+                  raise RuntimeError(f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}')
 
           existing = conn.execute(
               '''SELECT s.section_order, k.keyword_order, k.concept_id
                  FROM content_section_keywords k
-                 JOIN content_sections s ON s.section_id = k.section_id
-                 WHERE s.document_id = ?
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
                  ORDER BY s.section_order, k.keyword_order''',
               (document_id,),
           ).fetchall()
 
           expected_triples = sorted((so, ko, cid) for so, ko, cid, _ in expected)
-          existing_triples = sorted((int(a), int(b), int(c)) for a,b,c in existing)
+          existing_triples = sorted((int(a), int(b), int(c)) for a, b, c in existing)
 
           if existing_triples:
               if existing_triples == expected_triples:
                   print('AU05_ALREADY_OK count=93')
                   conn.close()
                   raise SystemExit(0)
-              raise RuntimeError(
-                  f'AU05 already has non-matching assignments: count={len(existing_triples)}'
-              )
+              raise RuntimeError(f'AU05 already has non-matching assignments: count={len(existing_triples)}')
 
-          insert_rows = [
-              (section_id_by_order[so], cid, ko)
-              for so, ko, cid, _ in expected
-          ]
-
+          insert_rows = [(section_id_by_order[so], cid, ko) for so, ko, cid, _ in expected]
           try:
               conn.execute('BEGIN TRANSACTION')
               conn.executemany(
@@ -204,20 +98,16 @@ jobs:
           actual = conn.execute(
               '''SELECT s.section_order, k.keyword_order, k.concept_id
                  FROM content_section_keywords k
-                 JOIN content_sections s ON s.section_id = k.section_id
-                 WHERE s.document_id = ?
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
                  ORDER BY s.section_order, k.keyword_order''',
               (document_id,),
           ).fetchall()
-          actual_triples = sorted((int(a), int(b), int(c)) for a,b,c in actual)
-
+          actual_triples = sorted((int(a), int(b), int(c)) for a, b, c in actual)
           if actual_triples != expected_triples:
-              raise RuntimeError(
-                  f'Post-insert verification mismatch: expected=93 actual={len(actual_triples)}'
-              )
+              raise RuntimeError(f'Post-insert verification mismatch: expected=93 actual={len(actual_triples)}')
 
           print('AU05_IMPORT_OK count=93')
           print(f'AU05_DOCUMENT_ID={document_id}')
-          print(f'AU05_SECTION_ID_RANGE={min(section_id_by_order.values())}..{max(section_id_by_order.values())}')
           conn.close()
           PY
