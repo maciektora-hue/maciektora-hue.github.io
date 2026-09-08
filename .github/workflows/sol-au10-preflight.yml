@@ -1,0 +1,86 @@
+name: SOL AU10 preflight
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-au10-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-au10:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check AU10 without writing
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, base64
+          import libsql
+
+          raw = base64.b64decode('MQkxCTk5CWF1ZGhkX3BoZW5vdHlwZQoxCTIJMzg0CXBzeWNob2VkdWNhdGlvbgoxCTMJNTE2CWNvX29jY3VycmluZ19hdXRpc21fYW5kX2FkaGQKMQk0CTQ3MgxuZXVyb2RpdmVyc2l0eV9hd2FyZW5lc3MKMgkxCTcyCWRvcGFtaW5lCjIJMgkyNjUJbm9yZXBpbmVwaHJpbmUKMgkzCTQ5MgphdHRlbnRpb24KMgk0CTIzNAltb3RpdmF0aW9uCjMJMQkzNzgJc2Vuc29yeV9wcm9jZXNzaW5nCjMJMgkxMDEJc2Vuc29yeV9maWx0ZXJpbmcKMwkzCTMxNglwZXJjZXB0aW9uCjQJMQkxNTEJaW50ZXJvY2VwdGlvbgo0CTIJMzYzCXByb3ByaW9jZXB0aW9uCjQJMwk0ODYJdmVzdGlidWxhcl9zeXN0ZW0KNAk0CTU0MglzZW5zb3J5X21vZGFsaXRpZXMK NQkxCTQ1OAlyYXdfc2Vuc29yeV9pbnB1dAo1CTIJMTAxCXNlbnNvcnlfZmlsdGVyaW5nCjUJMwkzMTYJcGVyY2VwdGlvbgo2CTEJMzQ3CXNvY2lhbF9jb2duaXRpb24KNgkyCTQ2MAlzb2NpYWxfY3Vlcwo2CTMJMTc2CW5vbnZlcmJhbF9jb21tdW5pY2F0aW9uCjcJMQkxNTEJaW50ZXJvY2VwdGlvbgo3CTIJMTE0CWh1bmdlcgo3CTMJNDU5CWJvZGlseV9zaWduYWxzCjgJMQk1MTYJY29fb2NjdXJyaW5nX2F1dGlzbV9hbmRfYWRoZAo4CTIJMjg4CW1lbW9yeQo4CTMJMzAzCXdvcmtpbmdfbWVtb3J5CjgJNAkyOTMJbG9uZ190ZXJtX21lbW9yeQo5CTEJMzAzCXdvcmtpbmdfbWVtb3J5CjkJMgkxMDcJZXhlY3V0aXZlX2Z1bmN0aW9uCjkJMwkzNjYJb3ZlcmxvYWQKMTAJMQkzMDIJcHJvc3BlY3RpdmVfbWVtb3J5CjEwCTIJNTI4CXRhc2tzCjEwCTMJMTA3CWV4ZWN1dGl2ZV9mdW5jdGlvbgo xMQkxCTI5Mwlsb25nX3Rlcm1fbWVtb3J5CjExCTIJNTI5CXNwZWNpYWxfaW50ZXJlc3RzCjExCTMJMTMwCWh5cGVyZm9jdXMK MTEJNAkyODUJ a25vd2xlZGdlX29yZ2FuaXphdGlvbgo xMgkxCTI5MQlhdXRvYmlvZ3JhcGhpY2FsX21lbW9yeQoxMgkyCTI5NQllcGlzb2RpY19tZW1vcnkKMTIJMwk5MQllbW90aW9ucwoxMgk0CTM5NwlyZWNvbnN0cnVjdGlvbgo xMwkxCTIxNAljYW1vdWZsYWdpbmcKMTMJMgk1MjIJYXV0aXN0aWNfYnVybm91dAoxMwkzCTE5Nwljb2duaXRpdmVfY29zdA==').decode('utf-8')
+          expected = []
+          for line in raw.splitlines():
+              so, ko, cid, key = line.split('\t')
+              expected.append((int(so), int(ko), int(cid), key))
+
+          if len(expected) != 45:
+              raise RuntimeError(f'Expected 45 assignments, got {len(expected)}')
+          if len({(r[0], r[1]) for r in expected}) != 45:
+              raise RuntimeError('Duplicate (section_order, keyword_order)')
+          if len({(r[0], r[2]) for r in expected}) != 45:
+              raise RuntimeError('Duplicate (section_order, concept_id)')
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+
+          docs = conn.execute(
+              "SELECT document_id FROM content_documents WHERE collection_id='audhd' AND document_code='AU10'"
+          ).fetchall()
+          if len(docs) != 1:
+              raise RuntimeError(f'AU10 document count != 1: {docs!r}')
+          document_id = int(docs[0][0])
+
+          sections = conn.execute(
+              'SELECT section_id, section_order FROM content_sections WHERE document_id=? ORDER BY section_order',
+              (document_id,),
+          ).fetchall()
+          if len(sections) != 13:
+              raise RuntimeError(f'AU10 section count != 13: {len(sections)}')
+          orders = [int(r[1]) for r in sections]
+          if orders != list(range(1, 14)):
+              raise RuntimeError(f'AU10 section orders invalid: {orders}')
+
+          for _, _, concept_id, concept_key in expected:
+              row = conn.execute(
+                  'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
+                  (concept_id,),
+              ).fetchone()
+              if row is None or row[0] != concept_key:
+                  raise RuntimeError(
+                      f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}'
+                  )
+
+          existing = conn.execute(
+              '''SELECT s.section_order, k.keyword_order, k.concept_id
+                 FROM content_section_keywords k
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
+                 ORDER BY s.section_order, k.keyword_order''',
+              (document_id,),
+          ).fetchall()
+
+          print(f'AU10_PREFLIGHT_OK document_id={document_id} sections=13 concepts=45 existing={len(existing)}')
+          if existing:
+              print('AU10_EXISTING=' + repr(existing))
+          conn.close()
+          PY
