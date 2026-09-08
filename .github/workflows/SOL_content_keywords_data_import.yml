@@ -1,0 +1,223 @@
+name: SOL content keywords - import danych
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_data_import.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Importuj 544 concepty i 1088 terminow PL/EN
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const zlib = require('zlib');
+          const crypto = require('crypto');
+          const { createClient } = require('@libsql/client');
+
+          const DATA_GZIP_B64 = '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';
+
+          function stop(msg) {
+            throw new Error('STOP KEYWORDS IMPORT: ' + msg);
+          }
+
+          function hashRows(rows) {
+            const normalized = rows.map(row => {
+              const out = {};
+              for (const [k, v] of Object.entries(row)) out[k] = v == null ? null : String(v);
+              return out;
+            });
+            return crypto.createHash('sha256').update(JSON.stringify(normalized)).digest('hex');
+          }
+
+          function norm(s) {
+            return String(s).trim().replace(/\s+/g, ' ').toLocaleLowerCase('pl-PL');
+          }
+
+          function parseData() {
+            const text = zlib.gunzipSync(Buffer.from(DATA_GZIP_B64, 'base64'))
+              .toString('utf8')
+              .replace(/^\uFEFF/, '');
+            const lines = text.replace(/\r/g, '').trimEnd().split('\n');
+            const header = lines.shift();
+            if (header !== 'concept_key\tkeyword_pl\tkeyword_pl_norm\tkeyword_en\tkeyword_en_norm') {
+              stop('nieprawidlowy naglowek danych');
+            }
+            const rows = lines.map((line, idx) => {
+              const p = line.split('\t');
+              if (p.length !== 5) stop(`wiersz ${idx + 2}: nie ma 5 kolumn`);
+              return {
+                concept_key: p[0], keyword_pl: p[1], keyword_pl_norm: p[2],
+                keyword_en: p[3], keyword_en_norm: p[4]
+              };
+            });
+            if (rows.length !== 544) stop(`dane maja ${rows.length} rekordow zamiast 544`);
+            const keys = new Set();
+            for (const [i, r] of rows.entries()) {
+              for (const [k, v] of Object.entries(r)) if (!v) stop(`wiersz ${i + 2}: puste ${k}`);
+              if (!/^[a-z0-9]+(?:_[a-z0-9]+)*$/.test(r.concept_key)) stop(`zly concept_key: ${r.concept_key}`);
+              if (keys.has(r.concept_key)) stop(`duplikat concept_key: ${r.concept_key}`);
+              keys.add(r.concept_key);
+              if (norm(r.keyword_pl) !== r.keyword_pl_norm) stop(`zly PL norm: ${r.concept_key}`);
+              if (norm(r.keyword_en) !== r.keyword_en_norm) stop(`zly EN norm: ${r.concept_key}`);
+            }
+            return rows;
+          }
+
+          async function snapshot(client) {
+            const sections = await client.execute(`
+              SELECT section_id, document_id, parent_section_id, section_kind,
+                     heading_level, depth, section_order, structure_order,
+                     section_title, section_title_en, anchor,
+                     description, description_en, keywords_pl, keywords_en,
+                     content_html
+              FROM content_sections
+              ORDER BY section_id
+            `);
+            const documents = await client.execute(`
+              SELECT document_id, collection_id, document_code, source_filename,
+                     document_title, canonical_url, source_url, sort_order
+              FROM content_documents
+              ORDER BY document_id
+            `);
+            return {
+              sectionsCount: sections.rows.length,
+              sectionsHash: hashRows(sections.rows),
+              documentsCount: documents.rows.length,
+              documentsHash: hashRows(documents.rows)
+            };
+          }
+
+          async function validateCollections(client) {
+            const audhd = await client.execute(`
+              SELECT count(DISTINCT d.document_id) AS documents,
+                     sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                     sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='audhd'
+            `);
+            const a = audhd.rows[0];
+            if (Number(a.documents)!==18 || Number(a.headings)!==338 || Number(a.descriptions)!==338) {
+              stop(`AuDHD niezgodne: ${a.documents}/${a.headings}/${a.descriptions}`);
+            }
+
+            const rosja = await client.execute(`
+              SELECT count(DISTINCT d.document_id) AS documents,
+                     sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                     sum(CASE WHEN s.section_kind='volume' THEN 1 ELSE 0 END) AS volumes,
+                     sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='rosja'
+            `);
+            const r = rosja.rows[0];
+            if (Number(r.documents)!==16 || Number(r.headings)!==620 || Number(r.volumes)!==9 || Number(r.descriptions)!==620) {
+              stop(`ROSJA niezgodna: ${r.documents}/${r.headings}/${r.volumes}/${r.descriptions}`);
+            }
+          }
+
+          async function main() {
+            const rows = parseData();
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+            const marker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_schema_v1']
+            });
+            if (marker.rows.length !== 1 || String(marker.rows[0].value) !== 'done') stop('brak prawidlowego markera schematu');
+
+            for (const t of ['content_keyword_concepts','content_keyword_terms','content_section_keywords']) {
+              const q = await client.execute(`SELECT count(*) AS n FROM ${t}`);
+              if (Number(q.rows[0].n) !== 0) stop(`${t} nie jest pusta przed importem`);
+            }
+
+            await validateCollections(client);
+            const before = await snapshot(client);
+
+            const statements = [];
+            rows.forEach((r, i) => {
+              const conceptId = i + 1;
+              statements.push({
+                sql: 'INSERT INTO content_keyword_concepts(concept_id, concept_key) VALUES (?, ?)',
+                args: [conceptId, r.concept_key]
+              });
+              statements.push({
+                sql: 'INSERT INTO content_keyword_terms(concept_id, lang, keyword, keyword_norm, is_preferred) VALUES (?, ?, ?, ?, 1)',
+                args: [conceptId, 'pl', r.keyword_pl, r.keyword_pl_norm]
+              });
+              statements.push({
+                sql: 'INSERT INTO content_keyword_terms(concept_id, lang, keyword, keyword_norm, is_preferred) VALUES (?, ?, ?, ?, 1)',
+                args: [conceptId, 'en', r.keyword_en, r.keyword_en_norm]
+              });
+            });
+
+            if (statements.length !== 1632) stop(`zla liczba instrukcji: ${statements.length}`);
+            await client.batch(statements, 'write');
+
+            const counts = {};
+            for (const t of ['content_keyword_concepts','content_keyword_terms','content_section_keywords']) {
+              const q = await client.execute(`SELECT count(*) AS n FROM ${t}`);
+              counts[t] = Number(q.rows[0].n);
+            }
+            if (counts.content_keyword_concepts !== 544) stop(`po imporcie concepts=${counts.content_keyword_concepts}`);
+            if (counts.content_keyword_terms !== 1088) stop(`po imporcie terms=${counts.content_keyword_terms}`);
+            if (counts.content_section_keywords !== 0) stop(`po imporcie section_links=${counts.content_section_keywords}`);
+
+            const langs = await client.execute('SELECT lang, count(*) AS n FROM content_keyword_terms GROUP BY lang ORDER BY lang');
+            const lm = Object.fromEntries(langs.rows.map(r => [String(r.lang), Number(r.n)]));
+            if (lm.pl !== 544 || lm.en !== 544) stop(`jezyki niezgodne: PL=${lm.pl}, EN=${lm.en}`);
+
+            const aliases = await client.execute('SELECT count(*) AS n FROM content_keyword_terms WHERE is_preferred=0');
+            if (Number(aliases.rows[0].n) !== 0) stop('pojawiły sie aliasy');
+
+            const badPairs = await client.execute(`
+              SELECT count(*) AS n FROM (
+                SELECT concept_id
+                FROM content_keyword_terms
+                GROUP BY concept_id
+                HAVING count(*)<>2
+                   OR sum(CASE WHEN lang='pl' THEN 1 ELSE 0 END)<>1
+                   OR sum(CASE WHEN lang='en' THEN 1 ELSE 0 END)<>1
+                   OR sum(CASE WHEN is_preferred=1 THEN 1 ELSE 0 END)<>2
+              )
+            `);
+            if (Number(badPairs.rows[0].n) !== 0) stop(`niepelne pary conceptow: ${badPairs.rows[0].n}`);
+
+            await validateCollections(client);
+            const after = await snapshot(client);
+            if (before.sectionsCount !== after.sectionsCount || before.sectionsHash !== after.sectionsHash) {
+              stop('content_sections zmienione podczas importu');
+            }
+            if (before.documentsCount !== after.documentsCount || before.documentsHash !== after.documentsHash) {
+              stop('content_documents zmienione podczas importu');
+            }
+
+            console.log('OK KEYWORDS DATA IMPORT: concepts=544; terms=1088 (PL=544, EN=544); aliases=0; section_links=0; AuDHD 18/338/338; ROSJA 16/620/9/620; content_sections i content_documents IDENTYCZNE.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
