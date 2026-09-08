@@ -1,0 +1,111 @@
+name: SOL content keywords AU01 - preflight
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_AU01_preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Sprawdz AU01 i rozwiaz section_id
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) { throw new Error('STOP AU01 PREFLIGHT: ' + msg); }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+            const marker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_data_v1']
+            });
+            if (marker.rows.length !== 1 || String(marker.rows[0].value) !== 'done') {
+              stop('brak content_keywords_data_v1=done');
+            }
+
+            const sections = await client.execute({
+              sql: `SELECT s.section_id, s.section_order, s.heading_level, s.section_title, s.anchor
+                    FROM content_sections s
+                    JOIN content_documents d ON d.document_id = s.document_id
+                    WHERE d.collection_id = 'audhd' AND d.document_code = 'AU01'
+                    ORDER BY s.section_order`,
+              args: []
+            });
+
+            if (sections.rows.length !== 3) stop(`AU01 ma ${sections.rows.length} sekcji zamiast 3`);
+
+            const expected = [
+              [1, '63-cechy-rdzen-czy-maskowanie'],
+              [2, 'lista'],
+              [3, 'podsumowanie-rachunku']
+            ];
+            for (let i = 0; i < expected.length; i++) {
+              const r = sections.rows[i];
+              if (Number(r.section_order) !== expected[i][0] || String(r.anchor) !== expected[i][1]) {
+                stop(`niezgodna sekcja AU01 na pozycji ${i + 1}`);
+              }
+            }
+
+            const ids = sections.rows.map(r => Number(r.section_id));
+            const placeholders = ids.map(() => '?').join(',');
+            const links = await client.execute({
+              sql: `SELECT count(*) AS n FROM content_section_keywords WHERE section_id IN (${placeholders})`,
+              args: ids
+            });
+            if (Number(links.rows[0].n) !== 0) stop(`AU01 ma juz ${links.rows[0].n} przypisan`);
+
+            const keys = [
+              'audhd_core_features',
+              'camouflaging',
+              'neurobiology',
+              'patterns_of_functioning',
+              'information_processing',
+              'bottom_up_processing',
+              'monotropism',
+              'cognitive_architecture'
+            ];
+            const kp = keys.map(() => '?').join(',');
+            const concepts = await client.execute({
+              sql: `SELECT concept_id, concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp}) ORDER BY concept_key`,
+              args: keys
+            });
+            if (concepts.rows.length !== keys.length) stop(`znaleziono ${concepts.rows.length}/${keys.length} concept_key`);
+
+            console.log('OK AU01 PREFLIGHT: 3 sekcje; 0 istniejacych przypisan; 8/8 concept_key istnieje.');
+            for (const r of sections.rows) {
+              console.log(`SECTION ${r.section_order}: section_id=${r.section_id}; anchor=${r.anchor}; title=${r.section_title}`);
+            }
+            for (const r of concepts.rows) {
+              console.log(`CONCEPT concept_id=${r.concept_id}; concept_key=${r.concept_key}`);
+            }
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
