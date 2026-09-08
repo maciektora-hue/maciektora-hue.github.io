@@ -215,6 +215,53 @@ Indeksy obsługują dwa podstawowe kierunki zapytań:
 
 ---
 
+## Słowa kluczowe dwu- i wielowyrazowe
+
+Jedno pojęcie pozostaje jednym słowem kluczowym niezależnie od liczby wyrazów.
+
+Przykłady:
+
+```text
+przeciążenie sensoryczne
+funkcje wykonawcze
+pamięć robocza
+wrażliwość na niesprawiedliwość
+potrzeba bycia zrozumianym
+```
+
+Takich nazw nie rozbijamy na pojedyncze wyrazy. `pamięć robocza` jest jednym terminem i jednym pojęciem, a nie dwoma słowami kluczowymi `pamięć` + `robocza`.
+
+W `content_keyword_terms`:
+
+```text
+keyword      = przeciążenie sensoryczne
+keyword_norm = przeciążenie sensoryczne
+```
+
+Reguły normalizacji `keyword_norm`:
+
+- małe litery,
+- usunięcie spacji z początku i końca,
+- wiele kolejnych spacji zamienione na jedną,
+- polskie znaki pozostają bez zmian.
+
+Spacje są częścią nazwy słowa kluczowego. Nie zamieniamy ich w `-`, `_` ani inne separatory w `keyword` lub `keyword_norm`.
+
+`concept_key` pozostaje osobnym identyfikatorem technicznym i może używać zapisu technicznego, np.:
+
+```text
+keyword:     przeciążenie sensoryczne
+concept_key: sensory_overload
+```
+
+Długość nazwy nie wpływa na relację z sekcją. `content_section_keywords` nadal przechowuje wyłącznie `concept_id`.
+
+Zasada kanoniczna:
+
+**jedno pojęcie = jeden rekord, bez względu na liczbę słów; spacje są częścią keywordu.**
+
+---
+
 ## Obecne kolumny `keywords_pl` i `keywords_en`
 
 W `content_sections` istnieją obecnie kolumny:
