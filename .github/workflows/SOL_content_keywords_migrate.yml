@@ -1,0 +1,215 @@
+name: SOL content keywords - migracja tabel SQL
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_migrate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pobierz zatwierdzony plik migracji
+        run: |
+          git fetch origin 6b841dcb7daead1a1fcb7fc377d1f41886d49040 --depth=1
+          git show 6b841dcb7daead1a1fcb7fc377d1f41886d49040:piosenki/SOL_migracja-content-keywords.sql > /tmp/SOL_migracja-content-keywords.sql
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Migracja i walidacja
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const crypto = require('crypto');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP KEYWORDS MIGRATION: ' + msg);
+          }
+
+          function scalar(row, key) {
+            return Number(row[key]);
+          }
+
+          function normalizedRows(rows) {
+            return rows.map(row => {
+              const out = {};
+              for (const [k, v] of Object.entries(row)) {
+                out[k] = v === null || v === undefined ? null : String(v);
+              }
+              return out;
+            });
+          }
+
+          function hashRows(rows) {
+            return crypto.createHash('sha256')
+              .update(JSON.stringify(normalizedRows(rows)))
+              .digest('hex');
+          }
+
+          async function getState(client) {
+            const sections = await client.execute(`
+              SELECT
+                section_id, document_id, parent_section_id, section_kind,
+                heading_level, depth, section_order, structure_order,
+                section_title, section_title_en, anchor,
+                description, description_en, keywords_pl, keywords_en,
+                content_html
+              FROM content_sections
+              ORDER BY section_id
+            `);
+            const documents = await client.execute(`
+              SELECT
+                document_id, collection_id, document_code, source_filename,
+                document_title, canonical_url, source_url, sort_order
+              FROM content_documents
+              ORDER BY document_id
+            `);
+            return {
+              sectionsCount: sections.rows.length,
+              sectionsHash: hashRows(sections.rows),
+              documentsCount: documents.rows.length,
+              documentsHash: hashRows(documents.rows),
+            };
+          }
+
+          async function validateCounts(client) {
+            const audhd = await client.execute(`
+              SELECT
+                count(DISTINCT d.document_id) AS documents,
+                sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='audhd'
+            `);
+            const a = audhd.rows[0];
+            if (scalar(a, 'documents') !== 18 || scalar(a, 'headings') !== 338 || scalar(a, 'descriptions') !== 338) {
+              stop(`AuDHD niezgodne: docs=${a.documents}, H=${a.headings}, opisy=${a.descriptions}`);
+            }
+
+            const rosja = await client.execute(`
+              SELECT
+                count(DISTINCT d.document_id) AS documents,
+                sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                sum(CASE WHEN s.section_kind='volume' THEN 1 ELSE 0 END) AS volumes,
+                sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='rosja'
+            `);
+            const r = rosja.rows[0];
+            if (scalar(r, 'documents') !== 16 || scalar(r, 'headings') !== 620 || scalar(r, 'volumes') !== 9 || scalar(r, 'descriptions') !== 620) {
+              stop(`ROSJA niezgodna: docs=${r.documents}, H=${r.headings}, TOM=${r.volumes}, opisy=${r.descriptions}`);
+            }
+          }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+            const planned = ['content_keyword_concepts', 'content_keyword_terms', 'content_section_keywords'];
+
+            const tablesBeforeQ = await client.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+            const tablesBefore = new Set(tablesBeforeQ.rows.map(r => String(r.name)));
+            for (const required of ['content_meta', 'content_sections', 'content_documents']) {
+              if (!tablesBefore.has(required)) stop(`brak tabeli ${required}`);
+            }
+            const existing = planned.filter(t => tablesBefore.has(t));
+            if (existing.length) stop(`planowane tabele juz istnieja: ${existing.join(', ')}`);
+
+            await validateCounts(client);
+            const before = await getState(client);
+
+            const migration = fs.readFileSync('/tmp/SOL_migracja-content-keywords.sql', 'utf8');
+            for (const table of planned) {
+              if (!migration.includes(`CREATE TABLE ${table}`)) stop(`plik migracji nie zawiera CREATE TABLE ${table}`);
+            }
+            if (/\b(INSERT|UPDATE|DELETE|DROP|ALTER)\b/i.test(migration)) {
+              stop('plik migracji zawiera niedozwolona operacje danych lub destrukcyjna DDL');
+            }
+
+            const stripped = migration
+              .split('\n')
+              .filter(line => !line.trim().startsWith('--'))
+              .join('\n');
+            const statements = stripped
+              .split(';')
+              .map(s => s.trim())
+              .filter(Boolean)
+              .filter(s => !/^PRAGMA\s+/i.test(s))
+              .filter(s => !/^BEGIN$/i.test(s))
+              .filter(s => !/^COMMIT$/i.test(s));
+
+            if (statements.length !== 6) stop(`oczekiwano 6 instrukcji DDL, jest ${statements.length}`);
+            if (statements.filter(s => /^CREATE TABLE\s+/i.test(s)).length !== 3) stop('nie ma dokladnie 3 CREATE TABLE');
+            if (statements.filter(s => /^CREATE INDEX\s+/i.test(s)).length !== 3) stop('nie ma dokladnie 3 CREATE INDEX');
+
+            await client.batch(statements, 'write');
+
+            const tablesAfterQ = await client.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+            const tablesAfter = new Set(tablesAfterQ.rows.map(r => String(r.name)));
+            for (const table of planned) {
+              if (!tablesAfter.has(table)) stop(`po migracji brak tabeli ${table}`);
+              const c = await client.execute(`SELECT count(*) AS n FROM ${table}`);
+              if (Number(c.rows[0].n) !== 0) stop(`${table} nie jest pusta`);
+            }
+
+            const conceptCols = (await client.execute('PRAGMA table_info(content_keyword_concepts)')).rows.map(r => String(r.name));
+            const termCols = (await client.execute('PRAGMA table_info(content_keyword_terms)')).rows.map(r => String(r.name));
+            const linkCols = (await client.execute('PRAGMA table_info(content_section_keywords)')).rows.map(r => String(r.name));
+            if (conceptCols.join(',') !== 'concept_id,concept_key') stop(`zle kolumny concepts: ${conceptCols.join(',')}`);
+            if (termCols.join(',') !== 'keyword_id,concept_id,lang,keyword,keyword_norm,is_preferred') stop(`zle kolumny terms: ${termCols.join(',')}`);
+            if (linkCols.join(',') !== 'section_id,concept_id,keyword_order') stop(`zle kolumny section_keywords: ${linkCols.join(',')}`);
+
+            const termFk = await client.execute('PRAGMA foreign_key_list(content_keyword_terms)');
+            if (!termFk.rows.some(r => String(r.table) === 'content_keyword_concepts' && String(r.from) === 'concept_id')) {
+              stop('brak FK terms.concept_id -> concepts');
+            }
+
+            const linkFk = await client.execute('PRAGMA foreign_key_list(content_section_keywords)');
+            if (!linkFk.rows.some(r => String(r.table) === 'content_sections' && String(r.from) === 'section_id')) {
+              stop('brak FK section_keywords.section_id -> content_sections');
+            }
+            if (!linkFk.rows.some(r => String(r.table) === 'content_keyword_concepts' && String(r.from) === 'concept_id')) {
+              stop('brak FK section_keywords.concept_id -> concepts');
+            }
+
+            const idxQ = await client.execute("SELECT name FROM sqlite_master WHERE type='index' ORDER BY name");
+            const indexes = new Set(idxQ.rows.map(r => String(r.name)));
+            for (const idx of ['idx_keyword_terms_norm','idx_section_keywords_concept','idx_section_keywords_section']) {
+              if (!indexes.has(idx)) stop(`brak indeksu ${idx}`);
+            }
+
+            await validateCounts(client);
+            const after = await getState(client);
+            if (before.sectionsCount !== after.sectionsCount || before.sectionsHash !== after.sectionsHash) {
+              stop('content_sections zmienione podczas migracji');
+            }
+            if (before.documentsCount !== after.documentsCount || before.documentsHash !== after.documentsHash) {
+              stop('content_documents zmienione podczas migracji');
+            }
+
+            console.log('OK KEYWORDS MIGRATION: utworzono 3 puste tabele + 3 indeksy; FK poprawne; AuDHD 18/338/338; ROSJA 16/620/9/620; content_sections i content_documents IDENTYCZNE; zero keywordow wpisanych.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
