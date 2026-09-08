@@ -137,17 +137,18 @@ jobs:
             const before = await getState(client);
 
             const migration = fs.readFileSync('/tmp/SOL_migracja-content-keywords.sql', 'utf8');
-            for (const table of planned) {
-              if (!migration.includes(`CREATE TABLE ${table}`)) stop(`plik migracji nie zawiera CREATE TABLE ${table}`);
-            }
-            if (/\b(INSERT|UPDATE|DELETE|DROP|ALTER)\b/i.test(migration)) {
-              stop('plik migracji zawiera niedozwolona operacje danych lub destrukcyjna DDL');
-            }
-
             const stripped = migration
               .split('\n')
               .filter(line => !line.trim().startsWith('--'))
               .join('\n');
+
+            for (const table of planned) {
+              if (!stripped.includes(`CREATE TABLE ${table}`)) stop(`plik migracji nie zawiera CREATE TABLE ${table}`);
+            }
+            if (/\b(INSERT|UPDATE|DELETE|DROP|ALTER)\b/i.test(stripped)) {
+              stop('plik migracji zawiera niedozwolona operacje danych lub destrukcyjna DDL');
+            }
+
             const statements = stripped
               .split(';')
               .map(s => s.trim())
