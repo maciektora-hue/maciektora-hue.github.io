@@ -20,6 +20,7 @@ from content_structure import (
 from czas_okna import DEFAULT_STEP, DEFAULT_WINDOW_SIZE, build_time_page_sliding
 from hipotezy_okna import build_hypotheses_page
 from relacje_okna import build_relations_page
+from schema_view import build_schema_snapshot
 from statystyki import build_direction_page, load_model
 
 
@@ -122,6 +123,19 @@ def health():
         return jsonify(status="ok", database=value), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
+
+
+@app.get("/api/techniczne/schema")
+def api_techniczne_schema():
+    conn = None
+    try:
+        conn = get_connection()
+        return jsonify(build_schema_snapshot(conn)), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
 
 
 @app.get("/api/piosenki")
