@@ -1,0 +1,97 @@
+name: SOL content keywords - preflight SQL
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Preflight read-only
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP KEYWORDS PREFLIGHT: ' + msg);
+          }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+            const tablesQ = await client.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+            const tables = new Set(tablesQ.rows.map(r => String(r.name)));
+
+            for (const required of ['content_meta', 'content_sections']) {
+              if (!tables.has(required)) stop(`brak tabeli ${required}`);
+            }
+
+            const planned = ['content_keyword_concepts', 'content_keyword_terms', 'content_section_keywords'];
+            const existingPlanned = planned.filter(t => tables.has(t));
+            if (existingPlanned.length) stop(`planowane tabele juz istnieja: ${existingPlanned.join(', ')}`);
+
+            const pragma = await client.execute('PRAGMA table_info(content_sections)');
+            const cols = new Set(pragma.rows.map(r => String(r.name)));
+            for (const c of ['section_id','document_id','section_kind','section_title','anchor','description','section_title_en','description_en','keywords_pl','keywords_en','content_html']) {
+              if (!cols.has(c)) stop(`content_sections: brak kolumny ${c}`);
+            }
+
+            const audhd = await client.execute(`
+              SELECT
+                count(DISTINCT d.document_id) AS documents,
+                sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='audhd'
+            `);
+            const a = audhd.rows[0];
+            if (Number(a.documents) !== 18 || Number(a.headings) !== 338 || Number(a.descriptions) !== 338) {
+              stop(`AuDHD niezgodne: docs=${a.documents}, H=${a.headings}, opisy=${a.descriptions}`);
+            }
+
+            const rosja = await client.execute(`
+              SELECT
+                count(DISTINCT d.document_id) AS documents,
+                sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                sum(CASE WHEN s.section_kind='volume' THEN 1 ELSE 0 END) AS volumes,
+                sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='rosja'
+            `);
+            const r = rosja.rows[0];
+            if (Number(r.documents) !== 16 || Number(r.headings) !== 620 || Number(r.volumes) !== 9 || Number(r.descriptions) !== 620) {
+              stop(`ROSJA niezgodna: docs=${r.documents}, H=${r.headings}, TOM=${r.volumes}, opisy=${r.descriptions}`);
+            }
+
+            console.log('OK KEYWORDS PREFLIGHT: content_meta=OK; content_sections=OK; planned_tables_absent=3/3; AuDHD docs=18 H=338 opisy=338; ROSJA docs=16 H=620 TOM=9 opisy=620; ZERO SQL WRITE.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
