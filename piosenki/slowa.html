@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analiza słów piosenek — landing page</title>
+<style>
+:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+main{max-width:940px;margin:0 auto;padding:30px 20px 70px}h1{font-size:2rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.25rem;margin:2rem 0 .7rem}h3{font-size:1.05rem;margin:.1rem 0 .35rem}p,li{max-width:80ch}a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}strong{color:var(--strong)}code{color:var(--strong)}.meta,.muted{color:var(--muted)}.hero,.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:15px 17px;margin:1rem 0}.hero{border-width:2px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.card{margin:0}.card p{margin:.35rem 0 .2rem}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.12rem .55rem;margin:.12rem .18rem .12rem 0;font-size:.84rem;color:var(--muted)}nav ol{padding-left:1.35rem}.files ul{padding-left:1.25rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>Analiza słów piosenek</h1>
+<p class="meta">Landing page · analizy tekstów, tagów i ontologii · 2026-09-08</p>
+<div class="hero">
+<p><strong>Co tu analizujemy:</strong> nie brzmienie nagrań, tylko warstwę tekstową piosenek i jej opis semantyczny: <strong>tagi, osie, rodziny osi, walencję, kierunek, relacje i zmianę w czasie</strong>.</p>
+<p><strong>Wspólny standard czasu:</strong> tam, gdzie występuje oś czasu, używamy przesuwanego okna <strong>80</strong> zdarzeń, kroku <strong>30</strong>; przeszłość jest po lewej, najnowsze polubienia po prawej.</p>
+<p class="muted">Analiza audio jest osobną gałęzią i ma własny landing page. Ten plik jej nie zastępuje ani nie modyfikuje.</p>
+</div>
+
+<nav><h2>Najlepsza kolejność oglądania</h2><ol>
+<li><a href="https://piosenki-api.onrender.com/statystyki/13">13 analiz</a><br><span class="muted">Szybki przegląd całej warstwy semantycznej: tagowość, osiowość, rodziny, walencja, kierunek, czas, zmiany i współwystępowania.</span></li>
+<li><a href="https://piosenki-api.onrender.com/statystyki/czas">Czas zdarzeniowy</a><br><span class="muted">Rodziny osi, osie i wybrane tagi w przesuwanych oknach czasowych.</span></li>
+<li><a href="https://piosenki-api.onrender.com/statystyki/relacje">Relacje między tagami</a><br><span class="muted">Porównania par i trójek na wspólnej osi czasu, w tym frustracja · bezsilność · gniew.</span></li>
+<li><a href="https://piosenki-api.onrender.com/statystyki/hipotezy">Hipotezy czasowe</a><br><span class="muted">Zestawy tagów wybrane do sprawdzenia pod kątem wspólnych wzrostów, spadków, rozjazdów i zmian relacji.</span></li>
+<li><a href="https://piosenki-api.onrender.com/statystyki/kierunek">Kierunek</a><br><span class="muted">Walencja i kontrasty kierunkowe bez udawania, że wszystkie osie dają się sprowadzić do jednego suwaka.</span></li>
+</ol></nav>
+
+<h2>Warstwy analizy</h2>
+<div class="grid">
+<div class="card"><h3>Tagi</h3><p>Najbardziej szczegółowy poziom opisu treści i stanów obecnych w piosenkach.</p></div>
+<div class="card"><h3>Osie</h3><p>Porządkują tagi według rodzaju znaczenia, np. emocja, relacja, regulacja, sprawczość czy ruch/cel.</p></div>
+<div class="card"><h3>Rodziny osi</h3><p>Wyższy poziom agregacji. Pomaga zobaczyć duże kierunki bez topienia się w dziesiątkach linii.</p></div>
+<div class="card"><h3>Walencja</h3><p>Przyjemność lub nieprzyjemność stanu implikowaną przez sam tag. Nie jest oceną moralną ani oceną piosenki.</p></div>
+<div class="card"><h3>Kierunek</h3><p>Osobna warstwa znaczenia: do siebie, do innych, ku czemuś, od czegoś. Nie mnożymy jej mechanicznie przez wszystkie pozostałe warstwy.</p></div>
+<div class="card"><h3>Czas</h3><p><code>spotify_order=1</code> oznacza najnowsze polubienie. Wykresy odwracają tę numerację do normalnego czytania: przeszłość → teraz.</p></div>
+</div>
+
+<h2>Co obecnie warto oglądać</h2>
+<div class="grid">
+<div class="card"><h3>Zmiany w czasie</h3><p>Które tagi i osie rosną lub zanikają między starszymi i nowszymi częściami playlisty.</p></div>
+<div class="card"><h3>Relacje</h3><p>Czy tagi poruszają się razem, przeciwnie, przecinają się albo zmieniają wzajemny układ.</p></div>
+<div class="card"><h3>Hipotezy</h3><p>M.in. lęk · hiperczujność · zamartwianie, smutek · rozpacz · brak nadziei, wyczerpanie · brak napędu · anhedonia oraz gniew · wstyd · frustracja.</p></div>
+<div class="card"><h3>Współwystępowanie</h3><p>Które tagi i osie pojawiają się razem w tych samych tekstach, niezależnie od samego podobieństwa przebiegów czasowych.</p></div>
+</div>
+
+<h2>Dane i dokumentacja</h2>
+<div class="files"><ul>
+<li><a href="SOL-audyt-danych-2026-09-07.html">Audyt danych tekstów i tagów</a> <span class="muted">— kontrola spójności Middle End, Lyrics i Tags.</span></li>
+<li><a href="SOL_statystyki-analityczne-struktura-SQL.md">Struktura SQL walencji i biegunowości</a> <span class="muted">— rozdzielenie odpowiedzialności między tag, oś, walencję i położenie na osi.</span></li>
+<li><a href="https://piosenki-api.onrender.com/statystyki/">Strona główna statystyk na Renderze</a></li>
+<li><a href="audio.html">Osobny landing page analizy audio</a> <span class="muted">— FFT, cechy audio i mapa 3 wysp. Tego nurtu ten landing nie rusza.</span></li>
+</ul></div>
+
+<h2>Skrót dla AI</h2>
+<div class="card">
+<span class="tag">lyrics</span><span class="tag">tagi</span><span class="tag">osie</span><span class="tag">rodziny</span><span class="tag">walencja</span><span class="tag">kierunek</span><span class="tag">80 × 30</span><span class="tag">przeszłość → teraz</span>
+<p class="muted">Nie mylić tego nurtu z analizą audio. Tutaj źródłem znaczenia są teksty i ich tagowanie; audio ma osobny zbiór cech i osobny landing page.</p>
+</div>
+<footer>Ta strona jest punktem wejścia do aktualnej gałęzi analiz słów piosenek. <code>audio.html</code> pozostaje niezależnym landing page analiz audio.</footer>
+</main>
+</body>
+</html>
