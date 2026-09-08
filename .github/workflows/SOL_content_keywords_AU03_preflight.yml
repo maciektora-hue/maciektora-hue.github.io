@@ -1,0 +1,69 @@
+name: SOL content keywords AU03 - preflight
+
+on:
+  push:
+    branches: [sql-audhd-content]
+    paths:
+      - '.github/workflows/SOL_content_keywords_AU03_preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save @libsql/client
+      - name: Sprawdz AU03
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+          const stop = m => { throw new Error('STOP AU03 PREFLIGHT: ' + m); };
+          (async () => {
+            const txt = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const u = txt.match(/libsql:\/\/[^\s]+/);
+            const t = txt.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!u || !t) stop('brak danych polaczenia');
+            const db = createClient({url:u[0], authToken:t[0]});
+
+            const m = await db.execute({sql:'SELECT value FROM content_meta WHERE key=?', args:['content_keywords_data_v1']});
+            if (m.rows.length !== 1 || String(m.rows[0].value) !== 'done') stop('brak markera danych');
+
+            const q = await db.execute(`SELECT s.section_id,s.section_order,s.anchor FROM content_sections s JOIN content_documents d ON d.document_id=s.document_id WHERE d.collection_id='audhd' AND d.document_code='AU03' ORDER BY s.section_order`);
+            const anchors = [
+              'ten-equations-metaphysics-and-a-jury-packed-with-friends',
+              'principle-of-stationary-action',
+              'einstein-field-equation',
+              'boltzmann-and-the-second-law',
+              'bellchsh-and-the-tsirelson-bound',
+              'uncertainty-relation',
+              'maxwell-in-two-lines',
+              'dirac-equation',
+              'navierstokes-equations-outside-the-competition',
+              'landauer-s-limit',
+              'wheelerdewitt',
+              'competition-jury',
+              'assessment-of-impartiality'
+            ];
+            if (q.rows.length !== anchors.length) stop(`sekcje=${q.rows.length}`);
+            q.rows.forEach((r,i)=>{ if(Number(r.section_order)!==i+1 || String(r.anchor)!==anchors[i]) stop(`sekcja ${i+1} niezgodna`); });
+
+            const ids=q.rows.map(r=>Number(r.section_id));
+            const ph=ids.map(()=>'?').join(',');
+            const links=await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
+            if(Number(links.rows[0].n)!==0) stop(`istniejace przypisania=${links.rows[0].n}`);
+
+            const keys=['fundamental_equations','physics','metaphysics','principle_of_stationary_action','general_relativity','spacetime','geometry','second_law_of_thermodynamics','entropy','thermodynamics','bell_inequalities','nonlocality','quantum_mechanics','uncertainty_principle','maxwell_s_equations','electromagnetism','electromagnetic_field','dirac_equation','relativity','spin','antimatter','navier_stokes_equations','fluid_mechanics','turbulence','landauer_limit','information_thermodynamics','wheeler_dewitt_equation','quantum_gravity','quantum_cosmology','impartiality','objectivity','cognitive_bias'];
+            const kp=keys.map(()=>'?').join(',');
+            const c=await db.execute({sql:`SELECT concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
+            if(c.rows.length!==keys.length) stop(`concept_key=${c.rows.length}/${keys.length}`);
+
+            console.log('OK AU03 PREFLIGHT: 13 sekcji; 0 przypisan; 32/32 concept_key.');
+            q.rows.forEach(r=>console.log(`SECTION ${r.section_order}: section_id=${r.section_id}; anchor=${r.anchor}`));
+          })().catch(e=>{console.error(e.message);process.exit(1)});
+          NODE
