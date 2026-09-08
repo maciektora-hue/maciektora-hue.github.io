@@ -26,6 +26,7 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import re
           import sqlite3
           from pathlib import Path
           import libsql
@@ -35,12 +36,6 @@ jobs:
               raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
 
           sql = Path('piosenki/SOL_audio-schema-v01.sql').read_text(encoding='utf-8')
-
-          forbidden = ('INSERT ', 'UPDATE ', 'DELETE ', 'REPLACE ')
-          upper = sql.upper()
-          bad = [word.strip() for word in forbidden if word in upper]
-          if bad:
-              raise RuntimeError('DDL-ONLY: znaleziono niedozwolone polecenia danych: ' + repr(bad))
 
           statements = []
           buf = ''
@@ -54,16 +49,25 @@ jobs:
           if buf.strip():
               raise RuntimeError('Niekompletne polecenie SQL na końcu migracji')
 
+          # DDL-only: blokujemy tylko polecenia DML rozpoczynające statement.
+          # Frazy ON UPDATE / ON DELETE w definicjach FK są legalne.
+          forbidden = ('INSERT', 'UPDATE', 'DELETE', 'REPLACE')
+          for statement in statements:
+              no_comments = re.sub(r'(?m)^\s*--.*(?:\n|$)', '', statement).lstrip()
+              first = no_comments.split(None, 1)[0].upper() if no_comments else ''
+              if first in forbidden:
+                  raise RuntimeError('DDL-ONLY: niedozwolone polecenie danych: ' + first)
+
           conn = libsql.connect(
               database=os.environ['TURSO_DATABASE_URL'],
               auth_token=token,
           )
-
           conn.execute('PRAGMA foreign_keys = ON')
 
           try:
               for statement in statements:
-                  normalized = statement.lstrip().upper()
+                  no_comments = re.sub(r'(?m)^\s*--.*(?:\n|$)', '', statement).lstrip()
+                  normalized = no_comments.upper()
                   if normalized.startswith('PRAGMA FOREIGN_KEYS'):
                       continue
                   conn.execute(statement)
