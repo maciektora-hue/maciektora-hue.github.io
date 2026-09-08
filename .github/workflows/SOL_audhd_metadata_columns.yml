@@ -1,0 +1,127 @@
+name: SOL AuDHD - kolumny metadanych sekcji
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_audhd_metadata_columns.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  add-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Dodaj tylko 4 puste kolumny do content_sections
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP AUDHD METADATA COLUMNS: ' + msg);
+          }
+
+          function normRow(row) {
+            const out = {};
+            for (const [k, v] of Object.entries(row)) out[k] = String(v ?? '');
+            return out;
+          }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+            const pragmaBefore = await client.execute('PRAGMA table_info(content_sections)');
+            const columnsBefore = new Set(pragmaBefore.rows.map(r => String(r.name)));
+            const requiredBase = [
+              'section_id', 'document_id', 'section_kind', 'section_title',
+              'anchor', 'description', 'content_html'
+            ];
+            for (const c of requiredBase) {
+              if (!columnsBefore.has(c)) stop(`brak wymaganej istniejącej kolumny: ${c}`);
+            }
+
+            const target = ['section_title_en', 'description_en', 'keywords_pl', 'keywords_en'];
+            const already = target.filter(c => columnsBefore.has(c));
+            if (already.length) stop(`kolumny docelowe już istnieją przed startem: ${already.join(', ')}`);
+
+            async function snapshot(collection, kind) {
+              const q = await client.execute({
+                sql: `SELECT
+                        count(*) AS rows_count,
+                        sum(length(COALESCE(s.section_title,''))) AS title_chars,
+                        sum(length(COALESCE(s.anchor,''))) AS anchor_chars,
+                        sum(length(COALESCE(s.description,''))) AS description_chars,
+                        sum(length(COALESCE(s.content_html,''))) AS content_chars
+                      FROM content_sections s
+                      JOIN content_documents d ON d.document_id=s.document_id
+                      WHERE d.collection_id=? AND s.section_kind=?`,
+                args: [collection, kind]
+              });
+              return normRow(q.rows[0]);
+            }
+
+            const audhdBefore = await snapshot('audhd', 'heading');
+            const rosjaBefore = await snapshot('rosja', 'heading');
+            const volumesBefore = await snapshot('rosja', 'volume');
+
+            if (Number(audhdBefore.rows_count) !== 338) stop(`AuDHD heading=${audhdBefore.rows_count}, oczekiwano 338`);
+            if (Number(rosjaBefore.rows_count) !== 620) stop(`ROSJA heading=${rosjaBefore.rows_count}, oczekiwano 620`);
+            if (Number(volumesBefore.rows_count) !== 9) stop(`ROSJA volume=${volumesBefore.rows_count}, oczekiwano 9`);
+
+            await client.batch(
+              target.map(c => ({ sql: `ALTER TABLE content_sections ADD COLUMN ${c} TEXT`, args: [] })),
+              'write'
+            );
+
+            const pragmaAfter = await client.execute('PRAGMA table_info(content_sections)');
+            const columnsAfter = new Set(pragmaAfter.rows.map(r => String(r.name)));
+            for (const c of target) {
+              if (!columnsAfter.has(c)) stop(`po migracji brak kolumny: ${c}`);
+            }
+
+            const emptyCheck = await client.execute(`
+              SELECT count(*) AS touched
+              FROM content_sections
+              WHERE section_title_en IS NOT NULL
+                 OR description_en IS NOT NULL
+                 OR keywords_pl IS NOT NULL
+                 OR keywords_en IS NOT NULL
+            `);
+            if (Number(emptyCheck.rows[0].touched) !== 0) {
+              stop(`nowe kolumny nie są puste: touched=${emptyCheck.rows[0].touched}`);
+            }
+
+            const audhdAfter = await snapshot('audhd', 'heading');
+            const rosjaAfter = await snapshot('rosja', 'heading');
+            const volumesAfter = await snapshot('rosja', 'volume');
+
+            if (JSON.stringify(audhdBefore) !== JSON.stringify(audhdAfter)) stop('zmieniły się istniejące dane AuDHD');
+            if (JSON.stringify(rosjaBefore) !== JSON.stringify(rosjaAfter)) stop('zmieniły się istniejące dane ROSJA heading');
+            if (JSON.stringify(volumesBefore) !== JSON.stringify(volumesAfter)) stop('zmieniły się istniejące dane ROSJA volume');
+
+            console.log('OK AUDHD METADATA COLUMNS: dodano section_title_en, description_en, keywords_pl, keywords_en; wszystkie NULL; AuDHD=338; ROSJA H=620; ROSJA TOM=9; istniejące tytuły/anchory/opisy/content_html bez zmian.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
