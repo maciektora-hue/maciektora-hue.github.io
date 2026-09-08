@@ -1,0 +1,118 @@
+name: SOL AU08 import once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-au08-import-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import-au08:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Import and verify AU08 keyword assignments
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, base64
+          import libsql
+
+          raw = base64.b64decode('MQkxCTUxNgljb19vY2N1cnJpbmdfYXV0aXNtX2FuZF9hZGhkCjEJMgkzOTIJcmVmZXJlbmNlcwoxCTMJMzg0CXBzeWNob2VkdWNhdGlvbgoyCTEJMzkwCWF1ZGhkX2NvcmVfZmVhdHVyZXMKMgkyCTk4CXBoZW5vdHlwZQoyCTMJNzgJaW50ZXJuYWxfZXhwZXJpZW5jZQoyCTQJMzkyCXJlZmVyZW5jZXMKMwkxCTUxNgljb19vY2N1cnJpbmdfYXV0aXNtX2FuZF9hZGhkCjMJMgkxMzMJZGlhZ25vc3RpY19oaXN0b3J5CjMJMwkyNDkJdW5kZXJkaWFnbm9zaXMKMwk0CTk5CWF1ZGhkX3BoZW5vdHlwZQ==').decode('utf-8')
+          expected = []
+          for line in raw.splitlines():
+              so, ko, cid, key = line.split('\t')
+              expected.append((int(so), int(ko), int(cid), key))
+
+          if len(expected) != 11:
+              raise RuntimeError(f'Expected 11 assignments, got {len(expected)}')
+          if len({(r[0], r[1]) for r in expected}) != 11:
+              raise RuntimeError('Duplicate (section_order, keyword_order)')
+          if len({(r[0], r[2]) for r in expected}) != 11:
+              raise RuntimeError('Duplicate (section_order, concept_id)')
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          docs = conn.execute(
+              "SELECT document_id FROM content_documents WHERE collection_id='audhd' AND document_code='AU08'"
+          ).fetchall()
+          if len(docs) != 1:
+              raise RuntimeError(f'AU08 document count != 1: {docs!r}')
+          document_id = int(docs[0][0])
+
+          sections = conn.execute(
+              'SELECT section_id, section_order FROM content_sections WHERE document_id=? ORDER BY section_order',
+              (document_id,),
+          ).fetchall()
+          if len(sections) != 3:
+              raise RuntimeError(f'AU08 section count != 3: {len(sections)}')
+          section_id_by_order = {int(order): int(section_id) for section_id, order in sections}
+          if set(section_id_by_order) != {1,2,3}:
+              raise RuntimeError(f'AU08 section orders invalid: {sorted(section_id_by_order)}')
+
+          for _, _, concept_id, concept_key in expected:
+              row = conn.execute(
+                  'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
+                  (concept_id,),
+              ).fetchone()
+              if row is None or row[0] != concept_key:
+                  raise RuntimeError(f'Concept mismatch: id={concept_id} expected={concept_key!r} actual={row!r}')
+
+          existing = conn.execute(
+              '''SELECT s.section_order, k.keyword_order, k.concept_id
+                 FROM content_section_keywords k
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
+                 ORDER BY s.section_order, k.keyword_order''',
+              (document_id,),
+          ).fetchall()
+
+          expected_triples = sorted((so, ko, cid) for so, ko, cid, _ in expected)
+          existing_triples = sorted((int(a), int(b), int(c)) for a, b, c in existing)
+
+          if existing_triples:
+              if existing_triples == expected_triples:
+                  print('AU08_ALREADY_OK count=11')
+                  conn.close()
+                  raise SystemExit(0)
+              raise RuntimeError(f'AU08 already has non-matching assignments: count={len(existing_triples)}')
+
+          insert_rows = [(section_id_by_order[so], cid, ko) for so, ko, cid, _ in expected]
+          try:
+              conn.execute('BEGIN TRANSACTION')
+              conn.executemany(
+                  'INSERT INTO content_section_keywords (section_id, concept_id, keyword_order) VALUES (?, ?, ?)',
+                  insert_rows,
+              )
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          actual = conn.execute(
+              '''SELECT s.section_order, k.keyword_order, k.concept_id
+                 FROM content_section_keywords k
+                 JOIN content_sections s ON s.section_id=k.section_id
+                 WHERE s.document_id=?
+                 ORDER BY s.section_order, k.keyword_order''',
+              (document_id,),
+          ).fetchall()
+          actual_triples = sorted((int(a), int(b), int(c)) for a, b, c in actual)
+          if actual_triples != expected_triples:
+              raise RuntimeError(f'Post-insert verification mismatch: expected=11 actual={len(actual_triples)}')
+
+          print('AU08_IMPORT_OK count=11')
+          print(f'AU08_DOCUMENT_ID={document_id}')
+          conn.close()
+          PY
