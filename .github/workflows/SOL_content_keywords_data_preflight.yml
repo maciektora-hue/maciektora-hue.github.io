@@ -1,0 +1,130 @@
+name: SOL content keywords - preflight danych
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_data_preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Sprawdz gotowosc bazy pod import keywordow
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP KEYWORDS DATA PREFLIGHT: ' + msg);
+          }
+
+          async function count(client, table) {
+            const q = await client.execute(`SELECT count(*) AS n FROM ${table}`);
+            return Number(q.rows[0].n);
+          }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+
+            const tablesQ = await client.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+            const tables = new Set(tablesQ.rows.map(r => String(r.name)));
+            for (const t of ['content_meta','content_keyword_concepts','content_keyword_terms','content_section_keywords','content_sections','content_documents']) {
+              if (!tables.has(t)) stop(`brak tabeli ${t}`);
+            }
+
+            const marker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_schema_v1']
+            });
+            if (marker.rows.length !== 1 || String(marker.rows[0].value) !== 'done') {
+              stop('brak poprawnego markera content_keywords_schema_v1=done');
+            }
+
+            const concepts = await count(client, 'content_keyword_concepts');
+            const terms = await count(client, 'content_keyword_terms');
+            const links = await count(client, 'content_section_keywords');
+            if (concepts !== 0) stop(`content_keyword_concepts niepusta: ${concepts}`);
+            if (terms !== 0) stop(`content_keyword_terms niepusta: ${terms}`);
+            if (links !== 0) stop(`content_section_keywords niepusta: ${links}`);
+
+            const conceptCols = await client.execute('PRAGMA table_info(content_keyword_concepts)');
+            const conceptNames = conceptCols.rows.map(r => String(r.name));
+            for (const c of ['concept_id','concept_key']) {
+              if (!conceptNames.includes(c)) stop(`brak kolumny ${c} w content_keyword_concepts`);
+            }
+
+            const termCols = await client.execute('PRAGMA table_info(content_keyword_terms)');
+            const termNames = termCols.rows.map(r => String(r.name));
+            for (const c of ['keyword_id','concept_id','lang','keyword','keyword_norm','is_preferred']) {
+              if (!termNames.includes(c)) stop(`brak kolumny ${c} w content_keyword_terms`);
+            }
+
+            const linkCols = await client.execute('PRAGMA table_info(content_section_keywords)');
+            const linkNames = linkCols.rows.map(r => String(r.name));
+            for (const c of ['section_id','concept_id','keyword_order']) {
+              if (!linkNames.includes(c)) stop(`brak kolumny ${c} w content_section_keywords`);
+            }
+
+            const existingImportMarker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_data_v1']
+            });
+            if (existingImportMarker.rows.length !== 0) {
+              stop(`marker importu juz istnieje: ${existingImportMarker.rows[0].value}`);
+            }
+
+            const audhd = await client.execute(`
+              SELECT count(DISTINCT d.document_id) AS documents,
+                     sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                     sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='audhd'
+            `);
+            const a = audhd.rows[0];
+            if (Number(a.documents)!==18 || Number(a.headings)!==338 || Number(a.descriptions)!==338) {
+              stop(`AuDHD niezgodne: docs=${a.documents}, H=${a.headings}, opisy=${a.descriptions}`);
+            }
+
+            const rosja = await client.execute(`
+              SELECT count(DISTINCT d.document_id) AS documents,
+                     sum(CASE WHEN s.section_kind='heading' THEN 1 ELSE 0 END) AS headings,
+                     sum(CASE WHEN s.section_kind='volume' THEN 1 ELSE 0 END) AS volumes,
+                     sum(CASE WHEN s.section_kind='heading' AND s.description IS NOT NULL AND trim(s.description)<>'' THEN 1 ELSE 0 END) AS descriptions
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id=s.document_id
+              WHERE d.collection_id='rosja'
+            `);
+            const r = rosja.rows[0];
+            if (Number(r.documents)!==16 || Number(r.headings)!==620 || Number(r.volumes)!==9 || Number(r.descriptions)!==620) {
+              stop(`ROSJA niezgodna: docs=${r.documents}, H=${r.headings}, TOM=${r.volumes}, opisy=${r.descriptions}`);
+            }
+
+            console.log('OK KEYWORDS DATA PREFLIGHT: schema marker=done; concepts=0; terms=0; section_links=0; struktura tabel poprawna; brak markera importu; AuDHD 18/338/338; ROSJA 16/620/9/620; BAZA NIEZMIENIONA.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
