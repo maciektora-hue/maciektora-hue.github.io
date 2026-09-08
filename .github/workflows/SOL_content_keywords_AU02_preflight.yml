@@ -1,0 +1,50 @@
+name: SOL content keywords AU02 - preflight
+
+on:
+  push:
+    branches: [sql-audhd-content]
+    paths:
+      - '.github/workflows/SOL_content_keywords_AU02_preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save @libsql/client
+      - name: Sprawdz AU02
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const { createClient } = require('@libsql/client');
+          const stop = m => { throw new Error('STOP AU02 PREFLIGHT: ' + m); };
+          (async () => {
+            const txt = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const u = txt.match(/libsql:\/\/[^\s]+/);
+            const t = txt.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!u || !t) stop('brak danych polaczenia');
+            const db = createClient({url:u[0], authToken:t[0]});
+            const m = await db.execute({sql:'SELECT value FROM content_meta WHERE key=?', args:['content_keywords_data_v1']});
+            if (m.rows.length !== 1 || String(m.rows[0].value) !== 'done') stop('brak markera danych');
+            const q = await db.execute(`SELECT s.section_id,s.section_order,s.anchor FROM content_sections s JOIN content_documents d ON d.document_id=s.document_id WHERE d.collection_id='audhd' AND d.document_code='AU02' ORDER BY s.section_order`);
+            const anchors = ['co-dziala-po-poznej-diagnozie','mapa-terenu-piec-rzeczy-ktore-rozstrzygaja','kurs-o-sobie','prowadzacy-z-tego-samego-plemienia','ludzie-w-tej-samej-lodzi','czlowiek-zamiast-listy-numerow','pakiet-na-start','czego-sie-domagac-lista-24-glosow','czego-sie-spodziewac-po-sobie'];
+            if (q.rows.length !== anchors.length) stop(`sekcje=${q.rows.length}`);
+            q.rows.forEach((r,i)=>{ if(Number(r.section_order)!==i+1 || String(r.anchor)!==anchors[i]) stop(`sekcja ${i+1} niezgodna`); });
+            const ids=q.rows.map(r=>Number(r.section_id));
+            const ph=ids.map(()=>'?').join(',');
+            const links=await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
+            if(Number(links.rows[0].n)!==0) stop(`istniejace przypisania=${links.rows[0].n}`);
+            const keys=['late_diagnosis','post_diagnostic_support','post_diagnostic_needs','relationships','mental_health','social_support','psychoeducation','self_help','neurodivergent_facilitator','peer_support','diagnostic_acceptance','peer_community','system_navigation','practical_support','support_system','diagnosis','support_standard','relief','grief','camouflaging'];
+            const kp=keys.map(()=>'?').join(',');
+            const c=await db.execute({sql:`SELECT concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
+            if(c.rows.length!==keys.length) stop(`concept_key=${c.rows.length}/${keys.length}`);
+            console.log(`OK AU02 PREFLIGHT: 9 sekcji; 0 przypisan; 20/20 concept_key.`);
+            q.rows.forEach(r=>console.log(`SECTION ${r.section_order}: section_id=${r.section_id}; anchor=${r.anchor}`));
+          })().catch(e=>{console.error(e.message);process.exit(1)});
+          NODE
