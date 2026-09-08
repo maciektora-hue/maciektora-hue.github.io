@@ -1,9 +1,11 @@
 # SOL — model słów kluczowych dla sekcji treści
 
-Status: PROJEKT / DOKUMENTACJA
+Status: WDROŻONE / SCHEMAT SQL AKTYWNY
 Data: 2026-09-08
 
 Powiązane: `SOL_content-sql-specyfikacja-plan.md`
+Migracja: `SOL_migracja-content-keywords.sql`
+Marker wdrożenia: `content_keywords_schema_v1 = done`
 
 ## Cel
 
@@ -224,7 +226,7 @@ keywords_en
 
 Na tym etapie pozostają nietknięte.
 
-Docelowo **nie powinny być źródłem prawdy** dla słów kluczowych. Źródłem prawdy mają być trzy tabele opisane powyżej.
+Docelowo **nie powinny być źródłem prawdy** dla słów kluczowych. Źródłem prawdy są trzy tabele opisane powyżej.
 
 Jeśli kiedyś będą używane, mogą pełnić rolę cache / gotowego tekstu do API lub eksportu. Nie należy na ich podstawie odtwarzać relacji semantycznych.
 
@@ -268,8 +270,33 @@ ORDER BY sk.keyword_order;
 
 ## Stan wdrożenia
 
-Ten dokument opisuje **projekt modelu**.
+Schemat został wdrożony do Turso/libSQL 2026-09-08.
 
-Nie oznacza, że trzy tabele zostały już utworzone w Turso/libSQL.
+Utworzono:
 
-Wdrożenie powinno być osobnym krokiem z preflightem i walidacją, bez zmian istniejących danych sekcji.
+- `content_keyword_concepts`,
+- `content_keyword_terms`,
+- `content_section_keywords`,
+- indeks `idx_keyword_terms_norm`,
+- indeks `idx_section_keywords_concept`,
+- indeks `idx_section_keywords_section`.
+
+Relacje FK zostały zweryfikowane po migracji.
+
+Marker w `content_meta`:
+
+```text
+content_keywords_schema_v1 = done
+```
+
+Stan bezpośrednio po wdrożeniu:
+
+- `content_keyword_concepts`: 0 rekordów,
+- `content_keyword_terms`: 0 rekordów,
+- `content_section_keywords`: 0 rekordów,
+- AuDHD: 18 dokumentów, 338 sekcji heading, 338/338 opisów,
+- ROSJA: 16 dokumentów, 620 sekcji heading, 9 TOMÓW, 620/620 opisów,
+- `content_sections` bez zmian podczas migracji,
+- `content_documents` bez zmian podczas migracji.
+
+Migracja utworzyła wyłącznie strukturę. Słowa kluczowe nie zostały jeszcze zaimportowane.
