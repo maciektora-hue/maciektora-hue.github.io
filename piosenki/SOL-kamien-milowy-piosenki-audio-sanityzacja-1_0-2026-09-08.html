@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kamień milowy — dwa zbiory piosenek / sanityzacja audio 1.0</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --text:#e7c27a;
+  --muted:#c7b58d;
+  --line:#556b5e;
+  --code:#f2d79b;
+}
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.55;
+}
+main { max-width:860px; margin:0 auto; padding:28px 20px 56px; }
+h1 { font-size:1.8rem; line-height:1.2; margin:0 0 .35rem; }
+h2 { font-size:1.2rem; margin-top:1.8rem; }
+p,li { max-width:75ch; }
+.meta,.muted { color:var(--muted); }
+.box {
+  border:1px solid var(--line); background:var(--panel);
+  padding:14px 16px; border-radius:8px; margin:1rem 0;
+}
+code,pre { color:var(--code); }
+pre {
+  white-space:pre-wrap; word-break:break-word;
+  background:#111a17; padding:12px 14px; border-radius:6px;
+  border:1px solid var(--line);
+}
+details { margin-top:1rem; }
+summary { cursor:pointer; font-weight:700; }
+</style>
+</head>
+<body>
+<main>
+<h1>Kamień milowy: dwa zbiory piosenek</h1>
+<p class="meta">2026-09-08 · zakończenie sanityzacji audio 1.0</p>
+
+<div class="box">
+<strong>Stan po decyzji:</strong> projekt ma od teraz dwa celowo różne zbiory danych.
+Nie należy ich automatycznie utożsamiać ani wymuszać identycznej liczby rekordów.
+</div>
+
+<h2>1. Główny zbiór piosenkowy</h2>
+<p>
+To katalog wynikający z <strong>Spotify Liked Songs</strong> i dalszej pracy nad tekstami,
+tagami, identyfikatorami oraz analizą semantyczną. Ten zbiór pozostaje źródłem prawdy
+dla tego, co należało do biblioteki piosenek.
+</p>
+
+<h2>2. Zbiór do analizy audio</h2>
+<p>
+Do FFT/STFT używamy osobnego, <strong>sanityzowanego podzbioru nagrań</strong>.
+Punktem wyjścia było 891 poprawnie policzonych plików audio. W sanityzacji 1.0
+usunięto 35 rekordów, dla których analiza katalogowa wykazała błędne pobranie,
+złą wersję / wykonawcę albo treść, która zabłądziła do zbioru podczas warstw importu.
+</p>
+<p>
+Aktualna baza audio: <code>audio_features_v08.csv</code> — <strong>856 rekordów</strong>.
+</p>
+
+<h2>3. Co oznacza usunięcie</h2>
+<p>
+OUT z audio <strong>nie oznacza</strong>, że utwór został usunięty z głównego zbioru
+Liked Songs ani że został oceniony jako „nielubiany”. Oznacza wyłącznie:
+<strong>tego konkretnego pobranego pliku nie traktujemy jako wiarygodnej reprezentacji
+utworu do analizy akustycznej.</strong>
+</p>
+
+<h2>4. Reguła na dalszą pracę</h2>
+<ul>
+  <li>analizy tekstów/tagów korzystają z głównego zbioru piosenkowego;</li>
+  <li>analizy FFT/STFT i profilu brzmienia korzystają z <code>audio_features_v08.csv</code> lub jego następców;</li>
+  <li>różna liczba rekordów między tymi zbiorami jest od teraz zamierzona, nie jest błędem synchronizacji;</li>
+  <li>sanityzacja 1.0 jest zamknięta; późniejsze oczywiste błędy można usuwać, ale nie otwierają automatycznie nowej pełnej sanityzacji.</li>
+</ul>
+
+<h2>5. Snapshot dla AI / automatyzacji</h2>
+<pre>{
+  "milestone": "audio_sanitization_1.0_complete",
+  "date": "2026-09-08",
+  "song_catalog": "Spotify Liked Songs + lyrics/tags/semantic data",
+  "audio_dataset": "audio_features_v08.csv",
+  "audio_rows_before_sanitization": 891,
+  "audio_rows_after_sanitization": 856,
+  "audio_rows_removed": 35,
+  "relationship": "audio dataset is a deliberately sanitized subset; row counts do not need to match",
+  "out_meaning": "download/import mismatch or unreliable audio representation; not a statement about musical preference"
+}</pre>
+
+<details>
+<summary>35 rekordów usuniętych w sanityzacji 1.0</summary>
+<ol>
+<li><code>0006</code> Telewizja WP - Kabaret Nowaki - Bankiet</li>
+<li><code>0021</code> ReTo - ReTo - Blask (prod. Raff J.R)</li>
+<li><code>0094</code> Alesso - Alesso - REMEDY (Official Music Video)</li>
+<li><code>0118</code> Justin Bieber - Justin Bieber - Never Let You Go</li>
+<li><code>0119</code> D&amp;K Media Events - Blessed Mother mary appears to pilgrims in Subukia</li>
+<li><code>0139</code> Zaleś, nezz, Eryk Moczko - Eden (Remix)</li>
+<li><code>0194</code> D'Angelo - D'Angelo - Untitled (How Does It Feel) (Official Music Video)</li>
+<li><code>0251</code> Astronomic - What is REDSHIFT？</li>
+<li><code>0262</code> Queen Official - Queen - Somebody To Love (Official Video)</li>
+<li><code>0320</code> a paradise bird - Russ ~ Nobody Knows (Lyrics)</li>
+<li><code>0326</code> RADIOITALIANET - Domenico Modugno - Amara terra mia</li>
+<li><code>0330</code> JUX - Jux - Looking For You (Official Music Video) ft. Joh Makini</li>
+<li><code>0335</code> Iggy Pop Official - Iggy Pop - The Passenger (Official Video)</li>
+<li><code>0395</code> TheGuitarManEIRE - You can discover - John Martyn (1975)</li>
+<li><code>0414</code> Edison Lara Santos - Lp - Lost on you(Live at Harvard and Stone)</li>
+<li><code>0429</code> Radiohead - Radiohead - Creep</li>
+<li><code>0446</code> TV Norge - Ylvis - The Fox (What Does The Fox Say？) [Official music video HD]</li>
+<li><code>0458</code> PLACEBO - Placebo - Too Many Friends</li>
+<li><code>0467</code> Randy Newman - Strange Things</li>
+<li><code>0564</code> goldiesmusic - Georgia Gibbs Kiss of Fire</li>
+<li><code>0583</code> ABBA - ABBA - Money, Money, Money (Official Music Video)</li>
+<li><code>0613</code> Queens Of The Stone Age - Queens Of The Stone Age - Make It Wit Chu</li>
+<li><code>0615</code> Korpiklaani - Ievan Polkka</li>
+<li><code>0617</code> kantelar - Loituma ＂Ievan polkka＂</li>
+<li><code>0649</code> Sia - Sia - Nowhere To Be</li>
+<li><code>0690</code> Chris Isaak - Blue Hotel (Remastered)</li>
+<li><code>0700</code> Darlene Zschech - Darlene Zschech - All That We Are ｜ Live</li>
+<li><code>0736</code> ABBA - ABBA - Lay All Your Love On Me (Official Lyric Video)</li>
+<li><code>0758</code> Mario Screaming - Sound Effect #short #loud</li>
+<li><code>0780</code> Lama Dorje - Vajrasattva</li>
+<li><code>0781</code> TEDx - Reprogramming your brain to overcome fear</li>
+<li><code>0818</code> 80smusicfanman - Kraftwerk - Das Model</li>
+<li><code>0833</code> Oldies But Goodies - The Rokes - Piangi Con Me</li>
+<li><code>0844</code> PC USER 486 - Living the 90s (MS-DOS)</li>
+<li><code>0882</code> Drunken Hearts - Bed of Stone</li>
+</ol>
+</details>
+
+</main>
+</body>
+</html>
