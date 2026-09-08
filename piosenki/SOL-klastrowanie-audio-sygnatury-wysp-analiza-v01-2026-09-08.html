@@ -1,63 +1,264 @@
-<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sygnatury 3 wysp — analiza</title><style>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sygnatury 3 wysp — analiza</title>
+<style>
 :root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-main{max-width:940px;margin:0 auto;padding:28px 20px 64px}h1{font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.25rem;margin:1.9rem 0 .65rem}h3{font-size:1.05rem;margin:1.25rem 0 .35rem}
-p,li{max-width:80ch}strong,a,code{color:var(--strong)}.meta,.muted{color:var(--muted)}.box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}th,td{padding:.55rem .5rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--strong)}td.num{text-align:right;white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.card{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px}.card h3{margin-top:0}
-.note{border-left:3px solid var(--line);padding-left:1rem;color:var(--muted)}
-</style></head><body><main>
-<h1>Sygnatury 3 wysp — analiza</h1>
-<p class="meta">2026-09-08 · 343 utwory w rdzeniach wysp · audio_features_v08.csv</p>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.58}
+main{max-width:980px;margin:0 auto;padding:28px 20px 68px}
+h1{font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}
+h2{font-size:1.28rem;margin:2rem 0 .7rem}
+h3{font-size:1.08rem;margin:1.35rem 0 .4rem}
+p,li{max-width:82ch}
+strong,a,code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
+.note{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px}
+.card h3{margin-top:0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+th,td{padding:.52rem .48rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--strong)}
+td.num{text-align:right;white-space:nowrap}
+.small{font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
 
-<div class="box"><strong>Wniosek główny:</strong> trzy wyspy są definiowane przede wszystkim przez
-<strong>jasność/kształt widma oraz to, gdzie w paśmie siedzi energia</strong>.
-Harmonia i charakter onsetów dopowiadają obraz. <strong>Tempo praktycznie nie definiuje wysp.</strong></div>
+<h1>Sygnatury 3 wysp — co właściwie różni Głębię, Światło i Ruch</h1>
+<p class="meta">343 utwory należące do rdzeni trzech wysp · audio_features_v08.csv · 2026-09-08</p>
 
-<h2>Co rozróżnia wyspy najmocniej</h2>
-<table><thead><tr><th>Cecha</th><th>Rodzina</th><th>epsilon²</th></tr></thead><tbody><tr><td>ZCR</td><td>Jasność / kształt widma</td><td class='num'>0.820</td></tr><tr><td>Centroid widmowy</td><td>Jasność / kształt widma</td><td class='num'>0.798</td></tr><tr><td>Rolloff 85%</td><td>Jasność / kształt widma</td><td class='num'>0.776</td></tr><tr><td>Góra 4–12 kHz</td><td>Rozkład energii po pasmach</td><td class='num'>0.757</td></tr><tr><td>Flux widmowy</td><td>Ruch widma</td><td class='num'>0.703</td></tr><tr><td>Powietrze 12–20 kHz</td><td>Rozkład energii po pasmach</td><td class='num'>0.627</td></tr><tr><td>Entropia chroma</td><td>Harmonia / chroma</td><td class='num'>0.619</td></tr><tr><td>Szerokość widma</td><td>Jasność / kształt widma</td><td class='num'>0.604</td></tr><tr><td>Środek 1–4 kHz</td><td>Rozkład energii po pasmach</td><td class='num'>0.603</td></tr><tr><td>Kontrast chroma</td><td>Harmonia / chroma</td><td class='num'>0.573</td></tr><tr><td>Siła onsetów</td><td>Atak / rytm</td><td class='num'>0.494</td></tr><tr><td>Zmienność widma</td><td>Ruch widma</td><td class='num'>0.379</td></tr><tr><td>Flatness</td><td>Jasność / kształt widma</td><td class='num'>0.365</td></tr><tr><td>Bas 20–250 Hz</td><td>Rozkład energii po pasmach</td><td class='num'>0.294</td></tr><tr><td>Nachylenie widma</td><td>Jasność / kształt widma</td><td class='num'>0.291</td></tr><tr><td>Gęstość onsetów</td><td>Atak / rytm</td><td class='num'>0.187</td></tr><tr><td>Siła dominującej klasy wysokości</td><td>Harmonia / chroma</td><td class='num'>0.180</td></tr><tr><td>Low-mid 250–1000 Hz</td><td>Rozkład energii po pasmach</td><td class='num'>0.095</td></tr><tr><td>Nieregularność odstępów onsetów</td><td>Atak / rytm</td><td class='num'>0.059</td></tr><tr><td>BPM (estymata)</td><td>Tempo</td><td class='num'>0.008</td></tr><tr><td>Pewność BPM</td><td>Tempo</td><td class='num'>0.004</td></tr><tr><td>Pewność tonacji</td><td>Harmonia / chroma</td><td class='num'>0.000</td></tr></tbody></table>
-<p class="muted">Najwyższe wyniki: ZCR 0,820; centroid 0,798; rolloff 0,776; energia 4–12 kHz 0,757;
-flux 0,703. BPM: 0,008; pewność BPM: 0,004; pewność tonacji: ~0.</p>
+<div class="box">
+<strong>Cel tej analizy:</strong> nie tworzymy nowych wysp. Sprawdzamy, jakie cechy dźwięku
+najczęściej powtarzają się wewnątrz trzech już wyznaczonych rdzeni i czym te rdzenie różnią się między sobą.
+</div>
 
-<h2>Które rodziny cech wystarczają same</h2>
-<table><thead><tr><th>Rodzina</th><th>balanced accuracy</th><th>zmienność CV</th><th>liczba cech</th></tr></thead>
-<tbody><tr><td>Rozkład energii po pasmach</td><td class='num'><strong>0.958</strong></td><td class='num'>± 0.025</td><td class='num'>5</td></tr><tr><td>Jasność / kształt widma</td><td class='num'><strong>0.953</strong></td><td class='num'>± 0.033</td><td class='num'>6</td></tr><tr><td>Ruch widma</td><td class='num'><strong>0.692</strong></td><td class='num'>± 0.037</td><td class='num'>2</td></tr><tr><td>Harmonia / chroma</td><td class='num'><strong>0.594</strong></td><td class='num'>± 0.019</td><td class='num'>4</td></tr><tr><td>Atak / rytm</td><td class='num'><strong>0.588</strong></td><td class='num'>± 0.049</td><td class='num'>3</td></tr><tr><td>Tempo</td><td class='num'><strong>0.358</strong></td><td class='num'>± 0.026</td><td class='num'>2</td></tr></tbody></table>
-<p class="muted">Losowy poziom odniesienia przy trzech równoważonych klasach to około 0,333.
-To jest test opisowy rekonstrukcji istniejących etykiet, nie niezależny test ich prawdziwości.</p>
+<h2>Najpierw pojęcia</h2>
 
-<h2>Sygnatury słowami i liczbami</h2>
-<div class="grid"><section class="card"><h3>Wyspa Głębia</h3><ul><li>bardzo niska jasność i ziarnistość widma</li><li>dużo energii w basie 20–250 Hz i bardzo mało w 1–12 kHz</li><li>niska entropia chroma i wysoki kontrast chroma, czyli bardziej skupiona tonalność</li><li>silniejsze pojedyncze onsety przy mniejszym ruchu widma</li></ul>
-    <p><strong>Najsilniejsze różnice:</strong></p><ol><li><strong>↓ ZCR</strong> (bardzo mocne, delta -0.998); mediana 0.0253, pozostałe wyspy 0.0492</li><li><strong>↓ Rolloff 85%</strong> (bardzo mocne, delta -0.985); mediana 635 Hz, pozostałe wyspy 1 314 Hz</li><li><strong>↓ Centroid widmowy</strong> (bardzo mocne, delta -0.965); mediana 1 672 Hz, pozostałe wyspy 2 679 Hz</li><li><strong>↓ Góra 4–12 kHz</strong> (bardzo mocne, delta -0.957); mediana 0.45%, pozostałe wyspy 2.22%</li><li><strong>↓ Flux widmowy</strong> (bardzo mocne, delta -0.949); mediana 0.0095, pozostałe wyspy 0.0125</li><li><strong>↓ Entropia chroma</strong> (bardzo mocne, delta -0.911); mediana 0.2431, pozostałe wyspy 0.4080</li><li><strong>↓ Środek 1–4 kHz</strong> (bardzo mocne, delta -0.895); mediana 4.30%, pozostałe wyspy 12.76%</li><li><strong>↑ Kontrast chroma</strong> (bardzo mocne, delta +0.876); mediana 0.6877, pozostałe wyspy 0.5224</li><li><strong>↑ Siła onsetów</strong> (bardzo mocne, delta +0.814); mediana 0.0022, pozostałe wyspy 0.0017</li><li><strong>↓ Powietrze 12–20 kHz</strong> (mocne, delta -0.798); mediana 0.02%, pozostałe wyspy 0.11%</li></ol></section><section class="card"><h3>Wyspa Światło</h3><ul><li>skrajnie wysoka jasność widma: centroid, ZCR i szerokość widma</li><li>dużo energii w 4–20 kHz, szczególnie w paśmie „powietrza” 12–20 kHz</li><li>wysoki flux i flatness, czyli więcej drobnej aktywności i ziarnistości</li><li>mniej skupiona chroma niż w Głębi</li></ul>
-    <p><strong>Najsilniejsze różnice:</strong></p><ol><li><strong>↑ Centroid widmowy</strong> (bardzo mocne, delta +0.999); mediana 3 646 Hz, pozostałe wyspy 2 008 Hz</li><li><strong>↑ Powietrze 12–20 kHz</strong> (bardzo mocne, delta +0.998); mediana 0.46%, pozostałe wyspy 0.04%</li><li><strong>↑ Szerokość widma</strong> (bardzo mocne, delta +0.972); mediana 3 983 Hz, pozostałe wyspy 2 818 Hz</li><li><strong>↑ ZCR</strong> (bardzo mocne, delta +0.957); mediana 0.0664, pozostałe wyspy 0.0311</li><li><strong>↑ Góra 4–12 kHz</strong> (bardzo mocne, delta +0.929); mediana 4.06%, pozostałe wyspy 0.87%</li><li><strong>↑ Rolloff 85%</strong> (bardzo mocne, delta +0.883); mediana 1 766 Hz, pozostałe wyspy 803 Hz</li><li><strong>↑ Nachylenie widma</strong> (bardzo mocne, delta +0.825); mediana -1.69 dB/kHz, pozostałe wyspy -2.36 dB/kHz</li><li><strong>↑ Flux widmowy</strong> (mocne, delta +0.795); mediana 0.0134, pozostałe wyspy 0.0105</li><li><strong>↑ Flatness</strong> (mocne, delta +0.782); mediana 0.0716, pozostałe wyspy 0.0376</li><li><strong>↑ Entropia chroma</strong> (umiarkowane, delta +0.547); mediana 0.4091, pozostałe wyspy 0.2980</li></ol></section><section class="card"><h3>Wyspa Ruch</h3><ul><li>najmocniejszy środek 1–4 kHz i więcej low-mid 250–1000 Hz</li><li>wysoki flux oraz wysoka entropia chroma</li><li>mniej basowej masy i słabsze punktowe onsety niż w Głębi</li><li>widmowo pośredni: jaśniejszy od Głębi, wyraźnie ciemniejszy od Światła</li></ul>
-    <p><strong>Najsilniejsze różnice:</strong></p><ol><li><strong>↑ Środek 1–4 kHz</strong> (mocne, delta +0.716); mediana 13.68%, pozostałe wyspy 5.74%</li><li><strong>↑ Entropia chroma</strong> (mocne, delta +0.661); mediana 0.4070, pozostałe wyspy 0.2717</li><li><strong>↓ Kontrast chroma</strong> (mocne, delta -0.656); mediana 0.5248, pozostałe wyspy 0.6618</li><li><strong>↓ Siła onsetów</strong> (mocne, delta -0.618); mediana 0.0017, pozostałe wyspy 0.0021</li><li><strong>↓ Bas 20–250 Hz</strong> (umiarkowane, delta -0.559); mediana 51.85%, pozostałe wyspy 66.28%</li><li><strong>↑ Flux widmowy</strong> (umiarkowane, delta +0.544); mediana 0.0122, pozostałe wyspy 0.0100</li><li><strong>↑ Rolloff 85%</strong> (umiarkowane, delta +0.528); mediana 1 171 Hz, pozostałe wyspy 717 Hz</li><li><strong>↑ ZCR</strong> (umiarkowane, delta +0.495); mediana 0.0454, pozostałe wyspy 0.0278</li><li><strong>↑ Góra 4–12 kHz</strong> (umiarkowane, delta +0.466); mediana 1.72%, pozostałe wyspy 0.66%</li><li><strong>↓ Zmienność widma</strong> (umiarkowane, delta -0.440); mediana 1.5420, pozostałe wyspy 1.8315</li></ol></section></div>
+<h3>Częstotliwość i pasmo</h3>
+<p><strong>Częstotliwość</strong> mówi, jak niski albo wysoki jest składnik dźwięku i podawana jest w hercach (Hz).
+Niskie częstotliwości to dół i bas, wysokie to góra i „powietrze”.
+<strong>Pasmo</strong> to kawałek tego zakresu, np. 20–250 Hz albo 4–12 kHz.
+<strong>Energia w paśmie</strong> mówi, jaka część całej energii nagrania siedzi właśnie tam.</p>
 
-<h2>Interpretacja trzech wysp</h2>
-<p><strong>Głębia</strong> jest najbardziej jednoznaczna przez przeciwieństwo do jasności:
-bardzo niskie ZCR, centroid, górę pasma i flux. Jednocześnie ma więcej basu, mocniejszy kontrast chroma
-i silniejsze pojedyncze ataki. To nie „wolna muzyka”, tylko <strong>ciemna, skupiona i ciężka od dołu geometria widma</strong>.</p>
+<h3>Widmo</h3>
+<p><strong>Widmo</strong> to rozkład energii dźwięku po częstotliwościach.
+Zamiast pytać tylko „jak głośno?”, pytamy „gdzie w zakresie od basu do góry ta energia się znajduje?”.</p>
 
-<p><strong>Światło</strong> jest najbardziej skrajną wyspą spektralnie:
-centroid około 3646 Hz wobec około 2008 Hz w dwóch pozostałych wyspach,
-a energia 12–20 kHz ma medianę około 0,46% wobec 0,035% poza Światłem.
-To <strong>jasność, szerokość, powietrze i ziarnistość</strong>, nie po prostu „szybkość”.</p>
-
-<p><strong>Ruch</strong> nie jest „Światłem trochę mniej”. Jego najsilniejszy własny znak to
-<strong>środek 1–4 kHz</strong> oraz wysoka entropia chroma przy niskim kontraście chroma i słabszych onsetach.
-Spektralnie leży między skrajnościami, ale ma własną kombinację: <strong>środek + przepływ + harmoniczne rozproszenie</strong>.</p>
-
-<h2>Co NIE definiuje wysp</h2>
 <ul>
-<li><strong>BPM:</strong> epsilon² 0,008 — praktycznie brak rozdzielenia.</li>
-<li><strong>Pewność BPM:</strong> epsilon² 0,004.</li>
-<li><strong>Pewność tonacji:</strong> epsilon² ≈ 0.</li>
-<li>Nieregularność odstępów onsetów ma tylko mały efekt (epsilon² ok. 0,059).</li>
+<li><strong>Centroid widmowy</strong> — umowny „środek ciężkości” widma. Im wyżej, tym brzmienie zwykle jaśniejsze.</li>
+<li><strong>ZCR</strong> — jak często fala dźwiękowa przechodzi przez zero. W praktyce często rośnie przy jaśniejszym, bardziej szorstkim albo drobnoziarnistym sygnale.</li>
+<li><strong>Rolloff 85%</strong> — częstotliwość, poniżej której mieści się 85% energii widma. Wyższa wartość zwykle oznacza więcej energii w górze.</li>
+<li><strong>Szerokość widma</strong> — jak szeroko energia jest rozlana wokół centroidu.</li>
+<li><strong>Flatness</strong> — na ile widmo przypomina równomierny szum, a na ile ma wyraźne piki tonalne.</li>
+<li><strong>Flux widmowy</strong> — jak mocno widmo zmienia się z jednej krótkiej chwili na następną. Duży flux oznacza więcej ruchu w barwie i strukturze widma.</li>
+<li><strong>Nachylenie widma</strong> — czy energia opada szybko wraz ze wzrostem częstotliwości, czy góra pozostaje mocna.</li>
 </ul>
 
-<div class="box"><strong>Najkrótsza wersja:</strong><br>
-Głębia = <strong>dół + tonalne skupienie + mocniejszy punktowy atak</strong>.<br>
-Światło = <strong>góra + szerokość + powietrze + ziarnistość</strong>.<br>
-Ruch = <strong>środek + flux + harmoniczne rozproszenie + słabsza punktowość</strong>.<br>
-Tempo nie jest osią tej mapy.</div>
+<h3>Chroma: C, C♯, D, E…</h3>
+<p><strong>Chroma</strong> ignoruje wysokość oktawy i pyta tylko, która z 12 klas dźwięków jest obecna:
+C, C♯/D♭, D, D♯/E♭, E, F, F♯/G♭, G, G♯/A♭, A, B♭/A♯ i H.
+W pliku źródłowym angielskie <code>B</code> oznacza polskie <strong>H</strong>.</p>
 
-</main></body></html>
+<ul>
+<li><strong>Entropia chroma</strong> — czy energia harmoniczna jest skupiona na kilku klasach dźwięków, czy rozlana po wielu. Wyższa entropia = większe rozproszenie.</li>
+<li><strong>Kontrast chroma</strong> — jak bardzo najsilniejsze klasy dźwięków wystają ponad pozostałe. Wyższy kontrast = bardziej punktowy, skupiony profil tonalny.</li>
+<li><strong>Dominująca chroma</strong> — klasa dźwięku, która w danym utworze wychodzi najmocniej.</li>
+<li><strong>Tonacja</strong> — algorytmiczna próba wskazania np. E minor albo C major. Jest użyteczna opisowo, ale tu nie jest główną osią podziału.</li>
+</ul>
+
+<h3>Onset</h3>
+<p><strong>Onset</strong> to początek nowego zdarzenia dźwiękowego: uderzenia, wejścia nuty, sylaby, akordu itp.
+<strong>Siła onsetów</strong> mówi, jak wyraźne są takie wejścia, a <strong>gęstość onsetów</strong> — ile ich przypada na sekundę.</p>
+
+<h3>BPM</h3>
+<p><strong>BPM</strong> to oszacowane tempo w uderzeniach na minutę. W tej bibliotece BPM prawie nie rozróżnia trzech wysp.</p>
+
+<h3>Kontrast widmowy</h3>
+<p><strong>Kontrast widmowy</strong> mierzy, jak duża jest różnica między lokalnymi szczytami i dolinami widma w kolejnych pasmach częstotliwości.
+Duży kontrast oznacza bardziej wyraźną strukturę pików, mniejszy — bardziej wyrównane widmo.</p>
+
+<h3>MFCC</h3>
+<p><strong>MFCC</strong> to zestaw liczb opisujących ogólny kształt barwy dźwięku.
+Są bardzo użyteczne dla algorytmu, ale pojedynczego MFCC nie da się sensownie przetłumaczyć na jedno słowo typu „jasny” czy „basowy”.
+Dlatego traktuję je jako dodatkowy odcisk barwy, a nie główny język opisu.</p>
+
+<h3>Jak czytać liczby porównawcze</h3>
+<p><strong>Mediana</strong> to wartość środkowa: połowa utworów jest poniżej, połowa powyżej.
+<strong>epsilon²</strong> mówi, jak mocno dana cecha różni trzy wyspy: im bliżej 1, tym mocniej.
+<strong>Balanced accuracy</strong> mówi, jak dobrze sama grupa cech potrafi odtworzyć trzy etykiety wysp przy równym traktowaniu małej i dużej wyspy.
+Przy trzech klasach przypadek daje około 0,333.</p>
+
+<h2>Co najmocniej rozróżnia trzy wyspy</h2>
+
+<table>
+<thead><tr><th>Cecha</th><th>Co znaczy po polsku</th><th>epsilon²</th></tr></thead>
+<tbody>
+<tr><td>ZCR</td><td>jasność / szorstkość / drobna ziarnistość sygnału</td><td class="num"><strong>0,820</strong></td></tr>
+<tr><td>Centroid widmowy</td><td>gdzie leży środek ciężkości widma</td><td class="num"><strong>0,798</strong></td></tr>
+<tr><td>Rolloff 85%</td><td>jak wysoko sięga zasadnicza energia widma</td><td class="num"><strong>0,776</strong></td></tr>
+<tr><td>Energia 4–12 kHz</td><td>ile jest wysokiego środka i góry</td><td class="num"><strong>0,757</strong></td></tr>
+<tr><td>Flux widmowy</td><td>jak szybko zmienia się barwa i układ widma</td><td class="num"><strong>0,703</strong></td></tr>
+<tr><td>Energia 12–20 kHz</td><td>ile jest najwyższej góry / „powietrza”</td><td class="num">0,627</td></tr>
+<tr><td>Entropia chroma</td><td>jak bardzo harmonia jest rozlana po wielu klasach dźwięków</td><td class="num">0,619</td></tr>
+<tr><td>Szerokość widma</td><td>jak szeroko energia rozkłada się po częstotliwościach</td><td class="num">0,604</td></tr>
+</tbody>
+</table>
+
+<p>Najprostszy wniosek jest więc taki: <strong>wyspy powstają przede wszystkim z barwy i rozkładu energii po częstotliwościach</strong>.
+Tempo jest dużo mniej ważne.</p>
+
+<h2>Trzy wyspy — po jednym opisie, bez powtarzania tego pięć razy</h2>
+
+<div class="grid">
+
+<section class="card">
+<h3>Wyspa Głębi · 166 utworów</h3>
+<p><strong>Najciemniejsza i najbardziej skupiona tonalnie.</strong>
+Energia częściej siedzi w dole, góra jest słabsza, widmo zmienia się spokojniej,
+a profile chroma mają wyraźniejsze dominanty. Onsety są przeciętnie bardziej punktowe.</p>
+<ul>
+<li>więcej energii 20–250 Hz,</li>
+<li>mniej 1–12 kHz,</li>
+<li>niski centroid, ZCR i flux,</li>
+<li>niska entropia chroma, wysoki kontrast chroma,</li>
+<li>wyższy kontrast widmowy szczególnie w 100–800 Hz,</li>
+<li>MFCC 1 i MFCC 2 tworzą bardzo charakterystyczny odcisk barwy tej wyspy.</li>
+</ul>
+</section>
+
+<section class="card">
+<h3>Wyspa Światła · 60 utworów</h3>
+<p><strong>Najbardziej jasna i szerokopasmowa.</strong>
+Dużo energii znajduje się wysoko, szczególnie w 4–20 kHz.
+Widmo jest bardziej ruchliwe i bardziej szumowe/ziarniste, a lokalne kontrasty widmowe są słabsze.</p>
+<ul>
+<li>najwyższy centroid i ZCR,</li>
+<li>najwięcej energii 4–12 i 12–20 kHz,</li>
+<li>wysoki flux i flatness,</li>
+<li>mniejszy kontrast widmowy w wielu pasmach,</li>
+<li>MFCC 1 bardzo wyraźnie odróżnia tę wyspę od pozostałych,</li>
+<li>chroma jest nieco bardziej rozproszona niż w Głębi.</li>
+</ul>
+</section>
+
+<section class="card">
+<h3>Wyspa Ruchu · 117 utworów</h3>
+<p><strong>Najbardziej „środkowa” częstotliwościowo, ale nie jest tylko przejściem między dwiema pozostałymi.</strong>
+Ma własną sygnaturę: dużo energii w 1–4 kHz, dużo zmian widma i większe rozproszenie chroma,
+przy słabszej basowej masie i mniej punktowych onsetach.</p>
+<ul>
+<li>najmocniejszy środek 1–4 kHz,</li>
+<li>wysoki flux,</li>
+<li>wysoka entropia chroma i niższy kontrast chroma,</li>
+<li>MFCC 2 jest wyraźnie niższy niż na dwóch pozostałych wyspach,</li>
+<li>stereo jest przeciętnie trochę szersze i mniej skorelowane L–R, ale to efekt dużo słabszy niż różnice widmowe.</li>
+</ul>
+</section>
+
+</div>
+
+<h2>Chroma literami: C, D, E, G…</h2>
+
+<p>Poniżej jest średni udział każdej z 12 klas dźwięku w profilu chroma.
+Wartości są najpierw normalizowane wewnątrz utworu, więc pokazują <strong>proporcje harmoniczne</strong>, a nie głośność.</p>
+
+<table>
+<thead><tr><th>Klasa dźwięku</th><th>Głębia</th><th>Światło</th><th>Ruch</th></tr></thead>
+<tbody>
+<tr><td>C</td><td class="num">7,49%</td><td class="num">6,84%</td><td class="num">7,85%</td></tr>
+<tr><td>C♯ / D♭</td><td class="num">4,71%</td><td class="num">4,95%</td><td class="num">5,23%</td></tr>
+<tr><td>D</td><td class="num">6,22%</td><td class="num">7,80%</td><td class="num">7,60%</td></tr>
+<tr><td>D♯ / E♭</td><td class="num">4,99%</td><td class="num">4,90%</td><td class="num">5,47%</td></tr>
+<tr><td><strong>E</strong></td><td class="num"><strong>12,66%</strong></td><td class="num"><strong>12,83%</strong></td><td class="num"><strong>11,97%</strong></td></tr>
+<tr><td>F</td><td class="num">9,57%</td><td class="num">8,72%</td><td class="num">8,80%</td></tr>
+<tr><td>F♯ / G♭</td><td class="num">9,48%</td><td class="num">8,77%</td><td class="num">7,96%</td></tr>
+<tr><td><strong>G</strong></td><td class="num"><strong>11,67%</strong></td><td class="num"><strong>11,57%</strong></td><td class="num"><strong>12,96%</strong></td></tr>
+<tr><td>G♯ / A♭</td><td class="num">7,17%</td><td class="num">6,12%</td><td class="num">6,80%</td></tr>
+<tr><td><strong>A</strong></td><td class="num"><strong>11,09%</strong></td><td class="num"><strong>13,07%</strong></td><td class="num"><strong>10,65%</strong></td></tr>
+<tr><td>B♭ / A♯</td><td class="num">6,79%</td><td class="num">6,63%</td><td class="num">6,89%</td></tr>
+<tr><td>H <span class="muted">(ang. B)</span></td><td class="num">8,16%</td><td class="num">7,80%</td><td class="num">7,82%</td></tr>
+</tbody>
+</table>
+
+<h3>Co z tego widać</h3>
+<ul>
+<li><strong>E, G i A są mocne na wszystkich trzech wyspach.</strong> To wspólna cecha biblioteki, nie granica między wyspami.</li>
+<li><strong>Światło ma relatywnie więcej A</strong> i trochę więcej D.</li>
+<li><strong>Ruch ma relatywnie więcej G i D</strong>, a mniej F♯/G♭ i A.</li>
+<li><strong>Głębia ma trochę więcej F, F♯/G♭ i G♯/A♭</strong>, a mniej D.</li>
+<li>Te różnice są jednak dużo słabsze niż różnice widmowe. Same litery chroma nie wystarczyłyby do zbudowania tej mapy.</li>
+</ul>
+
+<h3>Najczęstsze tonacje wykryte przez algorytm</h3>
+<table>
+<thead><tr><th>Wyspa</th><th>Najczęstsze tonacje</th><th>minor / major</th></tr></thead>
+<tbody>
+<tr><td>Głębia</td><td>A minor 15 · F♯ minor 14 · E major 14 · E minor 14</td><td>57,8% / 42,2%</td></tr>
+<tr><td>Światło</td><td>E minor 8 · A minor 8 · C major 5</td><td>65,0% / 35,0%</td></tr>
+<tr><td>Ruch</td><td>E minor 13 · A minor 11 · G minor 10 · E major 9</td><td>59,0% / 41,0%</td></tr>
+</tbody>
+</table>
+
+<p class="muted">Minor jest trochę częstszy na wszystkich wyspach, ale różnica nie jest na tyle silna,
+żeby traktować tryb major/minor jako główną zasadę podziału.</p>
+
+<h2>Pozostałe cechy, które sprawdziłem</h2>
+
+<h3>Kontrast widmowy</h3>
+<p>To jest faktyczna cecha powtarzająca się wewnątrz wysp.
+<strong>Głębia ma najwyższy kontrast widmowy</strong> szczególnie w pasmach 100–200, 200–400 i 400–800 Hz.
+<strong>Światło ma kontrast niższy</strong> prawie w całym widmie.
+Ruch jest zwykle pomiędzy, choć bliżej Światła niż Głębi w dolnych pasmach.</p>
+
+<h3>MFCC</h3>
+<p>MFCC też powtarzalnie różnią wyspy.
+Najmocniejszy jest <strong>MFCC 1</strong>: Głębia ma medianę około 15,65,
+Ruch 12,68, a Światło 8,35.
+<strong>MFCC 2</strong> szczególnie odróżnia Ruch: mediana około −1,22,
+wobec 1,19 w Głębi i −0,11 w Świetle.
+To potwierdza, że wyspy różnią się ogólną barwą, ale samych MFCC nie warto nazywać poetyckimi słowami, bo byłyby to wymysły.</p>
+
+<h3>Stereo</h3>
+<p>Stereo prawie nie tworzy wysp.
+Ruch ma przeciętnie trochę mniejszą korelację lewego i prawego kanału
+oraz trochę większą szerokość stereo, ale efekt jest mały w porównaniu z widmem.</p>
+
+<h3>Głośność i dynamika</h3>
+<p><strong>Praktycznie nie rozróżniają wysp.</strong>
+Średnia głośność, crest factor i typowe poziomy RMS są bardzo podobne.
+To dobrze: mapa nie wygląda na przypadkowy podział według masteringu głośniej/ciszej.</p>
+
+<h3>Tempo</h3>
+<p><strong>BPM również praktycznie nie rozróżnia wysp.</strong>
+epsilon² dla BPM wynosi około 0,008, czyli prawie nic.
+Wyspa Światła nie jest po prostu „szybsza”, a Głębia nie jest po prostu „wolniejsza”.</p>
+
+<h2>Rodziny cech — ile same potrafią odtworzyć</h2>
+
+<table>
+<thead><tr><th>Rodzina cech</th><th>Balanced accuracy</th><th>Znaczenie</th></tr></thead>
+<tbody>
+<tr><td>Rozkład energii po pasmach</td><td class="num"><strong>0,958</strong></td><td>najmocniejsza sygnatura</td></tr>
+<tr><td>Jasność i kształt widma</td><td class="num"><strong>0,953</strong></td><td>niemal równie mocna</td></tr>
+<tr><td>Ruch widma</td><td class="num">0,692</td><td>ważny, ale wtórny</td></tr>
+<tr><td>Harmonia / chroma jako całość</td><td class="num">0,594</td><td>pomaga, lecz nie wystarcza</td></tr>
+<tr><td>Onsety / rytm</td><td class="num">0,588</td><td>podobnie</td></tr>
+<tr><td>Tempo</td><td class="num">0,358</td><td>prawie poziom przypadku</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<strong>Najważniejsze metodologicznie:</strong> te liczby opisują cechy już istniejących rdzeni.
+Nie są drugim niezależnym dowodem, że trzy wyspy „naprawdę istnieją”.
+Mówią natomiast bardzo konkretnie, <strong>z czego każda wyspa jest zbudowana</strong>.
+</div>
+
+</main>
+</body>
+</html>
