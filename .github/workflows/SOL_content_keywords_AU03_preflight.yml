@@ -1,4 +1,4 @@
-name: SOL content keywords AU05 - preflight
+name: SOL content keywords AU05 - insert
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  preflight:
+  insert:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,12 +18,15 @@ jobs:
         with:
           node-version: '20'
       - run: npm install --no-save @libsql/client
-      - name: Sprawdz AU05
+      - name: Wstaw 93 przypisania AU05
         run: |
           node <<'NODE'
           const fs = require('fs');
+          const crypto = require('crypto');
           const { createClient } = require('@libsql/client');
-          const stop = m => { throw new Error('STOP AU05 PREFLIGHT: ' + m); };
+          const stop = m => { throw new Error('STOP AU05 INSERT: ' + m); };
+          const hashRows = rows => crypto.createHash('sha256').update(JSON.stringify(rows)).digest('hex');
+
           (async () => {
             const txt = fs.readFileSync('daneDoSql.txt', 'utf8');
             const u = txt.match(/libsql:\/\/[^\s]+/);
@@ -65,19 +68,79 @@ jobs:
             ];
             if (q.rows.length !== anchors.length) stop(`sekcje=${q.rows.length}`);
             q.rows.forEach((r,i)=>{ if(Number(r.section_order)!==i+1 || String(r.anchor)!==anchors[i]) stop(`sekcja ${i+1} niezgodna`); });
+            const sid = Object.fromEntries(q.rows.map(r=>[String(r.anchor),Number(r.section_id)]));
+            const ids = anchors.map(a=>sid[a]);
+            const ph = ids.map(()=>'?').join(',');
 
-            const ids=q.rows.map(r=>Number(r.section_id));
-            const ph=ids.map(()=>'?').join(',');
-            const links=await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
-            if(Number(links.rows[0].n)!==0) stop(`istniejace przypisania=${links.rows[0].n}`);
+            const existing = await db.execute({sql:`SELECT count(*) n FROM content_section_keywords WHERE section_id IN (${ph})`,args:ids});
+            if(Number(existing.rows[0].n)!==0) stop(`istniejace przypisania=${existing.rows[0].n}`);
 
-            const keys=['memory_architecture','cognitive_architecture','computer_memory','human_memory','neurodivergent_memory','programming_languages','distributed_systems','memory','limited_memory','system_constraints','information_processing','ram','hardware_constraints','personal_computers','references','c_programming_language','programming','low_level_programming','programming_language_design','python','javascript','big_data','hadoop','mapreduce','system_architecture','hippocampus','long_term_memory','memory_consolidation','short_term_memory','declarative_memory','procedural_memory','sleep_neurobiology','deep_sleep','rem_sleep','lossy_compression','gist','schemas','details','cognitive_style','monotropism','attention','central_coherence','working_memory','executive_function','executive_control','pointer_based_memory','foundations_of_information_technology','information_technology_pioneers','compilers'];
-            if(keys.length!==49) stop(`lista concept_key=${keys.length}`);
+            const bySection = [
+              ['architektury-pamieci-jako-mapa-poznawcza',['memory_architecture','cognitive_architecture','computer_memory','human_memory','neurodivergent_memory']],
+              ['streszczenie',['memory_architecture','computer_memory','neurodivergent_memory','programming_languages','distributed_systems']],
+              ['1-wprowadzenie-jeden-problem-wiele-rozwiazan',['memory','limited_memory','system_constraints','information_processing']],
+              ['2-pamiec-komputerowa-lat-80-i-wczesnych-90-fizyka-jako-ramy-projektowe',['computer_memory','ram','hardware_constraints','personal_computers']],
+              ['zrodla-do-2',['references']],
+              ['3-pamiec-w-jezyku-c-manualne-zarzadzanie-jako-paradygmat',['c_programming_language','computer_memory','programming','low_level_programming','programming_language_design']],
+              ['zrodla-do-3',['references']],
+              ['4-pamiec-w-pythonie-referencje-garbage-collector-abstrakcja',['python','programming_languages','computer_memory']],
+              ['zrodla-do-4',['references']],
+              ['5-pamiec-w-javascript-przypadkowy-jezyk-ery-przegladarek',['javascript','programming_languages','computer_memory','programming_language_design']],
+              ['zrodla-do-5',['references']],
+              ['6-pamiec-w-big-data-hadoop-mapreduce-i-ekonomia-rozproszenia',['big_data','hadoop','mapreduce','distributed_systems','system_architecture']],
+              ['zrodla-do-6',['references']],
+              ['7-pamiec-ludzka-schemat-hipokamp-kora-sen',['human_memory','memory_architecture','hippocampus','long_term_memory','memory_consolidation']],
+              ['hierarchia-pamieci-u-czlowieka',['human_memory','short_term_memory','long_term_memory','declarative_memory','procedural_memory']],
+              ['sen-gleboki-sws-i-sen-rem-jako-fazy-konsolidacji',['memory_consolidation','sleep_neurobiology','deep_sleep','rem_sleep','long_term_memory']],
+              ['pamiec-ludzka-jako-kompresor-stratny',['human_memory','lossy_compression','gist','schemas','details']],
+              ['zrodla-do-7',['references']],
+              ['8-pamiec-neurotypowa-vs-neuroroznorodna-roznica-strategii-projektowej',['neurodivergent_memory','cognitive_architecture','cognitive_style','memory_architecture']],
+              ['monotropizm-teoria-uwagi-w-autyzmie',['monotropism','attention','cognitive_style','neurodivergent_memory']],
+              ['slaba-spojnosc-centralna-weak-central-coherence-teoria-szczegolu',['central_coherence','details','gist','cognitive_style']],
+              ['pamiec-robocza-w-adhd-deficyt-wykonawczy',['working_memory','executive_function','executive_control','limited_memory']],
+              ['synteza-pamiec-nd-jako-pointer-based',['pointer_based_memory','neurodivergent_memory','working_memory','monotropism','central_coherence']],
+              ['zrodla-do-8',['references']],
+              ['9-konsekwencje-kto-buduje-fundamenty-informatyki',['foundations_of_information_technology','information_technology_pioneers','low_level_programming','compilers','distributed_systems']],
+              ['10-konkluzja',['memory_architecture','computer_memory','human_memory','neurodivergent_memory','system_constraints']]
+            ];
+
+            const wanted=[5,5,4,4,1,5,1,3,1,4,1,5,1,5,5,5,5,1,4,4,4,4,5,1,5,5];
+            if(bySection.length!==26) stop(`plan sekcji=${bySection.length}`);
+            if(JSON.stringify(bySection.map(x=>x[1].length))!==JSON.stringify(wanted)) stop('niezgodny rozklad keywordow');
+            if(wanted.some(n=>n<1 || n>5)) stop('plan poza zakresem 1-5');
+
+            const plan=[];
+            for (const [anchor,keys] of bySection) keys.forEach((key,i)=>plan.push([anchor,i+1,key]));
+            if(plan.length!==93) stop(`plan=${plan.length}`);
+
+            const keys=[...new Set(plan.map(x=>x[2]))];
+            if(keys.length!==49) stop(`unikalne concept_key=${keys.length}`);
             const kp=keys.map(()=>'?').join(',');
-            const c=await db.execute({sql:`SELECT concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
-            if(c.rows.length!==keys.length) stop(`concept_key=${c.rows.length}/${keys.length}`);
+            const cq=await db.execute({sql:`SELECT concept_id,concept_key FROM content_keyword_concepts WHERE concept_key IN (${kp})`,args:keys});
+            if(cq.rows.length!==keys.length) stop(`concept_key=${cq.rows.length}/${keys.length}`);
+            const cid=Object.fromEntries(cq.rows.map(r=>[String(r.concept_key),Number(r.concept_id)]));
 
-            console.log('OK AU05 PREFLIGHT: 26 sekcji; 0 przypisan; 49/49 concept_key.');
-            q.rows.forEach(r=>console.log(`SECTION ${r.section_order}: section_id=${r.section_id}; anchor=${r.anchor}`));
+            const beforeSections = hashRows((await db.execute('SELECT * FROM content_sections ORDER BY section_id')).rows);
+            const beforeDocuments = hashRows((await db.execute('SELECT * FROM content_documents ORDER BY document_id')).rows);
+
+            const statements=plan.map(([anchor,order,key])=>({sql:'INSERT INTO content_section_keywords(section_id,concept_id,keyword_order) VALUES (?,?,?)',args:[sid[anchor],cid[key],order]}));
+            await db.batch(statements,'write');
+
+            const check=await db.execute({sql:`SELECT section_id,concept_id,keyword_order FROM content_section_keywords WHERE section_id IN (${ph}) ORDER BY section_id,keyword_order`,args:ids});
+            if(check.rows.length!==93) stop(`po insercie=${check.rows.length}`);
+            const counts=ids.map(id=>check.rows.filter(r=>Number(r.section_id)===id).length);
+            if(JSON.stringify(counts)!==JSON.stringify(wanted)) stop(`liczby=${counts}`);
+            for (const id of ids) {
+              const orders=check.rows.filter(r=>Number(r.section_id)===id).map(r=>Number(r.keyword_order));
+              const expected=Array.from({length:orders.length},(_,i)=>i+1);
+              if(JSON.stringify(orders)!==JSON.stringify(expected)) stop(`keyword_order section_id=${id}: ${orders}`);
+            }
+
+            const afterSections = hashRows((await db.execute('SELECT * FROM content_sections ORDER BY section_id')).rows);
+            const afterDocuments = hashRows((await db.execute('SELECT * FROM content_documents ORDER BY document_id')).rows);
+            if(beforeSections!==afterSections) stop('content_sections zmienione');
+            if(beforeDocuments!==afterDocuments) stop('content_documents zmienione');
+
+            console.log('OK AU05 INSERT: 93 przypisania; 26 sekcji; zakres 1-5 zachowany; content_sections i content_documents IDENTYCZNE.');
           })().catch(e=>{console.error(e.message);process.exit(1)});
           NODE
