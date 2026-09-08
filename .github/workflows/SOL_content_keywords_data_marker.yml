@@ -1,0 +1,153 @@
+name: SOL content keywords - marker importu danych
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_content_keywords_data_marker.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  marker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Zapisz marker importu keywordow
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const crypto = require('crypto');
+          const { createClient } = require('@libsql/client');
+
+          function stop(msg) {
+            throw new Error('STOP KEYWORDS DATA MARKER: ' + msg);
+          }
+
+          function hashRows(rows) {
+            const normalized = rows.map(row => {
+              const out = {};
+              for (const [k, v] of Object.entries(row)) out[k] = v == null ? null : String(v);
+              return out;
+            });
+            return crypto.createHash('sha256').update(JSON.stringify(normalized)).digest('hex');
+          }
+
+          async function snapshot(client) {
+            const sections = await client.execute(`
+              SELECT section_id, document_id, parent_section_id, section_kind,
+                     heading_level, depth, section_order, structure_order,
+                     section_title, section_title_en, anchor,
+                     description, description_en, keywords_pl, keywords_en,
+                     content_html
+              FROM content_sections
+              ORDER BY section_id
+            `);
+            const documents = await client.execute(`
+              SELECT document_id, collection_id, document_code, source_filename,
+                     document_title, canonical_url, source_url, sort_order
+              FROM content_documents
+              ORDER BY document_id
+            `);
+            return {
+              sectionsCount: sections.rows.length,
+              sectionsHash: hashRows(sections.rows),
+              documentsCount: documents.rows.length,
+              documentsHash: hashRows(documents.rows)
+            };
+          }
+
+          async function validateData(client) {
+            const schemaMarker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_schema_v1']
+            });
+            if (schemaMarker.rows.length !== 1 || String(schemaMarker.rows[0].value) !== 'done') {
+              stop('brak markera schematu content_keywords_schema_v1=done');
+            }
+
+            const concepts = await client.execute('SELECT count(*) AS n FROM content_keyword_concepts');
+            const terms = await client.execute('SELECT count(*) AS n FROM content_keyword_terms');
+            const links = await client.execute('SELECT count(*) AS n FROM content_section_keywords');
+            if (Number(concepts.rows[0].n) !== 544) stop(`concepts=${concepts.rows[0].n}`);
+            if (Number(terms.rows[0].n) !== 1088) stop(`terms=${terms.rows[0].n}`);
+            if (Number(links.rows[0].n) !== 0) stop(`section_links=${links.rows[0].n}`);
+
+            const langs = await client.execute('SELECT lang, count(*) AS n FROM content_keyword_terms GROUP BY lang ORDER BY lang');
+            const lm = Object.fromEntries(langs.rows.map(r => [String(r.lang), Number(r.n)]));
+            if (lm.pl !== 544 || lm.en !== 544) stop(`PL=${lm.pl}, EN=${lm.en}`);
+
+            const aliases = await client.execute('SELECT count(*) AS n FROM content_keyword_terms WHERE is_preferred=0');
+            if (Number(aliases.rows[0].n) !== 0) stop(`aliases=${aliases.rows[0].n}`);
+
+            const badPairs = await client.execute(`
+              SELECT count(*) AS n FROM (
+                SELECT concept_id
+                FROM content_keyword_terms
+                GROUP BY concept_id
+                HAVING count(*)<>2
+                   OR sum(CASE WHEN lang='pl' THEN 1 ELSE 0 END)<>1
+                   OR sum(CASE WHEN lang='en' THEN 1 ELSE 0 END)<>1
+                   OR sum(CASE WHEN is_preferred=1 THEN 1 ELSE 0 END)<>2
+              )
+            `);
+            if (Number(badPairs.rows[0].n) !== 0) stop(`niepelne pary=${badPairs.rows[0].n}`);
+          }
+
+          async function main() {
+            const creds = fs.readFileSync('daneDoSql.txt', 'utf8');
+            const urlMatch = creds.match(/libsql:\/\/[^\s]+/);
+            const tokenMatch = creds.match(/eyJ[a-zA-Z0-9._-]+/);
+            if (!urlMatch || !tokenMatch) stop('brak URL lub tokena');
+
+            const client = createClient({ url: urlMatch[0], authToken: tokenMatch[0] });
+            await validateData(client);
+
+            const existing = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_data_v1']
+            });
+            if (existing.rows.length !== 0) stop(`marker juz istnieje: ${existing.rows[0].value}`);
+
+            const before = await snapshot(client);
+
+            await client.execute({
+              sql: 'INSERT INTO content_meta(key, value) VALUES (?, ?)',
+              args: ['content_keywords_data_v1', 'done']
+            });
+
+            const marker = await client.execute({
+              sql: 'SELECT value FROM content_meta WHERE key = ?',
+              args: ['content_keywords_data_v1']
+            });
+            if (marker.rows.length !== 1 || String(marker.rows[0].value) !== 'done') {
+              stop('marker po zapisie jest nieprawidlowy');
+            }
+
+            await validateData(client);
+            const after = await snapshot(client);
+            if (before.sectionsCount !== after.sectionsCount || before.sectionsHash !== after.sectionsHash) {
+              stop('content_sections zmienione podczas zapisu markera');
+            }
+            if (before.documentsCount !== after.documentsCount || before.documentsHash !== after.documentsHash) {
+              stop('content_documents zmienione podczas zapisu markera');
+            }
+
+            console.log('OK KEYWORDS DATA MARKER: content_keywords_data_v1=done; concepts=544; terms=1088 (PL=544, EN=544); aliases=0; section_links=0; content_sections i content_documents IDENTYCZNE.');
+          }
+
+          main().catch(err => {
+            console.error(err.message);
+            process.exit(1);
+          });
+          NODE
