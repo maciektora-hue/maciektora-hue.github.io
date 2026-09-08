@@ -1,0 +1,61 @@
+name: SOL AuDHD - import opisow sekcji do SQL
+
+on:
+  push:
+    branches:
+      - sql-audhd-content
+    paths:
+      - '.github/workflows/SOL_audhd_opisy_import.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sql-audhd-content
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Zainstaluj klienta libSQL
+        run: npm install --no-save @libsql/client
+
+      - name: Odtworz dokladnie 338 opisow z normalnych HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp audhd/SOL_generuj-opisy-sekcji.py /tmp/SOL_generuj-opisy-sekcji.py
+          cp audhd/SOL_import-opisy-sql.js /tmp/SOL_import-opisy-sql.js
+          git checkout --detach 6a07a377bdd8b3e1f2128b384d29055a1a37132f
+          python3 /tmp/SOL_generuj-opisy-sekcji.py
+          python3 - <<'PY'
+          import csv, json
+          with open('SOL_opisy-sekcji-audhd.txt', encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+          if len(rows) != 338:
+              raise SystemExit(f'STOP: opisow={len(rows)}, oczekiwano 338')
+          data = [
+              {
+                  'dokument_kod': r['dokument_kod'].strip(),
+                  'anchor': r['anchor'].strip(),
+                  'description': r['opis'].strip(),
+              }
+              for r in rows
+          ]
+          if len({(r['dokument_kod'], r['anchor']) for r in data}) != 338:
+              raise SystemExit('STOP: duplikaty dokument_kod+anchor')
+          if any(not r['dokument_kod'] or not r['anchor'] or not r['description'] for r in data):
+              raise SystemExit('STOP: puste pole')
+          with open('/tmp/SOL_opisy-sekcji-audhd.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
+          print('OK SOURCE: 338 opisow, 18 dokumentow')
+          PY
+
+      - name: Wpisz tylko description dla AuDHD
+        run: node /tmp/SOL_import-opisy-sql.js /tmp/SOL_opisy-sekcji-audhd.json
