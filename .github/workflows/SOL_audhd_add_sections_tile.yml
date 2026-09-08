@@ -1,0 +1,65 @@
+name: SOL AuDHD - dodaj kafelek listy sekcji
+
+on:
+  push:
+    branches: [sql-audhd-content]
+    paths:
+      - '.github/workflows/SOL_audhd_add_sections_tile.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Dodaj tylko jeden kafelek do audhd/index.html
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          EXPECTED='0e9ac2db71eda611ca8492516b8d63de1d825b83'
+          ACTUAL="$(git rev-parse origin/main)"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "STOP: main zmienil sie: $ACTUAL"
+            exit 1
+          fi
+          git checkout -B SOL-audhd-tile origin/main
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('audhd/index.html')
+          s = p.read_text(encoding='utf-8')
+          needle = '''          <article class="path">
+            <h3>Mam diagnozę. I co teraz?</h3>
+            <div>
+              <p>O tym, co rzeczywiście pomaga, kiedy nazwa już jest, a życie nie przeprojektowało się samo przez noc.</p>
+              <a href="po-diagnozie/">Co działa po późnej diagnozie ↗</a>
+            </div>
+          </article>
+'''
+          add = needle + '''          <article class="path">
+            <h3>Chcę zobaczyć wszystkie sekcje</h3>
+            <div>
+              <p>Pełna lista 338 sekcji z anchorami i bezpośrednimi linkami, wczytywana z SQL.</p>
+              <a href="SOL_mapa-sekcji-i-anchorow-audhd.html">Lista wszystkich sekcji ↗</a>
+            </div>
+          </article>
+'''
+          if s.count(needle) != 1:
+              raise SystemExit(f'STOP: wzorzec sekcji wystepuje {s.count(needle)} razy')
+          if 'href="SOL_mapa-sekcji-i-anchorow-audhd.html"' in s:
+              raise SystemExit('STOP: kafelek juz istnieje')
+          p.write_text(s.replace(needle, add, 1), encoding='utf-8')
+          PY
+          test "$(git diff --name-only | wc -l)" -eq 1
+          test "$(git diff --name-only)" = 'audhd/index.html'
+          grep -q 'href="SOL_mapa-sekcji-i-anchorow-audhd.html"' audhd/index.html
+          git diff --check
+          git config user.name 'maciektora-hue'
+          git config user.email 'maciek.tora@gmail.com'
+          git add audhd/index.html
+          git commit -m 'AuDHD: dodaj kafelek listy sekcji'
+          git push origin HEAD:main
