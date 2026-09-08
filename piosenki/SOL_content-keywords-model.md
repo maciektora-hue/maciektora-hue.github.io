@@ -1,11 +1,12 @@
 # SOL — model słów kluczowych dla sekcji treści
 
-Status: WDROŻONE / SCHEMAT SQL AKTYWNY
+Status: WDROŻONE / SCHEMAT SQL + SŁOWNIK AKTYWNE
 Data: 2026-09-08
 
 Powiązane: `SOL_content-sql-specyfikacja-plan.md`
 Migracja: `SOL_migracja-content-keywords.sql`
 Marker wdrożenia: `content_keywords_schema_v1 = done`
+Marker importu danych: `content_keywords_data_v1 = done`
 
 ## Cel
 
@@ -346,4 +347,26 @@ Stan bezpośrednio po wdrożeniu:
 - `content_sections` bez zmian podczas migracji,
 - `content_documents` bez zmian podczas migracji.
 
-Migracja utworzyła wyłącznie strukturę. Słowa kluczowe nie zostały jeszcze zaimportowane.
+## Stan po imporcie słownika PL/EN
+
+Import słownika wykonano 2026-09-08.
+
+Marker w `content_meta`:
+
+```text
+content_keywords_data_v1 = done
+```
+
+Stan po imporcie:
+
+- `content_keyword_concepts`: 544 rekordy,
+- `content_keyword_terms`: 1088 rekordów,
+- terminy PL: 544,
+- terminy EN: 544,
+- aliasy (`is_preferred = 0`): 0,
+- `content_section_keywords`: 0 rekordów,
+- słowa kluczowe nie są jeszcze przypisane do sekcji,
+- `content_sections` bez zmian podczas importu,
+- `content_documents` bez zmian podczas importu,
+- AuDHD: 18 dokumentów, 338 sekcji heading, 338/338 opisów,
+- ROSJA: 16 dokumentów, 620 sekcji heading, 9 TOMÓW, 620/620 opisów.
