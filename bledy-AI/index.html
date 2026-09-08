@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Błędy AI — ten czat</title>
+  <meta name="description" content="Lista błędów popełnionych przez AI w jednym konkretnym czacie dotyczącym integracji działu Analiza piosenek z GitHub Pages.">
+  <style>
+    :root {
+      --bg: #18231f;
+      --panel: #223129;
+      --text: #ead7a8;
+      --strong: #f3d796;
+      --muted: #b9aa82;
+      --border: #44564b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px 72px;
+    }
+    h1, h2 { color: var(--strong); line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 5vw, 3.3rem); margin-bottom: .4rem; }
+    .lead { color: var(--muted); margin: 0 0 2rem; }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    ol { margin: 0; padding-left: 1.5rem; }
+    li { margin: 0 0 1rem; }
+    strong { color: var(--strong); }
+    .summary {
+      margin-top: 2rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Błędy AI — ten konkretny czat</h1>
+  <p class="lead">Lista błędów popełnionych podczas pracy nad wpięciem działu „Analiza piosenek” do istniejącej struktury GitHub Pages.</p>
+
+  <section>
+    <ol>
+      <li><strong>Nieprzeczytanie uważnie całej pierwszej wiadomości.</strong> Został złapany fragment techniczny, a zgubiony sens całości: wpięcie projektu „Analiza piosenek” w istniejącą architekturę strony.</li>
+      <li><strong>Za wczesne wymyślanie rozwiązania technicznego.</strong> Zamiast najpierw obejrzeć strukturę repo, rozpoczęło się kombinowanie z dodatkowymi katalogami i mechanizmami.</li>
+      <li><strong>Zaproponowanie katalogów <code>piosenki/slowa/</code> i <code>piosenki/audio/</code>.</strong> Nie było ku temu potrzeby.</li>
+      <li><strong>Pójście w stronę mechanizmu „stable latest URL”.</strong> Zadanie dotyczyło przede wszystkim nawigacji i integracji dwóch już istniejących landing page’y.</li>
+      <li><strong>Próba użycia <code>create_tree</code>.</strong> Było to nieadekwatne do prostego zadania edycji kilku plików.</li>
+      <li><strong>Błędne użycie <code>create_tree</code>.</strong> Operacja zakończyła się błędem 422.</li>
+      <li><strong>Samodzielne zablokowanie dalszej pracy przez błąd.</strong> Po błędzie zadziałał Failure Latch i dalsze operacje musiały zostać przerwane.</li>
+      <li><strong>Potraktowanie 404 dla <code>piosenki/index.html</code> jak problemu.</strong> Brak tego pliku był oczekiwanym stanem i częścią zadania, bo plik miał dopiero powstać.</li>
+      <li><strong>Skupienie na pytaniu „czy plik istnieje?”.</strong> Zamiast tego należało pilnować pytania „co trzeba zrobić z całą strukturą?”.</li>
+      <li><strong>Za wąskie rozumienie polecenia „obejrzyj, co jest na GitHubie”.</strong> Sprawdzane były pojedyncze elementy zamiast szybkiego porównania głównych działów i ich indeksów.</li>
+      <li><strong>Brak prostego porównania na początku:</strong> root / <code>cv/</code> / <code>audhd/</code> / <code>rosja/</code> / <code>piosenki/</code>.</li>
+      <li><strong>Niepotrzebne wracanie do faktu, że <code>piosenki/index.html</code> nie istnieje.</strong> Należało przejść do utworzenia go zgodnie z istniejącymi wzorcami.</li>
+      <li><strong>Zredukowanie całego zadania do „brakuje pary indexów PL/EN”.</strong> Zadanie obejmowało także opis projektu, dwa istniejące landing page’e, podpięcie do głównych indeksów, przełączniki i sensowną nawigację.</li>
+      <li><strong>Brak natychmiastowego uwzględnienia zakazu używania nazwy Spotify w publicznym opisie projektu.</strong></li>
+      <li><strong>Brak natychmiastowego uwzględnienia historii jednej listy „Polubione piosenki” i naturalnej osi chronologicznej.</strong></li>
+      <li><strong>Zła kolejność pracy.</strong> Najpierw powinno być zrozumienie zadania, potem inspekcja kilku wzorcowych plików, a dopiero potem zmiany.</li>
+      <li><strong>Nadmierne komplikowanie prostego zadania.</strong> Kilka prostych operacji na plikach zostało zamienionych w niepotrzebnie rozbudowaną procedurę.</li>
+      <li><strong>Odpowiadanie na problem stworzony przez AI zamiast na problem użytkownika.</strong> To był błąd nadrzędny całego przebiegu.</li>
+    </ol>
+
+    <p class="summary"><strong>Największy błąd nadrzędny:</strong> brak trzymania się celu użytkownika i rozpoczęcie projektowania własnej wersji zadania zamiast literalnego wykonania tego, co zostało zlecone.</p>
+  </section>
+</main>
+</body>
+</html>
