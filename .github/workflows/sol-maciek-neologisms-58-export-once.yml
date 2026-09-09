@@ -1,0 +1,269 @@
+name: SOL Maciek neologisms 58 export once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-maciek-neologisms-58-export-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export-maciek-neologisms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Preflight, export 58 concepts and 116 terms, verify
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          import unicodedata
+          from pathlib import Path
+          import libsql
+
+          DATA = Path('.github/sol-data/maciek-neologisms-58.tsv')
+
+          def norm(value):
+              return ' '.join(unicodedata.normalize('NFKC', value).casefold().split())
+
+          with DATA.open(encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+
+          expected_fields = {
+              'concept_key', 'term_pl', 'term_en', 'keyword_norm_pl', 'keyword_norm_en'
+          }
+          if len(rows) != 58:
+              raise RuntimeError(f'Expected 58 rows, got {len(rows)}')
+          if set(rows[0]) != expected_fields:
+              raise RuntimeError(f'Unexpected fields: {list(rows[0])}')
+
+          keys = [r['concept_key'] for r in rows]
+          if len(set(keys)) != 58:
+              raise RuntimeError('Duplicate concept_key in source TSV')
+
+          pl_norms = [r['keyword_norm_pl'] for r in rows]
+          en_norms = [r['keyword_norm_en'] for r in rows]
+          if len(set(pl_norms)) != 58:
+              raise RuntimeError('Duplicate PL keyword_norm in source TSV')
+          if len(set(en_norms)) != 58:
+              raise RuntimeError('Duplicate EN keyword_norm in source TSV')
+
+          for r in rows:
+              if not all(r[k].strip() for k in expected_fields):
+                  raise RuntimeError(f'Blank field in row: {r!r}')
+              if r['keyword_norm_pl'] != norm(r['term_pl']):
+                  raise RuntimeError(f"PL normalization mismatch: {r['concept_key']}")
+              if r['keyword_norm_en'] != norm(r['term_en']):
+                  raise RuntimeError(f"EN normalization mismatch: {r['concept_key']}")
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          # Schema preflight.
+          for table in ('content_keyword_concepts', 'content_keyword_terms'):
+              cols = {row[1] for row in conn.execute(f'PRAGMA table_info({table})').fetchall()}
+              if 'maciek_neologism' not in cols:
+                  raise RuntimeError(f'{table}: missing maciek_neologism column')
+
+          live_concepts = conn.execute(
+              'SELECT concept_id, concept_key, maciek_neologism FROM content_keyword_concepts'
+          ).fetchall()
+          live_by_key = {
+              str(key): (int(cid), flag)
+              for cid, key, flag in live_concepts
+          }
+
+          existing_candidate_keys = [k for k in keys if k in live_by_key]
+
+          # Idempotent success only when the complete 58-record export already exists exactly.
+          if existing_candidate_keys:
+              if set(existing_candidate_keys) != set(keys):
+                  raise RuntimeError(
+                      f'PARTIAL STATE: {len(existing_candidate_keys)}/58 candidate concept_keys already exist'
+                  )
+
+              for r in rows:
+                  cid, flag = live_by_key[r['concept_key']]
+                  if flag != 1:
+                      raise RuntimeError(
+                          f"Existing concept not marked maciek_neologism=1: {r['concept_key']}"
+                      )
+                  terms = conn.execute(
+                      '''SELECT lang, keyword, keyword_norm, is_preferred, maciek_neologism
+                         FROM content_keyword_terms
+                         WHERE concept_id=?
+                         ORDER BY lang''',
+                      (cid,),
+                  ).fetchall()
+                  expected = sorted([
+                      ('pl', r['term_pl'], r['keyword_norm_pl'], 1, 1),
+                      ('en', r['term_en'], r['keyword_norm_en'], 1, 1),
+                  ])
+                  actual = sorted(
+                      (str(lang), str(keyword), str(knorm), int(pref), int(flag2))
+                      for lang, keyword, knorm, pref, flag2 in terms
+                  )
+                  if actual != expected:
+                      raise RuntimeError(
+                          f"Existing terms mismatch for {r['concept_key']}: {actual!r}"
+                      )
+              print('MACIEK_NEOLOGISMS_ALREADY_OK concepts=58 terms=116')
+              conn.close()
+              raise SystemExit(0)
+
+          # Collision preflight against the current live database.
+          live_terms = conn.execute(
+              'SELECT concept_id, lang, keyword_norm FROM content_keyword_terms'
+          ).fetchall()
+          term_index = {
+              (str(lang), str(knorm)): int(cid)
+              for cid, lang, knorm in live_terms
+          }
+          collisions = []
+          for r in rows:
+              for lang, knorm in (
+                  ('pl', r['keyword_norm_pl']),
+                  ('en', r['keyword_norm_en']),
+              ):
+                  if (lang, knorm) in term_index:
+                      collisions.append(
+                          (r['concept_key'], lang, knorm, term_index[(lang, knorm)])
+                      )
+          if collisions:
+              raise RuntimeError(f'LIVE TERM COLLISIONS: {collisions!r}')
+
+          before_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts'
+          ).fetchone()[0])
+          before_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms'
+          ).fetchone()[0])
+          before_maciek_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts WHERE maciek_neologism=1'
+          ).fetchone()[0])
+          before_maciek_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms WHERE maciek_neologism=1'
+          ).fetchone()[0])
+
+          try:
+              conn.execute('BEGIN TRANSACTION')
+
+              conn.executemany(
+                  '''INSERT INTO content_keyword_concepts
+                     (concept_key, maciek_neologism)
+                     VALUES (?, 1)''',
+                  [(r['concept_key'],) for r in rows],
+              )
+
+              inserted = conn.execute(
+                  'SELECT concept_id, concept_key FROM content_keyword_concepts WHERE maciek_neologism=1'
+              ).fetchall()
+              candidate_ids = {
+                  str(key): int(cid)
+                  for cid, key in inserted
+                  if str(key) in set(keys)
+              }
+              if set(candidate_ids) != set(keys):
+                  raise RuntimeError(
+                      f'After concept insert expected 58 candidate ids, got {len(candidate_ids)}'
+                  )
+
+              term_rows = []
+              for r in rows:
+                  cid = candidate_ids[r['concept_key']]
+                  term_rows.extend([
+                      (cid, 'pl', r['term_pl'], r['keyword_norm_pl'], 1, 1),
+                      (cid, 'en', r['term_en'], r['keyword_norm_en'], 1, 1),
+                  ])
+
+              conn.executemany(
+                  '''INSERT INTO content_keyword_terms
+                     (concept_id, lang, keyword, keyword_norm, is_preferred, maciek_neologism)
+                     VALUES (?, ?, ?, ?, ?, ?)''',
+                  term_rows,
+              )
+
+              # Verify before commit.
+              qmarks = ','.join('?' for _ in keys)
+              concept_rows = conn.execute(
+                  f'''SELECT concept_id, concept_key, maciek_neologism
+                      FROM content_keyword_concepts
+                      WHERE concept_key IN ({qmarks})''',
+                  tuple(keys),
+              ).fetchall()
+              if len(concept_rows) != 58:
+                  raise RuntimeError(f'Precommit concept count != 58: {len(concept_rows)}')
+              if any(flag != 1 for _, _, flag in concept_rows):
+                  raise RuntimeError('Precommit concept flag mismatch')
+
+              ids = [int(cid) for cid, _, _ in concept_rows]
+              iq = ','.join('?' for _ in ids)
+              actual_terms = conn.execute(
+                  f'''SELECT concept_id, lang, keyword, keyword_norm, is_preferred, maciek_neologism
+                      FROM content_keyword_terms
+                      WHERE concept_id IN ({iq})''',
+                  tuple(ids),
+              ).fetchall()
+              if len(actual_terms) != 116:
+                  raise RuntimeError(f'Precommit term count != 116: {len(actual_terms)}')
+              if sum(1 for x in actual_terms if x[1] == 'pl') != 58:
+                  raise RuntimeError('Precommit PL term count != 58')
+              if sum(1 for x in actual_terms if x[1] == 'en') != 58:
+                  raise RuntimeError('Precommit EN term count != 58')
+              if any(int(x[4]) != 1 or int(x[5]) != 1 for x in actual_terms):
+                  raise RuntimeError('Precommit term preferred/neologism flag mismatch')
+
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          # Independent post-commit verification.
+          after_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts'
+          ).fetchone()[0])
+          after_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms'
+          ).fetchone()[0])
+          after_maciek_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts WHERE maciek_neologism=1'
+          ).fetchone()[0])
+          after_maciek_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms WHERE maciek_neologism=1'
+          ).fetchone()[0])
+
+          if after_concepts - before_concepts != 58:
+              raise RuntimeError(
+                  f'Postcommit concept delta != 58: {before_concepts} -> {after_concepts}'
+              )
+          if after_terms - before_terms != 116:
+              raise RuntimeError(
+                  f'Postcommit term delta != 116: {before_terms} -> {after_terms}'
+              )
+          if after_maciek_concepts - before_maciek_concepts != 58:
+              raise RuntimeError('Postcommit Maciek concept delta != 58')
+          if after_maciek_terms - before_maciek_terms != 116:
+              raise RuntimeError('Postcommit Maciek term delta != 116')
+
+          print(
+              f'MACIEK_NEOLOGISMS_EXPORT_OK concepts=58 terms=116 '
+              f'concepts_total={after_concepts} terms_total={after_terms} '
+              f'maciek_concepts={after_maciek_concepts} maciek_terms={after_maciek_terms}'
+          )
+          conn.close()
+          PY
