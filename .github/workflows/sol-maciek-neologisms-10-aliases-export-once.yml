@@ -1,0 +1,195 @@
+name: SOL Maciek neologisms 10 aliases export once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-maciek-neologisms-10-aliases-export-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export-maciek-aliases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Preflight, export 10 aliases, verify
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          import unicodedata
+          from pathlib import Path
+          import libsql
+
+          DATA = Path('.github/sol-data/maciek-neologisms-10-aliases.tsv')
+
+          def norm(value):
+              return ' '.join(unicodedata.normalize('NFKC', value).casefold().split())
+
+          with DATA.open(encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+
+          expected_fields = {'concept_id', 'concept_key', 'term_pl', 'keyword_norm_pl'}
+          if len(rows) != 10:
+              raise RuntimeError(f'Expected 10 aliases, got {len(rows)}')
+          if not rows or set(rows[0]) != expected_fields:
+              raise RuntimeError(f'Unexpected fields: {list(rows[0]) if rows else None}')
+
+          if len({int(r['concept_id']) for r in rows}) != 10:
+              raise RuntimeError('Duplicate concept_id in alias source')
+          if len({r['concept_key'] for r in rows}) != 10:
+              raise RuntimeError('Duplicate concept_key in alias source')
+          if len({r['keyword_norm_pl'] for r in rows}) != 10:
+              raise RuntimeError('Duplicate alias keyword_norm in source')
+
+          for r in rows:
+              if not all(r[k].strip() for k in expected_fields):
+                  raise RuntimeError(f'Blank field in row: {r!r}')
+              if r['keyword_norm_pl'] != norm(r['term_pl']):
+                  raise RuntimeError(f"PL normalization mismatch: {r['concept_key']}")
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          cols = {row[1] for row in conn.execute('PRAGMA table_info(content_keyword_terms)').fetchall()}
+          if 'maciek_neologism' not in cols:
+              raise RuntimeError('content_keyword_terms: missing maciek_neologism column')
+
+          # Verify all target concepts exactly by BOTH id and key.
+          for r in rows:
+              live = conn.execute(
+                  'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
+                  (int(r['concept_id']),),
+              ).fetchall()
+              if live != [(r['concept_key'],)]:
+                  raise RuntimeError(
+                      f"Concept mismatch id={r['concept_id']} expected={r['concept_key']!r} actual={live!r}"
+                  )
+
+          # Existing alias state. All 10 exact = idempotent OK; partial = stop.
+          existing_exact = []
+          for r in rows:
+              hit = conn.execute(
+                  '''SELECT keyword, is_preferred, maciek_neologism
+                     FROM content_keyword_terms
+                     WHERE concept_id=? AND lang='pl' AND keyword_norm=?''',
+                  (int(r['concept_id']), r['keyword_norm_pl']),
+              ).fetchall()
+              if hit:
+                  if hit != [(r['term_pl'], 0, 1)]:
+                      raise RuntimeError(
+                          f"Existing alias mismatch for {r['concept_key']}: {hit!r}"
+                      )
+                  existing_exact.append(r['concept_key'])
+
+          if existing_exact:
+              if len(existing_exact) == 10:
+                  print('MACIEK_NEOLOGISM_ALIASES_ALREADY_OK aliases=10')
+                  conn.close()
+                  raise SystemExit(0)
+              raise RuntimeError(f'PARTIAL STATE: {len(existing_exact)}/10 aliases already exist')
+
+          # Semantic collision guard: same Polish normalized term must not belong to another concept.
+          collisions = []
+          for r in rows:
+              hits = conn.execute(
+                  '''SELECT concept_id, keyword
+                     FROM content_keyword_terms
+                     WHERE lang='pl' AND keyword_norm=?''',
+                  (r['keyword_norm_pl'],),
+              ).fetchall()
+              for cid, kw in hits:
+                  if int(cid) != int(r['concept_id']):
+                      collisions.append((r['term_pl'], int(cid), str(kw)))
+          if collisions:
+              raise RuntimeError(f'LIVE ALIAS COLLISIONS: {collisions!r}')
+
+          before_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms'
+          ).fetchone()[0])
+          before_maciek_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms WHERE maciek_neologism=1'
+          ).fetchone()[0])
+          before_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts'
+          ).fetchone()[0])
+          before_maciek_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts WHERE maciek_neologism=1'
+          ).fetchone()[0])
+
+          try:
+              conn.execute('BEGIN TRANSACTION')
+              conn.executemany(
+                  '''INSERT INTO content_keyword_terms
+                     (concept_id, lang, keyword, keyword_norm, is_preferred, maciek_neologism)
+                     VALUES (?, 'pl', ?, ?, 0, 1)''',
+                  [
+                      (int(r['concept_id']), r['term_pl'], r['keyword_norm_pl'])
+                      for r in rows
+                  ],
+              )
+
+              # Precommit exact verification.
+              for r in rows:
+                  hit = conn.execute(
+                      '''SELECT keyword, is_preferred, maciek_neologism
+                         FROM content_keyword_terms
+                         WHERE concept_id=? AND lang='pl' AND keyword_norm=?''',
+                      (int(r['concept_id']), r['keyword_norm_pl']),
+                  ).fetchall()
+                  if hit != [(r['term_pl'], 0, 1)]:
+                      raise RuntimeError(
+                          f"Precommit alias verification failed for {r['concept_key']}: {hit!r}"
+                      )
+
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          after_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms'
+          ).fetchone()[0])
+          after_maciek_terms = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_terms WHERE maciek_neologism=1'
+          ).fetchone()[0])
+          after_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts'
+          ).fetchone()[0])
+          after_maciek_concepts = int(conn.execute(
+              'SELECT COUNT(*) FROM content_keyword_concepts WHERE maciek_neologism=1'
+          ).fetchone()[0])
+
+          if after_terms - before_terms != 10:
+              raise RuntimeError(f'Postcommit term delta != 10: {before_terms} -> {after_terms}')
+          if after_maciek_terms - before_maciek_terms != 10:
+              raise RuntimeError('Postcommit Maciek term delta != 10')
+          if after_concepts != before_concepts:
+              raise RuntimeError(f'Concept count changed unexpectedly: {before_concepts} -> {after_concepts}')
+          if after_maciek_concepts != before_maciek_concepts:
+              raise RuntimeError(
+                  f'Maciek concept count changed unexpectedly: {before_maciek_concepts} -> {after_maciek_concepts}'
+              )
+
+          print(
+              f'MACIEK_NEOLOGISM_ALIASES_EXPORT_OK aliases=10 '
+              f'concepts_total={after_concepts} terms_total={after_terms} '
+              f'maciek_concepts={after_maciek_concepts} maciek_terms={after_maciek_terms}'
+          )
+          conn.close()
+          PY
