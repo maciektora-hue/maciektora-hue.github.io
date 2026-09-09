@@ -1,0 +1,30 @@
+name: SOL inspect audio_match_details once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-inspect-audio-match-details-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libsql
+        run: pip install libsql
+      - name: Inspect audio_match_details
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, libsql
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=os.environ['TURSO_AUTH_TOKEN'])
+          print('SCHEMA=', conn.execute("PRAGMA table_info(audio_match_details)").fetchall())
+          print('VARIANT_TYPES=', conn.execute("SELECT variant_type, COUNT(*) FROM audio_match_details GROUP BY variant_type ORDER BY COUNT(*) DESC").fetchall())
+          print('SAMPLES=', conn.execute("SELECT utwu_id, audio_id, variant_type, note FROM audio_match_details LIMIT 20").fetchall())
+          conn.close()
+          PY
