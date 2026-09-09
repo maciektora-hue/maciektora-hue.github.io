@@ -23,55 +23,56 @@ jobs:
 
           src = Path('cv/CLAUDE_Maciej-Tora-AI-CV-v07_12-2026-09-07.html')
           dst = Path('cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html')
-
           text = src.read_text(encoding='utf-8')
 
-          css = '''
-
-    .professional-skills-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px 46px;
-      align-items: start;
-    }
-    .professional-skills-grid h3 {
-      margin-top: 4px;
-      margin-bottom: 7px;
-    }
-    .professional-skills-grid .b {
-      margin: 6px 0;
-    }
-    @media (max-width: 640px) {
-      .professional-skills-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-    }
-'''
+          css = '\n'.join([
+              '',
+              '    .professional-skills-grid {',
+              '      display: grid;',
+              '      grid-template-columns: repeat(2, minmax(0, 1fr));',
+              '      gap: 8px 46px;',
+              '      align-items: start;',
+              '    }',
+              '    .professional-skills-grid h3 {',
+              '      margin-top: 4px;',
+              '      margin-bottom: 7px;',
+              '    }',
+              '    .professional-skills-grid .b {',
+              '      margin: 6px 0;',
+              '    }',
+              '    @media (max-width: 640px) {',
+              '      .professional-skills-grid {',
+              '        grid-template-columns: 1fr;',
+              '        gap: 8px;',
+              '      }',
+              '    }',
+              '',
+          ])
           assert '</style>' in text
-          text = text.replace('</style>', css + '\n</style>', 1)
+          text = text.replace('</style>', css + '</style>', 1)
 
-          section = '''
-<section aria-labelledby="professional-skills">
-      <h2 id="professional-skills">PROFESSIONAL SKILLS</h2>
-      <div class="professional-skills-grid">
-        <div>
-          <h3 id="soft-skills">SOFT SKILLS</h3>
-          <p class="b">Learning agility</p>
-          <p class="b">Ownership &amp; accountability</p>
-          <p class="b">Cross-functional collaboration</p>
-          <p class="b">Decision-making under uncertainty</p>
-        </div>
-        <div>
-          <h3 id="hard-skills">HARD SKILLS</h3>
-          <p class="b">Process optimisation</p>
-          <p class="b">Quantitative modelling</p>
-          <p class="b">Project management</p>
-          <p class="b">Financial forecasting</p>
-        </div>
-      </div>
-    </section>
-'''
+          section = '\n'.join([
+              '<section aria-labelledby="professional-skills">',
+              '      <h2 id="professional-skills">PROFESSIONAL SKILLS</h2>',
+              '      <div class="professional-skills-grid">',
+              '        <div>',
+              '          <h3 id="soft-skills">SOFT SKILLS</h3>',
+              '          <p class="b">Learning agility</p>',
+              '          <p class="b">Ownership &amp; accountability</p>',
+              '          <p class="b">Cross-functional collaboration</p>',
+              '          <p class="b">Decision-making under uncertainty</p>',
+              '        </div>',
+              '        <div>',
+              '          <h3 id="hard-skills">HARD SKILLS</h3>',
+              '          <p class="b">Process optimisation</p>',
+              '          <p class="b">Quantitative modelling</p>',
+              '          <p class="b">Project management</p>',
+              '          <p class="b">Financial forecasting</p>',
+              '        </div>',
+              '      </div>',
+              '    </section>',
+              '',
+          ])
           marker = '<section>\n      <h2 id="core-ai-skills">CORE AI SKILLS</h2>'
           assert marker in text
           text = text.replace(marker, section + marker, 1)
