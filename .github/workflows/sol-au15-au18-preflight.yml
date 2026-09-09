@@ -1,0 +1,118 @@
+name: SOL AU15-AU18 preflight
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-au15-au18-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-au15-au18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check AU15-AU18 without writing
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from collections import defaultdict
+          import libsql
+
+          expected = defaultdict(list)
+          for line in Path('.github/sol-data/au15-au18-expected.tsv').read_text(encoding='utf-8').splitlines():
+              code, so, ko, cid, key = line.split('\t')
+              expected[code].append((int(so), int(ko), int(cid), key))
+
+          specs = {
+              'AU15': (22, 87),
+              'AU16': (62, 258),
+              'AU17': (9, 36),
+              'AU18': (11, 48),
+          }
+          if set(expected) != set(specs):
+              raise RuntimeError(f'Document set mismatch: {sorted(expected)}')
+          if sum(len(v) for v in expected.values()) != 429:
+              raise RuntimeError(f'Expected 429 assignments total, got {sum(len(v) for v in expected.values())}')
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+
+          total_sections = 0
+          total_assignments = 0
+          for code in ('AU15', 'AU16', 'AU17', 'AU18'):
+              section_count, assignment_count = specs[code]
+              rows = expected[code]
+              if len(rows) != assignment_count:
+                  raise RuntimeError(f'{code}: expected {assignment_count} assignments, got {len(rows)}')
+              if len({(r[0], r[1]) for r in rows}) != assignment_count:
+                  raise RuntimeError(f'{code}: duplicate (section_order, keyword_order)')
+              if len({(r[0], r[2]) for r in rows}) != assignment_count:
+                  raise RuntimeError(f'{code}: duplicate (section_order, concept_id)')
+
+              docs = conn.execute(
+                  "SELECT document_id FROM content_documents WHERE collection_id='audhd' AND document_code=?",
+                  (code,),
+              ).fetchall()
+              if len(docs) != 1:
+                  raise RuntimeError(f'{code}: document count != 1: {docs!r}')
+              document_id = int(docs[0][0])
+
+              sections = conn.execute(
+                  'SELECT section_id, section_order FROM content_sections WHERE document_id=? ORDER BY section_order',
+                  (document_id,),
+              ).fetchall()
+              if len(sections) != section_count:
+                  raise RuntimeError(f'{code}: section count != {section_count}: {len(sections)}')
+              section_id_by_order = {int(order): int(section_id) for section_id, order in sections}
+              if set(section_id_by_order) != set(range(1, section_count + 1)):
+                  raise RuntimeError(f'{code}: section orders invalid: {sorted(section_id_by_order)}')
+
+              for _, _, concept_id, concept_key in rows:
+                  row = conn.execute(
+                      'SELECT concept_key FROM content_keyword_concepts WHERE concept_id=?',
+                      (concept_id,),
+                  ).fetchone()
+                  if row is None or row[0] != concept_key:
+                      raise RuntimeError(
+                          f'{code}: concept mismatch id={concept_id} expected={concept_key!r} actual={row!r}'
+                      )
+
+              existing = conn.execute(
+                  '''SELECT s.section_order, k.keyword_order, k.concept_id
+                     FROM content_section_keywords k
+                     JOIN content_sections s ON s.section_id=k.section_id
+                     WHERE s.document_id=?
+                     ORDER BY s.section_order, k.keyword_order''',
+                  (document_id,),
+              ).fetchall()
+              expected_triples = sorted((so, ko, cid) for so, ko, cid, _ in rows)
+              existing_triples = sorted((int(a), int(b), int(c)) for a, b, c in existing)
+              if existing_triples:
+                  if existing_triples == expected_triples:
+                      print(f'{code}_ALREADY_OK count={assignment_count} document_id={document_id}')
+                  else:
+                      raise RuntimeError(f'{code}: existing assignments mismatch: count={len(existing_triples)}')
+              else:
+                  print(
+                      f'{code}_PREFLIGHT_OK document_id={document_id} '
+                      f'sections={section_count} concepts={assignment_count} existing=0'
+                  )
+
+              total_sections += section_count
+              total_assignments += assignment_count
+
+          print(f'AU15_AU18_PREFLIGHT_OK sections={total_sections} concepts={total_assignments}')
+          conn.close()
+          PY
