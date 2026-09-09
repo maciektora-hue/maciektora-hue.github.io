@@ -58,8 +58,8 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
             END AS deep_link,
             COALESCE(s.description, ''),
             COALESCE(s.description_en, ''),
-            COALESCE(k.keywords_pl, ''),
-            COALESCE(k.keywords_en, ''),
+            COALESCE(NULLIF(trim(k.keywords_pl), ''), NULLIF(trim(s.keywords_pl), ''), ''),
+            COALESCE(NULLIF(trim(k.keywords_en), ''), NULLIF(trim(s.keywords_en), ''), ''),
             COALESCE(kc.keyword_concepts, 0)
         FROM content_sections s
         JOIN content_documents d ON d.document_id = s.document_id
@@ -112,7 +112,11 @@ def build_stats(rows: list[dict]) -> dict:
         "anchors": sum(1 for row in headings if row["anchor"]),
         "translated_titles": sum(1 for row in headings if row["section_title_en"]),
         "translated_descriptions": sum(1 for row in headings if row["description_en"]),
-        "keyworded_sections": sum(1 for row in headings if row["keyword_concepts"]),
+        "keyworded_sections": sum(
+            1
+            for row in headings
+            if row["keywords_pl"] or row["keywords_en"] or row["keyword_concepts"]
+        ),
         "keyword_links": sum(int(row["keyword_concepts"] or 0) for row in headings),
     }
 
