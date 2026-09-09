@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Three-island signatures — song audio analysis</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --panel2:#111a17;
+  --text:#e7c27a;
+  --strong:#f3d796;
+  --muted:#c7b58d;
+  --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.58
+}
+main{max-width:940px;margin:0 auto;padding:30px 20px 72px}
+h1{font-size:2.35rem;line-height:1.08;margin:.25rem 0 .7rem;color:var(--strong)}
+h2{font-size:1.3rem;margin:2.2rem 0 .75rem;color:var(--strong)}
+h3{font-size:1.05rem;margin:.2rem 0 .4rem;color:var(--strong)}
+p,li{max-width:82ch}
+a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
+strong{color:var(--strong)}
+code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.hero,.card{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:16px 18px;margin:1rem 0
+}
+.hero{border-width:2px;padding:20px}
+.hero .main-link{font-size:1.25rem;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{margin:0}
+.card p{margin:.35rem 0 .25rem}
+.n{font-size:.88rem;color:var(--muted);font-weight:400}
+.technical{
+  margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.9rem
+}
+.technical h2{font-size:1.05rem;color:var(--muted);margin-top:1rem}
+.technical h3{font-size:.95rem;color:var(--muted)}
+.technical a{color:var(--text)}
+.technical ul{padding-left:1.3rem}
+footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+<p class="meta"><a href="index-en.html">← Song analysis</a> · <a href="audio.html" lang="pl">Polski</a></p>
+
+<h1>Three-island signatures — results in two voices</h1>
+<p class="meta">An analysis of how the tracks actually sound, independently of lyrics and tags.</p>
+
+<div class="hero">
+  <p class="main-link"><a href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html">→ Read the main result: Depth · Light · Motion</a></p>
+  <p>This is the most important text in this branch of the project. Each result is described <strong>in two voices</strong>: first in ordinary language, and next to it in signal-analysis language.</p>
+  <p class="muted"><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html" lang="pl">Polski: Głębia · Światło · Ruch</a></p>
+</div>
+
+<h2>What is this about?</h2>
+<p>We took the recordings in the library and treated them as signals rather than as a list of titles, genres or lyrics. So we measure the sound itself: where the energy sits, how much low and high frequency content there is, how the spectrum changes, how concentrated the harmony is, what the attacks look like, how the dynamics behave, what happens in the midrange, and how the stereo field is built.</p>
+<p>After cleaning the data, <strong>856 recordings</strong> remained. They did not form three airtight boxes. Instead, three clear and stable cores emerged: <strong>Depth, Light and Motion</strong>, plus bridges, a transition region and a periphery.</p>
+
+<h2>What we did</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. We cleaned the audio dataset</h3>
+    <p>Starting point: 891 analysed files. We removed 35 wrong downloads, wrong versions and other collisions. That left 856 recordings for the actual analysis.</p>
+  </div>
+  <div class="card">
+    <h3>2. We measured the sound</h3>
+    <p>For every file we computed a broad set of features: dynamics, spectrum, frequency bands, MFCCs, chroma, onsets, tempo and stereo.</p>
+  </div>
+  <div class="card">
+    <h3>3. We looked for geometry</h3>
+    <p>We did not assume that everything had to belong to one neat cluster. We checked whether stable cores existed and how the rest of the dataset connected to them.</p>
+  </div>
+  <div class="card">
+    <h3>4. Three islands emerged</h3>
+    <p><strong>Depth</strong>, <strong>Light</strong> and <strong>Motion</strong> are acoustically distinct, but not isolated from one another. The topology of the transitions between them is one of the most interesting parts of the result.</p>
+  </div>
+</div>
+
+<h2>What emerged</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Depth <span class="n">166</span></h3>
+    <p>Darker, heavier at the bottom, bass-rich and more tonally concentrated. Less bright, with more room for quiet passages and stronger individual attacks.</p>
+  </div>
+  <div class="card">
+    <h3>Light <span class="n">60</span></h3>
+    <p>The brightest, most broadband, grainy and airy island. A lot of high-frequency energy and many small spectral changes.</p>
+  </div>
+  <div class="card">
+    <h3>Motion <span class="n">117</span></h3>
+    <p>The most midrange-centred and fluid. More harmonic movement, less bass dominance and somewhat wider stereo. It is the main mediator between the two extremes.</p>
+  </div>
+</div>
+
+<p><strong>The most striking fact:</strong> there is almost no direct Depth ↔ Light bridge. These two ends of the landscape usually transition into one another through <strong>Motion</strong>.</p>
+
+<h2>Map of the whole landscape</h2>
+<p>The islands are only the cores. The rest of the library forms bridges, a transition continent and a periphery. That is why we do not simply call this “three clusters”. For once, the mathematics declines to pretend that everything fits into three shoe boxes.</p>
+<div class="grid">
+  <div class="card"><h3>Islands</h3><p>343 tracks: Depth 166 · Light 60 · Motion 117.</p></div>
+  <div class="card"><h3>Bridges</h3><p>149 tracks: Depth↔Motion 101 · Motion↔Light 46 · Depth↔Light 2.</p></div>
+  <div class="card"><h3>Continent</h3><p>297 tracks in a broad transition zone with no single dominant island.</p></div>
+  <div class="card"><h3>Periphery</h3><p>67 tracks in the acoustically sparsest parts of the library.</p></div>
+</div>
+<p><a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">→ Three-island map — plain-language description (PL)</a></p>
+
+<h2>How we did it, without the pain yet</h2>
+<p>The audio files were brought into a common analytical form and described using measurable features. We then compared the tracks in several representations and checked whether the same cores reappeared independently of how we looked at the data. They did. The islands are separated most strongly by <strong>spectral shape and the distribution of energy</strong>; tempo turned out to matter surprisingly little.</p>
+<p>We adopted the three-island model because it gives stable, interpretable cores while refusing to pretend that every track must belong to one pure category.</p>
+
+<h2>What exactly was measured?</h2>
+<p>This is not a “lots of bass / little bass” analysis. For every recording we computed a whole set of <strong>signal quantities and descriptors derived mathematically from the audio waveform</strong>. Some describe amplitude and signal energy directly, some describe how that energy is distributed over frequency, and others describe variation over time, stereo, tonality and rhythm.</p>
+<div class="grid">
+  <div class="card">
+    <h3>Level and dynamics</h3>
+    <p>RMS and level in dBFS, peak values, crest factor, the fraction of samples near or above 0 dBFS, plus the distribution of loudness over time: mean, standard deviation and percentiles.</p>
+  </div>
+  <div class="card">
+    <h3>Frequency spectrum</h3>
+    <p>Spectral centroid, roll-off, bandwidth, spectral flatness, spectral slope, edge frequencies, and energy split into bands from 20 Hz to 20 kHz.</p>
+  </div>
+  <div class="card">
+    <h3>Spectral change over time</h3>
+    <p>Spectral flux, spectral variability and frame-by-frame statistics. This means two tracks with a similar average amount of bass can still differ strongly in <em>how</em> their sound moves over time.</p>
+  </div>
+  <div class="card">
+    <h3>Contrast and timbre</h3>
+    <p>Spectral contrast across multiple frequency ranges, plus 13 MFCC coefficients and their variability. These describe the shape and colour of the spectrum, not merely the total amount of energy.</p>
+  </div>
+  <div class="card">
+    <h3>Harmony and tonality</h3>
+    <p>Twelve chroma components, their distribution and entropy, dominant pitch class, harmonic concentration, tuning, key candidate, major/minor mode and confidence in that estimate.</p>
+  </div>
+  <div class="card">
+    <h3>Attacks and rhythm</h3>
+    <p>Onset strength, count and rate, intervals between attacks, variation in those intervals, several BPM estimates and rhythm-confidence measures.</p>
+  </div>
+  <div class="card">
+    <h3>Stereo</h3>
+    <p>Separate left- and right-channel levels, L/R balance, channel correlation and the Mid/Side relationship, including the width of the stereo image.</p>
+  </div>
+  <div class="card">
+    <h3>Grain and signal “roughness”</h3>
+    <p>Zero-crossing rate and its variability, spectral flatness and several high-frequency descriptors. These help distinguish smoother, more tonal sound from noisier, brighter or grainier sound.</p>
+  </div>
+</div>
+<p class="muted">In practice, a single track is therefore not reduced to one number called “energy”. It is represented by a multidimensional profile of level, dynamics, timbre, spectrum, temporal movement, harmony, rhythm and stereo space.</p>
+
+<div class="technical">
+<h2>Other analyses and the statistical-mathematical mumbo-jumbo</h2>
+<p>These are the documents for people who want to see exactly where the conclusions above came from. In other words, the section where numbers regain control over human life.</p>
+<ul>
+  <li><a href="SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html">Audio sanitisation 1.0 — why 856 records remained (PL)</a></li>
+  <li><a href="SOL-klastrowanie-audio-hipotezy-robocze-2026-09-08.html">Two working hypotheses: clusters vs islands + the rest (PL)</a></li>
+  <li><a href="SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html">Analysis of the two hypotheses (PL)</a></li>
+  <li><a href="SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html">Why three islands rather than 4–7 (PL)</a></li>
+  <li><a href="SOL-klastrowanie-audio-sygnatury-wysp-analiza-v01-2026-09-08.html">Full analysis of the island signatures (PL)</a></li>
+  <li><a href="SOL-klastrowanie-audio-sygnatury-wysp-metoda-v01-2026-09-08.html">Method used to derive the signatures (PL)</a></li>
+  <li><a href="SOL_audio-analysis-05.md">Audio feature extraction documentation</a></li>
+  <li><a href="SOL_audio-analysis-05.py">Audio feature extraction script</a></li>
+</ul>
+
+<h3>Map files</h3>
+<ul>
+  <li><a href="SOL_audio-mapa-3-wysp-01-wyspa-glebi-v01-2026-09-08.csv">Depth island — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-02-wyspa-swiatla-v01-2026-09-08.csv">Light island — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-03-wyspa-ruchu-v01-2026-09-08.csv">Motion island — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-04-most-glebia-ruch-v01-2026-09-08.csv">Depth ↔ Motion bridge — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-05-most-swiatlo-ruch-v01-2026-09-08.csv">Motion ↔ Light bridge — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-06-most-glebia-swiatlo-v01-2026-09-08.csv">Depth ↔ Light bridge — CSV</a></li>
+  <li><a href="SOL_audio-mapa-3-wysp-08-peryferia-v01-2026-09-08.csv">Periphery — CSV</a></li>
+</ul>
+</div>
+
+<footer>
+Entry point to the current audio analysis. The audio dataset is deliberately separate from the main Spotify / lyrics / tags dataset.
+</footer>
+
+</main>
+</body>
+</html>
