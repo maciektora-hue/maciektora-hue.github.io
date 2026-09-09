@@ -151,7 +151,7 @@ def load_sql_sections():
         FROM content_sections s
         JOIN content_documents d ON d.document_id = s.document_id
         WHERE s.section_kind = 'heading'
-        ORDER BY d.collection_id, d.document_sort_order, s.structure_order
+        ORDER BY d.collection_id, d.sort_order, s.section_order
     ''').fetchall()
     conn.close()
     out = {}
