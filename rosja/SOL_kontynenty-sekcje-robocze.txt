@@ -1,0 +1,180 @@
+SOL — ROBOCZA MAPA: KONTYNENTY -> SEKCJE
+
+CEL
+Przerobić obecne linki A1/A2/... w sekcji „Główne kontynenty tej kolumbryny” z linków do całych dokumentów na linki do konkretnych anchorów.
+
+ŹRÓDŁA DO WYBORU
+- obecna mapa tematów: SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html
+- istniejące mapy/opisy sekcji SOL_opisy-sekcji-*.tsv i SOL_mapa-sekcji-z-opisami.tsv
+- NIE CZYTAMY ani nie wyciągamy treści sekcji z dokumentów HTML.
+- HTML pozostaje docelowym dokumentem; link końcowy prowadzi do fizycznego HTML-a przez stabilny URL + #anchor.
+
+REGUŁY
+- zwykle 1 sekcja z dokumentu, wyjątkowo 2;
+- maksymalnie 8 linków na kontynent;
+- wybór po tytule/opisie metadanych i anchorze;
+- nie dublować rodzica i dziecka, jeśli prowadzą praktycznie do tego samego;
+- jeśli dokument nie ma sensownego szczegółowego anchora, oznaczyć SŁABE zamiast wymyślać trafność.
+
+STATUSY
+[OK] wybór mocny
+[2] sensowny drugi link z tego samego dokumentu
+[SŁABE] obecny dokument jest przypięty do kontynentu, ale dostępna mapa sekcji nie daje dobrego precyzyjnego celu
+
+============================================================
+01. UKRAINA JAKO PROJEKTANT KAMPANII SYSTEMOWEJ
+OBECNE: A1 A2 A3 A4 A6
+[OK] A1 | front-spirala-opl | Front i spirala OPL
+[OK] A2 | synteza-ewolucyjna | Pięć progów dojrzewania kampanii
+[OK] A3 | lista-celow | Chronologia, klasy celów, zasięg i rytm kampanii
+[OK] A4 | skala-hurtu | Z pojedynczych trafień do bilansu całych klas zdolności
+[OK] A6 | uderzenie-2806 | Jedna fala przeciw trzem obiektom naftowym
+RAZEM: 5
+
+02. SPIRALA OPL -> RAFINERIE -> PALIWO -> FRONT
+OBECNE: A1 A2 A5 A6
+[OK] A1 | front-spirala-opl | Sprzężenie front–OPL–rafinerie
+[OK] A2 | front-olexandrivka-uzasadnienie | Skutek degradacji logistyki i OPL na froncie
+[SŁABE] A5 | nosorozce-stan-31-05 | A5 ma tylko zbiorczy blok rewizji 24 procesów, brak precyzyjnego anchora OPL/paliwo
+[OK] A6 | offline-slack | Wyłączenia zjadły dawny luz mocy rafineryjnych
+RAZEM: 4
+
+03. PALIWO JAKO UKŁAD, NIE LICZBA BARYŁEK
+OBECNE: A2 A4 A6
+[OK] A2 | rynek-paliw-siedem-brakow | Siedem równoległych awarii systemu paliwowego
+[OK] A4 | przerob-dno-dwudziestolecia | Przerób ropy na minimum od dwóch dekad
+[OK] A6 | czesc-materia | Bilans paliw, slack, stock i logistyka
+[2] A6 | cebula-transportowa | Kolej, dystans i tabor jako wąskie gardła
+RAZEM: 4
+
+04. KRYM PRZEKSZTAŁCANY Z PÓŁWYSPU W WYSPĘ
+OBECNE: A2 A3
+[OK] A2 | trzy-wektory | Ląd, morze i most jako kanały zaopatrzenia
+[2] A2 | krym-wyspa | Utrata połączeń i wyspa logistyczna
+[OK] A3 | okres-16 | Krym jako wyspa w najnowszej fazie kampanii
+RAZEM: 3
+
+05. LOGISTYKA JAKO ANATOMIA PAŃSTWA
+OBECNE: A1 A2 A4 A5 A6
+[OK] A1 | infrastruktura-kolej-rury-samoloty | Kolej, rury i lotnictwo
+[OK] A2 | rynek-kolej | Kolej przeciążona degradacją, wojną i dywersją
+[OK] A4 | kolej | Spadek przewozów, kadry i majątek
+[2] A4 | lotnictwo | Kanibalizacja części i awaryjność lotnictwa
+[SŁABE] A5 | nosorozce-stan-31-05 | Tylko zbiorczy audyt procesów
+[OK] A6 | cebula-transportowa | Przepustowość, tabor i odległość
+RAZEM: 6
+
+06. ENERGETYKA I ROSYJSKA SIEĆ ELEKTROENERGETYCZNA
+OBECNE: A2 A4
+[OK] A2 | energetyka-siec-bez-redundancji | Kruchość rosyjskiego systemu energetycznego
+[2] A2 | energetyka-ues-topologia | Siedem stref UES i wąskie korytarze przesyłowe
+[SŁABE] A4 | cieplownictwo | Najbliższy rosyjski wątek energetyczny w A4; dotyczy jednak głównie infrastruktury grzewczej, nie topologii UES
+RAZEM: 3
+
+07. KLIMAT JAKO UCZESTNIK WOJNY BEZ KONTA NA TELEGRAMIE
+OBECNE: A2
+[OK] A2 | klimat-cascade-gradient | Klimat -> energia, logistyka i budżet
+[2] A2 | klimat-kaskada-lato-2026 | Upał i susza -> chłodzenie elektrowni i deficyt mocy
+RAZEM: 2
+
+08. GOSPODARKA W CZASIE TERAŹNIEJSZYM CIĄGŁYM
+OBECNE: A1 A2 A4 A5
+[OK] A1 | budzet-nwf-hormuz | Budżet, deficyt i NWF
+[OK] A2 | dwa-procesy-a-b | Degradacja frontu dziś, strangulacja gospodarki jutro
+[OK] A4 | zapasc | Równoległa degradacja budżetu, rolnictwa, rezerw, transportu i firm
+[2] A4 | budzet | Deficyt mimo odsuwania reguł fiskalnych
+[SŁABE] A5 | nosorozce-stan-31-05 | Zbiorczy audyt 24 procesów, brak osobnego bloku gospodarki
+RAZEM: 5
+
+09. BANKOWOŚĆ JAKO NAJKRÓTSZY ZAPALNIK
+OBECNE: A1 A4 A5
+[SŁABE] A1 | bestiariusz-szare-nosorozce | Bankowość jest częścią systemu, ale A1 nie ma osobnego anchora bankowego
+[OK] A4 | bankowosc | Utajony kryzys bankowy jako szybki mechanizm przejścia do paniki
+[2] A4 | dlaczego-najkrotszy | Percepcja może zmienić kryzys utajony w jawny w ciągu dni
+[SŁABE] A5 | nosorozce-stan-31-05 | Zbiorczy audyt, bez osobnego anchora bankowego
+RAZEM: 4
+
+10. LUDZIE JAKO ZASÓB NIEODNAWIALNY
+OBECNE: A1 A2 A4 A5
+[OK] A1 | spoleczenstwo-na-krawedzi | Brain drain, presja płacowa i wakaty
+[SŁABE] A2 | skorowidz-ludzi | A2 nie ma w mapie opisów osobnej sekcji o demografii/zasobie ludzkim; skorowidz jest tylko najbliższym technicznym punktem
+[OK] A4 | mobilizacja | Werbunek, cichy pobór i ryzyko pełnej mobilizacji
+[2] A4 | zabralaby-specjalistow | Mobilizacja odbiera gospodarce techników potrzebnych także wojsku
+[SŁABE] A5 | nosorozce-stan-31-05 | Zbiorczy audyt procesów
+RAZEM: 5
+
+11. CHINY JAKO PATRON I WIERZYCIEL, NIE SOJUSZNIK
+OBECNE: A1 A2 A4 A5 A7
+[OK] A1 | steelmanning-systemu | Chiny jako jeden z najmocniejszych argumentów za trwałością systemu
+[SŁABE] A2 | komunikat-wieloadresatowy | Pekin występuje jako odbiorca sygnału, ale A2 nie ma w mapie opisów osobnego bloku o zależności od Chin
+[OK] A4 | chinski-substytut | Zastąpienie Zachodu pogłębia jednostronną zależność
+[2] A4 | gaz-oba-kierunki | Chiny nie zastępują skali ani warunków utraconego rynku europejskiego
+[SŁABE] A5 | nosorozce-stan-31-05 | Zbiorczy audyt
+[OK] A7 | hierarchia | Rosja z patrona spada do roli klienta Chin
+[2] A7 | chiny-integralnosc | Pekin traktuje integralność Rosji instrumentalnie
+RAZEM: 7
+
+12. PRZEMYSŁ WOJENNY I ZERWANE ŁAŃCUCHY ZASTĘPOWALNOŚCI
+OBECNE: A2 A4
+[OK] A2 | po-tupolewa-do-sklepu | Nieodtwarzalne platformy sowieckie
+[2] A2 | uwaga-a50-precedens | Utrata A-50 jako precedens nieodtwarzalnej degradacji
+[OK] A4 | przemysl-domkniecia | Uderzenia + komponenty + brak ludzi spinają presję na zbrojeniówkę
+[2] A4 | waskie-gardlo | Ograniczeniem są części i technologie, nie hale
+RAZEM: 4
+
+13. ROSYJSKIE ADAPTACJE, KTÓRE NAPRAWDĘ DZIAŁAJĄ
+OBECNE: A4
+[OK] A4 | adaptacja | Steelmanning rosyjskich mechanizmów odporności
+[2] A4 | flota-cieni | Trwała instytucja eksportowa mimo sankcji
+RAZEM: 2
+
+14. PUTIN JAKO OSOBNA FUNKCJA CELU
+OBECNE: A1 D5 A6
+[OK] A1 | nie-pytanie-o-pieniadze | Osobista funkcja celu dyktatora
+[OK] D5 | putin-cornered-animal | Mapa opcji zapędzonego autokraty
+[2] D5 | scenariusze-desperacji | Ruchy resztkowe przy zamykających się drogach wyjścia
+[OK] A6 | rosja-rowna-putin | Interes państwa rozchodzi się z interesem decydenta
+[2] A6 | paradoks-zapedzenia | Im mniej wyjść, tym atrakcyjniejszy ruch wysokiego ryzyka
+RAZEM: 5
+
+15. ELITY I MOMENT PRZELICZENIA LOJALNOŚCI
+OBECNE: A1 A2 D5 A6 A7
+[OK] A1 | elity-odlaczaja-sie-od-putina | Koszt lojalności kontra koszt odejścia
+[SŁABE] A2 | tradycja-rosyjskiego-samobojstwa | Dotyczy elit, ale nie bezpośrednio przeliczenia lojalności; brak lepszego osobnego anchora w mapie opisów A2
+[OK] D5 | kiedy-elity-odlacza-sie-od-putina | Bezpośrednio o punkcie odłączenia elit
+[OK] A6 | zablokowana-elita | Zamknięte wyjście i ryzyko nagłego flipu
+[OK] A7 | spoiwo | Trzy warstwy trzymania Rosji jako warunkowa kalkulacja
+RAZEM: 5
+
+16. JAK WŁAŚCIWIE KOŃCZĄ SIĘ PAŃSTWA
+OBECNE: A7
+[OK] A7 | osiem-trybow | Osiem mechanizmów końca państwa
+[2] A7 | filtr-rosyjski | Które tryby są realne dla współczesnej Rosji
+RAZEM: 2
+
+17. CO NAPRAWDĘ SPAJA ROSJĘ
+OBECNE: A6 A7
+[OK] A6 | cztery-osie | Lojalność elit jako jeden z kurczących się zapasów systemu
+[OK] A7 | spoiwo | Siłowicy, biurokracja i oligarchowie jako trzy warstwy kalkulacji
+[2] A7 | synteza | Spoiwo zależne od postrzeganej siły i wypłacalności centrum
+RAZEM: 3
+
+18. ARSENAŁ NUKLEARNY I KONTROLA CENTRUM
+OBECNE: A1 A5 A7
+[OK] A1 | arsenal-nuklearny | Starzenie nośników i ograniczenia odstraszania
+[SŁABE] A5 | nosorozce-stan-31-05 | A5 nie ma osobnego anchora nuklearnego
+[OK] A7 | filtr-rosyjski | Filtr trybów końca dla ogromnej Rosji nuklearnej
+RAZEM: 3
+
+============================================================
+
+PUNKTY DO ROZSTRZYGNIĘCIA PRZED EDYCJĄ HTML
+1. A5 jest zbyt grubo podzielony. W wielu kontynentach jedynym sensownym celem jest ten sam zbiorczy anchor nosorozce-stan-31-05.
+2. A2 ma słabe dopasowanie dla „Ludzie”, „Chiny” i „Elity”. Nie należy udawać precyzji. Można:
+   a) zostawić słabszy link,
+   b) usunąć dany dokument z tego jednego kontynentu,
+   c) jeśli istnieje lepszy opis/metadana poza obecną mapą opisów — użyć jej po weryfikacji.
+3. A4 w kontynencie energetycznym ma tylko pośrednio pasujące cieplownictwo; właściwa topologia UES siedzi bardzo dobrze w A2.
+4. Po zatwierdzeniu wyborów zmienić WYŁĄCZNIE mapę tematów (PL), potem odpowiednik EN.
+5. Końcowy format linku: stabilny katalog dokumentu + #anchor. Bez linkowania do plików wersjonowanych.
+6. Po zmianie automatycznie sprawdzić wszystkie hrefy i anchory.
