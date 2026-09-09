@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>Techniczne · Maciej Tora</title>
-<meta name="description" content="Narzędzia techniczne, integracje i infrastruktura używana przez projekty w repozytorium.">
+<meta name="description" content="Narzędzia techniczne, integracje, infrastruktura i opis danych przechowywanych w SQL.">
 <style>
 :root{--bg:#0b1815;--bg2:#10251f;--panel:#13241e;--ink:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--soft:rgba(242,231,207,.10)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 8%,rgba(224,170,67,.09),transparent 30%),linear-gradient(180deg,var(--bg2),var(--bg));color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}.shell{width:min(1050px,calc(100% - 30px));margin:auto;padding:26px 0 56px}a{color:inherit}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--soft)}.top a{color:var(--hot);text-decoration:none}.lang{padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:.78rem;font-weight:800}header{padding:58px 0 34px}.eyebrow{color:var(--hot);font-size:.76rem;font-weight:850;letter-spacing:.17em;text-transform:uppercase}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,9vw,6.8rem);line-height:.92;font-weight:500;letter-spacing:-.045em;margin:8px 0 20px}.lead{max-width:790px;color:var(--muted);font-size:1.08rem}.section-title{margin:42px 0 14px;font-family:Georgia,"Times New Roman",serif;font-size:2rem;font-weight:500}.viewer{display:block;padding:24px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));text-decoration:none}.viewer strong{display:block;color:var(--hot);font-size:1.35rem;margin-bottom:5px}.viewer span{color:var(--muted)}.tools{display:grid;gap:10px}.tool{display:grid;grid-template-columns:54px 180px 1fr;gap:14px;padding:16px 18px;border:1px solid var(--soft);border-radius:12px;background:rgba(255,255,255,.025)}.no{color:var(--hot);font-weight:850}.name{font-weight:800}.desc{color:var(--muted)}code{color:var(--hot)}.flow{margin-top:18px;padding:18px;border-left:2px solid var(--amber);background:rgba(255,255,255,.025);color:var(--muted)}footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--soft);color:var(--muted);font-size:.82rem}@media(max-width:720px){.tool{grid-template-columns:40px 1fr}.desc{grid-column:2}.top{align-items:flex-start}header{padding-top:42px}}
@@ -28,6 +28,20 @@
     <span>Pokazuje bieżący stan faktycznej bazy Turso: tabele, kolumny, PK, FK, liczbę rekordów i dostępne informacje o rozmiarze. Dane są pobierane na żywo przez API, a nie odtwarzane z dokumentacji w repozytorium.</span>
   </a>
 
+  <h2 class="section-title">Co właściwie trzymamy w SQL-u</h2>
+  <p class="lead">To nie jest tylko magazyn piosenek. W jednej bazie trzymamy uporządkowane dane potrzebne do analizy muzyki oraz mapowania treści projektów Rosja i AuDHD.</p>
+  <div class="tools">
+    <div class="tool"><div class="no">01</div><div class="name">Piosenki</div><div class="desc">Podstawowe informacje o utworach: tytuły, wykonawcy, albumy, kolejność na liście, identyfikatory Spotify i nasze własne identyfikatory. Jest też zapis, czy utwór udało się poprawnie połączyć z tekstem i nagraniem.</div></div>
+    <div class="tool"><div class="no">02</div><div class="name">Teksty piosenek</div><div class="desc">Pełne teksty przypisane do konkretnych utworów. To z nich później robimy analizę znaczeń, motywów i zmian w czasie.</div></div>
+    <div class="tool"><div class="no">03</div><div class="name">Znaczenia i tagi</div><div class="desc">Słownik motywów i stanów pojawiających się w tekstach, na przykład samotność, maskowanie, ulga, gniew czy sensoryka. Trzymamy ich definicje, rodziny i osie znaczeniowe oraz informacje o wydźwięku i kierunku znaczenia.</div></div>
+    <div class="tool"><div class="no">04</div><div class="name">Tagi przypisane do tekstów</div><div class="desc">Dla poszczególnych tekstów zapisujemy, jakie tagi zostały im przypisane i kiedy powstało dane tagowanie. Dzięki temu można szukać wzorców nie tylko w jednej piosence, ale w całej bibliotece.</div></div>
+    <div class="tool"><div class="no">05</div><div class="name">Audio</div><div class="desc">Informacje o plikach dźwiękowych i ich połączeniu z utworami oraz szczegółowe pomiary brzmienia: głośność, stereo, częstotliwości, barwa, rytm, tempo, tonacja i wiele cech używanych do porównywania nagrań.</div></div>
+    <div class="tool"><div class="no">06</div><div class="name">Rosja i AuDHD</div><div class="desc">Mapę treści obu działów: jakie mamy dokumenty, jak są podzielone na sekcje, jaka jest ich kolejność i hierarchia, gdzie prowadzą anchory oraz jakie opisy mają poszczególne fragmenty.</div></div>
+    <div class="tool"><div class="no">07</div><div class="name">Słowa kluczowe sekcji</div><div class="desc">Wspólny słownik pojęć oraz przypisania tych pojęć do sekcji tekstów, między innymi w AuDHD. Pozwala to łączyć różne fragmenty po znaczeniu, nawet gdy są napisane innymi słowami.</div></div>
+  </div>
+
+  <div class="flow"><strong>Po ludzku:</strong><br>HTML pokazuje treść człowiekowi. SQL pamięta, co jest czym, co do czego należy, co z czym się łączy i co potem można policzyć albo porównać.</div>
+
   <h2 class="section-title">Co jest do czego podłączone</h2>
   <div class="tools">
     <div class="tool"><div class="no">01</div><div class="name">GitHub</div><div class="desc">Główne repozytorium plików projektu: HTML, Python, konfiguracja, dane pomocnicze i historia zmian.</div></div>
@@ -41,7 +55,7 @@
 
   <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → Turso / libSQL. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
 
-  <footer>Techniczne · aktualny opis używanych narzędzi i integracji</footer>
+  <footer>Techniczne · aktualny opis używanych narzędzi, integracji i danych w SQL</footer>
 </div>
 </body>
 </html>
