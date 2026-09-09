@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/sol-audio-middle-match-once.yml'
+      - 'piosenki/SOL_match-audio-middle-end-v01.py'
 
 permissions:
   contents: read
