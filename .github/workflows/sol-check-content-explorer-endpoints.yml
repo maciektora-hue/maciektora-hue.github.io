@@ -23,6 +23,9 @@ jobs:
               'rosja': 620,
               'audhd': 338,
           }
+          PROUST_CHARS = 9_609_000
+          PAGE_CHARS = 1800
+          PROUST_PAGES = PROUST_CHARS / PAGE_CHARS
 
           def fetch(collection):
               url = f'https://piosenki-api.onrender.com/api/content/{collection}/explorer'
@@ -37,6 +40,7 @@ jobs:
                       status, data = fetch(collection)
                       payloads[collection] = (status, data)
                       rows = data.get('rows') or []
+                      stats = data.get('stats') or {}
                       headings = [r for r in rows if r.get('section_kind') == 'heading']
                       metrics_ready = sum(
                           1 for r in headings
@@ -45,16 +49,21 @@ jobs:
                           and r.get('word_count') is not None
                           and r.get('normalized_pages') is not None
                       )
-                      if status != 200 or metrics_ready != sections_expected:
+                      proust_ready = all(
+                          stats.get(key) is not None
+                          for key in ('total_chars', 'normalized_pages', 'proust_ratio', 'proust_reference_chars', 'proust_reference_pages')
+                      )
+                      if status != 200 or metrics_ready != sections_expected or not proust_ready:
                           all_ok = False
                   if all_ok:
                       break
               except Exception:
                   payloads = {}
               if attempt == 19:
-                  raise RuntimeError('Content Explorer metrics did not become live')
+                  raise RuntimeError('Content Explorer Proust scale did not become live')
               time.sleep(15)
 
+          total_chars_all = 0
           for collection, sections_expected in expected.items():
               status, data = payloads[collection]
               if status != 200:
@@ -88,17 +97,37 @@ jobs:
                       raise RuntimeError(f"{collection}: missing metrics section_id={row.get('section_id')}")
                   if not (0 <= word_count <= letter_count <= char_count):
                       raise RuntimeError(f"{collection}: bad metrics section_id={row.get('section_id')}")
-                  expected_pages = char_count / 1800.0
+                  expected_pages = char_count / PAGE_CHARS
                   if abs(normalized_pages - expected_pages) > 1e-9:
                       raise RuntimeError(f"{collection}: bad normalized_pages section_id={row.get('section_id')}")
                   metrics_ready += 1
 
+              total_chars = int(stats['total_chars'])
+              normalized_pages = float(stats['normalized_pages'])
+              proust_ratio = float(stats['proust_ratio'])
+              if int(stats['proust_reference_chars']) != PROUST_CHARS:
+                  raise RuntimeError(f'{collection}: bad Proust chars reference')
+              if abs(float(stats['proust_reference_pages']) - PROUST_PAGES) > 1e-9:
+                  raise RuntimeError(f'{collection}: bad Proust pages reference')
+              if abs(normalized_pages - total_chars / PAGE_CHARS) > 1e-9:
+                  raise RuntimeError(f'{collection}: bad total normalized pages')
+              if abs(proust_ratio - total_chars / PROUST_CHARS) > 1e-12:
+                  raise RuntimeError(f'{collection}: bad Proust ratio')
+              total_chars_all += total_chars
+
               print(
                   f'CONTENT_EXPLORER_OK collection={collection} '
                   f'http={status} rows={len(rows)} sections={sections} '
-                  f'metrics={metrics_ready} pages_divisor=1800 '
+                  f'metrics={metrics_ready} pages_divisor={PAGE_CHARS} '
+                  f'total_chars={total_chars} normalized_pages={normalized_pages:.3f} '
+                  f'proust={proust_ratio:.6f} '
                   f'titles_en={translated_titles} descriptions_en={translated_descriptions} '
                   f'keyworded_sections={stats.get("keyworded_sections")} '
                   f'keyword_links={stats.get("keyword_links")}'
               )
+
+          print(
+              f'PROUST_SCALE_OK chars={PROUST_CHARS} pages={PROUST_PAGES:.3f} '
+              f'total_chars={total_chars_all} total_proust={total_chars_all / PROUST_CHARS:.6f}'
+          )
           PY
