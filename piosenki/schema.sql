@@ -92,7 +92,10 @@ CREATE TABLE middle_end (
   match_status TEXT,
   match_candidates TEXT,
   match_note TEXT,
-  lyrics_status TEXT
+  lyrics_status TEXT,
+  audio_id TEXT REFERENCES audio(audio_id),
+  youtube_video_id TEXT,
+  audio_match_quality TEXT
 );
 
 CREATE TABLE tag_snapshots (
@@ -142,6 +145,13 @@ CREATE TABLE IF NOT EXISTS audio_middle_end (
         OR
         (match_status IN ('out', 'uncertain'))
     )
+);
+
+CREATE TABLE IF NOT EXISTS audio_match_details (
+    utwu_id TEXT PRIMARY KEY REFERENCES middle_end(utwu_id),
+    audio_id TEXT NOT NULL REFERENCES audio(audio_id),
+    variant_type TEXT NOT NULL,
+    note TEXT
 );
 
 CREATE TABLE IF NOT EXISTS audio_feature_snapshots (
