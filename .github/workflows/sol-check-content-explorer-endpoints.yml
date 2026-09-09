@@ -1,0 +1,57 @@
+name: SOL check content explorer endpoints
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-check-content-explorer-endpoints.yml'
+  workflow_dispatch:
+
+jobs:
+  check-endpoints:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Rosja and AuDHD explorer endpoints
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.request
+
+          expected = {
+              'rosja': 620,
+              'audhd': 338,
+          }
+
+          for collection, sections_expected in expected.items():
+              url = f'https://piosenki-api.onrender.com/api/content/{collection}/explorer'
+              with urllib.request.urlopen(url, timeout=60) as response:
+                  status = response.status
+                  data = json.load(response)
+
+              if status != 200:
+                  raise RuntimeError(f'{collection}: HTTP {status}')
+              if data.get('status') != 'ok':
+                  raise RuntimeError(f"{collection}: API status={data.get('status')!r}")
+
+              stats = data.get('stats') or {}
+              rows = data.get('rows') or []
+              sections = int(stats.get('sections') or 0)
+              translated_titles = int(stats.get('translated_titles') or 0)
+              translated_descriptions = int(stats.get('translated_descriptions') or 0)
+
+              if sections != sections_expected:
+                  raise RuntimeError(f'{collection}: sections={sections}, expected={sections_expected}')
+              if translated_titles != sections_expected:
+                  raise RuntimeError(f'{collection}: translated_titles={translated_titles}, expected={sections_expected}')
+              if translated_descriptions != sections_expected:
+                  raise RuntimeError(f'{collection}: translated_descriptions={translated_descriptions}, expected={sections_expected}')
+              if not rows:
+                  raise RuntimeError(f'{collection}: empty rows')
+
+              print(
+                  f'CONTENT_EXPLORER_OK collection={collection} '
+                  f'http={status} rows={len(rows)} sections={sections} '
+                  f'titles_en={translated_titles} descriptions_en={translated_descriptions} '
+                  f'keyworded_sections={stats.get("keyworded_sections")} '
+                  f'keyword_links={stats.get("keyword_links")}'
+              )
+          PY
