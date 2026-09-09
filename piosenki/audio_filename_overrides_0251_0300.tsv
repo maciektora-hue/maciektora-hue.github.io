@@ -1,0 +1,5 @@
+number	artist_original	title_original	note
+256	Imagine Dragons	Believer (Live/Acoustic)	uploader is artist; slash in title was falsely treated as artist-title separator
+270	Genesis	I Can't Dance (Remastered 2007)	uploader/channel is unrelated; artist is embedded at end of video title
+291	Queen	Another One Bites The Dust (Remastered 2011)	uploader is a Queen fan/channel label, not canonical artist
+298	twenty one pilots	Stressed Out [OFFICIAL VIDEO]	artist is embedded before colon; uploader is label/channel
