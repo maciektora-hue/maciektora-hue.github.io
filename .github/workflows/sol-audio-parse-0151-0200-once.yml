@@ -1,0 +1,112 @@
+name: SOL parse audio filenames 0151-0200 once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-audio-parse-0151-0200-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  parse-audio-filenames:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse filenames 0151-0200 to TSV
+        run: |
+          python - <<'PY'
+          import csv
+          import re
+          import unicodedata
+          from pathlib import Path
+
+          src = Path('piosenki/audio_features_v08.csv')
+          dst = Path('piosenki/audio_filename_parsed_0151_0200.tsv')
+
+          def normalized(value):
+              value = unicodedata.normalize('NFKC', value or '').casefold()
+              return ' '.join(value.split())
+
+          def strip_diacritics(value):
+              value = unicodedata.normalize('NFKD', value or '')
+              return ''.join(ch for ch in value if not unicodedata.combining(ch))
+
+          def parsed_title(value):
+              value = strip_diacritics(value).casefold()
+              value = ''.join(ch if ch.isalnum() else ' ' for ch in value)
+              return ' '.join(value.split())
+
+          def parsed_artist(value):
+              value = strip_diacritics(value).casefold()
+              parts = re.split(r'\s*[,;]\s*', value)
+              out = []
+              for part in parts:
+                  part = ''.join(ch if ch.isalnum() else ' ' for ch in part)
+                  part = ' '.join(part.split())
+                  if part:
+                      out.append(part)
+              return ' | '.join(out)
+
+          def parse_filename(filename):
+              m = re.match(r'^(\d+)\s*-\s*(.*?)\s*-\s*(.*?)\s*\[([A-Za-z0-9_-]{11})\]\.[^.]+$', filename)
+              if not m:
+                  return None
+              return int(m.group(1)), m.group(2).strip(), m.group(3).strip(), m.group(4)
+
+          selected = []
+          with src.open('r', encoding='utf-8-sig', newline='') as f:
+              reader = csv.DictReader(f)
+              if 'plik' not in (reader.fieldnames or []):
+                  raise RuntimeError(f'Brak kolumny plik; kolumny={reader.fieldnames!r}')
+              for row in reader:
+                  filename = (row.get('plik') or '').strip()
+                  parsed = parse_filename(filename)
+                  if not parsed:
+                      continue
+                  number, artist, title, ytid = parsed
+                  if 151 <= number <= 200:
+                      selected.append({
+                          'number': number,
+                          'source_filename': filename,
+                          'artist_original': artist,
+                          'artist_normalized': normalized(artist),
+                          'artist_parsed': parsed_artist(artist),
+                          'title_original': title,
+                          'title_normalized': normalized(title),
+                          'title_parsed': parsed_title(title),
+                          'youtube_video_id': ytid,
+                      })
+
+          selected.sort(key=lambda r: r['number'])
+          found = {r['number'] for r in selected}
+          missing = [n for n in range(151, 201) if n not in found]
+          duplicates = sorted(n for n in found if sum(1 for r in selected if r['number'] == n) > 1)
+          if duplicates:
+              raise RuntimeError(f'Duplikaty numerow w zakresie: {duplicates}')
+
+          fields = [
+              'number', 'source_filename',
+              'artist_original', 'artist_normalized', 'artist_parsed',
+              'title_original', 'title_normalized', 'title_parsed',
+              'youtube_video_id',
+          ]
+          with dst.open('w', encoding='utf-8', newline='') as f:
+              writer = csv.DictWriter(f, fieldnames=fields, delimiter='\t', lineterminator='\n')
+              writer.writeheader()
+              writer.writerows(selected)
+
+          print(f'ROWS={len(selected)}')
+          print('MISSING=' + (','.join(map(str, missing)) if missing else 'NONE'))
+          print(f'OUTPUT={dst}')
+          PY
+
+      - name: Commit TSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/audio_filename_parsed_0151_0200.tsv
+          git diff --cached --quiet || git commit -m "Add parsed audio filenames 0151-0200"
+          git push
