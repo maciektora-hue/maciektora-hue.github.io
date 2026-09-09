@@ -1,0 +1,8 @@
+audio_number	audio_id	youtube_video_id	utwu_id	decision	variant_type	note
+202	audio-0202	7jMlFXouPk8	utwu-000720	use	version_difference	Audio: High Hopes (Official Music Video HD); middle_end: High Hopes - 2011 Remaster. Ten sam utwór Pink Floyd, różnica wersji/opisu źródła.
+213	audio-0213	Pdjwgreie30	utwu-000731	use	metadata_difference	Audio: Coming Back to Life (2011 Remastered Version); middle_end: Coming Back To Life - 2011 Remaster. Ta sama wersja opisana innymi słowami.
+228	audio-0228	-jPdXvoU1H0	utwu-000690	use	metadata_difference	Audio: Agit - 0125; middle_end: Agit. Ten sam artysta i rdzeń tytułu; dodatkowe 0125 traktowane jako oznaczenie źródła/metadanych.
+231	audio-0231	-U12yBnxXX8	utwu-000693	use	mix_label_difference	Audio: See It Coming (Original Mix); middle_end: See It Coming. Ten sam utwór Raz Ohara; audio jawnie oznaczone jako Original Mix.
+235	audio-0235	D6MCzIuEp4g	utwu-000697	use	credit_difference	Audio: Slowdive - Sugar for the Pill (Recable Remix); middle_end kredytuje Recable i tytuł zawiera Slowdive. Ten sam remix, inny sposób zapisania kredytów.
+237	audio-0237	I3YOXuejX1A	utwu-000699	use	credit_difference	Audio kredytuje Flunk oraz członków zespołu; middle_end: Flunk - Petrified. Ten sam utwór, rozszerzone kredyty w źródle audio.
+247	audio-0247	7FI2fbn-MqU	utwu-000941	use	featured_artist_difference	Audio: Wojtek Szumański - Kiedy nagle to wróciło; middle_end: Wojtek Szumański, MINT. - Kiedy nagle to wróciło. Ten sam utwór, różnica w kredycie współartysty.
