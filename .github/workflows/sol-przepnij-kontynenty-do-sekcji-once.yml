@@ -1,0 +1,36 @@
+name: SOL przepnij kontynenty do sekcji once
+
+on:
+  push:
+    paths:
+      - 'rosja/SOL_przepnij-kontynenty-do-sekcji.py'
+      - '.github/workflows/sol-przepnij-kontynenty-do-sekcji-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Przepnij główne kontynenty do konkretnych sekcji
+        run: python rosja/SOL_przepnij-kontynenty-do-sekcji.py
+      - name: Walidacja diff
+        run: git diff --check
+      - name: Commit i push
+        run: |
+          if git diff --quiet -- rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html; then
+            echo 'ERROR: mapa nie została zmieniona'
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html
+          git commit -m 'Przepnij kontynenty mapy do konkretnych sekcji'
+          git push
