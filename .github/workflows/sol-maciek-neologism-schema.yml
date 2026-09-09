@@ -1,0 +1,64 @@
+name: SOL Maciek neologism schema
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-maciek-neologism-schema.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  alter-keyword-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Add maciek_neologism columns and verify
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+
+          targets = ('content_keyword_concepts', 'content_keyword_terms')
+          for table in targets:
+              cols = [row[1] for row in conn.execute(f'PRAGMA table_info({table})').fetchall()]
+              if 'maciek_neologism' not in cols:
+                  conn.execute(
+                      f'''ALTER TABLE {table}
+                          ADD COLUMN maciek_neologism INTEGER
+                          CHECK (maciek_neologism IS NULL OR maciek_neologism = 1)'''
+                  )
+                  print(f'{table}: ALTER_OK')
+              else:
+                  print(f'{table}: COLUMN_ALREADY_EXISTS')
+
+          conn.commit()
+
+          for table in targets:
+              cols = conn.execute(f'PRAGMA table_info({table})').fetchall()
+              matches = [row for row in cols if row[1] == 'maciek_neologism']
+              if len(matches) != 1:
+                  raise RuntimeError(f'{table}: verification failed, matches={matches!r}')
+              nonnull = conn.execute(
+                  f'SELECT COUNT(*) FROM {table} WHERE maciek_neologism IS NOT NULL'
+              ).fetchone()[0]
+              if nonnull != 0:
+                  raise RuntimeError(f'{table}: expected all existing rows NULL, nonnull={nonnull}')
+              print(f'{table}: VERIFY_OK existing_nonnull=0')
+
+          print('MACIEK_NEOLOGISM_SCHEMA_OK')
+          conn.close()
+          PY
