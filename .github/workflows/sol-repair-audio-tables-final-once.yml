@@ -1,0 +1,256 @@
+name: SOL repair final audio tables once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-repair-audio-tables-final-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Extract fresh final mapping files
+        run: |
+          mkdir -p /tmp/audio-sql
+          unzip -j piosenki/SOL_audio-SQL-wszystkie.zip \
+            'SOL_audio-SQL-READY-*.tsv' \
+            'SOL_audio-SQL-REVIEW-*.tsv' \
+            'SOL_audio-SQL-UNMATCHED-*.tsv' \
+            -d /tmp/audio-sql
+
+      - name: Repair middle_end audio_match_details audio_middle_end
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv
+          import glob
+          import os
+          import libsql
+
+          def read_all(pattern):
+              rows = []
+              for path in sorted(glob.glob(pattern)):
+                  with open(path, encoding='utf-8', newline='') as f:
+                      rows.extend(csv.DictReader(f, delimiter='\t'))
+              return rows
+
+          ready = read_all('/tmp/audio-sql/SOL_audio-SQL-READY-*.tsv')
+          review = read_all('/tmp/audio-sql/SOL_audio-SQL-REVIEW-*.tsv')
+          unmatched = read_all('/tmp/audio-sql/SOL_audio-SQL-UNMATCHED-*.tsv')
+
+          if len(ready) != 665:
+              raise RuntimeError(f'READY={len(ready)} zamiast 665')
+          if len(review) != 182:
+              raise RuntimeError(f'REVIEW={len(review)} zamiast 182')
+          if len(unmatched) != 9:
+              raise RuntimeError(f'UNMATCHED={len(unmatched)} zamiast 9')
+
+          if any(r.get('decision') != 'use' for r in review):
+              raise RuntimeError('REVIEW zawiera decision != use')
+          if any(not (r.get('variant_type') or '').strip() for r in review):
+              raise RuntimeError('REVIEW zawiera pusty variant_type')
+
+          ready_audio = [r['audio_id'] for r in ready]
+          review_audio = [r['audio_id'] for r in review]
+          unmatched_audio = [r['audio_id'] for r in unmatched]
+          all_audio = ready_audio + review_audio + unmatched_audio
+
+          ready_utwu = [r['candidate_utwu_id'] for r in ready]
+          review_utwu = [r['utwu_id'] for r in review]
+          mapped_utwu = ready_utwu + review_utwu
+
+          if len(all_audio) != 856 or len(set(all_audio)) != 856:
+              raise RuntimeError(f'audio_id nie są 856 unikalnymi rekordami: {len(all_audio)}/{len(set(all_audio))}')
+          if len(mapped_utwu) != 847 or len(set(mapped_utwu)) != 847:
+              raise RuntimeError(f'utwu_id READY+REVIEW nie są 847 unikalnymi rekordami: {len(mapped_utwu)}/{len(set(mapped_utwu))}')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=os.environ['TURSO_AUTH_TOKEN'],
+          )
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          p_audio = ','.join('?' for _ in all_audio)
+          p_utwu = ','.join('?' for _ in mapped_utwu)
+          p_ready = ','.join('?' for _ in ready_audio)
+          p_review = ','.join('?' for _ in review_audio)
+          p_unmatched = ','.join('?' for _ in unmatched_audio)
+
+          audio_exists = conn.execute(
+              f'SELECT COUNT(*) FROM audio WHERE audio_id IN ({p_audio})', all_audio
+          ).fetchone()[0]
+          if audio_exists != 856:
+              raise RuntimeError(f'W audio istnieje {audio_exists}/856 audio_id')
+
+          utwu_exists = conn.execute(
+              f'SELECT COUNT(*) FROM middle_end WHERE utwu_id IN ({p_utwu})', mapped_utwu
+          ).fetchone()[0]
+          if utwu_exists != 847:
+              raise RuntimeError(f'W middle_end istnieje {utwu_exists}/847 docelowych utwu_id')
+
+          try:
+              conn.execute('BEGIN TRANSACTION')
+
+              # 1. middle_end: wyczyść stare mapowania dla tego zestawu i wpisz świeże READY + REVIEW.
+              conn.execute(
+                  f'''UPDATE middle_end
+                      SET audio_id=NULL, youtube_video_id=NULL, audio_match_quality=NULL
+                      WHERE audio_id IN ({p_audio})''',
+                  all_audio,
+              )
+              conn.execute(
+                  f'''UPDATE middle_end
+                      SET audio_id=NULL, youtube_video_id=NULL, audio_match_quality=NULL
+                      WHERE utwu_id IN ({p_utwu})''',
+                  mapped_utwu,
+              )
+
+              for r in ready:
+                  conn.execute(
+                      '''UPDATE middle_end
+                         SET audio_id=?, youtube_video_id=?, audio_match_quality=?
+                         WHERE utwu_id=?''',
+                      (r['audio_id'], r['youtube_video_id'], r['quality'], r['candidate_utwu_id']),
+                  )
+
+              for r in review:
+                  conn.execute(
+                      '''UPDATE middle_end
+                         SET audio_id=?, youtube_video_id=?, audio_match_quality='review'
+                         WHERE utwu_id=?''',
+                      (r['audio_id'], r['youtube_video_id'], r['utwu_id']),
+                  )
+
+              # 2. audio_match_details: tylko finalne REVIEW.
+              conn.execute(
+                  f'DELETE FROM audio_match_details WHERE audio_id IN ({p_audio})',
+                  all_audio,
+              )
+              conn.execute(
+                  f'DELETE FROM audio_match_details WHERE utwu_id IN ({p_utwu})',
+                  mapped_utwu,
+              )
+              for r in review:
+                  conn.execute(
+                      '''INSERT INTO audio_match_details
+                         (utwu_id, audio_id, variant_type, note)
+                         VALUES (?, ?, ?, ?)''',
+                      (r['utwu_id'], r['audio_id'], r['variant_type'], r['note']),
+                  )
+
+              # 3. audio_middle_end: tylko problematyczne finalne przypadki.
+              conn.execute(
+                  f'DELETE FROM audio_middle_end WHERE audio_id IN ({p_audio})',
+                  all_audio,
+              )
+              for r in review:
+                  conn.execute(
+                      '''INSERT INTO audio_middle_end
+                         (audio_id, utwu_id, match_status, match_note)
+                         VALUES (?, ?, 'matched', ?)''',
+                      (r['audio_id'], r['utwu_id'], r['note']),
+                  )
+              for r in unmatched:
+                  conn.execute(
+                      '''INSERT INTO audio_middle_end
+                         (audio_id, utwu_id, match_status, match_note)
+                         VALUES (?, NULL, 'out', ?)''',
+                      (r['audio_id'], r['reason']),
+                  )
+
+              # Walidacja PRZED COMMIT.
+              me_ready = conn.execute(
+                  f'''SELECT COUNT(*) FROM middle_end
+                      WHERE audio_id IN ({p_ready})
+                        AND audio_match_quality IN ('exact','high')''',
+                  ready_audio,
+              ).fetchone()[0]
+              me_review = conn.execute(
+                  f'''SELECT COUNT(*) FROM middle_end
+                      WHERE audio_id IN ({p_review})
+                        AND audio_match_quality='review' ''',
+                  review_audio,
+              ).fetchone()[0]
+              me_unmatched = conn.execute(
+                  f'SELECT COUNT(*) FROM middle_end WHERE audio_id IN ({p_unmatched})',
+                  unmatched_audio,
+              ).fetchone()[0]
+
+              details_review = conn.execute(
+                  f'SELECT COUNT(*) FROM audio_match_details WHERE audio_id IN ({p_review})',
+                  review_audio,
+              ).fetchone()[0]
+              details_ready = conn.execute(
+                  f'SELECT COUNT(*) FROM audio_match_details WHERE audio_id IN ({p_ready})',
+                  ready_audio,
+              ).fetchone()[0]
+              details_unmatched = conn.execute(
+                  f'SELECT COUNT(*) FROM audio_match_details WHERE audio_id IN ({p_unmatched})',
+                  unmatched_audio,
+              ).fetchone()[0]
+
+              ame_review = conn.execute(
+                  f'''SELECT COUNT(*) FROM audio_middle_end
+                      WHERE audio_id IN ({p_review})
+                        AND match_status='matched'
+                        AND utwu_id IS NOT NULL''',
+                  review_audio,
+              ).fetchone()[0]
+              ame_unmatched = conn.execute(
+                  f'''SELECT COUNT(*) FROM audio_middle_end
+                      WHERE audio_id IN ({p_unmatched})
+                        AND match_status='out'
+                        AND utwu_id IS NULL''',
+                  unmatched_audio,
+              ).fetchone()[0]
+              ame_ready = conn.execute(
+                  f'SELECT COUNT(*) FROM audio_middle_end WHERE audio_id IN ({p_ready})',
+                  ready_audio,
+              ).fetchone()[0]
+              ame_uncertain = conn.execute(
+                  f'''SELECT COUNT(*) FROM audio_middle_end
+                      WHERE audio_id IN ({p_audio}) AND match_status='uncertain' ''',
+                  all_audio,
+              ).fetchone()[0]
+
+              expected = {
+                  'middle_end_ready': (me_ready, 665),
+                  'middle_end_review': (me_review, 182),
+                  'middle_end_unmatched': (me_unmatched, 0),
+                  'details_review': (details_review, 182),
+                  'details_ready': (details_ready, 0),
+                  'details_unmatched': (details_unmatched, 0),
+                  'audio_middle_end_review_matched': (ame_review, 182),
+                  'audio_middle_end_unmatched_out': (ame_unmatched, 9),
+                  'audio_middle_end_ready': (ame_ready, 0),
+                  'audio_middle_end_uncertain': (ame_uncertain, 0),
+              }
+              bad = {k: v for k, v in expected.items() if v[0] != v[1]}
+              if bad:
+                  raise RuntimeError(f'Walidacja przed COMMIT nie przeszła: {bad}')
+
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          print('AUDIO_REPAIR_OK')
+          print('MIDDLE_END_READY=665')
+          print('MIDDLE_END_REVIEW=182')
+          print('AUDIO_MATCH_DETAILS_REVIEW=182')
+          print('AUDIO_MIDDLE_END_MATCHED=182')
+          print('AUDIO_MIDDLE_END_OUT=9')
+          print('AUDIO_MIDDLE_END_READY=0')
+          print('AUDIO_MIDDLE_END_UNCERTAIN=0')
+          conn.close()
+          PY
