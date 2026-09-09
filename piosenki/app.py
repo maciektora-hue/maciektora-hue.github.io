@@ -316,5 +316,9 @@ def statystyki_13():
     )
 
 
+# Rejestruje dodatkowy read-only endpoint Content Explorer w tej samej aplikacji Flask.
+import content_explorer_app  # noqa: E402,F401
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")))
