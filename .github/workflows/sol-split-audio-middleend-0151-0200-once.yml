@@ -23,3 +23,5 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "Split audio-middle_end candidates 0151-0200"
           git push
+
+# rerun after splitter fix
