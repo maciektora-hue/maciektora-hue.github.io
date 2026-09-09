@@ -1,0 +1,72 @@
+name: SOL content section metrics schema
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-content-section-metrics-schema.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  create-metrics-table:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Create and verify content_section_metrics
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+
+          conn.execute('''
+              CREATE TABLE IF NOT EXISTS content_section_metrics (
+                  section_id TEXT PRIMARY KEY,
+                  char_count INTEGER,
+                  letter_count INTEGER,
+                  word_count INTEGER,
+                  source_sha TEXT,
+                  metric_version INTEGER NOT NULL DEFAULT 1,
+                  calculated_at TEXT,
+                  FOREIGN KEY (section_id)
+                      REFERENCES content_sections(section_id)
+              )
+          ''')
+          conn.commit()
+
+          cols = conn.execute('PRAGMA table_info(content_section_metrics)').fetchall()
+          names = [row[1] for row in cols]
+          expected = [
+              'section_id',
+              'char_count',
+              'letter_count',
+              'word_count',
+              'source_sha',
+              'metric_version',
+              'calculated_at',
+          ]
+          if names != expected:
+              raise RuntimeError(f'BAD_SCHEMA names={names!r}')
+
+          fk = conn.execute('PRAGMA foreign_key_list(content_section_metrics)').fetchall()
+          if not any(row[2] == 'content_sections' and row[3] == 'section_id' and row[4] == 'section_id' for row in fk):
+              raise RuntimeError(f'BAD_FOREIGN_KEY fk={fk!r}')
+
+          row_count = conn.execute('SELECT COUNT(*) FROM content_section_metrics').fetchone()[0]
+          print(f'CONTENT_SECTION_METRICS_SCHEMA_OK rows={row_count} columns={len(cols)}')
+          conn.close()
+          PY
