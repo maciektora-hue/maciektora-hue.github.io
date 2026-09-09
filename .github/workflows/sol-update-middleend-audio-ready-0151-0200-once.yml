@@ -1,0 +1,25 @@
+name: SOL update middle_end audio READY 0151-0200 once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-update-middleend-audio-ready-0151-0200-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  update-middle-end:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Update 36 READY rows in middle_end
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: python -u piosenki/SOL_update-middleend-audio-ready-0151-0200-v01.py
