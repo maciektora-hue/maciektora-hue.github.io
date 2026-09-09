@@ -60,6 +60,28 @@ jobs:
           if any(not (r.get('variant_type') or '').strip() for r in review):
               raise RuntimeError('REVIEW zawiera pusty variant_type')
 
+          # Jedyna kolizja 1:1 w świeżych plikach:
+          # audio-0080 i audio-0120 są exact dla dwóch identycznych rekordów
+          # middle_end: utwu-000902 oraz utwu-000863.
+          # Zachowujemy pierwszy wybór dla audio-0080, a drugi dokładny kandydat
+          # przypada audio-0120.
+          collision = {r['audio_id']: r for r in ready if r['audio_id'] in {'audio-0080', 'audio-0120'}}
+          if set(collision) != {'audio-0080', 'audio-0120'}:
+              raise RuntimeError(f'Brak oczekiwanej pary Gold to Straw: {sorted(collision)}')
+
+          for aid in ('audio-0080', 'audio-0120'):
+              r = collision[aid]
+              if not (
+                  r['candidate_utwu_id'] == 'utwu-000902'
+                  and r['second_utwu_id'] == 'utwu-000863'
+                  and r['quality'] == 'exact'
+                  and r['score'] == '1.0000'
+                  and r['second_score'] == '1.0000'
+              ):
+                  raise RuntimeError(f'Nieoczekiwany stan kolizji {aid}: {r}')
+
+          collision['audio-0120']['candidate_utwu_id'] = 'utwu-000863'
+
           ready_audio = [r['audio_id'] for r in ready]
           review_audio = [r['audio_id'] for r in review]
           unmatched_audio = [r['audio_id'] for r in unmatched]
@@ -72,7 +94,7 @@ jobs:
           if len(all_audio) != 856 or len(set(all_audio)) != 856:
               raise RuntimeError(f'audio_id nie są 856 unikalnymi rekordami: {len(all_audio)}/{len(set(all_audio))}')
           if len(mapped_utwu) != 847 or len(set(mapped_utwu)) != 847:
-              raise RuntimeError(f'utwu_id READY+REVIEW nie są 847 unikalnymi rekordami: {len(mapped_utwu)}/{len(set(mapped_utwu))}')
+              raise RuntimeError(f'utwu_id READY+REVIEW nie są 847 unikalnymi rekordami po poprawce: {len(mapped_utwu)}/{len(set(mapped_utwu))}')
 
           conn = libsql.connect(
               database=os.environ['TURSO_DATABASE_URL'],
@@ -101,7 +123,6 @@ jobs:
           try:
               conn.execute('BEGIN TRANSACTION')
 
-              # 1. middle_end: wyczyść stare mapowania dla tego zestawu i wpisz świeże READY + REVIEW.
               conn.execute(
                   f'''UPDATE middle_end
                       SET audio_id=NULL, youtube_video_id=NULL, audio_match_quality=NULL
@@ -131,7 +152,6 @@ jobs:
                       (r['audio_id'], r['youtube_video_id'], r['utwu_id']),
                   )
 
-              # 2. audio_match_details: tylko finalne REVIEW.
               conn.execute(
                   f'DELETE FROM audio_match_details WHERE audio_id IN ({p_audio})',
                   all_audio,
@@ -148,7 +168,6 @@ jobs:
                       (r['utwu_id'], r['audio_id'], r['variant_type'], r['note']),
                   )
 
-              # 3. audio_middle_end: tylko problematyczne finalne przypadki.
               conn.execute(
                   f'DELETE FROM audio_middle_end WHERE audio_id IN ({p_audio})',
                   all_audio,
@@ -168,7 +187,6 @@ jobs:
                       (r['audio_id'], r['reason']),
                   )
 
-              # Walidacja PRZED COMMIT.
               me_ready = conn.execute(
                   f'''SELECT COUNT(*) FROM middle_end
                       WHERE audio_id IN ({p_ready})
@@ -245,6 +263,8 @@ jobs:
               raise
 
           print('AUDIO_REPAIR_OK')
+          print('GOLD_TO_STRAW_AUDIO_0080=utwu-000902')
+          print('GOLD_TO_STRAW_AUDIO_0120=utwu-000863')
           print('MIDDLE_END_READY=665')
           print('MIDDLE_END_REVIEW=182')
           print('AUDIO_MATCH_DETAILS_REVIEW=182')
