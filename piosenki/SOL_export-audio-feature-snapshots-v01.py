@@ -6,6 +6,7 @@ import sys
 import libsql
 
 SOURCE = "piosenki/audio_features_v08.csv"
+EXPECTED_ROWS = 856
 BATCH_SIZE = 50
 ANALYZER_VERSION = "v05"
 DATASET_VERSION = "v08"
@@ -59,8 +60,10 @@ def main():
             raise RuntimeError(
                 f"Niezgodne kolumny cech: CSV={len(csv_features)} SQL={len(feature_columns)}"
             )
-
         source_rows = list(reader)
+
+    if len(source_rows) != EXPECTED_ROWS:
+        raise RuntimeError(f"CSV ma {len(source_rows)} rekordow zamiast {EXPECTED_ROWS}")
 
     existing = {
         row[0]
@@ -128,9 +131,9 @@ def main():
     print(f"SNAPSHOTS={final_count}", flush=True)
     print(f"DISTINCT_AUDIO_ID={distinct_audio}", flush=True)
 
-    if final_count != total or distinct_audio != total:
+    if final_count != EXPECTED_ROWS or distinct_audio != EXPECTED_ROWS:
         raise RuntimeError(
-            f"Kontrola koncowa nie przeszla: rows={final_count}, audio={distinct_audio}, expected={total}"
+            f"Kontrola koncowa nie przeszla: rows={final_count}, audio={distinct_audio}, expected={EXPECTED_ROWS}"
         )
 
     print(f"AUDIO_FEATURE_SNAPSHOTS_EXPORT_OK={final_count}", flush=True)
