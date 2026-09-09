@@ -1,0 +1,128 @@
+name: SOL update middle_end audio 0301-0950 sequential
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-update-middleend-audio-0301-0950-sequential.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libsql
+        run: pip install libsql
+      - name: Extract remaining batches
+        run: |
+          mkdir -p /tmp/audio-sql
+          unzip -j piosenki/SOL_audio-SQL-wszystkie.zip \
+            'SOL_audio-SQL-READY-0301-0350.tsv' 'SOL_audio-SQL-REVIEW-0301-0350.tsv' \
+            'SOL_audio-SQL-READY-0351-0400.tsv' 'SOL_audio-SQL-REVIEW-0351-0400.tsv' \
+            'SOL_audio-SQL-READY-0401-0450.tsv' 'SOL_audio-SQL-REVIEW-0401-0450.tsv' \
+            'SOL_audio-SQL-READY-0451-0500.tsv' 'SOL_audio-SQL-REVIEW-0451-0500.tsv' \
+            'SOL_audio-SQL-READY-0501-0550.tsv' 'SOL_audio-SQL-REVIEW-0501-0550.tsv' \
+            'SOL_audio-SQL-READY-0551-0600.tsv' 'SOL_audio-SQL-REVIEW-0551-0600.tsv' \
+            'SOL_audio-SQL-READY-0601-0650.tsv' 'SOL_audio-SQL-REVIEW-0601-0650.tsv' \
+            'SOL_audio-SQL-READY-0651-0700.tsv' 'SOL_audio-SQL-REVIEW-0651-0700.tsv' \
+            'SOL_audio-SQL-READY-0701-0750.tsv' 'SOL_audio-SQL-REVIEW-0701-0750.tsv' \
+            'SOL_audio-SQL-READY-0751-0800.tsv' 'SOL_audio-SQL-REVIEW-0751-0800.tsv' \
+            'SOL_audio-SQL-READY-0801-0850.tsv' 'SOL_audio-SQL-REVIEW-0801-0850.tsv' \
+            'SOL_audio-SQL-READY-0851-0900.tsv' 'SOL_audio-SQL-REVIEW-0851-0900.tsv' \
+            'SOL_audio-SQL-READY-0901-0950.tsv' 'SOL_audio-SQL-REVIEW-0901-0950.tsv' \
+            -d /tmp/audio-sql
+
+      - name: 0301-0350 READY 33
+        env: &turso
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0301-0350.tsv --expected 33
+      - name: 0301-0350 REVIEW 13
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0301-0350.tsv --expected 13
+
+      - name: 0351-0400 READY 40
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0351-0400.tsv --expected 40
+      - name: 0351-0400 REVIEW 8
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0351-0400.tsv --expected 8
+
+      - name: 0401-0450 READY 37
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0401-0450.tsv --expected 37
+      - name: 0401-0450 REVIEW 9
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0401-0450.tsv --expected 9
+
+      - name: 0451-0500 READY 40
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0451-0500.tsv --expected 40
+      - name: 0451-0500 REVIEW 8
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0451-0500.tsv --expected 8
+
+      - name: 0501-0550 READY 36
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0501-0550.tsv --expected 36
+      - name: 0501-0550 REVIEW 12
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0501-0550.tsv --expected 12
+
+      - name: 0551-0600 READY 36
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0551-0600.tsv --expected 36
+      - name: 0551-0600 REVIEW 10
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0551-0600.tsv --expected 10
+
+      - name: 0601-0650 READY 39
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0601-0650.tsv --expected 39
+      - name: 0601-0650 REVIEW 7
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0601-0650.tsv --expected 7
+
+      - name: 0651-0700 READY 39
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0651-0700.tsv --expected 39
+      - name: 0651-0700 REVIEW 8
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0651-0700.tsv --expected 8
+
+      - name: 0701-0750 READY 38
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0701-0750.tsv --expected 38
+      - name: 0701-0750 REVIEW 9
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0701-0750.tsv --expected 9
+
+      - name: 0751-0800 READY 33
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0751-0800.tsv --expected 33
+      - name: 0751-0800 REVIEW 11
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0751-0800.tsv --expected 11
+
+      - name: 0801-0850 READY 33
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0801-0850.tsv --expected 33
+      - name: 0801-0850 REVIEW 13
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0801-0850.tsv --expected 13
+
+      - name: 0851-0900 READY 33
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0851-0900.tsv --expected 33
+      - name: 0851-0900 REVIEW 15
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0851-0900.tsv --expected 15
+
+      - name: 0901-0950 READY 6
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-ready-v02.py --source /tmp/audio-sql/SOL_audio-SQL-READY-0901-0950.tsv --expected 6
+      - name: 0901-0950 REVIEW 2
+        env: *turso
+        run: python -u piosenki/SOL_update-middleend-audio-review-v02.py --source /tmp/audio-sql/SOL_audio-SQL-REVIEW-0901-0950.tsv --expected 2
