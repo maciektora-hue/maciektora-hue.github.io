@@ -120,6 +120,44 @@ footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color
 <p>Pliki audio zostały sprowadzone do wspólnej postaci analitycznej i opisane zestawem mierzalnych cech. Potem porównywaliśmy utwory w kilku reprezentacjach i sprawdzaliśmy, czy te same rdzenie wracają niezależnie od sposobu patrzenia na dane. Wróciły. Najmocniej wyspy rozdziela <strong>kształt widma i rozkład energii</strong>; tempo okazało się zaskakująco mało ważne.</p>
 <p>Model trzech wysp przyjęliśmy dlatego, że daje stabilne, interpretowalne rdzenie i jednocześnie nie udaje, że każdy utwór musi należeć do jednej czystej kategorii.</p>
 
+<h2>Co właściwie zostało policzone</h2>
+<p>To nie jest analiza typu „dużo basu / mało basu”. Dla każdego nagrania policzyliśmy cały zestaw <strong>wielkości sygnałowych i deskryptorów wyprowadzonych matematycznie z przebiegu audio</strong>. Część opisuje bezpośrednio amplitudę i energię sygnału, część jego rozkład w częstotliwości, część zmienność w czasie, stereofonię, tonalność i rytm.</p>
+<div class="grid">
+  <div class="card">
+    <h3>Poziom i dynamika</h3>
+    <p>RMS i poziom w dBFS, wartości szczytowe, crest factor, udział próbek blisko lub powyżej 0 dBFS oraz rozkład głośności w czasie: średnia, odchylenie i percentyle.</p>
+  </div>
+  <div class="card">
+    <h3>Widmo częstotliwości</h3>
+    <p>Środek ciężkości widma, roll-off, szerokość pasma, płaskość widma, nachylenie widma, częstotliwości graniczne i energia rozbita na pasma od 20 Hz do 20 kHz.</p>
+  </div>
+  <div class="card">
+    <h3>Zmiany widma w czasie</h3>
+    <p>Spectral flux, zmienność widma oraz statystyki liczone klatka po klatce. Dzięki temu dwa utwory o podobnej średniej ilości basu mogą się bardzo różnić tym, <em>jak</em> ich brzmienie porusza się w czasie.</p>
+  </div>
+  <div class="card">
+    <h3>Kontrast i barwa</h3>
+    <p>Kontrast widmowy w wielu zakresach częstotliwości oraz 13 współczynników MFCC wraz z ich zmiennością. To opis kształtu i barwy widma, nie tylko sumy energii.</p>
+  </div>
+  <div class="card">
+    <h3>Harmonia i tonalność</h3>
+    <p>12 składowych chromy, ich rozkład i entropia, dominująca klasa wysokości, koncentracja harmoniczna, strojenie, kandydat tonacji, tryb major/minor i pewność tego rozpoznania.</p>
+  </div>
+  <div class="card">
+    <h3>Ataki i rytm</h3>
+    <p>Siła onsetów, ich liczba i częstość, odstępy między atakami, zmienność tych odstępów, kilka estymat BPM oraz miary pewności rytmu.</p>
+  </div>
+  <div class="card">
+    <h3>Stereo</h3>
+    <p>Osobno poziomy kanału lewego i prawego, balans L/R, korelacja kanałów oraz relacja Mid/Side, czyli między innymi szerokość obrazu stereo.</p>
+  </div>
+  <div class="card">
+    <h3>Ziarnistość i „szorstkość” sygnału</h3>
+    <p>Zero-crossing rate i jego zmienność, spectral flatness oraz część parametrów wysokoczęstotliwościowych. To pomaga odróżniać dźwięk gładki i tonalny od bardziej szumowego, jasnego lub ziarnistego.</p>
+  </div>
+</div>
+<p class="muted">W praktyce pojedynczy utwór nie jest więc jednym numerem opisującym „energię”. Jest wielowymiarowym profilem opisującym poziom, dynamikę, barwę, widmo, ruch w czasie, harmonię, rytm i przestrzeń stereo.</p>
+
 <div class="technical">
 <h2>Pozostałe analizy i statystyczno-matematyczne bleblanie</h2>
 <p>Tu są dokumenty dla osób, które chcą zobaczyć, skąd dokładnie wzięły się powyższe wnioski. Czyli miejsce, gdzie liczby odzyskują władzę nad życiem człowieka.</p>
