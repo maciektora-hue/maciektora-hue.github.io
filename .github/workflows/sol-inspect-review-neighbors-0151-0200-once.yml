@@ -1,0 +1,32 @@
+name: SOL inspect review neighbors 0151-0200 once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-inspect-review-neighbors-0151-0200-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect relevant middle_end rows
+        run: |
+          python - <<'PY'
+          import csv
+          p='piosenki/sol-middleend-CSV-v08-11.csv'
+          wanted_orders={122,123,124,125,126,127,136,137,138,139,140,153,154,155,156,157,158}
+          wanted_terms=('vinegar','2 wicky','golden brown','show your love','anger never dies','z imbirem','zegarmistrz','elektryczny','otwieram wino','how we disappear')
+          with open(p,encoding='utf-8-sig',newline='') as f:
+              for r in csv.DictReader(f):
+                  so=r.get('spotify_order','').strip()
+                  order=int(so) if so.isdigit() else None
+                  hay=(r.get('title_parsed','')+' '+r.get('artist_parsed','')).lower()
+                  if order in wanted_orders or any(t in hay for t in wanted_terms):
+                      print('|'.join([
+                          r.get('utwu_id',''), r.get('spotify_order',''), r.get('artist_original',''), r.get('title_original','')
+                      ]))
+          PY
