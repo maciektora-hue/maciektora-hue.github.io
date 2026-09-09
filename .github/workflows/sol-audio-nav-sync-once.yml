@@ -1,0 +1,112 @@
+name: SOL audio navigation PL EN sync
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-audio-nav-sync-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-nav:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update navigation links
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_exact(path, old, new):
+              p = Path(path)
+              s = p.read_text(encoding='utf-8')
+              if old not in s:
+                  raise RuntimeError(f'Nie znaleziono oczekiwanego fragmentu w {path}: {old!r}')
+              n = s.replace(old, new, 1)
+              p.write_text(n, encoding='utf-8')
+
+          # EN index: route to EN audio, no obsolete "PL only" wording.
+          replace_exact(
+              'piosenki/index-en.html',
+              '<a class="route" href="audio.html">',
+              '<a class="route" href="audio-en.html">'
+          )
+          replace_exact(
+              'piosenki/index-en.html',
+              '<div class="route-kicker">Sound and geometry · PL</div>',
+              '<div class="route-kicker">Sound and geometry</div>'
+          )
+          replace_exact(
+              'piosenki/index-en.html',
+              'Audio features, data sanitisation and a map of the acoustic landscape: islands, bridges, transition zones and peripheries. The detailed landing page is currently in Polish.',
+              'Audio features, data sanitisation and a map of the acoustic landscape: islands, bridges, transition zones and peripheries.'
+          )
+          replace_exact(
+              'piosenki/index-en.html',
+              '<strong>OPEN PL <span class="arrow">→</span></strong>',
+              '<strong>OPEN <span class="arrow">→</span></strong>'
+          )
+
+          # Audio PL: same-level language switch + hreflang.
+          replace_exact(
+              'piosenki/audio.html',
+              '<title>Sygnatury 3 wysp — analiza audio piosenek</title>',
+              '<title>Sygnatury 3 wysp — analiza audio piosenek</title>\n<link rel="alternate" hreflang="pl" href="audio.html">\n<link rel="alternate" hreflang="en" href="audio-en.html">'
+          )
+          replace_exact(
+              'piosenki/audio.html',
+              '<p class="meta"><a href="index.html">← Analiza piosenek</a></p>',
+              '<p class="meta"><a href="index.html">← Analiza piosenek</a> · <a href="audio-en.html" lang="en">English</a></p>'
+          )
+
+          # Audio EN: hreflang; body already has index + Polish counterpart.
+          replace_exact(
+              'piosenki/audio-en.html',
+              '<title>Three-island signatures — song audio analysis</title>',
+              '<title>Three-island signatures — song audio analysis</title>\n<link rel="alternate" hreflang="pl" href="audio.html">\n<link rel="alternate" hreflang="en" href="audio-en.html">'
+          )
+
+          pl_result = 'piosenki/SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html'
+          en_result = 'piosenki/SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html'
+
+          # Three islands PL: back to audio/index + EN counterpart + hreflang.
+          replace_exact(
+              pl_result,
+              '<title>Sygnatury 3 wysp — wyniki na dwa głosy</title>',
+              '<title>Sygnatury 3 wysp — wyniki na dwa głosy</title>\n<link rel="alternate" hreflang="pl" href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">\n<link rel="alternate" hreflang="en" href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html">'
+          )
+          replace_exact(
+              pl_result,
+              '<main>\n\n<h1 id="sygnatury-trzech-wysp-dwa-glosy">',
+              '<main>\n\n<p class="meta"><a href="audio.html">← Audio</a> · <a href="index.html">Analiza piosenek</a> · <a href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html" lang="en">English</a></p>\n\n<h1 id="sygnatury-trzech-wysp-dwa-glosy">'
+          )
+
+          # Three islands EN: back to audio/index + PL counterpart + hreflang.
+          replace_exact(
+              en_result,
+              '<title>Three-island signatures — results in two voices</title>',
+              '<title>Three-island signatures — results in two voices</title>\n<link rel="alternate" hreflang="pl" href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">\n<link rel="alternate" hreflang="en" href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html">'
+          )
+          replace_exact(
+              en_result,
+              '<main>\n\n<h1 id="three-island-signatures-two-voices">',
+              '<main>\n\n<p class="meta"><a href="audio-en.html">← Audio</a> · <a href="index-en.html">Song analysis</a> · <a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html" lang="pl">Polski</a></p>\n\n<h1 id="three-island-signatures-two-voices">'
+          )
+
+          print('NAV_SYNC_OK')
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/index-en.html piosenki/audio.html piosenki/audio-en.html \
+            piosenki/SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html \
+            piosenki/SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html
+          git diff --cached --quiet && { echo 'Brak zmian'; exit 1; }
+          git commit -m "Sync PL EN navigation for audio pages"
+          git push
