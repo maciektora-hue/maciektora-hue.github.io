@@ -3,138 +3,178 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Analiza słów piosenek — landing page</title>
+<meta name="color-scheme" content="dark">
+<title>Słowa — analiza tekstów piosenek</title>
 <style>
-:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e;--ok:#8fd6a3}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-main{max-width:980px;margin:0 auto;padding:30px 20px 70px}h1{font-size:2rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.3rem;margin:2.2rem 0 .75rem}h3{font-size:1.05rem;margin:.1rem 0 .35rem}p,li{max-width:84ch}a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}strong{color:var(--strong)}code{color:var(--strong);overflow-wrap:anywhere}.meta,.muted{color:var(--muted)}.hero,.card,.note{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:15px 17px;margin:1rem 0}.hero{border-width:2px}.note{background:var(--panel2)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px}.card{margin:0}.card p{margin:.35rem 0 .2rem}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.12rem .55rem;margin:.12rem .18rem .12rem 0;font-size:.84rem;color:var(--muted)}.ok{color:var(--ok)}nav ol{padding-left:1.35rem}.files ul,.plain{padding-left:1.25rem}.files li,.plain li{margin:.35rem 0}.small{font-size:.9rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted)}
+:root{
+  color-scheme:dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --panel2:#111a17;
+  --text:#e7c27a;
+  --strong:#f3d796;
+  --muted:#c7b58d;
+  --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.58
+}
+main{max-width:960px;margin:0 auto;padding:30px 20px 72px}
+h1{font-size:clamp(2.7rem,8vw,5.7rem);line-height:.95;margin:.35rem 0 1rem;color:var(--strong);font-weight:650;letter-spacing:-.035em}
+h2{font-size:1.35rem;margin:2.4rem 0 .8rem;color:var(--strong)}
+h3{font-size:1.05rem;margin:.15rem 0 .45rem;color:var(--strong)}
+p,li{max-width:84ch}
+a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
+strong{color:var(--strong)}
+code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.hero,.card,.note{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:17px 19px;margin:1rem 0
+}
+.hero{border-width:2px;padding:22px}
+.hero p:first-child{font-size:1.15rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{margin:0}
+.card p{margin:.35rem 0 .25rem}
+.note{background:var(--panel2)}
+.big-question{font-size:1.22rem;line-height:1.5;max-width:72ch}
+.routes a{display:block;margin:.45rem 0}
+.technical{
+  margin-top:2.7rem;padding-top:1.3rem;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.91rem
+}
+.technical h2,.technical h3{color:var(--muted)}
+.technical a{color:var(--text)}
+.technical ul{padding-left:1.3rem}
+footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
 <main>
-<p class="meta"><a href="index.html">← Analiza piosenek</a></p>
-<h1>Analiza słów piosenek</h1>
-<p class="meta">Landing page · analizy tekstów, tagów i ontologii · stan roboczy 2026-09-08</p>
+<p class="meta"><a href="index.html">← Analiza piosenek</a> · <a href="audio.html">Audio</a></p>
+
+<h1>Słowa.</h1>
+<p class="big-question">Co wraca w tekstach piosenek, co znika, co zaczyna występować razem i jak zmienia się to wraz z kolejnymi polubieniami?</p>
 
 <div class="hero">
-<p><strong>Co tu analizujemy:</strong> nie brzmienie nagrań, tylko warstwę tekstową piosenek i jej opis semantyczny: <strong>tagi, osie, rodziny osi, walencję, kierunek, relacje, współwystępowania i zmianę w czasie</strong>.</p>
-<p><strong>Wspólny standard czasu:</strong> tam, gdzie występuje oś czasu, używamy przesuwanego okna <strong>80</strong> zdarzeń, kroku <strong>30</strong>; przeszłość jest po lewej, najnowsze polubienia po prawej. <code>spotify_order=1</code> oznacza najnowsze polubienie.</p>
-<p><strong>Architektura:</strong> Turso / SQLite przechowuje fakty, Python / Flask liczy analizy, Jinja renderuje HTML, a wykresy powstają jako SVG po stronie serwera.</p>
-<p class="muted">Analiza audio jest osobną gałęzią i ma własny landing page <a href="audio.html">audio.html</a>. Ten plik jej nie zastępuje, nie modyfikuje i nie jest miejscem do zmian w FFT ani mapie wysp.</p>
+<p><strong>Tu jeszcze nie ma jednego efektownego wniosku, który streszcza cały projekt w jednym zdaniu.</strong></p>
+<p>I to jest w porządku. Ta gałąź jest na etapie budowania mapy znaczeń: mamy już uporządkowane teksty, tagi, ontologię i serię analiz, ale dopiero szukamy wzoru, który będzie jednocześnie mocny statystycznie, stabilny w czasie i sensowny po ludzku.</p>
+<p class="muted">Czyli zamiast produkować „wow” na zamówienie, próbujemy sprawdzić, czy ono w ogóle istnieje. Niezwykle nieefektywne z punktu widzenia marketingu, całkiem rozsądne z punktu widzenia analizy.</p>
 </div>
 
-<h2>Na czym stoimy teraz — dla biologicznej inteligencji</h2>
+<h2>Co właściwie analizujemy</h2>
+<p>Źródłem jest jedna wieloletnia lista polubionych piosenek. Dla części utworów mamy teksty, a teksty są opisane zestawem <strong>tagów semantycznych</strong>: emocji, relacji, mechanizmów, stanów, zachowań i innych elementów treści.</p>
+<p>Nie chodzi więc przede wszystkim o liczenie, ile razy pada konkretne słowo. Ważniejsze jest <strong>co tekst robi znaczeniowo</strong>: czy pojawia się lęk, dystans, bliskość, sprawczość, bezsilność, ruch do czegoś, ruch od czegoś, regulacja, konflikt, nadzieja i dziesiątki innych motywów.</p>
+<p>Kolejność polubień daje naturalną oś czasu. Dzięki temu można pytać nie tylko <em>co znajduje się w bibliotece</em>, ale również <strong>jak zmienia się jej profil znaczeniowy</strong>.</p>
+
+<h2>Co już zrobiliśmy</h2>
 <div class="grid">
-<div class="card"><h3>Dane tekstowe są uporządkowane</h3><p>Ostatni pełny audyt w repo, z 2026-09-07, zakończył się wynikiem <strong class="ok">0 błędów i 0 ostrzeżeń</strong>. To punkt odniesienia dla obecnej gałęzi analiz.</p></div>
-<div class="card"><h3>Warstwy znaczenia są rozdzielone</h3><p>Tag mówi <em>co</em> występuje. Oś porządkuje tagi według rodzaju znaczenia. Rodzina osi agreguje większy obszar. Walencja, kierunek i biegunowość są osobnymi własnościami i nie są mechanicznie mnożone przez siebie.</p></div>
-<div class="card"><h3>Czas jest zdarzeniowy</h3><p>Nie liczymy dni ani miesięcy. Kolejność polubień Spotify jest osią czasu. Dzięki temu można oglądać, jak zmienia się profil tekstów wraz z kolejnymi polubieniami.</p></div>
-<div class="card"><h3>Analizy są już wielopoziomowe</h3><p>Mamy przekroje globalne, przebiegi w czasie, relacje tagów, współwystępowania i osobny zestaw hipotez do oglądania jako pary i trójki.</p></div>
+  <div class="card">
+    <h3>1. Teksty dostały własną tożsamość</h3>
+    <p>Tekst piosenki nie jest luźnym plikiem obok tytułu. Jest osobnym rekordem spiętym z kanonicznym utworem i może mieć własne kolejne wyniki tagowania.</p>
+  </div>
+  <div class="card">
+    <h3>2. Zbudowaliśmy język opisu</h3>
+    <p>Tagi są uporządkowane w większe struktury: osie, grupy i rodziny. Dzięki temu można przechodzić od pojedynczego motywu do większego obszaru znaczeniowego.</p>
+  </div>
+  <div class="card">
+    <h3>3. Rozdzieliliśmy różne rzeczy</h3>
+    <p>Tag, walencja, kierunek i biegunowość nie są jednym numerem. Są osobnymi warstwami, bo „nieprzyjemne”, „od czegoś” i „ujemny biegun osi” to nie są synonimy, choć ludzkość z zapałem próbuje nimi czasem zostać.</p>
+  </div>
+  <div class="card">
+    <h3>4. Dodaliśmy czas</h3>
+    <p>Analizy mogą być liczone w przesuwanych oknach kolejnych polubień. To pozwala oglądać trend bez udawania, że data kalendarzowa jest ważniejsza od rzeczywistej kolejności zdarzeń.</p>
+  </div>
+  <div class="card">
+    <h3>5. Liczymy relacje</h3>
+    <p>Nie tylko „ile czego jest”, ale też co rośnie razem, co się rozjeżdża, co przecina się w czasie i co pojawia się razem w tych samych tekstach.</p>
+  </div>
+  <div class="card">
+    <h3>6. Dane siedzą w SQL</h3>
+    <p>Warstwa źródłowa i wyniki tagowania są przechowywane w Turso / SQLite, a analizy są liczone serwerowo. Czyli przestaliśmy udawać, że tysiąc plików CSV to baza danych.</p>
+  </div>
 </div>
 
+<h2>Co można oglądać już teraz</h2>
+<div class="grid routes">
+  <div class="card">
+    <h3>Szeroki przegląd</h3>
+    <p>Tagi, osie, rodziny, walencja, kierunek, czas i współwystępowania w jednym wejściu.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/13">→ 13 analiz</a>
+  </div>
+  <div class="card">
+    <h3>Zmiany w czasie</h3>
+    <p>Jak tagi, osie i rodziny zachowują się w kolejnych fragmentach historii polubień.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ czas zdarzeniowy</a>
+  </div>
+  <div class="card">
+    <h3>Relacje</h3>
+    <p>Pary i trójki tagów na wspólnej osi czasu. Tu można sprawdzać, czy dwie rzeczy naprawdę idą razem, czy tylko tak nam się wydawało.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ relacje między tagami</a>
+  </div>
+  <div class="card">
+    <h3>Hipotezy</h3>
+    <p>Gotowe zestawy znaczeń do sprawdzania pod kątem wspólnych wzrostów, spadków, przecięć i zmian relacji.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ hipotezy czasowe</a>
+  </div>
+</div>
+
+<h2>Jakich wzorów szukamy</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Powracające motywy</h3>
+    <p>Czy pewne treści są stałym szkieletem biblioteki, niezależnie od czasu i pojedynczych artystów.</p>
+  </div>
+  <div class="card">
+    <h3>Zmiana proporcji</h3>
+    <p>Czy z czasem niektóre motywy nie tyle znikają, co zmieniają miejsce w większym układzie znaczeń.</p>
+  </div>
+  <div class="card">
+    <h3>Układy zamiast pojedynczych tagów</h3>
+    <p>Czy ciekawszą informacją jest np. nie sam gniew, lęk czy bliskość, lecz zestaw rzeczy, które zaczynają im regularnie towarzyszyć.</p>
+  </div>
+  <div class="card">
+    <h3>Przejścia</h3>
+    <p>Czy istnieją momenty, po których charakter tekstów zmienia się wyraźniej niż wynikałoby z normalnego szumu i mieszania się repertuaru.</p>
+  </div>
+</div>
+
+<h2>Co byłoby naprawdę ciekawym wynikiem</h2>
 <div class="note">
-<strong>Ostatni pełny audyt danych, 2026-09-07:</strong>
-<ul class="plain">
-<li><strong>977</strong> rekordów Middle End i 977 unikalnych <code>utwu_id</code>;</li>
-<li><strong>882</strong> unikalne <code>lyrics_id</code> z tekstem;</li>
-<li><strong>888</strong> snapshotów tagowania dotyczących 882 <code>lyrics_id</code>;</li>
-<li><strong>9814</strong> przypisań tagów;</li>
-<li>używane <strong>154 z 165</strong> zdefiniowanych tagów;</li>
-<li>882/882 tekstów ma co najmniej jeden niepusty zestaw tagów.</li>
+<p>Nie kolejny wykres z linią idącą trochę do góry.</p>
+<p>Ciekawy wynik powinien przetrwać kilka sposobów patrzenia na dane naraz: być widoczny na poziomie tagów, mieć sens na poziomie osi lub rodzin, utrzymywać się w czasie i dawać się opisać zwykłym językiem bez torturowania statystyki do momentu, aż coś wyzna.</p>
+<p><strong>Na taki wynik właśnie polujemy.</strong></p>
+</div>
+
+<h2>Starsze, prostsze widoki</h2>
+<div class="grid">
+  <div class="card"><h3>Tagi</h3><p>Globalne sumy tagów.</p><a href="tagi-sumy.html">→ tagi-sumy.html</a></div>
+  <div class="card"><h3>Osie</h3><p>Agregacja tagów do osi.</p><a href="osie-sumy.html">→ osie-sumy.html</a></div>
+  <div class="card"><h3>Rodziny</h3><p>Najwyższy poziom agregacji.</p><a href="rodziny-sumy.html">→ rodziny-sumy.html</a></div>
+</div>
+
+<div class="technical">
+<h2>Dokumentacja i techniczne bebechy</h2>
+<p>Dla osób, które wolą sprawdzić, z czego to jest zrobione, zamiast wierzyć ładnej stronie internetowej. Słuszny odruch.</p>
+<ul>
+  <li><a href="sol-o-co-kaman-HTML-v01-00.html">Architektura danych — „O co kaman”</a></li>
+  <li><a href="SOL-audyt-danych-2026-09-07.html">Audyt danych tekstowych</a></li>
+  <li><a href="SOL_statystyki-analityczne-dokumentacja.md">Dokumentacja analiz statystycznych</a></li>
+  <li><a href="sol-ontologia-tagow-TXT-v01-03.txt">Ontologia tagów</a></li>
+  <li><a href="sol-definicje-tagow-CSV-v01-02.csv">Definicje tagów</a></li>
+  <li><a href="schema.sql">Schemat SQL</a></li>
 </ul>
-<p class="muted small">To jest jawnie datowany snapshot audytu, nie magiczna obietnica, że liczby nigdy się nie zmienią po kolejnych zmianach danych.</p>
+<p class="muted">Warstwa audio jest celowo osobna: <a href="audio.html">audio.html</a>. Tam badamy sygnał. Tutaj badamy znaczenie.</p>
 </div>
 
-<nav><h2>Aktualne analizy — najlepsza kolejność oglądania</h2><ol>
-<li><a href="https://piosenki-api.onrender.com/statystyki/13">13 analiz</a><br><span class="muted">Główny szeroki przegląd: tagowość, osiowość, rodziny, walencja, kierunek, czas, zmiany, pary i współwystępowania.</span></li>
-<li><a href="https://piosenki-api.onrender.com/statystyki/czas">Czas zdarzeniowy</a><br><span class="muted">Rodziny osi, osie i tagi w przesuwanych oknach 80 × 30.</span></li>
-<li><a href="https://piosenki-api.onrender.com/statystyki/relacje">Relacje między tagami</a><br><span class="muted">Porównania par i trójek na wspólnej osi czasu, w tym frustracja · bezsilność · gniew.</span></li>
-<li><a href="https://piosenki-api.onrender.com/statystyki/hipotezy">Hipotezy czasowe</a><br><span class="muted">Zestawy tagów wybrane do sprawdzenia pod kątem wspólnych wzrostów, spadków, rozjazdów, przecięć i zmian relacji.</span></li>
-<li><a href="https://piosenki-api.onrender.com/statystyki/kierunek">Kierunek / walencja</a><br><span class="muted">Warstwa interpretacyjna. Walencja nie jest oceną moralną, a kierunek nie jest tym samym co walencja.</span></li>
-</ol></nav>
+<footer>
+Słowa są obecnie gałęzią eksploracyjną projektu. Najważniejszy wynik nie został jeszcze wybrany z góry i oby tak zostało do momentu, aż dane faktycznie na niego zasłużą.
+</footer>
 
-<h2>Wcześniejsze analizy — nadal dostępne</h2>
-<p>Przed obecną aplikacją Flask powstały prostsze, samodzielne widoki sum. Zostają jako wcześniejsza warstwa analizy i szybka kontrola agregatów. Te strony używają JavaScriptu do pobrania danych z API, więc technicznie są starszym mechanizmem niż obecne serwerowe SVG.</p>
-<div class="grid">
-<div class="card"><h3>Sumy tagów</h3><p>Globalne liczby wystąpień tagów wraz z wariantami / kwalifikatorami.</p><p><a href="tagi-sumy.html">otwórz tagi-sumy.html</a></p></div>
-<div class="card"><h3>Sumy osi</h3><p>Agregacja wystąpień tagów do osi ontologii.</p><p><a href="osie-sumy.html">otwórz osie-sumy.html</a></p></div>
-<div class="card"><h3>Sumy rodzin</h3><p>Jeszcze wyższy poziom agregacji: osie zebrane w rodziny.</p><p><a href="rodziny-sumy.html">otwórz rodziny-sumy.html</a></p></div>
-<div class="card"><h3>Audyt danych</h3><p>Nie jest wykresem, ale jest ważnym wcześniejszym punktem kontrolnym: integralność Middle End, Lyrics i Tags.</p><p><a href="SOL-audyt-danych-2026-09-07.html">otwórz audyt</a></p></div>
-</div>
-
-<h2>Warstwy analizy — co właściwie mierzymy</h2>
-<div class="grid">
-<div class="card"><h3>Tagi</h3><p>Najbardziej szczegółowy poziom opisu treści, motywów, stanów, mechanizmów i emocji obecnych w tekście.</p></div>
-<div class="card"><h3>Osie</h3><p>Porządkują tagi według rodzaju znaczenia, np. emocja, relacja, regulacja, sprawczość, ruch/cel, dostęp do emocji.</p></div>
-<div class="card"><h3>Rodziny osi</h3><p>Wyższy poziom agregacji. Pozwala zobaczyć duże kierunki bez topienia się w dziesiątkach linii.</p></div>
-<div class="card"><h3>Walencja</h3><p>Przyjemność lub nieprzyjemność stanu implikowaną przez sam tag. Nie jest oceną moralną, oceną bohatera ani oceną całej piosenki.</p></div>
-<div class="card"><h3>Kierunek i biegunowość</h3><p>Kierunek znaczeniowy jest osobną warstwą. Biegunowość, jeśli ma sens dla konkretnej osi, należy do pary <code>(tag, axis_name)</code>, nie do taga w próżni.</p></div>
-<div class="card"><h3>Relacje</h3><p>Sprawdzamy, co porusza się razem w czasie, co się rozjeżdża, przecina, zmienia proporcje albo współwystępuje w tych samych tekstach.</p></div>
-</div>
-
-<h2>Co obecnie warto oglądać</h2>
-<div class="grid">
-<div class="card"><h3>Zmiany w czasie</h3><p>Które tagi, osie i rodziny rosną lub zanikają między starszymi i nowszymi częściami playlisty.</p></div>
-<div class="card"><h3>Relacje</h3><p>Czy tagi poruszają się razem, przeciwnie, przecinają się albo zmieniają wzajemny układ.</p></div>
-<div class="card"><h3>Hipotezy</h3><p>M.in. lęk · hiperczujność · zamartwianie; smutek · rozpacz · brak nadziei; wyczerpanie · brak napędu · anhedonia; gniew · wstyd · frustracja.</p></div>
-<div class="card"><h3>Współwystępowanie</h3><p>Które tagi i osie pojawiają się razem w tych samych tekstach, niezależnie od podobieństwa przebiegów czasowych.</p></div>
-</div>
-
-<h2>Dokumentacja projektu — co, gdzie, po co i dlaczego</h2>
-<div class="files"><ul>
-<li><a href="sol-o-co-kaman-HTML-v01-00.html"><strong>O co kaman</strong></a> <span class="muted">— operacyjny opis architektury danych: Middle End, Lyrics, Tags, definicje, ontologia, klucze, krotności i statusy.</span></li>
-<li><a href="SOL-audyt-danych-2026-09-07.html"><strong>Audyt danych</strong></a> <span class="muted">— ostatni pełny raport spójności danych tekstowych i tagowania.</span></li>
-<li><a href="SOL_statystyki-analityczne-dokumentacja.md"><strong>Dokumentacja statystyk analitycznych</strong></a> <span class="muted">— czas zdarzeniowy, przesuwane okna, kierunek, relacje, architektura Flask/Jinja/SVG oraz zasady pracy równoległej.</span></li>
-<li><a href="schema.sql"><strong>schema.sql</strong></a> <span class="muted">— rdzeń modelu Turso / SQLite: lyrics, middle_end, tag_catalog, families, axes, tag_axis, snapshots, walencja i biegunowość.</span></li>
-<li><a href="SOL_migracja-walencja-biegunowosc.sql"><strong>Migracja walencji i biegunowości</strong></a> <span class="muted">— tworzenie osobnych tabel <code>tag_valence</code> i <code>tag_axis_polarity</code> oraz dane migracyjne walencji.</span></li>
-<li><a href="SOL_statystyki-analityczne-struktura-SQL.md"><strong>Decyzja projektowa: walencja i biegunowość</strong></a> <span class="muted">— dlaczego są oddzielnymi warstwami. Uwaga: końcowy fragment dokumentu opisujący migrację jako przyszłą jest już historyczny; bieżący kod należy czytać razem z <code>schema.sql</code> i <code>statystyki.py</code>.</span></li>
-<li><a href="sol-ontologia-tagow-TXT-v01-03.txt"><strong>Ontologia tagów</strong></a> <span class="muted">— rodziny, grupy, osie i relacje tag ↔ oś / grupa.</span></li>
-<li><a href="sol-definicje-tagow-CSV-v01-02.csv"><strong>Definicje tagów</strong></a> <span class="muted">— słownik dozwolonych tagów i ich opisów.</span></li>
-<li><a href="SOL-turso-status.txt"><strong>Test Turso</strong></a> <span class="muted">— historyczny test read / write / rollback; nie jest opisem modelu danych.</span></li>
-</ul></div>
-
-<h2>Mapa kodu analitycznego</h2>
-<div class="files"><ul>
-<li><a href="app.py"><code>app.py</code></a> — Flask, trasy, połączenie z Turso i składanie stron.</li>
-<li><a href="statystyki.py"><code>statystyki.py</code></a> — budowa modelu analitycznego, wspólne liczenia, SVG; walencja jest czytana z tabeli SQL <code>tag_valence</code>.</li>
-<li><a href="czas_okna.py"><code>czas_okna.py</code></a> — przesuwane okna, wspólne <code>80 × 30</code>, orientacja przeszłość → teraz.</li>
-<li><a href="analizy13.py"><code>analizy13.py</code></a> — główny zestaw 13 przekrojów.</li>
-<li><a href="relacje_okna.py"><code>relacje_okna.py</code></a> — relacje par i trójek tagów w czasie.</li>
-<li><a href="hipotezy_okna.py"><code>hipotezy_okna.py</code></a> — ręcznie wybrane hipotezy czasowe.</li>
-<li><code>templates/</code> — szablony Jinja dla widoków statystyk.</li>
-<li><a href="static/statystyki.css"><code>static/statystyki.css</code></a> — wspólny wygląd dynamicznych stron.</li>
-<li><a href="../render.yaml"><code>render.yaml</code></a> — konfiguracja serwisu <code>piosenki-api</code> na Renderze; aplikacja startuje przez Gunicorn.</li>
-</ul></div>
-
-<h2>SQL i pliki obok — ważne rozróżnienia dla AI</h2>
-<div class="note">
-<ul class="plain">
-<li><code>schema.sql</code> opisuje główny model danych piosenek.</li>
-<li><code>SOL-import-danych.sql</code> jest dużym plikiem importowym danych źródłowych. <strong>Może zawierać surowe treści</strong>; nie należy używać landinga ani publicznych analiz do eksponowania surowych lyrics.</li>
-<li><code>SOL_migracja-walencja-biegunowosc.sql</code> dotyczy semantycznych tabel analitycznych.</li>
-<li><code>SOL_content-schema.sql</code>, <code>SOL_content-sql-specyfikacja-plan.md</code>, <code>content_store.py</code> i <code>content_structure.py</code> dotyczą systemu przechowywania innych kolekcji treści, m.in. Rosja / AuDHD. Leżą w katalogu <code>piosenki</code> z powodów infrastrukturalnych, ale <strong>nie są modelem analizy słów piosenek</strong>.</li>
-<li><code>audio.html</code> i pliki <code>SOL_audio-*</code> należą do niezależnej analizy audio. Nie wolno ich mieszać z semantyczną analizą tekstów tylko dlatego, że mieszkają w tym samym katalogu.</li>
-</ul>
-</div>
-
-<h2>Skrót dla AI — stan i zasady pracy</h2>
-<div class="card">
-<span class="tag">utwu_id = klucz rekordu</span><span class="tag">lyrics_id = klucz tekstu</span><span class="tag">tagi → lyrics_id</span><span class="tag">tagi → osie → rodziny</span><span class="tag">walencja osobno</span><span class="tag">biegunowość per tag+oś</span><span class="tag">80 × 30</span><span class="tag">przeszłość → teraz</span><span class="tag">Turso</span><span class="tag">Flask</span><span class="tag">Jinja</span><span class="tag">SVG</span>
-<p><strong>Punkt startowy:</strong> najpierw ten landing, potem <code>sol-o-co-kaman-HTML-v01-00.html</code>, audyt, <code>schema.sql</code> i <code>SOL_statystyki-analityczne-dokumentacja.md</code>. Dopiero potem kod konkretnej analizy.</p>
-<p><strong>Źródło znaczenia:</strong> teksty są połączone z nagraniami przez <code>lyrics_id</code>; tagowanie dotyczy tekstu, nie bezpośrednio nagrania. <code>utwu_id</code> pozostaje kanonicznym identyfikatorem rekordu utworu.</p>
-<p><strong>Walencja:</strong> bieżący kod czyta rozstrzygniętą walencję z SQL <code>tag_valence</code>. Brak wpisu nie oznacza automatycznie neutralności. Walencja nie jest biegunowością osi.</p>
-<p><strong>Czas:</strong> <code>spotify_order=1</code> jest najnowsze wewnętrznie. Na wykresach prezentacja ma być normalna: starsze po lewej, „teraz” po prawej. Nie renumerować danych po to, żeby poprawić wykres.</p>
-<p><strong>Bezpieczeństwo zmian:</strong> przed modyfikacją zawsze pobrać najnowszy plik i jego SHA. Repo może być zmieniane równolegle przez kilka czatów. Stan GitHuba i stan wdrożony na Renderze mogą chwilowo się różnić, więc commit nie jest automatycznie dowodem, że ta sama wersja jest już live.</p>
-<p><strong>Granica publicznej analizy:</strong> strony statystyk nie potrzebują surowego <code>lyrics_text</code>. Publiczny WWW ma pokazywać wyniki, agregaty i wykresy, a nie służyć jako przeglądarka surowych tekstów.</p>
-<p><strong>Nie mieszać nurtów:</strong> semantyczna analiza słów i analiza audio są równoległe, ale niezależne. Wspólny katalog nie oznacza wspólnego modelu.</p>
-</div>
-
-<h2>Rzeczy historyczne i ostrożność interpretacyjna</h2>
-<div class="note">
-<p><code>sol-HISTORYCZNE-memento-HTML-v10-09.html</code> jest materiałem historycznym, nie bieżącym źródłem prawdy. Stare proste strony <code>tagi-sumy.html</code>, <code>osie-sumy.html</code> i <code>rodziny-sumy.html</code> są nadal użyteczne jako szybkie agregaty, ale obecny główny system analiz to Flask / Python / SVG na Renderze.</p>
-<p>Dokumenty projektowe powstawały etapami. Gdy opis w starym dokumencie i bieżący kod się rozchodzą, należy sprawdzić najnowszy <code>schema.sql</code>, kod ładowania modelu w <code>statystyki.py</code>, bieżący <code>app.py</code> oraz aktualny commit <code>main</code>, zamiast próbować „uzgodnić” historię przez zgadywanie.</p>
-</div>
-
-<footer>Ten plik jest punktem wejścia do gałęzi analiz słów piosenek i ma jednocześnie pomagać człowiekowi oraz AI zorientować się, co już istnieje, gdzie leży i które elementy są aktualne, historyczne albo należą do innego nurtu. <code>audio.html</code> pozostaje niezależnym landing page analiz audio.</footer>
 </main>
 </body>
 </html>
