@@ -1,0 +1,38 @@
+name: SOL fix EN audio route label
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-audio-nav-fix-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix exact labels
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('piosenki/index-en.html')
+          s = p.read_text(encoding='utf-8')
+          old1 = '<div class="route-foot"><span>Meaning and time</span><strong>OPEN <span class="arrow">→</span></strong></div>'
+          new1 = '<div class="route-foot"><span>Meaning and time</span><strong>OPEN PL <span class="arrow">→</span></strong></div>'
+          old2 = '<div class="route-foot"><span>Structure of sound</span><strong>OPEN PL <span class="arrow">→</span></strong></div>'
+          new2 = '<div class="route-foot"><span>Structure of sound</span><strong>OPEN <span class="arrow">→</span></strong></div>'
+          if old1 not in s or old2 not in s:
+              raise RuntimeError('Expected route labels not found')
+          s = s.replace(old1, new1, 1).replace(old2, new2, 1)
+          p.write_text(s, encoding='utf-8')
+          print('INDEX_EN_LABELS_OK')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/index-en.html
+          git commit -m "Fix English audio navigation label"
+          git push
