@@ -4,7 +4,7 @@ services:
     runtime: python
     rootDir: piosenki
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn content_explorer_app:app
     envVars:
       - key: TURSO_DATABASE_URL
         value: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
