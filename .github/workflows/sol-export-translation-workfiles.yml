@@ -1,0 +1,101 @@
+name: SOL export translation workfiles
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-export-translation-workfiles.yml'
+
+permissions:
+  contents: read
+
+env:
+  TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+
+jobs:
+  export-workfiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libsql
+        run: pip install libsql
+      - name: Export translation master and dictionary
+        env:
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv, os
+          from pathlib import Path
+          import libsql
+
+          out = Path('translation-workfiles')
+          out.mkdir(exist_ok=True)
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=os.environ['TURSO_AUTH_TOKEN'])
+
+          sections = conn.execute('''
+              SELECT s.section_id,
+                     s.document_id,
+                     d.collection_id,
+                     d.document_code,
+                     s.section_order,
+                     s.section_title,
+                     COALESCE(s.description, '')
+              FROM content_sections s
+              JOIN content_documents d ON d.document_id = s.document_id
+              WHERE s.section_kind = 'heading'
+                AND d.collection_id IN ('audhd','rosja')
+              ORDER BY s.section_id
+          ''').fetchall()
+          if len(sections) != 958:
+              raise RuntimeError(f'Expected 958 heading sections, got {len(sections)}')
+          counts = {}
+          desc_counts = {}
+          for row in sections:
+              counts[row[2]] = counts.get(row[2], 0) + 1
+              if str(row[6]).strip():
+                  desc_counts[row[2]] = desc_counts.get(row[2], 0) + 1
+          if counts != {'rosja': 620, 'audhd': 338}:
+              raise RuntimeError(f'Collection counts mismatch: {counts}')
+          if desc_counts != {'rosja': 620, 'audhd': 338}:
+              raise RuntimeError(f'Description counts mismatch: {desc_counts}')
+
+          master = out / 'SOL_tlumaczenia-sekcji-master-PL-EN-v1.tsv'
+          with master.open('w', encoding='utf-8', newline='') as f:
+              w = csv.writer(f, delimiter='\t', lineterminator='\n')
+              w.writerow(['section_id','document_id','collection','document_code','section_order','title_pl','title_en','description_pl','description_en'])
+              for sid, did, coll, code, order, title, desc in sections:
+                  w.writerow([sid, did, coll, code, order, title, '', desc, ''])
+
+          concepts = conn.execute('''
+              SELECT c.concept_id,
+                     c.concept_key,
+                     MAX(CASE WHEN t.lang='pl' AND t.is_preferred=1 THEN t.keyword END) AS term_pl,
+                     MAX(CASE WHEN t.lang='en' AND t.is_preferred=1 THEN t.keyword END) AS term_en
+              FROM content_keyword_concepts c
+              LEFT JOIN content_keyword_terms t ON t.concept_id = c.concept_id
+              GROUP BY c.concept_id, c.concept_key
+              ORDER BY c.concept_id
+          ''').fetchall()
+          if not concepts:
+              raise RuntimeError('No keyword concepts found')
+          missing = [(cid,key) for cid,key,pl,en in concepts if not (pl and en)]
+          if missing:
+              raise RuntimeError(f'Missing preferred PL/EN terms: {missing[:10]} total={len(missing)}')
+
+          dictionary = out / 'SOL_slownik-tlumaczen-PL-EN-v1.tsv'
+          with dictionary.open('w', encoding='utf-8', newline='') as f:
+              w = csv.writer(f, delimiter='\t', lineterminator='\n')
+              w.writerow(['term_pl','term_en','typ','maciek','concept_id','concept_key','uwagi'])
+              for cid, key, pl, en in concepts:
+                  w.writerow([pl, en, 'keyword', '', cid, key, 'istnieje w SQL'])
+
+          print(f'TRANSLATION_MASTER_OK sections={len(sections)} audhd={counts["audhd"]} rosja={counts["rosja"]}')
+          print(f'DESCRIPTIONS_OK audhd={desc_counts["audhd"]} rosja={desc_counts["rosja"]}')
+          print(f'DICTIONARY_OK concepts={len(concepts)}')
+          conn.close()
+          PY
+      - name: Upload workfiles artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sol-translation-workfiles
+          path: translation-workfiles/
+          if-no-files-found: error
