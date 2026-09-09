@@ -28,6 +28,20 @@
     <span>Shows the current state of the actual Turso database: tables, columns, primary keys, foreign keys, row counts and available size information. Data is read live through the API rather than reconstructed from repository documentation.</span>
   </a>
 
+  <h2 class="section-title">What we actually keep in SQL</h2>
+  <p class="lead">This is not just a song database. One database holds the structured information needed for music analysis and for mapping the content of the Russia and AuDHD projects.</p>
+  <div class="tools">
+    <div class="tool"><div class="no">01</div><div class="name">Songs</div><div class="desc">Basic information about tracks: titles, artists, albums, playlist order, Spotify identifiers and our own internal identifiers. We also keep track of whether a song was successfully linked to its lyrics and audio recording.</div></div>
+    <div class="tool"><div class="no">02</div><div class="name">Song lyrics</div><div class="desc">Full lyrics linked to specific songs. These are the source for later analysis of meanings, themes and changes over time.</div></div>
+    <div class="tool"><div class="no">03</div><div class="name">Meanings and tags</div><div class="desc">A dictionary of themes and states that appear in lyrics, such as loneliness, masking, relief, anger or sensory overload. We keep their definitions, families and semantic axes, plus information about valence and directional meaning.</div></div>
+    <div class="tool"><div class="no">04</div><div class="name">Tags assigned to lyrics</div><div class="desc">For individual lyrics we store which tags were assigned and when that tagging was created. This makes it possible to look for patterns across the whole library rather than in a single song.</div></div>
+    <div class="tool"><div class="no">05</div><div class="name">Audio</div><div class="desc">Information about audio files and how they are linked to songs, together with detailed measurements of sound: loudness, stereo, frequency content, timbre, rhythm, tempo, key and many other features used to compare recordings.</div></div>
+    <div class="tool"><div class="no">06</div><div class="name">Russia and AuDHD</div><div class="desc">A content map of both sections: which documents exist, how they are split into sections, their order and hierarchy, where anchors point and what descriptions are attached to individual fragments.</div></div>
+    <div class="tool"><div class="no">07</div><div class="name">Section keywords</div><div class="desc">A shared dictionary of concepts and the assignments of those concepts to text sections, including AuDHD. This makes it possible to connect different passages by meaning even when they use different wording.</div></div>
+  </div>
+
+  <div class="flow"><strong>In plain English:</strong><br>HTML shows the content to a person. SQL remembers what each thing is, what it belongs to, what it connects to, and what can later be counted or compared.</div>
+
   <h2 class="section-title">How the pieces are connected</h2>
   <div class="tools">
     <div class="tool"><div class="no">01</div><div class="name">GitHub</div><div class="desc">The main project repository: HTML, Python, configuration, supporting data and version history.</div></div>
@@ -41,7 +55,7 @@
 
   <div class="flow"><strong>Shortest version of the data path:</strong><br>GitHub Pages → Render / Flask → Turso / libSQL. GitHub Actions runs alongside it as the repository automation layer.</div>
 
-  <footer>Technical · current overview of tools and integrations in use</footer>
+  <footer>Technical · current overview of tools, integrations and data stored in SQL</footer>
 </div>
 </body>
 </html>
