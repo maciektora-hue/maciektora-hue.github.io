@@ -2,3 +2,4 @@ GLOBALNA LISTA ZADAŃ
 
 CZWARTEK — 2026-09-10
 [ ] Turso: unieważnić ujawniony token Read & Write i wygenerować nowy.
+[ ] Turso / WWW: utworzyć drugi, osobny endpoint dla WWW z uprawnieniami wyłącznie READ; obecny endpoint zostawić jako administracyjny z pełnym zapisem/usuwaniem. Endpoint WWW nazwać ogólnie, nie „piosenki”, bo ta baza SQL służy też do innych danych.
