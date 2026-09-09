@@ -60,18 +60,44 @@ def parse_filename(filename: str):
     return number, artist, title, yt
 
 
+def load_overrides(path: Path | None):
+    if path is None:
+        return {}
+    overrides = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        required = {"number", "artist_original", "title_original"}
+        missing = required - set(reader.fieldnames or [])
+        if missing:
+            raise SystemExit(f"Brak kolumn w overrides: {sorted(missing)}")
+        for row in reader:
+            number = int(row["number"])
+            if number in overrides:
+                raise SystemExit(f"Duplikat override dla numeru {number}")
+            overrides[number] = {
+                "artist_original": clean_space(row["artist_original"]),
+                "title_original": clean_space(row["title_original"]),
+                "note": (row.get("note") or "").strip(),
+            }
+    return overrides
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", type=int, required=True)
     ap.add_argument("--end", type=int, required=True)
     ap.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--overrides", type=Path)
     args = ap.parse_args()
 
     if args.start > args.end:
         raise SystemExit("start > end")
 
+    overrides = load_overrides(args.overrides)
     out = []
+    used_overrides = set()
+
     with args.source.open("r", encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
         if "plik" not in (reader.fieldnames or []):
@@ -86,7 +112,13 @@ def main():
             number = int(m.group(1))
             if not (args.start <= number <= args.end):
                 continue
+
             number, artist, title, yt = parse_filename(filename)
+            if number in overrides:
+                artist = overrides[number]["artist_original"]
+                title = overrides[number]["title_original"]
+                used_overrides.add(number)
+
             out.append({
                 "number": number,
                 "source_filename": filename,
@@ -104,6 +136,10 @@ def main():
     if len(nums) != len(set(nums)):
         raise SystemExit("Duplikat numeru audio w batchu")
 
+    unused = sorted(set(overrides) - used_overrides)
+    if unused:
+        raise SystemExit(f"Overrides bez odpowiadającego pliku audio: {unused}")
+
     fields = [
         "number", "source_filename",
         "artist_original", "artist_normalized", "artist_parsed",
@@ -120,6 +156,7 @@ def main():
     print(f"RANGE={args.start}-{args.end}")
     print(f"ROWS={len(out)}")
     print(f"MISSING={missing}")
+    print(f"OVERRIDES={sorted(used_overrides)}")
     for r in out[:5]:
         print(f"CHECK {r['number']}: {r['artist_original']} | {r['title_original']} | {r['youtube_video_id']}")
 
