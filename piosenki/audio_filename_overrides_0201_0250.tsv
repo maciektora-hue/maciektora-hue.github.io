@@ -1,0 +1,7 @@
+number	artist_original	title_original	note
+203	Pink Floyd	Marooned 2011 Remaster 1080p	video title contains artist without separator
+217	Pink Floyd	Wearing The Inside Out - Remaster 2011 (06)	video title order is title - artist - version
+234	Flunk	Queen Of The Undergound	artist/title separated by colon; uploader is label
+235	Slowdive	Sugar for the Pill (Recable Remix)	artist/title separated by colon; uploader is remixer/channel
+240	NASSER	Love (Official Video)	artist embedded in video title; uploader is wearenasser
+248	Zdzislawa Sosnicka	Pozegnanie z bajką	artist embedded in video title; uploader is unrelated channel
