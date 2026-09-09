@@ -60,11 +60,19 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
             COALESCE(s.description_en, ''),
             COALESCE(NULLIF(trim(k.keywords_pl), ''), NULLIF(trim(s.keywords_pl), ''), ''),
             COALESCE(NULLIF(trim(k.keywords_en), ''), NULLIF(trim(s.keywords_en), ''), ''),
-            COALESCE(kc.keyword_concepts, 0)
+            COALESCE(kc.keyword_concepts, 0),
+            m.char_count,
+            m.letter_count,
+            m.word_count,
+            CASE
+                WHEN m.char_count IS NULL THEN NULL
+                ELSE m.char_count / 1800.0
+            END AS normalized_pages
         FROM content_sections s
         JOIN content_documents d ON d.document_id = s.document_id
         LEFT JOIN keywords k ON k.section_id = s.section_id
         LEFT JOIN keyword_counts kc ON kc.section_id = s.section_id
+        LEFT JOIN content_section_metrics m ON m.section_id = s.section_id
         WHERE d.collection_id = ?
         ORDER BY
             d.sort_order,
@@ -99,6 +107,10 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
         "keywords_pl",
         "keywords_en",
         "keyword_concepts",
+        "char_count",
+        "letter_count",
+        "word_count",
+        "normalized_pages",
     ]
     return [dict(zip(columns, row)) for row in rows]
 
