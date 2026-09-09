@@ -1,0 +1,11 @@
+audio_number	audio_id	youtube_video_id	utwu_id	decision	variant_type	note
+255	audio-0255	8tpY2X2wWyQ	utwu-000605	use	metadata_difference	Audio: Hurt - Załoga G z promocyjnym dopiskiem w tytule; middle_end: Hurt - Załoga G. Ten sam utwór.
+257	audio-0257	sndo_wdc384	utwu-000607	use	metadata_difference	Audio: Pink Floyd - Money (2011 Remastered); middle_end: Money - 2011 Remastered Version. Ta sama wersja, inny zapis metadanych.
+260	audio-0260	o2JUFe9sND4	utwu-000610	use	metadata_difference	Audio: Lao Che - Wojenka (official single); middle_end: Wojenka. Ten sam utwór, dodatkowy opis źródła.
+263	audio-0263	kseSoguuiCs	utwu-000613	use	version_difference	Audio opisuje Layla jako Unplugged/Official Live Video; middle_end wskazuje akustyczne wykonanie MTV Unplugged z 1992 i remaster 2013. Ten sam utwór i wykonanie, różnie opisane wydanie.
+264	audio-0264	WGoDaYjdfSg	utwu-000615	use	credit_difference	Audio kredytuje The Jimi Hendrix Experience; middle_end: Jimi Hendrix. Ten sam Purple Haze, różnica kredytu wykonawcy.
+267	audio-0267	qoX6AKuYWL8	utwu-000618	use	version_difference	Audio: Light My Fire (2017 Remaster); middle_end: Light My Fire. Ten sam utwór, wersja audio jawnie oznaczona jako remaster.
+280	audio-0280	RA4ek4oQuIg	utwu-000631	use	credit_difference	Audio: The Irrepressibles - In This Shirt (Royksopp Remix); middle_end kredytuje The Irrepressibles i Röyksopp. Ten sam remix, różnica sposobu zapisania kredytów.
+285	audio-0285	mgWGR-g9mFQ	utwu-000636	use	metadata_difference	Audio: Kortez - Zostań z dopiskiem Oficjalny Klip; middle_end: Zostań. Ten sam utwór.
+294	audio-0294	na47wMFfQCo	utwu-000646	use	credit_difference	Audio kredytuje America; middle_end: America, George Martin. Ten sam A Horse with No Name, różnica w kredytach.
+295	audio-0295	SgXSomPE_FY	utwu-000647	use	live_vs_studio	Audio: B.B. King - The Thrill Is Gone, wykonanie live Crossroads 2010; middle_end ma wersję albumową bez oznaczenia live. Ten sam utwór, inne wykonanie.
