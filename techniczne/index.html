@@ -3,51 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Techniczne · viewer SQL</title>
+<meta name="color-scheme" content="dark">
+<title>Techniczne · Maciej Tora</title>
+<meta name="description" content="Narzędzia techniczne, integracje i infrastruktura używana przez projekty w repozytorium.">
 <style>
-:root{color-scheme:dark;--bg:#0b1815;--panel:#13241e;--panel2:#0f1d18;--text:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--ok:#8fd6a3;--bad:#e98c8c}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#10251f,var(--bg));color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}main{max-width:1180px;margin:auto;padding:28px 18px 70px}a{color:var(--hot)}h1{margin:.2rem 0;font-size:clamp(2rem,6vw,4rem)}h2{margin:0;font-size:1.2rem}code{color:var(--hot)}.muted{color:var(--muted)}.status{margin:18px 0;padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:18px 0}.metric,.table-card{border:1px solid var(--line);background:var(--panel);border-radius:12px}.metric{padding:14px}.metric strong{display:block;font-size:1.55rem;color:var(--hot)}.table-card{margin:14px 0;overflow:hidden}.table-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding:15px 17px;border-bottom:1px solid var(--line)}.table-head .stats{color:var(--muted)}.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:9px 12px;border-bottom:1px solid rgba(242,231,207,.09);vertical-align:top}th{color:var(--hot);font-size:.82rem}.pk,.fk{font-weight:800}.pk{color:var(--ok)}.fk{color:#9fc8f5}.none{color:var(--muted)}.error{color:var(--bad)}footer{margin-top:30px;color:var(--muted);font-size:.85rem}
+:root{--bg:#0b1815;--bg2:#10251f;--panel:#13241e;--ink:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--soft:rgba(242,231,207,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 8%,rgba(224,170,67,.09),transparent 30%),linear-gradient(180deg,var(--bg2),var(--bg));color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}.shell{width:min(1050px,calc(100% - 30px));margin:auto;padding:26px 0 56px}a{color:inherit}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--soft)}.top a{color:var(--hot);text-decoration:none}.lang{padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:.78rem;font-weight:800}header{padding:58px 0 34px}.eyebrow{color:var(--hot);font-size:.76rem;font-weight:850;letter-spacing:.17em;text-transform:uppercase}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,9vw,6.8rem);line-height:.92;font-weight:500;letter-spacing:-.045em;margin:8px 0 20px}.lead{max-width:790px;color:var(--muted);font-size:1.08rem}.section-title{margin:42px 0 14px;font-family:Georgia,"Times New Roman",serif;font-size:2rem;font-weight:500}.viewer{display:block;padding:24px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));text-decoration:none}.viewer strong{display:block;color:var(--hot);font-size:1.35rem;margin-bottom:5px}.viewer span{color:var(--muted)}.tools{display:grid;gap:10px}.tool{display:grid;grid-template-columns:54px 180px 1fr;gap:14px;padding:16px 18px;border:1px solid var(--soft);border-radius:12px;background:rgba(255,255,255,.025)}.no{color:var(--hot);font-weight:850}.name{font-weight:800}.desc{color:var(--muted)}code{color:var(--hot)}.flow{margin-top:18px;padding:18px;border-left:2px solid var(--amber);background:rgba(255,255,255,.025);color:var(--muted)}footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--soft);color:var(--muted);font-size:.82rem}@media(max-width:720px){.tool{grid-template-columns:40px 1fr}.desc{grid-column:2}.top{align-items:flex-start}header{padding-top:42px}}
 </style>
+<link rel="alternate" hreflang="pl" href="index.html">
+<link rel="alternate" hreflang="en" href="index-en.html">
 </head>
 <body>
-<main>
-<p><a href="../">← strona główna</a></p>
-<h1>Techniczne · SQL</h1>
-<p class="muted">Viewer pokazuje bieżący stan faktycznej bazy Turso / SQLite. Nie odtwarza schematu z plików dokumentacji na GitHubie.</p>
-<div id="status" class="status">Pobieram bieżący schemat SQL…</div>
-<div id="summary" class="summary" hidden></div>
-<div id="tables"></div>
-<footer>Odczyt tylko do prezentacji: lista tabel, kolumny, PRIMARY KEY, FOREIGN KEY, liczba wierszy i rozmiary.</footer>
-</main>
-<script>
-const API='https://piosenki-api.onrender.com/api/techniczne/schema';
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const bytes=n=>n==null?'n/d':n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:n<1073741824?`${(n/1048576).toFixed(2)} MB`:`${(n/1073741824).toFixed(2)} GB`;
-const num=n=>new Intl.NumberFormat('pl-PL').format(n);
+<div class="shell">
+  <div class="top"><a href="../">← strona główna</a><a class="lang" href="index-en.html" lang="en">English</a></div>
+  <header>
+    <div class="eyebrow">Zaplecze · infrastruktura · narzędzia</div>
+    <h1>Techniczne</h1>
+    <p class="lead">Miejsce na narzędzia techniczne używane przy tych projektach oraz krótki opis tego, jak repozytorium jest połączone z usługami zewnętrznymi. Lista poniżej opisuje faktycznie używane elementy, a nie planowaną architekturę.</p>
+  </header>
 
-function metric(label,value){return `<div class="metric"><span class="muted">${esc(label)}</span><strong>${esc(value)}</strong></div>`}
-function render(data){
-  document.getElementById('status').innerHTML=`Źródło: <code>${esc(data.source)}</code>. Dane pobrane bezpośrednio z działającej bazy.`;
-  const db=data.database||{};
-  const summary=document.getElementById('summary');
-  summary.hidden=false;
-  summary.innerHTML=metric('Tabele',num(data.table_count))+metric('Wiersze łącznie',num(data.total_rows))+metric('Rozmiar bazy',bytes(db.size_bytes))+metric('Rozmiary tabel',db.per_table_size_source||'niedostępne');
-  document.getElementById('tables').innerHTML=(data.tables||[]).map(t=>{
-    const fkByColumn={};
-    (t.foreign_keys||[]).forEach(f=>{(fkByColumn[f.from]??=[]).push(f)});
-    const rows=(t.columns||[]).map(c=>{
-      const fks=fkByColumn[c.name]||[];
-      const pk=c.primary_key_position?`<span class="pk">PK${c.primary_key_position>1?' '+c.primary_key_position:''}</span>`:'<span class="none">—</span>';
-      const fk=fks.length?fks.map(f=>`<span class="fk">${esc(f.to_table)}.${esc(f.to)}</span>`).join('<br>'):'<span class="none">—</span>';
-      return `<tr><td>${esc(c.name)}</td><td><code>${esc(c.type||'')}</code></td><td>${c.not_null?'NOT NULL':'—'}</td><td>${pk}</td><td>${fk}</td><td>${c.default==null?'—':`<code>${esc(c.default)}</code>`}</td></tr>`;
-    }).join('');
-    return `<section class="table-card"><div class="table-head"><h2>${esc(t.name)}</h2><div class="stats">${num(t.row_count)} wierszy · ${bytes(t.size_bytes)}</div></div><div class="scroll"><table><thead><tr><th>Kolumna</th><th>Typ</th><th>NULL</th><th>PRIMARY KEY</th><th>FOREIGN KEY →</th><th>DEFAULT</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
-  }).join('');
-}
+  <h2 class="section-title">Narzędzia</h2>
+  <a class="viewer" href="sql-viewer.html">
+    <strong>Viewer bazy SQL</strong>
+    <span>Pokazuje bieżący stan faktycznej bazy Turso: tabele, kolumny, PK, FK, liczbę rekordów i dostępne informacje o rozmiarze. Dane są pobierane na żywo przez API, a nie odtwarzane z dokumentacji w repozytorium.</span>
+  </a>
 
-fetch(API,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(render).catch(err=>{
-  document.getElementById('status').innerHTML=`<span class="error">Nie udało się pobrać bieżącego schematu: ${esc(err.message)}</span>`;
-});
-</script>
+  <h2 class="section-title">Co jest do czego podłączone</h2>
+  <div class="tools">
+    <div class="tool"><div class="no">01</div><div class="name">GitHub</div><div class="desc">Główne repozytorium plików projektu: HTML, Python, konfiguracja, dane pomocnicze i historia zmian.</div></div>
+    <div class="tool"><div class="no">02</div><div class="name">GitHub Pages</div><div class="desc">Publikuje statyczną część serwisu WWW bezpośrednio z repozytorium, w tym strony główne projektów i ten dział techniczny.</div></div>
+    <div class="tool"><div class="no">03</div><div class="name">GitHub Actions</div><div class="desc">Automaty wykonujące zadania zapisane w <code>.github/workflows</code>: m.in. audyty, operacje na anchorach i inne powtarzalne prace na plikach oraz danych.</div></div>
+    <div class="tool"><div class="no">04</div><div class="name">Render</div><div class="desc">Hostuje publiczny backend <code>piosenki-api</code>. Pobiera kod z tego repozytorium i uruchamia część serwerową w Pythonie.</div></div>
+    <div class="tool"><div class="no">05</div><div class="name">Flask + Gunicorn</div><div class="desc">Flask definiuje API i strony generowane po stronie serwera, a Gunicorn uruchamia aplikację jako usługę WWW na Renderze.</div></div>
+    <div class="tool"><div class="no">06</div><div class="name">Turso / libSQL</div><div class="desc">Zewnętrzna baza zgodna z SQLite. Przechowuje dane SQL; backend łączy się z nią przez bibliotekę <code>libsql</code>. Token dostępu pozostaje w zmiennych środowiskowych Rendera, nie w publicznym HTML.</div></div>
+    <div class="tool"><div class="no">07</div><div class="name">Flask-CORS</div><div class="desc">Most między statycznym WWW na GitHub Pages a API na Renderze. Pozwala stronom z domeny GitHub Pages odczytywać endpointy <code>/api/*</code>.</div></div>
+  </div>
+
+  <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → Turso / libSQL. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
+
+  <footer>Techniczne · aktualny opis używanych narzędzi i integracji</footer>
+</div>
 </body>
 </html>
