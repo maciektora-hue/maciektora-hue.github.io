@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maciej Tora — AI-oriented CV</title>
+  <link rel="canonical" href="https://maciektora-hue.github.io/cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html">
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #f7f4ee; }
+    .load-note { max-width: 760px; margin: 48px auto; padding: 0 20px; font: 16px/1.5 Georgia, serif; color: #24313c; }
+  </style>
+</head>
+<body>
+  <div class="load-note">Loading CV…</div>
+  <script>
+  (async function () {
+    try {
+      const response = await fetch('CLAUDE_Maciej-Tora-AI-CV-v07_12-2026-09-07.html', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Unable to load previous CV version');
+
+      const source = await response.text();
+      const doc = new DOMParser().parseFromString(source, 'text/html');
+
+      const extraStyle = doc.createElement('style');
+      extraStyle.textContent = `
+        .professional-skills-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px 46px;
+          align-items: start;
+        }
+        .professional-skills-grid h3 {
+          margin-top: 4px;
+          margin-bottom: 7px;
+        }
+        .professional-skills-grid .b {
+          margin: 6px 0;
+        }
+        @media (max-width: 640px) {
+          .professional-skills-grid {
+            grid-template-columns: 1fr;
+            gap: 8px;
+          }
+        }
+      `;
+      doc.head.appendChild(extraStyle);
+
+      const coreHeading = doc.querySelector('#core-ai-skills');
+      const coreSection = coreHeading && coreHeading.closest('section');
+      if (!coreSection) throw new Error('CORE AI SKILLS section not found');
+
+      const skillsSection = doc.createElement('section');
+      skillsSection.setAttribute('aria-labelledby', 'professional-skills');
+      skillsSection.innerHTML = `
+        <h2 id="professional-skills">PROFESSIONAL SKILLS</h2>
+        <div class="professional-skills-grid">
+          <div>
+            <h3 id="soft-skills">SOFT SKILLS</h3>
+            <p class="b">Learning agility</p>
+            <p class="b">Ownership &amp; accountability</p>
+            <p class="b">Cross-functional collaboration</p>
+            <p class="b">Decision-making under uncertainty</p>
+          </div>
+          <div>
+            <h3 id="hard-skills">HARD SKILLS</h3>
+            <p class="b">Process optimisation</p>
+            <p class="b">Quantitative modelling</p>
+            <p class="b">Project management</p>
+            <p class="b">Financial forecasting</p>
+          </div>
+        </div>
+      `;
+      coreSection.parentNode.insertBefore(skillsSection, coreSection);
+
+      const canonical = doc.querySelector('link[rel="canonical"]');
+      if (canonical) {
+        canonical.setAttribute('href', 'https://maciektora-hue.github.io/cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html');
+      }
+
+      for (const node of Array.from(doc.body.childNodes)) {
+        if (node.nodeType === 8 && /Version\s+07\.12/i.test(node.nodeValue || '')) node.remove();
+      }
+      doc.body.insertBefore(doc.createComment(' Version 07.13 · 2026-09-09 '), doc.body.firstChild);
+
+      document.open();
+      document.write('<!doctype html>\n' + doc.documentElement.outerHTML);
+      document.close();
+    } catch (error) {
+      document.body.innerHTML = '<div class="load-note">CV could not be loaded. <a href="CLAUDE_Maciej-Tora-AI-CV-v07_12-2026-09-07.html">Open the previous version</a>.</div>';
+    }
+  }());
+  </script>
+</body>
+</html>
