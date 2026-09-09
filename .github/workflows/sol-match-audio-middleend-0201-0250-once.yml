@@ -1,0 +1,28 @@
+name: SOL match audio middle_end 0201-0250 once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-match-audio-middleend-0201-0250-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build candidates 0201-0250
+        run: |
+          python -u piosenki/SOL_match-audio-middleend-v02.py \
+            --audio piosenki/audio_filename_parsed_0201_0250.tsv \
+            --output piosenki/audio_middleend_candidates_0201_0250.tsv
+      - name: Commit candidates TSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/audio_middleend_candidates_0201_0250.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m "Add audio middle_end candidates 0201-0250"
+          git push
