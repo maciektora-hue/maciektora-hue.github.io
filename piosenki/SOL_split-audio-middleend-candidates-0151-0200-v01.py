@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv
 from pathlib import Path
+from collections import Counter
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "audio_middleend_candidates_0151_0200.tsv"
@@ -8,8 +9,9 @@ READY = ROOT / "audio_middleend_ready_0151_0200.tsv"
 REVIEW = ROOT / "audio_middleend_review_0151_0200.tsv"
 
 with SRC.open("r", encoding="utf-8", newline="") as f:
-    rows = list(csv.DictReader(f, delimiter="\t"))
-    fields = f.fieldnames
+    reader = csv.DictReader(f, delimiter="\t")
+    fields = reader.fieldnames
+    rows = list(reader)
 
 ready = [r for r in rows if r["quality"] in {"exact", "high"}]
 review = [r for r in rows if r["quality"] not in {"exact", "high"}]
@@ -20,7 +22,6 @@ for path, data in ((READY, ready), (REVIEW, review)):
         w.writeheader()
         w.writerows(data)
 
-from collections import Counter
 c = Counter(r["quality"] for r in rows)
 print(f"TOTAL={len(rows)}")
 print(f"READY={len(ready)}")
