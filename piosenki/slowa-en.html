@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Lyrics — song text analysis</title>
+<link rel="alternate" hreflang="pl" href="slowa.html">
+<link rel="alternate" hreflang="en" href="slowa-en.html">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --panel2:#111a17;
+  --text:#e7c27a;
+  --strong:#f3d796;
+  --muted:#c7b58d;
+  --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.58
+}
+main{max-width:960px;margin:0 auto;padding:30px 20px 72px}
+h1{font-size:clamp(2.7rem,8vw,5.7rem);line-height:.95;margin:.35rem 0 1rem;color:var(--strong);font-weight:650;letter-spacing:-.035em}
+h2{font-size:1.35rem;margin:2.4rem 0 .8rem;color:var(--strong)}
+h3{font-size:1.05rem;margin:.15rem 0 .45rem;color:var(--strong)}
+p,li{max-width:84ch}
+a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
+strong{color:var(--strong)}
+code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.hero,.card,.note{
+  border:1px solid var(--line);background:var(--panel);
+  border-radius:10px;padding:17px 19px;margin:1rem 0
+}
+.hero{border-width:2px;padding:22px}
+.hero p:first-child{font-size:1.15rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{margin:0}
+.card p{margin:.35rem 0 .25rem}
+.note{background:var(--panel2)}
+.big-question{font-size:1.22rem;line-height:1.5;max-width:72ch}
+.routes a{display:block;margin:.45rem 0}
+.technical{
+  margin-top:2.7rem;padding-top:1.3rem;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.91rem
+}
+.technical h2,.technical h3{color:var(--muted)}
+.technical a{color:var(--text)}
+.technical ul{padding-left:1.3rem}
+footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+<p class="meta"><a href="index-en.html">← Song analysis</a> · <a href="audio-en.html">Audio</a> · <a href="slowa.html" lang="pl">Polski</a></p>
+
+<h1>Lyrics.</h1>
+<p class="big-question">What keeps returning in song lyrics, what disappears, what starts occurring together, and how does all of that change across successive likes?</p>
+
+<div class="hero">
+<p><strong>There is not yet one spectacular conclusion that can summarise the entire project in a single sentence.</strong></p>
+<p>And that is fine. This branch is still at the stage of building a map of meaning: the lyrics, tags, ontology and a series of analyses are already organised, but we are still looking for a pattern that is statistically strong, stable over time and meaningful in ordinary language.</p>
+<p class="muted">So instead of manufacturing a “wow” result on demand, we are checking whether one actually exists. Terribly inefficient from a marketing perspective, quite reasonable from an analytical one.</p>
+</div>
+
+<h2>What are we actually analysing?</h2>
+<p>The source is one multi-year list of liked songs. For part of the library we have lyrics, and those lyrics are described with a set of <strong>semantic tags</strong>: emotions, relationships, mechanisms, states, behaviours and other elements of meaning.</p>
+<p>The point is therefore not mainly to count how often a particular word appears. What matters more is <strong>what the text is doing semantically</strong>: whether it contains anxiety, distance, closeness, agency, helplessness, movement towards something, movement away from something, regulation, conflict, hope and dozens of other motifs.</p>
+<p>The order in which songs were liked provides a natural time axis. That makes it possible to ask not only <em>what the library contains</em>, but also <strong>how its semantic profile changes over time</strong>.</p>
+
+<h2>What we have already done</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. Lyrics have their own identity</h3>
+    <p>A song text is not a loose file sitting next to a title. It is a separate record linked to the canonical track and it can have successive tagging results of its own.</p>
+  </div>
+  <div class="card">
+    <h3>2. We built a language of description</h3>
+    <p>Tags are organised into larger structures: axes, groups and families. This makes it possible to move from an individual motif to a broader semantic region.</p>
+  </div>
+  <div class="card">
+    <h3>3. We separated different concepts</h3>
+    <p>A tag, valence, direction and polarity are not one number. They are separate layers, because “unpleasant”, “away from something” and “the negative pole of an axis” are not synonyms, although humanity occasionally seems determined to make them so.</p>
+  </div>
+  <div class="card">
+    <h3>4. We added time</h3>
+    <p>Analyses can be calculated in moving windows over successive likes. This lets us inspect trends without pretending that calendar dates matter more than the actual sequence of events.</p>
+  </div>
+  <div class="card">
+    <h3>5. We calculate relationships</h3>
+    <p>Not only “how much of each thing there is”, but also what rises together, what diverges, what crosses over time and what appears together in the same lyrics.</p>
+  </div>
+  <div class="card">
+    <h3>6. The data live in SQL</h3>
+    <p>The source layer and tagging results are stored in Turso / SQLite, while the analyses are calculated server-side. In other words, we have stopped pretending that a thousand CSV files constitute a database.</p>
+  </div>
+</div>
+
+<h2>What can already be explored</h2>
+<div class="grid routes">
+  <div class="card">
+    <h3>Broad overview</h3>
+    <p>Tags, axes, families, valence, direction, time and co-occurrence in one entry point.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/13">→ 13 analyses</a>
+  </div>
+  <div class="card">
+    <h3>Changes over time</h3>
+    <p>How tags, axes and families behave across successive parts of the liking history.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ event-based time</a>
+  </div>
+  <div class="card">
+    <h3>Relationships</h3>
+    <p>Pairs and triplets of tags on a common time axis. This is where we can check whether two things really move together or whether we merely thought they did.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ relationships between tags</a>
+  </div>
+  <div class="card">
+    <h3>Hypotheses</h3>
+    <p>Prepared sets of meanings to test for shared rises, falls, crossings and changes in relationships.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ temporal hypotheses</a>
+  </div>
+</div>
+
+<h2>What kinds of patterns are we looking for?</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Recurring motifs</h3>
+    <p>Whether some themes form a persistent skeleton of the library, independent of time and individual artists.</p>
+  </div>
+  <div class="card">
+    <h3>Changing proportions</h3>
+    <p>Whether some motifs do not simply disappear over time, but instead change their place within a larger semantic arrangement.</p>
+  </div>
+  <div class="card">
+    <h3>Configurations rather than isolated tags</h3>
+    <p>Whether the more interesting information is not anger, anxiety or closeness by itself, but the set of things that regularly begins to accompany it.</p>
+  </div>
+  <div class="card">
+    <h3>Transitions</h3>
+    <p>Whether there are moments after which the character of the lyrics changes more clearly than would be expected from normal noise and repertoire mixing.</p>
+  </div>
+</div>
+
+<h2>What would count as a genuinely interesting result?</h2>
+<div class="note">
+<p>Not another chart with a line going slightly upwards.</p>
+<p>An interesting result should survive several ways of looking at the data at once: it should be visible at the tag level, make sense at the axis or family level, persist over time and be describable in ordinary language without torturing the statistics until they confess.</p>
+<p><strong>That is the kind of result we are hunting for.</strong></p>
+</div>
+
+<h2>Older, simpler views</h2>
+<div class="grid">
+  <div class="card"><h3>Tags</h3><p>Global tag counts.</p><a href="tagi-sumy.html">→ tagi-sumy.html</a></div>
+  <div class="card"><h3>Axes</h3><p>Aggregation of tags into axes.</p><a href="osie-sumy.html">→ osie-sumy.html</a></div>
+  <div class="card"><h3>Families</h3><p>The highest aggregation level.</p><a href="rodziny-sumy.html">→ rodziny-sumy.html</a></div>
+</div>
+
+<div class="technical">
+<h2>Documentation and technical innards</h2>
+<p>For people who would rather check what this is made of than trust a polished webpage. A sensible instinct.</p>
+<ul>
+  <li><a href="sol-o-co-kaman-HTML-v01-00.html">Data architecture — “O co kaman”</a></li>
+  <li><a href="SOL-audyt-danych-2026-09-07.html">Text-data audit</a></li>
+  <li><a href="SOL_statystyki-analityczne-dokumentacja.md">Statistical-analysis documentation</a></li>
+  <li><a href="sol-ontologia-tagow-TXT-v01-03.txt">Tag ontology</a></li>
+  <li><a href="sol-definicje-tagow-CSV-v01-02.csv">Tag definitions</a></li>
+  <li><a href="schema.sql">SQL schema</a></li>
+</ul>
+<p class="muted">The audio layer is deliberately separate: <a href="audio-en.html">audio-en.html</a>. There we analyse the signal. Here we analyse meaning.</p>
+</div>
+
+<footer>
+The lyrics branch is currently exploratory. Its main conclusion has not been chosen in advance, and it should stay that way until the data genuinely earn one.
+</footer>
+
+</main>
+</body>
+</html>
