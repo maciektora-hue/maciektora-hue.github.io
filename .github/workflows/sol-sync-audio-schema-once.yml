@@ -1,0 +1,45 @@
+name: SOL sync audio schema once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-sync-audio-schema-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch schema.sql
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('piosenki/schema.sql')
+          s = p.read_text(encoding='utf-8')
+
+          old = """  match_note TEXT,\n  lyrics_status TEXT\n);"""
+          new = """  match_note TEXT,\n  lyrics_status TEXT,\n  audio_id TEXT REFERENCES audio(audio_id),\n  youtube_video_id TEXT,\n  audio_match_quality TEXT\n);"""
+          if s.count(old) != 1:
+              raise SystemExit(f'middle_end patch target count={s.count(old)}')
+          s = s.replace(old, new, 1)
+
+          marker = """CREATE TABLE IF NOT EXISTS audio_feature_snapshots ("""
+          details = """CREATE TABLE IF NOT EXISTS audio_match_details (\n    utwu_id TEXT PRIMARY KEY REFERENCES middle_end(utwu_id),\n    audio_id TEXT NOT NULL REFERENCES audio(audio_id),\n    variant_type TEXT NOT NULL,\n    note TEXT\n);\n\n"""
+          if 'CREATE TABLE IF NOT EXISTS audio_match_details (' not in s:
+              if s.count(marker) != 1:
+                  raise SystemExit(f'audio_feature_snapshots marker count={s.count(marker)}')
+              s = s.replace(marker, details + marker, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit schema sync
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/schema.sql
+          git diff --cached --quiet && exit 0
+          git commit -m "Sync middle_end audio fields and match details schema"
+          git push
