@@ -105,7 +105,9 @@
     .doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .door{
       position:relative;
-      min-height:320px;
+      display:flex;
+      flex-direction:column;
+      min-height:360px;
       padding:28px;
       border:1px solid var(--line);
       border-radius:18px;
@@ -144,10 +146,11 @@
     }
     .door p{margin:0;max-width:500px;color:var(--muted)}
     .door-foot{
-      position:absolute;
-      left:28px;right:28px;bottom:24px;
+      position:relative;
+      z-index:2;
       display:flex;justify-content:space-between;gap:18px;align-items:center;
-      padding-top:16px;border-top:1px solid var(--line-soft);
+      margin-top:auto;
+      padding-top:24px;border-top:1px solid var(--line-soft);
       color:var(--muted);font-size:.79rem;
     }
     .door-foot strong{color:var(--ink);letter-spacing:.05em;font-size:.86rem}
@@ -161,13 +164,15 @@
     .equation-mark{
       position:absolute;
       right:24px;
-      bottom:58px;
+      bottom:70px;
+      z-index:0;
       font-family:var(--serif);
       font-size:clamp(2rem,5vw,4.5rem);
       color:rgba(241,195,99,.14);
       letter-spacing:-.04em;
       pointer-events:none;
     }
+    .door-no,.door-kicker,.door h2,.door p{position:relative;z-index:1}
 
     footer{
       display:flex;
@@ -184,15 +189,15 @@
     @media(max-width:820px){
       .hero{grid-template-columns:1fr;gap:30px;padding:54px 0 40px}
       .doors{grid-template-columns:1fr}
-      .door{min-height:300px}
+      .door{min-height:390px}
     }
     @media(max-width:560px){
       .shell{width:min(100% - 22px,1180px);padding-top:18px}
       .top-note{display:none}
       .hero{padding-top:42px}
       h1{font-size:clamp(3.05rem,17vw,5.4rem)}
-      .door{padding:22px;min-height:320px}
-      .door-foot{left:22px;right:22px;bottom:22px}
+      .door{padding:22px;min-height:410px}
+      .door-foot{padding-top:22px}
       footer{flex-direction:column}
     }
   
