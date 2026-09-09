@@ -33,7 +33,17 @@ def parsed(s: str) -> str:
 
 def split_artist_title(uploader: str, video_title: str):
     u = clean_space(uploader)
-    v = clean_space(video_title)
+    raw = unicodedata.normalize("NFC", video_title)
+    raw = re.sub(r"\s+", " ", raw).strip()
+
+    # Fullwidth colon can be an artist/title separator. Check it BEFORE NFKC,
+    # otherwise it becomes ':' and a later ' - ' inside the title can win first.
+    if "：" in raw:
+        left, right = raw.split("：", 1)
+        if parsed(left) == parsed(u) and right.strip():
+            return clean_space(left), clean_space(right)
+
+    v = clean_space(raw)
 
     # Normal YouTube title conventions: ARTIST - TITLE, ARTIST — TITLE, ARTIST ⧸ TITLE.
     for pattern in (r"\s+-\s+", r"\s*[—–]\s*", r"\s*⧸\s*"):
@@ -41,14 +51,7 @@ def split_artist_title(uploader: str, video_title: str):
         if len(parts) == 2 and parts[0].strip() and parts[1].strip():
             return parts[0].strip(), parts[1].strip()
 
-    # Fullwidth colon is sometimes used as artist/title separator, but also occurs inside titles.
-    # Accept it only when the left side is the uploader itself.
-    if "：" in video_title:
-        left, right = video_title.split("：", 1)
-        if parsed(left) == parsed(u) and right.strip():
-            return clean_space(left), clean_space(right)
-
-    # NFKC converts fullwidth colon to ':', so cover that spelling too, under the same safeguard.
+    # Ordinary colon is accepted only when the left side is the uploader itself.
     if ":" in v:
         left, right = v.split(":", 1)
         if parsed(left) == parsed(u) and right.strip():
