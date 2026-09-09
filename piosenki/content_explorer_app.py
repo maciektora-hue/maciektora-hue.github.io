@@ -4,6 +4,10 @@ from flask import jsonify
 
 from app import app, get_connection
 
+NORMALIZED_PAGE_CHARS = 1800
+PROUST_CHARS = 9_609_000
+PROUST_NORMALIZED_PAGES = PROUST_CHARS / NORMALIZED_PAGE_CHARS
+
 
 def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
     rows = conn.execute(
@@ -117,6 +121,27 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
 
 def build_stats(rows: list[dict]) -> dict:
     headings = [row for row in rows if row["section_kind"] == "heading"]
+    by_id = {row["section_id"]: row for row in rows}
+
+    def has_heading_ancestor(row: dict) -> bool:
+        parent_id = row["parent_section_id"]
+        seen = set()
+        while parent_id is not None and parent_id not in seen:
+            seen.add(parent_id)
+            parent = by_id.get(parent_id)
+            if parent is None:
+                break
+            if parent["section_kind"] == "heading":
+                return True
+            parent_id = parent["parent_section_id"]
+        return False
+
+    top_headings = [row for row in headings if not has_heading_ancestor(row)]
+    totals_ready = bool(top_headings) and all(row["char_count"] is not None for row in top_headings)
+    total_chars = sum(int(row["char_count"]) for row in top_headings) if totals_ready else None
+    total_pages = total_chars / NORMALIZED_PAGE_CHARS if total_chars is not None else None
+    proust_ratio = total_chars / PROUST_CHARS if total_chars is not None else None
+
     return {
         "documents": len({row["document_id"] for row in rows}),
         "sections": len(headings),
@@ -130,6 +155,11 @@ def build_stats(rows: list[dict]) -> dict:
             if row["keywords_pl"] or row["keywords_en"] or row["keyword_concepts"]
         ),
         "keyword_links": sum(int(row["keyword_concepts"] or 0) for row in headings),
+        "total_chars": total_chars,
+        "normalized_pages": total_pages,
+        "proust_ratio": proust_ratio,
+        "proust_reference_chars": PROUST_CHARS,
+        "proust_reference_pages": PROUST_NORMALIZED_PAGES,
     }
 
 
