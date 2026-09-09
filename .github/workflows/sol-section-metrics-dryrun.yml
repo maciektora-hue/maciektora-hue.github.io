@@ -1,0 +1,32 @@
+name: SOL section metrics dry run
+
+on:
+  push:
+    paths:
+      - 'techniczne/SOL_section_metrics_dryrun.py'
+      - '.github/workflows/sol-section-metrics-dryrun.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Count metrics from physical HTML without writing Turso
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: python techniczne/SOL_section_metrics_dryrun.py
