@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Navier–Stokes, AI i spór o autorstwo — esej dla niematematyka</title>
+<style>
+:root{
+  --bg:#18231f;
+  --panel:#223129;
+  --panel2:#1d2a24;
+  --text:#ead7a8;
+  --strong:#f3d796;
+  --muted:#b9aa82;
+  --border:#44564b;
+  --link:#9fc7d9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.72;
+}
+main{
+  max-width:940px;
+  margin:0 auto;
+  padding:42px 20px 76px;
+}
+h1,h2,h3{color:var(--strong);line-height:1.22}
+h1{font-size:clamp(2rem,5vw,3.25rem);margin:0 0 .65rem}
+h2{margin-top:2.8rem;font-size:1.75rem}
+h3{margin-top:1.8rem;font-size:1.25rem}
+p,li{max-width:86ch}
+a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
+.lead{color:var(--muted);font-size:1.08rem;margin-bottom:2rem}
+.box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:21px;
+  margin:1.35rem 0;
+}
+.note{
+  background:var(--panel2);
+  border-left:4px solid var(--border);
+  padding:14px 18px;
+  margin:1.3rem 0;
+}
+.small{font-size:.92rem;color:var(--muted)}
+code{
+  background:#121b17;
+  color:var(--strong);
+  padding:.08rem .3rem;
+  border-radius:4px;
+}
+blockquote{
+  margin:1.2rem 0;
+  border-left:3px solid var(--border);
+  padding:.15rem 1rem;
+  color:var(--muted);
+}
+.toc ul{columns:2;column-gap:2rem}
+.toc li{break-inside:avoid;margin:.25rem 0}
+.sources li{margin-bottom:.85rem}
+hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
+@media(max-width:720px){.toc ul{columns:1}main{padding-top:28px}}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Navier–Stokes, AI i spór o autorstwo</h1>
+<p class="lead">
+Esej o tym, co właściwie zostało ogłoszone, dlaczego równania płynów mają coś wspólnego z turbulencją,
+czemu problem dotyczy akurat trzech wymiarów, po co w tej historii pojawiają się Euler, Lean, Codex i tysiące agentów,
+oraz dlaczego wokół przełomu OpenAI natychmiast wybuchł spór o priorytet, dane i autorstwo.
+Stan źródeł: 9 września 2026.
+</p>
+
+<div class="box">
+<p>
+Ten tekst jest długi z jednego prostego powodu: ta historia jest jednocześnie historią o <strong>mechanice płynów</strong>,
+<strong>czystej matematyce</strong>, <strong>turbulencji</strong>, <strong>AI</strong>,
+<strong>formalnym dowodzeniu</strong>, <strong>danych użytkowników</strong> i <strong>autorstwie naukowym</strong>.
+Jeżeli pominie się którąś z tych warstw, otrzymuje się efektowną, ale fałszywie prostą opowieść.
+</p>
+<p>
+Najkrótsza wersja brzmi tak: OpenAI opublikowało bardzo poważny kandydat na rozwiązanie jednego z Problemów Milenijnych,
+wytworzony przez ogromny system agentów AI. Jednocześnie okazało się, że inna grupa matematyków od miesięcy rozwijała
+bardzo bliski program badawczy przy pomocy AI, a OpenAI uruchomiło swój masowy „sprint” dopiero po informacji,
+że gdzieś właśnie nastąpił przełom. Nie ma publicznego dowodu kradzieży prywatnych szkiców,
+ale marketingowe przedstawienie sprawy jako samodzielnego sukcesu modeli OpenAI wyraźnie spłaszcza historię.
+</p>
+</div>
+
+<nav class="box toc">
+<h2>Spis</h2>
+<ul>
+<li><a href="#woda">1. Najpierw płyn</a></li>
+<li><a href="#rownania">2. Euler i Navier–Stokes</a></li>
+<li><a href="#praktyka">3. Jak używa się tych równań naprawdę</a></li>
+<li><a href="#turbulencja">4. Turbulencja i liczba Reynoldsa</a></li>
+<li><a href="#gladkosc">5. Gładkość, osobliwość i blow-up</a></li>
+<li><a href="#wymiary">6. Dlaczego 3D</a></li>
+<li><a href="#clay">7. Clay i gałęzie A–D</a></li>
+<li><a href="#ai">8. AI wchodzi do matematyki</a></li>
+<li><a href="#kto">9. Kto używał którego AI</a></li>
+<li><a href="#wydarzenia">10. Co wydarzyło się we wrześniu 2026</a></li>
+<li><a href="#dowod">11. Co właściwie twierdzi dowód OpenAI</a></li>
+<li><a href="#genealogia">12. Skąd wziął się pomysł</a></li>
+<li><a href="#spor">13. Spór o dane i autorstwo</a></li>
+<li><a href="#trzy">14. Trzy publiczne narracje</a></li>
+<li><a href="#wiemy">15. Co wiemy, czego nie wiemy</a></li>
+<li><a href="#znaczenie">16. Dlaczego to może zmienić naukę</a></li>
+<li><a href="#zrodla">17. Źródła</a></li>
+</ul>
+</nav>
+
+<h2 id="woda">1. Najpierw płyn: co w ogóle próbujemy opisać</h2>
+
+<p>
+Woda w rurze, powietrze wokół skrzydła, spaliny w turbinie, krew w tętnicy i atmosfera nad Europą wyglądają jak bardzo różne rzeczy.
+Matematycznie należą jednak do tej samej rodziny problemów: trzeba opisać, jak w każdym miejscu przestrzeni i w każdej chwili
+zmieniają się prędkość, ciśnienie i inne właściwości płynu.
+</p>
+
+<p>
+Płyn nie jest jednym klockiem. Każdy jego fragment oddziałuje z sąsiednimi fragmentami.
+Może przyspieszać, wirować, rozciągać się, ściskać, mieszać i przekazywać energię pomiędzy skalami.
+W dodatku w większości interesujących sytuacji ruch jest nieliniowy:
+to, co dzieje się teraz, wpływa na sposób, w jaki przepływ będzie się dalej sam transportował.
+</p>
+
+<p>
+Równania mechaniki płynów próbują zamknąć to wszystko w kilku zależnościach.
+I tu zaczyna się jedna z najbardziej przewrotnych historii w matematyce:
+<strong>potrafimy zapisać równania, potrafimy liczyć ich przybliżenia w praktyce,
+ale w trzech wymiarach nadal nie wiemy, czy ich idealnie gładkie rozwiązania zawsze pozostają gładkie.</strong>
+</p>
+
+<h2 id="rownania">2. Euler i Navier–Stokes: dwie wersje opisu płynu</h2>
+
+<h3>Euler: płyn bez lepkości</h3>
+
+<p>
+Równania Eulera opisują idealizowany płyn, w którym pomija się lepkość, czyli wewnętrzne tarcie pomiędzy warstwami płynu.
+To nie znaczy, że są „nierealne”. Są bardzo użytecznym modelem wtedy, gdy lepkość ma małe znaczenie dla interesującej nas skali
+albo gdy chcemy zrozumieć sam mechanizm ruchu i wirów bez dodatkowego efektu wygładzania.
+</p>
+
+<p>
+Euler jest prostszy od Naviera–Stokesa, ale nie jest prosty w sensie zachowania.
+Potrafi generować skomplikowane wiry i bardzo ostre struktury. Dlatego w tej historii pojawia się jako poligon doświadczalny:
+jeżeli jakaś konstrukcja blow-up działa dla Eulera, można próbować przenieść jej ideę do Naviera–Stokesa.
+</p>
+
+<h3>Navier–Stokes: Euler plus lepkość</h3>
+
+<p>
+Równania Naviera–Stokesa dodają do tej dynamiki lepkość.
+W dużym uproszczeniu jest to mechanizm, który rozprasza energię i wygładza bardzo drobne różnice prędkości.
+Dlatego w równaniu jednocześnie działają dwie przeciwne tendencje:
+nieliniowy ruch płynu może tworzyć coraz bardziej skoncentrowane struktury,
+a lepkość próbuje je rozmazywać.
+</p>
+
+<p>
+Schematyczny zapis nieściśliwych równań wygląda tak:
+</p>
+
+<p><code>∂ₜu + (u·∇)u = -∇p + νΔu + f</code><br>
+<code>∇·u = 0</code></p>
+
+<p>
+Nie trzeba umieć czytać tego równania, żeby zrozumieć dalszą historię.
+Wystarczy wiedzieć, że <code>u</code> opisuje pole prędkości płynu,
+<code>p</code> ciśnienie, <code>ν</code> lepkość, a <code>f</code> siłę zewnętrzną, czyli forcing.
+Warunek <code>∇·u = 0</code> mówi w tym modelu, że płyn jest nieściśliwy.
+</p>
+
+<h2 id="praktyka">3. Skoro problem jest nierozwiązany, to jak samoloty w ogóle latają?</h2>
+
+<p>
+To pytanie pojawia się niemal zawsze i jest bardzo sensowne.
+Problem Milenijny nie brzmi: „nie umiemy liczyć przepływu”.
+Umiemy. Inżynieria oparta na Navierze–Stokesie działa codziennie.
+</p>
+
+<p>
+Równania są używane m.in. w:
+</p>
+
+<ul>
+<li>aerodynamice samolotów i samochodów,</li>
+<li>turbinach, sprężarkach, pompach i wentylatorach,</li>
+<li>rurociągach, kanałach i instalacjach przemysłowych,</li>
+<li>energetyce, spalaniu i chłodzeniu,</li>
+<li>meteorologii, modelach atmosfery i oceanów,</li>
+<li>inżynierii procesowej, mieszalnikach, reaktorach, separatorach i hydrocyklonach,</li>
+<li>przepływie krwi i powietrza w organizmie,</li>
+<li>hydrodynamice okrętów, fal i śrub,</li>
+<li>niemal całej numerycznej mechanice płynów, czyli CFD.</li>
+</ul>
+
+<p>
+CFD to <em>computational fluid dynamics</em>, czyli numeryczna mechanika płynów.
+„Numeryczna” oznacza tu, że nie szukamy pięknego wzoru zamkniętego na kartce,
+tylko dzielimy przestrzeń na ogromną liczbę małych komórek i pozwalamy komputerowi przybliżać równania krok po kroku.
+</p>
+
+<p>
+Typowa analiza wygląda tak:
+najpierw powstaje geometria, na przykład skrzydło albo rura.
+Następnie tworzy się siatkę obliczeniową.
+Podaje się własności płynu i warunki brzegowe: prędkość na wejściu, ciśnienie, temperaturę, lepkość itd.
+Potem <strong>solver</strong>, czyli program numerycznie rozwiązujący równania,
+oblicza przybliżone pola prędkości, ciśnienia i innych wielkości.
+Na końcu wynik porównuje się z eksperymentem, pomiarem albo innym modelem.
+</p>
+
+<p>
+To, że nie znamy pełnego twierdzenia o globalnej regularności w 3D,
+nie przeszkadza wykonywać skończonych obliczeń dla konkretnych warunków.
+Podobnie jak nieznajomość wszystkich możliwych zachowań danego układu dynamicznego
+nie uniemożliwia obliczenia bardzo wielu konkretnych trajektorii.
+</p>
+
+<h2 id="turbulencja">4. Turbulencja: miejsce, w którym kilka prostych symboli robi się piekielnie skomplikowane</h2>
+
+<p>
+Turbulencja to chaotyczny, wieloskalowy ruch płynu.
+Duże wiry tworzą mniejsze struktury, te tworzą jeszcze mniejsze,
+a energia przechodzi w dół skali, aż na bardzo małych skalach zostaje rozproszona przez lepkość.
+To właśnie kaskada skal sprawia, że turbulencja jest trudna zarówno fizycznie, jak i obliczeniowo.
+</p>
+
+<p>
+W realnym przepływie można mieć jednocześnie wielki wir za skrzydłem i mikroskopijne struktury,
+na których energia jest ostatecznie zamieniana w ciepło.
+Gdyby komputer miał rozdzielić każdą z tych skal bez żadnych modeli przybliżonych,
+musiałby użyć potężnej siatki i bardzo małego kroku czasowego.
+</p>
+
+<h3>Liczba Reynoldsa</h3>
+
+<p>
+Podstawową liczbą opisującą ten konflikt jest liczba Reynoldsa <code>Re</code>.
+Porównuje znaczenie bezwładności przepływu z wpływem lepkości.
+W prostym przypadku:
+</p>
+
+<p><code>Re = ρUL/μ = UL/ν</code></p>
+
+<p>
+gdzie <code>ρ</code> oznacza gęstość, <code>U</code> typową prędkość,
+<code>L</code> typowy rozmiar, <code>μ</code> lepkość dynamiczną,
+a <code>ν</code> lepkość kinematyczną.
+</p>
+
+<p>
+Małe <code>Re</code> oznacza, że lepkość bardzo skutecznie wygładza przepływ.
+Duże <code>Re</code> oznacza, że bezwładność dominuje i łatwo powstają złożone wiry oraz turbulencja.
+Nie istnieje jeden uniwersalny próg przejścia do turbulencji.
+Dla prostej rury często podaje się orientacyjnie przepływ laminarny poniżej <code>Re≈2300</code>,
+zakres przejściowy mniej więcej <code>2300–4000</code> i zwykle turbulentny powyżej,
+ale te liczby dotyczą konkretnej geometrii.
+</p>
+
+<p>
+Przy dużym <code>Re</code> zwiększa się zakres skal, które trzeba rozdzielić.
+Dlatego bezpośrednia symulacja wszystkich skal staje się bardzo kosztowna.
+</p>
+
+<h3>RANS, LES i DNS</h3>
+
+<p>
+W praktyce stosuje się trzy główne poziomy podejścia do turbulencji.
+<strong>RANS</strong> liczy głównie efekt średni turbulencji i modeluje dodatkowe naprężenia.
+<strong>LES</strong> rozwiązuje bezpośrednio większe wiry, a najmniejsze modeluje.
+<strong>DNS</strong> próbuje policzyć wszystkie istotne skale bez modelu turbulencyjnego.
+DNS jest najbliższe „pełnemu” rozwiązaniu numerycznemu, lecz przy przemysłowych liczbach Reynoldsa zazwyczaj jest zbyt drogie.
+</p>
+
+<div class="note">
+<strong>Turbulencja nie jest tym samym co osobliwość.</strong>
+Przepływ może być całkowicie turbulentny, chaotyczny i trudny numerycznie,
+a jednocześnie pozostawać matematycznie gładki i skończony.
+To rozróżnienie jest kluczowe dla zrozumienia Problemu Milenijnego.
+</div>
+
+<h2 id="gladkosc">5. „Gładkie rozwiązanie” brzmi niewinnie. To właśnie ono jest sednem problemu</h2>
+
+<p>
+Kiedy matematycy mówią o gładkości Naviera–Stokesa, nie chodzi o to, czy samo równanie jest „ładne”.
+Chodzi o <strong>rozwiązanie</strong>, czyli pole prędkości, ciśnienie i ich zmiany w czasie i przestrzeni.
+</p>
+
+<p>
+Rozwiązanie jest gładkie, jeśli nie tworzy nagłych matematycznych pęknięć,
+nieskończonych wartości ani pochodnych, których nie da się dalej sensownie liczyć.
+Może być bardzo skomplikowane i turbulentne.
+Gładkość nie oznacza prostoty. Oznacza brak matematycznej katastrofy.
+</p>
+
+<h3>Osobliwość, singularność, utrata regularności, blow-up</h3>
+
+<p>
+Polskim standardowym terminem dla angielskiego <em>singularity</em> jest <strong>osobliwość</strong>.
+W tekstach technicznych spotyka się również „singularność”.
+Osobliwość to miejsce albo chwila, w której rozwiązanie przestaje spełniać wymagane warunki regularności.
+Może na przykład pojawić się nieskończony gradient albo jakaś wielkość może rosnąć bez ograniczeń.
+</p>
+
+<p>
+<strong>Utrata regularności</strong> to ogólne stwierdzenie, że rozwiązanie przestaje być dostatecznie gładkie.
+<strong>Blow-up</strong> jest szczególnym mechanizmem: pewna norma lub wielkość rośnie bez ograniczeń w skończonym czasie.
+Te pojęcia są blisko spokrewnione, ale nie są idealnymi synonimami.
+</p>
+
+<p>
+W Navierze–Stokesie nie chodzi o fizyczną eksplozję cieczy.
+Chodzi o możliwość, że matematyczny opis przepływu w skończonym czasie zrobi się tak ostry,
+że przestanie należeć do klasy gładkich rozwiązań.
+</p>
+
+<h2 id="wymiary">6. Dlaczego problem jest o trzech wymiarach, skoro równanie można zapisać w osiemnastu?</h2>
+
+<p>
+Sam zapis Naviera–Stokesa rzeczywiście działa w ogólnej przestrzeni <code>Rᵈ</code>.
+Nie ma w nim magicznej cyfry 3.
+Można formalnie rozważać jeden, dwa, trzy, cztery albo osiemnaście wymiarów.
+Ale wymiar nie jest kosmetycznym parametrem.
+Zmienia strukturę możliwych rozwiązań.
+</p>
+
+<h3>1D: prawie nie ma gdzie wirować</h3>
+
+<p>
+Dla klasycznego nieściśliwego Naviera–Stokesa w jednym wymiarze warunek
+<code>∂ₓu=0</code> zasadniczo zabija bogatą dynamikę przestrzenną.
+To przypadek zdegenerowany w porównaniu z przepływem, który znamy z fizycznego świata.
+</p>
+
+<h3>2D: problem jest łagodniejszy</h3>
+
+<p>
+W dwóch wymiarach globalna regularność klasycznego nieściśliwego Naviera–Stokesa jest znana.
+Gładkie dane początkowe prowadzą do gładkiego rozwiązania na zawsze.
+Jednym z głównych powodów jest brak pełnego mechanizmu <strong>vortex stretching</strong>,
+czyli rozciągania wiru.
+</p>
+
+<h3>3D: wir może się rozciągać i wzmacniać</h3>
+
+<p>
+W trzech wymiarach pojawia się człon związany z rozciąganiem i przechylaniem wirowości.
+Intuicyjnie wir może zostać rozciągnięty jak gumowa linka, a przy zachowaniu odpowiednich własności jego wirowość może rosnąć.
+Powstaje potencjalne sprzężenie zwrotne:
+silny wir łatwiej tworzy warunki do dalszego wzmacniania wiru.
+</p>
+
+<p>
+Lepkość działa w przeciwnym kierunku.
+I właśnie tu leży dramat problemu:
+<strong>nie wiadomo, czy w 3D lepkość zawsze ostatecznie wygra,
+czy też istnieje legalna konfiguracja, w której nieliniowa koncentracja doprowadzi do blow-up.</strong>
+</p>
+
+<h3>4D i więcej: matematycznie można, fizycznie to już inna opowieść</h3>
+
+<p>
+W wyższych wymiarach równania nadal mają sens jako równania różniczkowe cząstkowe.
+Zmieniają się jednak prawa skalowania i równowaga pomiędzy nieliniowością a dyssypacją.
+W języku analizy mówi się, że problem staje się bardziej superkrytyczny.
+To ciekawe matematycznie, ale nie jest już tym samym pytaniem co fizyczne 3D.
+</p>
+
+<div class="note">
+Trzy wymiary są więc szczególne z dwóch powodów naraz:
+to przestrzeń, w której rzeczywiście żyją nasze wiry,
+i pierwszy naturalny wymiar, w którym pojawia się pełny vortex stretching,
+a globalna regularność przestaje być znana.
+</div>
+
+<h2 id="clay">7. Co to są Problemy Milenijne Clay i dlaczego istnieją cztery gałęzie A–D</h2>
+
+<p>
+Clay Mathematics Institute ogłosił w 2000 roku siedem wyjątkowo ważnych otwartych problemów matematycznych
+i nazwał je <strong>Millennium Prize Problems</strong>.
+Za rozwiązanie każdego przewidziano milion dolarów.
+Nie są to zadania konkursowe, tylko problemy fundamentalne, które przez dekady opierały się najlepszym specjalistom.
+</p>
+
+<p>
+Navier–Stokes jest jednym z nich.
+I tu jest ważny szczegół: oficjalne sformułowanie nie daje jednej drogi rozwiązania.
+Dopuszcza cztery alternatywy oznaczone A, B, C i D.
+Wystarczy poprawnie dowieść jednej.
+<a href="https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf">[S4]</a>
+</p>
+
+<div class="box">
+<h3>A: udowodnij, że w całej przestrzeni wszystko zawsze pozostaje gładkie</h3>
+<p>
+Startujemy od gładkiego przepływu w 3D, bez zewnętrznej siły.
+Trzeba wykazać, że rozwiązanie istnieje dla każdego późniejszego czasu i nigdy nie tworzy osobliwości.
+</p>
+</div>
+
+<div class="box">
+<h3>B: to samo w okresowym pudełku</h3>
+<p>
+Zamiast całej nieskończonej przestrzeni używa się trójwymiarowego torusa:
+matematycznego pudełka, w którym przeciwległe ściany są sklejone.
+To usuwa problem zachowania w nieskończoności i skupia uwagę na samej dynamice.
+</p>
+</div>
+
+<div class="box">
+<h3>C: znajdź jeden gładki przykład w całej przestrzeni, który się psuje</h3>
+<p>
+Tutaj można użyć gładkiej siły zewnętrznej.
+Zadanie brzmi: skonstruuj legalny, gładki przepływ i forcing,
+dla których w skończonym czasie powstanie utrata regularności.
+</p>
+</div>
+
+<div class="box">
+<h3>D: to samo w okresowym pudełku</h3>
+<p>
+To odpowiednik C na torusie.
+Także tutaj wolno użyć gładkiego forcingu.
+</p>
+</div>
+
+<p>
+W skrócie: A/B próbują udowodnić, że rozwiązania zawsze pozostają gładkie.
+C/D próbują wykazać coś przeciwnego przez jeden poprawny kontrprzykład.
+</p>
+
+<p>
+To ważne, bo po ogłoszeniu OpenAI pojawił się zarzut:
+„dodali forcing, więc nie rozwiązali prawdziwego problemu”.
+W tej formie zarzut jest błędny.
+<strong>Forcing jest jawnie dozwolony w oficjalnych gałęziach C i D Clay.</strong>
+<a href="https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf">[S4]</a>
+</p>
+
+<h3>Status Clay</h3>
+
+<p>
+Nawet jeśli dowód jest poprawny, nie oznacza to jeszcze oficjalnego „problem rozwiązany”.
+Clay wymaga publikacji w kwalifikowanym źródle, co najmniej dwóch lat kontroli
+i ogólnej akceptacji globalnej społeczności matematycznej.
+<a href="https://www.claymath.org/millennium-problems/rules/">[S5]</a>
+</p>
+
+<p>
+OpenAI samo deklaruje, że nie zamierza ubiegać się o nagrodę Clay za ten wynik.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<h2 id="ai">8. AI wchodzi do matematyki: agent, Codex, Lean, token, compute</h2>
+
+<p>
+W tej historii przewija się tyle technologicznego żargonu, że bez uporządkowania łatwo zgubić główny wątek.
+</p>
+
+<h3>LLM</h3>
+
+<p>
+LLM, czyli <em>large language model</em>, to duży model językowy:
+system uczony na ogromnej liczbie przykładów tekstu i kodu,
+który przewiduje kolejne elementy odpowiedzi i dzięki temu potrafi generować tekst, kod i rozumowania.
+„Duży” odnosi się do skali modelu, danych i obliczeń, a nie do rozmiaru okna na ekranie.
+</p>
+
+<h3>Token</h3>
+
+<p>
+Model nie operuje bezpośrednio na słowach tak jak człowiek.
+Tekst jest dzielony na <strong>tokeny</strong>, czyli małe fragmenty tekstu.
+Token może być całym krótkim słowem, częścią słowa, znakiem lub kombinacją znaków.
+Liczba tokenów jest więc przybliżoną miarą ilości tekstu przetworzonego albo wygenerowanego przez model.
+Gdy OpenAI mówi o 130 miliardach tokenów wyjściowych, chodzi o absurdalnie dużą skalę wygenerowanej pracy maszynowej,
+nie o 130 miliardów „myśli”.
+</p>
+
+<h3>Agent AI</h3>
+
+<p>
+Agent to osobno uruchomiona instancja modelu wykonująca jakieś zadanie:
+próbuje jednego dowodu, szuka kontrprzykładu, analizuje lemat, pisze kod,
+sprawdza wynik albo podsumowuje pracę innych agentów.
+Tysiąc agentów nie oznacza tysiąca różnych modeli.
+To może być tysiąc osobnych uruchomień tego samego modelu z innymi zadaniami i historiami pracy.
+</p>
+
+<h3>Workflow</h3>
+
+<p>
+Workflow to po prostu sposób wykonywania pracy, czyli kolejność kroków i przekazywania wyników.
+W eksperymencie OpenAI workflow był ważniejszy niż pojedynczy prompt:
+jedne grupy agentów generowały pomysły, inne je sprawdzały,
+Codex konsolidował rezultaty, a następna fala agentów dostawała już lepszy materiał wejściowy.
+</p>
+
+<h3>Codex</h3>
+
+<p>
+Codex to agentowe środowisko OpenAI do pracy z kodem, plikami i zadaniami technicznymi.
+Może pisać i modyfikować kod, uruchamiać go, czytać pliki, sprawdzać wyniki
+i wykonywać dłuższe sekwencje zadań.
+W tej historii Codex pojawia się po obu stronach:
+korzystali z niego Buckmaster i Alpöge,
+a OpenAI używało go także w swoim masowym eksperymencie do konsolidowania pracy agentów.
+</p>
+
+<h3>Lean</h3>
+
+<p>
+Lean nie jest chatbotem.
+To system formalnego dowodzenia twierdzeń.
+Dowód zapisuje się w bardzo precyzyjnym języku,
+a komputer sprawdza mechanicznie, czy każdy krok wynika z wcześniejszych kroków i reguł logiki.
+</p>
+
+<p>
+Formalizacja w Lean znacznie zwiększa wiarygodność długiego argumentu,
+bo usuwa wiele klas zwykłych ludzkich błędów.
+Nie rozwiązuje jednak automatycznie całego problemu interpretacyjnego:
+nadal trzeba sprawdzić, czy sformalizowane twierdzenie dokładnie odpowiada temu,
+co Clay wymaga w swojej definicji, i czy wszystkie założenia są właściwe.
+</p>
+
+<h3>Compute</h3>
+
+<p>
+Compute to zbiorcze określenie zasobów obliczeniowych:
+czas pracy GPU, TPU, CPU, pamięci i infrastruktury serwerowej.
+CPU to klasyczny procesor,
+GPU to procesor bardzo dobry w równoległych obliczeniach,
+a TPU to wyspecjalizowany akcelerator do obciążeń związanych z uczeniem maszynowym.
+</p>
+
+<p>
+„Rzucić dużo compute” znaczy po prostu:
+uruchomić ogromną liczbę bardzo kosztownych obliczeń równolegle.
+</p>
+
+<h3>Chmura, centrum danych, cache</h3>
+
+<p>
+<strong>Cloud</strong>, czyli chmura, to zdalna infrastruktura obliczeniowa dostępna jako usługa.
+W praktyce fizycznie oznacza to centra danych pełne serwerów.
+Nie należy mylić słowa <em>cloud</em> z nazwą <strong>Claude</strong>, czyli modelem firmy Anthropic.
+</p>
+
+<p>
+Gdy OpenAI pisze o <strong>cache'owanej wersji internetu</strong>,
+chodzi o wcześniej zapisaną kopię części zasobów sieci,
+a nie o nieograniczone przeglądanie aktualnego internetu przez każdego agenta.
+</p>
+
+<h3>Repozytorium i API</h3>
+
+<p>
+Repozytorium to uporządkowany zbiór plików projektu i ich historii zmian, np. na GitHubie.
+OpenAI udostępniło publiczne repozytorium z formalizacją Lean.
+<strong>API</strong> to techniczny interfejs pozwalający programowi korzystać z usługi innego programu;
+w kontekście polityki danych OpenAI API ma inne domyślne zasady treningu niż konsumencki ChatGPT lub Codex.
+</p>
+
+<h3>Trening modelu a korzystanie z gotowego modelu</h3>
+
+<p>
+To rozróżnienie będzie później kluczowe.
+Korzystanie z gotowego modelu oznacza, że wysyłamy mu prompt i dostajemy odpowiedź.
+<strong>Trening</strong> oznacza wcześniejsze lub późniejsze modyfikowanie parametrów modelu na podstawie danych,
+tak aby przyszłe odpowiedzi systemu się zmieniały.
+</p>
+
+<p>
+Dlatego „model nie miał bezpośredniego dostępu do prywatnej sesji podczas rozwiązywania”
+i „dane z tej sesji nigdy nie mogły wpłynąć na trening” to dwa różne twierdzenia.
+Cały spór z Buckmasterem kręci się właśnie wokół tej różnicy.
+</p>
+
+<h3>Sprint</h3>
+
+<p>
+Sprint nie jest terminem matematycznym.
+To krótki, bardzo intensywny okres skoncentrowanej pracy.
+W przypadku OpenAI oznaczał wielodniowy atak na zestaw wyjątkowo trudnych problemów
+przy użyciu ogromnej liczby agentów i zasobów obliczeniowych.
+</p>
+
+<h2 id="kto">9. Kto używał którego AI</h2>
+
+<p>
+To ważne, bo w tej historii „AI” nie jest jednym urządzeniem ani jednym modelem.
+</p>
+
+<div class="box">
+<h3>Buckmaster i Alpöge</h3>
+<p>
+Według publicznego oświadczenia Tristana Buckmastera prywatna praca badawcza jego i Leventa Alpöge
+korzystała z kilku modeli i narzędzi:
+<strong>Claude</strong> firmy Anthropic,
+<strong>Codex</strong> OpenAI,
+<strong>GPT‑5.6 Sol</strong>,
+a później również modeli z rodziny Astra.
+Modele pomagały w rozwijaniu argumentów, obliczeniach, pracy technicznej i formalizacji.
+Buckmaster podaje też, że wszystkie szkice projektu trafiały do ich sesji Codexa.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+</div>
+
+<div class="box">
+<h3>OpenAI</h3>
+<p>
+OpenAI używało nowego wewnętrznego modelu badawczego,
+według firmy znacząco mocniejszego matematycznie od GPT‑6 Astra,
+tysięcy równoległych agentów, Codexa do konsolidowania wyników
+oraz GPT‑6 Astra przy późniejszej formalizacji i weryfikacji Lean.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+</div>
+
+<div class="box">
+<h3>Córdoba i Martínez-Zoroa</h3>
+<p>
+Ich wcześniejsze prace są kluczową częścią genealogii programu matematycznego.
+W źródłach wykorzystanych do tego researchu nie ma podstaw, by przypisywać AI istotną rolę w ich wcześniejszych publikacjach.
+Dlatego nie należy dopisywać jej retroaktywnie.
+</p>
+</div>
+
+<h2 id="wydarzenia">10. Co właściwie wydarzyło się we wrześniu 2026</h2>
+
+<p>
+Najłatwiej zrozumieć konflikt, jeśli odtworzymy kolejność wydarzeń.
+</p>
+
+<p>
+Córdoba, Martínez-Zoroa i współautorzy od lat rozwijali konstrukcje finite-time blow-up w pokrewnych układach
+i z forcingiem. W maju 2026 Córdoba, Martínez-Zoroa i Fan Zheng opublikowali pracę
+o hipodyssypatywnym Navierze–Stokesie z forcingiem.
+<a href="https://link.springer.com/article/10.1007/s00205-026-02198-0">[S9]</a>
+</p>
+
+<p>
+Przez mniej więcej rok Buckmaster i Alpöge rozwijali ten program prywatnie,
+korzystając intensywnie z LLM.
+Według Buckmastera 15 sierpnia uzyskali blow-up z gładkim forcingiem dla Boussinesqa i Eulera,
+a 22 sierpnia zakończyli formalną weryfikację swojego wyniku w Lean.
+Nie był to jeszcze klasyczny Problem Milenijny Naviera–Stokesa.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<p>
+28 sierpnia OpenAI rozpoczęło trening nowego modelu wewnętrznego.
+1 września firma usłyszała plotki, że rozwiązano dwa Problemy Milenijne.
+To, według samego OpenAI, stało się impulsem do uruchomienia szerokiego eksperymentu
+na wszystkich nadal otwartych Problemach Milenijnych oraz kilku innych trudnych problemach.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<p>
+OpenAI przyznaje, że później rozpoznało jedną z tych plotek jako związaną z pracą Alpöge i Buckmastera.
+To istotny fakt.
+Nie dowodzi dostępu do prywatnych szkiców,
+ale oznacza, że organizacja nie wybrała tego momentu i celu całkowicie w próżni informacyjnej.
+</p>
+
+<p>
+3 września Buckmaster napisał do matematyka w OpenAI,
+że plotka prawdopodobnie dotyczy ich pracy, lecz nie ujawniał szczegółów wyniku.
+5 września, według OpenAI, ich system miał już znaleźć rozwiązanie Naviera–Stokesa po około 88 godzinach działania agentów.
+6 września zakończyła się formalizacja Lean OpenAI
+i tego samego dnia odbyły się rozmowy pomiędzy Buckmasterem a przedstawicielami OpenAI,
+które później stały się źródłem publicznego konfliktu.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<p>
+7 września Buckmaster i Alpöge publicznie pokazali swoje wyniki dla prostszych układów,
+a Terence Tao omówił je jako rozwinięcie programu Córdoby i Martíneza-Zoroi.
+8 września OpenAI opublikowało pełny kandydat na rozwiązanie Naviera–Stokesa,
+formalizację Lean i opis swojego procesu.
+<a href="https://terrytao.wordpress.com/2026/09/07/finite-time-blowup-with-smooth-forcing-term-for-the-incompressible-porous-medium-boussinesq-and-incompressible-euler-equations/">[S7]</a>
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<p>
+9 września sprawa była już jednocześnie wydarzeniem matematycznym i sporem o autorstwo,
+dane, priorytet oraz sposób komunikacji.
+Relacjonowały ją m.in. Nature, Financial Times i Wired.
+<a href="https://www.nature.com/articles/d41586-026-02842-5">[S10]</a>
+<a href="https://www.ft.com/content/4d6d28a0-4b12-438e-8850-4b3d49fc57f5">[S11]</a>
+<a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics">[S12]</a>
+</p>
+
+<h2 id="dowod">11. Co właściwie twierdzi dowód OpenAI</h2>
+
+<p>
+OpenAI opublikowało pracę <em>Finite Time Blowup for Navier–Stokes</em>, liczącą 166 stron,
+oraz formalizację Lean.
+Nie jest to wpis „model znalazł ciekawą obserwację”.
+To bardzo konkretny kandydat na pełny dowód.
+<a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">[S2]</a>
+</p>
+
+<p>
+Główne twierdzenie, po odarciu z technicznego języka, mówi:
+dla każdej dodatniej lepkości można skonstruować gładką siłę zewnętrzną
+i gładkie rozwiązanie startujące od spoczynku,
+którego energia pozostaje ograniczona,
+ale prędkość staje się nieograniczona w skończonym czasie.
+To ma realizować oficjalne gałęzie C i D Clay.
+</p>
+
+<p><strong>
+W konstrukcji centralną rolę odgrywa wir, który kurczy się radialnie, rozciąga osiowo i przyspiesza.
+Trudność nie polega na samym wymuszeniu katastrofy.
+Gdyby wolno było użyć patologicznej siły zewnętrznej, byłoby to dużo mniej interesujące.
+Cała sztuka polega na tym, by rozwiązanie traciło regularność,
+a sama siła <code>f</code> pozostawała odpowiednio gładka.
+OpenAI twierdzi, że dokładnie to osiąga przez specjalnie skonstruowane oscylacje i kasowania.
+<a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">[S2]</a>
+</strong></p>
+
+<p>
+Repozytorium OpenAI zawiera sformalizowane twierdzenia odpowiadające C i D
+oraz instrukcję niezależnego zbudowania formalizacji.
+<a href="https://github.com/openai/NavierStokesAndEuler">[S3]</a>
+</p>
+
+<h3>Jak wielki był eksperyment</h3>
+
+<p>
+OpenAI opisuje około 10 000 agentów pracujących równolegle nad Navierem–Stokesem.
+Dla samego tego problemu podaje około 2,7 miliona wiadomości
+i około 130 miliardów tokenów wyjściowych.
+Dla całego eksperymentu: około 4,9 miliona wiadomości i 300 miliardów tokenów.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<p>
+Agenci byli dzieleni na grupy pracujące nad wariantami A, B, C i D.
+Osobnym grupom dano prostsze problemy.
+Około stu agentów miało przez około 50 godzin pracować nad niewymuszonym 3D Eulerem.
+Po uzyskaniu tam wyniku ludzie prowadzący eksperyment uznali Naviera–Stokesa za najbardziej obiecujący cel,
+przerzucili compute z innych problemów i przekazali rezultat Eulera dalszym agentom.
+</p>
+
+<p>
+Grupy były następnie „cross-pollinated”, czyli wymieniały rezultaty:
+Codex syntetyzował najlepsze wnioski jednej grupy i podawał je kolejnym.
+To ważne, bo pokazuje, że sukces nie był pojedynczym przebłyskiem modelu,
+tylko wynikiem bardzo dużej, iteracyjnej architektury badawczej.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<h2 id="genealogia">12. Skąd wziął się pomysł: genealogia jest starsza niż OpenAI</h2>
+
+<p>
+W tej części publiczne źródła są zaskakująco zgodne.
+Podstawowy program konstrukcji blow-up z forcingiem nie zaczął się ani w OpenAI,
+ani u Buckmastera i Alpöge.
+</p>
+
+<p>
+Buckmaster wprost przypisuje podstawową ideę Diego Córdobie i Luisowi Martínezie-Zoroi.
+Ich wcześniejsze prace rozwijały mechanizmy singularności przez amplifikację pomiędzy skalami
+przy kontroli regularności forcingu.
+Buckmaster i Alpöge mieli wziąć ten program jako punkt wyjścia
+i, z bardzo dużą pomocą LLM, doprowadzić go do wyników dla Boussinesqa i Eulera.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<p>
+Tao opisuje ich wynik w podobny sposób.
+Co więcej, sama 166-stronicowa praca OpenAI cytuje Córdobę, Martíneza-Zoroę i ich współautorów,
+omawiając ich badania jako część historycznej drogi do własnej konstrukcji.
+<a href="https://terrytao.wordpress.com/2026/09/07/finite-time-blowup-with-smooth-forcing-term-for-the-incompressible-porous-medium-boussinesq-and-incompressible-euler-equations/">[S7]</a>
+<a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">[S2]</a>
+</p>
+
+<p>
+To prowadzi do ważnego rozróżnienia:
+<strong>genealogia programu badawczego jest dość dobrze znana,
+natomiast pochodzenie konkretnego dowodu OpenAI jest przedmiotem sporu.</strong>
+</p>
+
+<h2 id="spor">13. Spór o dane i autorstwo: tutaj zaczyna się część, której nie rozstrzyga Lean</h2>
+
+<h3>Czy OpenAI „ukradło” badania?</h3>
+
+<p>
+Na podstawie publicznych danych nie można uczciwie powiedzieć, że zostało to wykazane.
+Buckmaster sam kończy swoje czterostronicowe oświadczenie bardzo ostrożnie:
+nie widział wcześniej dowodu OpenAI,
+nie wie dokładnie, co zrobił model,
+nie wie, czy ich dane zostały użyte,
+i nie twierdzi, że potrafi dowieść kradzieży lub plagiatu.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<p>
+To jednak nie oznacza, że cały problem znika.
+Według Buckmastera wszystkie szkice ich projektu trafiały do Codexa.
+OpenAI twierdzi, że badacze i agenci nie mieli bezpośredniego dostępu do konkretnych danych użytkowników podczas rozwiązywania.
+Jednocześnie firma pisze, że nie może całkowicie wykluczyć,
+iż zdeidentyfikowane dane pochodzące z używania produktów mogły wcześniej pomagać w ulepszaniu modeli.
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>
+</p>
+
+<p>
+<strong>Zdeidentyfikowane dane</strong> to dane, z których usunięto lub odłączono bezpośrednie identyfikatory użytkownika.
+Nie należy mylić tego z twierdzeniem, że dane nigdy nie mogły wpłynąć na trening.
+To właśnie dlatego odpowiedź „model nie wyszukiwał prywatnych sesji” nie rozstrzyga pytania
+„czy treści z takich sesji mogły kiedyś wejść do procesu uczenia”.
+</p>
+
+<h3>Polityka danych</h3>
+
+<p>
+Aktualna polityka OpenAI mówi, że w indywidualnych usługach ChatGPT i Codex treści mogą być używane do trenowania modeli,
+jeśli użytkownik nie zrezygnuje z tego ustawienia.
+Codex ma dodatkowe kontrolki dotyczące pełnych środowisk.
+W produktach Business, Enterprise i API domyślną zasadą jest brak treningu na wejściach i wyjściach.
+<a href="https://help.openai.com/en/articles/5722486-api-data-usage-policies">[S8]</a>
+</p>
+
+<p>
+Nie znamy publicznie dokładnych ustawień konta Buckmastera.
+Nie wolno więc przeskoczyć od „taki mechanizm może istnieć” do „jego szkice na pewno wytrenowały ten model”.
+</p>
+
+<h3>Trzy różne mechanizmy, których nie należy mieszać</h3>
+
+<ol>
+<li><strong>Bezpośredni dostęp agentów do prywatnych sesji podczas rozwiązywania.</strong> OpenAI temu zaprzecza.</li>
+<li><strong>Wpływ treści użytkowników na wcześniejszy trening lub ulepszanie modelu.</strong> OpenAI nie wyklucza pewnego pośredniego wpływu zdeidentyfikowanych danych.</li>
+<li><strong>Sama informacja, że konkretna grupa jest blisko przełomu.</strong> OpenAI jawnie przyznaje, że taka plotka uruchomiła sprint.</li>
+</ol>
+
+<p>
+Nawet gdyby pierwsze dwa punkty okazały się całkowicie niewinne,
+trzeci pozostaje istotny:
+informacja o tym, <em>gdzie warto teraz rzucić ogromny compute</em>,
+sama w sobie ma wartość badawczą.
+</p>
+
+<h3>Levent Alpöge i autorstwo</h3>
+
+<p>
+Według Buckmastera podczas rozmów z OpenAI pojawiła się propozycja,
+by to on sam napisał opracowanie prezentujące wynik OpenAI,
+z zaznaczeniem, że dowód stworzył model.
+Buckmaster twierdzi, że Sébastien Bubeck dwukrotnie chciał,
+aby Alpöge nie był współautorem tego opracowania,
+wskazując na jego zatrudnienie w Anthropic.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<p>
+Bubeck później zaprzeczył, jakoby chciał usunąć Alpöge z autorstwa <em>jego własnej pracy</em>.
+Jednocześnie publiczne relacje wskazują,
+że udział pracownika konkurencyjnego Anthropic w opracowaniu pracy OpenAI rzeczywiście był przez niego uznawany za problematyczny.
+To subtelne, ale ważne rozróżnienie:
+„usunąć człowieka z jego pracy” i „nie dopuścić go jako współautora opracowania wyników OpenAI” nie są tym samym.
+<a href="https://www.ft.com/content/4d6d28a0-4b12-438e-8850-4b3d49fc57f5">[S11]</a>
+<a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics">[S12]</a>
+</p>
+
+<h3>Presja</h3>
+
+<p>
+Buckmaster relacjonuje również wypowiedzi,
+które można odczytać jako nacisk:
+„Why would you ruin your career?”
+oraz „If you don’t want me to be nice, then I don’t have to be nice.”
+Nie ma publicznego nagrania rozmowy,
+więc pozostaje to relacją jednego uczestnika, a nie niezależnie zarejestrowanym faktem.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<h2 id="trzy">14. Trzy publiczne narracje: Olejnik, OpenAI i Keruac</h2>
+
+<h3>Łukasz Olejnik: najpierw znaczenie społeczne</h3>
+
+<p>
+Olejnik pisał jeszcze na etapie plotek i zachował właściwą ostrożność:
+„chodzą słuchy”, „nie wiem”.
+Jego główna teza nie dotyczyła samej poprawności dowodu,
+tylko konsekwencji:
+jeżeli AI rzeczywiście potrafi uczestniczyć w przełomie tej klasy,
+to jest to sygnał dotyczący automatyzacji pracy intelektualnej.
+</p>
+
+<p>
+To nie jest jeszcze dowód, że „duża część ludzkiej pracy zostanie zastąpiona”.
+Ale ciekawie współbrzmi z samym Buckmasterem,
+który nazywa rozwój matematyki wspomaganej LLM momentem „Deep Blue–Kasparov”
+i wskazuje na przyszłe skutki dla edukacji, recenzowania, autorstwa i wyboru tematów badań.
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">[S6]</a>
+</p>
+
+<h3>OpenAI: prawdziwy przełom, ale komunikacja dużo prostsza niż rzeczywistość</h3>
+
+<p>
+OpenAI ma bardzo mocny materiał naukowy:
+166 stron dowodu, Lean, repozytorium i szczegółowy opis eksperymentu.
+Pełny tekst firmy zawiera zresztą wiele niewygodnych szczegółów:
+plotkę jako impuls, ogromną skalę compute, ludzką orkiestrację,
+wiele grup agentów, transfer wyników pomiędzy nimi i wcześniejszą literaturę.
+</p>
+
+<p>
+Problem polega na tym, że marketingowy przekaz był znacznie bardziej kategoryczny:
+„nasz model i agenci rozwiązali problem”.
+Dla przeciętnego odbiorcy naturalny obraz jest wtedy prosty:
+OpenAI wzięło słynny problem, jego model samodzielnie znalazł rozwiązanie,
+a firma jest jednoznacznym właścicielem przełomu.
+Dopiero ktoś, kto przejdzie przez dłuższy opis, prace źródłowe i spór uczestników,
+widzi dużo bardziej złożoną chronologię.
+</p>
+
+<p>
+Nie ma podstaw, by na dziś orzec kradzież albo jednoznaczne złamanie norm etycznych.
+Ale równie nieadekwatne byłoby przedstawianie OpenAI jako krystalicznie neutralnej strony.
+<strong>Komunikacja firmy maksymalizowała wrażenie samodzielnego autorstwa,
+a minimalizowała złożoność pochodzenia kierunku, rolę plotki, wcześniejszą genealogię programu i konflikt o priorytet.</strong>
+Ocena tego zachowania może jeszcze długo być przedmiotem sporu historyków matematyki, nauki i technologii.
+</p>
+
+<h3>Christopher Keruac: mocny rdzeń faktów, zbyt twardy wyrok</h3>
+
+<p>
+Wątek Keruaca wygląda początkowo jak sensacyjna historia o korporacyjnym thrillerze.
+Zaskakujące jest to, że bardzo wiele jego szczegółów rzeczywiście ma źródło
+w publicznym oświadczeniu Buckmastera:
+rok pracy, używanie Codexa, data przełomu dla Eulera,
+plotka, gigantyczny compute OpenAI, rozmowy z Bubeckiem,
+problem z Alpöge i wypowiedzi o karierze.
+</p>
+
+<p>
+Keruac przekracza jednak źródła w jednym kluczowym miejscu:
+z nierozstrzygniętego pytania o pochodzenie wiedzy robi ustaloną „kradzież badań”.
+Sam Buckmaster nie idzie tak daleko.
+</p>
+
+<p>
+Jego ostrzeżenie, że nieopublikowane idee wrzucane do komercyjnego AI mogą mieć konsekwencje,
+ma realną podstawę w politykach danych,
+ale również wymaga doprecyzowania:
+zależy to od rodzaju usługi, konta i ustawień treningu.
+</p>
+
+<h2 id="wiemy">15. Co wiemy, a czego nadal nie wiemy</h2>
+
+<div class="box">
+<h3>Wiemy</h3>
+<ul>
+<li>OpenAI opublikowało konkretny, długi dowód i formalizację Lean.</li>
+<li>Dowód celuje w oficjalne gałęzie C i D Clay, w których gładki forcing jest dozwolony.</li>
+<li>OpenAI rozpoczęło masowy sprint po plotce o cudzym przełomie.</li>
+<li>Do Naviera–Stokesa użyto około 10 000 agentów oraz ekstremalnej ilości compute.</li>
+<li>Buckmaster i Alpöge od około roku pracowali nad bliską linią badawczą przy intensywnym użyciu LLM.</li>
+<li>Ich program wywodzi się z wcześniejszych prac Córdoby i Martíneza-Zoroi.</li>
+<li>Buckmaster deklaruje, że wszystkie ich szkice trafiały do Codexa.</li>
+<li>Indywidualne usługi OpenAI mogą, zależnie od ustawień, wykorzystywać treści do treningu modeli.</li>
+<li>OpenAI nie wyklucza pośredniego wpływu pewnych zdeidentyfikowanych danych na ulepszanie modeli.</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>Nie wiemy</h3>
+<ul>
+<li>czy prywatne szkice Buckmastera i Alpöge faktycznie znalazły się w danych treningowych konkretnego modelu użytego przez OpenAI;</li>
+<li>czy ewentualne dane treningowe miały jakikolwiek wykrywalny wpływ na rozwiązanie;</li>
+<li>czy OpenAI znalazłoby tę samą ścieżkę bez wcześniejszej plotki o przełomie;</li>
+<li>czy 166-stronicowy dowód przejdzie wieloletnią niezależną weryfikację bez istotnej luki;</li>
+<li>jak historycy matematyki i środowisko naukowe ostatecznie rozdzielą priorytet, autorstwo i zasługi.</li>
+</ul>
+</div>
+
+<h2 id="znaczenie">16. Dlaczego ta historia może być ważniejsza niż sam Navier–Stokes</h2>
+
+<h3>Po pierwsze: matematyka</h3>
+
+<p>
+Jeżeli dowód przejdzie pełną kontrolę,
+będzie to rozwiązanie jednego z najbardziej znanych otwartych problemów matematyki
+przy zasadniczym udziale systemu AI.
+Już sam ten fakt byłby historyczny.
+</p>
+
+<h3>Po drugie: nowa skala pracy badawczej</h3>
+
+<p>
+Największa zmiana może jednak nie polegać na tym, że model „jest mądry”.
+Polega na tym, że organizacja może uruchomić tysiące równoległych ścieżek badawczych,
+selekcjonować wyniki, przerzucać zasoby do najbardziej obiecujących gałęzi
+i formalizować najlepsze argumenty w czasie liczonym w dniach.
+</p>
+
+<p>
+To jest inna forma badań niż klasyczne „matematyk plus asystent AI”.
+Bardziej przypomina fabrykę hipotez i dowodów,
+w której człowiek zarządza kierunkami,
+a ogromna liczba agentów masowo przeszukuje przestrzeń możliwych rozwiązań.
+</p>
+
+<h3>Po trzecie: wiedza, gdzie szukać, staje się aktywem</h3>
+
+<p>
+W tradycyjnej nauce ogromna część pracy polega na ustaleniu,
+który kierunek w ogóle jest obiecujący.
+Jeżeli ktoś spędza rok, odkrywając, że konkretna konstrukcja prawdopodobnie prowadzi do przełomu,
+sama informacja „oni są blisko właśnie tutaj” ma wartość.
+</p>
+
+<p>
+W świecie masowych agentów ta wartość rośnie dramatycznie.
+Organizacja z odpowiednio dużym compute może po otrzymaniu takiego sygnału
+przeszukać tysiące wariantów w kilka dni.
+Nawet bez jakiegokolwiek dostępu do prywatnego dokumentu
+może wykorzystać informację o <em>wartości kierunku</em>.
+</p>
+
+<h3>Po czwarte: autorstwo przestaje być oczywiste</h3>
+
+<p>
+Kto jest autorem wyniku, jeśli:
+pierwszy człowiek wymyślił program badawczy,
+drugi zespół przez rok rozwinął go przy pomocy kilku LLM,
+firma usłyszała o przełomie,
+następnie tysiące jej agentów wygenerowało inny pełny dowód,
+a Lean formalnie go sprawdził?
+</p>
+
+<p>
+Dotychczasowe normy akademickie nie zostały stworzone dla takiego przypadku.
+I właśnie dlatego odpowiedź nie sprowadza się do prostego „AI jest autorem” albo „AI jest tylko kalkulatorem”.
+</p>
+
+<h3>Po piąte: prywatność narzędzi staje się częścią metodologii naukowej</h3>
+
+<p>
+Badacz używający AI do nieopublikowanej pracy musi dziś rozumieć nie tylko matematykę.
+Musi wiedzieć, jaki produkt wykorzystuje,
+czy dane mogą służyć do treningu,
+czy ma opt-out,
+czy pracuje przez API, Enterprise czy usługę konsumencką
+i jak zachować wiarygodny zapis chronologii swoich odkryć.
+</p>
+
+<p>
+Można to nazwać <strong>opsec</strong>, czyli operational security,
+ale w tym kontekście chodzi po prostu o ochronę nieopublikowanych pomysłów,
+danych i informacji o kierunku badań.
+</p>
+
+<div class="box">
+<h3>Najkrótsza uczciwa wersja całej historii</h3>
+<p>
+OpenAI opublikowało poważny i formalizowany kandydat na rozwiązanie Naviera–Stokesa.
+System AI rzeczywiście wykonał ogromną część pracy twórczej i formalnej.
+Nie był to jednak samotny model rozwiązujący problem z czystej kartki:
+wynik powstał w sterowanym, masowym eksperymencie rozpoczętym po informacji o cudzym przełomie,
+na tle wcześniejszego programu matematycznego rozwijanego przez innych badaczy.
+</p>
+<p>
+Nie ma publicznego dowodu, że OpenAI wykorzystało prywatne szkice Buckmastera i Alpöge,
+ale istnieją realne, nierozstrzygnięte pytania o dane treningowe,
+o to, jak powinno przypisywać się priorytet,
+i o to, czy marketingowy przekaz firmy adekwatnie pokazał genealogię wyniku.
+</p>
+<p>
+Największa zmiana może polegać nie na tym, że AI „rozwiązała jedno równanie”,
+lecz na tym, że nauka weszła w epokę,
+w której tysiące agentów mogą w kilka dni przeszukać przestrzeń badań,
+a informacja o tym, <em>gdzie warto szukać</em>, staje się niemal równie cenna jak sam szkic dowodu.
+</p>
+</div>
+
+<h2 id="zrodla">17. Źródła</h2>
+
+<ol class="sources">
+<li><strong>[S1] OpenAI — „On the Navier–Stokes Millennium Prize Problem”, 8.09.2026.</strong><br>
+Oficjalny opis wyniku, workflow agentów, liczby agentów i tokenów, chronologia sprintu, stanowisko w sprawie danych i zespołu Buckmaster–Alpöge.<br>
+<a href="https://openai.com/index/navier-stokes-solution/">https://openai.com/index/navier-stokes-solution/</a></li>
+
+<li><strong>[S2] OpenAI — „Finite Time Blowup for Navier–Stokes”, 166 stron.</strong><br>
+Pełny kandydat na dowód, główne twierdzenie, konstrukcja blow-up i historia wcześniejszych prac.<br>
+<a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf</a></li>
+
+<li><strong>[S3] OpenAI — repozytorium Lean „NavierStokesAndEuler”.</strong><br>
+Formalizacja twierdzeń odpowiadających gałęziom C i D oraz instrukcje niezależnej weryfikacji.<br>
+<a href="https://github.com/openai/NavierStokesAndEuler">https://github.com/openai/NavierStokesAndEuler</a></li>
+
+<li><strong>[S4] Charles L. Fefferman / Clay Mathematics Institute — oficjalne sformułowanie problemu Naviera–Stokesa.</strong><br>
+Definicje alternatyw A, B, C i D.<br>
+<a href="https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf">https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf</a></li>
+
+<li><strong>[S5] Clay Mathematics Institute — Rules for the Millennium Prize Problems.</strong><br>
+Warunki formalnego uznania rozwiązania.<br>
+<a href="https://www.claymath.org/millennium-problems/rules/">https://www.claymath.org/millennium-problems/rules/</a></li>
+
+<li><strong>[S6] Tristan Buckmaster — publiczne oświadczenie.</strong><br>
+Najważniejsze źródło pierwotne dotyczące współpracy z Alpöge, używanych LLM, dat, Codexa, rozmów z OpenAI, kwestii autorstwa i danych.<br>
+<a href="https://cims.nyu.edu/~tristanb/statement.pdf">https://cims.nyu.edu/~tristanb/statement.pdf</a></li>
+
+<li><strong>[S7] Terence Tao — omówienie wyników Alpöge–Buckmaster, 7.09.2026.</strong><br>
+Niezależne omówienie ich wyników i związku z wcześniejszym programem Córdoby i Martíneza-Zoroi.<br>
+<a href="https://terrytao.wordpress.com/2026/09/07/finite-time-blowup-with-smooth-forcing-term-for-the-incompressible-porous-medium-boussinesq-and-incompressible-euler-equations/">https://terrytao.wordpress.com/2026/09/07/finite-time-blowup-with-smooth-forcing-term-for-the-incompressible-porous-medium-boussinesq-and-incompressible-euler-equations/</a></li>
+
+<li><strong>[S8] OpenAI Help Center — polityka wykorzystywania danych do ulepszania modeli.</strong><br>
+Różnice pomiędzy usługami indywidualnymi, opt-out, Codexem, Business/Enterprise i API.<br>
+<a href="https://help.openai.com/en/articles/5722486-api-data-usage-policies">https://help.openai.com/en/articles/5722486-api-data-usage-policies</a></li>
+
+<li><strong>[S9] Córdoba, Martínez-Zoroa, Zheng — Archive for Rational Mechanics and Analysis, 2026.</strong><br>
+Wcześniejsza publiczna praca o finite-time blow-up dla hipodyssypatywnego Naviera–Stokesa z forcingiem.<br>
+<a href="https://link.springer.com/article/10.1007/s00205-026-02198-0">https://link.springer.com/article/10.1007/s00205-026-02198-0</a></li>
+
+<li><strong>[S10] Nature — relacja o przełomie OpenAI.</strong><br>
+<a href="https://www.nature.com/articles/d41586-026-02842-5">https://www.nature.com/articles/d41586-026-02842-5</a></li>
+
+<li><strong>[S11] Financial Times — spór o priorytet i autorstwo.</strong><br>
+<a href="https://www.ft.com/content/4d6d28a0-4b12-438e-8850-4b3d49fc57f5">https://www.ft.com/content/4d6d28a0-4b12-438e-8850-4b3d49fc57f5</a></li>
+
+<li><strong>[S12] Wired — spór o dane, compute i autorstwo.</strong><br>
+<a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics">https://www.wired.com/story/openai-navier-stokes-math-discovery-academics</a></li>
+</ol>
+
+<hr>
+<p class="small">
+Esej został zbudowany na podstawie pełnego pliku researchowego „navier-stokes-research-2026-09-09.html”
+i zachowuje jego zasadnicze fakty, rozróżnienia i źródła, ale układa je narracyjnie
+z myślą o czytelniku bez przygotowania matematycznego i informatycznego.
+</p>
+
+</main>
+</body>
+</html>
