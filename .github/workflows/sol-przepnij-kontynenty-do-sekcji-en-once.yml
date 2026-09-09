@@ -1,0 +1,36 @@
+name: SOL przepnij kontynenty do sekcji EN once
+
+on:
+  push:
+    paths:
+      - 'rosja/SOL_przepnij-kontynenty-do-sekcji-en.py'
+      - '.github/workflows/sol-przepnij-kontynenty-do-sekcji-en-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rewire main continents to concrete sections
+        run: python rosja/SOL_przepnij-kontynenty-do-sekcji-en.py
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit and push
+        run: |
+          if git diff --quiet -- rosja/SOL_mapa-tematow-rozpad-rosji-EN-v01_00-2026-09-07.html; then
+            echo 'ERROR: English map was not changed'
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add rosja/SOL_mapa-tematow-rozpad-rosji-EN-v01_00-2026-09-07.html
+          git commit -m 'Rewire English continent map to concrete sections'
+          git push
