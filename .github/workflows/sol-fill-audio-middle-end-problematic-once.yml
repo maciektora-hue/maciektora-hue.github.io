@@ -1,0 +1,115 @@
+name: SOL fill audio_middle_end problematic once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-fill-audio-middle-end-problematic-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  fill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libsql
+        run: pip install libsql
+      - name: Extract audio mapping files
+        run: |
+          mkdir -p /tmp/audio-sql
+          unzip -j piosenki/SOL_audio-SQL-wszystkie.zip \
+            'SOL_audio-SQL-READY-*.tsv' \
+            'SOL_audio-SQL-REVIEW-*.tsv' \
+            'SOL_audio-SQL-UNMATCHED-*.tsv' \
+            -d /tmp/audio-sql
+      - name: Fill audio_middle_end with REVIEW and UNMATCHED only
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv, glob, os, libsql
+
+          ready = []
+          review = []
+          unmatched = []
+
+          for path in sorted(glob.glob('/tmp/audio-sql/SOL_audio-SQL-READY-*.tsv')):
+              with open(path, encoding='utf-8', newline='') as f:
+                  ready.extend(csv.DictReader(f, delimiter='\t'))
+          for path in sorted(glob.glob('/tmp/audio-sql/SOL_audio-SQL-REVIEW-*.tsv')):
+              with open(path, encoding='utf-8', newline='') as f:
+                  review.extend(csv.DictReader(f, delimiter='\t'))
+          for path in sorted(glob.glob('/tmp/audio-sql/SOL_audio-SQL-UNMATCHED-*.tsv')):
+              with open(path, encoding='utf-8', newline='') as f:
+                  unmatched.extend(csv.DictReader(f, delimiter='\t'))
+
+          if len(ready) != 665:
+              raise RuntimeError(f'READY={len(ready)} zamiast 665')
+          if len(review) != 182:
+              raise RuntimeError(f'REVIEW={len(review)} zamiast 182')
+          if len(unmatched) != 9:
+              raise RuntimeError(f'UNMATCHED={len(unmatched)} zamiast 9')
+          if any(r.get('decision') != 'use' for r in review):
+              raise RuntimeError('REVIEW zawiera decision != use')
+
+          all_audio_ids = [r['audio_id'] for r in ready] + [r['audio_id'] for r in review] + [r['audio_id'] for r in unmatched]
+          if len(all_audio_ids) != 856 or len(set(all_audio_ids)) != 856:
+              raise RuntimeError(f'Zakres audio_id nie ma 856 unikalnych rekordów: {len(all_audio_ids)}/{len(set(all_audio_ids))}')
+
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=os.environ['TURSO_AUTH_TOKEN'])
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          p_all = ','.join('?' for _ in all_audio_ids)
+          try:
+              conn.execute('BEGIN TRANSACTION')
+              conn.execute(f'DELETE FROM audio_middle_end WHERE audio_id IN ({p_all})', all_audio_ids)
+
+              for r in review:
+                  conn.execute(
+                      'INSERT INTO audio_middle_end (audio_id, utwu_id, match_status, match_note) VALUES (?, ?, ?, ?)',
+                      (r['audio_id'], r['utwu_id'], 'uncertain', r['note']),
+                  )
+
+              for r in unmatched:
+                  conn.execute(
+                      'INSERT INTO audio_middle_end (audio_id, utwu_id, match_status, match_note) VALUES (?, NULL, ?, ?)',
+                      (r['audio_id'], 'out', r['reason']),
+                  )
+
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
+
+          review_audio = [r['audio_id'] for r in review]
+          unmatched_audio = [r['audio_id'] for r in unmatched]
+          ready_audio = [r['audio_id'] for r in ready]
+
+          p_r = ','.join('?' for _ in review_audio)
+          p_u = ','.join('?' for _ in unmatched_audio)
+          p_ready = ','.join('?' for _ in ready_audio)
+
+          got_review = conn.execute(
+              f"SELECT COUNT(*) FROM audio_middle_end WHERE audio_id IN ({p_r}) AND match_status='uncertain' AND utwu_id IS NOT NULL",
+              review_audio,
+          ).fetchone()[0]
+          got_unmatched = conn.execute(
+              f"SELECT COUNT(*) FROM audio_middle_end WHERE audio_id IN ({p_u}) AND match_status='out' AND utwu_id IS NULL",
+              unmatched_audio,
+          ).fetchone()[0]
+          got_ready = conn.execute(
+              f"SELECT COUNT(*) FROM audio_middle_end WHERE audio_id IN ({p_ready})",
+              ready_audio,
+          ).fetchone()[0]
+
+          if got_review != 182 or got_unmatched != 9 or got_ready != 0:
+              raise RuntimeError(f'Weryfikacja: REVIEW={got_review}/182, UNMATCHED={got_unmatched}/9, READY_W_TABELI={got_ready}/0')
+
+          print('AUDIO_MIDDLE_END_REVIEW_OK=182')
+          print('AUDIO_MIDDLE_END_UNMATCHED_OK=9')
+          print('AUDIO_MIDDLE_END_READY_PRESENT=0')
+          print('AUDIO_MIDDLE_END_TOTAL_PROBLEMATIC=191')
+          conn.close()
+          PY
