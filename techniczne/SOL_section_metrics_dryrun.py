@@ -70,7 +70,7 @@ class HeadingParser(HTMLParser):
         if self.skip_depth:
             return
         if self.current_heading and tag == f"h{self.current_heading['level']}":
-            self.current_heading['title'] = clean(' '.join(self.heading_text))
+            self.current_heading['title'] = clean(''.join(self.heading_text))
             self.events.append(('heading', self.current_heading))
             self.current_heading = None
             self.heading_text = []
