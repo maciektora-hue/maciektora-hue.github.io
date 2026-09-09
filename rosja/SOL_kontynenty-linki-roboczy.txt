@@ -1,0 +1,105 @@
+SOL — ROBOCZA MAPA LINKÓW Z „KONTYNENTÓW” DO KONKRETNYCH SEKCJI
+
+ZASADY:
+- robimy po jednym kontynencie;
+- źródło doboru: istniejące tytuły sekcji, opisy PL/EN i anchory;
+- NIE czytamy treści sekcji z HTML;
+- po zatwierdzeniu dopiero zmieniamy mapę HTML;
+- zwykle 1 sekcja na dokument, wyjątkowo 2;
+- maksymalnie 8 linków na kontynent;
+- nie wybieramy jednocześnie sekcji nadrzędnej i jej prawie identycznego dziecka.
+
+======================================================================
+KONTYNENT 01 — UKRAINA JAKO PROJEKTANT KAMPANII SYSTEMOWEJ
+======================================================================
+
+Opis z mapy:
+Nie zbiór pojedynczych ataków, lecz ewolucja od celów wojskowych do rozmontowywania całych zdolności państwa. Tempo, geografia, klasy celów i przejście „na hurt”.
+
+Obecnie przypisane dokumenty:
+A1, A2, A3, A4, A6
+
+PROPOZYCJA GŁÓWNA — 6 LINKÓW
+
+[1] A1
+anchor: front-spirala-opl
+sekcja: Rozdział 1. Front i spirala OPL — trójkąt spalania
+link: https://maciektora-hue.github.io/rosja/kolumbryna/#front-spirala-opl
+opis: Kurcząca się armia, OPL i uderzenia w rafinerie tworzą sprzężenie degradujące front i zaplecze.
+dlaczego: Najlepszy skrót idei „kampanii systemowej”: nie pojedynczy cel, tylko sprzężenie front–OPL–rafinerie.
+proponowana krótka etykieta: A1 · spirala OPL
+
+[2] A2
+anchor: matryca-geograficzna
+sekcja: Matryca 2: wektory geograficzne
+link: https://maciektora-hue.github.io/rosja/gradually-suddenly/#matryca-geograficzna
+opis: Przesuwanie kampanii między Bałtykiem, południem, centrum, Uralem i okupacją.
+dlaczego: Pokrywa dokładnie geograficzny wymiar kontynentu.
+proponowana krótka etykieta: A2 · wektory geograficzne
+
+[3] A2
+anchor: synteza-ewolucyjna
+sekcja: Synteza ewolucyjna — co się zmieniło między okresami
+link: https://maciektora-hue.github.io/rosja/gradually-suddenly/#synteza-ewolucyjna
+opis: Pięć jakościowych progów dojrzewania kampanii od stycznia do czerwca.
+dlaczego: Pokrywa ewolucję kampanii i przejścia jakościowe, zamiast prowadzić do kroniki pojedynczych trafień.
+proponowana krótka etykieta: A2 · synteza ewolucyjna
+
+[4] A3
+anchor: statystyki-maja-syrski
+sekcja: Statystyki maja — Naczelny Dowódca ZSU (gen. Syrski)
+link: https://maciektora-hue.github.io/rosja/lista-celow/#statystyki-maja-syrski
+opis: Oficjalny bilans ZSU za maj: cele Deep Strike, straty, terytorium i obrona powietrzna.
+dlaczego: Z A3 lepszy jest zbiorczy bilans kampanii niż losowy pojedynczy okres lub pojedyncze trafienie.
+proponowana krótka etykieta: A3 · bilans Deep Strike
+
+[5] A4
+anchor: co-znaczy-hurt
+sekcja: 4. Co znaczy „hurt”
+link: https://maciektora-hue.github.io/rosja/przejscie-na-hurt/#co-znaczy-hurt
+opis: Celami stają się klasy obiektów, a miarą bilans i nieodwracalność strat.
+dlaczego: To jest praktycznie definicja centralnej tezy tego kontynentu.
+proponowana krótka etykieta: A4 · co znaczy „hurt”
+
+[6] A6
+anchor: offline-slack
+sekcja: 7. Offline ≈ slack — zmiana fazy
+link: https://maciektora-hue.github.io/rosja/zapas-kontra-strumien/#offline-slack
+opis: Wyłączenia zrównały się z dawnym luzem mocy; kolejne trafienia schodzą już w realną produkcję.
+dlaczego: Pokazuje moment, w którym kampania przestaje zjadać bufor, a zaczyna odbierać realną zdolność systemu.
+proponowana krótka etykieta: A6 · offline ≈ slack
+
+---------------------------------------------------------------------
+ALTERNATYWY DO ROZWAŻENIA
+---------------------------------------------------------------------
+
+A1 — bestiariusz-szare-nosorozce
+Sekcja: Rozdział 7. Bestiariusz — 24 szare nosorożce i ich sprzężenia
+Powód za: szerszy obraz systemowy.
+Powód przeciw: mniej bezpośrednio o ukraińskim projektowaniu kampanii.
+
+A2 — syntetyczne-obserwacje
+Sekcja: Syntetyczne obserwacje (od 04.01.2026)
+Opis: Najważniejsze wzorce: zasięg, dywersyfikacja, kompresja napraw i przeciążenie OPL.
+Powód za: bardzo mocne streszczenie mechaniki kampanii.
+Powód przeciw: częściowo dubluje „syntezę ewolucyjną”.
+
+A3 — okres-16
+Sekcja: okres 16 od 21.06 (w toku)
+Opis: Krym jako wyspa, mikroelektronika, rafinerie i krajowa kaskada paliwowa.
+Powód za: dobry konkretny przykład wieloklasowej kampanii.
+Powód przeciw: to nadal jeden okres, a kontynent jest o logice całej kampanii.
+
+A4 — tempo-uderzen
+Sekcja: 2. Tempo uderzeń
+Opis: Skok liczby i geograficznego zasięgu trafień w rosyjską infrastrukturę paliwową.
+Powód za: dokładnie pokrywa „tempo”.
+Powód przeciw: przy limicie linków „co znaczy hurt” wnosi bardziej zasadniczą ideę.
+
+A6 — cztery-osie
+Sekcja: 1. Cztery osie zapas kontra strumień
+Opis: Cztery rosyjskie zapasy kurczą się równolegle: paliwo, precyzyjny ogień, lojalność elit i eskalacja.
+Powód za: bardziej systemowe ujęcie.
+Powód przeciw: wykracza poza sam projekt ukraińskiej kampanii i miesza wątki polityczne.
+
+STATUS: DO OCENY UŻYTKOWNIKA — NIE WPROWADZAĆ JESZCZE DO HTML.
