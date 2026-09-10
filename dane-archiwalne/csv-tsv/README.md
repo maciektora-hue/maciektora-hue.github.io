@@ -1,7 +1,13 @@
-# Dane archiwalne CSV / TSV
+# Archiwum starych plików CSV i TSV
 
-Poczekalnia dla starych plików CSV i TSV, głównie po migracji/importach do SQL.
+To miejsce na stare pliki CSV i TSV, w szczególności dawne pliki wejściowe, eksportowe i importowe używane podczas migracji danych do SQL.
 
-Pliki w tym katalogu nie są traktowane jako aktualne źródło prawdy, o ile bieżąca dokumentacja nie stanowi inaczej.
+## Status
 
-Podkatalog `audhd/` zawiera zużyte pliki wejściowe AuDHD, których dane zostały już wykorzystane przy migracji do SQL.
+- pliki w tym katalogu są archiwalne,
+- nie są domyślnym źródłem prawdy,
+- nie są automatycznie przeznaczone do usunięcia,
+- przed ewentualnym usunięciem trzeba potwierdzić, że dane są już poprawnie i kompletnie przeniesione do aktualnego systemu,
+- aktywne źródła danych i pliki potrzebne przez WWW, SQL, skrypty lub workflowy mają pozostać poza tym katalogiem.
+
+Na razie katalog pełni rolę bezpiecznej poczekalni przed późniejszym audytem i ewentualnym usuwaniem starych danych.
