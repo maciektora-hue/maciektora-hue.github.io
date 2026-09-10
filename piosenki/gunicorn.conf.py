@@ -1,9 +1,12 @@
-import base64
 import csv
 import io
 import os
+from pathlib import Path
 
 import libsql
+
+
+FILENAME = "SOL_playlisty-brak-utwu-id-95.csv"
 
 
 def on_starting(server):
@@ -51,18 +54,17 @@ def on_starting(server):
         for row in rows:
             writer.writerow(list(row) + [""])
 
-        payload = base64.b64encode(out.getvalue().encode("utf-8")).decode("ascii")
-        chunk_size = 3000
-        chunks = [payload[i:i+chunk_size] for i in range(0, len(payload), chunk_size)]
+        static_dir = Path(__file__).parent / "static"
+        static_dir.mkdir(parents=True, exist_ok=True)
+        target = static_dir / FILENAME
+        target.write_text(out.getvalue(), encoding="utf-8")
+
         distinct_tracks = conn.execute(
             "SELECT COUNT(DISTINCT external_track_id) FROM playlist_item WHERE utwu_id IS NULL"
         ).fetchone()[0]
         print(
-            f"UNMAPPED_CSV_META rows={len(rows)} distinct_spotify_ids={distinct_tracks} chunks={len(chunks)}",
+            f"UNMAPPED_CSV_READY rows={len(rows)} distinct_spotify_ids={distinct_tracks} file={FILENAME}",
             flush=True,
         )
-        for idx, chunk in enumerate(chunks):
-            print(f"UNMAPPED_CSV_CHUNK_{idx:03d}={chunk}", flush=True)
-        print("UNMAPPED_CSV_END", flush=True)
     finally:
         conn.close()
