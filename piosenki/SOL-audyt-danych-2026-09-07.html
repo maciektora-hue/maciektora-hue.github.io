@@ -2,40 +2,10 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<title>Audyt danych — 2026-09-07</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;line-height:1.55;color:#111;background:#fff}
-h1,h2{line-height:1.2}
-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
-ul{padding-left:1.4rem}
-</style>
+<meta http-equiv="refresh" content="0; url=../dokumentacja-archiwalna/piosenki/SOL-audyt-danych-2026-09-07.html">
+<title>Przeniesiono dokumentację</title>
 </head>
 <body>
-<h1>Końcowy audyt danych — 2026-09-07</h1>
-<p><strong>WYNIK: DANE SĄ SPÓJNE</strong></p>
-<p>Walidator na aktualnym zestawie:</p>
-<ul><li>0 błędów</li><li>0 ostrzeżeń</li><li>WYNIK: OK</li></ul>
-<p>Middle End to obecnie <code>v08-11</code>, Lyrics to <code>v07-00</code> + <code>v01-08</code>, a Tags to <code>v09-14</code>.</p>
-<h2>Middle End</h2>
-<p>Jest 977 rekordów i 977 unikalnych <code>utwu_id</code>. Nie ma zdublowanego <code>utwu_id</code>, nie ma zdublowanego niepustego <code>spotify_id</code>, nie ma identycznych rekordów.</p>
-<p>Statusy są dokładnie:</p>
-<ul><li>840 full</li><li>50 paraphase</li><li>19 canonicaltext</li><li>68 instrumental</li><li>0 missing</li><li>0 partial</li></ul>
-<p>Wszystkie 909 rekordów, które powinny mieć tekst, mają prawidłowy istniejący <code>lyrics_id</code>. Wszystkie 68 <code>instrumental</code>nych prawidłowo nie mają <code>lyrics_id</code>.</p>
-<p>Jest 39 rekordów bez <code>spotify_id</code> i <code>spotify_order</code>, ale to nie jest błąd: wszystkie 39 są jawnie oznaczone <code>historical_parent_created</code>, z informacją, że są historycznymi rodzicami starych Lyrics bez bezpiecznego odpowiednika w aktualnym eksporcie Spotify.</p>
-<h2>Lyrics</h2>
-<p>Mamy 882 <code>lyrics_id</code>, wszystkie unikalne i wszystkie z niepustą treścią.</p>
-<p>Middle End używa jako głównych 876 różnych Lyrics. Pozostałe 6 to dokładnie te, które już znaleźliśmy: 429, 586, 764, 825, 839, 858. Dwa ostatnie są dodatkowo zachowane przez <code>match_note</code> jako historyczne parafrazy; oba wskaźniki prowadzą do istniejących Lyrics.</p>
-<p>Jest 32 <code>lyrics_id</code> współdzielonych przez więcej niż jeden <code>utwu_id</code>: 31 przez dwa rekordy i jeden przez trzy. To jest zgodne z architekturą wiele nagrań → jeden tekst.</p>
-<p>Znalazłem tylko jeden duplikat tekstu po normalizacji: <code>lyrics-000429</code> i <code>lyrics-000436</code>. To „Nim wstanie dzień”; treść jest ta sama, różnią się interpunkcją i pustymi liniami. <code>lyrics-000429</code> jest zachowaną sierotą historyczną, <code>lyrics-000436</code> jest aktywny. Zgodnie z decyzją użytkownika zostaje.</p>
-<h2>Tags</h2>
-<p>888 rekordów snapshotów, ale dotyczą dokładnie 882 różnych <code>lyrics_id</code>.</p>
-<p>Najważniejsze: 882/882 Lyrics mają co najmniej jeden niepusty zestaw tagów. Nie ma już ani jednego nieotagowanego tekstu.</p>
-<p>Łącznie jest 9814 przypisań, używane są 154 ze 165 zdefiniowanych tagów. Nie ma ani jednego taga spoza słownika. Kwalifikatory występują wyłącznie jako <code>bardzo</code>, <code>troche</code>, <code>ociupinke</code>.</p>
-<p>Historia snapshotów też jest spójna. 6 Lyrics ma więcej niż jeden rekord Tags. Cztery mają stary pusty placeholder + późniejsze właściwe tagowanie. Dwa (<code>lyrics-000251</code>, <code>lyrics-000523</code>) mają dwa snapshoty z tą samą datą. Żaden rekord nie jest identycznym duplikatem 1:1. Zgodnie z decyzją użytkownika cała ta historia zostaje i nie jest traktowana jako błąd.</p>
-<h2>Drobiazgi niebędące błędami</h2>
-<p>Jest 11 zdefiniowanych tagów, których aktualnie żaden tekst nie używa. To normalne. W słowniku 94 ze 165 tagów nie ma opisowej definicji tekstowej, ale wszystkie są poprawnie osadzone w ontologii. To ewentualnie niedokończony słownik opisowy, nie problem danych.</p>
-<p>Oba skrypty Python, downloader i walidator, przechodzą również kontrolę składni.</p>
-<h2>Jedyna faktyczna rzecz do poprawienia: Memento</h2>
-<p><code>sol-memento-HTML-v10-08.html</code> jest już stare. Samo Memento nadal podaje starsze aktywne wersje i stare liczby. Dane natomiast są spójne i audyt nie znalazł niczego, co trzeba naprawiać.</p>
+<p>Dokumentacja została przeniesiona do <a href="../dokumentacja-archiwalna/piosenki/SOL-audyt-danych-2026-09-07.html">archiwum</a>.</p>
 </body>
 </html>
