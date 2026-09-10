@@ -360,4 +360,42 @@ CREATE INDEX IF NOT EXISTS idx_audio_middle_end_utwu_id
 CREATE INDEX IF NOT EXISTS idx_audio_feature_snapshots_audio_id
     ON audio_feature_snapshots(audio_id);
 
+
+-- Playlist layer
+CREATE TABLE IF NOT EXISTS playlist (
+    playlist_id TEXT PRIMARY KEY,
+    service TEXT NOT NULL,
+    name TEXT NOT NULL,
+    external_playlist_id TEXT,
+    external_url TEXT,
+    source_file TEXT,
+    imported_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (service IN ('spotify', 'youtube_music', 'youtube')),
+    UNIQUE (service, external_playlist_id)
+);
+
+CREATE TABLE IF NOT EXISTS playlist_item (
+    playlist_id TEXT NOT NULL
+        REFERENCES playlist(playlist_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    position INTEGER NOT NULL,
+    utwu_id TEXT
+        REFERENCES middle_end(utwu_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    external_track_id TEXT,
+    source_name TEXT,
+    source_artist TEXT,
+    source_album TEXT,
+    PRIMARY KEY (playlist_id, position),
+    CHECK (position > 0)
+);
+
+CREATE INDEX IF NOT EXISTS idx_playlist_item_utwu_id
+    ON playlist_item(utwu_id);
+
+CREATE INDEX IF NOT EXISTS idx_playlist_item_external_track_id
+    ON playlist_item(external_track_id);
+
 COMMIT;

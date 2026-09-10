@@ -1,0 +1,4 @@
+files=9
+items=919
+schema=playlist + playlist_item
+mapping=spotify_id -> utwu_id only when exactly one middle_end row matches
