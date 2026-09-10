@@ -1,1 +1,1 @@
-# maciektora-hue.github.io
+# GitHub Pages repository
