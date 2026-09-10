@@ -1,3 +1,669 @@
 term_pl	term_en	typ	maciek	concept_id	concept_key	uwagi
 AA	Alcoholics Anonymous	keyword		1	alcoholics_anonymous	istnieje w SQL
 abstrakcja	abstraction	keyword		2	abstraction	istnieje w SQL
+absurd	absurdity	keyword		3	absurdity	istnieje w SQL
+adaptacja społeczna	social adaptation	keyword		4	social_adaptation	istnieje w SQL
+akceptacja neuroróżnorodności	neurodiversity acceptance	keyword		5	neurodiversity_acceptance	istnieje w SQL
+aktywizacja behawioralna	behavioral activation	keyword		6	behavioral_activation	istnieje w SQL
+aleksytymia	alexithymia	keyword		7	alexithymia	istnieje w SQL
+alokacja	allocation	keyword		8	allocation	istnieje w SQL
+analiza kontekstu	context analysis	keyword		9	context_analysis	istnieje w SQL
+anhedonia	anhedonia	keyword		10	anhedonia	istnieje w SQL
+antymateria	antimatter	keyword		11	antimatter	istnieje w SQL
+antyskuteczność	counterproductivity	keyword		12	counterproductivity	istnieje w SQL
+Apple	Apple	keyword		13	apple	istnieje w SQL
+arbiter prawdy	truth arbiter	keyword		14	truth_arbiter	istnieje w SQL
+architektura	architecture	keyword		15	architecture	istnieje w SQL
+architektura informacji	information architecture	keyword		16	information_architecture	istnieje w SQL
+architektura pamięci	memory architecture	keyword		17	memory_architecture	istnieje w SQL
+architektura poznawcza	cognitive architecture	keyword		18	cognitive_architecture	istnieje w SQL
+architektura systemu	system architecture	keyword		19	system_architecture	istnieje w SQL
+architektura wiedzy	knowledge architecture	keyword		20	knowledge_architecture	istnieje w SQL
+asertywność	assertiveness	keyword		21	assertiveness	istnieje w SQL
+asymetria relacyjna	relational asymmetry	keyword		22	relational_asymmetry	istnieje w SQL
+atrybucja	attribution	keyword		23	attribution	istnieje w SQL
+atypowe przetwarzanie bólu	atypical pain processing	keyword		24	atypical_pain_processing	istnieje w SQL
+automatyzacja pamięci	memory automation	keyword		25	memory_automation	istnieje w SQL
+autonomia	autonomy	keyword		26	autonomy	istnieje w SQL
+bariery diagnostyczne	diagnostic barriers	keyword		27	diagnostic_barriers	istnieje w SQL
+bariery wykonawcze	executive-function barriers	keyword		28	executive_function_barriers	istnieje w SQL
+Bell Labs	Bell Labs	keyword		29	bell_labs	istnieje w SQL
+bezpieczny workflow	safe workflow	keyword		30	safe_workflow	istnieje w SQL
+bezstronność	impartiality	keyword		31	impartiality	istnieje w SQL
+bias poznawczy	cognitive bias	keyword		32	cognitive_bias	istnieje w SQL
+bimodalność mówienia	bimodal speech pattern	keyword		33	bimodal_speech_pattern	istnieje w SQL
+bliscy	significant others	keyword		34	significant_others	istnieje w SQL
+bliskość	intimacy	keyword		35	intimacy	istnieje w SQL
+blokada wykonawcza	executive shutdown	keyword		36	executive_shutdown	istnieje w SQL
+błąd AI	AI error	keyword		37	ai_error	istnieje w SQL
+błędna atrybucja źródła	source attribution error	keyword		38	source_attribution_error	istnieje w SQL
+bodźce	stimuli	keyword		39	stimuli	istnieje w SQL
+Boltzmann	Boltzmann	keyword		40	boltzmann	istnieje w SQL
+bootstrap	bootstrap	keyword		41	bootstrap	istnieje w SQL
+ból	pain	keyword		42	pain	istnieje w SQL
+CBT	cognitive behavioral therapy	keyword		43	cognitive_behavioral_therapy	istnieje w SQL
+Chapman	Chapman	keyword		44	chapman	istnieje w SQL
+chroniczne zmęczenie	chronic fatigue	keyword		45	chronic_fatigue	istnieje w SQL
+ciągłość	continuity	keyword		46	continuity	istnieje w SQL
+codzienność	daily life	keyword		47	daily_life	istnieje w SQL
+cykle	cycles	keyword		48	cycles	istnieje w SQL
+cykliczne zainteresowania	cyclical interests	keyword		49	cyclical_interests	istnieje w SQL
+cykliczność	cyclicity	keyword		50	cyclicity	istnieje w SQL
+czasoprzestrzeń	spacetime	keyword		51	spacetime	istnieje w SQL
+częstość występowania	prevalence	keyword		52	prevalence	istnieje w SQL
+człowiek w pętli	human-in-the-loop	keyword		53	human_in_the_loop	istnieje w SQL
+czynniki rokownicze	prognostic factors	keyword		54	prognostic_factors	istnieje w SQL
+dane administracyjne	administrative data	keyword		55	administrative_data	istnieje w SQL
+dane populacyjne	population data	keyword		56	population_data	istnieje w SQL
+dane systemowe	system data	keyword		57	system_data	istnieje w SQL
+decyzje techniczne	technical decision-making	keyword		58	technical_decision_making	istnieje w SQL
+definicja operacyjna	operational definition	keyword		59	operational_definition	istnieje w SQL
+degradacja informacji	information degradation	keyword		60	information_degradation	istnieje w SQL
+dekodowanie społeczne	social decoding	keyword		61	social_decoding	istnieje w SQL
+demografia	demographics	keyword		62	demographics	istnieje w SQL
+depresja	depression	keyword		63	depression	istnieje w SQL
+diagnostyka	diagnostic assessment	keyword		64	diagnostic_assessment	istnieje w SQL
+diagnostyka dorosłych	adult diagnostic assessment	keyword		65	adult_diagnostic_assessment	istnieje w SQL
+diagnostyka różnicowa	differential diagnosis	keyword		66	differential_diagnosis	istnieje w SQL
+diagnoza	diagnosis	keyword		67	diagnosis	istnieje w SQL
+diagnozy systemowe	system-level diagnosis	keyword		68	system_level_diagnosis	istnieje w SQL
+długie rozmowy	extended conversations	keyword		69	extended_conversations	istnieje w SQL
+dobór próby	sampling	keyword		70	sampling	istnieje w SQL
+Donald Knuth	Donald Knuth	keyword		71	donald_knuth	istnieje w SQL
+dopamina	dopamine	keyword		72	dopamine	istnieje w SQL
+dopasowanie środowiska	person–environment fit	keyword		73	person_environment_fit	istnieje w SQL
+dopasowanie terapii	treatment matching	keyword		74	treatment_matching	istnieje w SQL
+dorosłość	adulthood	keyword		75	adulthood	istnieje w SQL
+dosłowność	literal interpretation	keyword		76	literal_interpretation	istnieje w SQL
+dostępność specjalistów	access to specialists	keyword		77	access_to_specialists	istnieje w SQL
+doświadczenie wewnętrzne	internal experience	keyword		78	internal_experience	istnieje w SQL
+dotyk	touch	keyword		79	touch	istnieje w SQL
+drobne znaleziska	minor findings	keyword		80	minor_findings	istnieje w SQL
+druga zasada termodynamiki	second law of thermodynamics	keyword		81	second_law_of_thermodynamics	istnieje w SQL
+duże zbiory danych	big data	keyword		82	big_data	istnieje w SQL
+dyfuzja tożsamości	identity diffusion	keyword		83	identity_diffusion	istnieje w SQL
+dyskontowanie nagrody	reward discounting	keyword		84	reward_discounting	istnieje w SQL
+dysregulacja emocjonalna	emotion dysregulation	keyword		85	emotion_dysregulation	istnieje w SQL
+dysregulacja jedzenia	dysregulated eating	keyword		86	dysregulated_eating	istnieje w SQL
+efekt ironiczny	ironic process effect	keyword		87	ironic_process_effect	istnieje w SQL
+ekspozycja	exposure	keyword		88	exposure	istnieje w SQL
+elastyczność	flexibility	keyword		89	flexibility	istnieje w SQL
+elektromagnetyzm	electromagnetism	keyword		90	electromagnetism	istnieje w SQL
+emocje	emotions	keyword		91	emotions	istnieje w SQL
+empatia	empathy	keyword		92	empathy	istnieje w SQL
+entropia	entropy	keyword		93	entropy	istnieje w SQL
+epidemiologia	epidemiology	keyword		94	epidemiology	istnieje w SQL
+estymacja	estimation	keyword		95	estimation	istnieje w SQL
+falsyfikacja	falsification	keyword		96	falsification	istnieje w SQL
+fałszywy kontekst	false context	keyword		97	false_context	istnieje w SQL
+fenotyp	phenotype	keyword		98	phenotype	istnieje w SQL
+fenotyp AuDHD	AuDHD phenotype	keyword		99	audhd_phenotype	istnieje w SQL
+filozofia nauki	philosophy of science	keyword		100	philosophy_of_science	istnieje w SQL
+filtrowanie sensoryczne	sensory filtering	keyword		101	sensory_filtering	istnieje w SQL
+fizyka	physics	keyword		102	physics	istnieje w SQL
+formy różniczkowe	differential forms	keyword		103	differential_forms	istnieje w SQL
+framing	framing	keyword		104	framing	istnieje w SQL
+fundamenty IT	foundations of information technology	keyword		105	foundations_of_information_technology	istnieje w SQL
+fundatorzy IT	founders of information technology	keyword		106	founders_of_information_technology	istnieje w SQL
+funkcje wykonawcze	executive function	keyword		107	executive_function	istnieje w SQL
+funkcjonowanie pod presją	performance under pressure	keyword		108	performance_under_pressure	istnieje w SQL
+genetyka	genetics	keyword		109	genetics	istnieje w SQL
+geometria	geometry	keyword		110	geometry	istnieje w SQL
+gist	gist	keyword		111	gist	istnieje w SQL
+głęboki nacisk	deep pressure	keyword		112	deep_pressure	istnieje w SQL
+głos pacjentów	patient perspectives	keyword		113	patient_perspectives	istnieje w SQL
+głód	hunger	keyword		114	hunger	istnieje w SQL
+głód bliskości	need for intimacy	keyword		115	need_for_intimacy	istnieje w SQL
+GNU	GNU	keyword		116	gnu	istnieje w SQL
+graf zależności	dependency graph	keyword		117	dependency_graph	istnieje w SQL
+granica Landauera	Landauer limit	keyword		118	landauer_limit	istnieje w SQL
+granica Tsirelsona	Tsirelson bound	keyword		119	tsirelson_bound	istnieje w SQL
+granice	boundaries	keyword		120	boundaries	istnieje w SQL
+grawitacja	gravity	keyword		121	gravity	istnieje w SQL
+grawitacja kwantowa	quantum gravity	keyword		122	quantum_gravity	istnieje w SQL
+gra słów	wordplay	keyword		123	wordplay	istnieje w SQL
+gromadzenie informacji	information accumulation	keyword		124	information_accumulation	istnieje w SQL
+GUS	Statistics Poland	keyword		125	statistics_poland	istnieje w SQL
+habituacja	habituation	keyword		126	habituation	istnieje w SQL
+Hadoop	Hadoop	keyword		127	hadoop	istnieje w SQL
+HALT	HALT	keyword		128	halt	istnieje w SQL
+hamowanie reakcji	response inhibition	keyword		129	response_inhibition	istnieje w SQL
+hiperfokus	hyperfocus	keyword		130	hyperfocus	istnieje w SQL
+hipokamp	hippocampus	keyword		131	hippocampus	istnieje w SQL
+hipoteza	hypothesis	keyword		132	hypothesis	istnieje w SQL
+historia diagnostyki	diagnostic history	keyword		133	diagnostic_history	istnieje w SQL
+historia informatyki	history of computing	keyword		134	history_of_computing	istnieje w SQL
+historia medyczna	medical history	keyword		135	medical_history	istnieje w SQL
+historia rozmowy	conversation history	keyword		136	conversation_history	istnieje w SQL
+humor	humor	keyword		137	humor	istnieje w SQL
+identyfikacja	identification	keyword		138	identification	istnieje w SQL
+impulsywność	impulsivity	keyword		139	impulsivity	istnieje w SQL
+impulsywność społeczna	social impulsivity	keyword		140	social_impulsivity	istnieje w SQL
+inercja autystyczna	autistic inertia	keyword		141	autistic_inertia	istnieje w SQL
+infodumping	infodumping	keyword		142	infodumping	istnieje w SQL
+infodumping jako język miłości	infodumping as a love language	keyword		143	infodumping_as_a_love_language	istnieje w SQL
+informatyka	computer science	keyword		144	computer_science	istnieje w SQL
+inicjowanie zadań	task initiation	keyword		145	task_initiation	istnieje w SQL
+inkubacja	incubation	keyword		146	incubation	istnieje w SQL
+instrukcje pozytywne	positive instructions	keyword		147	positive_instructions	istnieje w SQL
+intelektualizacja	intellectualization	keyword		148	intellectualization	istnieje w SQL
+intensywna empatia	heightened empathy	keyword		149	heightened_empathy	istnieje w SQL
+intensywność	intensity	keyword		150	intensity	istnieje w SQL
+interocepcja	interoception	keyword		151	interoception	istnieje w SQL
+interpretacja kliniczna	clinical interpretation	keyword		152	clinical_interpretation	istnieje w SQL
+JavaScript	JavaScript	keyword		153	javascript	istnieje w SQL
+jedzenie	eating	keyword		154	eating	istnieje w SQL
+języki miłości	love languages	keyword		155	love_languages	istnieje w SQL
+języki programowania	programming languages	keyword		156	programming_languages	istnieje w SQL
+język C	C programming language	keyword		157	c_programming_language	istnieje w SQL
+kameleonizm	social chameleonism	keyword		158	social_chameleonism	istnieje w SQL
+Ken Thompson	Ken Thompson	keyword		159	ken_thompson	istnieje w SQL
+klasyfikacja diagnostyczna	diagnostic classification	keyword		160	diagnostic_classification	istnieje w SQL
+kod źródłowy	source code	keyword		161	source_code	istnieje w SQL
+kognitywistyka	cognitive science	keyword		162	cognitive_science	istnieje w SQL
+kohorta	cohort	keyword		163	cohort	istnieje w SQL
+kolejność zadań	task sequencing	keyword		164	task_sequencing	istnieje w SQL
+komisja konkursowa	selection committee	keyword		165	selection_committee	istnieje w SQL
+kompensacja	compensation	keyword		166	compensation	istnieje w SQL
+kompensacja autyzm–ADHD	autism–ADHD compensation	keyword		167	autism_adhd_compensation	istnieje w SQL
+kompetencje	competencies	keyword		168	competencies	istnieje w SQL
+kompetencje terapeuty	therapist competence	keyword		169	therapist_competence	istnieje w SQL
+kompilatory	compilers	keyword		170	compilers	istnieje w SQL
+kompresja	compression	keyword		171	compression	istnieje w SQL
+kompresja stratna	lossy compression	keyword		172	lossy_compression	istnieje w SQL
+kompromis poznawczy	cognitive trade-off	keyword		173	cognitive_trade_off	istnieje w SQL
+komputery osobiste	personal computers	keyword		174	personal_computers	istnieje w SQL
+komunikacja	communication	keyword		175	communication	istnieje w SQL
+komunikacja niewerbalna	nonverbal communication	keyword		176	nonverbal_communication	istnieje w SQL
+komunikacja społeczna	social communication	keyword		177	social_communication	istnieje w SQL
+konfabulacja	confabulation	keyword		178	confabulation	istnieje w SQL
+konflikt interesów	conflict of interest	keyword		179	conflict_of_interest	istnieje w SQL
+konflikt potrzeb	needs conflict	keyword		180	needs_conflict	istnieje w SQL
+konflikt relacyjny	relational conflict	keyword		181	relational_conflict	istnieje w SQL
+konflikt rutyna–nowość	routine–novelty conflict	keyword		182	routine_novelty_conflict	istnieje w SQL
+konflikt wewnętrzny	internal conflict	keyword		183	internal_conflict	istnieje w SQL
+konieczność	necessity	keyword		184	necessity	istnieje w SQL
+konsolidacja pamięci	memory consolidation	keyword		185	memory_consolidation	istnieje w SQL
+kontakt społeczny	social contact	keyword		186	social_contact	istnieje w SQL
+kontekstowość	context dependence	keyword		187	context_dependence	istnieje w SQL
+kontekst rozmowy	conversational context	keyword		188	conversational_context	istnieje w SQL
+kontrola wykonawcza	executive control	keyword		189	executive_control	istnieje w SQL
+kontrprzykład	counterexample	keyword		190	counterexample	istnieje w SQL
+koordynacja ruchowa	motor coordination	keyword		191	motor_coordination	istnieje w SQL
+kora mózgowa	cerebral cortex	keyword		192	cerebral_cortex	istnieje w SQL
+korekta błędu	error correction	keyword		193	error_correction	istnieje w SQL
+korekta zewnętrzna	external correction	keyword		194	external_correction	istnieje w SQL
+korelacja	correlation	keyword		195	correlation	istnieje w SQL
+kosmologia kwantowa	quantum cosmology	keyword		196	quantum_cosmology	istnieje w SQL
+koszt poznawczy	cognitive cost	keyword		197	cognitive_cost	istnieje w SQL
+kreatywność	creativity	keyword		198	creativity	istnieje w SQL
+kryzys tożsamości	identity crisis	keyword		199	identity_crisis	istnieje w SQL
+leczenie ADHD	ADHD treatment	keyword		200	adhd_treatment	istnieje w SQL
+leki	medications	keyword		201	medications	istnieje w SQL
+lęk	anxiety	keyword		202	anxiety	istnieje w SQL
+lęk kompensacyjny	compensatory anxiety	keyword		203	compensatory_anxiety	istnieje w SQL
+lęk przed błędem	fear of error	keyword		204	fear_of_error	istnieje w SQL
+lęk relacyjny	relationship anxiety	keyword		205	relationship_anxiety	istnieje w SQL
+lęk społeczny	social anxiety	keyword		206	social_anxiety	istnieje w SQL
+liczba dorosłych	number of adults	keyword		207	number_of_adults	istnieje w SQL
+liczba osób	number of individuals	keyword		208	number_of_individuals	istnieje w SQL
+limit czasu	time limit	keyword		209	time_limit	istnieje w SQL
+Linus Torvalds	Linus Torvalds	keyword		210	linus_torvalds	istnieje w SQL
+Linux	Linux	keyword		211	linux	istnieje w SQL
+małomówność	reduced verbal output	keyword		212	reduced_verbal_output	istnieje w SQL
+MapReduce	MapReduce	keyword		213	mapreduce	istnieje w SQL
+maskowanie	camouflaging	keyword		214	camouflaging	istnieje w SQL
+maskowanie i impulsywność społeczna	camouflaging and social impulsivity	keyword		215	camouflaging_and_social_impulsivity	istnieje w SQL
+mechanika klasyczna	classical mechanics	keyword		216	classical_mechanics	istnieje w SQL
+mechanika kwantowa	quantum mechanics	keyword		217	quantum_mechanics	istnieje w SQL
+mechanika płynów	fluid mechanics	keyword		218	fluid_mechanics	istnieje w SQL
+mechanizmy obronne	defense mechanisms	keyword		219	defense_mechanisms	istnieje w SQL
+mechanizmy społeczne	social mechanisms	keyword		220	social_mechanisms	istnieje w SQL
+Memento	Memento	keyword		221	memento	istnieje w SQL
+metadane	metadata	keyword		222	metadata	istnieje w SQL
+metafizyka	metaphysics	keyword		223	metaphysics	istnieje w SQL
+metafora	metaphor	keyword		224	metaphor	istnieje w SQL
+metapoziom	meta-level	keyword		225	meta_level	istnieje w SQL
+metapoznanie	metacognition	keyword		226	metacognition	istnieje w SQL
+metaprogramowanie	metaprogramming	keyword		227	metaprogramming	istnieje w SQL
+mindfulness	mindfulness	keyword		228	mindfulness	istnieje w SQL
+model obliczeniowy	computational model	keyword		229	computational_model	istnieje w SQL
+model statystyczny	statistical model	keyword		230	statistical_model	istnieje w SQL
+model wewnętrzny	internal model	keyword		231	internal_model	istnieje w SQL
+monolog wewnętrzny	inner speech	keyword		232	inner_speech	istnieje w SQL
+monotropizm	monotropism	keyword		233	monotropism	istnieje w SQL
+motywacja	motivation	keyword		234	motivation	istnieje w SQL
+myślenie dychotomiczne	dichotomous thinking	keyword		235	dichotomous_thinking	istnieje w SQL
+myślenie oddolne	bottom-up processing	keyword		236	bottom_up_processing	istnieje w SQL
+myślenie systemowe	systems thinking	keyword		237	systems_thinking	istnieje w SQL
+nadmierne przepraszanie	excessive apologizing	keyword		238	excessive_apologizing	istnieje w SQL
+nadwrażliwość	hypersensitivity	keyword		239	hypersensitivity	istnieje w SQL
+nagroda natychmiastowa	immediate reward	keyword		240	immediate_reward	istnieje w SQL
+narracja	narrative	keyword		241	narrative	istnieje w SQL
+natłok myśli	racing thoughts	keyword		242	racing_thoughts	istnieje w SQL
+nawigacja systemu	system navigation	keyword		243	system_navigation	istnieje w SQL
+nawyki	habits	keyword		244	habits	istnieje w SQL
+nawyki wszystko albo nic	all-or-nothing habits	keyword		245	all_or_nothing_habits	istnieje w SQL
+negacja	negation	keyword		246	negation	istnieje w SQL
+neurobiologia	neurobiology	keyword		247	neurobiology	istnieje w SQL
+neurobiologia snu	sleep neurobiology	keyword		248	sleep_neurobiology	istnieje w SQL
+niedodiagnozowanie	underdiagnosis	keyword		249	underdiagnosis	istnieje w SQL
+niedopasowanie interwencji	intervention mismatch	keyword		250	intervention_mismatch	istnieje w SQL
+niedowrażliwość	hyposensitivity	keyword		251	hyposensitivity	istnieje w SQL
+niejednoznaczność	ambiguity	keyword		252	ambiguity	istnieje w SQL
+nieliniowe wykonywanie zadań	nonlinear task execution	keyword		253	nonlinear_task_execution	istnieje w SQL
+nieliniowość	nonlinearity	keyword		254	nonlinearity	istnieje w SQL
+nielokalność	nonlocality	keyword		255	nonlocality	istnieje w SQL
+niepewność	uncertainty	keyword		256	uncertainty	istnieje w SQL
+niepodważanie diagnozy	diagnostic acceptance	keyword		257	diagnostic_acceptance	istnieje w SQL
+nieporozumienie	misunderstanding	keyword		258	misunderstanding	istnieje w SQL
+nierówności Bella	Bell inequalities	keyword		259	bell_inequalities	istnieje w SQL
+niesprawiedliwość	injustice	keyword		260	injustice	istnieje w SQL
+nietypowe reakcje na leki	atypical drug responses	keyword		261	atypical_drug_responses	istnieje w SQL
+niewykorzystany potencjał	unrealized potential	keyword		262	unrealized_potential	istnieje w SQL
+niezawodność	reliability	keyword		263	reliability	istnieje w SQL
+niski koszt tłumaczenia	low explanatory cost	keyword		264	low_explanatory_cost	istnieje w SQL
+noradrenalina	norepinephrine	keyword		265	norepinephrine	istnieje w SQL
+nostalgia regulacyjna	regulatory nostalgia	keyword		266	regulatory_nostalgia	istnieje w SQL
+nowe dane	new data	keyword		267	new_data	istnieje w SQL
+obiektywność	objectivity	keyword		268	objectivity	istnieje w SQL
+objawy somatyczne	somatic symptoms	keyword		269	somatic_symptoms	istnieje w SQL
+objawy wtórne	secondary symptoms	keyword		270	secondary_symptoms	istnieje w SQL
+obserwacja społeczna	social observation	keyword		271	social_observation	istnieje w SQL
+odkrywanie siebie	self-discovery	keyword		272	self_discovery	istnieje w SQL
+odpowiedzialność	responsibility	keyword		273	responsibility	istnieje w SQL
+odrzucenie	rejection	keyword		274	rejection	istnieje w SQL
+odśmiecanie pamięci	memory decluttering	keyword		275	memory_decluttering	istnieje w SQL
+ogólna teoria względności	general relativity	keyword		276	general_relativity	istnieje w SQL
+ograniczenia danych	data limitations	keyword		277	data_limitations	istnieje w SQL
+ograniczenia sprzętowe	hardware constraints	keyword		278	hardware_constraints	istnieje w SQL
+ograniczenia systemowe	system constraints	keyword		279	system_constraints	istnieje w SQL
+ograniczona pamięć	limited memory	keyword		280	limited_memory	istnieje w SQL
+operator wykonawczy	executive operator	keyword		281	executive_operator	istnieje w SQL
+opór	resistance	keyword		282	resistance	istnieje w SQL
+opóźnione objawy stresu	delayed stress symptoms	keyword		283	delayed_stress_symptoms	istnieje w SQL
+oprogramowanie	software	keyword		284	software	istnieje w SQL
+organizacja wiedzy	knowledge organization	keyword		285	knowledge_organization	istnieje w SQL
+osiągnięcia	achievement	keyword		286	achievement	istnieje w SQL
+otwarte pętle	open loops	keyword		287	open_loops	istnieje w SQL
+pamięć	memory	keyword		288	memory	istnieje w SQL
+pamięć AI	AI memory	keyword		289	ai_memory	istnieje w SQL
+pamięć asocjacyjna	associative memory	keyword		290	associative_memory	istnieje w SQL
+pamięć autobiograficzna	autobiographical memory	keyword		291	autobiographical_memory	istnieje w SQL
+pamięć deklaratywna	declarative memory	keyword		292	declarative_memory	istnieje w SQL
+pamięć długotrwała	long-term memory	keyword		293	long_term_memory	istnieje w SQL
+pamięć encyklopedyczna	encyclopedic memory	keyword		294	encyclopedic_memory	istnieje w SQL
+pamięć epizodyczna	episodic memory	keyword		295	episodic_memory	istnieje w SQL
+pamięć komputerowa	computer memory	keyword		296	computer_memory	istnieje w SQL
+pamięć krótkotrwała	short-term memory	keyword		297	short_term_memory	istnieje w SQL
+pamięć ludzka	human memory	keyword		298	human_memory	istnieje w SQL
+pamięć neuroróżnorodna	neurodivergent memory	keyword		299	neurodivergent_memory	istnieje w SQL
+pamięć proceduralna	procedural memory	keyword		300	procedural_memory	istnieje w SQL
+pamięć projektu	project memory	keyword		301	project_memory	istnieje w SQL
+pamięć prospektywna	prospective memory	keyword		302	prospective_memory	istnieje w SQL
+pamięć robocza	working memory	keyword		303	working_memory	istnieje w SQL
+pamięć schematyczna	schematic memory	keyword		304	schematic_memory	istnieje w SQL
+pamięć strukturalna	structural memory	keyword		305	structural_memory	istnieje w SQL
+pamięć wskaźnikowa	pointer-based memory	keyword		306	pointer_based_memory	istnieje w SQL
+pamięć zewnętrzna	external memory	keyword		307	external_memory	istnieje w SQL
+pamiętanie o drugiej osobie	remembering others	keyword		308	remembering_others	istnieje w SQL
+paradoks porządku i chaosu	order–chaos paradox	keyword		309	order_chaos_paradox	istnieje w SQL
+parafraza	paraphrase	keyword		310	paraphrase	istnieje w SQL
+paraliż	paralysis	keyword		311	paralysis	istnieje w SQL
+para ND	neurodivergent couple	keyword		312	neurodivergent_couple	istnieje w SQL
+para ND-NT	neurodivergent–neurotypical couple	keyword		313	neurodivergent_neurotypical_couple	istnieje w SQL
+partycypacja	participation	keyword		314	participation	istnieje w SQL
+patologizacja	pathologization	keyword		315	pathologization	istnieje w SQL
+percepcja	perception	keyword		316	perception	istnieje w SQL
+perfekcjonizm	perfectionism	keyword		317	perfectionism	istnieje w SQL
+pęd	momentum	keyword		318	momentum	istnieje w SQL
+pionierzy IT	information technology pioneers	keyword		319	information_technology_pioneers	istnieje w SQL
+planowanie	planning	keyword		320	planning	istnieje w SQL
+pliki	files	keyword		321	files	istnieje w SQL
+pobudzenie poznawcze	cognitive arousal	keyword		322	cognitive_arousal	istnieje w SQL
+pochodzenie informacji	information provenance	keyword		323	information_provenance	istnieje w SQL
+poczucie inności	sense of otherness	keyword		324	sense_of_otherness	istnieje w SQL
+poczucie udawania dorosłego	adult-role impostor feelings	keyword		325	adult_role_impostor_feelings	istnieje w SQL
+poczucie winy	guilt	keyword		326	guilt	istnieje w SQL
+poczucie za dużo i za mało	perceived excess and inadequacy	keyword		327	perceived_excess_and_inadequacy	istnieje w SQL
+podwójna empatia	double empathy problem	keyword		328	double_empathy_problem	istnieje w SQL
+podwójne przetwarzanie	dual processing	keyword		329	dual_processing	istnieje w SQL
+pole elektromagnetyczne	electromagnetic field	keyword		330	electromagnetic_field	istnieje w SQL
+Polska	Poland	keyword		331	poland	istnieje w SQL
+położenie	position	keyword		332	position	istnieje w SQL
+pomaganie	helping behavior	keyword		333	helping_behavior	istnieje w SQL
+populacja	population	keyword		334	population	istnieje w SQL
+popularność technologii	technology popularity	keyword		335	technology_popularity	istnieje w SQL
+porównanie modeli	model comparison	keyword		336	model_comparison	istnieje w SQL
+poszukiwanie i unikanie bodźców	sensory seeking and avoidance	keyword		337	sensory_seeking_and_avoidance	istnieje w SQL
+poszukiwanie sensoryczne	sensory seeking	keyword		338	sensory_seeking	istnieje w SQL
+potrzeba nowości	novelty seeking	keyword		339	novelty_seeking	istnieje w SQL
+potrzeba pomagania	need to help	keyword		340	need_to_help	istnieje w SQL
+potrzeba rozumienia dlaczego	need for explanatory understanding	keyword		341	need_for_explanatory_understanding	istnieje w SQL
+potrzeba samotności	need for solitude	keyword		342	need_for_solitude	istnieje w SQL
+potrzeba struktury	need for structure	keyword		343	need_for_structure	istnieje w SQL
+potrzeby po diagnozie	post-diagnostic needs	keyword		344	post_diagnostic_needs	istnieje w SQL
+potwierdzenie zasad relacji	explicit relationship-rule confirmation	keyword		345	explicit_relationship_rule_confirmation	istnieje w SQL
+powtarzalność	repetitiveness	keyword		346	repetitiveness	istnieje w SQL
+poznanie społeczne	social cognition	keyword		347	social_cognition	istnieje w SQL
+późna diagnoza	late diagnosis	keyword		348	late_diagnosis	istnieje w SQL
+pragmatyka	pragmatics	keyword		349	pragmatics	istnieje w SQL
+prawdopodobieństwo warunkowe	conditional probability	keyword		350	conditional_probability	istnieje w SQL
+predyspozycje	predispositions	keyword		351	predispositions	istnieje w SQL
+presja społeczna	social pressure	keyword		352	social_pressure	istnieje w SQL
+prezent	gift	keyword		353	gift	istnieje w SQL
+procedura	procedure	keyword		354	procedure	istnieje w SQL
+programowanie	programming	keyword		355	programming	istnieje w SQL
+programowanie niskopoziomowe	low-level programming	keyword		356	low_level_programming	istnieje w SQL
+projektowanie języków	programming language design	keyword		357	programming_language_design	istnieje w SQL
+projektowanie promptów	prompt engineering	keyword		358	prompt_engineering	istnieje w SQL
+projektowanie systemów	systems design	keyword		359	systems_design	istnieje w SQL
+projekty	projects	keyword		360	projects	istnieje w SQL
+prokrastynacja	procrastination	keyword		361	procrastination	istnieje w SQL
+prokrastynacja perfekcjonistyczna	perfectionism-related procrastination	keyword		362	perfectionism_related_procrastination	istnieje w SQL
+propriocepcja	proprioception	keyword		363	proprioception	istnieje w SQL
+propriocepcja i koordynacja	proprioception and coordination	keyword		364	proprioception_and_coordination	istnieje w SQL
+prowadzący neuroróżnorodny	neurodivergent facilitator	keyword		365	neurodivergent_facilitator	istnieje w SQL
+przeciążenie	overload	keyword		366	overload	istnieje w SQL
+przeciążenie informacyjne	information overload	keyword		367	information_overload	istnieje w SQL
+przeciążenie poznawcze	cognitive overload	keyword		368	cognitive_overload	istnieje w SQL
+przeciążenie sensoryczne	sensory overload	keyword		369	sensory_overload	istnieje w SQL
+przeciążenie społeczne	social overload	keyword		370	social_overload	istnieje w SQL
+przeciążenie wykonawcze	executive overload	keyword		371	executive_overload	istnieje w SQL
+przeglądarki	web browsers	keyword		372	web_browsers	istnieje w SQL
+przejrzystość	transparency	keyword		373	transparency	istnieje w SQL
+przełączanie zadań	task switching	keyword		374	task_switching	istnieje w SQL
+przepływ	flow	keyword		375	flow	istnieje w SQL
+przetwarzanie informacji	information processing	keyword		376	information_processing	istnieje w SQL
+przetwarzanie lokalne	local processing	keyword		377	local_processing	istnieje w SQL
+przetwarzanie sensoryczne	sensory processing	keyword		378	sensory_processing	istnieje w SQL
+przetwarzanie w tle	background processing	keyword		379	background_processing	istnieje w SQL
+przewidywalność	predictability	keyword		380	predictability	istnieje w SQL
+przynależność	belonging	keyword		381	belonging	istnieje w SQL
+przywoływanie pamięci	memory retrieval	keyword		382	memory_retrieval	istnieje w SQL
+psychodynamika	psychodynamics	keyword		383	psychodynamics	istnieje w SQL
+psychoedukacja	psychoeducation	keyword		384	psychoeducation	istnieje w SQL
+psychoterapia	psychotherapy	keyword		385	psychotherapy	istnieje w SQL
+punktualność	punctuality	keyword		386	punctuality	istnieje w SQL
+pustka	emptiness	keyword		387	emptiness	istnieje w SQL
+Python	Python	keyword		388	python	istnieje w SQL
+RAM	RAM	keyword		389	ram	istnieje w SQL
+rdzeń AuDHD	AuDHD core features	keyword		390	audhd_core_features	istnieje w SQL
+refaktoryzacja	refactoring	keyword		391	refactoring	istnieje w SQL
+referencje	references	keyword		392	references	istnieje w SQL
+regresja	regression	keyword		393	regression	istnieje w SQL
+regulacja mówienia	speech regulation	keyword		394	speech_regulation	istnieje w SQL
+regulacja sensoryczna	sensory regulation	keyword		395	sensory_regulation	istnieje w SQL
+reguły społeczne	social rules	keyword		396	social_rules	istnieje w SQL
+rekonstrukcja	reconstruction	keyword		397	reconstruction	istnieje w SQL
+rekursja	recursion	keyword		398	recursion	istnieje w SQL
+relacje	relationships	keyword		399	relationships	istnieje w SQL
+Richard Stallman	Richard Stallman	keyword		400	richard_stallman	istnieje w SQL
+rozpoznawanie	recognition	keyword		401	recognition	istnieje w SQL
+rozpoznawanie emocji	emotion recognition	keyword		402	emotion_recognition	istnieje w SQL
+rozpoznawanie wzorców	pattern recognition	keyword		403	pattern_recognition	istnieje w SQL
+rozwiązywanie problemów	problem solving	keyword		404	problem_solving	istnieje w SQL
+równania fundamentalne	fundamental equations	keyword		405	fundamental_equations	istnieje w SQL
+równania Maxwella	Maxwell's equations	keyword		406	maxwell_s_equations	istnieje w SQL
+równania Naviera–Stokesa	Navier–Stokes equations	keyword		407	navier_stokes_equations	istnieje w SQL
+równanie Diraca	Dirac equation	keyword		408	dirac_equation	istnieje w SQL
+równoległa obecność	parallel play	keyword		409	parallel_play	istnieje w SQL
+rutyna	routine	keyword		410	routine	istnieje w SQL
+rynek terapeutyczny	therapy market	keyword		411	therapy_market	istnieje w SQL
+rytm dobowy	circadian rhythm	keyword		412	circadian_rhythm	istnieje w SQL
+ryzyko terapii	treatment risk	keyword		413	treatment_risk	istnieje w SQL
+samokontrola	self-control	keyword		414	self_control	istnieje w SQL
+samoocena	self-esteem	keyword		415	self_esteem	istnieje w SQL
+samoodwołanie	self-reference	keyword		416	self_reference	istnieje w SQL
+samopomoc	self-help	keyword		417	self_help	istnieje w SQL
+samopoświęcenie	self-sacrifice	keyword		418	self_sacrifice	istnieje w SQL
+samoregulacja	self-regulation	keyword		419	self_regulation	istnieje w SQL
+samowiedza	self-knowledge	keyword		420	self_knowledge	istnieje w SQL
+schematy	schemas	keyword		421	schemas	istnieje w SQL
+selekcja zawodowa	occupational selection	keyword		422	occupational_selection	istnieje w SQL
+sen	sleep	keyword		423	sleep	istnieje w SQL
+sen głęboki	deep sleep	keyword		424	deep_sleep	istnieje w SQL
+sen REM	REM sleep	keyword		425	rem_sleep	istnieje w SQL
+separacja danych	data separation	keyword		426	data_separation	istnieje w SQL
+separacja domen	domain separation	keyword		427	domain_separation	istnieje w SQL
+separacja kontekstu	context separation	keyword		428	context_separation	istnieje w SQL
+sieć wsparcia	support network	keyword		429	support_network	istnieje w SQL
+skalowalność	scalability	keyword		430	scalability	istnieje w SQL
+skalowanie społeczne	social scaling	keyword		431	social_scaling	istnieje w SQL
+skażenie informacji	information contamination	keyword		432	information_contamination	istnieje w SQL
+skład komputerowy	computer configuration	keyword		433	computer_configuration	istnieje w SQL
+skojarzenia	associations	keyword		434	associations	istnieje w SQL
+skrupulatność moralna	moral scrupulosity	keyword		435	moral_scrupulosity	istnieje w SQL
+skuteczność terapii	treatment efficacy	keyword		436	treatment_efficacy	istnieje w SQL
+słaba interocepcja	poor interoception	keyword		437	poor_interoception	istnieje w SQL
+specjalizacja	specialization	keyword		438	specialization	istnieje w SQL
+specyficzny humor	distinctive humor	keyword		439	distinctive_humor	istnieje w SQL
+spin	spin	keyword		440	spin	istnieje w SQL
+spójność centralna	central coherence	keyword		441	central_coherence	istnieje w SQL
+spójność kontekstu	contextual coherence	keyword		442	contextual_coherence	istnieje w SQL
+spójność modelu	model coherence	keyword		443	model_coherence	istnieje w SQL
+sprawiedliwość	justice	keyword		444	justice	istnieje w SQL
+standard informacyjny	information standard	keyword		445	information_standard	istnieje w SQL
+standard wsparcia	support standard	keyword		446	support_standard	istnieje w SQL
+stan przewlekły	chronic condition	keyword		447	chronic_condition	istnieje w SQL
+stereotypy	stereotypes	keyword		448	stereotypes	istnieje w SQL
+Steve Wozniak	Steve Wozniak	keyword		449	steve_wozniak	istnieje w SQL
+stimming	stimming	keyword		450	stimming	istnieje w SQL
+strategie kompensacyjne	compensatory strategies	keyword		451	compensatory_strategies	istnieje w SQL
+strategie ochronne	protective strategies	keyword		452	protective_strategies	istnieje w SQL
+strategie poznawcze	cognitive strategies	keyword		453	cognitive_strategies	istnieje w SQL
+stres	stress	keyword		454	stress	istnieje w SQL
+streszczenia	summaries	keyword		455	summaries	istnieje w SQL
+strumień danych	data stream	keyword		456	data_stream	istnieje w SQL
+styl poznawczy	cognitive style	keyword		457	cognitive_style	istnieje w SQL
+surowe bodźce	raw sensory input	keyword		458	raw_sensory_input	istnieje w SQL
+sygnały ciała	bodily signals	keyword		459	bodily_signals	istnieje w SQL
+sygnały społeczne	social cues	keyword		460	social_cues	istnieje w SQL
+sygnały zwrotne	feedback signals	keyword		461	feedback_signals	istnieje w SQL
+systemy rozproszone	distributed systems	keyword		462	distributed_systems	istnieje w SQL
+system wsparcia	support system	keyword		463	support_system	istnieje w SQL
+szczegóły	details	keyword		464	details	istnieje w SQL
+szkoda terapeutyczna	treatment-related harm	keyword		465	treatment_related_harm	istnieje w SQL
+sztuczna inteligencja	artificial intelligence	keyword		466	artificial_intelligence	istnieje w SQL
+sztywność poznawcza	cognitive rigidity	keyword		467	cognitive_rigidity	istnieje w SQL
+ślepota czasowa	time blindness	keyword		468	time_blindness	istnieje w SQL
+środowisko społeczne	social environment	keyword		469	social_environment	istnieje w SQL
+świadomość	awareness	keyword		470	awareness	istnieje w SQL
+świadomość ciała	body awareness	keyword		471	body_awareness	istnieje w SQL
+świadomość neuroróżnorodności	neurodiversity awareness	keyword		472	neurodiversity_awareness	istnieje w SQL
+terapeuci ND	neurodivergent therapists	keyword		473	neurodivergent_therapists	istnieje w SQL
+terapeuta	therapist	keyword		474	therapist	istnieje w SQL
+terapia	therapy	keyword		475	therapy	istnieje w SQL
+terapia schematów	schema therapy	keyword		476	schema_therapy	istnieje w SQL
+termodynamika	thermodynamics	keyword		477	thermodynamics	istnieje w SQL
+termodynamika informacji	information thermodynamics	keyword		478	information_thermodynamics	istnieje w SQL
+TeX	TeX	keyword		479	tex	istnieje w SQL
+tożsamość	identity	keyword		480	identity	istnieje w SQL
+trafność	validity	keyword		481	validity	istnieje w SQL
+transformer	transformer	keyword		482	transformer	istnieje w SQL
+turbulencja	turbulence	keyword		483	turbulence	istnieje w SQL
+twórcy technologii	technology creators	keyword		484	technology_creators	istnieje w SQL
+układ nerwowy	nervous system	keyword		485	nervous_system	istnieje w SQL
+układ przedsionkowy	vestibular system	keyword		486	vestibular_system	istnieje w SQL
+ulga	relief	keyword		487	relief	istnieje w SQL
+underachievement	underachievement	keyword		488	underachievement	istnieje w SQL
+unikanie sensoryczne	sensory avoidance	keyword		489	sensory_avoidance	istnieje w SQL
+unikanie wymagań	demand avoidance	keyword		490	demand_avoidance	istnieje w SQL
+Unix	Unix	keyword		491	unix	istnieje w SQL
+uwaga	attention	keyword		492	attention	istnieje w SQL
+uzależnienia	addiction	keyword		493	addiction	istnieje w SQL
+walidacja społeczna	social validation	keyword		494	social_validation	istnieje w SQL
+walidacja wewnętrzna	internal validation	keyword		495	internal_validation	istnieje w SQL
+walidacja zewnętrzna	external validation	keyword		496	external_validation	istnieje w SQL
+wariacja	variation	keyword		497	variation	istnieje w SQL
+werbalizacja	verbalization	keyword		498	verbalization	istnieje w SQL
+weryfikacja	verification	keyword		499	verification	istnieje w SQL
+wewnętrzny tłumacz społeczny	internal social interpreter	keyword		500	internal_social_interpreter	istnieje w SQL
+Wheeler–DeWitt	Wheeler–DeWitt equation	keyword		501	wheeler_dewitt_equation	istnieje w SQL
+wieczorne pobudzenie	evening arousal	keyword		502	evening_arousal	istnieje w SQL
+więź	attachment	keyword		503	attachment	istnieje w SQL
+wolne oprogramowanie	free software	keyword		504	free_software	istnieje w SQL
+wpływ społeczny	social influence	keyword		505	social_influence	istnieje w SQL
+wrażliwość na niesprawiedliwość	sensitivity to injustice	keyword		506	sensitivity_to_injustice	istnieje w SQL
+wrażliwość na odrzucenie (RSD)	rejection sensitivity	keyword		507	rejection_sensitivity	istnieje w SQL
+wskaźniki	indicators	keyword		508	indicators	istnieje w SQL
+wsparcie	support	keyword		509	support	istnieje w SQL
+wsparcie po diagnozie	post-diagnostic support	keyword		510	post_diagnostic_support	istnieje w SQL
+wsparcie praktyczne	practical support	keyword		511	practical_support	istnieje w SQL
+wsparcie rówieśnicze	peer support	keyword		512	peer_support	istnieje w SQL
+wsparcie społeczne	social support	keyword		513	social_support	istnieje w SQL
+wspólnota rówieśnicza	peer community	keyword		514	peer_community	istnieje w SQL
+wspólny kod	shared code	keyword		515	shared_code	istnieje w SQL
+współwystępowanie autyzmu i ADHD	co-occurring autism and ADHD	keyword		516	co_occurring_autism_and_adhd	istnieje w SQL
+wstyd	shame	keyword		517	shame	istnieje w SQL
+wybiórczość pokarmowa	food selectivity	keyword		518	food_selectivity	istnieje w SQL
+wybór terapeuty	therapist selection	keyword		519	therapist_selection	istnieje w SQL
+wykorzystywanie społeczne	social exploitation	keyword		520	social_exploitation	istnieje w SQL
+wyobraźnia	imagination	keyword		521	imagination	istnieje w SQL
+wypalenie autystyczne	autistic burnout	keyword		522	autistic_burnout	istnieje w SQL
+wzajemna pomoc	mutual aid	keyword		523	mutual_aid	istnieje w SQL
+względność	relativity	keyword		524	relativity	istnieje w SQL
+wzorce funkcjonowania	patterns of functioning	keyword		525	patterns_of_functioning	istnieje w SQL
+zaburzenia snu	sleep disorders	keyword		526	sleep_disorders	istnieje w SQL
+zachowania społeczne	social behavior	keyword		527	social_behavior	istnieje w SQL
+zadania	tasks	keyword		528	tasks	istnieje w SQL
+zainteresowania specjalne	special interests	keyword		529	special_interests	istnieje w SQL
+zarządzanie czasem	time management	keyword		530	time_management	istnieje w SQL
+zarządzanie pamięcią	memory management	keyword		531	memory_management	istnieje w SQL
+zasada nieoznaczoności	uncertainty principle	keyword		532	uncertainty_principle	istnieje w SQL
+zasada stacjonarnego działania	principle of stationary action	keyword		533	principle_of_stationary_action	istnieje w SQL
+zasoby	resources	keyword		534	resources	istnieje w SQL
+zaufanie do źródeł	source trust	keyword		535	source_trust	istnieje w SQL
+zdolności poznawcze	cognitive abilities	keyword		536	cognitive_abilities	istnieje w SQL
+zdrowie psychiczne	mental health	keyword		537	mental_health	istnieje w SQL
+zewnętrzna regulacja	external regulation	keyword		538	external_regulation	istnieje w SQL
+zmęczenie decyzyjne	decision fatigue	keyword		539	decision_fatigue	istnieje w SQL
+zmiana aktywności	activity transition	keyword		540	activity_transition	istnieje w SQL
+zmienne progi sensoryczne	variable sensory thresholds	keyword		541	variable_sensory_thresholds	istnieje w SQL
+zmysły	sensory modalities	keyword		542	sensory_modalities	istnieje w SQL
+zrozumienie	understanding	keyword		543	understanding	istnieje w SQL
+żałoba	grief	keyword		544	grief	istnieje w SQL
+rdzeń	core	termin				Termin roboczy używany w klasyfikacji cech AuDHD.
+cecha mieszana	mixed feature	termin				Cecha wynikająca częściowo z rdzenia, częściowo z maskowania.
+komisja po znajomości	jury packed with friends	neologizm	*			Charakterystyczna Maćkowa zbitka; zachować żart i sens nepotycznego składu.
+zombierewizor	zombie reviewer	neologizm	*			Maćkowy neologizm; pisać konsekwentnie jako “zombie reviewer”.
+architektury pamięci	memory architectures	termin				Termin przewodni AU05–AU06.
+pamięć pointer-based	pointer-based memory	termin	*			Maćkowe użycie informatycznej metafory jako opisu pamięci ND.
+kompresor stratny	lossy compressor	termin				Metafora informatyczna używana w opisie pamięci.
+ekstrakcja gistu	gist extraction	termin				Termin z pogranicza pamięci i informatyki.
+słaba spójność centralna	weak central coherence	termin				Utrzymywać standardowy termin literaturowy WCC.
+pomaganie kosztem siebie	helping at your own expense	termin	*			Charakterystyczne sformułowanie tezy AU07.
+liczby przetłumaczone na ludzki	numbers translated into human terms	neologizm	*			Maćkowa fraza stylistyczna; zachować rejestr potoczno-analityczny.
+osoba fundatorska	foundational builder	neologizm	*			Nie tłumaczyć jako startup founder; chodzi o osobę budującą fundament technologiczny.
+fundamentowanie IT	laying the foundations of IT	neologizm	*			Maćkowa kategoria pracy nad warstwą fundamentalną IT.
+teza perwersyjna	perverse thesis	termin	*			Celowo prowokacyjna nazwa wersji tezy.
+paradoks epistemiczny	epistemic paradox	termin				Utrzymywać konsekwentnie.
+otwarte loopy	open loops	neologizm	*			Maćkowe spolszczone użycie “loops”; w EN po prostu open loops.
+abstrakcja abstrakcji	abstraction of abstraction	neologizm	*			Zbitka używana dla meta-poziomu.
+liczby po ludzku	numbers in human terms	neologizm	*			Rodzina Maćkowych sformułowań „po ludzku”.
+geniusz w kryzysie, paraliż w spokoju	brilliant in a crisis, paralysed in calm conditions	neologizm	*			Zachować kontrast i rytm frazy.
+pamięć „złotej rybki”	“goldfish” memory	termin	*			Maćkowa metafora przeciwstawiona pamięci encyklopedycznej.
+zmęczenie, które nie ma dna	fatigue with no bottom	neologizm	*			Maćkowa fraza metaforyczna.
+tęsknota za niepoznanym jeszcze sobą	longing for a self you have not yet met	neologizm	*			Zachować sens, nie spłaszczać do identity issues.
+przepraszanie za istnienie	apologising for existing	neologizm	*			Fraza opisowa, celowo mocna.
+udawanie dorosłego	pretending to be an adult	termin	*			Charakterystyczna fraza doświadczeniowa.
+być zrozumianym, nie naprawionym	to be understood, not fixed	neologizm	*			Zachować jako stałą formułę.
+mówienie za mało albo za dużo	speaking too little or too much	termin	*			Stała fraza dla bimodalności regulacji mówienia.
+rozkręcić osobę autystyczną	get an autistic person going	neologizm	*			Potoczna fraza; chodzi o uruchomienie długiego mówienia/infodumpingu.
+po ludzku	in plain language	neologizm	*			Preferowany odpowiednik w tytułach objaśniających.
+domknięcie wewnętrzne założeń	internal closure of assumptions	termin	*			Maćkowa fraza modelowa; zachować „closure”.
+folk-taksonomia	folk taxonomy	termin	*			Spolszczona zbitka; w EN standardowe folk taxonomy.
+support swapping	support swapping	termin	*			Nazwa ND love language; nie tłumaczyć dalej.
+please crush my soul back into my body	please crush my soul back into my body	neologizm	*			Celowa internetowa fraza; pozostawić dosłownie.
+koszt tłumaczenia	translation cost	termin	*			Relacyjna metafora kosztu przekładu między kodami ND/NT.
+schemat-based	schema-based	neologizm	*			Hybrydowa Maćkowa zbitka; w EN normalizować do schema-based.
+value-based	value-based	termin	*			Pozostawić po angielsku.
+polaroidy babci Genowefy	Grandma Genowefa's Polaroids	neologizm	*			Stała metafora błędnej atrybucji w pamięci i AI.
+biały niedźwiedź	white bear	termin	*			Skrót dla ironicznego efektu negacji w instrukcjach.
+pisz pozytywnie	write positively	termin	*			Reguła projektowa: formułować instrukcje pozytywnie zamiast przez negację.
+nieskuteczność	ineffectiveness	termin				Kontrastowane z counterproductivity.
+tabliczka ND-status	ND-status notice	neologizm	*			Proponowany standard informacyjny przed terapią.
+arbitr prawdy	arbiter of truth	termin	*			Rola człowieka w systemie człowiek + AI + pliki.
+trójkąt spalania	combustion triangle	termin	*			Maćkowe określenie w analizie systemowej
+szary nosorożec	grey rhino	termin				metafora ryzyka
+funkcja celu	objective function	termin				termin analityczny
+Hanza 2.0	Hanseatic League 2.0	neologizm	*			Maćkowa nazwa modelu regionalnego
+Disinfolklore	Disinfolklore	neologizm	*			Maćkowy termin
+dark legitimacy	dark legitimacy	neologizm	*			termin własny / roboczy
+sprzężenie degradujące	degrading feedback loop	termin				spójność tłumaczeń
+zdolności odtworzeniowe	replacement capacity	termin				infrastruktura / przemysł
+scorched earth	scorched earth	termin				pozostawiono angielski termin
+steelmanning	steelmanning	termin				pozostawiono angielski termin
+gradually stało się suddenly	gradually became suddenly	neologizm	*			Hybrydowa fraza tytułowa; zachować kontrast gradually/suddenly.
+negative space	negative space	termin				Metoda wnioskowania z nieobecności i przemilczeń.
+cztery tryby	four modes	termin	*			Stała rama interpretacji relacji intencja–działanie–informacja.
+asymetria opcjonalności	asymmetry of optionality	termin	*			Maćkowa rama analityczna dotycząca różnicy w dostępnych opcjach działania.
+opcjonalność	optionality	termin				Wartość posiadania i zachowywania alternatywnych opcji działania.
+kampania ujawnienia	reveal campaign	termin	*			Skoordynowane ujawnianie zdolności, doktryny i sygnałów.
+long-range sanctions	long-range sanctions	termin	*			Nazwana rama ukraińskich uderzeń dalekiego zasięgu; pozostawić po angielsku.
+strangulacja	strangulation	termin				Systemowe duszenie logistyki lub gospodarki.
+twierdzenie Nyquista	Nyquist's theorem	nazwa				Odwołanie matematyczne używane jako metafora tempa i próbkowania reakcji.
+kompresja napraw	repair compression	termin	*			Skracanie okna dostępnego na naprawę między kolejnymi uderzeniami.
+wyspa logistyczna	logistical island	termin	*			Stan obszaru, którego połączenia logistyczne są stopniowo odcinane.
+patrymonialny grid lock	patrimonial gridlock	neologizm	*			Hybrydowa rama opisująca stabilność reżimu dzięki sieciom klientelistycznym.
+salami slicing	salami slicing	termin				Stopniowa eskalacja małymi krokami, bez jednego oczywistego progu.
+detekcja absencji	absence detection	termin	*			Wykorzystywanie brakujących danych lub elementów wzorca jako sygnału.
+cascade gradient	cascade gradient	neologizm	*			Maćkowe określenie uporządkowanych ścieżek propagacji skutków w systemie.
+maskirowka	maskirovka	termin				Radziecka i rosyjska doktryna maskowania, dezinformacji i pozoracji.
+sygnalizacja strategiczna	strategic signalling	termin				Komunikowanie intencji i zdolności przez działania o znaczeniu strategicznym.
+demembranizacja perymetru	demembranisation of the perimeter	neologizm	*			Maćkowe określenie stopniowego rozbierania warstw ochronnych/peryferyjnych.
+sygnalizacja kalendarzem	calendar-based signalling	termin	*			Wykorzystanie daty zdarzenia jako części komunikatu strategicznego.
+Deep Strike	Deep Strike	termin				Termin operacyjny; pozostawić po angielsku.
+kaskada paliwowa	fuel cascade	termin	*			Łańcuch propagujących się braków i awarii w systemie paliwowym.
+hurt	wholesale	neologizm	*			Maćkowa metafora przejścia od pojedynczych trafień do skali całych klas celów.
+milczenie strategiczne	strategic silence	termin	*			Luka między wiedzą strategiczną a publicznym językiem decydentów.
+doktryna maksymalizacji eskalacji	doctrine of maximising escalation	termin	*			Wyjście z eskalacji przez zwiększanie presji do wymuszenia decyzji.
+zarządzany upadek	managed decline	termin	*			Kontrolowane kurczenie i restrukturyzacja zamiast wzrostu.
+cicha mobilizacja	quiet mobilisation	termin				Mobilizacja przez mechanizmy administracyjne i kontraktowe bez formalnego ogłoszenia.
+chiński substytut komponentowy	Chinese component substitute	termin	*			Zastępowanie zachodnich komponentów dostawami chińskimi.
+sankcje kinetyczne	kinetic sanctions	neologizm	*			Fizyczne niszczenie infrastruktury jako odpowiedź na obchodzenie sankcji.
+najkrótszy zapalnik	shortest fuse	neologizm	*			Proces mogący najszybciej przeprowadzić system z erozji do jawnego kryzysu.
+tryb wojenny	war mode	termin				Pełne podporządkowanie alokacji ludzi, pieniędzy i priorytetów potrzebom wojny.
+wiążące ograniczenie	binding constraint	termin				Czynnik, który realnie ogranicza wynik systemu.
+asymetria ograniczeń	asymmetry of constraints	termin	*			Rozróżnienie ograniczeń fizycznych/jednokierunkowych i politycznie odwracalnych.
+inwentarz opcji	inventory of options	termin	*			Rozdzielenie opcji realnych od pozornych.
+licznik rewizji	revision counter	termin	*			Zbiorcze porównanie zmian statusów między kolejnymi rewizjami prognozy.
+zapas kontra strumień	stock vs flow	termin	*			Maćkowa rama porównująca zużywające się zapasy z odnawialnym strumieniem presji.
+cebula transportowa	transport onion	neologizm	*			Warstwowa metafora kolejnych wąskich gardeł transportowych.
+pułapka jedynego decydenta	sole decision-maker trap	termin	*			Rozbieżność między interesem państwa a funkcją celu jedynego realnego decydenta.
+ruch resztkowy	residual move	termin	*			Ruch wysokiego ryzyka pozostający po wyczerpaniu bezpieczniejszych opcji.
+paradoks zapędzenia	cornering paradox	neologizm	*			Im mniej bezpiecznych wyjść, tym atrakcyjniejszy staje się ruch resztkowy wysokiego ryzyka.
+fenomenologia końca państwa	phenomenology of state ending	termin	*			Opis formy i przebiegu końca państwa, niezależnie od pełnej etiologii.
+spoiwo wewnętrzne	internal binding	termin	*			Mechanizmy kalkulacyjne utrzymujące aparat i centrum razem.
+czujnik siły	strength sensor	neologizm	*			Aktor lub grupa reagująca na postrzeganą siłę centrum.
+afirmatywna legitymizacja	affirmative legitimacy	termin				Legitymizacja oparta na wartości, misji, zgodzie, prawie lub wspólnym celu.
+governmentality	governmentality	termin				Pojęcie teorii władzy; pozostawić po angielsku.
+Archetypal Disinfolklore Literacy	Archetypal Disinfolklore Literacy	neologizm	*			Nazwa narzędzia metody; pozostawić po angielsku.
+Incoming-Outgoing Troll Radars	Incoming–Outgoing Troll Radars	neologizm	*			Nazwa filtra wejściowych i wychodzących treści.
+Witch Switch	Witch Switch	neologizm	*			Nazwa mechanizmu przekierowania realnego lęku na sfabrykowanego winnego.
+Re-Archetyping	Re-Archetyping	neologizm	*			Świadoma podmiana archetypu w mentalnym modelu obiektu.
+Finding Manuland	Finding Manuland	nazwa	*			Nazwa projektu / ramy interpretacyjnej.
+Data-Resistant Archetypes	Data-Resistant Archetypes	neologizm	*			Archetypy oporne na dane i korektę faktami.
+Counter-Disinfolklore	Counter-Disinfolklore	neologizm	*			Zestaw narzędzi obronnych wobec Disinfolklore.
+przesłuchanie informacyjne	informational cross-examination	neologizm	*			Quasi-sądowy test wiarygodności metody analitycznej.
+post-narracyjne narzędzie	post-narrative tool	termin	*			Narzędzie mające wyzwalać z narracji, mimo że samo używa kategorii narracyjnych.
+false positive	false positive	termin				Fałszywie pozytywna klasyfikacja.
+taksonomia rosyjskiego samobójstwa	taxonomy of Russian suicide	neologizm	*			Maćkowa nazwa katalogu podejrzanych zgonów prominentnych Rosjan.
+metoda podwójna	double method	termin	*			Przypadek z więcej niż jednym pozornie samobójczym mechanizmem.
+cornered animal	cornered animal	termin	*			Rama zachowania autokraty zapędzonego w sytuację bez bezpiecznych wyjść.
+dark money	dark money	termin				Ukryty/offshore kapitał używany poza przejrzystym obiegiem.
+Jałta 3.0	Yalta 3.0	neologizm	*			Maćkowa nazwa scenariusza przebudowy porządku od Kaukazu po Zatokę.
+aura strachu	aura of fear	termin	*			Reputacja nieuchronnej siły jako zasób aparatu przymusu.
+old money	old money	termin				Prywatny kapitał wielopokoleniowy; pozostawić po angielsku.
+mission creep	mission creep	termin				Stopniowe rozszerzanie zakresu ograniczonej misji.
+równowaga Nasha	Nash equilibrium	termin				Standardowy termin teorii gier.
+odwrócona metoda naukowa	reversed scientific method	neologizm	*			Sekwencja intuicja → prowokacja → dane → formalizacja.
+pole grawitacyjne	gravitational field	neologizm	*			Metafora układu przyciągającego aktorów przez ich własne interesy.
+trzy zagnieżdżone równowagi	three nested equilibria	termin	*			Lokalna, regionalna i szersza równowaga wzajemnie podtrzymująca system.
+panel to capital good, baryłka to consumable	a solar panel is a capital good; a barrel is a consumable	neologizm	*			Maćkowa formuła kontrastująca trwały substytut energii z paliwem zużywalnym.
+autoimmunologia	autoimmunity	neologizm	*			Metafora strategii cenowej niszczącej konkurentów, ale także wzmacniającej substytuty.
+zegar samozniszczenia	self-destruct clock	neologizm	*			Wbudowany mechanizm stopniowej erozji monopolu.
+energia jako narzędzie sprawiedliwości	energy as an instrument of justice	termin	*			Rama etyczna rozproszonej, tańszej energii jako ograniczenia zależności.
+Wandel durch Handel	Wandel durch Handel	nazwa				Niemiecka doktryna zmiany przez handel; pozostawić w oryginale.
+sauve qui peut	sauve qui peut	termin				Francuska fraza oznaczająca indywidualne ratowanie się kosztem solidarności.
+asymetria kosztów	cost asymmetry	termin				Nierówny rozkład kosztów szoku i transformacji między państwami.
