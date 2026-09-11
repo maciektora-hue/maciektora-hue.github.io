@@ -132,13 +132,31 @@ Angielski viewer:
 piosenki/playlisty-en.html
 ```
 
-Viewer jest podlinkowany z `piosenki` oraz `techniczne` i ma trzy tryby:
+Obie wersje mają tę samą funkcjonalność i są podlinkowane z `piosenki` oraz `techniczne`.
+
+Viewer ma trzy tryby:
 
 1. playlista → utwory;
 2. utwór (`utwu_id`) → playlisty;
 3. pozycje bez rozstrzygniętego `utwu_id`.
 
-Dla playlist z `external_url` pokazuje klikalny link do serwisu zewnętrznego. Pokazuje też `playlist.tags`.
+W trybie **utwór → playlisty** nie trzeba już wybierać utworu z pełnej, długiej listy. Viewer ma lokalne wyszukiwanie po:
+
+- tytule;
+- artyście;
+- `utwu_id`.
+
+Wyniki zawężają się podczas pisania. Jest też filtr:
+
+```text
+tylko utwory występujące na więcej niż jednej playliście
+```
+
+Przy każdym wyniku viewer pokazuje liczbę playlist, na których dany kanoniczny utwór występuje. Po wybraniu utworu podsumowanie pokazuje liczbę różnych playlist, liczbę zapisanych pozycji oraz liczbę zewnętrznych identyfikatorów prowadzących do tego `utwu_id`.
+
+Wyszukiwanie i filtr są zaimplementowane po stronie statycznego frontendu w JavaScript i działają na danych już pobranych z `GET /api/playlisty`. Nie wymagają dodatkowego endpointu ani zapisu do SQL.
+
+Dla playlist z `external_url` viewer pokazuje klikalny link do serwisu zewnętrznego. Pokazuje też `playlist.tags`.
 
 Liked Songs pojawia się automatycznie z SQL jako nowy snapshot, ale bez przycisku Spotify, ponieważ `external_url` jest `NULL`.
 
@@ -159,6 +177,8 @@ piosenki/playlist_api.py
 API odczytuje metadane `playlist`, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`.
 
 Nie wykonuje heurystycznego mapowania i nie modyfikuje SQL.
+
+Wyszukiwanie utworów i filtr „więcej niż jedna playlista” są obecnie funkcją viewera, nie API.
 
 ## 11. Zasady mapowania
 
@@ -258,6 +278,7 @@ external_track = jeden utwór zewnętrznego serwisu, deduplikowany po service + 
 external_track_utwu = tylko jawne, rozstrzygnięte mapowania do middle_end
 middle_end = kanoniczne utwory projektu
 playlist_importer.py = importer XLSX do powyższego modelu
+playlisty*.html = viewer z wyszukiwaniem title/artist/utwu_id i filtrem >1 playlista
 ```
 
 Nie cofaj modelu do kopiowania title/artist/album na każdej pozycji playlisty. Nie twórz `middle_end` dla nierozpoznanych utworów tylko po to, żeby zapełnić FK. Nie mapuj po tytule / artyście / albumie bez jawnej decyzji.
