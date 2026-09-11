@@ -1,0 +1,109 @@
+name: SOL inspect liked songs xlsx once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/SOL_inspect-liked-songs-xlsx-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inspect XLSX structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import xml.etree.ElementTree as ET
+          import re
+
+          path = Path('dane-robocze/playlistyspotifybestof/Liked songs spotify z dnia 2026-09-11.xlsx')
+          ns = {'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+                'r':'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+                'p':'http://schemas.openxmlformats.org/package/2006/relationships'}
+
+          def col_idx(ref):
+              letters = re.match(r'[A-Z]+', ref).group(0)
+              n=0
+              for ch in letters:
+                  n=n*26+ord(ch)-64
+              return n-1
+
+          with ZipFile(path) as z:
+              shared=[]
+              if 'xl/sharedStrings.xml' in z.namelist():
+                  root=ET.fromstring(z.read('xl/sharedStrings.xml'))
+                  for si in root.findall('m:si',ns):
+                      shared.append(''.join(t.text or '' for t in si.iterfind('.//m:t',ns)))
+
+              wb=ET.fromstring(z.read('xl/workbook.xml'))
+              rels=ET.fromstring(z.read('xl/_rels/workbook.xml.rels'))
+              relmap={r.attrib['Id']:r.attrib['Target'] for r in rels.findall('p:Relationship',ns)}
+              sheets=[]
+              for s in wb.find('m:sheets',ns):
+                  rid=s.attrib['{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id']
+                  target=relmap[rid]
+                  if target.startswith('/'):
+                      sheet_path=target.lstrip('/')
+                  else:
+                      sheet_path='xl/'+target.lstrip('./')
+                  sheets.append((s.attrib['name'],sheet_path))
+
+              print('XLSX_FILE', path)
+              print('SHEETS', [x[0] for x in sheets])
+
+              for sheet_name, sheet_path in sheets:
+                  root=ET.fromstring(z.read(sheet_path))
+                  rows=[]
+                  maxcol=0
+                  for row in root.findall('.//m:sheetData/m:row',ns):
+                      vals={}
+                      for c in row.findall('m:c',ns):
+                          ref=c.attrib.get('r','A1')
+                          i=col_idx(ref)
+                          maxcol=max(maxcol,i+1)
+                          typ=c.attrib.get('t')
+                          v=c.find('m:v',ns)
+                          inline=c.find('m:is',ns)
+                          val=''
+                          if typ=='s' and v is not None:
+                              val=shared[int(v.text)]
+                          elif typ=='inlineStr' and inline is not None:
+                              val=''.join(t.text or '' for t in inline.iterfind('.//m:t',ns))
+                          elif v is not None:
+                              val=v.text or ''
+                          vals[i]=val
+                      if vals:
+                          arr=['']*max(maxcol, max(vals)+1)
+                          for i,v in vals.items():
+                              if i>=len(arr): arr.extend(['']*(i+1-len(arr)))
+                              arr[i]=v
+                          rows.append(arr)
+
+                  width=max((len(r) for r in rows), default=0)
+                  rows=[r+['']*(width-len(r)) for r in rows]
+                  print('SHEET', sheet_name, 'ROWS', len(rows), 'COLS', width)
+                  if rows:
+                      print('HEADERS', rows[0])
+                      print('FIRST5')
+                      for r in rows[1:6]: print(r)
+                      print('LAST5')
+                      for r in rows[-5:]: print(r)
+          PY
+
+      - name: Remove one-time workflow
+        if: always()
+        run: |
+          git config user.name "maciektora-hue"
+          git config user.email "maciek.tora@gmail.com"
+          git pull --rebase origin main
+          git rm .github/workflows/SOL_inspect-liked-songs-xlsx-once.yml
+          git commit -m "Remove one-time liked songs XLSX inspector" || true
+          git push
