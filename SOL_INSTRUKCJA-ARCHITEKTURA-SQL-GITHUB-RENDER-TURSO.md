@@ -149,7 +149,7 @@ Pełna aktualna dokumentacja playlist znajduje się w:
 
 `SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
 
-Aktualny model nie składa się już tylko z `playlist` i `playlist_item`. Istotne tabele to:
+Istotne tabele:
 
 - `playlist`;
 - `playlist_item`;
@@ -175,17 +175,18 @@ middle_end
 
 Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie należy tworzyć sztucznego `middle_end` ani stosować heurystyk tytuł/artysta/album bez jawnego polecenia.
 
-`playlist_item` ma już `external_track_pk`. Stare pola zduplikowanych metadanych i stare `utwu_id` pozostają przejściowo dla zgodności i audytu; publiczny viewer/API korzysta z nowej warstwy.
+`playlist_item` ma `external_track_pk`. Stare pola zduplikowanych metadanych i stare `utwu_id` pozostają przejściowo dla zgodności i audytu; publiczny viewer/API korzysta z nowej warstwy.
 
-Aktualny stan live po migracji 2026-09-11:
+Aktualny stan live zweryfikowany po imporcie Liked Songs 2026-09-11:
 
-- 9 playlist;
-- 919 pozycji;
-- 636 `external_track`;
-- 543 jawne relacje `external_track ↔ utwu_id`;
-- 95 pozycji bez `utwu_id`, reprezentujących 93 różne `external_track`.
+- 10 playlist;
+- 1861 pozycji `playlist_item`;
+- 1033 różne `external_track` używane przez playlisty;
+- 937 jawnych relacji `external_track ↔ utwu_id`.
 
-Wszystkie 9 obecnych playlist ma tag `owner:maciek-tora`. To opis stanu obecnego, nie reguła dla wszystkich przyszłych importów.
+Snapshot `spotify:liked-songs:2026-09-11` ma 942 pozycje: 937 rozstrzygniętych, 5 bez mapowania, 869 z `lyrics_id` i snapshotem tagów.
+
+Wszystkie 10 obecnych playlist ma tag `owner:maciek-tora`. To opis stanu obecnego, nie reguła dla wszystkich przyszłych importów.
 
 `spotify:alltimebest` / `AllTimeBestSpotify` ma potwierdzony:
 
@@ -203,6 +204,12 @@ Publiczny viewer:
 
 Viewer pokazuje tagi playlist, klikalne `external_url` oraz trzy tryby: playlista → utwory, utwór → playlisty, bez `utwu_id`.
 
-Nowy importer zgodny z warstwą `external_track` **nie jest jeszcze gotowy** i nie należy go opisywać jako istniejącej części systemu.
+Importer zgodny z warstwą `external_track` istnieje w:
+
+`piosenki/playlist_importer.py`
+
+Importer czyta XLSX `id/name/artist/album`, nie tworzy sztucznych `middle_end` i automatycznie mapuje provider-ID tylko wtedy, gdy istnieje dokładnie jeden kandydat w `middle_end`.
+
+**Znane ograniczenie:** pierwszy import 942 pozycji wykazał zbyt wiele sekwencyjnych operacji Turso i chwilowy timeout workera / HTTP 502. Import zakończył się poprawnie, ale przed regularnymi dużymi importami należy zbatchować zapytania i skrócić transakcję. Nie uruchamiać dużego importu synchronicznie w ścieżce startowej Gunicorna.
 
 `piosenki/schema.sql` ma odzwierciedlać aktualny stan schematu live. Pliki w `piosenki/migrations/` dokumentują drogę dojścia do tego stanu; nie należy uruchamiać dawnych migracji ponownie bez jawnej potrzeby.
