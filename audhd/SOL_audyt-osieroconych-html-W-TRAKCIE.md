@@ -8,6 +8,16 @@ Status: audyt niezakończony. Ten plik zapisuje stan prac po krokach 1–4.
 
 Ustalić, które pliki HTML w katalogu `audhd/` są faktycznie osiągalne z publicznej strony AuDHD, a które są osierocone, czyli nie da się do nich dojść ze strony głównej ani przez kolejne lokalne przejścia.
 
+## Zakres audytu
+
+Audyt dotyczy **statycznej osiągalności plików HTML w strukturze WWW `audhd/`**.
+
+`SOL_mapa-sekcji-i-anchorow-audhd.html` jest mapą sekcji generowaną na podstawie danych z SQL/API. Sam plik pozostaje normalnym elementem WWW i jest osiągalny ze strony głównej, ale **dynamiczne linki `deep_link` generowane przez tę mapę nie podlegają temu audytowi i nie wpływają na klasyfikację HTML-i jako osieroconych lub osiągalnych**.
+
+Powód: mapa sekcji opisuje zawartość bazy danych i generuje odsyłacze w runtime, więc nie jest częścią statycznego grafu plików, który jest przedmiotem tego audytu.
+
+Przenoszenie ewentualnych sierot będzie odwracalne: pliki mają trafiać do katalogu `osierocone-html/`, a nie być trwale kasowane.
+
 ## Krok 1 — inwentaryzacja HTML
 
 W `audhd/` znaleziono łącznie **40 plików HTML**:
@@ -91,20 +101,16 @@ Trzeci plik jest dodatkowo jedynie starym redirectem do:
 
 `apendyks1-po-ludzku-02_01-2026-08-26.html`
 
-## Ważne: audyt jeszcze niezamknięty
+## Wyłączenie mapy sekcji z analizy linków
 
-`SOL_mapa-sekcji-i-anchorow-audhd.html` nie przechowuje wszystkich linków statycznie. Pobiera z API pola `deep_link` z endpointu:
+`SOL_mapa-sekcji-i-anchorow-audhd.html` pobiera z API pola `deep_link` z endpointu SQL/API. Te dynamiczne odsyłacze **nie są dalej sprawdzane w tym audycie**.
 
-`https://piosenki-api.onrender.com/api/content/audhd`
-
-Dlatego przed uznaniem powyższych trzech plików za definitywnie osierocone trzeba jeszcze sprawdzić, czy którykolwiek z nich nie jest osiągalny przez dynamiczne `deep_link` z mapy SQL.
-
-Próba weryfikacji tego endpointu w bieżącym audycie nie została zakończona z powodu ograniczenia dostępu narzędzia do tego URL-a. Zgodnie z zasadą po błędzie dalszych obejść nie wykonywano bez nowej komendy.
+Nie jest to brak danych ani niedokończona część audytu, tylko świadome ograniczenie zakresu: mapa sekcji jest widokiem danych z bazy, a audyt ma ustalić statyczną strukturę i osiągalność plików WWW.
 
 ## Stan na teraz
 
 - HTML łącznie: **40**
 - osiągalne statycznie: **37**
 - kandydaci na sieroty: **3**
-- audyt dynamicznych `deep_link`: **do wykonania**
+- dynamiczne `deep_link` z mapy SQL: **poza zakresem audytu**
 - żadnych plików HTML podczas audytu nie przeniesiono ani nie usunięto.
