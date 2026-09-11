@@ -32,7 +32,24 @@ jobs:
           import libsql
 
           sys.path.insert(0, str(Path('piosenki').resolve()))
-          from playlist_importer import import_playlist_xlsx
+          import playlist_importer
+          from island_playlist_import import read_playlist
+
+          omitted_blank_ids = {}
+
+          def read_tracks_omitting_blank_ids(path):
+              parsed = read_playlist(Path(path))
+              omitted_blank_ids[str(path)] = {
+                  'count': len(parsed['blank_id_rows']),
+                  'source_rows': [row['source_row'] for row in parsed['blank_id_rows']],
+              }
+              return [
+                  {key: track[key] for key in ('id', 'name', 'artist', 'album')}
+                  for track in parsed['tracks']
+              ]
+
+          playlist_importer.read_xlsx_tracks = read_tracks_omitting_blank_ids
+          import_playlist_xlsx = playlist_importer.import_playlist_xlsx
 
           token = os.environ.get('TURSO_AUTH_TOKEN')
           if not token:
@@ -123,6 +140,8 @@ jobs:
               )
               dry_results.append(result)
               print('DRY_RUN=' + json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+          print('OMITTED_BLANK_IDS=' + json.dumps(omitted_blank_ids, ensure_ascii=False, sort_keys=True))
 
           if any(r.get('mapping_conflicts', 0) for r in dry_results):
               raise RuntimeError('DRY-RUN NIEJEST CZYSTY: mapping_conflicts')
