@@ -22,7 +22,13 @@ def api_playlisty():
                 p.imported_at,
                 p.tags,
                 COUNT(i.position) AS item_count,
-                SUM(CASE WHEN i.utwu_id IS NOT NULL THEN 1 ELSE 0 END) AS mapped_count
+                SUM(
+                    CASE WHEN EXISTS (
+                        SELECT 1
+                        FROM external_track_utwu AS x
+                        WHERE x.external_track_pk = i.external_track_pk
+                    ) THEN 1 ELSE 0 END
+                ) AS mapped_count
             FROM playlist AS p
             LEFT JOIN playlist_item AS i ON i.playlist_id = p.playlist_id
             GROUP BY
@@ -40,25 +46,28 @@ def api_playlisty():
             SELECT
                 i.playlist_id,
                 i.position,
-                i.utwu_id,
-                i.external_track_id,
-                i.source_name,
-                i.source_artist,
-                i.source_album,
-                m.title_original,
-                m.artist_original,
-                m.album_original,
-                m.spotify_id,
-                m.youtube_video_id
+                i.external_track_pk,
+                e.service AS external_service,
+                e.external_track_id,
+                e.title AS external_title,
+                e.artist AS external_artist,
+                e.album AS external_album
             FROM playlist_item AS i
-            LEFT JOIN middle_end AS m ON m.utwu_id = i.utwu_id
+            JOIN external_track AS e
+              ON e.external_track_pk = i.external_track_pk
             ORDER BY i.playlist_id, i.position
         """, [
-            "playlist_id", "position", "utwu_id", "external_track_id",
-            "source_name", "source_artist", "source_album",
-            "title_original", "artist_original", "album_original",
-            "spotify_id", "youtube_video_id"
+            "playlist_id", "position", "external_track_pk", "external_service",
+            "external_track_id", "external_title", "external_artist", "external_album"
         ])
+
+        external_links = fetch_rows(conn, """
+            SELECT
+                external_track_pk,
+                utwu_id
+            FROM external_track_utwu
+            ORDER BY external_track_pk, utwu_id
+        """, ["external_track_pk", "utwu_id"])
 
         utwory = fetch_rows(conn, """
             SELECT
@@ -75,7 +84,12 @@ def api_playlisty():
             "spotify_id", "youtube_video_id"
         ])
 
-        return jsonify(playlists=playlists, items=items, utwory=utwory), 200
+        return jsonify(
+            playlists=playlists,
+            items=items,
+            external_links=external_links,
+            utwory=utwory,
+        ), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
     finally:
