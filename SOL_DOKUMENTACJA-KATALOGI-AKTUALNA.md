@@ -442,3 +442,20 @@ Publiczny ruch WWW idzie przez Render/Flask.
 Najważniejszy wyjątek od intuicji katalogowej:
 
 **kod wspólnej bazy treści Rosja/AuDHD i backend API mieszka w `piosenki/`, ponieważ właśnie ten katalog jest rootem usługi Render. Nie oznacza to, że dane `content_*` są „danymi piosenek”.**
+
+<!-- PLAYLISTY-2026-09-11 -->
+---
+
+# Aktualizacja 2026-09-11 — playlisty w projekcie `piosenki`
+
+Aktualna warstwa playlist jest zdefiniowana w `piosenki/schema.sql` i składa się z `playlist`, `playlist_item` oraz `playlist_tag_def`.
+
+Historia migracji znajduje się w:
+
+- `piosenki/migrations/2026-09-10-playlists-spotify-bestof.sql`;
+- `piosenki/migrations/2026-09-11-playlist-metadata.sql`.
+
+Robocze eksporty playlist pozostają w `dane-robocze/`, m.in. `dane-robocze/playlistyspotifybestof/`. Plik audytowy nierozwiązanych pozycji znajduje się w `dane-robocze/csv-tsv/SOL_playlisty-brak-utwu-id-95.csv`.
+
+Po imporcie bieżący stan playlist należy odczytywać z Turso/SQL, a nie rekonstruować z XLSX/CSV.
+

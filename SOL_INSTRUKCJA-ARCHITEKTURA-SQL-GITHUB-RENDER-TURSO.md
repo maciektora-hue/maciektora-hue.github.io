@@ -139,3 +139,24 @@ Przed pracą z SQL:
 ## 10. Najkrótsza wersja
 
 **GitHub przechowuje HTML i kod. GitHub Pages pokazuje WWW. Render uruchamia Flask. Flask łączy się przez libsql z Turso. WWW ma korzystać z API Render, a nie bezpośrednio z administracyjnego dostępu do SQL.**
+
+<!-- PLAYLISTY-2026-09-11 -->
+---
+
+## 11. Warstwa playlist — zasady operacyjne
+
+Aktualny model playlist ma trzy elementy: `playlist`, `playlist_item` i `playlist_tag_def`.
+
+Jeden rekord `playlist` oznacza jeden konkretny eksport / stan playlisty. Kolejne eksporty tej samej logicznej playlisty mogą mieć wspólne `playlist_series_id`.
+
+Rozróżniaj dwa czasy:
+
+- `exported_at` — kiedy playlistę wyeksportowano ze Spotify / YouTube do pliku;
+- `imported_at` — kiedy ten eksport zaimportowano do SQL.
+
+Opcjonalne metadane opisowe trzymamy w `playlist.tags`; nie tworzymy nowej kolumny dla każdej przyszłej cechy. `service` i identyfikatory techniczne pozostają kolumnami.
+
+Tagi playlist nie są tagami lyrics i nie korzystają z `tag_catalog` ani ontologii tagów tekstu.
+
+`piosenki/schema.sql` ma odzwierciedlać aktualny stan schematu live. Pliki w `piosenki/migrations/` dokumentują drogę dojścia do tego stanu; nie należy uruchamiać dawnych migracji ponownie bez jawnej potrzeby.
+

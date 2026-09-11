@@ -585,3 +585,18 @@ middle_end.utwu_id
 ```
 
 **SŁOWA opisują znaczenie tekstu. AUDIO opisuje sygnał. `middle_end` jest mostem, nie miejscem do mieszania obu ontologii.**
+
+<!-- PLAYLISTY-2026-09-11 -->
+---
+
+## Aktualizacja 2026-09-11 — playlisty a tagi lyrics
+
+Tagi playlist są osobnym systemem od tagów tekstu. Nie należy ich mieszać z `tag_catalog`, `tag_snapshots`, osiami, rodzinami ani walencją lyrics.
+
+Warstwa playlist używa:
+
+- `playlist.tags` — opcjonalnej listy JSON, np. `owner:maciek`, `origin:platform_generated`, `purpose:driving`;
+- `playlist_tag_def` — prostego słownika definicji używanych tagów playlistowych.
+
+Jeden rekord `playlist` oznacza jeden konkretny eksport playlisty. Kolejne eksporty tej samej logicznej playlisty mogą być spięte przez `playlist_series_id`.
+

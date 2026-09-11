@@ -583,3 +583,23 @@ GitHub Actions = automatyzacja i operacje administracyjne
 Najważniejsza zasada interpretacyjna:
 
 **nie wnioskuj o domenie danych wyłącznie z katalogu, w którym leży kod. `piosenki/` jest rootem Rendera i dlatego zawiera także kod wspólny dla Rosja/AuDHD oraz narzędzi technicznych.**
+
+<!-- PLAYLISTY-2026-09-11 -->
+---
+
+# Aktualizacja 2026-09-11 — warstwa playlist
+
+W domenie piosenek działa obecnie także warstwa playlist:
+
+- `playlist` — jeden rekord oznacza jeden konkretny eksport / stan playlisty w określonym momencie;
+- `playlist_item` — utwory należące do tego eksportu wraz z kolejnością;
+- `playlist_tag_def` — prosty słownik opcjonalnych tagów opisujących playlisty.
+
+`playlist_series_id` może łączyć kolejne eksporty tej samej logicznej playlisty, także gdy zmieni się jej nazwa lub zawartość. Nie ma osobnej tabeli snapshotów.
+
+`exported_at` oznacza moment eksportu ze Spotify / YouTube do pliku źródłowego. `imported_at` oznacza moment zaimportowania tego konkretnego eksportu do SQL.
+
+Opcjonalne informacje opisowe, np. właściciel, sposób powstania, przeznaczenie czy program eksportujący, mogą być przechowywane w `playlist.tags` jako lista JSON. Tagi playlist są niezależne od systemu tagów `lyrics`.
+
+Aktualny stan po migracji: 9 rekordów `playlist` i 919 rekordów `playlist_item`. SQL jest źródłem prawdy; migracje w `piosenki/migrations/` są historią zmian, nie źródłem do ponownego automatycznego importu.
+
