@@ -362,16 +362,30 @@ CREATE INDEX IF NOT EXISTS idx_audio_feature_snapshots_audio_id
 
 
 -- Playlist layer
+-- Jeden rekord playlist = jeden konkretny eksport / stan playlisty w danym momencie.
 CREATE TABLE IF NOT EXISTS playlist (
     playlist_id TEXT PRIMARY KEY,
+    playlist_series_id TEXT,
     service TEXT NOT NULL,
     name TEXT NOT NULL,
     external_playlist_id TEXT,
     external_url TEXT,
     source_file TEXT,
+    exported_at TEXT,
     imported_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CHECK (service IN ('spotify', 'youtube_music', 'youtube')),
-    UNIQUE (service, external_playlist_id)
+    tags TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(tags)),
+    CHECK (service IN ('spotify', 'youtube_music', 'youtube'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_playlist_series_id
+    ON playlist(playlist_series_id);
+
+CREATE INDEX IF NOT EXISTS idx_playlist_external_playlist_id
+    ON playlist(service, external_playlist_id);
+
+CREATE TABLE IF NOT EXISTS playlist_tag_def (
+    tag TEXT PRIMARY KEY,
+    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS playlist_item (
