@@ -20,7 +20,7 @@ def api_playlisty():
                 p.source_file,
                 p.exported_at,
                 p.imported_at,
-                p.tags,
+                COALESCE(NULLIF(p.playlist_tags, ''), p.tags) AS tags,
                 COUNT(i.position) AS item_count,
                 SUM(
                     CASE WHEN EXISTS (
@@ -34,7 +34,7 @@ def api_playlisty():
             GROUP BY
                 p.playlist_id, p.playlist_series_id, p.service, p.name,
                 p.external_playlist_id, p.external_url, p.source_file,
-                p.exported_at, p.imported_at, p.tags
+                p.exported_at, p.imported_at, p.playlist_tags, p.tags
             ORDER BY p.name, p.playlist_id
         """, [
             "playlist_id", "playlist_series_id", "service", "name",
