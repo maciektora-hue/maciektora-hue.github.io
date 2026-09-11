@@ -401,6 +401,21 @@ CREATE TABLE IF NOT EXISTS external_track (
     UNIQUE (service, external_track_id)
 );
 
+CREATE TABLE IF NOT EXISTS external_track_utwu (
+    external_track_pk INTEGER NOT NULL
+        REFERENCES external_track(external_track_pk)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    utwu_id TEXT NOT NULL
+        REFERENCES middle_end(utwu_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    PRIMARY KEY (external_track_pk, utwu_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_external_track_utwu_utwu_id
+    ON external_track_utwu(utwu_id);
+
 CREATE TABLE IF NOT EXISTS playlist_item (
     playlist_id TEXT NOT NULL
         REFERENCES playlist(playlist_id)
@@ -409,6 +424,10 @@ CREATE TABLE IF NOT EXISTS playlist_item (
     position INTEGER NOT NULL,
     utwu_id TEXT
         REFERENCES middle_end(utwu_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    external_track_pk INTEGER
+        REFERENCES external_track(external_track_pk)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
     external_track_id TEXT,
@@ -424,5 +443,8 @@ CREATE INDEX IF NOT EXISTS idx_playlist_item_utwu_id
 
 CREATE INDEX IF NOT EXISTS idx_playlist_item_external_track_id
     ON playlist_item(external_track_id);
+
+CREATE INDEX IF NOT EXISTS idx_playlist_item_external_track_pk
+    ON playlist_item(external_track_pk);
 
 COMMIT;
