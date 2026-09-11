@@ -1,7 +1,7 @@
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
-Data zebrania: 2026-09-10
+Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
 
 ## 0. Zakres i zasada
@@ -14,7 +14,11 @@ Osobna aktualna dokumentacja audio istnieje w:
 
 `SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`
 
-Dlatego tutaj katalog `piosenki/` jest opisany na poziomie całego działu, a nie ponownie na poziomie szczegółowego modelu audio.
+Aktualna dokumentacja playlist istnieje w:
+
+`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
+
+Dlatego tutaj katalog `piosenki/` jest opisany na poziomie całego działu, a nie ponownie na poziomie szczegółowego modelu audio lub playlist.
 
 Jeżeli stara notatka techniczna jest sprzeczna z aktualnym kodem lub aktualnym `index.html`, stan bieżącego repozytorium ma pierwszeństwo.
 
@@ -283,10 +287,13 @@ Nie jest osobnym repozytorium.
 
 ## Publiczna brama
 
-`piosenki/index.html` ma dwie główne gałęzie:
+`piosenki/index.html` ma obecnie trzy główne wejścia:
 
 1. `slowa.html` — tekst, semantyka, tagi, czas;
-2. `audio.html` — sygnał, cechy audio, sanityzacja i mapa akustyczna.
+2. `audio.html` — sygnał, cechy audio, sanityzacja i mapa akustyczna;
+3. `playlisty.html` — read-only viewer playlist i ich relacji z kanonicznymi utworami.
+
+Wersja angielska korzysta odpowiednio z `index-en.html` i `playlisty-en.html`.
 
 ## Gałąź Słowa
 
@@ -318,11 +325,41 @@ Szczegółowa aktualna dokumentacja jest w root repo:
 
 Nie należy rekonstruować jej z wcześniejszych plików roboczych.
 
+## Warstwa playlist
+
+Pełna aktualna dokumentacja:
+
+`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
+
+Viewer PL/EN czyta dane z `GET /api/playlisty` i korzysta z nowej warstwy:
+
+```text
+playlist → playlist_item → external_track → external_track_utwu → middle_end
+```
+
+Aktualny stan live:
+
+- 9 playlist;
+- 919 pozycji;
+- 636 `external_track`;
+- 543 jawne relacje do `utwu_id`;
+- 95 pozycji bez `utwu_id`, reprezentujących 93 różne `external_track`.
+
+Wszystkie 9 obecnych playlist ma tag `owner:maciek-tora`.
+
+`AllTimeBestSpotify` ma zapisany bezpośredni link Spotify i viewer pokazuje go jako klikalny przycisk.
+
+Nowy importer zgodny z warstwą `external_track` nie jest jeszcze gotowy.
+
 ## Backend
 
 Główna aplikacja:
 
 `piosenki/app.py`
+
+Endpoint playlist jest rejestrowany przez:
+
+`piosenki/playlist_api.py`
 
 Dodatkowy endpoint Content Explorer jest rejestrowany przez:
 
@@ -354,6 +391,7 @@ Główne pliki:
 - `techniczne/index-en.html`
 - `techniczne/content-explorer.html`
 - `techniczne/sql-viewer.html`
+- link do `piosenki/playlisty.html` / `piosenki/playlisty-en.html`
 - skrypty eksportu / metryk sekcji.
 
 ## `content-explorer.html`
@@ -390,6 +428,12 @@ Czyta:
 Pokazuje aktualne tabele, kolumny, PK, FK, liczbę rekordów i dostępne dane o rozmiarach.
 
 Jego celem jest pokazanie stanu faktycznej bazy, a nie rekonstrukcja ze statycznego `schema.sql`.
+
+## Viewer playlist
+
+Dział `techniczne/` linkuje także do publicznego viewera playlist w `piosenki/playlisty.html` i `piosenki/playlisty-en.html`.
+
+Viewer jest read-only, czyta `GET /api/playlisty`, pokazuje tagi playlist i zewnętrzne URL-e, jeśli zostały zapisane w SQL.
 
 ---
 
@@ -433,7 +477,7 @@ Publiczny ruch WWW idzie przez Render/Flask.
 ├── rownania/                      matematyka/fizyka/AI, statyczny
 ├── rosja/                         treść + anchory + content_* SQL
 ├── audhd/                         treść + anchory + content_* SQL
-├── piosenki/                      publiczny dział + backend Flask + SQL
+├── piosenki/                      publiczny dział + backend Flask + SQL + viewer playlist
 ├── techniczne/                    publiczne viewery wspólnej infrastruktury
 ├── bledy-AI/                      rejestr błędów AI
 └── .github/workflows/             automatyzacja
@@ -443,19 +487,22 @@ Najważniejszy wyjątek od intuicji katalogowej:
 
 **kod wspólnej bazy treści Rosja/AuDHD i backend API mieszka w `piosenki/`, ponieważ właśnie ten katalog jest rootem usługi Render. Nie oznacza to, że dane `content_*` są „danymi piosenek”.**
 
-<!-- PLAYLISTY-2026-09-11 -->
 ---
 
 # Aktualizacja 2026-09-11 — playlisty w projekcie `piosenki`
 
-Aktualna warstwa playlist jest zdefiniowana w `piosenki/schema.sql` i składa się z `playlist`, `playlist_item` oraz `playlist_tag_def`.
+Aktualna warstwa playlist jest zdefiniowana w `piosenki/schema.sql` i obejmuje:
 
-Historia migracji znajduje się w:
+- `playlist`;
+- `playlist_item`;
+- `playlist_tag_def`;
+- `external_track`;
+- `external_track_utwu`.
 
-- `piosenki/migrations/2026-09-10-playlists-spotify-bestof.sql`;
-- `piosenki/migrations/2026-09-11-playlist-metadata.sql`.
+Historia migracji znajduje się w `piosenki/migrations/`. Najważniejsze kroki obejmują metadane playlist, normalizację `external_track`, most `external_track_utwu`, dodanie `external_track_pk` do `playlist_item`, identyfikator Spotify dla `AllTimeBestSpotify` i tag właściciela obecnych playlist.
 
 Robocze eksporty playlist pozostają w `dane-robocze/`, m.in. `dane-robocze/playlistyspotifybestof/`. Plik audytowy nierozwiązanych pozycji znajduje się w `dane-robocze/csv-tsv/SOL_playlisty-brak-utwu-id-95.csv`.
 
 Po imporcie bieżący stan playlist należy odczytywać z Turso/SQL, a nie rekonstruować z XLSX/CSV.
 
+Pełne szczegóły i zasady dla kolejnych czatów są w `SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`.
