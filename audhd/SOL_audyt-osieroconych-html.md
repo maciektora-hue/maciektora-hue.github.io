@@ -2,7 +2,7 @@
 
 Data: 2026-09-11
 
-Status: **audyt zakończony, sieroty przeniesione**.
+Status: **audyt zakończony, sieroty przeniesione, kontrola po operacji OK**.
 
 ## Cel
 
@@ -111,12 +111,33 @@ Commit przeniesienia:
 
 Po operacji katalog `osierocone-html/audhd/` zawiera dokładnie te trzy pliki i ich blob SHA są identyczne z SHA źródeł sprzed przeniesienia.
 
+## Krok 8 — kontrola po operacji
+
+Kontrolę wykonano ponownie na świeżym `main` po późniejszych, równoległych commitach w innych częściach repo.
+
+Punkt odniesienia kontroli: commit `c1685029bf26b5ebb6704dfb2e1c8f0b37a118b1`.
+
+Wynik:
+
+- rekurencyjne drzewo `audhd/` jest kompletne (`truncated: false`),
+- w `audhd/` pozostało dokładnie **37 HTML-i**: **19** bezpośrednio w `audhd/` i **18** w podkatalogach,
+- wszystkie 37 to ten sam zestaw, który w audycie przed przeniesieniem został potwierdzony jako statycznie osiągalny,
+- subtree `audhd/` ma SHA `332f39f0fc0535de6e69143e10d1b3b71cf45941`, identyczny jak przy zamknięciu audytu, więc późniejsze równoległe commity nie zmieniły żadnego pliku w `audhd/`,
+- dokładne wyszukiwanie trzech starych nazw nie wykazało odwołań z bieżącej aktywnej zawartości,
+- `osierocone-html/audhd/` zawiera dokładnie **3 pliki** i żadnego dodatkowego pliku,
+- trzy pliki w `osierocone-html/audhd/` nadal mają te same blob SHA co przed przeniesieniem,
+- trwałe usunięcia treści: **0**.
+
+Kontrola po operacji: **OK**.
+
 ## Stan końcowy
 
 - HTML w `audhd/` przed audytem: **40**
-- aktywnie osiągalne statycznie: **37**
+- HTML w `audhd/` po przeniesieniu: **37**
+- aktywnie osiągalne statycznie: **37 / 37**
 - potwierdzone sieroty: **3**
-- przeniesione do `osierocone-html/audhd/`: **3**
+- przeniesione do `osierocone-html/audhd/`: **3 / 3**
 - trwałe usunięcia treści: **0**
 - dynamiczne `deep_link` z mapy SQL: **poza zakresem audytu**
+- kontrola po operacji: **OK**
 - audyt: **ZAKOŃCZONY**
