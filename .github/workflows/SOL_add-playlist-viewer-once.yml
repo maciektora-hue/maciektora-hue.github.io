@@ -1,0 +1,185 @@
+name: SOL add playlist viewer once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/SOL_add-playlist-viewer-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add read-only playlist API and viewer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app_path = Path('piosenki/app.py')
+          app = app_path.read_text(encoding='utf-8')
+          marker = '@app.get("/api/playlisty")'
+          if marker not in app:
+              insert_before = '\n\n@app.get("/api/content")\n'
+              route = r'''
+
+@app.get("/api/playlisty")
+def api_playlisty():
+    """Read-only dane do viewera playlist. Bez heurystyk i bez modyfikacji SQL."""
+    conn = None
+    try:
+        conn = get_connection()
+        playlists = fetch_rows(conn, """
+            SELECT
+                p.playlist_id,
+                p.playlist_series_id,
+                p.service,
+                p.name,
+                p.external_playlist_id,
+                p.external_url,
+                p.source_file,
+                p.exported_at,
+                p.imported_at,
+                p.tags,
+                COUNT(i.position) AS item_count,
+                SUM(CASE WHEN i.utwu_id IS NOT NULL THEN 1 ELSE 0 END) AS mapped_count
+            FROM playlist AS p
+            LEFT JOIN playlist_item AS i ON i.playlist_id = p.playlist_id
+            GROUP BY
+                p.playlist_id, p.playlist_series_id, p.service, p.name,
+                p.external_playlist_id, p.external_url, p.source_file,
+                p.exported_at, p.imported_at, p.tags
+            ORDER BY p.name, p.playlist_id
+        """, [
+            "playlist_id", "playlist_series_id", "service", "name",
+            "external_playlist_id", "external_url", "source_file",
+            "exported_at", "imported_at", "tags", "item_count", "mapped_count"
+        ])
+
+        items = fetch_rows(conn, """
+            SELECT
+                i.playlist_id,
+                i.position,
+                i.utwu_id,
+                i.external_track_id,
+                i.source_name,
+                i.source_artist,
+                i.source_album,
+                m.title_original,
+                m.artist_original,
+                m.album_original,
+                m.spotify_id,
+                m.youtube_video_id
+            FROM playlist_item AS i
+            LEFT JOIN middle_end AS m ON m.utwu_id = i.utwu_id
+            ORDER BY i.playlist_id, i.position
+        """, [
+            "playlist_id", "position", "utwu_id", "external_track_id",
+            "source_name", "source_artist", "source_album",
+            "title_original", "artist_original", "album_original",
+            "spotify_id", "youtube_video_id"
+        ])
+
+        utwory = fetch_rows(conn, """
+            SELECT
+                utwu_id,
+                title_original,
+                artist_original,
+                album_original,
+                spotify_id,
+                youtube_video_id
+            FROM middle_end
+            ORDER BY artist_original, title_original, utwu_id
+        """, [
+            "utwu_id", "title_original", "artist_original", "album_original",
+            "spotify_id", "youtube_video_id"
+        ])
+
+        return jsonify(playlists=playlists, items=items, utwory=utwory), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+'''
+              if insert_before not in app:
+                  raise SystemExit('Nie znaleziono miejsca w app.py do wstawienia /api/playlisty')
+              app = app.replace(insert_before, route + insert_before, 1)
+              app_path.write_text(app, encoding='utf-8')
+
+          html = r'''<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playlisty · viewer</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1815;--bg2:#10251f;--panel:#13241e;--panel2:#0f1d18;--text:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--soft:rgba(242,231,207,.09);--ok:#8fd6a3;--bad:#e98c8c}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.45}main{width:min(1180px,calc(100% - 28px));margin:auto;padding:24px 0 70px}a{color:var(--hot)}h1{margin:8px 0 4px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:500;letter-spacing:-.035em}.lead,.muted{color:var(--muted)}.status,.box{margin:16px 0;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--panel2)}.modes{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.modes button{border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);padding:8px 13px;cursor:pointer}.modes button.active{background:var(--amber);color:#102016;font-weight:800}.view{display:none}.view.active{display:block}.controls{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;align-items:end;margin:12px 0}.controls label{display:grid;gap:5px;color:var(--muted);font-size:.85rem}select,input{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 10px}.summary{margin:10px 0;color:var(--muted)}.scroll{overflow:auto;border:1px solid var(--line);border-radius:11px;background:var(--panel)}table{width:100%;border-collapse:collapse;min-width:920px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft);vertical-align:top;font-size:.84rem}th{color:var(--hot);font-size:.74rem;position:sticky;top:0;background:var(--panel2)}tr:last-child td{border-bottom:0}.id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem}.ok{color:var(--ok);font-weight:800}.bad{color:var(--bad);font-weight:800}.tag{display:inline-block;border:1px solid var(--soft);border-radius:999px;padding:2px 6px;margin:1px 3px 1px 0;color:var(--muted);font-size:.75rem}@media(max-width:700px){main{width:min(100% - 20px,1180px)}.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<p><a href="index.html">← Piosenki</a> · <a href="../">strona główna</a></p>
+<h1>Playlisty</h1>
+<p class="lead">Viewer read-only. Pokazuje dokładnie to, co jest zapisane w SQL. Bez heurystyk i bez dopasowywania „na oko”.</p>
+<div id="status" class="status">Pobieram dane…</div>
+<div class="modes">
+<button data-view="byPlaylist" class="active">Playlista → utwory</button>
+<button data-view="byTrack">Utwór → playlisty</button>
+<button data-view="unmapped">Bez utwu_id</button>
+</div>
+<section id="byPlaylist" class="view active">
+<div class="controls"><label>Playlista<select id="playlistSelect"></select></label></div>
+<div id="playlistMeta" class="box"></div>
+<div id="playlistSummary" class="summary"></div>
+<div class="scroll"><table><thead><tr><th>#</th><th>Status</th><th>utwu_id</th><th>Tytuł</th><th>Artysta</th><th>Album</th><th>ID źródłowe</th></tr></thead><tbody id="playlistRows"></tbody></table></div>
+</section>
+<section id="byTrack" class="view">
+<div class="controls"><label>Utwór<select id="trackSelect"></select></label></div>
+<div id="trackMeta" class="box"></div>
+<div id="trackSummary" class="summary"></div>
+<div class="scroll"><table><thead><tr><th>Playlista</th><th>Pozycja</th><th>Plik źródłowy</th><th>Eksport</th></tr></thead><tbody id="trackRows"></tbody></table></div>
+</section>
+<section id="unmapped" class="view">
+<div class="summary" id="unmappedSummary"></div>
+<div class="scroll"><table><thead><tr><th>Playlista</th><th>#</th><th>Tytuł źródłowy</th><th>Artysta źródłowy</th><th>Album</th><th>ID źródłowe</th></tr></thead><tbody id="unmappedRows"></tbody></table></div>
+</section>
+</main>
+<script>
+const API='https://piosenki-api.onrender.com/api/playlisty';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let data={playlists:[],items:[],utwory:[]};
+const playlistMap=()=>Object.fromEntries(data.playlists.map(p=>[p.playlist_id,p]));
+const fmtTags=s=>{try{return JSON.parse(s||'[]').map(t=>`<span class="tag">${esc(t)}</span>`).join(' ')||'—'}catch{return esc(s||'—')}};
+function switchView(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('active',x.dataset.view===id));}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+function renderPlaylist(){const id=document.getElementById('playlistSelect').value;const p=playlistMap()[id];if(!p)return;const rows=data.items.filter(x=>x.playlist_id===id);document.getElementById('playlistMeta').innerHTML=`<strong>${esc(p.name)}</strong><br><span class="muted">${esc(p.service)} · ${esc(p.source_file||'brak pliku')} · exported_at: ${esc(p.exported_at||'—')} · imported_at: ${esc(p.imported_at||'—')}</span><br>${fmtTags(p.tags)}`;document.getElementById('playlistSummary').textContent=`${rows.length} pozycji · ${rows.filter(x=>x.utwu_id).length} z utwu_id · ${rows.filter(x=>!x.utwu_id).length} bez utwu_id`;document.getElementById('playlistRows').innerHTML=rows.map(r=>`<tr><td>${esc(r.position)}</td><td>${r.utwu_id?'<span class="ok">OK</span>':'<span class="bad">BRAK utwu_id</span>'}</td><td class="id">${esc(r.utwu_id||'—')}</td><td>${esc(r.title_original||r.source_name||'—')}</td><td>${esc(r.artist_original||r.source_artist||'—')}</td><td>${esc(r.album_original||r.source_album||'—')}</td><td class="id">${esc(r.external_track_id||'—')}</td></tr>`).join('');}
+function renderTrack(){const id=document.getElementById('trackSelect').value;const t=data.utwory.find(x=>x.utwu_id===id);if(!t)return;const rows=data.items.filter(x=>x.utwu_id===id);const pm=playlistMap();document.getElementById('trackMeta').innerHTML=`<strong>${esc(t.title_original||'bez tytułu')}</strong> · ${esc(t.artist_original||'—')}<br><span class="id">${esc(t.utwu_id)}</span>`;document.getElementById('trackSummary').textContent=`Występuje na ${rows.length} zapisanych pozycjach playlist.`;document.getElementById('trackRows').innerHTML=rows.length?rows.map(r=>{const p=pm[r.playlist_id]||{};return `<tr><td>${esc(p.name||r.playlist_id)}</td><td>${esc(r.position)}</td><td>${esc(p.source_file||'—')}</td><td>${esc(p.exported_at||'—')}</td></tr>`}).join(''):'<tr><td colspan="4" class="muted">Ten utwór nie występuje na żadnej zapisanej playliście.</td></tr>';}
+function renderUnmapped(){const pm=playlistMap();const rows=data.items.filter(x=>!x.utwu_id);document.getElementById('unmappedSummary').textContent=`${rows.length} pozycji bez utwu_id. Pozostają pełnoprawnymi danymi playlistowymi; nie są dopisywane do middle_end.`;document.getElementById('unmappedRows').innerHTML=rows.map(r=>{const p=pm[r.playlist_id]||{};return `<tr><td>${esc(p.name||r.playlist_id)}</td><td>${esc(r.position)}</td><td>${esc(r.source_name||'—')}</td><td>${esc(r.source_artist||'—')}</td><td>${esc(r.source_album||'—')}</td><td class="id">${esc(r.external_track_id||'—')}</td></tr>`}).join('');}
+function init(d){data=d;document.getElementById('status').textContent=`SQL: ${d.playlists.length} playlist · ${d.items.length} pozycji · ${d.items.filter(x=>!x.utwu_id).length} bez utwu_id`;const ps=document.getElementById('playlistSelect');ps.innerHTML=d.playlists.map(p=>`<option value="${esc(p.playlist_id)}">${esc(p.name)} [${esc(p.service)}]</option>`).join('');ps.onchange=renderPlaylist;const ts=document.getElementById('trackSelect');ts.innerHTML=d.utwory.map(t=>`<option value="${esc(t.utwu_id)}">${esc(t.artist_original||'—')} — ${esc(t.title_original||'—')} [${esc(t.utwu_id)}]</option>`).join('');ts.onchange=renderTrack;renderPlaylist();renderTrack();renderUnmapped();}
+fetch(API,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(init).catch(err=>{document.getElementById('status').innerHTML=`<span class="bad">Błąd: ${esc(err.message)}</span>`});
+</script>
+</body>
+</html>'''
+          Path('piosenki/playlisty.html').write_text(html, encoding='utf-8')
+          PY
+      - name: Commit viewer
+        run: |
+          git config user.name "maciektora-hue"
+          git config user.email "maciek.tora@gmail.com"
+          git add piosenki/app.py piosenki/playlisty.html
+          git commit -m "Add read-only playlist viewer" || true
+          git push
+      - name: Remove one-time workflow
+        run: |
+          git pull --rebase
+          rm -f .github/workflows/SOL_add-playlist-viewer-once.yml
+          git add -A
+          git commit -m "Remove one-time playlist viewer installer" || true
+          git push
