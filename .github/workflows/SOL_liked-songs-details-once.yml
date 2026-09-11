@@ -1,0 +1,88 @@
+name: SOL liked songs details once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/SOL_liked-songs-details-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inspect details
+        run: |
+          python - <<'PY'
+          import json, re, urllib.request, xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          xlsx=Path('dane-robocze/playlistyspotifybestof/Liked songs spotify z dnia 2026-09-11.xlsx')
+          MAIN='http://schemas.openxmlformats.org/spreadsheetml/2006/main'; REL='http://schemas.openxmlformats.org/officeDocument/2006/relationships'; PKG='http://schemas.openxmlformats.org/package/2006/relationships'; ns={'m':MAIN,'p':PKG}
+          def ci(ref):
+              letters=re.match(r'[A-Z]+',ref or 'A1').group(0); n=0
+              for ch in letters:n=n*26+ord(ch)-64
+              return n-1
+          with ZipFile(xlsx) as z:
+              shared=[]
+              if 'xl/sharedStrings.xml' in z.namelist():
+                  r=ET.fromstring(z.read('xl/sharedStrings.xml')); shared=[''.join(t.text or '' for t in x.iterfind('.//m:t',ns)) for x in r.findall('m:si',ns)]
+              wb=ET.fromstring(z.read('xl/workbook.xml')); sh=wb.find('m:sheets',ns)[0]; rid=sh.attrib['{'+REL+'}id']; rels=ET.fromstring(z.read('xl/_rels/workbook.xml.rels')); tg={r.attrib['Id']:r.attrib['Target'] for r in rels.findall('p:Relationship',ns)}[rid]; sp=tg.lstrip('/') if tg.startswith('/') else 'xl/'+tg.lstrip('./'); root=ET.fromstring(z.read(sp)); rows=[]
+              for row in root.findall('.//m:sheetData/m:row',ns):
+                  vals={}
+                  for c in row.findall('m:c',ns):
+                      i=ci(c.attrib.get('r','A1')); typ=c.attrib.get('t'); v=c.find('m:v',ns); ins=c.find('m:is',ns); val=''
+                      if typ=='s' and v is not None: val=shared[int(v.text)]
+                      elif typ=='inlineStr' and ins is not None: val=''.join(t.text or '' for t in ins.iterfind('.//m:t',ns))
+                      elif v is not None: val=v.text or ''
+                      vals[i]=val.strip()
+                  if vals:
+                      a=['']*(max(vals)+1)
+                      for i,v in vals.items():a[i]=v
+                      rows.append(a)
+          w=max(map(len,rows)); rows=[r+['']*(w-len(r)) for r in rows]; h=[x.strip().lower() for x in rows[0]]; ix={x:i for i,x in enumerate(h)}; tracks=[{'id':r[ix['id']].strip(),'name':r[ix['name']].strip(),'artist':r[ix['artist']].strip(),'album':r[ix['album']].strip()} for r in rows[1:] if r[ix['id']].strip()]
+          byid={t['id']:t for t in tracks}
+          def get(url):
+              q=urllib.request.Request(url,headers={'User-Agent':'SOL-liked-details/1.0'})
+              with urllib.request.urlopen(q,timeout=120) as x:return json.load(x)
+          pl=get('https://piosenki-api.onrender.com/api/playlisty'); ps=get('https://piosenki-api.onrender.com/api/piosenki')
+          mids=defaultdict(list)
+          for m in ps['middle_end']:
+              if m.get('spotify_id'):mids[m['spotify_id']].append(m['utwu_id'])
+          existing={}
+          for i in pl['items']:
+              if i.get('external_service')=='spotify' and i['external_track_id'] not in existing:
+                  existing[i['external_track_id']]={'name':i.get('external_title') or '','artist':i.get('external_artist') or '','album':i.get('external_album') or ''}
+          for sid,t in sorted(byid.items(),key=lambda x:(x[1]['artist'].lower(),x[1]['name'].lower())):
+              if len(mids.get(sid,[]))==0:
+                  print('UNMATCHED|' + '|'.join([sid,t['name'],t['artist'],t['album']]))
+          conflicts=[]
+          for sid,t in byid.items():
+              old=existing.get(sid)
+              if not old:continue
+              changed=[]
+              for f in ('name','artist','album'):
+                  if old[f].strip() and t[f].strip() and old[f].strip()!=t[f].strip():changed.append(f)
+              if changed:conflicts.append((sid,','.join(changed),old,t))
+          print('METADATA_CONFLICT_COUNT|' + str(len(conflicts)))
+          for sid,fields,old,new in conflicts:
+              print('META|' + '|'.join([sid,fields,old['name'],old['artist'],old['album'],new['name'],new['artist'],new['album']]))
+          PY
+
+      - name: Remove one-time workflow
+        if: always()
+        run: |
+          git config user.name "maciektora-hue"
+          git config user.email "maciek.tora@gmail.com"
+          git pull --rebase origin main
+          git rm .github/workflows/SOL_liked-songs-details-once.yml
+          git commit -m "Remove one-time Liked Songs detail audit" || true
+          git push
