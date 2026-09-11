@@ -49,6 +49,28 @@ jobs:
               if not ping or ping[0] != 1:
                   raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
 
+              # Aktualizacja wyłącznie linków publikacji dwóch istniejących playlist.
+              conn.execute(
+                  'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
+                  (
+                      'owner:maciek-tora; wyspa=ruchu; spotify_url=https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8; youtube_music_url=https://music.youtube.com/playlist?list=PLTg92mmd7R7U',
+                      'spotify:wyspa-ruchu:2026-09-11',
+                  ),
+              )
+              conn.execute(
+                  'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
+                  (
+                      'owner:maciek-tora; wyspa=glebi; spotify_url=https://open.spotify.com/playlist/2XlvqJZUNVjR4KGIpF39nG; youtube_music_url=https://music.youtube.com/playlist?list=PLUK_LdKYWxTk',
+                      'spotify:wyspa-glebi:2026-09-11',
+                  ),
+              )
+              conn.commit()
+
+              rows = conn.execute(
+                  "SELECT playlist_id, playlist_tags FROM playlist WHERE playlist_id IN ('spotify:wyspa-ruchu:2026-09-11', 'spotify:wyspa-glebi:2026-09-11') ORDER BY playlist_id"
+              ).fetchall()
+              print('PLAYLIST_LINKS=' + repr(rows))
+
               test_id = '__sol_connection_test__' + uuid.uuid4().hex
               test_text = 'dupa | dupa | chuj'
 
@@ -68,7 +90,7 @@ jobs:
                   conn.rollback()
 
               status_path.write_text(
-                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\n',
+                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\nPLAYLIST_LINKS=UPDATED\n',
                   encoding='utf-8',
               )
               print('TURSO_OK')
