@@ -1,12 +1,12 @@
 # SOL — DOKUMENTACJA PLAYLIST — AKTUALNA
 
-Status: AKTUALNY STAN WARSTWY PLAYLIST
-Data: 2026-09-11
-Źródło prawdy dla stanu bieżącego: live Turso + aktualny kod repozytorium
+Status: AKTUALNY MODEL WARSTWY PLAYLIST
+Data: 2026-09-12
+Źródło prawdy dla zasad działania: ten dokument + live Turso + aktualny kod repozytorium
 
 ## 1. Cel
 
-Ta dokumentacja opisuje aktualną warstwę playlist w projekcie `piosenki`: model SQL, mapowanie do kanonicznego `middle_end`, importer, publiczny viewer oraz stan danych po imporcie testowym Liked Songs z 2026-09-11.
+Ta dokumentacja opisuje aktualną warstwę playlist w projekcie `piosenki`: model SQL, mapowanie do kanonicznego `middle_end`, zasady tagów playlist, publiczny viewer oraz stan danych po imporcie testowym Liked Songs z 2026-09-11.
 
 Migracje i pliki XLSX są historią / źródłem importu. Po imporcie stan bieżący należy czytać z live Turso.
 
@@ -44,7 +44,7 @@ Ten sam Spotify ID występujący na wielu playlistach istnieje w SQL tylko raz.
 
 Pola obejmują m.in. `external_track_pk`, `service`, `external_track_id`, `title`, `artist`, `album`.
 
-Metadane są reprezentatywne i zachowywane niedestrukcyjnie: importer może uzupełnić puste pole, ale nie nadpisuje po cichu istniejącego tytułu / artysty / albumu inną wartością z kolejnego eksportu.
+Metadane są reprezentatywne i zachowywane niedestrukcyjnie: import może uzupełnić puste pole, ale nie nadpisuje po cichu istniejącego tytułu / artysty / albumu inną wartością z kolejnego eksportu.
 
 Nie należy utożsamiać `external_track_id` z naszym `utwu_id`.
 
@@ -94,23 +94,42 @@ source_file = Liked songs spotify z dnia 2026-09-11.xlsx
 
 Liked Songs nie ma `external_playlist_id` ani `external_url`, ponieważ nie jest zwykłą publicznie udostępnianą playlistą Spotify.
 
-## 7. Tagi playlist
+## 7. Tagi playlist — obowiązujący model
 
-Aktywne, proste tagi playlist znajdują się w:
+Jedynym aktywnym polem tagów playlist jest:
 
 ```text
 playlist.playlist_tags
 ```
 
-To zwykłe `TEXT`, bez JSON. Wartości rozdzielamy średnikami, np.:
+Format:
 
 ```text
-owner:maciek-tora; wyspa=swiatla
+TEXT
 ```
 
-Stara kolumna `playlist.tags` w formacie JSON pozostaje tymczasowo jako warstwa zgodności dla wcześniej zaimportowanych danych. API najpierw czyta `playlist_tags`, a gdy jest puste, używa starego `tags`.
+Tagi są zapisane jako zwykły tekst rozdzielany średnikami, np.:
 
-`playlist_tag_def` nadal może służyć jako słownik znaczeń zwykłych tagów.
+```text
+owner:maciek-tora; wyspa=glebi; spotify_url=https://open.spotify.com/playlist/...; youtube_music_url=https://music.youtube.com/playlist?list=...
+```
+
+Zasady:
+
+- `playlist_tags` jest jedynym polem do zapisu i odczytu tagów playlist;
+- nie używamy JSON do tagów playlist;
+- nie tworzymy drugiego równoległego pola tagów;
+- nazwa `playlist_tags` pozostaje nazwą kolumny SQL;
+- adresy publikacji Spotify / YouTube Music / YouTube są tagami w `playlist_tags`;
+- `playlist_tag_def` może służyć jako słownik znaczeń tagów, ale nie przechowuje przypisania tagów do konkretnej playlisty.
+
+Stara kolumna:
+
+```text
+playlist.tags
+```
+
+jest legacy i nie należy jej używać. Nie wolno do niej zapisywać, czytać z niej jako fallbacku ani przywracać jej do logiki importu lub API. Jeżeli fizycznie jeszcze występuje w konkretnej wersji schematu, jest wyłącznie pozostałością do usunięcia, a nie elementem modelu danych.
 
 ## 8. AllTimeBestSpotify
 
@@ -148,7 +167,7 @@ Viewer ma trzy tryby:
 
 W trybie **utwór → playlisty** viewer ma lokalne wyszukiwanie po tytule, artyście i `utwu_id` oraz filtr utworów występujących na więcej niż jednej playliście.
 
-Viewer czyta publikacje z tagów `spotify_url=...`, `youtube_music_url=...` i `youtube_url=...` i pokazuje osobny klikalny przycisk dla każdego istniejącego adresu. Może więc pokazać Spotify, YouTube Music, oba albo żaden. Dla starszych rekordów nadal obsługuje `playlist.external_url`.
+Viewer czyta publikacje z tagów `spotify_url=...`, `youtube_music_url=...` i `youtube_url=...` zapisanych w `playlist.playlist_tags` i pokazuje osobny klikalny przycisk dla każdego istniejącego adresu. Może więc pokazać Spotify, YouTube Music, oba albo żaden. Dla starszych rekordów może nadal istnieć `playlist.external_url`, ale nie jest to pole tagów.
 
 ## 10. API
 
@@ -166,9 +185,15 @@ piosenki/playlist_api.py
 
 API odczytuje metadane `playlist`, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`.
 
-Dla zgodności z viewerem aktywne `playlist.playlist_tags` jest wystawiane w odpowiedzi pod istniejącym kluczem `tags`; gdy `playlist_tags` jest puste, API używa starego `playlist.tags`.
+Źródłem tagów playlist dla API ma być wyłącznie:
 
-Nie wykonuje heurystycznego mapowania i nie modyfikuje SQL.
+```text
+playlist.playlist_tags
+```
+
+Dla zgodności z istniejącym viewerem wartość może być wystawiana w JSON pod kluczem `tags`, ale ten klucz jest tylko nazwą pola odpowiedzi API. Nie oznacza kolumny SQL `playlist.tags` i nie może być fallbackiem do starej kolumny.
+
+API nie wykonuje heurystycznego mapowania i nie modyfikuje SQL.
 
 ## 11. Zasady mapowania
 
@@ -180,36 +205,31 @@ Jeżeli dopasowanie jest zerowe lub niejednoznaczne, `external_track` pozostaje 
 
 Bez jawnego polecenia nie stosujemy heurystyk tytuł/artysta/album.
 
-## 12. Importer
+## 12. Import playlist
 
-Importer zgodny ze znormalizowanym modelem istnieje w:
+W repozytorium nie ma obecnie aktywnego, zatwierdzonego importera playlist w Pythonie.
 
-```text
-piosenki/playlist_importer.py
-```
+Wcześniejsze importery zostały uznane za wadliwe i usunięte. Nie wolno odtwarzać ich z historii GitHub ani używać zapamiętanej wcześniejszej wersji bez osobnej, wyraźnej zgody użytkownika.
 
-Czyta XLSX z kolumnami:
+Każdy przyszły import musi zachować model:
 
 ```text
-id | name | artist | album
+playlist → playlist_item → external_track → external_track_utwu → middle_end
 ```
 
-i wykonuje:
+oraz bezwzględnie:
 
-- utworzenie rekordu `playlist` dla snapshotu;
-- deduplikację po `(service, external_track_id)`;
-- dodanie nowych `external_track`;
-- niedestrukcyjne traktowanie metadanych;
-- utworzenie `playlist_item` przez `external_track_pk`;
-- dokładne mapowanie provider-ID → `middle_end` tylko dla jednego kandydata;
-- zapis jawnych relacji do `external_track_utwu`;
-- tryb `dry_run`.
+- nie tworzyć `middle_end` dla nierozpoznanego utworu;
+- mapować automatycznie tylko po dokładnym ID serwisu;
+- zapisywać tagi wyłącznie do `playlist.playlist_tags`;
+- nigdy nie zapisywać do legacy `playlist.tags`;
+- pozostawiać nierozpoznane zewnętrzne utwory jako `external_track` bez wymuszonego mapowania.
 
-### Znane ograniczenie operacyjne
+Szczegółowe reguły zgody na użycie importerów są w:
 
-Pierwszy import 942 pozycji ujawnił problem wydajnościowy: obecna implementacja wykonuje dużo kolejnych operacji na Turso. Podczas importu publiczne API zostało chwilowo przyblokowane, wystąpił timeout workera Gunicorna i jedno zewnętrzne zapytanie dostało HTTP 502. Sam import zakończył się poprawnie i transakcja została zatwierdzona.
-
-Wniosek: **logika importera jest poprawna, ale przed regularnymi dużymi importami należy zbatchować zapytania / skrócić transakcję.** Nie uruchamiać dużego importu synchronicznie w ścieżce startowej Gunicorna.
+```text
+piosenki/SOL_PLAYLISTY-IMPORTERY-ZAKAZ-UZYCIA.md
+```
 
 ## 13. Pierwszy test bojowy: Liked Songs 2026-09-11
 
@@ -254,18 +274,21 @@ Istotne migracje historii playlist obejmują m.in.:
 - `2026-09-11-tag-current-playlists-owner-maciek-tora.sql`;
 - `piosenki/migrations/2026-09-11-playlist-plain-tags.sql`.
 
+Pliki migracji opisują historię zmian. Nie wolno na ich podstawie przywracać legacy `playlist.tags` do bieżącego modelu.
+
 ## 15. Najkrótsza wersja dla kolejnych czatów
 
 ```text
 playlist = jeden zapis treści playlisty
 playlist_item = zawartość playlisty, bez kopiowania jej dla każdego serwisu
-playlist.playlist_tags = proste tagi tekstowe i adresy publikacji
+playlist.playlist_tags = JEDYNE aktywne tagi playlist; TEXT rozdzielany średnikami
+playlist.tags = LEGACY; nie czytać, nie zapisywać, nie używać jako fallbacku
 external_track = jeden utwór zewnętrznego serwisu, deduplikowany po service + ID
 external_track_utwu = tylko jawne, rozstrzygnięte mapowania do middle_end
 middle_end = kanoniczne utwory projektu
 ```
 
-Nie cofaj modelu do kopiowania title/artist/album na każdej pozycji playlisty. Nie twórz `middle_end` dla nierozpoznanych utworów tylko po to, żeby zapełnić FK. Nie mapuj po tytule / artyście / albumie bez jawnej decyzji.
+Nie cofaj modelu do kopiowania title/artist/album na każdej pozycji playlisty. Nie twórz `middle_end` dla nierozpoznanych utworów tylko po to, żeby zapełnić FK. Nie mapuj po tytule / artyście / albumie bez jawnej decyzji. Nie przywracaj starego systemu tagów JSON.
 
 ## 16. Publikacje tej samej playlisty w różnych serwisach
 
