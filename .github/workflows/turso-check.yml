@@ -1,4 +1,4 @@
-name: SOL playlist publication tags live
+name: SOL inspect live playlists
 
 on:
   workflow_dispatch:
@@ -10,16 +10,13 @@ permissions:
   contents: read
 
 jobs:
-  update-playlist-tags:
+  inspect-playlists:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Install libsql
         run: pip install libsql
 
-      - name: Update playlist publication tags in Turso
+      - name: Inspect playlist table in Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
@@ -32,65 +29,15 @@ jobs:
           if not token:
               raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
 
-          conn = libsql.connect(
-              database=os.environ['TURSO_DATABASE_URL'],
-              auth_token=token,
-          )
-
-          updates = [
-              (
-                  'Wyspa Swiatla',
-                  "owner:maciek-tora; wyspa=swiatla; spotify_url=https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW; youtube_music_url=https://music.youtube.com/playlist?list=PLdqONEJClykk",
-                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:wyspa-swiatla:2026-09-11'",
-              ),
-              (
-                  'Peryferia',
-                  "owner:maciek-tora; wyspa=peryferia; spotify_url=https://open.spotify.com/playlist/4hPcWJRfNQjEef2Re2NRli; youtube_music_url=https://music.youtube.com/playlist?list=PLAFO32rZCzu4",
-                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:peryferia:2026-09-11'",
-              ),
-              (
-                  'LikedSongsWrzesien26',
-                  "owner:maciek-tora; spotify_url=https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8; youtube_music_url=https://music.youtube.com/playlist?list=PLTg92mmd7R7U",
-                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:liked-songs:2026-09-11' OR external_playlist_id = '2YlZZSyoSy7Qv18czLiyS8' OR external_url = 'https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8'",
-              ),
-              (
-                  'Most Glebia-Ruch',
-                  "owner:maciek-tora; most=glebia-ruch; spotify_url=https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G; youtube_music_url=https://music.youtube.com/playlist?list=PLacFJ1WpA7YQ",
-                  "UPDATE playlist SET playlist_tags = ? WHERE external_playlist_id = '42r40qtwg2mOoHDk5Akr9G' OR external_url = 'https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G' OR playlist_id IN ('spotify:most-glebia-ruch:2026-09-11','spotify:glebia-ruch:2026-09-11')",
-              ),
-          ]
-
-          counts = {}
-          try:
-              conn.execute('BEGIN TRANSACTION')
-              for label, tags, sql in updates:
-                  cur = conn.execute(sql, (tags,))
-                  counts[label] = cur.rowcount
-              conn.commit()
-          except Exception:
-              conn.rollback()
-              raise
-
-          print('UPDATED=' + repr(counts))
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
           rows = conn.execute("""
-              SELECT playlist_id, name, external_playlist_id, external_url, playlist_tags
+              SELECT playlist_id, playlist_series_id, service, name,
+                     external_playlist_id, external_url, source_file, playlist_tags
               FROM playlist
-              WHERE playlist_id IN (
-                  'spotify:wyspa-swiatla:2026-09-11',
-                  'spotify:peryferia:2026-09-11',
-                  'spotify:liked-songs:2026-09-11',
-                  'spotify:most-glebia-ruch:2026-09-11',
-                  'spotify:glebia-ruch:2026-09-11'
-              )
-              OR external_playlist_id IN (
-                  '272wzPwVUjxBmqJ8eNQsTW',
-                  '4hPcWJRfNQjEef2Re2NRli',
-                  '2YlZZSyoSy7Qv18czLiyS8',
-                  '42r40qtwg2mOoHDk5Akr9G'
-              )
               ORDER BY playlist_id
           """).fetchall()
-          print('VERIFY_ROWS=' + repr(rows))
-          print('PLAYLIST_PUBLICATION_TAGS_OK')
+          for row in rows:
+              print('PLAYLIST_ROW=' + repr(row))
+          print('PLAYLIST_COUNT=' + str(len(rows)))
           conn.close()
           PY
