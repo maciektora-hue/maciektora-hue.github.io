@@ -1,0 +1,30 @@
+name: SOL patch playlist importer tags once
+
+on:
+  push:
+    paths:
+      - 'piosenki/sol_patch_playlist_importer_tags_once.py'
+      - '.github/workflows/sol-patch-playlist-importer-tags-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch importer
+        run: python piosenki/sol_patch_playlist_importer_tags_once.py
+      - name: Verify and commit
+        run: |
+          grep -q 'def _tags_plain' piosenki/playlist_importer.py
+          grep -q 'exported_at, tags, playlist_tags' piosenki/playlist_importer.py
+          rm piosenki/sol_patch_playlist_importer_tags_once.py
+          rm .github/workflows/sol-patch-playlist-importer-tags-once.yml
+          git config user.name SOL
+          git config user.email actions@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git commit -m 'SOL: write active playlist_tags during import'
+          git push
