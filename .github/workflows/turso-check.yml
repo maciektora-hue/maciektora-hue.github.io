@@ -1,4 +1,4 @@
-name: Turso connection test
+name: SOL playlist publication tags live
 
 on:
   workflow_dispatch:
@@ -7,10 +7,10 @@ on:
       - '.github/workflows/turso-check.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  check:
+  update-playlist-tags:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,76 +19,78 @@ jobs:
       - name: Install libsql
         run: pip install libsql
 
-      - name: Test read and write on Turso
+      - name: Update playlist publication tags in Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
           import os
-          import uuid
-          from datetime import datetime, timezone
-          from pathlib import Path
+          import libsql
 
-          status_path = Path('piosenki/SOL-turso-status.txt')
-          stamp = datetime.now(timezone.utc).isoformat()
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
 
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+
+          updates = [
+              (
+                  'Wyspa Swiatla',
+                  "owner:maciek-tora; wyspa=swiatla; spotify_url=https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW; youtube_music_url=https://music.youtube.com/playlist?list=PLdqONEJClykk",
+                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:wyspa-swiatla:2026-09-11'",
+              ),
+              (
+                  'Peryferia',
+                  "owner:maciek-tora; wyspa=peryferia; spotify_url=https://open.spotify.com/playlist/4hPcWJRfNQjEef2Re2NRli; youtube_music_url=https://music.youtube.com/playlist?list=PLAFO32rZCzu4",
+                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:peryferia:2026-09-11'",
+              ),
+              (
+                  'LikedSongsWrzesien26',
+                  "owner:maciek-tora; spotify_url=https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8; youtube_music_url=https://music.youtube.com/playlist?list=PLTg92mmd7R7U",
+                  "UPDATE playlist SET playlist_tags = ? WHERE playlist_id = 'spotify:liked-songs:2026-09-11' OR external_playlist_id = '2YlZZSyoSy7Qv18czLiyS8' OR external_url = 'https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8'",
+              ),
+              (
+                  'Most Glebia-Ruch',
+                  "owner:maciek-tora; most=glebia-ruch; spotify_url=https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G; youtube_music_url=https://music.youtube.com/playlist?list=PLacFJ1WpA7YQ",
+                  "UPDATE playlist SET playlist_tags = ? WHERE external_playlist_id = '42r40qtwg2mOoHDk5Akr9G' OR external_url = 'https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G' OR playlist_id IN ('spotify:most-glebia-ruch:2026-09-11','spotify:glebia-ruch:2026-09-11')",
+              ),
+          ]
+
+          counts = {}
           try:
-              import libsql
+              conn.execute('BEGIN TRANSACTION')
+              for label, tags, sql in updates:
+                  cur = conn.execute(sql, (tags,))
+                  counts[label] = cur.rowcount
+              conn.commit()
+          except Exception:
+              conn.rollback()
+              raise
 
-              token = os.environ.get('TURSO_AUTH_TOKEN')
-              if not token:
-                  raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
-
-              conn = libsql.connect(
-                  database=os.environ['TURSO_DATABASE_URL'],
-                  auth_token=token,
+          print('UPDATED=' + repr(counts))
+          rows = conn.execute("""
+              SELECT playlist_id, name, external_playlist_id, external_url, playlist_tags
+              FROM playlist
+              WHERE playlist_id IN (
+                  'spotify:wyspa-swiatla:2026-09-11',
+                  'spotify:peryferia:2026-09-11',
+                  'spotify:liked-songs:2026-09-11',
+                  'spotify:most-glebia-ruch:2026-09-11',
+                  'spotify:glebia-ruch:2026-09-11'
               )
-
-              ping = conn.execute('SELECT 1').fetchone()
-              if not ping or ping[0] != 1:
-                  raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
-
-              test_id = '__sol_connection_test__' + uuid.uuid4().hex
-              test_text = 'dupa | dupa | chuj'
-
-              try:
-                  conn.execute(
-                      'INSERT INTO lyrics (lyrics_id, lyrics_text) VALUES (?, ?)',
-                      (test_id, test_text),
-                  )
-                  row = conn.execute(
-                      'SELECT lyrics_id, lyrics_text FROM lyrics WHERE lyrics_id = ?',
-                      (test_id,),
-                  ).fetchone()
-
-                  if not row or row[0] != test_id or row[1] != test_text:
-                      raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
-              finally:
-                  conn.rollback()
-
-              status_path.write_text(
-                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\n',
-                  encoding='utf-8',
+              OR external_playlist_id IN (
+                  '272wzPwVUjxBmqJ8eNQsTW',
+                  '4hPcWJRfNQjEef2Re2NRli',
+                  '2YlZZSyoSy7Qv18czLiyS8',
+                  '42r40qtwg2mOoHDk5Akr9G'
               )
-              print('TURSO_OK')
-              print('dupa | dupa | chuj')
-          except Exception as exc:
-              status_path.write_text(
-                  f'FAIL\nUTC={stamp}\nERROR={type(exc).__name__}: {exc}\n',
-                  encoding='utf-8',
-              )
-              print(f'TURSO_FAIL: {type(exc).__name__}: {exc}')
+              ORDER BY playlist_id
+          """).fetchall()
+          print('VERIFY_ROWS=' + repr(rows))
+          print('PLAYLIST_PUBLICATION_TAGS_OK')
+          conn.close()
           PY
-
-      - name: Save test result to repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add piosenki/SOL-turso-status.txt
-          git diff --cached --quiet || git commit -m "Turso connection test result"
-          git push
-
-      - name: Fail workflow if Turso test failed
-        run: |
-          grep -q '^OK$' piosenki/SOL-turso-status.txt
