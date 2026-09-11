@@ -1,0 +1,65 @@
+name: SOL sync external track schema once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/SOL_sync-external-track-schema-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync schema.sql with live external track layer
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('piosenki/schema.sql')
+          text = path.read_text(encoding='utf-8')
+
+          ext_anchor = """CREATE TABLE IF NOT EXISTS external_track (\n    external_track_pk INTEGER PRIMARY KEY,\n    service TEXT NOT NULL,\n    external_track_id TEXT NOT NULL,\n    title TEXT,\n    artist TEXT,\n    album TEXT,\n    CHECK (service IN ('spotify', 'youtube_music', 'youtube')),\n    UNIQUE (service, external_track_id)\n);\n"""
+
+          ext_with_map = ext_anchor + """\nCREATE TABLE IF NOT EXISTS external_track_utwu (\n    external_track_pk INTEGER NOT NULL\n        REFERENCES external_track(external_track_pk)\n        ON UPDATE CASCADE\n        ON DELETE CASCADE,\n    utwu_id TEXT NOT NULL\n        REFERENCES middle_end(utwu_id)\n        ON UPDATE CASCADE\n        ON DELETE RESTRICT,\n    PRIMARY KEY (external_track_pk, utwu_id)\n);\n\nCREATE INDEX IF NOT EXISTS idx_external_track_utwu_utwu_id\n    ON external_track_utwu(utwu_id);\n"""
+
+          if 'CREATE TABLE IF NOT EXISTS external_track_utwu (' not in text:
+              if ext_anchor not in text:
+                  raise SystemExit('external_track anchor not found')
+              text = text.replace(ext_anchor, ext_with_map, 1)
+
+          playlist_old = """    external_track_id TEXT,\n    source_name TEXT,\n"""
+          playlist_new = """    external_track_pk INTEGER\n        REFERENCES external_track(external_track_pk)\n        ON UPDATE CASCADE\n        ON DELETE RESTRICT,\n    external_track_id TEXT,\n    source_name TEXT,\n"""
+
+          if 'external_track_pk INTEGER\n        REFERENCES external_track(external_track_pk)' not in text:
+              if playlist_old not in text:
+                  raise SystemExit('playlist_item anchor not found')
+              text = text.replace(playlist_old, playlist_new, 1)
+
+          index_anchor = """CREATE INDEX IF NOT EXISTS idx_playlist_item_external_track_id\n    ON playlist_item(external_track_id);\n"""
+          index_with_fk = index_anchor + """\nCREATE INDEX IF NOT EXISTS idx_playlist_item_external_track_pk\n    ON playlist_item(external_track_pk);\n"""
+
+          if 'idx_playlist_item_external_track_pk' not in text:
+              if index_anchor not in text:
+                  raise SystemExit('playlist item index anchor not found')
+              text = text.replace(index_anchor, index_with_fk, 1)
+
+          path.write_text(text, encoding='utf-8')
+
+      - name: Commit schema sync
+        run: |
+          git config user.name 'SOL automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add piosenki/schema.sql
+          git commit -m 'Synchronize external track playlist schema'
+
+      - name: Remove one-time workflow
+        run: |
+          git rm .github/workflows/SOL_sync-external-track-schema-once.yml
+          git commit -m 'Remove one-time external track schema sync'
+          git push
