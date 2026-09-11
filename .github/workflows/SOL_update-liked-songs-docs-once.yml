@@ -40,8 +40,8 @@ jobs:
         run: |
           git config user.name "maciektora-hue"
           git config user.email "maciek.tora@gmail.com"
-          git pull --rebase origin main
           git rm .github/workflows/SOL_update-liked-songs-docs-once.yml
           git add SOL_DOKUMENTACJA-MIEDZYKATALOGOWA-AKTUALNA.md
           git commit -m "Update inter-project docs after Liked Songs import"
+          git pull --rebase origin main
           git push
