@@ -1,0 +1,190 @@
+name: SOL import mostow playlist do Turso
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-import-mosty-playlisty-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  import-mosty:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Dry-run, import and live verify
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          import libsql
+
+          sys.path.insert(0, str(Path('piosenki').resolve()))
+          from playlist_importer import import_playlist_xlsx
+
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=token,
+          )
+          conn.execute('PRAGMA foreign_keys = ON')
+
+          configs = [
+              {
+                  'source_path': 'piosenki/glebia-ruch.xlsx',
+                  'preferred_id': 'spotify:most-glebia-ruch:2026-09-11',
+                  'legacy_ids': ['spotify:glebia-ruch:2026-09-11'],
+                  'series_id': 'spotify:most-glebia-ruch',
+                  'name': 'Most Głębia-Ruch',
+                  'external_playlist_id': '42r40qtwg2mOoHDk5Akr9G',
+                  'external_url': 'https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G',
+              },
+              {
+                  'source_path': 'piosenki/glebia-swiatlo.xlsx',
+                  'preferred_id': 'spotify:most-glebia-swiatlo:2026-09-11',
+                  'legacy_ids': ['spotify:glebia-swiatlo:2026-09-11'],
+                  'series_id': 'spotify:most-glebia-swiatlo',
+                  'name': 'Most Głębia-Światło',
+                  'external_playlist_id': None,
+                  'external_url': None,
+              },
+              {
+                  'source_path': 'piosenki/swiatlo-ruch.xlsx',
+                  'preferred_id': 'spotify:most-swiatlo-ruch:2026-09-11',
+                  'legacy_ids': ['spotify:swiatlo-ruch:2026-09-11'],
+                  'series_id': 'spotify:most-swiatlo-ruch',
+                  'name': 'Most Światło-Ruch',
+                  'external_playlist_id': None,
+                  'external_url': None,
+              },
+          ]
+
+          def resolve_existing(cfg):
+              ids = [cfg['preferred_id'], *cfg['legacy_ids']]
+              clauses = ['playlist_id IN (' + ','.join('?' for _ in ids) + ')']
+              params = list(ids)
+              if cfg['external_playlist_id']:
+                  clauses.append('external_playlist_id=?')
+                  params.append(cfg['external_playlist_id'])
+              if cfg['external_url']:
+                  clauses.append('external_url=?')
+                  params.append(cfg['external_url'])
+              rows = conn.execute(
+                  '''SELECT playlist_id, playlist_series_id, name, external_playlist_id, external_url
+                     FROM playlist WHERE ''' + ' OR '.join(clauses),
+                  tuple(params),
+              ).fetchall()
+              unique = {row[0]: row for row in rows}
+              if len(unique) > 1:
+                  raise RuntimeError(cfg['name'] + ': znaleziono więcej niż jedną istniejącą playlistę logiczną: ' + repr(list(unique.values())))
+              if unique:
+                  row = next(iter(unique.values()))
+                  cfg['playlist_id'] = row[0]
+                  cfg['series_id'] = row[1] or cfg['series_id']
+                  cfg['name'] = row[2] or cfg['name']
+                  cfg['external_playlist_id'] = row[3] or cfg['external_playlist_id']
+                  cfg['external_url'] = row[4] or cfg['external_url']
+              else:
+                  cfg['playlist_id'] = cfg['preferred_id']
+              return cfg
+
+          configs = [resolve_existing(dict(cfg)) for cfg in configs]
+          print('RESOLVED=' + json.dumps(configs, ensure_ascii=False, sort_keys=True))
+
+          dry_results = []
+          for cfg in configs:
+              result = import_playlist_xlsx(
+                  conn,
+                  source_path=cfg['source_path'],
+                  playlist_id=cfg['playlist_id'],
+                  playlist_series_id=cfg['series_id'],
+                  service='spotify',
+                  name=cfg['name'],
+                  exported_at=None,
+                  tags=['owner:maciek-tora'],
+                  external_playlist_id=cfg['external_playlist_id'],
+                  external_url=cfg['external_url'],
+                  dry_run=True,
+              )
+              dry_results.append(result)
+              print('DRY_RUN=' + json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+          if any(r.get('mapping_conflicts', 0) for r in dry_results):
+              raise RuntimeError('DRY-RUN NIEJEST CZYSTY: mapping_conflicts')
+
+          apply_results = []
+          for cfg in configs:
+              result = import_playlist_xlsx(
+                  conn,
+                  source_path=cfg['source_path'],
+                  playlist_id=cfg['playlist_id'],
+                  playlist_series_id=cfg['series_id'],
+                  service='spotify',
+                  name=cfg['name'],
+                  exported_at=None,
+                  tags=['owner:maciek-tora'],
+                  external_playlist_id=cfg['external_playlist_id'],
+                  external_url=cfg['external_url'],
+                  dry_run=False,
+              )
+              apply_results.append(result)
+              print('APPLY=' + json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+          for cfg, applied in zip(configs, apply_results):
+              row = conn.execute(
+                  '''SELECT p.playlist_id, p.playlist_series_id, p.service, p.name,
+                            p.external_playlist_id, p.external_url, p.source_file,
+                            COUNT(i.position),
+                            SUM(CASE WHEN EXISTS (
+                                SELECT 1 FROM external_track_utwu x
+                                WHERE x.external_track_pk=i.external_track_pk
+                            ) THEN 1 ELSE 0 END)
+                     FROM playlist p
+                     LEFT JOIN playlist_item i ON i.playlist_id=p.playlist_id
+                     WHERE p.playlist_id=?
+                     GROUP BY p.playlist_id, p.playlist_series_id, p.service, p.name,
+                              p.external_playlist_id, p.external_url, p.source_file''',
+                  (cfg['playlist_id'],),
+              ).fetchone()
+              if row is None:
+                  raise RuntimeError(cfg['name'] + ': brak playlisty po COMMIT')
+              verify = {
+                  'playlist_id': row[0],
+                  'playlist_series_id': row[1],
+                  'service': row[2],
+                  'name': row[3],
+                  'external_playlist_id': row[4],
+                  'external_url': row[5],
+                  'source_file': row[6],
+                  'positions': int(row[7] or 0),
+                  'mapped_positions': int(row[8] or 0),
+              }
+              verify['unmapped_positions'] = verify['positions'] - verify['mapped_positions']
+              if verify['positions'] != int(applied['positions']):
+                  raise RuntimeError(cfg['name'] + ': zła liczba pozycji po COMMIT: ' + repr(verify))
+              if verify['service'] != 'spotify':
+                  raise RuntimeError(cfg['name'] + ': zły service po COMMIT: ' + repr(verify))
+              if cfg['external_playlist_id'] and verify['external_playlist_id'] != cfg['external_playlist_id']:
+                  raise RuntimeError(cfg['name'] + ': zły external_playlist_id po COMMIT: ' + repr(verify))
+              if cfg['external_url'] and verify['external_url'] != cfg['external_url']:
+                  raise RuntimeError(cfg['name'] + ': zły external_url po COMMIT: ' + repr(verify))
+              print('VERIFY=' + json.dumps(verify, ensure_ascii=False, sort_keys=True))
+
+          print('BRIDGE_PLAYLIST_IMPORT_OK')
+          conn.close()
+          PY
