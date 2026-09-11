@@ -103,6 +103,15 @@ def _tags_json(tags: list[str]) -> str:
     return json.dumps(out, ensure_ascii=False, separators=(",", ":"))
 
 
+def _tags_plain(tags: list[str]) -> str:
+    out = []
+    for tag in tags:
+        tag = tag.strip()
+        if tag and tag not in out:
+            out.append(tag)
+    return "; ".join(out)
+
+
 def import_playlist_xlsx(
     conn,
     *,
@@ -165,10 +174,10 @@ def import_playlist_xlsx(
             conn.execute(
                 """INSERT INTO playlist(
                        playlist_id, playlist_series_id, service, name,
-                       external_playlist_id, external_url, source_file, exported_at, tags
-                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       external_playlist_id, external_url, source_file, exported_at, tags, playlist_tags
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (playlist_id, playlist_series_id, service, name, external_playlist_id,
-                 external_url, Path(source_path).name, exported_at, _tags_json(tags)),
+                 external_url, Path(source_path).name, exported_at, _tags_json(tags), _tags_plain(tags)),
             )
             summary["playlist_already_identical"] = False
 
