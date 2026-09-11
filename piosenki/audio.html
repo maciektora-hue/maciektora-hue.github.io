@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sygnatury 3 wysp — analiza audio piosenek</title>
+<title>Mapa brzmienia — Głębia, Światło i Ruch</title>
+<meta name="description" content="Analiza brzmienia biblioteki piosenek: trzy stabilne rdzenie — Głębia, Światło i Ruch — oraz mosty, strefa przejściowa i peryferia.">
 <link rel="alternate" hreflang="pl" href="audio.html">
 <link rel="alternate" hreflang="en" href="audio-en.html">
 <style>
@@ -24,7 +25,7 @@ body{
   line-height:1.58
 }
 main{max-width:940px;margin:0 auto;padding:30px 20px 72px}
-h1{font-size:2.35rem;line-height:1.08;margin:.25rem 0 .7rem;color:var(--strong)}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.02;margin:.25rem 0 .7rem;color:var(--strong);letter-spacing:-.03em}
 h2{font-size:1.3rem;margin:2.2rem 0 .75rem;color:var(--strong)}
 h3{font-size:1.05rem;margin:.2rem 0 .4rem;color:var(--strong)}
 p,li{max-width:82ch}
@@ -32,7 +33,7 @@ a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
 strong{color:var(--strong)}
 code{color:var(--strong)}
 .meta,.muted{color:var(--muted)}
-.hero,.card{
+.hero,.card,.listen{
   border:1px solid var(--line);background:var(--panel);
   border-radius:10px;padding:16px 18px;margin:1rem 0
 }
@@ -42,62 +43,47 @@ code{color:var(--strong)}
 .card{margin:0}
 .card p{margin:.35rem 0 .25rem}
 .n{font-size:.88rem;color:var(--muted);font-weight:400}
+.listen{margin:1.4rem 0 2rem;background:var(--panel2)}
+.listen h2{margin:.1rem 0 .45rem}
+.listen p{margin:.4rem 0 .8rem;color:var(--muted)}
+.cta{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-weight:750}
 .technical{
   margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);
-  color:var(--muted);font-size:.9rem
+  color:var(--muted);font-size:.92rem
 }
-.technical h2{font-size:1.05rem;color:var(--muted);margin-top:1rem}
-.technical h3{font-size:.95rem;color:var(--muted)}
+.technical h2{font-size:1.08rem;color:var(--muted);margin-top:1rem}
 .technical a{color:var(--text)}
 .technical ul{padding-left:1.3rem}
 footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
-
-.playlist-top{margin:1.25rem 0 1.8rem;padding:16px 18px;border:2px solid var(--line);border-radius:10px;background:var(--panel)}
-.playlist-top h2{margin:.1rem 0 .35rem}
-.playlist-top-intro{margin:.15rem 0 1rem;color:var(--muted)}
-.playlist-top-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}
-.playlist-top-card{padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel2)}
-.playlist-top-card p{margin:.25rem 0 .55rem;color:var(--muted);font-size:.9rem}
-.playlist-top-links{display:flex;gap:7px;flex-wrap:wrap}
-.playlist-top-links a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;text-decoration:none;font-size:.82rem;font-weight:700;color:var(--strong)}
-
 </style>
 </head>
 <body>
 <main>
 <p class="meta"><a href="index.html">← Analiza piosenek</a> · <a href="slowa.html">Słowa</a> · <a href="audio-en.html" lang="en">English</a></p>
 
-<h1>Sygnatury 3 wysp — wyniki na dwa głosy</h1>
+<h1>Mapa brzmienia: Głębia, Światło i Ruch</h1>
 <p class="meta">Analiza tego, jak faktycznie brzmią utwory — niezależnie od tekstów i tagów.</p>
 
 <div class="hero">
-  <p class="main-link"><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">→ Przeczytaj główny wynik: Głębia · Światło · Ruch</a></p>
-  <p>To jest najważniejszy tekst tej gałęzi projektu. Każdy wynik jest opisany <strong>na dwa głosy</strong>: najpierw zwykłym językiem, a obok tym samym językiem analizy sygnału.</p>
-  <p class="muted"><a href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html" lang="en">English: Depth · Light · Motion</a></p>
+  <p class="main-link"><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">→ Główny wynik analizy</a></p>
+  <p>Biblioteka nie rozpadła się na trzy szczelne szuflady. Wyszły trzy stabilne rdzenie brzmieniowe — <strong>Głębia, Światło i Ruch</strong> — połączone mostami i szeroką strefą przejściową.</p>
 </div>
 
 <h2>O co tu chodzi</h2>
 <p>Wzięliśmy nagrania z biblioteki i potraktowaliśmy je jak sygnał, a nie jak listę tytułów, gatunków czy tekstów. Mierzymy więc samo brzmienie: gdzie siedzi energia, ile jest basu i góry, jak zmienia się widmo, jak skupiona jest harmonia, jak wyglądają ataki, dynamika, środek pasma i stereo.</p>
-<p>Po oczyszczeniu danych zostało <strong>856 nagrań</strong>. W tej przestrzeni nie wyszły trzy szczelne szuflady. Wyszły trzy wyraźne, stabilne rdzenie — <strong>Głębia, Światło i Ruch</strong> — oraz mosty, obszar przejściowy i peryferia.</p>
+<p>Po oczyszczeniu danych zostało <strong>856 nagrań</strong>. W tej przestrzeni pojawiły się trzy wyraźne rdzenie oraz mosty, obszar przejściowy i peryferia.</p>
 
-<!-- STATIC-PLAYLIST-LINKS -->
-<section class="playlist-top" aria-label="Playlisty do słuchania">
-  <h2>Playlisty do słuchania</h2>
-  <p class="playlist-top-intro">Linki są widoczne od razu, pod opisem. Bez rozwijania sekcji i bez zależności od SQL.</p>
-  <div class="playlist-top-grid">
-    <div class="playlist-top-card"><strong>Głębia</strong><p>Ciemniejsza, basowa, skupiona.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/2XlvqJZUNVjR4KGIpF39nG" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLUK_LdKYWxTk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
-    <div class="playlist-top-card"><strong>Światło</strong><p>Jasna, szerokopasmowa, ziarnista.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLdqONEJClykk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
-    <div class="playlist-top-card"><strong>Ruch</strong><p>Środek pasma, przepływ i ruch harmoniczny.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/3KEDfDtvGvwWyZINTWm37i" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLeop-pmwxm1w" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
-    <div class="playlist-top-card"><strong>Most Głębia ↔ Ruch</strong><p>Największy z mostów między rdzeniami.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLacFJ1WpA7YQ" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
-    <div class="playlist-top-card"><strong>Peryferia</strong><p>Najrzadsze akustycznie części mapy.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/4hPcWJRfNQjEef2Re2NRli" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLAFO32rZCzu4" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
-  </div>
+<section class="listen" aria-label="Playlisty do słuchania">
+  <h2>Posłuchaj mapy</h2>
+  <p>Wyspy, mosty i peryferia mają własne playlisty. Aktualne odnośniki do Spotify i YouTube Music są zebrane w jednym miejscu razem z listami utworów.</p>
+  <a class="cta" href="playlisty.html">Otwórz playlisty →</a>
 </section>
 
 <h2>Co zrobiliśmy</h2>
 <div class="grid">
   <div class="card">
     <h3>1. Oczyściliśmy audio</h3>
-    <p>Start: 891 przeanalizowanych plików. Usunęliśmy 35 błędnych pobrań, złych wersji i innych kolizji. Zostało 856 nagrań do właściwej analizy.</p>
+    <p>Start: 891 przeanalizowanych plików. Po usunięciu błędnych pobrań i niewłaściwych wersji zostało 856 nagrań do właściwej analizy.</p>
   </div>
   <div class="card">
     <h3>2. Zmierzyliśmy brzmienie</h3>
@@ -109,7 +95,7 @@ footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color
   </div>
   <div class="card">
     <h3>4. Wyszły trzy wyspy</h3>
-    <p><strong>Głębia</strong>, <strong>Światło</strong> i <strong>Ruch</strong> są od siebie akustycznie różne, ale nie odcięte. Najciekawsza jest właśnie topologia przejść między nimi.</p>
+    <p><strong>Głębia</strong>, <strong>Światło</strong> i <strong>Ruch</strong> są od siebie akustycznie różne, ale nie odcięte. Najciekawsza jest topologia przejść między nimi.</p>
   </div>
 </div>
 
@@ -132,85 +118,68 @@ footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color
 <p><strong>Najciekawszy fakt:</strong> prawie nie istnieje bezpośredni most Głębia ↔ Światło. Te dwa końce krajobrazu zwykle przechodzą w siebie przez <strong>Ruch</strong>.</p>
 
 <h2>Mapa całego krajobrazu</h2>
-<p>Wyspy to tylko rdzenie. Reszta biblioteki tworzy mosty, kontynent przejściowy i peryferia. Dlatego nie nazywamy tego po prostu „trzema klastrami”, bo matematyka czasem jednak potrafi nie udawać pudełka po butach.</p>
+<p>Wyspy to tylko rdzenie. Reszta biblioteki tworzy mosty, szeroką strefę przejściową i peryferia.</p>
 <div class="grid">
   <div class="card"><h3>Wyspy</h3><p>343 utwory: Głębia 166 · Światło 60 · Ruch 117.</p></div>
   <div class="card"><h3>Mosty</h3><p>149 utworów: Głębia↔Ruch 101 · Ruch↔Światło 46 · Głębia↔Światło 2.</p></div>
-  <div class="card"><h3>Kontynent</h3><p>297 utworów w szerokiej strefie przejściowej bez jednej dominującej wyspy.</p></div>
+  <div class="card"><h3>Strefa przejściowa</h3><p>297 utworów bez jednej dominującej wyspy.</p></div>
   <div class="card"><h3>Peryferia</h3><p>67 utworów w najrzadszych akustycznie częściach biblioteki.</p></div>
 </div>
-<p><a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">→ Mapa 3 wysp — opis po ludzku</a></p>
+<p><a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">→ Zobacz dokładniejszy opis mapy</a></p>
 
-<h2>Jak to zrobiliśmy, ale jeszcze bez bólu</h2>
+<h2>Jak to zrobiliśmy</h2>
 <p>Pliki audio zostały sprowadzone do wspólnej postaci analitycznej i opisane zestawem mierzalnych cech. Potem porównywaliśmy utwory w kilku reprezentacjach i sprawdzaliśmy, czy te same rdzenie wracają niezależnie od sposobu patrzenia na dane. Wróciły. Najmocniej wyspy rozdziela <strong>kształt widma i rozkład energii</strong>; tempo okazało się zaskakująco mało ważne.</p>
-<p>Model trzech wysp przyjęliśmy dlatego, że daje stabilne, interpretowalne rdzenie i jednocześnie nie udaje, że każdy utwór musi należeć do jednej czystej kategorii.</p>
+<p>Model trzech wysp daje stabilne, interpretowalne rdzenie i jednocześnie nie udaje, że każdy utwór musi należeć do jednej czystej kategorii.</p>
 
 <h2>Co właściwie zostało policzone</h2>
-<p>To nie jest analiza typu „dużo basu / mało basu”. Dla każdego nagrania policzyliśmy cały zestaw <strong>wielkości sygnałowych i deskryptorów wyprowadzonych matematycznie z przebiegu audio</strong>. Część opisuje bezpośrednio amplitudę i energię sygnału, część jego rozkład w częstotliwości, część zmienność w czasie, stereofonię, tonalność i rytm.</p>
+<p>Dla każdego nagrania policzyliśmy zestaw <strong>wielkości sygnałowych i deskryptorów wyprowadzonych matematycznie z przebiegu audio</strong>. Część opisuje amplitudę i energię sygnału, część jego rozkład w częstotliwości, część zmienność w czasie, stereofonię, tonalność i rytm.</p>
 <div class="grid">
   <div class="card">
     <h3>Poziom i dynamika</h3>
-    <p>RMS i poziom w dBFS, wartości szczytowe, crest factor, udział próbek blisko lub powyżej 0 dBFS oraz rozkład głośności w czasie: średnia, odchylenie i percentyle.</p>
+    <p>RMS i poziom w dBFS, wartości szczytowe, crest factor oraz rozkład głośności w czasie.</p>
   </div>
   <div class="card">
     <h3>Widmo częstotliwości</h3>
-    <p>Środek ciężkości widma, roll-off, szerokość pasma, płaskość widma, nachylenie widma, częstotliwości graniczne i energia rozbita na pasma od 20 Hz do 20 kHz.</p>
+    <p>Środek ciężkości widma, roll-off, szerokość pasma, płaskość widma, nachylenie widma i energia rozbita na pasma od 20 Hz do 20 kHz.</p>
   </div>
   <div class="card">
     <h3>Zmiany widma w czasie</h3>
-    <p>Spectral flux, zmienność widma oraz statystyki liczone klatka po klatce. Dzięki temu dwa utwory o podobnej średniej ilości basu mogą się bardzo różnić tym, <em>jak</em> ich brzmienie porusza się w czasie.</p>
+    <p>Spectral flux, zmienność widma oraz statystyki liczone klatka po klatce.</p>
   </div>
   <div class="card">
     <h3>Kontrast i barwa</h3>
-    <p>Kontrast widmowy w wielu zakresach częstotliwości oraz 13 współczynników MFCC wraz z ich zmiennością. To opis kształtu i barwy widma, nie tylko sumy energii.</p>
+    <p>Kontrast widmowy w wielu zakresach częstotliwości oraz współczynniki MFCC wraz z ich zmiennością.</p>
   </div>
   <div class="card">
     <h3>Harmonia i tonalność</h3>
-    <p>12 składowych chromy, ich rozkład i entropia, dominująca klasa wysokości, koncentracja harmoniczna, strojenie, kandydat tonacji, tryb major/minor i pewność tego rozpoznania.</p>
+    <p>Chroma, koncentracja harmoniczna, strojenie, kandydat tonacji, tryb major/minor i pewność rozpoznania.</p>
   </div>
   <div class="card">
     <h3>Ataki i rytm</h3>
-    <p>Siła onsetów, ich liczba i częstość, odstępy między atakami, zmienność tych odstępów, kilka estymat BPM oraz miary pewności rytmu.</p>
+    <p>Siła i częstość onsetów, odstępy między atakami, kilka estymat BPM oraz miary pewności rytmu.</p>
   </div>
   <div class="card">
     <h3>Stereo</h3>
-    <p>Osobno poziomy kanału lewego i prawego, balans L/R, korelacja kanałów oraz relacja Mid/Side, czyli między innymi szerokość obrazu stereo.</p>
+    <p>Poziomy kanałów, balans L/R, korelacja kanałów i relacja Mid/Side.</p>
   </div>
   <div class="card">
-    <h3>Ziarnistość i „szorstkość” sygnału</h3>
-    <p>Zero-crossing rate i jego zmienność, spectral flatness oraz część parametrów wysokoczęstotliwościowych. To pomaga odróżniać dźwięk gładki i tonalny od bardziej szumowego, jasnego lub ziarnistego.</p>
+    <h3>Ziarnistość sygnału</h3>
+    <p>Zero-crossing rate, spectral flatness i parametry wysokoczęstotliwościowe.</p>
   </div>
 </div>
-<p class="muted">W praktyce pojedynczy utwór nie jest więc jednym numerem opisującym „energię”. Jest wielowymiarowym profilem opisującym poziom, dynamikę, barwę, widmo, ruch w czasie, harmonię, rytm i przestrzeń stereo.</p>
 
 <div class="technical">
-<h2>Pozostałe analizy i statystyczno-matematyczne bleblanie</h2>
-<p>Tu są dokumenty dla osób, które chcą zobaczyć, skąd dokładnie wzięły się powyższe wnioski. Czyli miejsce, gdzie liczby odzyskują władzę nad życiem człowieka.</p>
+<h2>Jeśli chcesz wejść głębiej</h2>
+<p>Trzy dokumenty prowadzą od wyniku do metody bez wystawiania na stronę roboczych plików, skryptów i dawnych eksportów.</p>
 <ul>
-  <li><a href="SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html">Sanityzacja audio 1.0 — dlaczego zostało 856 rekordów</a></li>
-  <li><a href="SOL-klastrowanie-audio-hipotezy-robocze-2026-09-08.html">Dwie hipotezy robocze: klastry vs wyspy + reszta</a></li>
-  <li><a href="SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html">Analiza dwóch hipotez</a></li>
-  <li><a href="SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html">Dlaczego 3 wyspy, a nie 4–7</a></li>
+  <li><a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">Pełny wynik: trzy wyspy na dwa głosy</a></li>
   <li><a href="SOL-klastrowanie-audio-sygnatury-wysp-analiza-v01-2026-09-08.html">Pełna analiza sygnatur wysp</a></li>
   <li><a href="SOL-klastrowanie-audio-sygnatury-wysp-metoda-v01-2026-09-08.html">Metoda wyznaczania sygnatur</a></li>
-  <li><a href="SOL_audio-analysis-05.md">Dokumentacja ekstrakcji cech audio</a></li>
-  <li><a href="SOL_audio-analysis-05.py">Skrypt ekstrakcji cech</a></li>
-</ul>
-
-<h3>Pliki mapy</h3>
-<ul>
-  <li><a href="SOL_audio-mapa-3-wysp-01-wyspa-glebi-v01-2026-09-08.csv">Wyspa Głębi — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-02-wyspa-swiatla-v01-2026-09-08.csv">Wyspa Światła — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-03-wyspa-ruchu-v01-2026-09-08.csv">Wyspa Ruchu — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-04-most-glebia-ruch-v01-2026-09-08.csv">Most Głębia ↔ Ruch — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-05-most-swiatlo-ruch-v01-2026-09-08.csv">Most Ruch ↔ Światło — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-06-most-glebia-swiatlo-v01-2026-09-08.csv">Most Głębia ↔ Światło — CSV</a></li>
-  <li><a href="SOL_audio-mapa-3-wysp-08-peryferia-v01-2026-09-08.csv">Peryferia — CSV</a></li>
 </ul>
 </div>
 
 <footer>
-Punkt wejścia do aktualnej analizy audio. Zbiór audio jest celowo osobny od głównego zbioru Spotify / lyrics / tagów.
+Analiza audio opisuje brzmienie biblioteki. Warstwa tekstów i znaczeń jest dostępna osobno w sekcji <a href="slowa.html">Słowa</a>.
 </footer>
 
 </main>
