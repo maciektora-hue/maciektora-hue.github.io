@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playlists · viewer</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1815;--bg2:#10251f;--panel:#13241e;--panel2:#0f1d18;--text:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--soft:rgba(242,231,207,.09);--ok:#8fd6a3;--bad:#e98c8c}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.45}main{width:min(1180px,calc(100% - 28px));margin:auto;padding:24px 0 70px}a{color:var(--hot)}h1{margin:8px 0 4px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:500;letter-spacing:-.035em}.lead,.muted{color:var(--muted)}.status,.box{margin:16px 0;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:var(--panel2)}.modes{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.modes button{border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);padding:8px 13px;cursor:pointer}.modes button.active{background:var(--amber);color:#102016;font-weight:800}.view{display:none}.view.active{display:block}.controls{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;align-items:end;margin:12px 0}.controls label{display:grid;gap:5px;color:var(--muted);font-size:.85rem}select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 10px}.summary{margin:10px 0;color:var(--muted)}.scroll{overflow:auto;border:1px solid var(--line);border-radius:11px;background:var(--panel)}table{width:100%;border-collapse:collapse;min-width:920px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft);vertical-align:top;font-size:.84rem}th{color:var(--hot);font-size:.74rem;position:sticky;top:0;background:var(--panel2)}tr:last-child td{border-bottom:0}.id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem}.ok{color:var(--ok);font-weight:800}.bad{color:var(--bad);font-weight:800}.tag{display:inline-block;border:1px solid var(--soft);border-radius:999px;padding:2px 6px;margin:1px 3px 1px 0;color:var(--muted);font-size:.75rem}@media(max-width:700px){main{width:min(100% - 20px,1180px)}.controls{grid-template-columns:1fr}}
+</style>
+<link rel="alternate" hreflang="pl" href="playlisty.html">
+<link rel="alternate" hreflang="en" href="playlisty-en.html">
+</head>
+<body>
+<main>
+<p><a href="index-en.html">← Songs</a> · <a href="../index-en.html">main page</a> · <a href="playlisty.html" lang="pl">Polski</a></p>
+<h1>Playlists</h1>
+<p class="lead">Read-only viewer. It reads the <span class="id">external_track</span> layer and explicit mappings to <span class="id">middle_end</span>. No heuristic matching. <strong>All playlists currently loaded in this viewer are Maciek Tora’s own playlists.</strong></p>
+<div id="status" class="status">Loading data…</div>
+<div class="modes">
+<button data-view="byPlaylist" class="active">Playlist → tracks</button>
+<button data-view="byTrack">Track → playlists</button>
+<button data-view="unmapped">Without utwu_id</button>
+</div>
+<section id="byPlaylist" class="view active">
+<div class="controls"><label>Playlist<select id="playlistSelect"></select></label></div>
+<div id="playlistMeta" class="box"></div>
+<div id="playlistSummary" class="summary"></div>
+<div class="scroll"><table><thead><tr><th>#</th><th>Status</th><th>utwu_id</th><th>Title</th><th>Artist</th><th>Album</th><th>Source</th><th>Source ID</th></tr></thead><tbody id="playlistRows"></tbody></table></div>
+</section>
+<section id="byTrack" class="view">
+<div class="controls"><label>Track<select id="trackSelect"></select></label></div>
+<div id="trackMeta" class="box"></div>
+<div id="trackSummary" class="summary"></div>
+<div class="scroll"><table><thead><tr><th>Playlist</th><th>Position</th><th>External track</th><th>Source file</th><th>Export</th></tr></thead><tbody id="trackRows"></tbody></table></div>
+</section>
+<section id="unmapped" class="view">
+<div class="summary" id="unmappedSummary"></div>
+<div class="scroll"><table><thead><tr><th>Playlist</th><th>#</th><th>Title</th><th>Artist</th><th>Album</th><th>Source</th><th>Source ID</th></tr></thead><tbody id="unmappedRows"></tbody></table></div>
+</section>
+</main>
+<script>
+const API='https://piosenki-api.onrender.com/api/playlisty';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let data={playlists:[],items:[],external_links:[],utwory:[]};
+const playlistMap=()=>Object.fromEntries(data.playlists.map(p=>[p.playlist_id,p]));
+const trackMap=()=>Object.fromEntries(data.utwory.map(t=>[t.utwu_id,t]));
+const linksMap=()=>{const m={};for(const x of data.external_links){(m[x.external_track_pk]??=[]).push(x.utwu_id)}return m};
+const fmtTags=s=>{try{return JSON.parse(s||'[]').map(t=>`<span class="tag">${esc(t)}</span>`).join(' ')||'—'}catch{return esc(s||'—')}};
+function switchView(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('active',x.dataset.view===id));}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+function renderPlaylist(){const id=document.getElementById('playlistSelect').value;const p=playlistMap()[id];if(!p)return;const lm=linksMap();const rows=data.items.filter(x=>x.playlist_id===id);document.getElementById('playlistMeta').innerHTML=`<strong>${esc(p.name)}</strong><br><span class="muted">${esc(p.service)} · ${esc(p.source_file||'no source file')} · exported_at: ${esc(p.exported_at||'—')} · imported_at: ${esc(p.imported_at||'—')}</span><br>${fmtTags(p.tags)}`;document.getElementById('playlistSummary').textContent=`${rows.length} positions · ${rows.filter(x=>(lm[x.external_track_pk]||[]).length).length} with utwu_id · ${rows.filter(x=>!(lm[x.external_track_pk]||[]).length).length} without utwu_id`;document.getElementById('playlistRows').innerHTML=rows.map(r=>{const ids=lm[r.external_track_pk]||[];return `<tr><td>${esc(r.position)}</td><td>${ids.length?'<span class="ok">OK</span>':'<span class="bad">NO utwu_id</span>'}</td><td class="id">${ids.length?ids.map(esc).join('<br>'):'—'}</td><td>${esc(r.external_title||'—')}</td><td>${esc(r.external_artist||'—')}</td><td>${esc(r.external_album||'—')}</td><td>${esc(r.external_service||'—')}</td><td class="id">${esc(r.external_track_id||'—')}</td></tr>`}).join('');}
+function renderTrack(){const id=document.getElementById('trackSelect').value;const t=trackMap()[id];if(!t)return;const pm=playlistMap();const extIds=new Set(data.external_links.filter(x=>x.utwu_id===id).map(x=>x.external_track_pk));const rows=data.items.filter(x=>extIds.has(x.external_track_pk));document.getElementById('trackMeta').innerHTML=`<strong>${esc(t.title_original||'untitled')}</strong> · ${esc(t.artist_original||'—')}<br><span class="id">${esc(t.utwu_id)}</span>`;document.getElementById('trackSummary').textContent=`Appears in ${rows.length} stored playlist positions through ${extIds.size} external identifiers.`;document.getElementById('trackRows').innerHTML=rows.length?rows.map(r=>{const p=pm[r.playlist_id]||{};return `<tr><td>${esc(p.name||r.playlist_id)}</td><td>${esc(r.position)}</td><td><span class="id">${esc(r.external_track_pk)}</span><br>${esc(r.external_service)} · ${esc(r.external_track_id)}</td><td>${esc(p.source_file||'—')}</td><td>${esc(p.exported_at||'—')}</td></tr>`}).join(''):'<tr><td colspan="5" class="muted">This track does not appear in any stored playlist.</td></tr>';}
+function renderUnmapped(){const pm=playlistMap();const lm=linksMap();const rows=data.items.filter(x=>!(lm[x.external_track_pk]||[]).length);const unique=new Set(rows.map(x=>x.external_track_pk)).size;document.getElementById('unmappedSummary').textContent=`${rows.length} positions without utwu_id, representing ${unique} distinct external_track records. They are not added to middle_end.`;document.getElementById('unmappedRows').innerHTML=rows.map(r=>{const p=pm[r.playlist_id]||{};return `<tr><td>${esc(p.name||r.playlist_id)}</td><td>${esc(r.position)}</td><td>${esc(r.external_title||'—')}</td><td>${esc(r.external_artist||'—')}</td><td>${esc(r.external_album||'—')}</td><td>${esc(r.external_service||'—')}</td><td class="id">${esc(r.external_track_id||'—')}</td></tr>`}).join('');}
+function init(d){data=d;const lm=linksMap();document.getElementById('status').textContent=`SQL: ${d.playlists.length} playlists · ${d.items.length} positions · ${new Set(d.items.map(x=>x.external_track_pk)).size} external_track · ${d.items.filter(x=>!(lm[x.external_track_pk]||[]).length).length} positions without utwu_id`;const ps=document.getElementById('playlistSelect');ps.innerHTML=d.playlists.map(p=>`<option value="${esc(p.playlist_id)}">${esc(p.name)} [${esc(p.service)}]</option>`).join('');ps.onchange=renderPlaylist;const ts=document.getElementById('trackSelect');ts.innerHTML=d.utwory.map(t=>`<option value="${esc(t.utwu_id)}">${esc(t.artist_original||'—')} — ${esc(t.title_original||'—')} [${esc(t.utwu_id)}]</option>`).join('');ts.onchange=renderTrack;renderPlaylist();renderTrack();renderUnmapped();}
+fetch(API,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(init).catch(err=>{document.getElementById('status').innerHTML=`<span class="bad">Error: ${esc(err.message)}</span>`});
+</script>
+</body>
+</html>
