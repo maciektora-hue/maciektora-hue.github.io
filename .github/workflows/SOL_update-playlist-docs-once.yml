@@ -16,6 +16,103 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare updated playlist section
+        run: |
+          cat > /tmp/playlist-tail.md <<'EOF'
+          <!-- PLAYLISTY-2026-09-11 -->
+          ---
+
+          # Aktualizacja 2026-09-11 — znormalizowana warstwa playlist
+
+          Warstwa playlist jest osobną domeną logiczną piosenek w tej samej bazie Turso. Jej aktualny model jest opisany szczegółowo w:
+
+          `SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
+
+          Podstawowa relacja jest obecnie znormalizowana:
+
+          ```text
+          playlist
+            ↓
+          playlist_item
+            ↓ external_track_pk
+          external_track
+            ↓
+          external_track_utwu
+            ↓ utwu_id
+          middle_end
+          ```
+
+          Znaczenie tabel:
+
+          - `playlist` — jeden konkretny eksport / stan playlisty;
+          - `playlist_item` — pozycja na konkretnym eksporcie playlisty;
+          - `playlist_tag_def` — słownik prostych tagów opisowych playlist;
+          - `external_track` — jeden zewnętrzny identyfikator utworu w danym serwisie, unikalny przez `(service, external_track_id)`;
+          - `external_track_utwu` — jawne powiązania z kanonicznym `middle_end.utwu_id`.
+
+          `playlist_item.external_track_pk` jest już wypełnione dla wszystkich obecnych pozycji. Stare pola `playlist_item.utwu_id`, `external_track_id`, `source_name`, `source_artist`, `source_album` nadal istnieją przejściowo, ale viewer/API nie opiera już na nich logiki. Ich fizyczne usunięcie wymaga osobnej migracji cleanupowej.
+
+          Aktualny stan danych po migracjach 2026-09-11:
+
+          - 9 playlist;
+          - 919 pozycji `playlist_item`;
+          - 636 różnych `external_track`;
+          - 543 jawne relacje `external_track ↔ utwu_id`;
+          - 824 pozycje playlist rozstrzygają się do `utwu_id` przez nową warstwę;
+          - 95 pozycji pozostaje bez `utwu_id`;
+          - te 95 pozycji reprezentuje 93 różne `external_track`.
+
+          Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie tworzymy sztucznych rekordów `middle_end` dla zewnętrznych utworów i bez jawnej decyzji nie stosujemy heurystyk tytuł/artysta/album.
+
+          Wszystkie 9 playlist obecnie załadowanych do SQL należą do Maćka Tory. Jest to zapisane jako tag:
+
+          ```text
+          owner:maciek-tora
+          ```
+
+          w `playlist.tags`, z definicją w `playlist_tag_def`. To opis obecnego zbioru, nie reguła dla każdej przyszłej playlisty.
+
+          Playlista `spotify:alltimebest` / `AllTimeBestSpotify` ma potwierdzony identyfikator Spotify:
+
+          ```text
+          external_playlist_id = 5wDt92D4lFaSDIuVrdKLF9
+          external_url = https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9
+          ```
+
+          Publiczny read-only endpoint:
+
+          ```text
+          GET /api/playlisty
+          ```
+
+          Kod endpointu:
+
+          `piosenki/playlist_api.py`
+
+          Endpoint zwraca metadane playlist, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`. Nie wykonuje zapisu ani heurystycznego mapowania.
+
+          Publiczne viewery:
+
+          ```text
+          piosenki/playlisty.html
+          piosenki/playlisty-en.html
+          ```
+
+          Są podlinkowane z publicznych stron `piosenki` oraz `techniczne`. Pokazują:
+
+          1. playlista → utwory;
+          2. utwór (`utwu_id`) → playlisty;
+          3. pozycje bez rozstrzygniętego `utwu_id`;
+          4. tagi playlist;
+          5. klikalny link do serwisu zewnętrznego, jeżeli `external_url` jest zapisany.
+
+          Dla `AllTimeBestSpotify` viewer pokazuje bezpośredni link do Spotify.
+
+          Nowy importer zgodny z warstwą `external_track` nie został jeszcze przygotowany. Jest to celowo odłożone i nie należy opisywać go jako gotowego elementu systemu.
+
+          SQL jest źródłem prawdy dla stanu bieżącego. Pliki w `piosenki/migrations/` dokumentują historię dojścia do tego stanu i nie powinny być automatycznie uruchamiane ponownie.
+          EOF
+
       - name: Update inter-project documentation
         run: |
           python - <<'PY'
@@ -24,142 +121,27 @@ jobs:
           path = Path('SOL_DOKUMENTACJA-MIEDZYKATALOGOWA-AKTUALNA.md')
           text = path.read_text(encoding='utf-8')
 
-          text = text.replace('Data zebrania: 2026-09-10', 'Data zebrania: 2026-09-11', 1)
+          replacements = [
+              ('Data zebrania: 2026-09-10', 'Data zebrania: 2026-09-11'),
+              ('- SQL Viewer,\n- analitykę piosenek renderowaną przez ten sam backend,', '- SQL Viewer,\n- Playlist Viewer dla warstwy playlist,\n- analitykę piosenek renderowaną przez ten sam backend,'),
+              ('- `techniczne/sql-viewer.html`,\n- statyczne strony piosenek `slowa.html`, `audio.html` itd.', '- `techniczne/sql-viewer.html`,\n- `piosenki/playlisty.html` / `piosenki/playlisty-en.html`,\n- statyczne strony piosenek `slowa.html`, `audio.html` itd.'),
+              ('GET /api/piosenki\nGET /api/content', 'GET /api/piosenki\nGET /api/playlisty\nGET /api/content'),
+              ('- `tag_axis`,\n- tabele audio i audio features.\n\nSzczegóły audio są opisane osobno w:\n\n`SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`', '- `tag_axis`,\n- tabele audio i audio features,\n- `playlist`,\n- `playlist_item`,\n- `playlist_tag_def`,\n- `external_track`,\n- `external_track_utwu`.\n\nSzczegóły audio są opisane osobno w:\n\n`SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`\n\nAktualna dokumentacja playlist jest w:\n\n`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`'),
+              ('techniczne/sql-viewer.html\n    → cała baza / schema endpoint\n```', 'techniczne/sql-viewer.html\n    → cała baza / schema endpoint\n\npiosenki/playlisty.html + playlisty-en.html\n    → playlisty / external_track / external_track_utwu przez GET /api/playlisty\n```'),
+              ('techniczne/sql-viewer.html = viewer całej bazy\nGitHub Actions = automatyzacja i operacje administracyjne', 'techniczne/sql-viewer.html = viewer całej bazy\npiosenki/playlisty*.html = read-only viewer playlist przez /api/playlisty\nGitHub Actions = automatyzacja i operacje administracyjne'),
+          ]
 
-          old = '- SQL Viewer,\n- analitykę piosenek renderowaną przez ten sam backend,'
-          new = '- SQL Viewer,\n- Playlist Viewer dla warstwy playlist,\n- analitykę piosenek renderowaną przez ten sam backend,'
-          if old not in text:
-              raise SystemExit('Nie znaleziono listy celu dokumentu')
-          text = text.replace(old, new, 1)
-
-          old = '- `techniczne/sql-viewer.html`,\n- statyczne strony piosenek `slowa.html`, `audio.html` itd.'
-          new = '- `techniczne/sql-viewer.html`,\n- `piosenki/playlisty.html` / `piosenki/playlisty-en.html`,\n- statyczne strony piosenek `slowa.html`, `audio.html` itd.'
-          if old not in text:
-              raise SystemExit('Nie znaleziono listy GitHub Pages')
-          text = text.replace(old, new, 1)
-
-          old = 'GET /api/piosenki\nGET /api/content'
-          new = 'GET /api/piosenki\nGET /api/playlisty\nGET /api/content'
-          if old not in text:
-              raise SystemExit('Nie znaleziono listy endpointów')
-          text = text.replace(old, new, 1)
-
-          old = '- `tag_axis`,\n- tabele audio i audio features.\n\nSzczegóły audio są opisane osobno w:\n\n`SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`'
-          new = '- `tag_axis`,\n- tabele audio i audio features,\n- `playlist`,\n- `playlist_item`,\n- `playlist_tag_def`,\n- `external_track`,\n- `external_track_utwu`.\n\nSzczegóły audio są opisane osobno w:\n\n`SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`\n\nAktualna dokumentacja playlist jest w:\n\n`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`'
-          if old not in text:
-              raise SystemExit('Nie znaleziono listy tabel piosenek')
-          text = text.replace(old, new, 1)
-
-          old = 'techniczne/sql-viewer.html\n    → cała baza / schema endpoint\n```'
-          new = 'techniczne/sql-viewer.html\n    → cała baza / schema endpoint\n\npiosenki/playlisty.html + playlisty-en.html\n    → playlisty / external_track / external_track_utwu przez GET /api/playlisty\n```'
-          if old not in text:
-              raise SystemExit('Nie znaleziono mapy publicznych viewerów')
-          text = text.replace(old, new, 1)
-
-          old = 'techniczne/sql-viewer.html = viewer całej bazy\nGitHub Actions = automatyzacja i operacje administracyjne'
-          new = 'techniczne/sql-viewer.html = viewer całej bazy\npiosenki/playlisty*.html = read-only viewer playlist przez /api/playlisty\nGitHub Actions = automatyzacja i operacje administracyjne'
-          if old not in text:
-              raise SystemExit('Nie znaleziono skróconej mapy')
-          text = text.replace(old, new, 1)
+          for old, new in replacements:
+              if old not in text:
+                  raise SystemExit(f'Brak oczekiwanego fragmentu: {old[:70]!r}')
+              text = text.replace(old, new, 1)
 
           marker = '<!-- PLAYLISTY-2026-09-11 -->'
           if marker not in text:
               raise SystemExit('Brak markera playlist')
           head = text.split(marker, 1)[0].rstrip()
-          tail = r'''<!-- PLAYLISTY-2026-09-11 -->
----
-
-# Aktualizacja 2026-09-11 — znormalizowana warstwa playlist
-
-Warstwa playlist jest osobną domeną logiczną piosenek w tej samej bazie Turso. Jej aktualny model jest opisany szczegółowo w:
-
-`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
-
-Podstawowa relacja jest obecnie znormalizowana:
-
-```text
-playlist
-  ↓
-playlist_item
-  ↓ external_track_pk
-external_track
-  ↓
-external_track_utwu
-  ↓ utwu_id
-middle_end
-```
-
-Znaczenie tabel:
-
-- `playlist` — jeden konkretny eksport / stan playlisty;
-- `playlist_item` — pozycja na konkretnym eksporcie playlisty;
-- `playlist_tag_def` — słownik prostych tagów opisowych playlist;
-- `external_track` — jeden zewnętrzny identyfikator utworu w danym serwisie, unikalny przez `(service, external_track_id)`;
-- `external_track_utwu` — jawne powiązania z kanonicznym `middle_end.utwu_id`.
-
-`playlist_item.external_track_pk` jest już wypełnione dla wszystkich obecnych pozycji. Stare pola `playlist_item.utwu_id`, `external_track_id`, `source_name`, `source_artist`, `source_album` nadal istnieją przejściowo, ale viewer/API nie opiera już na nich logiki. Ich fizyczne usunięcie wymaga osobnej migracji cleanupowej.
-
-Aktualny stan danych po migracjach 2026-09-11:
-
-- 9 playlist;
-- 919 pozycji `playlist_item`;
-- 636 różnych `external_track`;
-- 543 jawne relacje `external_track ↔ utwu_id`;
-- 824 pozycje playlist rozstrzygają się do `utwu_id` przez nową warstwę;
-- 95 pozycji pozostaje bez `utwu_id`;
-- te 95 pozycji reprezentuje 93 różne `external_track`.
-
-Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie tworzymy sztucznych rekordów `middle_end` dla zewnętrznych utworów i bez jawnej decyzji nie stosujemy heurystyk tytuł/artysta/album.
-
-Wszystkie 9 playlist obecnie załadowanych do SQL należą do Maćka Tory. Jest to zapisane jako tag:
-
-```text
-owner:maciek-tora
-```
-
-w `playlist.tags`, z definicją w `playlist_tag_def`. To opis obecnego zbioru, nie reguła dla każdej przyszłej playlisty.
-
-Playlista `spotify:alltimebest` / `AllTimeBestSpotify` ma potwierdzony identyfikator Spotify:
-
-```text
-external_playlist_id = 5wDt92D4lFaSDIuVrdKLF9
-external_url = https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9
-```
-
-Publiczny read-only endpoint:
-
-```text
-GET /api/playlisty
-```
-
-Kod endpointu:
-
-`piosenki/playlist_api.py`
-
-Endpoint zwraca metadane playlist, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`. Nie wykonuje zapisu ani heurystycznego mapowania.
-
-Publiczne viewery:
-
-```text
-piosenki/playlisty.html
-piosenki/playlisty-en.html
-```
-
-Są podlinkowane z publicznych stron `piosenki` oraz `techniczne`. Pokazują:
-
-1. playlista → utwory;
-2. utwór (`utwu_id`) → playlisty;
-3. pozycje bez rozstrzygniętego `utwu_id`;
-4. tagi playlist;
-5. klikalny link do serwisu zewnętrznego, jeżeli `external_url` jest zapisany.
-
-Dla `AllTimeBestSpotify` viewer pokazuje bezpośredni link do Spotify.
-
-Nowy importer zgodny z warstwą `external_track` nie został jeszcze przygotowany. Jest to celowo odłożone i nie należy opisywać go jako gotowego elementu systemu.
-
-SQL jest źródłem prawdy dla stanu bieżącego. Pliki w `piosenki/migrations/` dokumentują historię dojścia do tego stanu i nie powinny być automatycznie uruchamiane ponownie.
-'''
-          path.write_text(head + '\n\n' + tail, encoding='utf-8')
+          tail = Path('/tmp/playlist-tail.md').read_text(encoding='utf-8').strip()
+          path.write_text(head + '\n\n' + tail + '\n', encoding='utf-8')
           PY
 
       - name: Remove one-time workflow and commit
@@ -169,4 +151,5 @@ SQL jest źródłem prawdy dla stanu bieżącego. Pliki w `piosenki/migrations/`
           git config user.email "maciek.tora@gmail.com"
           git add SOL_DOKUMENTACJA-MIEDZYKATALOGOWA-AKTUALNA.md .github/workflows/SOL_update-playlist-docs-once.yml
           git commit -m "Update inter-project playlist documentation"
+          git pull --rebase origin main
           git push
