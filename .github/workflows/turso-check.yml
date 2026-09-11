@@ -1,4 +1,4 @@
-name: SOL inspect live playlists
+name: Turso connection test
 
 on:
   workflow_dispatch:
@@ -7,37 +7,88 @@ on:
       - '.github/workflows/turso-check.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  inspect-playlists:
+  check:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install libsql
         run: pip install libsql
 
-      - name: Inspect playlist table in Turso
+      - name: Test read and write on Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
           import os
-          import libsql
+          import uuid
+          from datetime import datetime, timezone
+          from pathlib import Path
 
-          token = os.environ.get('TURSO_AUTH_TOKEN')
-          if not token:
-              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+          status_path = Path('piosenki/SOL-turso-status.txt')
+          stamp = datetime.now(timezone.utc).isoformat()
 
-          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
-          rows = conn.execute("""
-              SELECT playlist_id, playlist_series_id, service, name,
-                     external_playlist_id, external_url, source_file, playlist_tags
-              FROM playlist
-              ORDER BY playlist_id
-          """).fetchall()
-          for row in rows:
-              print('PLAYLIST_ROW=' + repr(row))
-          print('PLAYLIST_COUNT=' + str(len(rows)))
-          conn.close()
+          try:
+              import libsql
+
+              token = os.environ.get('TURSO_AUTH_TOKEN')
+              if not token:
+                  raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+
+              conn = libsql.connect(
+                  database=os.environ['TURSO_DATABASE_URL'],
+                  auth_token=token,
+              )
+
+              ping = conn.execute('SELECT 1').fetchone()
+              if not ping or ping[0] != 1:
+                  raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
+
+              test_id = '__sol_connection_test__' + uuid.uuid4().hex
+              test_text = 'dupa | dupa | chuj'
+
+              try:
+                  conn.execute(
+                      'INSERT INTO lyrics (lyrics_id, lyrics_text) VALUES (?, ?)',
+                      (test_id, test_text),
+                  )
+                  row = conn.execute(
+                      'SELECT lyrics_id, lyrics_text FROM lyrics WHERE lyrics_id = ?',
+                      (test_id,),
+                  ).fetchone()
+
+                  if not row or row[0] != test_id or row[1] != test_text:
+                      raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
+              finally:
+                  conn.rollback()
+
+              status_path.write_text(
+                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\n',
+                  encoding='utf-8',
+              )
+              print('TURSO_OK')
+              print('dupa | dupa | chuj')
+          except Exception as exc:
+              status_path.write_text(
+                  f'FAIL\nUTC={stamp}\nERROR={type(exc).__name__}: {exc}\n',
+                  encoding='utf-8',
+              )
+              print(f'TURSO_FAIL: {type(exc).__name__}: {exc}')
           PY
+
+      - name: Save test result to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add piosenki/SOL-turso-status.txt
+          git diff --cached --quiet || git commit -m "Turso connection test result"
+          git push
+
+      - name: Fail workflow if Turso test failed
+        run: |
+          grep -q '^OK$' piosenki/SOL-turso-status.txt
