@@ -97,6 +97,7 @@ W aplikacji Flask istnieją m.in. endpointy:
 - `GET /health`
 - `GET /api/techniczne/schema`
 - `GET /api/piosenki`
+- `GET /api/playlisty`
 - `GET /api/content`
 - `GET /api/content/<collection_id>`
 - `GET /api/content/<collection_id>/structure`
@@ -104,7 +105,7 @@ W aplikacji Flask istnieją m.in. endpointy:
 - `GET /api/content/<collection_id>/export.tsv`
 - `GET /api/content/<collection_id>/explorer`
 
-Endpoint `GET /api/content/<collection_id>/explorer` jest logicznie read-only i wykonuje zapytania `SELECT`.
+Endpointy `GET /api/playlisty` i `GET /api/content/<collection_id>/explorer` są logicznie read-only i wykonują odczyt danych.
 
 CORS dla `/api/*` dopuszcza stronę:
 
@@ -140,23 +141,68 @@ Przed pracą z SQL:
 
 **GitHub przechowuje HTML i kod. GitHub Pages pokazuje WWW. Render uruchamia Flask. Flask łączy się przez libsql z Turso. WWW ma korzystać z API Render, a nie bezpośrednio z administracyjnego dostępu do SQL.**
 
-<!-- PLAYLISTY-2026-09-11 -->
 ---
 
-## 11. Warstwa playlist — zasady operacyjne
+## 11. Warstwa playlist — aktualny model
 
-Aktualny model playlist ma trzy elementy: `playlist`, `playlist_item` i `playlist_tag_def`.
+Pełna aktualna dokumentacja playlist znajduje się w:
 
-Jeden rekord `playlist` oznacza jeden konkretny eksport / stan playlisty. Kolejne eksporty tej samej logicznej playlisty mogą mieć wspólne `playlist_series_id`.
+`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
 
-Rozróżniaj dwa czasy:
+Aktualny model nie składa się już tylko z `playlist` i `playlist_item`. Istotne tabele to:
 
-- `exported_at` — kiedy playlistę wyeksportowano ze Spotify / YouTube do pliku;
-- `imported_at` — kiedy ten eksport zaimportowano do SQL.
+- `playlist`;
+- `playlist_item`;
+- `playlist_tag_def`;
+- `external_track`;
+- `external_track_utwu`.
 
-Opcjonalne metadane opisowe trzymamy w `playlist.tags`; nie tworzymy nowej kolumny dla każdej przyszłej cechy. `service` i identyfikatory techniczne pozostają kolumnami.
+Podstawowy przepływ:
 
-Tagi playlist nie są tagami lyrics i nie korzystają z `tag_catalog` ani ontologii tagów tekstu.
+```text
+playlist
+  ↓
+playlist_item
+  ↓ external_track_pk
+external_track
+  ↓
+external_track_utwu
+  ↓ utwu_id
+middle_end
+```
+
+`external_track` deduplikuje zewnętrzne utwory po `(service, external_track_id)`. `external_track_utwu` przechowuje tylko jawne, rozstrzygnięte mapowania do `middle_end`.
+
+Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie należy tworzyć sztucznego `middle_end` ani stosować heurystyk tytuł/artysta/album bez jawnego polecenia.
+
+`playlist_item` ma już `external_track_pk`. Stare pola zduplikowanych metadanych i stare `utwu_id` pozostają przejściowo dla zgodności i audytu; publiczny viewer/API korzysta z nowej warstwy.
+
+Aktualny stan live po migracji 2026-09-11:
+
+- 9 playlist;
+- 919 pozycji;
+- 636 `external_track`;
+- 543 jawne relacje `external_track ↔ utwu_id`;
+- 95 pozycji bez `utwu_id`, reprezentujących 93 różne `external_track`.
+
+Wszystkie 9 obecnych playlist ma tag `owner:maciek-tora`. To opis stanu obecnego, nie reguła dla wszystkich przyszłych importów.
+
+`spotify:alltimebest` / `AllTimeBestSpotify` ma potwierdzony:
+
+```text
+external_playlist_id = 5wDt92D4lFaSDIuVrdKLF9
+external_url = https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9
+```
+
+Publiczny viewer:
+
+- `piosenki/playlisty.html` — PL;
+- `piosenki/playlisty-en.html` — EN;
+- API: `GET /api/playlisty`;
+- kod API: `piosenki/playlist_api.py`.
+
+Viewer pokazuje tagi playlist, klikalne `external_url` oraz trzy tryby: playlista → utwory, utwór → playlisty, bez `utwu_id`.
+
+Nowy importer zgodny z warstwą `external_track` **nie jest jeszcze gotowy** i nie należy go opisywać jako istniejącej części systemu.
 
 `piosenki/schema.sql` ma odzwierciedlać aktualny stan schematu live. Pliki w `piosenki/migrations/` dokumentują drogę dojścia do tego stanu; nie należy uruchamiać dawnych migracji ponownie bez jawnej potrzeby.
-
