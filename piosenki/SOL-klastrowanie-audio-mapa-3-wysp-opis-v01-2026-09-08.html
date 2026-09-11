@@ -2,15 +2,20 @@
 <html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KLASTRUJEMY — mapa 3 wysp audio</title>
 <style>
-:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--text:#e7c27a;--muted:#c7b58d;--line:#556b5e;--strong:#f3d796}
+:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--text:#e7c27a;--muted:#c7b58d;--line:#556b5e;--strong:#f3d796;--ok:#9bd4a7;--bad:#e0a0a0}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.52}
 main{max-width:920px;margin:0 auto;padding:28px 20px 64px} h1{font-size:1.85rem;line-height:1.15;margin:0 0 .35rem}
 h2{font-size:1.2rem;margin:1.9rem 0 .5rem} p,li{max-width:80ch} strong{color:var(--strong)} code,a{color:var(--strong)}
 .meta,.muted{color:var(--muted)} .box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
-.card{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0} .n{color:var(--muted);font-weight:400;font-size:.85rem}
+.card{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}.n{color:var(--muted);font-weight:400;font-size:.85rem}
+.sql-playlist{margin:.8rem 0 1.1rem;border:1px solid var(--line);border-radius:9px;background:rgba(34,49,41,.55)}
+.sql-playlist>summary{cursor:pointer;padding:10px 12px;font-weight:700;color:var(--strong)}
+.sql-body{padding:0 12px 12px}.sql-status{font-size:.86rem;color:var(--muted);margin:.5rem 0}
+.playlist-head{padding:.8rem 0;border-top:1px solid rgba(85,107,94,.55)}.playlist-head:first-child{border-top:0}.playlist-links{display:flex;gap:7px;flex-wrap:wrap;margin:.55rem 0}.service-link{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 9px;text-decoration:none;font-size:.82rem}
+.track-list{list-style:none;padding:0;margin:.5rem 0 1rem}.track-row{padding:.65rem 0;border-top:1px solid rgba(85,107,94,.45)}.track-title{color:var(--text);font-weight:700}.track-meta{color:var(--muted);font-size:.82rem;margin:.15rem 0}.track-links{display:flex;gap:7px;flex-wrap:wrap;margin-top:.3rem}.track-link{font-size:.79rem}.id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.ok{color:var(--ok)}.bad{color:var(--bad)}
 </style></head><body><main>
 <h1>KLASTRUJEMY — mapa 3 wysp</h1>
-<p class="meta">2026-09-08 · audio_features_v08.csv · 856 utworów · mapa robocza 1.0</p>
+<p class="meta">2026-09-08 · mapa robocza 1.0 · playlisty i dane utworów: SQL</p>
 
 <div class="box">
 <strong>Krajobraz:</strong> 343 utwory w rdzeniach wysp (40,1%) · 149 na mostach (17,4%) · 297 na kontynencie / w strefie przejściowej (34,7%) · 67 na peryferiach (7,8%).
@@ -19,28 +24,35 @@ h2{font-size:1.2rem;margin:1.9rem 0 .5rem} p,li{max-width:80ch} strong{color:var
 <div class="card"><h2>Wyspa Głębi <span class="n">166 utworów · 19,4%</span></h2>
 <p><strong>Ciemniejsza, basowa i tonalnie skupiona.</strong> Dużo energii w dole pasma, mało wysokich częstotliwości i mało „migotania” widma. Chroma jest bardziej skupiona, a ataki wyraźniejsze. W ludzkim skrócie: brzmienie cięższe od dołu, zwarte i mniej jaskrawe.</p>
 <p class="muted">↑ bas 20–250 Hz, ↑ kontrast chroma, ↑ siła onsetów; ↓ centroid, ZCR, flux, góra 4–12 kHz i entropy chroma.</p>
-<p><strong>Środek wyspy:</strong> 0470 - Hindi Zahra - Hindi Zahra - Any story (Official video); 0542 - Clock Machine - Clock Machine - Heaven #ClockMachineLove; 0493 - Tajak - Micatone - Handbrake; 0628 - Hector Zazou，  Barbara Eramo &amp; Stefano Saletti - I Feel Love; 0096 - The xx - The xx - Crystalised (Official Video); 0397 - Talitres - Raoul Vignal - Red Fresco [OFFICIAL VIDEO].</p></div>
+<p><strong>Środek wyspy:</strong> 0470 - Hindi Zahra - Hindi Zahra - Any story (Official video); 0542 - Clock Machine - Clock Machine - Heaven #ClockMachineLove; 0493 - Tajak - Micatone - Handbrake; 0628 - Hector Zazou，  Barbara Eramo &amp; Stefano Saletti - I Feel Love; 0096 - The xx - The xx - Crystalised (Official Video); 0397 - Talitres - Raoul Vignal - Red Fresco [OFFICIAL VIDEO].</p>
+<details class="sql-playlist" data-sql-tag="wyspa=glebi"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
 
 <div class="card"><h2>Wyspa Światła <span class="n">60 utworów · 7,0%</span></h2>
 <p><strong>Jasna, szerokopasmowa i iskrząca.</strong> Najwięcej góry, najwyższy centroid i ZCR, szerokie widmo oraz dużo drobnych zmian spektralnych. Tonalność jest mniej punktowo skupiona. W skrócie: więcej światła, powietrza i ziarnistości.</p>
 <p class="muted">↑ 4–20 kHz, ↑ centroid, bandwidth, ZCR, flux i flatness; ↓ kontrast chroma i siła onsetów.</p>
-<p><strong>Środek wyspy:</strong> 0025 - Dua Lipa - Dua Lipa - Be The One (Official Music Video); 0402 - Cocoon - Vultures; 0207 - Indian Askin - Indian Askin - Deep End; 0332 - cruzn001 - Federico Aubele - Somewhere Else (featuring Melody Gardot); 0109 - Beata Ślusarek - Potężna magia obfitości – Uwolnienie od zazdrości, klątw, złorzeczeń, obciążeń...; 0827 - Parov Stelar - Parov Stelar - Lost In Amsterdam (Official Audio).</p></div>
+<p><strong>Środek wyspy:</strong> 0025 - Dua Lipa - Dua Lipa - Be The One (Official Music Video); 0402 - Cocoon - Vultures; 0207 - Indian Askin - Indian Askin - Deep End; 0332 - cruzn001 - Federico Aubele - Somewhere Else (featuring Melody Gardot); 0109 - Beata Ślusarek - Potężna magia obfitości – Uwolnienie od zazdrości, klątw, złorzeczeń, obciążeń...; 0827 - Parov Stelar - Parov Stelar - Lost In Amsterdam (Official Audio).</p>
+<details class="sql-playlist" data-sql-tag="wyspa=swiatla"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
 
 <div class="card"><h2>Wyspa Ruchu <span class="n">117 utworów · 13,7%</span></h2>
 <p><strong>Środek pasma, przepływ i harmoniczne rozproszenie.</strong> Mocniej siedzi w 1–4 kHz, ma więcej zmian widmowych i większą entropię chroma, ale mniej basowej masy i mniej punktowych ataków niż Głębia. W skrócie: bardziej płynna, ruchliwa i „środkowa”.</p>
 <p class="muted">↑ 1–4 kHz, ↑ flux, ↑ entropy chroma; ↓ bas, ↓ kontrast chroma, ↓ siła onsetów.</p>
-<p><strong>Środek wyspy:</strong> 0375 - City Slang - Get Well Soon - Roland, I Feel You (Official Video - Uncut); 0856 - The Dø - The Dø - Keep Your Lips Sealed - (Official Audio); 0760 - Ville Valo, Natalia Avelon - Summer Wine (Single Edit); 0590 - Marek Dyjak, Nosowska, Katarzyna Nosowska, Marcin Macuk - Ognia (Live); 0128 - The Dumplings - The Dumplings - Kocham Być z Tobą [Official Music Video]; 0602 - Mantua - Void.</p></div>
+<p><strong>Środek wyspy:</strong> 0375 - City Slang - Get Well Soon - Roland, I Feel You (Official Video - Uncut); 0856 - The Dø - The Dø - Keep Your Lips Sealed - (Official Audio); 0760 - Ville Valo, Natalia Avelon - Summer Wine (Single Edit); 0590 - Marek Dyjak, Nosowska, Katarzyna Nosowska, Marcin Macuk - Ognia (Live); 0128 - The Dumplings - The Dumplings - Kocham Być z Tobą [Official Music Video]; 0602 - Mantua - Void.</p>
+<details class="sql-playlist" data-sql-tag="wyspa=ruchu"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
 
 <h2>Mosty</h2>
-<p><strong>Głębia ↔ Ruch: 101.</strong> Największa przeprawa. Większość płynnego przejścia od ciemnej/basowej strony mapy do środka prowadzi właśnie tędy.</p>
-<p><strong>Ruch ↔ Światło: 46.</strong> Przejście od bardziej środkowego, płynnego brzmienia do jasnego i szerokopasmowego.</p>
-<p><strong>Głębia ↔ Światło: tylko 2.</strong> Bezpośrednia droga pomiędzy dwiema najbardziej skrajnymi wyspami prawie nie istnieje. W tej mapie są tu: <em>Dance of the Dream Man</em> Angelo Badalamentiego oraz <em>Nim Wstanie Dzień</em> Nosowskiej.</p>
+<div class="card"><p><strong>Głębia ↔ Ruch: 101.</strong> Największa przeprawa. Większość płynnego przejścia od ciemnej/basowej strony mapy do środka prowadzi właśnie tędy.</p>
+<details class="sql-playlist" data-sql-tag="most=glebia-ruch"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
+<div class="card"><p><strong>Ruch ↔ Światło: 46.</strong> Przejście od bardziej środkowego, płynnego brzmienia do jasnego i szerokopasmowego.</p>
+<details class="sql-playlist" data-sql-tag="most=swiatlo-ruch"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
+<div class="card"><p><strong>Głębia ↔ Światło: tylko 2.</strong> Bezpośrednia droga pomiędzy dwiema najbardziej skrajnymi wyspami prawie nie istnieje. W tej mapie są tu: <em>Dance of the Dream Man</em> Angelo Badalamentiego oraz <em>Nim Wstanie Dzień</em> Nosowskiej.</p>
+<details class="sql-playlist" data-sql-tag="most=glebia-swiatlo"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details></div>
 
 <h2>Kontynent / strefa przejściowa <span class="n">297 utworów</span></h2>
 <p>To nie jest „reszta bez sensu”. To największy ciągły obszar mapy: utwory mają powinowactwo do wysp, ale żaden rdzeń nie dominuje wystarczająco mocno. Tu prawdopodobnie siedzi większość hybryd i normalnych przejść między charakterami brzmienia.</p>
 
 <h2>Peryferia <span class="n">67 utworów</span></h2>
 <p>Najrzadsze 10% przestrzeni według odległości do 10. najbliższego sąsiada. Akustycznie nietypowe względem biblioteki. <strong>Peryferia nie oznaczają błędu ani „nie lubię”.</strong></p>
+<details class="sql-playlist" data-sql-tag="wyspa=peryferia"><summary>Pokaż playlistę z SQL <span class="n sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details>
 
 <h2>Jak przypisano role</h2>
 <ul>
@@ -51,17 +63,19 @@ h2{font-size:1.2rem;margin:1.9rem 0 .5rem} p,li{max-width:80ch} strong{color:var
 </ul>
 <p class="muted">40% / 20% / 10% to parametry kartograficzne mapy 1.0, nie odkryte prawa natury. Możemy później przesuwać linię brzegową bez zmiany samych trzech głównych wysp.</p>
 
-<h2>Pełne listy 856 utworów</h2>
-<ul>
-<li><a href="SOL_audio-mapa-3-wysp-01-wyspa-glebi-v01-2026-09-08.csv">Wyspa Głębi — 166</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-02-wyspa-swiatla-v01-2026-09-08.csv">Wyspa Światła — 60</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-03-wyspa-ruchu-v01-2026-09-08.csv">Wyspa Ruchu — 117</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-04-most-glebia-ruch-v01-2026-09-08.csv">Most Głębia ↔ Ruch — 101</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-05-most-swiatlo-ruch-v01-2026-09-08.csv">Most Światło ↔ Ruch — 46</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-06-most-glebia-swiatlo-v01-2026-09-08.csv">Most Głębia ↔ Światło — 2</a></li>
-<li>Kontynent — 297: <a href="SOL_audio-mapa-3-wysp-07-kontynent-cz1-v01-2026-09-08.csv">cz. 1</a> · <a href="SOL_audio-mapa-3-wysp-07-kontynent-cz2-v01-2026-09-08.csv">cz. 2</a> · <a href="SOL_audio-mapa-3-wysp-07-kontynent-cz3-v01-2026-09-08.csv">cz. 3</a></li>
-<li><a href="SOL_audio-mapa-3-wysp-08-peryferia-v01-2026-09-08.csv">Peryferia — 67</a></li>
-</ul>
-<p class="muted">Razem: 856 rekordów, 856 unikalnych audio_id, bez duplikatów i braków między listami.</p>
+<div id="sqlStatus" class="box">Playlisty powyżej są ładowane wyłącznie z SQL.</div>
 
-</main></body></html>
+</main>
+<script>
+const API='https://piosenki-api.onrender.com/api/playlisty';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function parseTags(value){const raw=String(value??'').trim();if(!raw)return[];try{const parsed=JSON.parse(raw);if(Array.isArray(parsed))return parsed.map(String).map(x=>x.trim()).filter(Boolean)}catch{}return raw.split(';').map(x=>x.trim()).filter(Boolean)}
+function playlistLinks(p){const found=[];const seen=new Set();const add=(label,url)=>{url=String(url||'').trim();if(!/^https?:\/\//i.test(url)||seen.has(url))return;seen.add(url);found.push(`<a class="service-link" href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`)};for(const tag of parseTags(p.tags)){if(tag.startsWith('spotify_url='))add('Spotify — playlista',tag.slice(12));else if(tag.startsWith('youtube_music_url='))add('YouTube Music — playlista',tag.slice(18));else if(tag.startsWith('youtube_url='))add('YouTube — playlista',tag.slice(12))}if(p.external_url){const label=p.service==='spotify'?'Spotify — playlista':p.service==='youtube_music'?'YouTube Music — playlista':p.service==='youtube'?'YouTube — playlista':'Playlista';add(label,p.external_url)}return found.join('')}
+function mappedIds(data){const map={};for(const row of data.external_links||[])(map[row.external_track_pk]??=[]).push(row.utwu_id);return map}
+function trackMap(data){return Object.fromEntries((data.utwory||[]).map(x=>[x.utwu_id,x]))}
+function trackLinks(t,r){const out=[],seen=new Set();const add=(label,url)=>{if(!url||seen.has(url))return;seen.add(url);out.push(`<a class="track-link" href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`)};if(t?.spotify_id)add('Spotify',`https://open.spotify.com/track/${encodeURIComponent(t.spotify_id)}`);if(t?.youtube_video_id)add('YouTube',`https://www.youtube.com/watch?v=${encodeURIComponent(t.youtube_video_id)}`);if(r.external_service==='spotify'&&r.external_track_id)add('Spotify źródłowe',`https://open.spotify.com/track/${encodeURIComponent(r.external_track_id)}`);if((r.external_service==='youtube'||r.external_service==='youtube_music')&&r.external_track_id)add(r.external_service==='youtube_music'?'YouTube Music źródłowe':'YouTube źródłowe',`${r.external_service==='youtube_music'?'https://music.youtube.com/watch?v=':'https://www.youtube.com/watch?v='}${encodeURIComponent(r.external_track_id)}`);return out.join('')}
+function renderPlaylistBlock(p,rows,lm,tm){const links=playlistLinks(p);const list=rows.map(r=>{const ids=lm[r.external_track_pk]||[];if(!ids.length){return `<li class="track-row"><div class="track-title">${esc(r.external_artist||'—')} — ${esc(r.external_title||'—')}</div><div class="track-meta"><span class="bad">bez utwu_id</span> · pozycja ${esc(r.position)} · album: ${esc(r.external_album||'—')} · źródło: ${esc(r.external_service||'—')} · <span class="id">${esc(r.external_track_id||'—')}</span></div><div class="track-links">${trackLinks(null,r)}</div></li>`}return ids.map(id=>{const t=tm[id]||{};return `<li class="track-row"><div class="track-title">${esc(t.artist_original||r.external_artist||'—')} — ${esc(t.title_original||r.external_title||'—')}</div><div class="track-meta"><span class="ok">SQL</span> · <span class="id">${esc(id)}</span> · pozycja ${esc(r.position)} · album: ${esc(t.album_original||r.external_album||'—')} · źródło: ${esc(r.external_service||'—')} · <span class="id">${esc(r.external_track_id||'—')}</span></div><div class="track-links">${trackLinks(t,r)}</div></li>`}).join('')}).join('');return `<div class="playlist-head"><strong>${esc(p.name||p.playlist_id)}</strong><div class="sql-status"><span class="id">${esc(p.playlist_id)}</span> · ${rows.length} pozycji · ${esc(p.service||'—')}</div><div class="playlist-links">${links||'<span class="muted">brak adresów publikacji w SQL</span>'}</div></div><ol class="track-list">${list||'<li class="muted">Brak pozycji w tej playliście.</li>'}</ol>`}
+function renderAll(data){const lm=mappedIds(data),tm=trackMap(data);let matchedSections=0,totalRows=0;for(const details of document.querySelectorAll('.sql-playlist')){const tag=details.dataset.sqlTag;const playlists=(data.playlists||[]).filter(p=>parseTags(p.tags).includes(tag));const body=details.querySelector('.sql-body');const count=details.querySelector('.sql-count');if(!playlists.length){count.textContent='· brak w SQL';body.innerHTML=`<span class="muted">Brak playlisty oznaczonej <span class="id">${esc(tag)}</span> w SQL.</span>`;continue}matchedSections++;let html='',n=0;for(const p of playlists){const rows=(data.items||[]).filter(x=>x.playlist_id===p.playlist_id);n+=rows.length;html+=renderPlaylistBlock(p,rows,lm,tm)}totalRows+=n;count.textContent=`· ${n} pozycji`;body.innerHTML=html}document.getElementById('sqlStatus').textContent=`SQL: znaleziono playlisty dla ${matchedSections} z 7 sekcji · ${totalRows} pozycji. Dane list i linków nie są czytane z plików.`}
+fetch(API,{headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(renderAll).catch(err=>{document.getElementById('sqlStatus').textContent=`Błąd odczytu SQL: ${err.message}`;for(const body of document.querySelectorAll('.sql-body'))body.innerHTML='<span class="bad">Nie udało się pobrać danych z SQL.</span>'});
+</script>
+</body></html>
