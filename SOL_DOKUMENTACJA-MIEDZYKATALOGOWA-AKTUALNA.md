@@ -1,7 +1,7 @@
 # SOL — DOKUMENTACJA MIĘDZYKATALOGOWA — AKTUALNA
 
 Status: AKTUALNY OPIS WARSTW WSPÓLNYCH
-Data zebrania: 2026-09-10
+Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
 
 ## 0. Cel
@@ -16,6 +16,7 @@ Ten dokument opisuje elementy, które nie należą logicznie tylko do jednego ka
 - wspólną bazę `content_*` dla Rosja + AuDHD,
 - Content Explorer,
 - SQL Viewer,
+- Playlist Viewer dla warstwy playlist,
 - analitykę piosenek renderowaną przez ten sam backend,
 - GitHub Actions.
 
@@ -59,6 +60,7 @@ Do tej warstwy należą m.in.:
 - stabilne aliasy w katalogach,
 - `techniczne/content-explorer.html`,
 - `techniczne/sql-viewer.html`,
+- `piosenki/playlisty.html` / `piosenki/playlisty-en.html`,
 - statyczne strony piosenek `slowa.html`, `audio.html` itd.
 
 GitHub Pages nie jest backendem SQL.
@@ -114,6 +116,7 @@ Aktualne endpointy obejmują m.in.:
 GET /health
 GET /api/techniczne/schema
 GET /api/piosenki
+GET /api/playlisty
 GET /api/content
 GET /api/content/<collection_id>
 GET /api/content/<collection_id>/structure
@@ -176,11 +179,20 @@ M.in.:
 - `axes`,
 - `tag_group`,
 - `tag_axis`,
-- tabele audio i audio features.
+- tabele audio i audio features,
+- `playlist`,
+- `playlist_item`,
+- `playlist_tag_def`,
+- `external_track`,
+- `external_track_utwu`.
 
 Szczegóły audio są opisane osobno w:
 
 `SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md`
+
+Aktualna dokumentacja playlist jest w:
+
+`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
 
 ## 6.2. Wspólna treść Rosja + AuDHD
 
@@ -546,6 +558,9 @@ techniczne/content-explorer.html
 
 techniczne/sql-viewer.html
     → cała baza / schema endpoint
+
+piosenki/playlisty.html + playlisty-en.html
+    → playlisty / external_track / external_track_utwu przez GET /api/playlisty
 ```
 
 ---
@@ -577,6 +592,7 @@ piosenki/* = piosenki + fizyczna lokalizacja backendu
 content_* = wspólne dane Rosja + AuDHD
 techniczne/content-explorer.html = wspólny viewer Rosja + AuDHD
 techniczne/sql-viewer.html = viewer całej bazy
+piosenki/playlisty*.html = read-only viewer playlist przez /api/playlisty
 GitHub Actions = automatyzacja i operacje administracyjne
 ```
 
@@ -587,19 +603,92 @@ Najważniejsza zasada interpretacyjna:
 <!-- PLAYLISTY-2026-09-11 -->
 ---
 
-# Aktualizacja 2026-09-11 — warstwa playlist
+# Aktualizacja 2026-09-11 — znormalizowana warstwa playlist
 
-W domenie piosenek działa obecnie także warstwa playlist:
+Warstwa playlist jest osobną domeną logiczną piosenek w tej samej bazie Turso. Jej aktualny model jest opisany szczegółowo w:
 
-- `playlist` — jeden rekord oznacza jeden konkretny eksport / stan playlisty w określonym momencie;
-- `playlist_item` — utwory należące do tego eksportu wraz z kolejnością;
-- `playlist_tag_def` — prosty słownik opcjonalnych tagów opisujących playlisty.
+`SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md`
 
-`playlist_series_id` może łączyć kolejne eksporty tej samej logicznej playlisty, także gdy zmieni się jej nazwa lub zawartość. Nie ma osobnej tabeli snapshotów.
+Podstawowa relacja jest obecnie znormalizowana:
 
-`exported_at` oznacza moment eksportu ze Spotify / YouTube do pliku źródłowego. `imported_at` oznacza moment zaimportowania tego konkretnego eksportu do SQL.
+```text
+playlist
+  ↓
+playlist_item
+  ↓ external_track_pk
+external_track
+  ↓
+external_track_utwu
+  ↓ utwu_id
+middle_end
+```
 
-Opcjonalne informacje opisowe, np. właściciel, sposób powstania, przeznaczenie czy program eksportujący, mogą być przechowywane w `playlist.tags` jako lista JSON. Tagi playlist są niezależne od systemu tagów `lyrics`.
+Znaczenie tabel:
 
-Aktualny stan po migracji: 9 rekordów `playlist` i 919 rekordów `playlist_item`. SQL jest źródłem prawdy; migracje w `piosenki/migrations/` są historią zmian, nie źródłem do ponownego automatycznego importu.
+- `playlist` — jeden konkretny eksport / stan playlisty;
+- `playlist_item` — pozycja na konkretnym eksporcie playlisty;
+- `playlist_tag_def` — słownik prostych tagów opisowych playlist;
+- `external_track` — jeden zewnętrzny identyfikator utworu w danym serwisie, unikalny przez `(service, external_track_id)`;
+- `external_track_utwu` — jawne powiązania z kanonicznym `middle_end.utwu_id`.
 
+`playlist_item.external_track_pk` jest już wypełnione dla wszystkich obecnych pozycji. Stare pola `playlist_item.utwu_id`, `external_track_id`, `source_name`, `source_artist`, `source_album` nadal istnieją przejściowo, ale viewer/API nie opiera już na nich logiki. Ich fizyczne usunięcie wymaga osobnej migracji cleanupowej.
+
+Aktualny stan danych po migracjach 2026-09-11:
+
+- 9 playlist;
+- 919 pozycji `playlist_item`;
+- 636 różnych `external_track`;
+- 543 jawne relacje `external_track ↔ utwu_id`;
+- 824 pozycje playlist rozstrzygają się do `utwu_id` przez nową warstwę;
+- 95 pozycji pozostaje bez `utwu_id`;
+- te 95 pozycji reprezentuje 93 różne `external_track`.
+
+Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie tworzymy sztucznych rekordów `middle_end` dla zewnętrznych utworów i bez jawnej decyzji nie stosujemy heurystyk tytuł/artysta/album.
+
+Wszystkie 9 playlist obecnie załadowanych do SQL należą do Maćka Tory. Jest to zapisane jako tag:
+
+```text
+owner:maciek-tora
+```
+
+w `playlist.tags`, z definicją w `playlist_tag_def`. To opis obecnego zbioru, nie reguła dla każdej przyszłej playlisty.
+
+Playlista `spotify:alltimebest` / `AllTimeBestSpotify` ma potwierdzony identyfikator Spotify:
+
+```text
+external_playlist_id = 5wDt92D4lFaSDIuVrdKLF9
+external_url = https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9
+```
+
+Publiczny read-only endpoint:
+
+```text
+GET /api/playlisty
+```
+
+Kod endpointu:
+
+`piosenki/playlist_api.py`
+
+Endpoint zwraca metadane playlist, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`. Nie wykonuje zapisu ani heurystycznego mapowania.
+
+Publiczne viewery:
+
+```text
+piosenki/playlisty.html
+piosenki/playlisty-en.html
+```
+
+Są podlinkowane z publicznych stron `piosenki` oraz `techniczne`. Pokazują:
+
+1. playlista → utwory;
+2. utwór (`utwu_id`) → playlisty;
+3. pozycje bez rozstrzygniętego `utwu_id`;
+4. tagi playlist;
+5. klikalny link do serwisu zewnętrznego, jeżeli `external_url` jest zapisany.
+
+Dla `AllTimeBestSpotify` viewer pokazuje bezpośredni link do Spotify.
+
+Nowy importer zgodny z warstwą `external_track` nie został jeszcze przygotowany. Jest to celowo odłożone i nie należy opisywać go jako gotowego elementu systemu.
+
+SQL jest źródłem prawdy dla stanu bieżącego. Pliki w `piosenki/migrations/` dokumentują historię dojścia do tego stanu i nie powinny być automatycznie uruchamiane ponownie.
