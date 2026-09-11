@@ -9,6 +9,16 @@
 <style>
 :root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e;--ok:#9bd4a7;--bad:#e0a0a0}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.58}main{max-width:980px;margin:0 auto;padding:30px 20px 70px}h1{font-size:1.95rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.28rem;margin:2.2rem 0 .75rem}h3{font-size:1.05rem;margin:0 0 .45rem}p,li{max-width:82ch}strong,a,code{color:var(--strong)}.meta,.muted{color:var(--muted)}.intro,.pair,.summary{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:15px 17px;margin:1rem 0}.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}.voice{padding:2px 4px}.voice+.voice{border-left:1px solid var(--line);padding-left:18px}.label{display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--strong);margin-bottom:.35rem}.tech{color:var(--muted)}ul{padding-left:1.25rem}.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.term{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel2)}.term strong{display:block;margin-bottom:.25rem}.sql-playlist{margin:.65rem 0;border:1px solid var(--line);border-radius:9px;background:var(--panel2)}.sql-playlist>summary{cursor:pointer;padding:10px 12px;font-weight:700;color:var(--strong)}.sql-body{padding:0 12px 12px}.sql-status{font-size:.86rem;color:var(--muted);margin:.45rem 0}.playlist-head{padding:.75rem 0;border-top:1px solid var(--line)}.playlist-head:first-child{border-top:0}.playlist-links,.track-links{display:flex;gap:7px;flex-wrap:wrap;margin:.45rem 0}.service-link{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 9px;text-decoration:none;font-size:.82rem}.track-list{list-style:none;padding:0;margin:.5rem 0 1rem}.track-row{padding:.65rem 0;border-top:1px solid var(--line)}.track-title{color:var(--text);font-weight:700}.track-meta{color:var(--muted);font-size:.82rem;margin:.15rem 0}.track-link{font-size:.79rem}.id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.ok{color:var(--ok)}.bad{color:var(--bad)}@media(max-width:760px){.pair{grid-template-columns:1fr}.voice+.voice{border-left:0;border-top:1px solid var(--line);padding-left:4px;padding-top:14px}}
+
+.playlist-top{margin:1.25rem 0 1.8rem;padding:16px 18px;border:2px solid var(--line);border-radius:10px;background:var(--panel)}
+.playlist-top h2{margin:.1rem 0 .35rem}
+.playlist-top-intro{margin:.15rem 0 1rem;color:var(--muted)}
+.playlist-top-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}
+.playlist-top-card{padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel2)}
+.playlist-top-card p{margin:.25rem 0 .55rem;color:var(--muted);font-size:.9rem}
+.playlist-top-links{display:flex;gap:7px;flex-wrap:wrap}
+.playlist-top-links a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;text-decoration:none;font-size:.82rem;font-weight:700;color:var(--strong)}
+
 </style>
 </head>
 <body>
@@ -16,6 +26,19 @@
 <p class="meta"><a href="audio.html">← Audio</a> · <a href="index.html">Analiza piosenek</a> · <a href="slowa.html">Słowa</a> · <a href="SOL-audio-clustering-three-island-signatures-two-voices-v01-2026-09-08-en.html" lang="en">English</a></p>
 <h1 id="sygnatury-trzech-wysp-dwa-glosy">Sygnatury 3 wysp — wyniki na dwa głosy</h1>
 <div class="intro"><p><strong>Po co ten plik?</strong> Te same wyniki są opisane dwa razy obok siebie.</p><p><strong>Głos 1</strong> mówi normalnym językiem: co słychać i co to znaczy. <strong>Głos 2</strong> mówi językiem technicznym: jakie cechy sygnału za tym stoją.</p></div>
+<!-- STATIC-PLAYLIST-LINKS -->
+<section class="playlist-top" aria-label="Playlisty do słuchania">
+  <h2>Playlisty do słuchania</h2>
+  <p class="playlist-top-intro">Linki są widoczne od razu, pod opisem. Bez rozwijania sekcji i bez zależności od SQL.</p>
+  <div class="playlist-top-grid">
+    <div class="playlist-top-card"><strong>Głębia</strong><p>Ciemniejsza, basowa, skupiona.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/2XlvqJZUNVjR4KGIpF39nG" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLUK_LdKYWxTk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Światło</strong><p>Jasna, szerokopasmowa, ziarnista.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLdqONEJClykk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Ruch</strong><p>Środek pasma, przepływ i ruch harmoniczny.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/3KEDfDtvGvwWyZINTWm37i" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLeop-pmwxm1w" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Most Głębia ↔ Ruch</strong><p>Największy z mostów między rdzeniami.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLacFJ1WpA7YQ" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Peryferia</strong><p>Najrzadsze akustycznie części mapy.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/4hPcWJRfNQjEef2Re2NRli" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLAFO32rZCzu4" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+  </div>
+</section>
+
 <h2 id="playlisty-sql">Playlisty — SQL</h2>
 <p class="muted">3 wyspy · 3 mosty · peryferia. Listy utworów i linki są ładowane z SQL.</p>
 <details class="sql-playlist" data-sql-tag="wyspa=glebi"><summary>Wyspa Głębi <span class="muted sql-count"></span></summary><div class="sql-body">Pobieram z SQL…</div></details>

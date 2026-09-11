@@ -51,6 +51,16 @@ code{color:var(--strong)}
 .technical a{color:var(--text)}
 .technical ul{padding-left:1.3rem}
 footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+.playlist-top{margin:1.25rem 0 1.8rem;padding:16px 18px;border:2px solid var(--line);border-radius:10px;background:var(--panel)}
+.playlist-top h2{margin:.1rem 0 .35rem}
+.playlist-top-intro{margin:.15rem 0 1rem;color:var(--muted)}
+.playlist-top-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}
+.playlist-top-card{padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel2)}
+.playlist-top-card p{margin:.25rem 0 .55rem;color:var(--muted);font-size:.9rem}
+.playlist-top-links{display:flex;gap:7px;flex-wrap:wrap}
+.playlist-top-links a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;text-decoration:none;font-size:.82rem;font-weight:700;color:var(--strong)}
+
 </style>
 </head>
 <body>
@@ -69,6 +79,19 @@ footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);color
 <h2>What is this about?</h2>
 <p>We took the recordings in the library and treated them as signals rather than as a list of titles, genres or lyrics. So we measure the sound itself: where the energy sits, how much low and high frequency content there is, how the spectrum changes, how concentrated the harmony is, what the attacks look like, how the dynamics behave, what happens in the midrange, and how the stereo field is built.</p>
 <p>After cleaning the data, <strong>856 recordings</strong> remained. They did not form three airtight boxes. Instead, three clear and stable cores emerged: <strong>Depth, Light and Motion</strong>, plus bridges, a transition region and a periphery.</p>
+
+<!-- STATIC-PLAYLIST-LINKS -->
+<section class="playlist-top" aria-label="Playlists to listen to">
+  <h2>Playlists to listen to</h2>
+  <p class="playlist-top-intro">The links are visible immediately, below the description. No collapsed section and no SQL dependency.</p>
+  <div class="playlist-top-grid">
+    <div class="playlist-top-card"><strong>Depth</strong><p>Darker, bass-rich and focused.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/2XlvqJZUNVjR4KGIpF39nG" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLUK_LdKYWxTk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Light</strong><p>Bright, broadband and grainy.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLdqONEJClykk" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Motion</strong><p>Midrange, flow and harmonic movement.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/3KEDfDtvGvwWyZINTWm37i" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLeop-pmwxm1w" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Depth ↔ Motion bridge</strong><p>The largest bridge between the cores.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/42r40qtwg2mOoHDk5Akr9G" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLacFJ1WpA7YQ" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+    <div class="playlist-top-card"><strong>Periphery</strong><p>The acoustically sparsest parts of the map.</p><div class="playlist-top-links"><a href="https://open.spotify.com/playlist/4hPcWJRfNQjEef2Re2NRli" target="_blank" rel="noopener">Spotify ↗</a><a href="https://music.youtube.com/playlist?list=PLAFO32rZCzu4" target="_blank" rel="noopener">YouTube Music ↗</a></div></div>
+  </div>
+</section>
 
 <h2>What we did</h2>
 <div class="grid">
