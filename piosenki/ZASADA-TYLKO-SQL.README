@@ -1,0 +1,4 @@
+TYLKO SQL.
+
+W projekcie piosenki SQL jest jedynym domyślnie dozwolonym źródłem danych.
+XLS/XLSX/CSV/TSV i inne pliki są zakazane jako źródła danych, dopóki użytkownik wyraźnie nie zezwoli na ich użycie w konkretnym poleceniu.
