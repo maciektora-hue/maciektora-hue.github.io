@@ -94,17 +94,23 @@ source_file = Liked songs spotify z dnia 2026-09-11.xlsx
 
 Liked Songs nie ma `external_playlist_id` ani `external_url`, ponieważ nie jest zwykłą publicznie udostępnianą playlistą Spotify.
 
-## 7. Właściciel obecnych playlist
+## 7. Tagi playlist
 
-Wszystkie 10 playlist obecnie załadowanych do SQL są playlistami Maćka Tory i mają tag:
+Aktywne, proste tagi playlist znajdują się w:
 
 ```text
-owner:maciek-tora
+playlist.playlist_tags
 ```
 
-Tag znajduje się w `playlist.tags`, a jego definicja w `playlist_tag_def`.
+To zwykłe `TEXT`, bez JSON. Wartości rozdzielamy średnikami, np.:
 
-To opis obecnego zbioru, nie globalna reguła dla każdej przyszłej playlisty.
+```text
+owner:maciek-tora; wyspa=swiatla
+```
+
+Stara kolumna `playlist.tags` w formacie JSON pozostaje tymczasowo jako warstwa zgodności dla wcześniej zaimportowanych danych. API najpierw czyta `playlist_tags`, a gdy jest puste, używa starego `tags`.
+
+`playlist_tag_def` nadal może służyć jako słownik znaczeń zwykłych tagów.
 
 ## 8. AllTimeBestSpotify
 
@@ -140,25 +146,9 @@ Viewer ma trzy tryby:
 2. utwór (`utwu_id`) → playlisty;
 3. pozycje bez rozstrzygniętego `utwu_id`.
 
-W trybie **utwór → playlisty** nie trzeba już wybierać utworu z pełnej, długiej listy. Viewer ma lokalne wyszukiwanie po:
+W trybie **utwór → playlisty** viewer ma lokalne wyszukiwanie po tytule, artyście i `utwu_id` oraz filtr utworów występujących na więcej niż jednej playliście.
 
-- tytule;
-- artyście;
-- `utwu_id`.
-
-Wyniki zawężają się podczas pisania. Jest też filtr:
-
-```text
-tylko utwory występujące na więcej niż jednej playliście
-```
-
-Przy każdym wyniku viewer pokazuje liczbę playlist, na których dany kanoniczny utwór występuje. Po wybraniu utworu podsumowanie pokazuje liczbę różnych playlist, liczbę zapisanych pozycji oraz liczbę zewnętrznych identyfikatorów prowadzących do tego `utwu_id`.
-
-Wyszukiwanie i filtr są zaimplementowane po stronie statycznego frontendu w JavaScript i działają na danych już pobranych z `GET /api/playlisty`. Nie wymagają dodatkowego endpointu ani zapisu do SQL.
-
-Dla playlist z `external_url` viewer pokazuje klikalny link do serwisu zewnętrznego. Pokazuje też `playlist.tags`.
-
-Liked Songs pojawia się automatycznie z SQL jako nowy snapshot, ale bez przycisku Spotify, ponieważ `external_url` jest `NULL`.
+Viewer czyta publikacje z tagów `spotify_url=...`, `youtube_music_url=...` i `youtube_url=...` i pokazuje osobny klikalny przycisk dla każdego istniejącego adresu. Może więc pokazać Spotify, YouTube Music, oba albo żaden. Dla starszych rekordów nadal obsługuje `playlist.external_url`.
 
 ## 10. API
 
@@ -176,9 +166,9 @@ piosenki/playlist_api.py
 
 API odczytuje metadane `playlist`, pozycje przez `playlist_item → external_track`, jawne mapowania `external_track_utwu` oraz dane kanonicznych utworów z `middle_end`.
 
-Nie wykonuje heurystycznego mapowania i nie modyfikuje SQL.
+Dla zgodności z viewerem aktywne `playlist.playlist_tags` jest wystawiane w odpowiedzi pod istniejącym kluczem `tags`; gdy `playlist_tags` jest puste, API używa starego `playlist.tags`.
 
-Wyszukiwanie utworów i filtr „więcej niż jedna playlista” są obecnie funkcją viewera, nie API.
+Nie wykonuje heurystycznego mapowania i nie modyfikuje SQL.
 
 ## 11. Zasady mapowania
 
@@ -239,8 +229,6 @@ Potwierdzony wynik importu:
 - 869 / 942 ma snapshot tagów;
 - wykryto 33 różnice pól metadanych dla już znanych Spotify ID; istniejących metadanych nie nadpisano.
 
-To oznacza, że względem obecnego Liked Songs brakuje pokrycia tagami dla 73 pozycji: 68 jest już kanonicznie rozpoznanych, ale nie ma przypiętego `lyrics_id` / tagów, a 5 nie ma jeszcze nawet mapowania do `utwu_id`.
-
 Pięć nierozstrzygniętych pozycji:
 
 ```text
@@ -250,8 +238,6 @@ Pięć nierozstrzygniętych pozycji:
 154 Ja pas! — Nosowska
 201 Miłość Miłość — Krzysztof Zalewski
 ```
-
-To są fakty z live API po imporcie, nie heurystyczna lista kandydatów.
 
 ## 14. Migracje i historia
 
@@ -265,20 +251,40 @@ Istotne migracje historii playlist obejmują m.in.:
 - `2026-09-11-populate-external-track-utwu.sql`;
 - `2026-09-11-playlist-item-external-track-pk.sql`;
 - `2026-09-11-alltimebestspotify-external-id.sql`;
-- `2026-09-11-tag-current-playlists-owner-maciek-tora.sql`.
-
-Import Liked Songs był wykonany przez `playlist_importer.py`; nie jest migracją schematu.
+- `2026-09-11-tag-current-playlists-owner-maciek-tora.sql`;
+- `piosenki/migrations/2026-09-11-playlist-plain-tags.sql`.
 
 ## 15. Najkrótsza wersja dla kolejnych czatów
 
 ```text
-playlist = konkretny eksport / snapshot playlisty
-playlist_item = pozycja w tym eksporcie
+playlist = jeden zapis treści playlisty
+playlist_item = zawartość playlisty, bez kopiowania jej dla każdego serwisu
+playlist.playlist_tags = proste tagi tekstowe i adresy publikacji
 external_track = jeden utwór zewnętrznego serwisu, deduplikowany po service + ID
 external_track_utwu = tylko jawne, rozstrzygnięte mapowania do middle_end
 middle_end = kanoniczne utwory projektu
-playlist_importer.py = importer XLSX do powyższego modelu
-playlisty*.html = viewer z wyszukiwaniem title/artist/utwu_id i filtrem >1 playlista
 ```
 
 Nie cofaj modelu do kopiowania title/artist/album na każdej pozycji playlisty. Nie twórz `middle_end` dla nierozpoznanych utworów tylko po to, żeby zapełnić FK. Nie mapuj po tytule / artyście / albumie bez jawnej decyzji.
+
+## 16. Publikacje tej samej playlisty w różnych serwisach
+
+Dla playlist tworzonych przez nas SQL przechowuje zawartość **jeden raz**. Spotify, YouTube Music i ewentualne kolejne serwisy są publikacjami tej samej, mniej więcej zgodnej playlisty, a nie kolejnymi kopiami `playlist_item`.
+
+Adresy publikacji zapisujemy w `playlist.playlist_tags` jako zwykłe tagi tekstowe:
+
+```text
+spotify_url=https://open.spotify.com/playlist/...
+youtube_music_url=https://music.youtube.com/playlist?list=...
+youtube_url=https://www.youtube.com/playlist?list=...
+```
+
+Nie sprawdzamy ani nie przechowujemy różnic typu „na YouTube brakuje trzech utworów”. Transfer może być nieidealny i jest to cecha publikacji zewnętrznej, nie osobna wersja treści w SQL.
+
+Dla **Wyspy Światła** aktywny zapis jest:
+
+```text
+owner:maciek-tora; wyspa=swiatla; spotify_url=https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW; youtube_music_url=https://music.youtube.com/playlist?list=PLdqONEJClykk
+```
+
+Viewer interpretuje nazwy tagów URL, więc wie, który adres jest Spotify, który YouTube Music, i wyświetla odpowiednie przyciski. URL-e nie są pokazywane jako zwykłe tagi tekstowe.
