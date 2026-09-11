@@ -388,6 +388,19 @@ CREATE TABLE IF NOT EXISTS playlist_tag_def (
     description TEXT
 );
 
+-- Zewnętrzne utwory przyniesione przez playlisty.
+-- Jeden rekord = jeden identyfikator utworu w danym serwisie, niezależnie od liczby playlist.
+CREATE TABLE IF NOT EXISTS external_track (
+    external_track_pk INTEGER PRIMARY KEY,
+    service TEXT NOT NULL,
+    external_track_id TEXT NOT NULL,
+    title TEXT,
+    artist TEXT,
+    album TEXT,
+    CHECK (service IN ('spotify', 'youtube_music', 'youtube')),
+    UNIQUE (service, external_track_id)
+);
+
 CREATE TABLE IF NOT EXISTS playlist_item (
     playlist_id TEXT NOT NULL
         REFERENCES playlist(playlist_id)
