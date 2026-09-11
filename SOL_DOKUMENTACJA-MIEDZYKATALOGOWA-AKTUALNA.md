@@ -633,19 +633,18 @@ Znaczenie tabel:
 
 `playlist_item.external_track_pk` jest już wypełnione dla wszystkich obecnych pozycji. Stare pola `playlist_item.utwu_id`, `external_track_id`, `source_name`, `source_artist`, `source_album` nadal istnieją przejściowo, ale viewer/API nie opiera już na nich logiki. Ich fizyczne usunięcie wymaga osobnej migracji cleanupowej.
 
-Aktualny stan danych po migracjach 2026-09-11:
+Aktualny stan live po pierwszym teście bojowym importera 2026-09-11:
 
-- 9 playlist;
-- 919 pozycji `playlist_item`;
-- 636 różnych `external_track`;
-- 543 jawne relacje `external_track ↔ utwu_id`;
-- 824 pozycje playlist rozstrzygają się do `utwu_id` przez nową warstwę;
-- 95 pozycji pozostaje bez `utwu_id`;
-- te 95 pozycji reprezentuje 93 różne `external_track`.
+- 10 playlist;
+- 1861 pozycji `playlist_item`;
+- 1033 różne `external_track` używane przez playlisty;
+- 937 jawnych relacji `external_track ↔ utwu_id`.
+
+Snapshot `spotify:liked-songs:2026-09-11` ma 942 pozycje: 937 z mapowaniem do `utwu_id`, 5 bez mapowania, 869 z `lyrics_id` i snapshotem tagów.
 
 Brak rekordu w `external_track_utwu` oznacza brak rozstrzygniętego mapowania. Nie tworzymy sztucznych rekordów `middle_end` dla zewnętrznych utworów i bez jawnej decyzji nie stosujemy heurystyk tytuł/artysta/album.
 
-Wszystkie 9 playlist obecnie załadowanych do SQL należą do Maćka Tory. Jest to zapisane jako tag:
+Wszystkie 10 playlist obecnie załadowanych do SQL należą do Maćka Tory. Jest to zapisane jako tag:
 
 ```text
 owner:maciek-tora
@@ -689,6 +688,6 @@ Są podlinkowane z publicznych stron `piosenki` oraz `techniczne`. Pokazują:
 
 Dla `AllTimeBestSpotify` viewer pokazuje bezpośredni link do Spotify.
 
-Nowy importer zgodny z warstwą `external_track` nie został jeszcze przygotowany. Jest to celowo odłożone i nie należy opisywać go jako gotowego elementu systemu.
+Importer zgodny z warstwą `external_track` istnieje w `piosenki/playlist_importer.py` i został sprawdzony na snapshotcie Liked Songs z 942 pozycjami. Logika mapowania działa bez heurystyk, ale pierwszy duży import ujawnił problem wydajnościowy: wiele sekwencyjnych operacji Turso spowodowało chwilowy timeout workera / 502. Przed regularnymi dużymi importami importer należy zbatchować i skrócić transakcję.
 
 SQL jest źródłem prawdy dla stanu bieżącego. Pliki w `piosenki/migrations/` dokumentują historię dojścia do tego stanu i nie powinny być automatycznie uruchamiane ponownie.
