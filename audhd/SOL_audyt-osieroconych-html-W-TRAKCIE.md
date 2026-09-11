@@ -2,7 +2,7 @@
 
 Data: 2026-09-11
 
-Status: audyt niezakończony. Ten plik zapisuje stan prac po krokach 1–4.
+Status: audyt niezakończony. Ten plik zapisuje stan prac po krokach 1–5.
 
 ## Cel
 
@@ -89,17 +89,49 @@ Potwierdzone redirecty:
 
 Po uwzględnieniu tych redirectów statycznie osiągalnych jest **37 z 40 HTML-i**.
 
-## Aktualni kandydaci na osierocone HTML-e
+## Krok 5 — klasyfikacja trzech kandydatów
 
-Na tym etapie statycznego audytu nie znaleziono ścieżki z korzeni WWW do trzech plików:
+Po ręcznej analizie trzech nieosiągalnych statycznie plików:
 
-1. `CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
-2. `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
-3. `opis-po-ludzku-20-prac-naukowych.html`
+### 1. `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
 
-Trzeci plik jest dodatkowo jedynie starym redirectem do:
+Klasyfikacja: **stara kopia / poprzednia wersja publikowanego tekstu**.
+
+Aktualna publiczna wersja PL znajduje się pod:
+
+`audhd/rownania/index.html`
+
+Oba pliki mają ten sam tytuł, tę samą konstrukcję i tę samą zasadniczą treść. Wersja w `rownania/index.html` jest elementem bieżącej nawigacji WWW i zawiera dodatkową obsługę przełączania PL/EN. Stary plik `CLAUDE_*` nie jest osiągalny z indeksów serwisu.
+
+Wniosek: **kandydat do przeniesienia do `osierocone-html/audhd/`**.
+
+### 2. `CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
+
+Klasyfikacja: **stara kopia / poprzednia wersja angielskiej wersji publikowanego tekstu**.
+
+Aktualna publiczna wersja EN znajduje się pod:
+
+`audhd/rownania/index-en.html`
+
+Treść, tytuł i konstrukcja odpowiadają wersji aktywnej. Bieżący `rownania/index-en.html` jest podpięty do serwisu oraz posiada przełącznik językowy do wersji PL. Stary plik `CLAUDE_*` nie jest osiągalny ze statycznej nawigacji.
+
+Wniosek: **kandydat do przeniesienia do `osierocone-html/audhd/`**.
+
+### 3. `opis-po-ludzku-20-prac-naukowych.html`
+
+Klasyfikacja: **zbędny, nieużywany redirect pośredni**.
+
+Plik nie zawiera właściwej treści. Przekierowuje do:
 
 `apendyks1-po-ludzku-02_01-2026-08-26.html`
+
+Jednocześnie aktywne wejście:
+
+`audhd/20-prac/index.html`
+
+już bezpośrednio przekierowuje do tego samego właściwego pliku. `opis-po-ludzku-20-prac-naukowych.html` nie jest linkowany z bieżącej struktury WWW.
+
+Wniosek: **kandydat do przeniesienia do `osierocone-html/audhd/`**.
 
 ## Wyłączenie mapy sekcji z analizy linków
 
@@ -111,6 +143,7 @@ Nie jest to brak danych ani niedokończona część audytu, tylko świadome ogra
 
 - HTML łącznie: **40**
 - osiągalne statycznie: **37**
-- kandydaci na sieroty: **3**
+- sklasyfikowane sieroty: **3**
 - dynamiczne `deep_link` z mapy SQL: **poza zakresem audytu**
-- żadnych plików HTML podczas audytu nie przeniesiono ani nie usunięto.
+- wszystkie 3 sieroty mają zachowaną aktywną ścieżkę do odpowiadającej im właściwej treści
+- żadnych plików HTML podczas audytu jeszcze nie przeniesiono ani nie usunięto.
