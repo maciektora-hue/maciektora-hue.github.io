@@ -316,6 +316,9 @@ def statystyki_13():
     )
 
 
+# Rejestruje read-only endpoint playlist w tej samej aplikacji Flask.
+import playlist_api  # noqa: E402,F401
+
 # Rejestruje dodatkowy read-only endpoint Content Explorer w tej samej aplikacji Flask.
 import content_explorer_app  # noqa: E402,F401
 
