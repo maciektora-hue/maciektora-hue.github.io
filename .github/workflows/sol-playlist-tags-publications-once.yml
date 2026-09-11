@@ -1,0 +1,199 @@
+name: SOL playlist tags/publications once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-playlist-tags-publications-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Patch repo files and migrate Turso
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+          import libsql
+
+          def must_replace(text, old, new, label):
+              if old not in text:
+                  raise RuntimeError(f'Nie znaleziono wzorca: {label}')
+              return text.replace(old, new, 1)
+
+          # 1. schema.sql: playlist.tags becomes plain TEXT, no json_valid constraint.
+          schema_path = Path('piosenki/schema.sql')
+          schema = schema_path.read_text(encoding='utf-8')
+          schema = must_replace(
+              schema,
+              "    tags TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(tags)),",
+              "    tags TEXT NOT NULL DEFAULT '',",
+              'schema playlist.tags',
+          )
+          schema_path.write_text(schema, encoding='utf-8')
+
+          # 2. Importer: future playlist tags are semicolon-separated plain text.
+          importer_path = Path('piosenki/playlist_importer.py')
+          importer = importer_path.read_text(encoding='utf-8')
+          importer = importer.replace('import json\n', '', 1)
+          importer = must_replace(
+              importer,
+              '''def _tags_json(tags: list[str]) -> str:\n    out = []\n    for tag in tags:\n        tag = tag.strip()\n        if tag and tag not in out:\n            out.append(tag)\n    return json.dumps(out, ensure_ascii=False, separators=(",", ":"))\n''',
+              '''def _tags_text(tags: list[str]) -> str:\n    out = []\n    for tag in tags:\n        tag = tag.strip()\n        if tag and tag not in out:\n            out.append(tag)\n    return "; ".join(out)\n''',
+              'importer tags helper',
+          )
+          importer = must_replace(importer, '_tags_json(tags)', '_tags_text(tags)', 'importer helper call')
+          importer_path.write_text(importer, encoding='utf-8')
+
+          # 3. Viewer PL/EN: parse plain tags and render publication links from URL tags.
+          viewers = [
+              ('piosenki/playlisty.html', 'właściciel: Maciek Tora', 'brak tagów', 'Otwórz w'),
+              ('piosenki/playlisty-en.html', 'owner: Maciek Tora', 'no tags', 'Open in'),
+          ]
+          for filename, owner_label, empty_label, open_label in viewers:
+              path = Path(filename)
+              html = path.read_text(encoding='utf-8')
+              old = (
+                  "const displayTag=t=>t==='owner:maciek-tora'?" + json.dumps(owner_label, ensure_ascii=False) + ":t;\n"
+                  "const fmtTags=s=>{try{return JSON.parse(s||'[]').map(t=>`<span class=\"tag\">${esc(displayTag(t))}</span>`).join(' ')||'<span class=\"muted\">" + empty_label + "</span>'}catch{return esc(s||'—')}};"
+              )
+              new = (
+                  "const displayTag=t=>t==='owner:maciek-tora'?" + json.dumps(owner_label, ensure_ascii=False) + ":t;\n"
+                  "const parseTags=s=>{const raw=String(s??'').trim();if(!raw)return[];try{const x=JSON.parse(raw);if(Array.isArray(x))return x.map(String).map(x=>x.trim()).filter(Boolean)}catch{}return raw.split(';').map(x=>x.trim()).filter(Boolean)};\n"
+                  "const publicationTag=t=>/^(spotify_url|youtube_music_url|youtube_url)=/.test(t);\n"
+                  "const fmtTags=s=>{const tags=parseTags(s).filter(t=>!publicationTag(t));return tags.map(t=>`<span class=\"tag\">${esc(displayTag(t))}</span>`).join(' ')||'<span class=\"muted\">" + empty_label + "</span>'};\n"
+                  "function publicationLinks(p){const links=[],seen=new Set();const add=(label,url)=>{url=String(url||'').trim();if(!/^https?:\\/\\//i.test(url)||seen.has(url))return;seen.add(url);links.push(`<a class=\"service-link\" href=\"${esc(url)}\" target=\"_blank\" rel=\"noopener\">▶ ${label} ↗</a>`)};for(const t of parseTags(p.tags)){if(t.startsWith('spotify_url='))add('Spotify',t.slice('spotify_url='.length));else if(t.startsWith('youtube_music_url='))add('YouTube Music',t.slice('youtube_music_url='.length));else if(t.startsWith('youtube_url='))add('YouTube',t.slice('youtube_url='.length))}if(p.external_url)add(p.service==='spotify'?'Spotify':p.service==='youtube_music'?'YouTube Music':p.service==='youtube'?'YouTube':" + json.dumps(open_label, ensure_ascii=False) + ",p.external_url);return links.length?`<div class=\"playlist-links\">${links.join(' ')}</div>`:''}"
+              )
+              html = must_replace(html, old, new, f'{filename} tag parser')
+              old_render = "const serviceLink=p.external_url?`<div class=\"playlist-links\"><a class=\"service-link\" href=\"${esc(p.external_url)}\" target=\"_blank\" rel=\"noopener\">▶ " + open_label + " ${p.service==='spotify'?'Spotify':'service'} ↗</a></div>`:'';"
+              if filename.endswith('playlisty.html'):
+                  old_render = "const serviceLink=p.external_url?`<div class=\"playlist-links\"><a class=\"service-link\" href=\"${esc(p.external_url)}\" target=\"_blank\" rel=\"noopener\">▶ Otwórz w ${p.service==='spotify'?'Spotify':'serwisie'} ↗</a></div>`:'';"
+              html = must_replace(html, old_render, 'const serviceLinks=publicationLinks(p);', f'{filename} serviceLink')
+              html = must_replace(html, '${fmtTags(p.tags)}${serviceLink}', '${fmtTags(p.tags)}${serviceLinks}', f'{filename} serviceLinks output')
+              path.write_text(html, encoding='utf-8')
+
+          # 4. Documentation: append current plain-tag publication convention.
+          doc_path = Path('SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md')
+          doc = doc_path.read_text(encoding='utf-8')
+          marker = '## 16. Publikacje tej samej playlisty w różnych serwisach'
+          if marker not in doc:
+              doc += '''\n\n## 16. Publikacje tej samej playlisty w różnych serwisach\n\n`playlist.tags` jest zwykłym polem `TEXT`. Nie ma obowiązku JSON i nie ma `json_valid(tags)`. Tagi zapisujemy jako prosty tekst rozdzielany średnikami.\n\nDla własnej playlisty zawartość istnieje w SQL jeden raz. Publikacje tej samej, w przybliżeniu zgodnej playlisty na Spotify / YouTube Music nie tworzą osobnych kopii `playlist_item`. Adresy publikacji zapisujemy jako tagi URL, np.:\n\n```text\nowner:maciek-tora; wyspa=swiatla; spotify_url=https://open.spotify.com/playlist/...; youtube_music_url=https://music.youtube.com/playlist?list=...\n```\n\nZnaczenie:\n\n- `spotify_url=...` — adres publikacji Spotify;\n- `youtube_music_url=...` — adres publikacji YouTube Music;\n- `youtube_url=...` — zwykły YouTube, jeśli kiedyś będzie potrzebny.\n\nNie zakładamy zgodności 1:1 zawartości między SQL a serwisami zewnętrznymi. Kilka brakujących / zamienionych pozycji po transferze nie powoduje tworzenia osobnych snapshotów ani duplikowania listy utworów w SQL.\n\nViewer `playlisty.html` / `playlisty-en.html` odczytuje te tagi i pokazuje osobne klikalne przyciski Spotify, YouTube Music lub oba. Dla starszych rekordów nadal obsługuje `playlist.external_url`.\n'''
+          doc_path.write_text(doc, encoding='utf-8')
+
+          # 5. Live Turso migration, idempotent.
+          token = os.environ.get('TURSO_AUTH_TOKEN')
+          if not token:
+              raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+          conn = libsql.connect(database=os.environ['TURSO_DATABASE_URL'], auth_token=token)
+          table_sql_row = conn.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='playlist'").fetchone()
+          if not table_sql_row:
+              raise RuntimeError('Brak tabeli playlist')
+          table_sql = table_sql_row[0]
+          indexes = [r[1] for r in conn.execute("SELECT name, sql FROM sqlite_master WHERE type='index' AND tbl_name='playlist' AND sql IS NOT NULL").fetchall()]
+          triggers = [r[0] for r in conn.execute("SELECT sql FROM sqlite_master WHERE type='trigger' AND tbl_name='playlist' AND sql IS NOT NULL").fetchall()]
+
+          if 'json_valid(tags)' in table_sql:
+              new_sql = re.sub(
+                  r"tags\\s+TEXT\\s+NOT\\s+NULL\\s+DEFAULT\\s+'\\[\\]'\\s+CHECK\\s*\\(\\s*json_valid\\s*\\(\\s*tags\\s*\\)\\s*\\)",
+                  "tags TEXT NOT NULL DEFAULT ''",
+                  table_sql,
+                  count=1,
+                  flags=re.I,
+              )
+              if new_sql == table_sql:
+                  raise RuntimeError('Nie udało się usunąć CHECK json_valid(tags)')
+              new_sql = re.sub(r'^CREATE TABLE\\s+["`]?playlist["`]?', 'CREATE TABLE playlist_new', new_sql, count=1, flags=re.I)
+              conn.execute('PRAGMA foreign_keys = OFF')
+              conn.execute('BEGIN')
+              try:
+                  conn.execute(new_sql)
+                  conn.execute('INSERT INTO playlist_new SELECT * FROM playlist')
+                  conn.execute('DROP TABLE playlist')
+                  conn.execute('ALTER TABLE playlist_new RENAME TO playlist')
+                  for sql in indexes:
+                      conn.execute(sql)
+                  for sql in triggers:
+                      conn.execute(sql)
+                  conn.execute('COMMIT')
+              except Exception:
+                  conn.execute('ROLLBACK')
+                  raise
+              conn.execute('PRAGMA foreign_keys = ON')
+
+          # Convert legacy JSON-list tag strings to plain semicolon text.
+          rows = conn.execute('SELECT playlist_id, tags FROM playlist').fetchall()
+          for playlist_id, tags in rows:
+              raw = tags or ''
+              try:
+                  parsed = json.loads(raw)
+              except Exception:
+                  parsed = None
+              if isinstance(parsed, list):
+                  text = '; '.join(str(x).strip() for x in parsed if str(x).strip())
+                  conn.execute('UPDATE playlist SET tags=? WHERE playlist_id=?', (text, playlist_id))
+
+          target = conn.execute(
+              "SELECT playlist_id, name, tags FROM playlist WHERE playlist_id=?",
+              ('spotify:wyspa-swiatla:2026-09-11',),
+          ).fetchone()
+          if target is None:
+              matches = conn.execute("SELECT playlist_id, name, tags FROM playlist WHERE name='Wyspa Światła'").fetchall()
+              if len(matches) != 1:
+                  raise RuntimeError('Nie znaleziono jednoznacznie playlisty Wyspa Światła: ' + repr(matches))
+              target = matches[0]
+
+          playlist_id, name, raw_tags = target
+          tokens = [x.strip() for x in (raw_tags or '').split(';') if x.strip()]
+          tokens = [x for x in tokens if not (x.startswith('spotify_url=') or x.startswith('youtube_music_url=') or x.startswith('youtube_url=') or x == 'wyspa=swiatla')]
+          if 'owner:maciek-tora' not in tokens:
+              tokens.append('owner:maciek-tora')
+          tokens += [
+              'wyspa=swiatla',
+              'spotify_url=https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW',
+              'youtube_music_url=https://music.youtube.com/playlist?list=PLdqONEJClykk',
+          ]
+          tags_text = '; '.join(tokens)
+          conn.execute('UPDATE playlist SET tags=? WHERE playlist_id=?', (tags_text, playlist_id))
+          conn.commit()
+
+          final_sql = conn.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='playlist'").fetchone()[0]
+          check = conn.execute('PRAGMA foreign_key_check').fetchall()
+          row = conn.execute('SELECT playlist_id, name, tags FROM playlist WHERE playlist_id=?', (playlist_id,)).fetchone()
+          print('PLAYLIST_TABLE_SQL=' + final_sql)
+          print('FOREIGN_KEY_CHECK=' + repr(check))
+          print('SWIATLO=' + repr(row))
+          if 'json_valid(tags)' in final_sql:
+              raise RuntimeError('json_valid(tags) nadal istnieje')
+          if check:
+              raise RuntimeError('foreign_key_check failed: ' + repr(check))
+          if 'spotify_url=https://open.spotify.com/playlist/272wzPwVUjxBmqJ8eNQsTW' not in row[2]:
+              raise RuntimeError('Brak Spotify URL po migracji')
+          if 'youtube_music_url=https://music.youtube.com/playlist?list=PLdqONEJClykk' not in row[2]:
+              raise RuntimeError('Brak YouTube Music URL po migracji')
+          conn.close()
+          print('PLAYLIST_TAGS_PUBLICATIONS_OK')
+          PY
+
+      - name: Commit repo changes
+        run: |
+          git config user.name "SOL automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add piosenki/schema.sql piosenki/playlist_importer.py piosenki/playlisty.html piosenki/playlisty-en.html SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md
+          git commit -m "Use plain playlist tags and publication links"
+          git push
