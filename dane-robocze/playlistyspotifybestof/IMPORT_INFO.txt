@@ -1,4 +1,12 @@
-files=9
-items=919
-schema=playlist + playlist_item
-mapping=spotify_id -> utwu_id only when exactly one middle_end row matches
+files=10
+playlists=10
+items=1861
+external_tracks=1033
+external_track_utwu=937
+schema=playlist -> playlist_item -> external_track -> external_track_utwu -> middle_end
+mapping=provider_id -> utwu_id only when exactly one middle_end row matches; no title/artist/album heuristics
+liked_songs_snapshot=spotify:liked-songs:2026-09-11
+liked_songs_items=942
+liked_songs_mapped=937
+liked_songs_unmapped=5
+liked_songs_with_tag_snapshot=869
