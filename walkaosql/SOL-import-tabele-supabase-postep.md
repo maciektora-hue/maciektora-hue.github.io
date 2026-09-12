@@ -13,9 +13,10 @@ Zrobione:
 - `tag_catalog` — 165
 - `tag_axis` — 329
 - `audio_match_details` — 182
+- `content_keyword_concepts` — 602
 
 Do ponowienia:
 - `content_documents`
 - `audio_middle_end`
 
-Następna: `content_keyword_concepts`.
+Następna: `external_track_utwu`.
