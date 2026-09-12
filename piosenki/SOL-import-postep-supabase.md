@@ -10,13 +10,15 @@ Udane paczki: 16
 - 1 × 10 linijek
 - 5 × 50 linijek
 
-Pominięto 50 linijek: `lyrics-000157`–`lyrics-000202`.
+Pominięte paczki:
+- 50 linijek: `lyrics-000157`–`lyrics-000202`
+- 50 linijek: `lyrics-000304`–`lyrics-000354`
 
-Sprawdzenie pominiętej paczki:
+Sprawdzenie pominiętych paczek:
 - cudzysłowy poprawnie domknięte
 - każde polecenie poprawnie domknięte
-- 50 z 50 linii poprawnych składniowo
+- każda paczka ma 50 z 50 linii poprawnych składniowo
 
 Ostatnio wstawiona paczka: 50 linijek, `lyrics-000253`–`lyrics-000303`.
 
-Następna paczka: od `lyrics-000304`.
+Następna paczka: od `lyrics-000355`.
