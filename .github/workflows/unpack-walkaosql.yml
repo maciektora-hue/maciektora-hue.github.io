@@ -1,4 +1,4 @@
-name: unpack walkaosql zip
+name: unpack and split walkaosql
 
 on:
   push:
@@ -20,14 +20,19 @@ jobs:
           mkdir -p walkaosql/rozpakowane
           unzip -o walkaosql/happy-hue-octopus-backup.sql.zip -d walkaosql/rozpakowane
 
-      - name: Commit unpacked files
+      - name: Split SQL into one file per table
+        run: |
+          set -e
+          python3 walkaosql/split_sql_by_table.py
+
+      - name: Commit unpacked and split files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add walkaosql/rozpakowane
+          git add walkaosql/rozpakowane walkaosql/tabele
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Unpack walkaosql ZIP"
+          git commit -m "Unpack and split walkaosql by table"
           git push
