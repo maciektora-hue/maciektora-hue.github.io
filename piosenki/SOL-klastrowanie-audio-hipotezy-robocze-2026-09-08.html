@@ -3,16 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Klastrowanie audio — hipotezy robocze</title>
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Dwa konkurencyjne modele struktury brzmieniowej biblioteki: pełny podział na klastry oraz wyspy połączone strefami przejściowymi.">
+<title>Dwa modele mapy brzmienia</title>
 <style>
 :root{
   color-scheme:dark;
   --bg:#18231f;
   --panel:#223129;
   --text:#e7c27a;
+  --strong:#f3d796;
   --muted:#c7b58d;
   --line:#556b5e;
 }
+*{box-sizing:border-box}
 body{
   margin:0;
   background:var(--bg);
@@ -21,9 +25,10 @@ body{
   line-height:1.55;
 }
 main{max-width:820px;margin:0 auto;padding:28px 20px 56px}
-h1{font-size:1.8rem;line-height:1.2;margin:0 0 .35rem}
-h2{font-size:1.2rem;margin-top:1.8rem}
+h1{font-size:clamp(2.2rem,7vw,4.5rem);line-height:1;margin:.3rem 0 .7rem;color:var(--strong);letter-spacing:-.03em}
+h2{font-size:1.2rem;margin-top:1.8rem;color:var(--strong)}
 p,li{max-width:74ch}
+a{color:var(--strong)}
 .meta,.muted{color:var(--muted)}
 .box{
   border:1px solid var(--line);
@@ -32,71 +37,56 @@ p,li{max-width:74ch}
   border-radius:8px;
   margin:1rem 0
 }
-strong{color:#f1d38f}
-code{color:#f1d38f}
+strong{color:var(--strong)}
 </style>
 </head>
 <body>
 <main>
 
-<h1>KLASTRUJEMY</h1>
-<p class="meta">2026-09-08 · hipotezy robocze po sanityzacji audio 1.0</p>
+<p class="meta"><a href="audio.html">← Audio</a> · <a href="SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html">Porównanie wyników</a> · <a href="SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html">Dlaczego trzy wyspy?</a></p>
+
+<h1>Dwa modele mapy brzmienia</h1>
 
 <div class="box">
-<strong>Stan:</strong> zbiór audio po sanityzacji 1.0 ma 856 rekordów.
-Aktualna baza: <code>audio_features_v08.csv</code>.
-Na tym zbiorze zaczynamy właściwe eksperymenty klastrowe.
+<strong>Punkt wyjścia:</strong> zanim powstała mapa trzech wysp, porównywane były dwa różne sposoby opisu całej biblioteki. Jeden zakładał pełny podział na klastry. Drugi dopuszczał gęste wyspy otoczone obszarem przejściowym.
 </div>
 
-<h2>Hipoteza 1 — klastry wprost</h2>
-<p><strong>Autor roboczy: SOL.</strong></p>
+<h2>Model 1 — klastry wprost</h2>
 <p>
-Zakładamy, że cały zbiór można sensownie podzielić na kilka klastrów.
-Każdy utwór dostaje przynależność do jednego z nich.
-Szukamy liczby klastrów, dla której podział jest możliwie stabilny,
-a grupy różnią się akustycznie w interpretowalny sposób.
+Zakładamy, że cały zbiór można sensownie podzielić na kilka grup, a każdy utwór należy do jednej z nich. Szukamy takiej liczby klastrów, przy której podział jest stabilny, a grupy różnią się akustycznie w sposób dający się interpretować.
 </p>
 <p>
-Pierwsze testy sugerują, że szczególnie stabilny jest podział na
-<strong>dwa szerokie makroklastry</strong>, a większa liczba grup daje raczej
-archetypy z miękkimi granicami niż ostre, naturalne kategorie.
+Pierwsze testy pokazały, że szerokie podziały mogą być stabilne, ale wraz ze zwiększaniem liczby grup granice stają się coraz mniej naturalne. Zamiast wyraźnych kategorii pojawiają się raczej archetypy z miękkimi przejściami.
 </p>
 
-<h2>Hipoteza 2 — wyspy + reszta</h2>
-<p><strong>Autor roboczy: Maciek.</strong></p>
+<h2>Model 2 — wyspy i strefy przejściowe</h2>
 <p>
-Nie zakładamy, że każdy utwór musi należeć do klastra.
-Szukamy kilku <strong>gęstych i stabilnych wysp</strong>, a pozostałe utwory
-mogą tworzyć kontynent, strefy przejściowe, mosty między wyspami
-albo zbiór bez wyraźnej struktury klastrowej.
+Nie zakładamy, że każdy utwór musi należeć do wyraźnego klastra. Szukamy kilku <strong>gęstych i stabilnych wysp</strong>, a pozostałe utwory mogą tworzyć mosty, strefy przejściowe, peryferia albo obszary bez ostrej struktury klastrowej.
 </p>
 <p>
-Liczba i wielkość wysp nie są z góry ustalone.
-Przykład „5 wysp po około 10%” był tylko ilustracją idei,
-nie parametrem modelu.
+Liczba i wielkość wysp nie są ustalone z góry. Istotne jest to, czy rdzenie pozostają podobne mimo zmiany parametrów, zestawu cech i szerokości przyjętej „linii brzegowej”.
 </p>
 <p>
-Pierwsza próba tego podejścia pokazała, że po pozostawieniu części utworów
-bez przypisania rdzenie stają się wyraźniej odseparowane niż przy
-wymuszeniu pełnego podziału całego zbioru.
+To podejście szybko okazało się bardziej użyteczne: po pozostawieniu części utworów poza rdzeniami wyspy stawały się wyraźniejsze niż przy wymuszaniu pełnego podziału całej biblioteki.
 </p>
 
-<h2>Co porównujemy</h2>
+<h2>Co porównywano</h2>
 <ul>
-  <li>stabilność klastrów / wysp przy zmianie próbki i parametrów,</li>
+  <li>stabilność grup przy zmianie próbki i parametrów,</li>
   <li>separację między grupami,</li>
-  <li>interpretowalność cech definiujących grupy,</li>
-  <li>udział utworów, które naprawdę należą do rdzeni,</li>
-  <li>strukturę reszty: kontynent, mosty, peryferie, samotne punkty.</li>
+  <li>odporność wyniku na zmianę zestawu cech audio,</li>
+  <li>udział utworów należących do dobrze określonych rdzeni,</li>
+  <li>strukturę obszaru pomiędzy rdzeniami: mosty, strefy przejściowe i peryferia.</li>
 </ul>
 
-<h2>Status metodologiczny</h2>
+<h2>Co wygrało</h2>
 <p>
-Obie hipotezy są obecnie <strong>robocze</strong>.
-Nie wybieramy zwycięzcy z góry.
-Celem następnych analiz jest sprawdzenie, która lepiej opisuje
-rzeczywistą geometrię zbioru audio.
+Dalsze analizy wskazały, że lepszym opisem jest <strong>krajobraz, nie pudełka</strong>: kilka stabilnych rdzeni połączonych ciągłą przestrzenią przejściową. Jako główną rozdzielczość mapy przyjęto później <strong>trzy wyspy</strong>.
 </p>
+
+<div class="box">
+<strong>Aktualny kierunek:</strong> trzy główne wyspy brzmienia + mosty + strefa przejściowa + peryferia. Dokładne porównanie obu modeli i liczby stojące za tym wyborem są opisane w kolejnych analizach.
+</div>
 
 </main>
 </body>
