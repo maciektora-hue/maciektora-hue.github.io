@@ -17,9 +17,10 @@ Zrobione:
 - `external_track_utwu` — 937
 - `content_section_keywords` — 1298
 - `content_keyword_terms` — 1214
+- `content_section_metrics` — 958
 
 Do ponowienia:
 - `content_documents`
 - `audio_middle_end`
 
-Następna: `content_section_metrics`.
+Następna: `external_track`.
