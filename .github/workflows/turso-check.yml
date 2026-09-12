@@ -19,98 +19,51 @@ jobs:
       - name: Install libsql
         run: pip install libsql
 
-      - name: Test read and write on Turso
+      - name: Update AllTimeBest playlist links in Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
           import os
-          import uuid
           from datetime import datetime, timezone
           from pathlib import Path
+          import libsql
 
           status_path = Path('piosenki/SOL-turso-status.txt')
           stamp = datetime.now(timezone.utc).isoformat()
+          playlist_id = 'spotify:alltimebest'
+          playlist_tags = 'owner:maciek-tora; spotify_url=https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9; youtube_music_url=https://music.youtube.com/playlist?list=PLFZzzP8gJ7jU'
 
-          try:
-              import libsql
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=os.environ['TURSO_AUTH_TOKEN'],
+          )
+          conn.execute(
+              'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
+              (playlist_tags, playlist_id),
+          )
+          conn.commit()
 
-              token = os.environ.get('TURSO_AUTH_TOKEN')
-              if not token:
-                  raise RuntimeError('BRAK SECRETU TURSO_ADMIN_TOKEN')
+          row = conn.execute(
+              'SELECT playlist_id, playlist_tags FROM playlist WHERE playlist_id = ?',
+              (playlist_id,),
+          ).fetchone()
+          print('PLAYLIST_LINKS=' + repr(row))
+          if row != (playlist_id, playlist_tags):
+              raise RuntimeError('Nie potwierdzono aktualizacji AllTimeBestSpotify')
 
-              conn = libsql.connect(
-                  database=os.environ['TURSO_DATABASE_URL'],
-                  auth_token=token,
-              )
-
-              ping = conn.execute('SELECT 1').fetchone()
-              if not ping or ping[0] != 1:
-                  raise RuntimeError(f'SELECT 1 zwrocil: {ping!r}')
-
-              # Aktualizacja wyłącznie linków publikacji dwóch istniejących playlist.
-              conn.execute(
-                  'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
-                  (
-                      'owner:maciek-tora; wyspa=ruchu; spotify_url=https://open.spotify.com/playlist/2YlZZSyoSy7Qv18czLiyS8; youtube_music_url=https://music.youtube.com/playlist?list=PLTg92mmd7R7U',
-                      'spotify:wyspa-ruchu:2026-09-11',
-                  ),
-              )
-              conn.execute(
-                  'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
-                  (
-                      'owner:maciek-tora; wyspa=glebi; spotify_url=https://open.spotify.com/playlist/2XlvqJZUNVjR4KGIpF39nG; youtube_music_url=https://music.youtube.com/playlist?list=PLUK_LdKYWxTk',
-                      'spotify:wyspa-glebi:2026-09-11',
-                  ),
-              )
-              conn.commit()
-
-              rows = conn.execute(
-                  "SELECT playlist_id, playlist_tags FROM playlist WHERE playlist_id IN ('spotify:wyspa-ruchu:2026-09-11', 'spotify:wyspa-glebi:2026-09-11') ORDER BY playlist_id"
-              ).fetchall()
-              print('PLAYLIST_LINKS=' + repr(rows))
-
-              test_id = '__sol_connection_test__' + uuid.uuid4().hex
-              test_text = 'dupa | dupa | chuj'
-
-              try:
-                  conn.execute(
-                      'INSERT INTO lyrics (lyrics_id, lyrics_text) VALUES (?, ?)',
-                      (test_id, test_text),
-                  )
-                  row = conn.execute(
-                      'SELECT lyrics_id, lyrics_text FROM lyrics WHERE lyrics_id = ?',
-                      (test_id,),
-                  ).fetchone()
-
-                  if not row or row[0] != test_id or row[1] != test_text:
-                      raise RuntimeError(f'BLEDNY ODCZYT PO ZAPISIE: {row!r}')
-              finally:
-                  conn.rollback()
-
-              status_path.write_text(
-                  f'OK\nUTC={stamp}\nREAD=1\nWRITE_READ=dupa | dupa | chuj\nROLLBACK=OK\nPLAYLIST_LINKS=UPDATED\n',
-                  encoding='utf-8',
-              )
-              print('TURSO_OK')
-              print('dupa | dupa | chuj')
-          except Exception as exc:
-              status_path.write_text(
-                  f'FAIL\nUTC={stamp}\nERROR={type(exc).__name__}: {exc}\n',
-                  encoding='utf-8',
-              )
-              print(f'TURSO_FAIL: {type(exc).__name__}: {exc}')
+          status_path.write_text(
+              f'OK\nUTC={stamp}\nALLTIMEBEST_LINKS=UPDATED\n',
+              encoding='utf-8',
+          )
+          conn.close()
           PY
 
-      - name: Save test result to repository
+      - name: Save result to repository
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add piosenki/SOL-turso-status.txt
-          git diff --cached --quiet || git commit -m "Turso connection test result"
+          git diff --cached --quiet || git commit -m "Turso AllTimeBest links update result"
           git push
-
-      - name: Fail workflow if Turso test failed
-        run: |
-          grep -q '^OK$' piosenki/SOL-turso-status.txt
