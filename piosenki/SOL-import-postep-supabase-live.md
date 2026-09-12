@@ -4,8 +4,11 @@ Tabela: `tag_snapshots`
 
 Wstawiłem 420 linijek.
 
-Pominięto 100 linijek.
+Pominięto 150 linijek.
 
 Ostatnio wstawione: 50 linijek, `lyrics-000460`–`lyrics-000509`.
 
-Następna paczka: 50 linijek od `lyrics-000510`.
+Ostatnio pominięte: 50 linijek, `lyrics-000510`–`lyrics-000558`.
+Sprawdzenie: cudzysłowy domknięte, 50/50 linii poprawnych.
+
+Następna paczka: 50 linijek od `lyrics-000559`.
