@@ -21,6 +21,7 @@ Zrobione:
 - `external_track` — 1033
 - `middle_end` — 977
 - `playlist_item` — 2403
+- `content_sections` — 967
 
 Do ponowienia:
 - `content_documents`
@@ -28,4 +29,4 @@ Do ponowienia:
 - `audio`
 - `tag_snapshots`
 
-Następna: `content_sections`.
+Następna: `lyrics`.
