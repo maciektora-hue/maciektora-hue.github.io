@@ -11,8 +11,9 @@ Zrobione:
 - `tag_valence` — 76
 - `tag_group` — 165
 - `tag_catalog` — 165
+- `tag_axis` — 329
 
 Do ponowienia:
 - `content_documents`
 
-Następna: `tag_axis`.
+Następna: `audio_middle_end`.
