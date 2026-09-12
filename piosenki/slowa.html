@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="description" content="Analiza znaczeń w tekstach piosenek: tagi semantyczne, zmiany w czasie, relacje między motywami i hipotezy do sprawdzania.">
 <title>Słowa — analiza tekstów piosenek</title>
 <link rel="alternate" hreflang="pl" href="slowa.html">
 <link rel="alternate" hreflang="en" href="slowa-en.html">
@@ -31,7 +32,6 @@ h3{font-size:1.05rem;margin:.15rem 0 .45rem;color:var(--strong)}
 p,li{max-width:84ch}
 a{color:var(--strong);text-decoration-thickness:1px;text-underline-offset:3px}
 strong{color:var(--strong)}
-code{color:var(--strong)}
 .meta,.muted{color:var(--muted)}
 .hero,.card,.note{
   border:1px solid var(--line);background:var(--panel);
@@ -45,13 +45,6 @@ code{color:var(--strong)}
 .note{background:var(--panel2)}
 .big-question{font-size:1.22rem;line-height:1.5;max-width:72ch}
 .routes a{display:block;margin:.45rem 0}
-.technical{
-  margin-top:2.7rem;padding-top:1.3rem;border-top:1px solid var(--line);
-  color:var(--muted);font-size:.91rem
-}
-.technical h2,.technical h3{color:var(--muted)}
-.technical a{color:var(--text)}
-.technical ul{padding-left:1.3rem}
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
 </style>
 </head>
@@ -63,9 +56,9 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <p class="big-question">Co wraca w tekstach piosenek, co znika, co zaczyna występować razem i jak zmienia się to wraz z kolejnymi polubieniami?</p>
 
 <div class="hero">
-<p><strong>Tu jeszcze nie ma jednego efektownego wniosku, który streszcza cały projekt w jednym zdaniu.</strong></p>
-<p>I to jest w porządku. Ta gałąź jest na etapie budowania mapy znaczeń: mamy już uporządkowane teksty, tagi, ontologię i serię analiz, ale dopiero szukamy wzoru, który będzie jednocześnie mocny statystycznie, stabilny w czasie i sensowny po ludzku.</p>
-<p class="muted">Czyli zamiast produkować „wow” na zamówienie, próbujemy sprawdzić, czy ono w ogóle istnieje. Niezwykle nieefektywne z punktu widzenia marketingu, całkiem rozsądne z punktu widzenia analizy.</p>
+<p><strong>Ta część projektu buduje mapę znaczeń zawartych w tekstach piosenek.</strong></p>
+<p>Mamy uporządkowane teksty, tagi semantyczne i serię analiz. Szukamy wzorów, które są jednocześnie wyraźne w danych, stabilne w czasie i sensowne po ludzku.</p>
+<p class="muted">Nie zakładamy z góry, jaki wynik ma się pojawić. Najpierw patrzymy, co faktycznie utrzymuje się w danych.</p>
 </div>
 
 <h2>Co właściwie analizujemy</h2>
@@ -77,27 +70,27 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <div class="grid">
   <div class="card">
     <h3>1. Teksty dostały własną tożsamość</h3>
-    <p>Tekst piosenki nie jest luźnym plikiem obok tytułu. Jest osobnym rekordem spiętym z kanonicznym utworem i może mieć własne kolejne wyniki tagowania.</p>
+    <p>Tekst piosenki jest osobnym rekordem spiętym z utworem i może mieć własne kolejne wyniki tagowania.</p>
   </div>
   <div class="card">
     <h3>2. Zbudowaliśmy język opisu</h3>
     <p>Tagi są uporządkowane w większe struktury: osie, grupy i rodziny. Dzięki temu można przechodzić od pojedynczego motywu do większego obszaru znaczeniowego.</p>
   </div>
   <div class="card">
-    <h3>3. Rozdzieliliśmy różne rzeczy</h3>
-    <p>Tag, walencja, kierunek i biegunowość nie są jednym numerem. Są osobnymi warstwami, bo „nieprzyjemne”, „od czegoś” i „ujemny biegun osi” to nie są synonimy, choć ludzkość z zapałem próbuje nimi czasem zostać.</p>
+    <h3>3. Rozdzieliliśmy różne warstwy znaczenia</h3>
+    <p>Tag, walencja, kierunek i biegunowość są analizowane osobno. „Nieprzyjemne”, „od czegoś” i „ujemny biegun osi” nie oznaczają tego samego.</p>
   </div>
   <div class="card">
     <h3>4. Dodaliśmy czas</h3>
-    <p>Analizy mogą być liczone w przesuwanych oknach kolejnych polubień. To pozwala oglądać trend bez udawania, że data kalendarzowa jest ważniejsza od rzeczywistej kolejności zdarzeń.</p>
+    <p>Analizy mogą być liczone w przesuwanych oknach kolejnych polubień. Pozwala to oglądać zmianę profilu bez uzależniania jej od arbitralnych przedziałów kalendarzowych.</p>
   </div>
   <div class="card">
     <h3>5. Liczymy relacje</h3>
-    <p>Nie tylko „ile czego jest”, ale też co rośnie razem, co się rozjeżdża, co przecina się w czasie i co pojawia się razem w tych samych tekstach.</p>
+    <p>Sprawdzamy nie tylko ile czego jest, ale też co rośnie razem, co się rozchodzi, co przecina się w czasie i co pojawia się wspólnie w tych samych tekstach.</p>
   </div>
   <div class="card">
-    <h3>6. Dane siedzą w SQL</h3>
-    <p>Warstwa źródłowa i wyniki tagowania są przechowywane w Turso / SQLite, a analizy są liczone serwerowo. Czyli przestaliśmy udawać, że tysiąc plików CSV to baza danych.</p>
+    <h3>6. Dane tworzą jedną spójną warstwę</h3>
+    <p>Teksty, tagi i wyniki analiz są ze sobą powiązane, dzięki czemu te same utwory można oglądać z wielu perspektyw bez ręcznego składania osobnych zbiorów.</p>
   </div>
 </div>
 
@@ -106,22 +99,22 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
   <div class="card">
     <h3>Szeroki przegląd</h3>
     <p>Tagi, osie, rodziny, walencja, kierunek, czas i współwystępowania w jednym wejściu.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/13">→ 13 analiz</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/13">→ Otwórz 13 analiz</a>
   </div>
   <div class="card">
     <h3>Zmiany w czasie</h3>
     <p>Jak tagi, osie i rodziny zachowują się w kolejnych fragmentach historii polubień.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ czas zdarzeniowy</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ Otwórz analizę zmian w czasie</a>
   </div>
   <div class="card">
     <h3>Relacje</h3>
-    <p>Pary i trójki tagów na wspólnej osi czasu. Tu można sprawdzać, czy dwie rzeczy naprawdę idą razem, czy tylko tak nam się wydawało.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ relacje między tagami</a>
+    <p>Pary i trójki tagów na wspólnej osi czasu. Tu można sprawdzać, czy dwie rzeczy rzeczywiście zmieniają się razem.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ Otwórz relacje między tagami</a>
   </div>
   <div class="card">
     <h3>Hipotezy</h3>
     <p>Gotowe zestawy znaczeń do sprawdzania pod kątem wspólnych wzrostów, spadków, przecięć i zmian relacji.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ hipotezy czasowe</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ Otwórz hipotezy czasowe</a>
   </div>
 </div>
 
@@ -137,7 +130,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
   </div>
   <div class="card">
     <h3>Układy zamiast pojedynczych tagów</h3>
-    <p>Czy ciekawszą informacją jest np. nie sam gniew, lęk czy bliskość, lecz zestaw rzeczy, które zaczynają im regularnie towarzyszyć.</p>
+    <p>Czy ciekawszą informacją jest nie sam gniew, lęk czy bliskość, lecz zestaw rzeczy, które zaczynają im regularnie towarzyszyć.</p>
   </div>
   <div class="card">
     <h3>Przejścia</h3>
@@ -148,33 +141,19 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <h2>Co byłoby naprawdę ciekawym wynikiem</h2>
 <div class="note">
 <p>Nie kolejny wykres z linią idącą trochę do góry.</p>
-<p>Ciekawy wynik powinien przetrwać kilka sposobów patrzenia na dane naraz: być widoczny na poziomie tagów, mieć sens na poziomie osi lub rodzin, utrzymywać się w czasie i dawać się opisać zwykłym językiem bez torturowania statystyki do momentu, aż coś wyzna.</p>
-<p><strong>Na taki wynik właśnie polujemy.</strong></p>
+<p>Ciekawy wynik powinien przetrwać kilka sposobów patrzenia na dane naraz: być widoczny na poziomie tagów, mieć sens na poziomie osi lub rodzin, utrzymywać się w czasie i dawać się opisać zwykłym językiem.</p>
+<p><strong>Takiego wyniku szukamy.</strong></p>
 </div>
 
-<h2>Starsze, prostsze widoki</h2>
+<h2>Prostsze widoki</h2>
 <div class="grid">
-  <div class="card"><h3>Tagi</h3><p>Globalne sumy tagów.</p><a href="tagi-sumy.html">→ tagi-sumy.html</a></div>
-  <div class="card"><h3>Osie</h3><p>Agregacja tagów do osi.</p><a href="osie-sumy.html">→ osie-sumy.html</a></div>
-  <div class="card"><h3>Rodziny</h3><p>Najwyższy poziom agregacji.</p><a href="rodziny-sumy.html">→ rodziny-sumy.html</a></div>
-</div>
-
-<div class="technical">
-<h2>Dokumentacja i techniczne bebechy</h2>
-<p>Dla osób, które wolą sprawdzić, z czego to jest zrobione, zamiast wierzyć ładnej stronie internetowej. Słuszny odruch.</p>
-<ul>
-  <li><a href="sol-o-co-kaman-HTML-v01-00.html">Architektura danych — „O co kaman”</a></li>
-  <li><a href="SOL-audyt-danych-2026-09-07.html">Audyt danych tekstowych</a></li>
-  <li><a href="SOL_statystyki-analityczne-dokumentacja.md">Dokumentacja analiz statystycznych</a></li>
-  <li><a href="sol-ontologia-tagow-TXT-v01-03.txt">Ontologia tagów</a></li>
-  <li><a href="sol-definicje-tagow-CSV-v01-02.csv">Definicje tagów</a></li>
-  <li><a href="schema.sql">Schemat SQL</a></li>
-</ul>
-<p class="muted">Warstwa audio jest celowo osobna: <a href="audio.html">audio.html</a>. Tam badamy sygnał. Tutaj badamy znaczenie.</p>
+  <div class="card"><h3>Tagi</h3><p>Globalne sumy tagów.</p><a href="tagi-sumy.html">→ Zobacz tagi</a></div>
+  <div class="card"><h3>Osie</h3><p>Agregacja tagów do osi.</p><a href="osie-sumy.html">→ Zobacz osie</a></div>
+  <div class="card"><h3>Rodziny</h3><p>Najwyższy poziom agregacji.</p><a href="rodziny-sumy.html">→ Zobacz rodziny</a></div>
 </div>
 
 <footer>
-Słowa są obecnie gałęzią eksploracyjną projektu. Najważniejszy wynik nie został jeszcze wybrany z góry i oby tak zostało do momentu, aż dane faktycznie na niego zasłużą.
+Warstwa audio jest opisana osobno na stronie <a href="audio.html">Audio</a>. Tutaj analizujemy znaczenie tekstów i jego zmiany w czasie.
 </footer>
 
 </main>
