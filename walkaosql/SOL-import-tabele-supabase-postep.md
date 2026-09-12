@@ -6,10 +6,13 @@ Zrobione:
 - `content_meta` — 4
 - `families` — 5
 - `tag_groups` — 12
+- `axes` — 17
 - `playlist` — 17
 - `tag_valence` — 76
+- `tag_group` — 165
+- `tag_catalog` — 165
 
 Do ponowienia:
-- `axes`
+- `content_documents`
 
-Następna: `axes`.
+Następna: `tag_axis`.
