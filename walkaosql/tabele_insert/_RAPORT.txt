@@ -1,0 +1,31 @@
+Źródło: walkaosql/rozpakowane/happy-hue-octopus-backup.sql.tsv
+Tryb: tylko INSERT
+Liczba tabel z INSERT: 27
+
+audio	856 INSERT	audio.sql
+audio_feature_snapshots	856 INSERT	audio_feature_snapshots.sql
+audio_match_details	182 INSERT	audio_match_details.sql
+audio_middle_end	191 INSERT	audio_middle_end.sql
+axes	17 INSERT	axes.sql
+content_collections	2 INSERT	content_collections.sql
+content_documents	34 INSERT	content_documents.sql
+content_keyword_concepts	602 INSERT	content_keyword_concepts.sql
+content_keyword_terms	1214 INSERT	content_keyword_terms.sql
+content_meta	4 INSERT	content_meta.sql
+content_section_keywords	1298 INSERT	content_section_keywords.sql
+content_section_metrics	958 INSERT	content_section_metrics.sql
+content_sections	967 INSERT	content_sections.sql
+external_track	1033 INSERT	external_track.sql
+external_track_utwu	937 INSERT	external_track_utwu.sql
+families	5 INSERT	families.sql
+lyrics	882 INSERT	lyrics.sql
+middle_end	977 INSERT	middle_end.sql
+playlist	17 INSERT	playlist.sql
+playlist_item	2403 INSERT	playlist_item.sql
+playlist_tag_def	1 INSERT	playlist_tag_def.sql
+tag_axis	329 INSERT	tag_axis.sql
+tag_catalog	165 INSERT	tag_catalog.sql
+tag_group	165 INSERT	tag_group.sql
+tag_groups	12 INSERT	tag_groups.sql
+tag_snapshots	888 INSERT	tag_snapshots.sql
+tag_valence	76 INSERT	tag_valence.sql
