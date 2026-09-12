@@ -30,14 +30,19 @@ jobs:
           set -e
           python3 walkaosql/split_inserts_by_table.py
 
-      - name: Commit unpacked and split files
+      - name: Extract CREATE TABLE commands
+        run: |
+          set -e
+          python3 walkaosql/extract_create_tables.py
+
+      - name: Commit generated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add walkaosql/rozpakowane walkaosql/tabele walkaosql/tabele_insert
+          git add walkaosql/rozpakowane walkaosql/tabele walkaosql/tabele_insert walkaosql/create_tables.sql
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Generate full and INSERT-only SQL files by table"
+          git commit -m "Generate SQL table files and CREATE TABLE file"
           git push
