@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="description" content="Analysis of meaning in song lyrics: semantic tags, changes over time, relationships between motifs and hypotheses to test.">
 <title>Lyrics — song text analysis</title>
 <link rel="alternate" hreflang="pl" href="slowa.html">
 <link rel="alternate" hreflang="en" href="slowa-en.html">
@@ -45,13 +46,6 @@ code{color:var(--strong)}
 .note{background:var(--panel2)}
 .big-question{font-size:1.22rem;line-height:1.5;max-width:72ch}
 .routes a{display:block;margin:.45rem 0}
-.technical{
-  margin-top:2.7rem;padding-top:1.3rem;border-top:1px solid var(--line);
-  color:var(--muted);font-size:.91rem
-}
-.technical h2,.technical h3{color:var(--muted)}
-.technical a{color:var(--text)}
-.technical ul{padding-left:1.3rem}
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
 </style>
 </head>
@@ -63,9 +57,8 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <p class="big-question">What keeps returning in song lyrics, what disappears, what starts occurring together, and how does all of that change across successive likes?</p>
 
 <div class="hero">
-<p><strong>There is not yet one spectacular conclusion that can summarise the entire project in a single sentence.</strong></p>
-<p>And that is fine. This branch is still at the stage of building a map of meaning: the lyrics, tags, ontology and a series of analyses are already organised, but we are still looking for a pattern that is statistically strong, stable over time and meaningful in ordinary language.</p>
-<p class="muted">So instead of manufacturing a “wow” result on demand, we are checking whether one actually exists. Terribly inefficient from a marketing perspective, quite reasonable from an analytical one.</p>
+<p><strong>This part of the project maps meaning in the lyrics.</strong></p>
+<p>The lyrics, semantic tags and a series of analyses are already organised. The goal is to find patterns that are statistically strong, stable over time and meaningful in ordinary language.</p>
 </div>
 
 <h2>What are we actually analysing?</h2>
@@ -77,7 +70,7 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <div class="grid">
   <div class="card">
     <h3>1. Lyrics have their own identity</h3>
-    <p>A song text is not a loose file sitting next to a title. It is a separate record linked to the canonical track and it can have successive tagging results of its own.</p>
+    <p>A song text is a separate record linked to the canonical track and it can have successive tagging results of its own.</p>
   </div>
   <div class="card">
     <h3>2. We built a language of description</h3>
@@ -85,19 +78,19 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
   </div>
   <div class="card">
     <h3>3. We separated different concepts</h3>
-    <p>A tag, valence, direction and polarity are not one number. They are separate layers, because “unpleasant”, “away from something” and “the negative pole of an axis” are not synonyms, although humanity occasionally seems determined to make them so.</p>
+    <p>A tag, valence, direction and polarity are separate layers. “Unpleasant”, “away from something” and “the negative pole of an axis” describe different things.</p>
   </div>
   <div class="card">
     <h3>4. We added time</h3>
-    <p>Analyses can be calculated in moving windows over successive likes. This lets us inspect trends without pretending that calendar dates matter more than the actual sequence of events.</p>
+    <p>Analyses can be calculated in moving windows over successive likes. This lets us inspect trends using the actual sequence of events.</p>
   </div>
   <div class="card">
     <h3>5. We calculate relationships</h3>
-    <p>Not only “how much of each thing there is”, but also what rises together, what diverges, what crosses over time and what appears together in the same lyrics.</p>
+    <p>Not only how much of each thing there is, but also what rises together, what diverges, what crosses over time and what appears together in the same lyrics.</p>
   </div>
   <div class="card">
-    <h3>6. The data live in SQL</h3>
-    <p>The source layer and tagging results are stored in Turso / SQLite, while the analyses are calculated server-side. In other words, we have stopped pretending that a thousand CSV files constitute a database.</p>
+    <h3>6. One consistent data layer</h3>
+    <p>Source data and tagging results are kept in one consistent data layer, while the analytical views are calculated from it.</p>
   </div>
 </div>
 
@@ -106,22 +99,22 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
   <div class="card">
     <h3>Broad overview</h3>
     <p>Tags, axes, families, valence, direction, time and co-occurrence in one entry point.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/13">→ 13 analyses</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/13">→ Open the overview</a>
   </div>
   <div class="card">
     <h3>Changes over time</h3>
     <p>How tags, axes and families behave across successive parts of the liking history.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ event-based time</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/czas">→ Explore changes over time</a>
   </div>
   <div class="card">
     <h3>Relationships</h3>
-    <p>Pairs and triplets of tags on a common time axis. This is where we can check whether two things really move together or whether we merely thought they did.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ relationships between tags</a>
+    <p>Pairs and triplets of tags on a common time axis. This shows whether two things actually move together.</p>
+    <a href="https://piosenki-api.onrender.com/statystyki/relacje">→ Explore relationships</a>
   </div>
   <div class="card">
     <h3>Hypotheses</h3>
     <p>Prepared sets of meanings to test for shared rises, falls, crossings and changes in relationships.</p>
-    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ temporal hypotheses</a>
+    <a href="https://piosenki-api.onrender.com/statystyki/hipotezy">→ Explore hypotheses</a>
   </div>
 </div>
 
@@ -148,33 +141,19 @@ footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color
 <h2>What would count as a genuinely interesting result?</h2>
 <div class="note">
 <p>Not another chart with a line going slightly upwards.</p>
-<p>An interesting result should survive several ways of looking at the data at once: it should be visible at the tag level, make sense at the axis or family level, persist over time and be describable in ordinary language without torturing the statistics until they confess.</p>
-<p><strong>That is the kind of result we are hunting for.</strong></p>
+<p>An interesting result should survive several ways of looking at the data at once: it should be visible at the tag level, make sense at the axis or family level, persist over time and be describable in ordinary language.</p>
+<p><strong>That is the kind of result we are looking for.</strong></p>
 </div>
 
 <h2>Older, simpler views</h2>
 <div class="grid">
-  <div class="card"><h3>Tags</h3><p>Global tag counts.</p><a href="tagi-sumy.html">→ tagi-sumy.html</a></div>
-  <div class="card"><h3>Axes</h3><p>Aggregation of tags into axes.</p><a href="osie-sumy.html">→ osie-sumy.html</a></div>
-  <div class="card"><h3>Families</h3><p>The highest aggregation level.</p><a href="rodziny-sumy.html">→ rodziny-sumy.html</a></div>
-</div>
-
-<div class="technical">
-<h2>Documentation and technical innards</h2>
-<p>For people who would rather check what this is made of than trust a polished webpage. A sensible instinct.</p>
-<ul>
-  <li><a href="sol-o-co-kaman-HTML-v01-00.html">Data architecture — “O co kaman”</a></li>
-  <li><a href="SOL-audyt-danych-2026-09-07.html">Text-data audit</a></li>
-  <li><a href="SOL_statystyki-analityczne-dokumentacja.md">Statistical-analysis documentation</a></li>
-  <li><a href="sol-ontologia-tagow-TXT-v01-03.txt">Tag ontology</a></li>
-  <li><a href="sol-definicje-tagow-CSV-v01-02.csv">Tag definitions</a></li>
-  <li><a href="schema.sql">SQL schema</a></li>
-</ul>
-<p class="muted">The audio layer is deliberately separate: <a href="audio-en.html">audio-en.html</a>. There we analyse the signal. Here we analyse meaning.</p>
+  <div class="card"><h3>Tags</h3><p>Global tag counts.</p><a href="tagi-sumy.html">→ View tags</a></div>
+  <div class="card"><h3>Axes</h3><p>Aggregation of tags into axes.</p><a href="osie-sumy.html">→ View axes</a></div>
+  <div class="card"><h3>Families</h3><p>The highest aggregation level.</p><a href="rodziny-sumy.html">→ View families</a></div>
 </div>
 
 <footer>
-The lyrics branch is currently exploratory. Its main conclusion has not been chosen in advance, and it should stay that way until the data genuinely earn one.
+The lyrics branch is exploratory. Its main conclusion has not been chosen in advance; the point is to let stable patterns emerge from the data.
 </footer>
 
 </main>
