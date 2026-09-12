@@ -5,8 +5,11 @@ Zrobione:
 - `content_collections` — 2
 - `families` — 5
 - `tag_groups` — 12
+- `playlist` — 17
+- `tag_valence` — 76
 
 Do ponowienia:
 - `content_meta`
+- `axes`
 
-Następna: `axes`.
+Następna: `tag_group`.
