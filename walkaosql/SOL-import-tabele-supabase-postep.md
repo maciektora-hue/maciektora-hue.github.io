@@ -25,10 +25,10 @@ Zrobione:
 - `lyrics` — 882
 - `audio_feature_snapshots` — 856
 - `content_documents` — 34
+- `audio_middle_end` — 191
 
 Do ponowienia:
-- `audio_middle_end`
 - `audio`
 - `tag_snapshots`
 
-Następna: `audio_middle_end`.
+Następna: `audio`.
