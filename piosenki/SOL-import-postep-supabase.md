@@ -2,9 +2,10 @@
 
 Tabela: `tag_snapshots`
 
-Wstawiłem 120 linijek.
+Wstawiłem 170 linijek.
 
-Paczki:
+Udane paczki: 14
+
 - 10 × 1 linijka
 - 1 × 10 linijek
-- 2 × 50 linijek
+- 3 × 50 linijek
