@@ -15,9 +15,10 @@ Zrobione:
 - `audio_match_details` — 182
 - `content_keyword_concepts` — 602
 - `external_track_utwu` — 937
+- `content_section_keywords` — 1298
 
 Do ponowienia:
 - `content_documents`
 - `audio_middle_end`
 
-Następna: `content_section_keywords`.
+Następna: `content_keyword_terms`.
