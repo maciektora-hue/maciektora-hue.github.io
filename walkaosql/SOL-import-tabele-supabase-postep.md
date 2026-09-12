@@ -18,9 +18,13 @@ Zrobione:
 - `content_section_keywords` — 1298
 - `content_keyword_terms` — 1214
 - `content_section_metrics` — 958
+- `external_track` — 1033
+- `middle_end` — 977
 
 Do ponowienia:
 - `content_documents`
 - `audio_middle_end`
+- `audio`
+- `tag_snapshots`
 
-Następna: `external_track`.
+Następna: `playlist_item`.
