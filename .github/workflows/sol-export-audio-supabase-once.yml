@@ -1,0 +1,63 @@
+name: SOL export audio for Supabase once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-export-audio-supabase-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Export audio read-only
+        env:
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          import libsql
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=os.environ['TURSO_AUTH_TOKEN'],
+          )
+          rows = conn.execute('''
+              SELECT audio_id, source_filename, source_relative_path,
+                     youtube_video_id, file_size_mb, duration_seconds,
+                     sample_rate_hz, channels, imported_at
+              FROM audio
+              ORDER BY audio_id
+          ''').fetchall()
+          cols = [d[0] for d in conn.execute('SELECT * FROM audio LIMIT 0').description]
+          expected = ['audio_id','source_filename','source_relative_path','youtube_video_id','file_size_mb','duration_seconds','sample_rate_hz','channels','imported_at']
+          if cols != expected:
+              raise RuntimeError(f'Nieoczekiwany schemat audio: {cols}')
+          if len(rows) != 856:
+              raise RuntimeError(f'Nieoczekiwana liczba audio: {len(rows)} zamiast 856')
+          with open('SOL_audio-live-856.tsv', 'w', encoding='utf-8', newline='') as f:
+              w = csv.writer(f, delimiter='\t', lineterminator='\n')
+              w.writerow(expected)
+              w.writerows(rows)
+          print('AUDIO_ROWS=856')
+          conn.close()
+          PY
+
+      - name: Upload private artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SOL_audio-live-856
+          path: SOL_audio-live-856.tsv
+          retention-days: 1
