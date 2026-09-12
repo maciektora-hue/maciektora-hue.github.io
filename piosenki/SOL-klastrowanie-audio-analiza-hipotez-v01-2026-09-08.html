@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KLASTRUJEMY — analiza dwóch hipotez</title>
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Porównanie dwóch sposobów opisu struktury brzmieniowej biblioteki: twardych klastrów oraz gęstych wysp połączonych strefami przejściowymi.">
+<title>Krajobraz zamiast klastrów — porównanie hipotez</title>
 <style>
 :root{
   color-scheme:dark;
@@ -17,7 +19,8 @@ body{
   line-height:1.55
 }
 main{max-width:900px;margin:0 auto;padding:28px 20px 64px}
-h1{font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}
+a{color:var(--strong)}
+h1{font-size:clamp(2.2rem,7vw,4.5rem);line-height:1.02;margin:.35rem 0 .5rem;color:var(--strong);font-weight:650;letter-spacing:-.03em}
 h2{font-size:1.25rem;margin:2rem 0 .65rem}
 h3{font-size:1.05rem;margin:1.35rem 0 .35rem}
 p,li{max-width:78ch}
@@ -37,65 +40,39 @@ strong{color:var(--strong)}
   border-radius:8px;overflow:hidden;max-width:540px
 }
 .bar span{display:block;height:100%;background:#c49c52}
-code,pre{color:var(--strong)}
-pre{
-  white-space:pre-wrap;word-break:break-word;background:var(--panel2);
-  border:1px solid var(--line);padding:12px 14px;border-radius:7px
-}
-details{margin-top:1.2rem;border-top:1px solid var(--line);padding-top:.8rem}
-summary{cursor:pointer;font-weight:700}
 .small{font-size:.93rem}
 </style>
 </head>
 <body>
 <main>
 
-<h1>KLASTRUJEMY — analiza dwóch hipotez</h1>
-<p class="meta">2026-09-08 · audio_features_v08.csv · 856 utworów · po sanityzacji 1.0</p>
+<p class="meta"><a href="audio.html">← Audio</a> · <a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">Mapa brzmienia</a></p>
+<h1>Krajobraz zamiast klastrów</h1>
+<p class="meta">Porównanie dwóch sposobów opisu struktury brzmieniowej · 856 utworów</p>
 
 <div class="verdict">
-<strong>Wniosek główny:</strong> hipoteza „klastry wprost” działa jako bardzo gruby opis,
-ale słabo jako pełna mapa. Hipoteza „wyspy + reszta” lepiej opisuje strukturę szczegółową,
-jednak liczba <strong>5</strong> nie okazuje się uprzywilejowana przez dane.
-Najlepszy model roboczy to <strong>kontynent / strefy przejściowe z kilkoma gęstszymi wyspami</strong>,
-a na bardzo grubym poziomie można dodatkowo mówić o kilku makroregionach.
+<strong>Wniosek główny:</strong> twarde klastry działają jako bardzo gruby opis, ale słabo jako pełna mapa. Model „wyspy + reszta” lepiej opisuje strukturę szczegółową, jednak liczba <strong>5</strong> nie okazuje się uprzywilejowana przez dane. Najlepszy opis to <strong>ciągły krajobraz z kilkoma gęstszymi wyspami i strefami przejściowymi</strong>, a na bardzo grubym poziomie można dodatkowo mówić o kilku makroregionach.
 </div>
 
 <h2>Co dokładnie porównano</h2>
 <p>
-Analizę wykonano w dwóch niezależnych reprezentacjach cech:
-(1) 22 interpretowalne cechy wysokiego poziomu, m.in. widmo, pasma częstotliwości,
-aktywność, chroma i rytm; (2) szersze 43 cechy z dodatkowymi MFCC i kontrastami widmowymi.
-Celowo pominięto długość pliku, parametry techniczne, stereo oraz surową głośność/mastering,
-żeby źródło nagrania nie udawało gustu.
+Analizę wykonano w dwóch niezależnych reprezentacjach cech: (1) 22 interpretowalne cechy wysokiego poziomu, m.in. widmo, pasma częstotliwości, aktywność, chroma i rytm; (2) szersze 43 cechy z dodatkowymi MFCC i kontrastami widmowymi. Pominięto długość pliku, parametry techniczne, stereo oraz surową głośność/mastering, żeby źródło nagrania nie udawało gustu.
 </p>
 <p>
-Cechy zostały przycięte na skrajnych 1%/99%, skalowane odpornie i zredukowane PCA
-do 90% wariancji. Sprawdzano K-means, Gaussian Mixture, stabilność na losowych próbkach 80%,
-rdzenie pięciu centrów oraz HDBSCAN, który sam może zostawić część danych bez klastra.
+Cechy zostały przycięte na skrajnych 1%/99%, skalowane odpornie i zredukowane PCA do 90% wariancji. Sprawdzano K-means, Gaussian Mixture, stabilność na losowych próbkach 80%, rdzenie pięciu centrów oraz HDBSCAN, który sam może zostawić część danych bez klastra.
 </p>
 
 <h2>Hipoteza 1 — klastry wprost</h2>
 <p>
-Jeśli każemy <strong>każdej</strong> piosence należeć do klastra, najlepszy wynik K-means
-pojawia się przy <strong>k=2</strong>. W zwartej reprezentacji silhouette wynosi około
-<strong>0,197</strong>, w bogatszej około <strong>0,342</strong>.
-Podział jest stabilny przy ponownym losowaniu danych: ARI około <strong>0,92–0,94</strong>.
+Jeśli każemy <strong>każdej</strong> piosence należeć do klastra, najlepszy wynik K-means pojawia się przy <strong>k=2</strong>. W zwartej reprezentacji silhouette wynosi około <strong>0,197</strong>, w bogatszej około <strong>0,342</strong>. Podział jest stabilny przy ponownym losowaniu danych: ARI około <strong>0,92–0,94</strong>.
 </p>
 
 <div class="box">
-<strong>Ale:</strong> dwa stabilne podziały k=2 z dwóch reprezentacji cech
-<em>nie dzielą piosenek tak samo</em> (ARI pomiędzy nimi ≈ 0).
-Czyli „dwa klastry” są stabilne <strong>w ramach danego sposobu patrzenia</strong>,
-ale nie są jedną niepodważalną naturalną granicą zbioru.
+<strong>Ale:</strong> dwa stabilne podziały k=2 z dwóch reprezentacji cech <em>nie dzielą piosenek tak samo</em> (ARI pomiędzy nimi ≈ 0). Czyli „dwa klastry” są stabilne <strong>w ramach danego sposobu patrzenia</strong>, ale nie są jedną niepodważalną naturalną granicą zbioru.
 </div>
 
 <p>
-Przy większej liczbie klastrów separacja szybko słabnie.
-Dla k=5 silhouette spada do około <strong>0,12–0,13</strong>.
-Stabilność k=5 również jest niższa: około <strong>0,64–0,81</strong> zależnie od reprezentacji.
-Inne kryteria nie wybierają tej samej liczby grup:
-Gaussian Mixture według BIC wskazuje 3 komponenty, według AIC 8.
+Przy większej liczbie klastrów separacja szybko słabnie. Dla k=5 silhouette spada do około <strong>0,12–0,13</strong>. Stabilność k=5 również jest niższa: około <strong>0,64–0,81</strong> zależnie od reprezentacji. Inne kryteria nie wybierają tej samej liczby grup: Gaussian Mixture według BIC wskazuje 3 komponenty, według AIC 8.
 </p>
 
 <div class="metric"><strong>K-means, pełny zbiór — silhouette, wersja interpretowalna</strong></div>
@@ -104,25 +81,18 @@ Gaussian Mixture według BIC wskazuje 3 komponenty, według AIC 8.
 <div class="small">k=5 · 0,130</div><div class="bar"><span style="width:43%"></span></div>
 <div class="small">k=8 · 0,109</div><div class="bar"><span style="width:36%"></span></div>
 
-<p><strong>Ocena H1:</strong> częściowo trafna. Istnieją szerokie osie / makroregiony,
-ale wymuszony pełny podział na kilka twardych klas daje granice bardziej administracyjne
-niż geograficzne.</p>
+<p><strong>Ocena:</strong> częściowo trafna. Istnieją szerokie osie i makroregiony, ale wymuszony pełny podział na kilka twardych klas daje granice bardziej administracyjne niż geograficzne.</p>
 
-<h2>Hipoteza 2 — pięć wysp + reszta</h2>
+<h2>Hipoteza 2 — wyspy + reszta</h2>
 <p>
-Tu pięć centrów pozostaje, ale nie wymagamy, żeby każdy utwór dostał obywatelstwo.
-Do wysp wpuszczamy tylko piosenki wyraźnie bliższe jednemu centrum niż pozostałym.
-Próg można przesuwać, więc wielkość wysp <strong>nie jest z góry zadana</strong>.
+Tu pięć centrów pozostaje, ale nie wymagamy, żeby każdy utwór dostał obywatelstwo. Do wysp wpuszczamy tylko piosenki wyraźnie bliższe jednemu centrum niż pozostałym. Próg można przesuwać, więc wielkość wysp <strong>nie jest z góry zadana</strong>.
 </p>
 
 <p>
-Efekt jest konsekwentny: im bardziej trzymamy się rdzeni, tym wyraźniejsza separacja.
-Dla przykładowego poziomu, w którym rdzenie obejmują 40% zbioru,
-pięć wysp ma silhouette około <strong>0,280</strong> zamiast <strong>0,130</strong>
-dla pełnego k=5. W szerszej reprezentacji wynik jest podobny: około <strong>0,270</strong>.
+Efekt jest konsekwentny: im bardziej trzymamy się rdzeni, tym wyraźniejsza separacja. Dla przykładowego poziomu, w którym rdzenie obejmują 40% zbioru, pięć wysp ma silhouette około <strong>0,280</strong> zamiast <strong>0,130</strong> dla pełnego k=5. W szerszej reprezentacji wynik jest podobny: około <strong>0,270</strong>.
 </p>
 
-<div class="metric"><strong>Pięć wysp — separacja w zależności od tego, ile zbioru uznamy za rdzenie</strong></div>
+<div class="metric"><strong>Pięć wysp — separacja w zależności od wielkości rdzeni</strong></div>
 <div class="small">20% zbioru · 0,343</div><div class="bar"><span style="width:86%"></span></div>
 <div class="small">30% · 0,309</div><div class="bar"><span style="width:77%"></span></div>
 <div class="small">40% · 0,280</div><div class="bar"><span style="width:70%"></span></div>
@@ -130,96 +100,46 @@ dla pełnego k=5. W szerszej reprezentacji wynik jest podobny: około <strong>0,
 <div class="small">60% · 0,221</div><div class="bar"><span style="width:55%"></span></div>
 
 <p>
-Nie ma jednak ostrego progu, w którym natura mówi: „od tego miejsca zaczyna się ocean”.
-Separacja pogarsza się <strong>płynnie</strong> wraz z poszerzaniem wysp.
-To jest właśnie sygnał struktury ciągłej, a nie pięciu odciętych archipelagów.
+Nie ma jednak ostrego progu, w którym natura mówi: „od tego miejsca zaczyna się ocean”. Separacja pogarsza się <strong>płynnie</strong> wraz z poszerzaniem wysp. To jest sygnał struktury ciągłej, a nie kilku odciętych archipelagów.
 </p>
 
 <h3>Czy akurat pięć?</h3>
 <p>
-Nie. To najważniejsza korekta hipotezy. Kiedy HDBSCAN dostał swobodę samodzielnego
-wyboru liczby gęstych obszarów i odrzucania reszty, najczęściej znajdował
-<strong>bardzo mało wyraźnych rdzeni</strong>. Przy większej rozdzielczości potrafił
-rozbić je na 3, 4, 5 i więcej małych wysp. Dokładnie pięć pojawia się jako
-sensowna rozdzielczość robocza, ale nie jako magiczna liczba wynikająca z danych.
+Nie. To najważniejsza korekta hipotezy. Kiedy HDBSCAN dostał swobodę samodzielnego wyboru liczby gęstych obszarów i odrzucania reszty, najczęściej znajdował <strong>bardzo mało wyraźnych rdzeni</strong>. Przy większej rozdzielczości potrafił rozbić je na 3, 4, 5 i więcej małych wysp. Dokładnie pięć jest sensowną rozdzielczością roboczą, ale nie magiczną liczbą wynikającą z danych.
 </p>
 
 <h3>A co robi reszta?</h3>
 <p>
-Przy ilustracyjnym wariancie pięciu rdzeni obejmujących 40% zbioru zostaje
-<strong>513 utworów</strong>. W grafie 3 najbliższych sąsiadów cała ta reszta tworzy
-<strong>jeden połączony komponent</strong>. Wynik jest taki sam w obu reprezentacjach cech.
-To wspiera obraz <strong>kontynentu / mostów / stref przejściowych</strong>,
-a nie worka niezależnych odpadków pomiędzy wyspami.
+Przy wariancie pięciu rdzeni obejmujących 40% zbioru zostaje <strong>513 utworów</strong>. W grafie 3 najbliższych sąsiadów cała ta reszta tworzy <strong>jeden połączony komponent</strong>. Wynik jest taki sam w obu reprezentacjach cech. To wspiera obraz <strong>mostów i stref przejściowych</strong>, a nie worka niezależnych odpadków pomiędzy wyspami.
 </p>
 
 <div class="box">
-<strong>Dodatkowy argument za wyspami:</strong> piosenki, które są rdzeniami w obu
-reprezentacjach cech, zachowują podobny podział na wyspy (ARI ≈ <strong>0,73</strong>).
-Pełny podział k=5 jest między reprezentacjami wyraźnie mniej zgodny (ARI ≈ <strong>0,37</strong>).
-Rdzenie są więc bardziej odporne na zmianę „okularów”, przez które oglądamy audio.
+<strong>Dodatkowy argument za wyspami:</strong> piosenki, które są rdzeniami w obu reprezentacjach cech, zachowują podobny podział na wyspy (ARI ≈ <strong>0,73</strong>). Pełny podział k=5 jest między reprezentacjami wyraźnie mniej zgodny (ARI ≈ <strong>0,37</strong>). Rdzenie są więc bardziej odporne na zmianę „okularów”, przez które oglądamy audio.
 </div>
 
 <h2>Werdykt</h2>
 <p>
-<strong>Hipoteza 1: NIE ODRZUCAMY.</strong> Przydaje się do bardzo grubego opisu:
-zbiór ma szerokie kierunki i można go przeciąć na kilka makroregionów.
-Nie traktujemy jednak tych granic jako twardych klas muzyki.
+<strong>Hipoteza 1:</strong> przydaje się do bardzo grubego opisu. Zbiór ma szerokie kierunki i można go przeciąć na kilka makroregionów. Nie warto jednak traktować tych granic jako twardych klas muzyki.
 </p>
 <p>
-<strong>Hipoteza 2: WYGRYWA jako model szczegółowy, ale po korekcie.</strong>
-Nie „dokładnie pięć wysp”, tylko:
-<strong>kilka gęstszych, stabilniejszych rdzeni + duży połączony obszar przejściowy</strong>.
-Liczba wysp zależy od rozdzielczości analizy.
+<strong>Hipoteza 2:</strong> lepiej opisuje strukturę szczegółową, ale po korekcie. Nie chodzi o „dokładnie pięć wysp”, tylko o <strong>kilka gęstszych, stabilniejszych rdzeni + duży połączony obszar przejściowy</strong>. Liczba wysp zależy od rozdzielczości analizy.
 </p>
 
 <div class="verdict">
-<strong>Model roboczy 1.0:</strong><br>
+<strong>Najlepszy opis:</strong><br>
 KRAJOBRAZ, nie pudełka.<br>
 Makroregiony → wyspy / rdzenie → mosty i strefy przejściowe → peryferie.<br>
-Piosenka powinna dostać raczej <strong>odległości / powinowactwa do kilku rdzeni</strong>
-niż jedną nieodwołalną etykietę klastra.
+Piosenkę lepiej opisywać przez <strong>odległości i powinowactwa do kilku rdzeni</strong> niż jedną nieodwołalną etykietą klastra.
 </div>
 
-<h2>Co z tego wynika praktycznie</h2>
+<h2>Co z tego wynika</h2>
 <ul>
-<li>Nie wybieramy teraz „ostatecznego k”.</li>
-<li>Trzymamy pełną geometrię zbioru oraz osobno rdzenie o wysokiej pewności.</li>
-<li>Dla każdej piosenki można później policzyć powinowactwo do kilku wysp i wykrywać mosty.</li>
-<li>Wyspy można badać semantycznie: teksty, tagi, wykonawcy i okres dodania do Spotify dopiero po zbudowaniu mapy audio.</li>
-<li>Jeżeli semantyka niezależnie pokryje się z wyspami audio, wtedy dostaniemy znacznie mocniejszy wynik niż samo klastrowanie.</li>
+<li>Nie ma jednej naturalnej, bezdyskusyjnej liczby klastrów.</li>
+<li>Najwięcej informacji daje pełna geometria zbioru wraz z osobno wyróżnionymi rdzeniami o wysokiej pewności.</li>
+<li>Dla każdej piosenki można opisywać powinowactwo do kilku wysp i wykrywać utwory leżące na mostach.</li>
+<li>Wyspy można następnie porównywać z tekstami, tagami, wykonawcami i czasem dodania utworów.</li>
+<li>Jeżeli niezależna analiza znaczeń pokryje się ze strukturą audio, będzie to mocniejszy wynik niż samo klastrowanie.</li>
 </ul>
-
-<details>
-<summary>Snapshot techniczny dla AI</summary>
-<pre>{
-  "dataset": "audio_features_v08.csv",
-  "rows": 856,
-  "sanitization": "1.0 complete",
-  "H1_full_partition": {
-    "kmeans_best_relative_k": 2,
-    "k2_silhouette_compact": 0.197,
-    "k2_silhouette_expanded": 0.342,
-    "k2_resample_ARI": "0.92-0.94",
-    "k2_cross_representation_ARI": -0.002,
-    "k5_silhouette": "0.12-0.13",
-    "k5_resample_ARI": "0.64-0.81",
-    "gmm_BIC_prefers": 3,
-    "gmm_AIC_prefers": 8
-  },
-  "H2_islands_plus_rest": {
-    "five_core_example_coverage": 0.40,
-    "five_core_silhouette_compact": 0.280,
-    "five_core_silhouette_expanded": 0.270,
-    "shared_core_cross_representation_ARI": 0.731,
-    "full_k5_cross_representation_ARI": 0.366,
-    "rest_rows_at_40pct_core": 513,
-    "rest_3NN_connected_components": 1,
-    "exactly_five_islands": "not privileged; resolution-dependent"
-  },
-  "working_conclusion": "coarse macroregions + several dense cores + connected transition geography"
-}</pre>
-</details>
 
 </main>
 </body>
