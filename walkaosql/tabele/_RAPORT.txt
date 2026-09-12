@@ -1,0 +1,32 @@
+Źródło: walkaosql/rozpakowane/happy-hue-octopus-backup.sql.tsv
+Liczba tabel: 28
+Polecenia bez przypisania do tabeli: 9
+
+audio	857 poleceń	audio.sql
+audio_feature_snapshots	858 poleceń	audio_feature_snapshots.sql
+audio_match_details	183 poleceń	audio_match_details.sql
+audio_middle_end	193 poleceń	audio_middle_end.sql
+axes	18 poleceń	axes.sql
+content_collections	3 poleceń	content_collections.sql
+content_documents	36 poleceń	content_documents.sql
+content_keyword_concepts	603 poleceń	content_keyword_concepts.sql
+content_keyword_terms	1216 poleceń	content_keyword_terms.sql
+content_meta	5 poleceń	content_meta.sql
+content_section_keywords	1301 poleceń	content_section_keywords.sql
+content_section_metrics	959 poleceń	content_section_metrics.sql
+content_sections	970 poleceń	content_sections.sql
+external_track	1034 poleceń	external_track.sql
+external_track_utwu	939 poleceń	external_track_utwu.sql
+families	6 poleceń	families.sql
+lyrics	883 poleceń	lyrics.sql
+middle_end	978 poleceń	middle_end.sql
+playlist	20 poleceń	playlist.sql
+playlist_item	2407 poleceń	playlist_item.sql
+playlist_tag_def	2 poleceń	playlist_tag_def.sql
+tag_axis	330 poleceń	tag_axis.sql
+tag_axis_polarity	1 poleceń	tag_axis_polarity.sql
+tag_catalog	166 poleceń	tag_catalog.sql
+tag_group	166 poleceń	tag_group.sql
+tag_groups	13 poleceń	tag_groups.sql
+tag_snapshots	889 poleceń	tag_snapshots.sql
+tag_valence	77 poleceń	tag_valence.sql
