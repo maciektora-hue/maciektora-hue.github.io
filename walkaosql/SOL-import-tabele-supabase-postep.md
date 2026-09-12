@@ -24,11 +24,11 @@ Zrobione:
 - `content_sections` — 967
 - `lyrics` — 882
 - `audio_feature_snapshots` — 856
+- `content_documents` — 34
 
 Do ponowienia:
-- `content_documents`
 - `audio_middle_end`
 - `audio`
 - `tag_snapshots`
 
-Następna: `content_documents`.
+Następna: `audio_middle_end`.
