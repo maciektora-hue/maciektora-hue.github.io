@@ -14,9 +14,10 @@ Zrobione:
 - `tag_axis` — 329
 - `audio_match_details` — 182
 - `content_keyword_concepts` — 602
+- `external_track_utwu` — 937
 
 Do ponowienia:
 - `content_documents`
 - `audio_middle_end`
 
-Następna: `external_track_utwu`.
+Następna: `content_section_keywords`.
