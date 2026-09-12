@@ -1,4 +1,6 @@
-from flask import jsonify
+import os
+
+from flask import jsonify, request
 
 from app import app, get_connection, fetch_rows
 
@@ -90,6 +92,59 @@ def api_playlisty():
             external_links=external_links,
             utwory=utwory,
         ), 200
+    except Exception as exc:
+        return jsonify(status="error", error=str(exc)), 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+_SOL_SMALL_TABLES = {
+    "audio",
+    "audio_match_details",
+    "audio_middle_end",
+    "axes",
+    "content_collections",
+    "content_documents",
+    "content_keyword_concepts",
+    "content_keyword_terms",
+    "content_meta",
+    "content_section_keywords",
+    "content_section_metrics",
+    "external_track",
+    "external_track_utwu",
+    "families",
+    "middle_end",
+    "playlist",
+    "playlist_item",
+    "playlist_tag_def",
+    "tag_axis",
+    "tag_axis_polarity",
+    "tag_catalog",
+    "tag_group",
+    "tag_groups",
+    "tag_snapshots",
+    "tag_valence",
+}
+
+
+@app.get("/api/sol-migration/<table>")
+def api_sol_migration_table(table):
+    """Tymczasowy, chroniony, read-only odczyt bezpośrednio z live Turso."""
+    token = request.headers.get("X-SOL-Migration-Token", "")
+    expected = os.environ.get("SOL_MIGRATION_TOKEN", "")
+    if not expected or token != expected:
+        return jsonify(status="unauthorized"), 401
+    if table not in _SOL_SMALL_TABLES:
+        return jsonify(status="not_allowed", table=table), 404
+
+    conn = None
+    try:
+        conn = get_connection()
+        cur = conn.execute(f'SELECT * FROM "{table}"')
+        columns = [d[0] for d in cur.description]
+        rows = [dict(zip(columns, row)) for row in cur.fetchall()]
+        return jsonify(table=table, count=len(rows), rows=rows), 200
     except Exception as exc:
         return jsonify(status="error", error=str(exc)), 500
     finally:
