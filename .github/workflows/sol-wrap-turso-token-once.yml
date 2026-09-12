@@ -1,0 +1,41 @@
+name: SOL wrap Turso token once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-wrap-turso-token-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Encrypt Turso token for Supabase only
+        env:
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          cat > /tmp/sol-public.asc <<'KEY'
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+          mQENBGqkvVEBCADQ2dZ00RYhiktqYyaHqWb4zPIyS9X8DMvctVzn3zVPhgUvDxsZ
+          mZZfGkzzP22IliaLD19ojTXJ0nFUIGXt5+2vdYF8LV20hO4DzNPWqLxvO7CutFCw
+          9YofpBXKQPtJwR19n1Oy1cOPJ1Kvj/7+08QHjcyCsIj7F+XU0vHuXmT3DYQTKvWa
+          Qb6SD8nxCxDrnV7UdsbyHLZ73Tl7gnO+C3iPk/41Fie+N7QHABogl7ZDM/XIJeZC
+          WvNmD7u2Ji2I4zt7oUmHk4CZ/Q9nND8fGbQont+cAZoJquWvGu/jP5d0RTAKOMDr
+          36v8WcwhPGhuSY8eSdjPgwq+QTBa8WW4WyqLABEBAAG0GVNPTCBNaWdyYXRpb24g
+          PHNvbEBsb2NhbD6JAVQEEwEKAD4WIQRjF1pDF2VzACcX4oEM9JAGbVxXSAUCaqS9
+          UQIbDQUJAAFRgAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRAM9JAGbVxXSCsw
+          B/97jx9LAP3kA2hOnvDlSDhlOl8egCBRD508mBQwETyYHjEKYxnCvup7a5hHRHJq
+          ZOGxQUl2vY8vi2icJ6TdfR7iE+68rmWCwM3deF7W6gLgBCZXh51icAM9LJRz1glW
+          Hlp5nKJtVwr/WtZ64CSD5vOfahth8aXiaxGR9TQ1SAItlGm0yvrMDmwmd5VV7/mg
+          PUCHX52wk2/E5BU5kFNS3t81Ky7wm0kCLPw+qW0v3DFDnIFrHxIqQdKnLUSTTvHv
+          9KRcU+oibXX0VazoCQs1ZIWMYCYAO/QCCirCwj4KtHcqC+AY2DCg8dHjFefxPNn6
+          mrj5MBnH5YPezNXPe/ohmNaw
+          =eJek
+          -----END PGP PUBLIC KEY BLOCK-----
+          KEY
+          gpg --batch --import /tmp/sol-public.asc >/dev/null 2>&1
+          printf '%s' "$TURSO_AUTH_TOKEN" | gpg --batch --yes --trust-model always --armor --encrypt --recipient 'SOL Migration <sol@local>'
