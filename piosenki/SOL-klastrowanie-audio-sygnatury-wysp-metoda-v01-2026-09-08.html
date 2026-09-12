@@ -1,55 +1,68 @@
-<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sygnatury 3 wysp — opis metody</title><style>
-:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-main{max-width:940px;margin:0 auto;padding:28px 20px 64px}h1{font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}h2{font-size:1.25rem;margin:1.9rem 0 .65rem}h3{font-size:1.05rem;margin:1.25rem 0 .35rem}
-p,li{max-width:80ch}strong,a,code{color:var(--strong)}.meta,.muted{color:var(--muted)}.box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}th,td{padding:.55rem .5rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--strong)}td.num{text-align:right;white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.card{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px}.card h3{margin-top:0}
-.note{border-left:3px solid var(--line);padding-left:1rem;color:var(--muted)}
-</style></head><body><main>
-<h1>Sygnatury 3 wysp — opis metody</h1>
-<p class="meta">2026-09-08 · audio_features_v08.csv · mapa 3 wysp 1.0</p>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Metoda opisu trzech wysp brzmienia — Głębi, Światła i Ruchu — oraz sposób porównywania ich cech audio.">
+<title>Jak opisano trzy wyspy brzmienia</title>
+<style>
+:root{color-scheme:dark;--bg:#18231f;--panel:#223129;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+main{max-width:940px;margin:0 auto;padding:28px 20px 64px}
+h1{font-size:clamp(2.2rem,7vw,4.5rem);line-height:1;margin:.3rem 0 .7rem;color:var(--strong);letter-spacing:-.03em}
+h2{font-size:1.25rem;margin:1.9rem 0 .65rem}
+p,li{max-width:80ch}
+strong,a,code{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.box{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:14px 16px;margin:1rem 0}
+.note{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<p class="meta"><a href="audio.html">← Audio</a> · <a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">Mapa brzmienia</a> · <a href="SOL-klastrowanie-audio-sygnatury-wysp-analiza-v01-2026-09-08.html">Sygnatury wysp</a></p>
 
-<div class="box"><strong>Cel:</strong> odpowiedzieć na pytanie „co dokładnie definiuje każdą wyspę?”.
-To nie jest nowe klastrowanie. Bierzemy już ustalone rdzenie Głębi, Światła i Ruchu i opisujemy,
-które mierzalne cechy audio najbardziej je odróżniają.</div>
+<h1>Jak opisano trzy wyspy brzmienia</h1>
+
+<div class="box"><strong>Cel:</strong> odpowiedzieć na pytanie, co dokładnie definiuje każdą wyspę. Nie tworzymy tutaj nowych grup. Bierzemy już ustalone rdzenie Głębi, Światła i Ruchu i sprawdzamy, które mierzalne cechy audio najbardziej je odróżniają.</div>
 
 <h2>Jakie utwory weszły do analizy</h2>
-<p>Tylko rdzenie trzech wysp: <strong>343 utwory</strong>:
-Głębia 166, Światło 60, Ruch 117. Mosty, kontynent/strefa przejściowa i peryferia są celowo
-pominięte, żeby nie rozmywać definicji samych wysp.</p>
+<p>Tylko rdzenie trzech wysp: <strong>343 utwory</strong>. Głębia obejmuje 166 utworów, Światło 60, a Ruch 117. Mosty, strefa przejściowa i peryferia zostały pominięte, żeby nie rozmywać charakterystyki samych wysp.</p>
 
-<h2>Jakie cechy</h2>
-<p>Użyto 22 interpretowalnych cech. Nie użyto długości pliku, stereo, surowej głośności
-ani parametrów technicznych nagrania. Pięć pasm zbudowano jako sumy istniejących frakcji energii:</p>
+<h2>Jakie cechy porównano</h2>
+<p>Użyto 22 interpretowalnych cech. Pominięto długość nagrania, stereo, surową głośność i parametry techniczne pliku. Pięć głównych pasm częstotliwości opisano jako:</p>
 <ul>
-<li>20–250 Hz — bas,</li><li>250–1000 Hz — low-mid,</li><li>1–4 kHz — środek,</li>
-<li>4–12 kHz — góra,</li><li>12–20 kHz — powietrze.</li>
+<li>20–250 Hz — bas,</li>
+<li>250–1000 Hz — dolny środek,</li>
+<li>1–4 kHz — środek,</li>
+<li>4–12 kHz — góra,</li>
+<li>12–20 kHz — najwyższa góra i „powietrze”.</li>
 </ul>
-<p>Pozostałe rodziny: jasność i kształt widma, ruch widma, chroma/harmonia, onsety/rytm oraz BPM.</p>
+<p>Pozostałe rodziny cech opisują jasność i kształt widma, ruch widma, chroma i harmonię, onsety i rytm oraz BPM.</p>
 
 <h2>Trzy poziomy pomiaru</h2>
 <ol>
-<li><strong>Różnica globalna między trzema wyspami.</strong> Kruskal–Wallis + epsilon².
-Epsilon² mówi, jak dużą część uporządkowania danej cechy wyjaśnia przynależność do wyspy.</li>
-<li><strong>Sygnatura konkretnej wyspy.</strong> Dla każdej cechy liczony jest rank-biserial / odpowiednik
-<code>2×AUC−1</code> dla „ta wyspa vs dwie pozostałe”. Znak mówi kierunek, wartość bezwzględna siłę rozróżnienia.</li>
-<li><strong>Rodziny cech.</strong> Dla orientacji policzono, jak dobrze sama rodzina cech odtwarza etykiety trzech rdzeni
-w powtarzanej walidacji krzyżowej. To jest pomiar opisowy, nie niezależna walidacja wysp.</li>
+<li><strong>Różnica globalna między trzema wyspami.</strong> Użyto testu Kruskala-Wallisa oraz epsilon². Epsilon² pokazuje, jak mocno dana cecha różni trzy wyspy.</li>
+<li><strong>Sygnatura konkretnej wyspy.</strong> Dla każdej cechy policzono efekt „ta wyspa kontra dwie pozostałe”. Znak pokazuje kierunek różnicy, a wartość bezwzględna jej siłę.</li>
+<li><strong>Rodziny cech.</strong> Sprawdzono również, jak dobrze całe grupy cech odtwarzają etykiety trzech rdzeni w powtarzanej walidacji krzyżowej. To opis siły sygnatur, nie osobny dowód istnienia wysp.</li>
 </ol>
 
-<h2>Jak czytać siłę</h2>
-<ul><li>|delta| ≥ 0,80 — bardzo mocna,</li><li>0,60–0,79 — mocna,</li>
-<li>0,40–0,59 — umiarkowana,</li><li>0,20–0,39 — słaba,</li><li>&lt; 0,20 — minimalna.</li></ul>
+<h2>Jak czytać siłę różnic</h2>
+<ul>
+<li>|delta| ≥ 0,80 — bardzo mocna,</li>
+<li>0,60–0,79 — mocna,</li>
+<li>0,40–0,59 — umiarkowana,</li>
+<li>0,20–0,39 — słaba,</li>
+<li>&lt; 0,20 — minimalna.</li>
+</ul>
 
-<div class="note"><strong>Ważne zastrzeżenie o kołowości:</strong> rdzenie wysp powstały wcześniej z podobnych cech audio.
-Dlatego ta analiza mówi przede wszystkim <em>z czego zbudowane są wyspy</em>, a nie dowodzi ponownie, że wyspy istnieją.
-Niezależnym testem byłoby dopiero np. późniejsze zestawienie z tekstami/tagami albo z inną reprezentacją sygnału.</div>
+<div class="note"><strong>Ważne zastrzeżenie:</strong> rdzenie wysp zostały wcześniej wyznaczone z podobnych cech audio. Ta analiza mówi więc przede wszystkim <em>z czego zbudowane są wyspy</em>, a nie dowodzi ponownie, że istnieją. Niezależnym testem byłoby zestawienie ich z innym rodzajem danych, na przykład z tekstami i tagami.</div>
 
-<h2>Drobne zastrzeżenia techniczne</h2>
-<p>Rolloff 85% jest użyteczny jako wewnętrzny wymiar porównawczy, ale jego wartości bezwzględne w tym ekstraktorze
-są nietypowo niskie, więc nie należy robić z nich interpretacji „standardu masteringowego”.
-BPM ma niską pewność estymacji w tym zbiorze i jest traktowany ostrożnie.</p>
+<h2>Uwagi do interpretacji</h2>
+<p>Rolloff 85% jest użyteczny jako wymiar porównawczy wewnątrz tego zbioru, ale jego wartości bezwzględne nie powinny być czytane jako standard masteringowy. BPM ma tutaj niską pewność estymacji, dlatego jest traktowany ostrożnie.</p>
 
-</main></body></html>
+</main>
+</body>
+</html>
