@@ -29,7 +29,8 @@ Aktualnie:
 - utworzone widoki `content_*`,
 - `families` zostało przeniesione i zweryfikowane: **5 rekordów**,
 - `tag_groups` zostało przeniesione i zweryfikowane: **12 rekordów**,
-- pozostałych 26 tabel nie skopiowano jeszcze.
+- `content_collections` zostało przeniesione i zweryfikowane: **2 rekordy**,
+- pozostałych 25 tabel nie skopiowano jeszcze w zweryfikowany sposób.
 
 Kopiowanie odbywa się ręcznie, tabela po tabeli. Starej bazy nie modyfikujemy.
 
@@ -204,6 +205,17 @@ Seed zawiera dokładnie 12 rekordów `tag_groups`. Tabela docelowa w Supabase by
 
 Do Supabase wpisano 12 rekordów bez transformacji danych. Kontrola bezpośrednio w Supabase: `COUNT(*) = 12`. Wszystkie rekordy zostały odczytane po zapisie i wartości `group_name` oraz `label` zgadzają się 1:1 ze źródłem.
 
+### ZROBIONE: `content_collections`
+
+Źródło danych: **żywa stara baza Turso**, odczytana przez działającą aplikację Render podłączoną bezpośrednio do Turso. Nie użyto CSV, TSV, HTML, Library ani pliku z danymi na GitHubie.
+
+Stara baza zawiera 2 rekordy:
+
+- `rosja`, `ROSJA`, `10`,
+- `audhd`, `AuDHD`, `20`.
+
+Do Supabase wpisano dokładnie te 2 rekordy do kolumn `collection_id`, `label`, `sort_order`. Kontrola bezpośrednio po zapisie zwróciła oba rekordy z identycznymi wartościami. Migracja tej tabeli jest zakończona.
+
 Nie wykonano jeszcze przełączenia Render/Flask, WWW, publicznych polityk odczytu ani wyłączenia starej bazy.
 
 ## 10. Zasada ręcznej kopii
@@ -227,12 +239,12 @@ Jeśli kontrola nie przejdzie, zatrzymujemy się na tej tabeli.
 2. `tag_catalog`
 3. `families` — **ZROBIONE: 5 rekordów**
 4. `tag_groups` — **ZROBIONE: 12 rekordów**
-5. `audio` — **NASTĘPNE**
+5. `audio`
 6. `playlist`
 7. `playlist_tag_def`
 8. `external_track`
 9. `content_meta`
-10. `content_collections`
+10. `content_collections` — **ZROBIONE: 2 rekordy**
 11. `content_keyword_concepts`
 
 ### B. Pierwsza warstwa zależności
