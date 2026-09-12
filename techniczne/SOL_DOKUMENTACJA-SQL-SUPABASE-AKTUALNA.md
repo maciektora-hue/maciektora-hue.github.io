@@ -19,18 +19,18 @@ Dla nowej bazy źródłem stanu faktycznego jest **Supabase/PostgreSQL**. Ten do
 
 ## 1. Najważniejszy stan
 
-Nowa baza PostgreSQL w Supabase została utworzona i ma kompletny pusty schemat.
+Nowa baza PostgreSQL w Supabase ma kompletny schemat i rozpoczętą ręczną kopię danych.
 
-Stan po migracji schematu:
+Aktualnie:
 
 - 28 tabel w `public`,
-- 0 rekordów danych użytkowych,
 - wszystkie 28 tabel mają włączone RLS,
 - brak publicznych polityk RLS,
 - utworzone widoki `content_*`,
-- nie wykonano jeszcze kopiowania danych z Turso/libSQL.
+- `families` zostało przeniesione i zweryfikowane: **5 rekordów**,
+- pozostałych 27 tabel nie skopiowano jeszcze.
 
-Turso pozostaje na tym etapie źródłem istniejących danych. Supabase zawiera wyłącznie przygotowaną strukturę docelową.
+Kopiowanie odbywa się ręcznie, tabela po tabeli. Starej bazy nie modyfikujemy.
 
 ## 2. Architektura docelowa
 
@@ -58,15 +58,7 @@ ChatGPT / Supabase connector
 PostgreSQL / Supabase
 ```
 
-Ta ścieżka służy do kontrolowanych operacji administracyjnych, m.in.:
-
-- `SELECT`,
-- `INSERT`,
-- `UPDATE`,
-- `DELETE`,
-- `ALTER TABLE`,
-- `CREATE TABLE`,
-- migracje schematu.
+Ta ścieżka służy do kontrolowanych operacji administracyjnych: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, DDL i migracje schematu.
 
 GitHub przechowuje kod i dokumentację. PostgreSQL przechowuje dane.
 
@@ -118,48 +110,41 @@ GitHub przechowuje kod i dokumentację. PostgreSQL przechowuje dane.
 
 28. `content_section_metrics`
 
-## 4. Ważne elementy zachowane z aktualnego modelu Turso
+## 4. Ważne elementy zachowane z aktualnego modelu
 
-Schemat PostgreSQL nie jest mechanicznym przepisaniem starego `schema.sql`. Uwzględnia późniejsze migracje i rozszerzenia.
+Schemat PostgreSQL uwzględnia późniejsze migracje i rozszerzenia, a nie tylko stary `schema.sql`.
 
-W szczególności zachowano:
+Zachowano m.in.:
 
 - `playlist.playlist_series_id`,
 - `playlist.exported_at`,
 - legacy `playlist.tags`,
-- aktualne tekstowe `playlist.playlist_tags`,
+- aktualne `playlist.playlist_tags`,
 - `playlist_item.external_track_pk`,
 - `content_sections.section_title_en`,
 - `content_sections.description_en`,
 - `content_sections.content_html`,
 - `content_sections.structure_order`,
 - pola keywordów PL/EN,
-- aktualny model pojęć i terminów,
 - `content_section_metrics`,
-- istniejące identyfikatory rekordów bez automatycznego przeliczania ID podczas późniejszego importu.
+- istniejące identyfikatory rekordów bez automatycznego przeliczania ID.
 
 `playlist.tags` pozostaje polem zgodności historycznej. `playlist_tags` jest aktualnym polem tekstowym.
 
 ## 5. Typy i różnice SQLite → PostgreSQL
 
-Przy tworzeniu nowego schematu usunięto elementy specyficzne dla SQLite/libSQL, m.in.:
-
-- `PRAGMA`,
-- `json_valid(...)`,
-- składnię przebudowy tabel charakterystyczną dla SQLite.
+Usunięto elementy specyficzne dla SQLite/libSQL, m.in. `PRAGMA`, `json_valid(...)` i składnię przebudowy tabel właściwą SQLite.
 
 Typy zachowano możliwie blisko semantyki źródłowej:
 
 - identyfikatory tekstowe → `TEXT`,
-- identyfikatory liczbowe → `BIGINT` / `INTEGER` zależnie od pola,
+- identyfikatory liczbowe → `BIGINT` / `INTEGER`,
 - liczby zmiennoprzecinkowe → `DOUBLE PRECISION`,
-- znaczniki czasu zachowane bez automatycznej zmiany istniejących wartości podczas przyszłej kopii.
-
-Klucze ID używane w istniejącej bazie nie zostały zamienione na `SERIAL` ani automatyczne identity, aby możliwa była migracja 1:1.
+- istniejące ID nie zostały zamienione na `SERIAL` ani identity.
 
 ## 6. Widoki
 
-Utworzono aktualne widoki warstwy treści:
+Utworzono:
 
 - `v_content_structure`,
 - `v_content_map`,
@@ -168,83 +153,69 @@ Utworzono aktualne widoki warstwy treści:
 - `v_audhd_mapa_sekcji`,
 - `v_content_status`.
 
-Widoki zostały utworzone z `security_invoker = true`, dzięki czemu respektują uprawnienia i RLS użytkownika wywołującego.
-
-Kierunek pozostaje:
-
-```text
-SQL → VIEW → API / HTML / TSV
-```
-
-Eksport TSV nie jest źródłem prawdy.
+Widoki mają `security_invoker = true`.
 
 ## 7. RLS i bezpieczeństwo
 
-RLS jest włączone na wszystkich 28 tabelach.
+RLS jest włączone na wszystkich 28 tabelach. Na tym etapie nie istnieją publiczne polityki RLS.
 
-Na tym etapie nie istnieją żadne polityki RLS.
+Efekt jest celowy: klient publiczny nie dostaje automatycznie dostępu do tabel, a później można jawnie wystawić tylko potrzebny odczyt.
 
-Efekt jest celowy:
+## 8. Wynik kontroli schematu
 
-- klient publiczny nie dostaje automatycznie dostępu do danych,
-- przypadkowe wystawienie Supabase API nie otwiera tabel do publicznego czytania ani zapisu,
-- później można jawnie dodać tylko potrzebne polityki odczytu albo pozostać przy read-only API po stronie backendu.
-
-Supabase Security Advisor zgłasza `RLS Enabled No Policy` dla 28 tabel jako informację, nie jako błąd. W aktualnym etapie jest to pożądany stan.
-
-## 8. Wynik kontroli po DDL
-
-Po wykonaniu migracji sprawdzono bazę bezpośrednio przez Supabase.
-
-Potwierdzone:
+Po utworzeniu DDL potwierdzono:
 
 - dokładnie 28 tabel w `public`,
-- wszystkie mają `rows = 0`,
 - wszystkie mają `rls_enabled = true`,
 - migracje DDL zakończyły się sukcesem.
 
-Performance Advisor zgłasza obecnie:
+Performance Advisor zgłasza kilka FK bez osobnych indeksów, brak PK w `tag_snapshots` zgodnie ze starym modelem oraz nieużywane indeksy przy prawie pustej bazie. Nie wykonywano automatycznych optymalizacji.
 
-- kilka kluczy obcych bez osobnych indeksów,
-- brak PK w `tag_snapshots`, zgodnie ze starym modelem,
-- istniejące indeksy jako `unused`, co jest oczywiste przy pustej bazie.
+## 9. Stan migracji danych
 
-Nie wykonywano automatycznych „optymalizacji”, żeby nie zmieniać modelu przed migracją danych i obserwacją rzeczywistych zapytań.
+Migracja danych **rozpoczęta**.
 
-## 9. Czego jeszcze NIE wykonano
+### ZROBIONE: `families`
 
-Nie wykonano jeszcze:
+Źródło użyte do ręcznej kopii: aktualny plik SQL ontologii na GitHubie:
 
-- kopiowania danych z Turso do Supabase,
-- przełączenia Render/Flask na PostgreSQL,
-- przełączenia stron WWW na nową bazę,
-- polityk publicznego odczytu,
-- wyłączenia starej bazy Turso,
-- kasowania ani modyfikowania danych źródłowych w Turso.
+`piosenki/sol-ontologia-tagow-TXT-v01-03.txt`
 
-## 10. Następny etap migracji
+Nie był to CSV, lokalna kopia ani SQL Viewer. Publiczny endpoint starej bazy nie odpowiedział na czas, dlatego dla tej małej tabeli użyto kompletnego jawnego seeda SQL z repozytorium.
 
-Następny etap powinien być wykonany oddzielnie i kontrolowanie:
+Do Supabase wpisano 5 rekordów:
 
-1. odczytać aktualne dane z Turso,
-2. przenieść je tabelami do Supabase z zachowaniem ID,
-3. porównać liczby rekordów i relacje FK,
-4. wykonać kontrole integralności,
-5. dopiero po zgodności przełączyć backend odczytowy,
-6. pozostawić starą bazę jako kopię bezpieczeństwa do czasu zakończenia weryfikacji.
+- `lapis`,
+- `butelkowa-zielen`,
+- `sliwka`,
+- `ochra`,
+- `terakota`.
 
-Schemat Supabase jest już gotowy na ten etap. Dane nie zostały jeszcze ruszone.
+Kontrola bezpośrednio w Supabase: `COUNT(*) = 5`. Wszystkie pięć rekordów zostało odczytane po zapisie i ma oczekiwane wartości.
+
+Nie wykonano jeszcze przełączenia Render/Flask, WWW, publicznych polityk odczytu ani wyłączenia starej bazy.
+
+## 10. Zasada ręcznej kopii
+
+Dla każdej kolejnej tabeli:
+
+1. ustalić źródło danych,
+2. odczytać komplet rekordów,
+3. wpisać je do Supabase z zachowaniem ID,
+4. porównać liczbę rekordów,
+5. sprawdzić zawartość i FK,
+6. dopisać wynik tutaj.
+
+Jeśli kontrola nie przejdzie, zatrzymujemy się na tej tabeli.
 
 ## 11. Kolejność ręcznego kopiowania danych
-
-Kopiowanie wykonujemy tabela po tabeli, zgodnie z zależnościami FK. Po każdej tabeli robimy kontrolę i dopiero wtedy przechodzimy dalej.
 
 ### A. Tabele bazowe
 
 1. `lyrics`
 2. `tag_catalog`
-3. `families`
-4. `tag_groups`
+3. `families` — **ZROBIONE: 5 rekordów**
+4. `tag_groups` — **NASTĘPNE**
 5. `audio`
 6. `playlist`
 7. `playlist_tag_def`
@@ -276,16 +247,4 @@ Kopiowanie wykonujemy tabela po tabeli, zgodnie z zależnościami FK. Po każdej
 27. `content_section_keywords`
 28. `content_section_metrics`
 
-`content_sections` ma relację do samej siebie, więc rodzice muszą być kopiowani przed dziećmi, np. według rosnącej głębokości struktury.
-
-### Kontrola po każdej tabeli
-
-- liczba rekordów źródło = cel,
-- identyfikatory zachowane 1:1,
-- kontrola kilku rekordów 1:1,
-- brak błędów FK,
-- brak niezamierzonych zmian `NULL`, tekstów, timestampów i ID.
-
-Jeśli kontrola nie przejdzie, zatrzymujemy się na tej tabeli. `tag_snapshots` nie ma PK, więc oprócz liczby rekordów trzeba porównać także zawartość. `audio_feature_snapshots` może być kopiowane porcjami, ale końcowa kontrola dotyczy całej tabeli.
-
-Pierwszą tabelą do praktycznego testu kopiowania będzie `families`: mała, niezależna i używana później przez `axes`.
+`content_sections` ma relację do samej siebie, więc rodzice muszą być kopiowani przed dziećmi. `tag_snapshots` nie ma PK, więc jego kontrola musi obejmować zawartość, nie tylko liczbę rekordów.
