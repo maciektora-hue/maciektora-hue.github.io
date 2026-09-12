@@ -1,0 +1,51 @@
+name: SOL scan small Turso tables once
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sol-scan-small-turso-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Scan live Turso only
+        env:
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, json, libsql
+
+          conn = libsql.connect(
+              database=os.environ['TURSO_DATABASE_URL'],
+              auth_token=os.environ['TURSO_AUTH_TOKEN'],
+          )
+          tables = [r[0] for r in conn.execute("SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").fetchall()]
+
+          dbstat_ok = True
+          try:
+              size_rows = conn.execute("SELECT name, SUM(pgsize) FROM dbstat GROUP BY name").fetchall()
+              sizes = {name: int(size or 0) for name, size in size_rows}
+          except Exception:
+              dbstat_ok = False
+              sizes = {}
+
+          print('DBSTAT_OK=' + ('1' if dbstat_ok else '0'))
+          for t in tables:
+              count = conn.execute(f'SELECT COUNT(*) FROM "{t}"').fetchone()[0]
+              fks = conn.execute(f'PRAGMA foreign_key_list("{t}")').fetchall()
+              parents = sorted({r[2] for r in fks})
+              size = sizes.get(t)
+              print('TABLE=' + json.dumps({'name': t, 'bytes': size, 'rows': count, 'parents': parents}, ensure_ascii=False, separators=(',',':')))
+          conn.close()
+          PY
