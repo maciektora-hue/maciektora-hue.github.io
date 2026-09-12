@@ -23,6 +23,7 @@ Zrobione:
 - `playlist_item` — 2403
 - `content_sections` — 967
 - `lyrics` — 882
+- `audio_feature_snapshots` — 856
 
 Do ponowienia:
 - `content_documents`
@@ -30,4 +31,4 @@ Do ponowienia:
 - `audio`
 - `tag_snapshots`
 
-Następna: `audio_feature_snapshots`.
+Następna: `content_documents`.
