@@ -28,7 +28,8 @@ Aktualnie:
 - brak publicznych polityk RLS,
 - utworzone widoki `content_*`,
 - `families` zostało przeniesione i zweryfikowane: **5 rekordów**,
-- pozostałych 27 tabel nie skopiowano jeszcze.
+- `tag_groups` zostało przeniesione i zweryfikowane: **12 rekordów**,
+- pozostałych 26 tabel nie skopiowano jeszcze.
 
 Kopiowanie odbywa się ręcznie, tabela po tabeli. Starej bazy nie modyfikujemy.
 
@@ -193,6 +194,16 @@ Do Supabase wpisano 5 rekordów:
 
 Kontrola bezpośrednio w Supabase: `COUNT(*) = 5`. Wszystkie pięć rekordów zostało odczytane po zapisie i ma oczekiwane wartości.
 
+### ZROBIONE: `tag_groups`
+
+Źródło użyte do ręcznej kopii: aktualny plik SQL ontologii na GitHubie:
+
+`piosenki/sol-ontologia-tagow-TXT-v01-03.txt`
+
+Seed zawiera dokładnie 12 rekordów `tag_groups`. Tabela docelowa w Supabase była przed zapisem pusta i miała oczekiwane kolumny `group_name` oraz `label`.
+
+Do Supabase wpisano 12 rekordów bez transformacji danych. Kontrola bezpośrednio w Supabase: `COUNT(*) = 12`. Wszystkie rekordy zostały odczytane po zapisie i wartości `group_name` oraz `label` zgadzają się 1:1 ze źródłem.
+
 Nie wykonano jeszcze przełączenia Render/Flask, WWW, publicznych polityk odczytu ani wyłączenia starej bazy.
 
 ## 10. Zasada ręcznej kopii
@@ -215,8 +226,8 @@ Jeśli kontrola nie przejdzie, zatrzymujemy się na tej tabeli.
 1. `lyrics`
 2. `tag_catalog`
 3. `families` — **ZROBIONE: 5 rekordów**
-4. `tag_groups` — **NASTĘPNE**
-5. `audio`
+4. `tag_groups` — **ZROBIONE: 12 rekordów**
+5. `audio` — **NASTĘPNE**
 6. `playlist`
 7. `playlist_tag_def`
 8. `external_track`
