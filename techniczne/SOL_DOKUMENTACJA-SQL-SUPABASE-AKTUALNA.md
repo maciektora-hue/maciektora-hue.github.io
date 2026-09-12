@@ -234,3 +234,58 @@ Następny etap powinien być wykonany oddzielnie i kontrolowanie:
 6. pozostawić starą bazę jako kopię bezpieczeństwa do czasu zakończenia weryfikacji.
 
 Schemat Supabase jest już gotowy na ten etap. Dane nie zostały jeszcze ruszone.
+
+## 11. Kolejność ręcznego kopiowania danych
+
+Kopiowanie wykonujemy tabela po tabeli, zgodnie z zależnościami FK. Po każdej tabeli robimy kontrolę i dopiero wtedy przechodzimy dalej.
+
+### A. Tabele bazowe
+
+1. `lyrics`
+2. `tag_catalog`
+3. `families`
+4. `tag_groups`
+5. `audio`
+6. `playlist`
+7. `playlist_tag_def`
+8. `external_track`
+9. `content_meta`
+10. `content_collections`
+11. `content_keyword_concepts`
+
+### B. Pierwsza warstwa zależności
+
+12. `axes`
+13. `tag_group`
+14. `tag_axis`
+15. `tag_valence`
+16. `tag_axis_polarity`
+17. `middle_end`
+18. `tag_snapshots`
+19. `audio_feature_snapshots`
+20. `content_documents`
+21. `content_keyword_terms`
+
+### C. Tabele relacyjne
+
+22. `audio_middle_end`
+23. `audio_match_details`
+24. `external_track_utwu`
+25. `playlist_item`
+26. `content_sections`
+27. `content_section_keywords`
+28. `content_section_metrics`
+
+`content_sections` ma relację do samej siebie, więc rodzice muszą być kopiowani przed dziećmi, np. według rosnącej głębokości struktury.
+
+### Kontrola po każdej tabeli
+
+- liczba rekordów źródło = cel,
+- identyfikatory zachowane 1:1,
+- kontrola kilku rekordów 1:1,
+- brak błędów FK,
+- brak niezamierzonych zmian `NULL`, tekstów, timestampów i ID.
+
+Jeśli kontrola nie przejdzie, zatrzymujemy się na tej tabeli. `tag_snapshots` nie ma PK, więc oprócz liczby rekordów trzeba porównać także zawartość. `audio_feature_snapshots` może być kopiowane porcjami, ale końcowa kontrola dotyczy całej tabeli.
+
+Pierwszą tabelą do praktycznego testu kopiowania będzie `families`: mała, niezależna i używana później przez `axes`.
