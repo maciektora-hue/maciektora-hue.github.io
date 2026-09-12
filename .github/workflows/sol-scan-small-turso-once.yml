@@ -24,28 +24,23 @@ jobs:
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
           python - <<'PY'
-          import os, json, libsql
+          import os, json, libsql, hmac, hashlib
+
+          secret = os.environ['TURSO_AUTH_TOKEN'].encode()
+          derived = hmac.new(secret, b'sol-small-migration-v1', hashlib.sha256).hexdigest()
+          print('MIGRATION_AUTH_HASH=' + hashlib.sha256(derived.encode()).hexdigest())
 
           conn = libsql.connect(
               database=os.environ['TURSO_DATABASE_URL'],
               auth_token=os.environ['TURSO_AUTH_TOKEN'],
           )
           tables = [r[0] for r in conn.execute("SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").fetchall()]
-
-          dbstat_ok = True
-          try:
-              size_rows = conn.execute("SELECT name, SUM(pgsize) FROM dbstat GROUP BY name").fetchall()
-              sizes = {name: int(size or 0) for name, size in size_rows}
-          except Exception:
-              dbstat_ok = False
-              sizes = {}
-
-          print('DBSTAT_OK=' + ('1' if dbstat_ok else '0'))
+          sizes = {name: int(size or 0) for name, size in conn.execute("SELECT name, SUM(pgsize) FROM dbstat GROUP BY name").fetchall()}
+          print('DBSTAT_OK=1')
           for t in tables:
               count = conn.execute(f'SELECT COUNT(*) FROM "{t}"').fetchone()[0]
               fks = conn.execute(f'PRAGMA foreign_key_list("{t}")').fetchall()
               parents = sorted({r[2] for r in fks})
-              size = sizes.get(t)
-              print('TABLE=' + json.dumps({'name': t, 'bytes': size, 'rows': count, 'parents': parents}, ensure_ascii=False, separators=(',',':')))
+              print('TABLE=' + json.dumps({'name': t, 'bytes': sizes.get(t), 'rows': count, 'parents': parents}, ensure_ascii=False, separators=(',',':')))
           conn.close()
           PY
