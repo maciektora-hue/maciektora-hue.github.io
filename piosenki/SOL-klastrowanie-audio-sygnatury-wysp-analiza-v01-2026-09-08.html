@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sygnatury 3 wysp — analiza</title>
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Szczegółowa charakterystyka trzech wysp brzmienia — Głębi, Światła i Ruchu — na podstawie widma, energii pasm, chroma, rytmu, MFCC i dynamiki.">
+<title>Sygnatury trzech wysp — Głębia, Światło i Ruch</title>
 <style>
 :root{color-scheme:dark;--bg:#18231f;--panel:#223129;--panel2:#111a17;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.58}
 main{max-width:980px;margin:0 auto;padding:28px 20px 68px}
-h1{font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}
+h1{font-size:clamp(2.2rem,7vw,4.6rem);line-height:1;margin:.3rem 0 .7rem;color:var(--strong);letter-spacing:-.03em}
 h2{font-size:1.28rem;margin:2rem 0 .7rem}
 h3{font-size:1.08rem;margin:1.35rem 0 .4rem}
 p,li{max-width:82ch}
@@ -30,12 +32,12 @@ td.num{text-align:right;white-space:nowrap}
 <body>
 <main>
 
-<h1>Sygnatury 3 wysp — co właściwie różni Głębię, Światło i Ruch</h1>
-<p class="meta">343 utwory należące do rdzeni trzech wysp · audio_features_v08.csv · 2026-09-08</p>
+<p class="meta"><a href="audio.html">← Audio</a> · <a href="SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html">Mapa brzmienia</a> · <a href="SOL-klastrowanie-audio-wyniki-dwa-glosy-v01-2026-09-08.html">Wyniki</a></p>
+<h1>Sygnatury trzech wysp</h1>
+<p class="meta">Głębia · Światło · Ruch · 343 utwory w rdzeniach wysp</p>
 
 <div class="box">
-<strong>Cel tej analizy:</strong> nie tworzymy nowych wysp. Sprawdzamy, jakie cechy dźwięku
-najczęściej powtarzają się wewnątrz trzech już wyznaczonych rdzeni i czym te rdzenie różnią się między sobą.
+<strong>Cel tej analizy:</strong> sprawdzić, jakie cechy dźwięku najczęściej powtarzają się wewnątrz trzech już wyznaczonych rdzeni i czym te rdzenie różnią się między sobą.
 </div>
 
 <h2>Najpierw pojęcia</h2>
@@ -63,7 +65,7 @@ Zamiast pytać tylko „jak głośno?”, pytamy „gdzie w zakresie od basu do 
 <h3>Chroma: C, C♯, D, E…</h3>
 <p><strong>Chroma</strong> ignoruje wysokość oktawy i pyta tylko, która z 12 klas dźwięków jest obecna:
 C, C♯/D♭, D, D♯/E♭, E, F, F♯/G♭, G, G♯/A♭, A, B♭/A♯ i H.
-W pliku źródłowym angielskie <code>B</code> oznacza polskie <strong>H</strong>.</p>
+W danych angielskie <code>B</code> oznacza polskie <strong>H</strong>.</p>
 
 <ul>
 <li><strong>Entropia chroma</strong> — czy energia harmoniczna jest skupiona na kilku klasach dźwięków, czy rozlana po wielu. Wyższa entropia = większe rozproszenie.</li>
@@ -86,7 +88,7 @@ Duży kontrast oznacza bardziej wyraźną strukturę pików, mniejszy — bardzi
 <h3>MFCC</h3>
 <p><strong>MFCC</strong> to zestaw liczb opisujących ogólny kształt barwy dźwięku.
 Są bardzo użyteczne dla algorytmu, ale pojedynczego MFCC nie da się sensownie przetłumaczyć na jedno słowo typu „jasny” czy „basowy”.
-Dlatego traktuję je jako dodatkowy odcisk barwy, a nie główny język opisu.</p>
+Dlatego warto traktować je jako dodatkowy odcisk barwy, a nie główny język opisu.</p>
 
 <h3>Jak czytać liczby porównawcze</h3>
 <p><strong>Mediana</strong> to wartość środkowa: połowa utworów jest poniżej, połowa powyżej.
@@ -95,7 +97,6 @@ Dlatego traktuję je jako dodatkowy odcisk barwy, a nie główny język opisu.</
 Przy trzech klasach przypadek daje około 0,333.</p>
 
 <h2>Co najmocniej rozróżnia trzy wyspy</h2>
-
 <table>
 <thead><tr><th>Cecha</th><th>Co znaczy po polsku</th><th>epsilon²</th></tr></thead>
 <tbody>
@@ -110,13 +111,10 @@ Przy trzech klasach przypadek daje około 0,333.</p>
 </tbody>
 </table>
 
-<p>Najprostszy wniosek jest więc taki: <strong>wyspy powstają przede wszystkim z barwy i rozkładu energii po częstotliwościach</strong>.
-Tempo jest dużo mniej ważne.</p>
+<p>Najprostszy wniosek jest więc taki: <strong>wyspy powstają przede wszystkim z barwy i rozkładu energii po częstotliwościach</strong>. Tempo jest dużo mniej ważne.</p>
 
-<h2>Trzy wyspy — po jednym opisie, bez powtarzania tego pięć razy</h2>
-
+<h2>Trzy wyspy — charakterystyka</h2>
 <div class="grid">
-
 <section class="card">
 <h3>Wyspa Głębi · 166 utworów</h3>
 <p><strong>Najciemniejsza i najbardziej skupiona tonalnie.</strong>
@@ -160,14 +158,11 @@ przy słabszej basowej masie i mniej punktowych onsetach.</p>
 <li>stereo jest przeciętnie trochę szersze i mniej skorelowane L–R, ale to efekt dużo słabszy niż różnice widmowe.</li>
 </ul>
 </section>
-
 </div>
 
 <h2>Chroma literami: C, D, E, G…</h2>
-
 <p>Poniżej jest średni udział każdej z 12 klas dźwięku w profilu chroma.
 Wartości są najpierw normalizowane wewnątrz utworu, więc pokazują <strong>proporcje harmoniczne</strong>, a nie głośność.</p>
-
 <table>
 <thead><tr><th>Klasa dźwięku</th><th>Głębia</th><th>Światło</th><th>Ruch</th></tr></thead>
 <tbody>
@@ -204,12 +199,9 @@ Wartości są najpierw normalizowane wewnątrz utworu, więc pokazują <strong>p
 <tr><td>Ruch</td><td>E minor 13 · A minor 11 · G minor 10 · E major 9</td><td>59,0% / 41,0%</td></tr>
 </tbody>
 </table>
+<p class="muted">Minor jest trochę częstszy na wszystkich wyspach, ale różnica nie jest na tyle silna, żeby traktować tryb major/minor jako główną zasadę podziału.</p>
 
-<p class="muted">Minor jest trochę częstszy na wszystkich wyspach, ale różnica nie jest na tyle silna,
-żeby traktować tryb major/minor jako główną zasadę podziału.</p>
-
-<h2>Pozostałe cechy, które sprawdziłem</h2>
-
+<h2>Pozostałe cechy</h2>
 <h3>Kontrast widmowy</h3>
 <p>To jest faktyczna cecha powtarzająca się wewnątrz wysp.
 <strong>Głębia ma najwyższy kontrast widmowy</strong> szczególnie w pasmach 100–200, 200–400 i 400–800 Hz.
@@ -240,7 +232,6 @@ epsilon² dla BPM wynosi około 0,008, czyli prawie nic.
 Wyspa Światła nie jest po prostu „szybsza”, a Głębia nie jest po prostu „wolniejsza”.</p>
 
 <h2>Rodziny cech — ile same potrafią odtworzyć</h2>
-
 <table>
 <thead><tr><th>Rodzina cech</th><th>Balanced accuracy</th><th>Znaczenie</th></tr></thead>
 <tbody>
@@ -287,26 +278,26 @@ Może zmieniać głośność, jasność, ziarnistość albo ogólną barwę. Te 
 <p><strong>Wniosek:</strong> Głębia różni się nie tylko basem. Ma również <strong>bardziej zebrany, punktowy szkielet harmoniczny</strong>. Ruch i Światło częściej rozkładają energię harmoniczną szerzej.</p>
 
 <h2>Subtelniejsze cechy — 4. Czy układ harmoniczny się przemieszcza?</h2>
-<p>Obecny plik nie zachowuje kolejności wszystkich chwil utworu, więc nie mogę uczciwie powiedzieć: „najpierw było C, potem G, potem A”. Mogę jednak sprawdzić, <strong>jak bardzo zmienia się udział poszczególnych klas dźwięków w trakcie utworu</strong>.</p>
+<p>Obecny zbiór danych nie zachowuje kolejności wszystkich chwil utworu, więc nie można uczciwie powiedzieć: „najpierw było C, potem G, potem A”. Można jednak sprawdzić, <strong>jak bardzo zmienia się udział poszczególnych klas dźwięków w trakcie utworu</strong>.</p>
 <ul><li><strong>Głębia</strong> ma największe zmiany udziału pojedynczych klas dźwięków, ale jednocześnie sposób ich skupienia jest względnie stały;</li><li><strong>Ruch</strong> i <strong>Światło</strong> mają trochę mniejsze wahania poszczególnych liter chroma, ale częściej zmienia się sam stopień rozproszenia harmonii.</li></ul>
 <p><strong>Po polsku:</strong> Głębia może mocno zmieniać <em>które</em> dźwięki są ważne, a mimo to zachowywać podobny sposób organizacji: kilka mocniejszych, reszta słabsza. Ruch i Światło częściej zmieniają również <em>sam sposób organizacji</em>: raz harmonia jest bardziej skupiona, raz bardziej rozlana.</p>
 <p class="muted">To jeszcze nie jest pełna „wędrówka harmonii”. Do niej potrzebna jest kolejność kolejnych fragmentów utworu.</p>
 
 <h2>Subtelniejsze cechy — 5. Powtarzalność czy ciągła zmiana?</h2>
-<p><strong>Tego obecny CSV nie pozwala rozstrzygnąć.</strong></p>
+<p><strong>Obecny zbiór danych nie pozwala tego rozstrzygnąć.</strong></p>
 <p>Wiemy, czy barwa, jasność, głośność i harmonia zmieniają się dużo czy mało, ale nie wiemy, <strong>czy te same układy wracają</strong>. Utwór A może zmieniać się mocno, ale regularnie wracać do refrenu. Utwór B może zmieniać się równie mocno i nigdy nie wracać do wcześniejszego układu. W obecnym zestawie liczb oba mogą wyglądać podobnie.</p>
 <p>Żeby to policzyć, trzeba zachować informacje o kolejnych fragmentach utworu i porównywać je ze sobą. Wtedy można dostać bardzo ludzką oś:</p><p><strong>mantra / repetycja ←→ opowieść / ciągła zmiana</strong>.</p>
-<div class="box"><strong>Wniosek roboczy:</strong> warto to dodać przy następnej ekstrakcji audio. To będzie nowa informacja, a nie kolejna wersja tego, co już mierzymy.</div>
+<div class="box"><strong>Dalszy kierunek:</strong> zachowanie kolejności fragmentów pozwoli zmierzyć powtarzalność jako nową cechę, a nie kolejną wersję tego, co już mierzymy.</div>
 
 <h2>Subtelniejsze cechy — 6. Jaki jest przebieg utworu od początku do końca?</h2>
-<p><strong>Tego również nie da się odtworzyć z obecnego CSV.</strong> Plik pamięta średnie, rozrzuty i zakresy zmian, ale nie pamięta, <strong>gdzie w utworze</strong> te zmiany wystąpiły.</p>
+<p><strong>Tego również nie da się odtworzyć z obecnego zbioru danych.</strong> Zachowane są średnie, rozrzuty i zakresy zmian, ale nie <strong>miejsce tych zmian w utworze</strong>.</p>
 <ul><li>utworu, który stopniowo narasta,</li><li>utworu, który gaśnie,</li><li>utworu falującego,</li><li>utworu z jednym nagłym przełamaniem,</li><li>utworu prawie stałego przez cały czas.</li></ul>
 <p>Najprostsze rozwiązanie na przyszłość: <strong>podzielić każdy utwór np. na 20 równych części</strong> i dla każdej części zapisać kilka podstawowych rzeczy: głośność, jasność, ilość basu i góry, ruch widma oraz skupienie harmonii.</p>
 <ul><li><strong>narasta</strong>,</li><li><strong>opada</strong>,</li><li><strong>faluje</strong>,</li><li><strong>ma punkt zwrotny</strong>,</li><li><strong>pozostaje stały</strong>,</li><li><strong>wraca do wcześniejszych stanów</strong>.</li></ul>
-<div class="box"><strong>Najciekawszy dalszy krok:</strong> właśnie 5 i 6 wymagają nowej, czasowej warstwy danych. Pierwsze cztery subtelne cechy dało się wycisnąć z obecnych 191 kolumn. Dwie ostatnie wymagają zachowania historii utworu, a nie tylko jego podsumowania.</div>
+<div class="box"><strong>Najciekawszy dalszy krok:</strong> właśnie cechy 5 i 6 wymagają nowej, czasowej warstwy danych. Pierwsze cztery subtelne cechy dało się policzyć z obecnego zestawu; dwie ostatnie wymagają zachowania historii utworu, a nie tylko jego podsumowania.</div>
 
 <h2>Subtelniejsze cechy — 7. Bas: fundament czy puls?</h2>
-<p>To pytanie da się sprawdzić tylko <strong>pośrednio</strong>. Obecny plik mówi, ile basu jest w utworze oraz jak mocne i jak częste są wejścia dźwięków, ale nie zapisuje osobno momentów, w których uderza sam bas. Dlatego nie udaję, że rozpoznajemy tu linię basową nuta po nucie.</p>
+<p>To pytanie da się sprawdzić tylko <strong>pośrednio</strong>. Obecny zestaw mówi, ile basu jest w utworze oraz jak mocne i jak częste są wejścia dźwięków, ale nie zapisuje osobno momentów, w których uderza sam bas. Dlatego nie udajemy, że rozpoznajemy tu linię basową nuta po nucie.</p>
 <p>Mimo tego widać ciekawy wzór. W Głębi około <strong>75% rdzenia</strong> ma więcej basu niż typowy utwór z całych trzech wysp. W Ruchu jest to około 21%, a w Świetle około 40%.</p>
 <table><thead><tr><th>Basowe utwory</th><th>Mocne i gęste wejścia</th><th>Mocne, ale rzadsze</th><th>Słabsze i gęste</th><th>Słabsze i rzadsze</th></tr></thead><tbody><tr><td>Głębia</td><td>29%</td><td><strong>55%</strong></td><td>3%</td><td>13%</td></tr><tr><td>Ruch</td><td>13%</td><td>13%</td><td><strong>50%</strong></td><td>25%</td></tr><tr><td>Światło</td><td>25%</td><td>4%</td><td><strong>67%</strong></td><td>4%</td></tr></tbody></table>
 <p><strong>Wniosek:</strong> bas Głębi częściej zachowuje się jak <strong>fundament z wyraźnymi akcentami</strong> niż jak nieustanny, gęsty puls. Wejścia są mocne, ale często rzadsze.</p>
@@ -334,13 +325,13 @@ Może zmieniać głośność, jasność, ziarnistość albo ogólną barwę. Te 
 <p><strong>Wniosek:</strong> mikrodynamika Głębi polega bardziej na <strong>przestrzeni na ciszę i cofnięcie</strong> niż na agresywnych wyskokach w górę. Światło jest bardziej „ciągle obecne”, a Ruch znowu zajmuje pozycję pośrednią.</p>
 
 <h2>Subtelniejsze cechy — 11. Czy szerokość stereo zmienia się w czasie?</h2>
-<p><strong>Tego obecny plik nie zapisuje.</strong> Mamy średnią geometrię stereo całego utworu, ale nie mamy kolejnych pomiarów szerokości w czasie. Nie da się więc uczciwie powiedzieć, czy panorama rozszerza się w refrenie, zwęża w zwrotce albo pulsuje.</p>
+<p><strong>Tego obecny zestaw nie zapisuje.</strong> Mamy średnią geometrię stereo całego utworu, ale nie mamy kolejnych pomiarów szerokości w czasie. Nie da się więc uczciwie powiedzieć, czy panorama rozszerza się w refrenie, zwęża w zwrotce albo pulsuje.</p>
 <p>Da się natomiast zobaczyć, <strong>jak szeroko utwory są ustawione przeciętnie</strong>.</p>
 <table><thead><tr><th>Wyspa</th><th>Typowa szerokość stereo</th><th>Podobieństwo lewego i prawego kanału</th></tr></thead><tbody><tr><td>Głębia</td><td>węższa</td><td>wysokie</td></tr><tr><td>Ruch</td><td><strong>najszersza</strong></td><td><strong>najmniejsze</strong></td></tr><tr><td>Światło</td><td>węższa</td><td>wysokie</td></tr></tbody></table>
 <p>W uproszczeniu: <strong>Ruch jest bardziej rozłożony na boki</strong>, podczas gdy Głębia i Światło są do siebie zaskakująco podobne pod względem średniej szerokości.</p>
 <p>Balans lewy–prawy jest na wszystkich trzech wyspach bardzo blisko środka.</p>
 <p><strong>Wniosek:</strong> stereo daje dodatkową, subtelną cechę Ruchu: jest przeciętnie bardziej przestrzenny na boki. Ale pytanie o <strong>zmiany szerokości w czasie</strong> zostaje otwarte.</p>
-<div class="box"><strong>Do następnej ekstrakcji:</strong> zapisywać szerokość stereo i korelację L–R dla kolejnych fragmentów utworu. Wtedy będzie można rozpoznać: „stałe stereo”, „rozszerzanie”, „zwężanie”, „falowanie” i nagłe zmiany przestrzeni.</div>
+<div class="box"><strong>Dalszy pomiar:</strong> zapisywanie szerokości stereo i korelacji L–R dla kolejnych fragmentów utworu pozwoli rozpoznać: „stałe stereo”, „rozszerzanie”, „zwężanie”, „falowanie” i nagłe zmiany przestrzeni.</div>
 
 </main>
 </body>
