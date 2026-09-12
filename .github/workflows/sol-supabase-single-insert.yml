@@ -1,0 +1,20 @@
+name: SOL Supabase single INSERT
+
+on:
+  push:
+    paths:
+      - '.github/sol-data/supabase-single-insert.sql'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  insert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install "psycopg[binary]"
+      - run: python .github/sol-data/supabase_single_insert.py
+        env:
+          POSGRESPASS: ${{ secrets.POSGRESPASS }}
