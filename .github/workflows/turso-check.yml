@@ -19,7 +19,7 @@ jobs:
       - name: Install libsql
         run: pip install libsql
 
-      - name: Update AllTimeBest playlist links in Turso
+      - name: Update bestof2018 YouTube Music link in Turso
         env:
           TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
@@ -32,29 +32,41 @@ jobs:
 
           status_path = Path('piosenki/SOL-turso-status.txt')
           stamp = datetime.now(timezone.utc).isoformat()
-          playlist_id = 'spotify:alltimebest'
-          playlist_tags = 'owner:maciek-tora; spotify_url=https://open.spotify.com/playlist/5wDt92D4lFaSDIuVrdKLF9; youtube_music_url=https://music.youtube.com/playlist?list=PLFZzzP8gJ7jU'
+          playlist_id = 'spotify:bestof:2018'
+          youtube_tag = 'youtube_music_url=https://music.youtube.com/playlist?list=PLA_G2J50icYo'
 
           conn = libsql.connect(
               database=os.environ['TURSO_DATABASE_URL'],
               auth_token=os.environ['TURSO_AUTH_TOKEN'],
           )
+          row = conn.execute(
+              'SELECT playlist_tags FROM playlist WHERE playlist_id = ?',
+              (playlist_id,),
+          ).fetchone()
+          if row is None:
+              raise RuntimeError('Nie znaleziono playlisty bestof2018')
+
+          parts = [p.strip() for p in (row[0] or '').split(';') if p.strip()]
+          parts = [p for p in parts if not p.startswith('youtube_music_url=')]
+          parts.append(youtube_tag)
+          playlist_tags = '; '.join(parts)
+
           conn.execute(
               'UPDATE playlist SET playlist_tags = ? WHERE playlist_id = ?',
               (playlist_tags, playlist_id),
           )
           conn.commit()
 
-          row = conn.execute(
+          check = conn.execute(
               'SELECT playlist_id, playlist_tags FROM playlist WHERE playlist_id = ?',
               (playlist_id,),
           ).fetchone()
-          print('PLAYLIST_LINKS=' + repr(row))
-          if row != (playlist_id, playlist_tags):
-              raise RuntimeError('Nie potwierdzono aktualizacji AllTimeBestSpotify')
+          print('PLAYLIST_LINKS=' + repr(check))
+          if check is None or youtube_tag not in (check[1] or ''):
+              raise RuntimeError('Nie potwierdzono aktualizacji bestof2018')
 
           status_path.write_text(
-              f'OK\nUTC={stamp}\nALLTIMEBEST_LINKS=UPDATED\n',
+              f'OK\nUTC={stamp}\nBESTOF2018_YOUTUBE_MUSIC=UPDATED\n',
               encoding='utf-8',
           )
           conn.close()
@@ -65,5 +77,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add piosenki/SOL-turso-status.txt
-          git diff --cached --quiet || git commit -m "Turso AllTimeBest links update result"
+          git diff --cached --quiet || git commit -m "Turso bestof2018 YouTube Music update result"
           git push
