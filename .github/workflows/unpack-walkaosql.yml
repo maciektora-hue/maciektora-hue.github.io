@@ -25,14 +25,19 @@ jobs:
           set -e
           python3 walkaosql/split_sql_by_table.py
 
+      - name: Split INSERT only into one file per table
+        run: |
+          set -e
+          python3 walkaosql/split_inserts_by_table.py
+
       - name: Commit unpacked and split files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add walkaosql/rozpakowane walkaosql/tabele
+          git add walkaosql/rozpakowane walkaosql/tabele walkaosql/tabele_insert
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Unpack and split walkaosql by table"
+          git commit -m "Generate full and INSERT-only SQL files by table"
           git push
