@@ -22,6 +22,7 @@ Zrobione:
 - `middle_end` — 977
 - `playlist_item` — 2403
 - `content_sections` — 967
+- `lyrics` — 882
 
 Do ponowienia:
 - `content_documents`
@@ -29,4 +30,4 @@ Do ponowienia:
 - `audio`
 - `tag_snapshots`
 
-Następna: `lyrics`.
+Następna: `audio_feature_snapshots`.
