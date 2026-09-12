@@ -1,9 +1,10 @@
 # Import Supabase — postęp
 
-Udane paczki: 13
+Tabela: `tag_snapshots`
 
-- 10 × 1 INSERT
-- 1 × 10 INSERT
-- 2 × 50 INSERT
+Wstawiłem 120 linijek.
 
-Łącznie: 120 INSERT-ów
+Paczki:
+- 10 × 1 linijka
+- 1 × 10 linijek
+- 2 × 50 linijek
