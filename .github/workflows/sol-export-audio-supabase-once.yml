@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
@@ -47,7 +47,8 @@ jobs:
               raise RuntimeError(f'Nieoczekiwany schemat audio: {cols}')
           if len(rows) != 856:
               raise RuntimeError(f'Nieoczekiwana liczba audio: {len(rows)} zamiast 856')
-          with open('SOL_audio-live-856.tsv', 'w', encoding='utf-8', newline='') as f:
+          out = 'dane-robocze/csv-tsv/piosenki/SOL_audio-live-856.tsv'
+          with open(out, 'w', encoding='utf-8', newline='') as f:
               w = csv.writer(f, delimiter='\t', lineterminator='\n')
               w.writerow(expected)
               w.writerows(rows)
@@ -55,9 +56,10 @@ jobs:
           conn.close()
           PY
 
-      - name: Upload private artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: SOL_audio-live-856
-          path: SOL_audio-live-856.tsv
-          retention-days: 1
+      - name: Commit temporary export
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dane-robocze/csv-tsv/piosenki/SOL_audio-live-856.tsv
+          git diff --cached --quiet || git commit -m "SOL: temporary live audio export for Supabase"
+          git push
