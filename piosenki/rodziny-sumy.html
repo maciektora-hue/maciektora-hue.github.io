@@ -3,22 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sumy wystąpień po rodzinach</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Zestawienie rodzin znaczeniowych w tekstach piosenek, uporządkowane według liczby przypisanych wystąpień tagów semantycznych.">
+  <title>Rodziny znaczeniowe — wystąpienia</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 32px auto; padding: 0 16px; background: #fff; color: #111; }
-    h1 { margin-bottom: 8px; }
-    #status { margin: 12px 0 20px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; }
-    th:last-child, td:last-child { text-align: right; width: 140px; }
+    :root{color-scheme:dark;--bg:#18231f;--panel:#223129;--text:#e7c27a;--strong:#f3d796;--muted:#c7b58d;--line:#556b5e}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+    main{max-width:900px;margin:0 auto;padding:28px 20px 64px}
+    a{color:var(--strong)}
+    h1{margin:.3rem 0 .55rem;font-size:clamp(2.2rem,7vw,4.5rem);line-height:1;color:var(--strong);font-weight:650;letter-spacing:-.03em}
+    .meta,.muted{color:var(--muted)}
+    .intro,.status{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:1rem 0}
+    .intro p{margin:.2rem 0}
+    table{width:100%;border-collapse:collapse;margin-top:1rem;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+    th{color:var(--strong);font-size:.84rem}
+    th:last-child,td:last-child{text-align:right;width:150px}
+    tr:last-child td{border-bottom:0}
   </style>
 </head>
 <body>
-  <h1>Sumy wystąpień po rodzinach</h1>
-  <div id="status">Ładowanie…</div>
+<main>
+  <p class="meta"><a href="slowa.html">← Słowa</a> · <a href="tagi-sumy.html">Tagi</a> · <a href="osie-sumy.html">Osie</a></p>
+  <h1>Rodziny znaczeniowe</h1>
+  <div class="intro">
+    <p>Rodziny są najwyższym poziomem grupowania znaczeń. Łączą kilka osi w większe obszary tematyczne i pokazują, które z nich najczęściej pojawiają się w analizowanych tekstach.</p>
+  </div>
+  <div id="status" class="status">Ładowanie zestawienia…</div>
   <table id="tabela" hidden>
     <thead>
-      <tr><th>Rodzina</th><th>Liczba wystąpień</th></tr>
+      <tr><th>Rodzina znaczeniowa</th><th>Wystąpienia</th></tr>
     </thead>
     <tbody></tbody>
   </table>
@@ -111,14 +126,15 @@
           tbody.appendChild(tr);
         }
 
-        status.textContent = 'Liczba rodzin: ' + rows.length;
-        table.hidden = false;
+        status.textContent = rows.length ? 'Liczba rodzin: ' + rows.length : 'Brak danych do pokazania.';
+        table.hidden = rows.length === 0;
       } catch (error) {
-        status.textContent = 'Błąd: ' + error.message;
+        status.textContent = 'Nie udało się teraz pobrać zestawienia.';
       }
     }
 
     start();
   </script>
+</main>
 </body>
 </html>
