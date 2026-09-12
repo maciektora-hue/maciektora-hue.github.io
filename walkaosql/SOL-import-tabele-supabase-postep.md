@@ -1,9 +1,12 @@
 # Import Supabase — tabele
 
-Tryb: pliki z `walkaosql/tabele_insert`, od najmniejszego do największego.
-
 Zrobione:
-- `playlist_tag_def` — 1 linijka
-- `content_collections` — 2 linijki
+- `playlist_tag_def` — 1
+- `content_collections` — 2
+- `families` — 5
+- `tag_groups` — 12
 
-Następna tabela: `content_meta`.
+Do ponowienia:
+- `content_meta`
+
+Następna: `axes`.
