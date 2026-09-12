@@ -7,6 +7,16 @@ Nowa baza: Supabase / PostgreSQL 17
 Projekt Supabase: `maciekGithubHue`  
 Region: `eu-central-1`
 
+## 0. Zasada dalszej pracy
+
+Ten plik jest bieżącą dokumentacją **nowego SQL-a w Supabase/PostgreSQL**.
+
+Od tego etapu ustalenia dotyczące nowej bazy, jej schematu, migracji danych i późniejszych zmian SQL mają być aktualizowane właśnie tutaj.
+
+Dla nowej bazy źródłem stanu faktycznego jest **Supabase/PostgreSQL**. Ten dokument opisuje ten stan i decyzje migracyjne.
+
+`SQL Viewer` nie jest częścią dalszej migracji ani dokumentowania nowej bazy i nie należy go używać, modyfikować ani traktować jako źródła dla kolejnych kroków.
+
 ## 1. Najważniejszy stan
 
 Nowa baza PostgreSQL w Supabase została utworzona i ma kompletny pusty schemat.
@@ -184,7 +194,7 @@ Supabase Security Advisor zgłasza `RLS Enabled No Policy` dla 28 tabel jako inf
 
 ## 8. Wynik kontroli po DDL
 
-Po wykonaniu migracji sprawdzono bazę przez Supabase.
+Po wykonaniu migracji sprawdzono bazę bezpośrednio przez Supabase.
 
 Potwierdzone:
 
