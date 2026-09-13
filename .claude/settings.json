@@ -15,5 +15,18 @@
       "mcp__github__get_me",
       "mcp__Claude_Code_Remote__list_repos"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__Supabase__execute_sql",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '.tool_input.query as $q | ($q // \"\") as $qs | ($qs | test(\"^\\\\s*(SELECT|WITH)\\\\b\"; \"i\")) as $startsRead | ($qs | test(\"\\\\b(INSERT|UPDATE|DELETE|DROP|ALTER|TRUNCATE|CREATE|GRANT|REVOKE|COPY|VACUUM|REINDEX|CALL|MERGE|REFRESH\\\\s+MATERIALIZED|LOCK|EXECUTE|SET)\\\\b\"; \"i\")) as $hasWrite | if $startsRead and ($hasWrite | not) then {hookSpecificOutput:{hookEventName:\"PreToolUse\", permissionDecision:\"allow\", permissionDecisionReason:\"read-only SELECT/WITH query, no write keywords detected\"}} else {hookSpecificOutput:{hookEventName:\"PreToolUse\", permissionDecision:\"ask\", permissionDecisionReason:\"query is not a plain read-only SELECT - confirm before running\"}} end'"
+          }
+        ]
+      }
+    ]
   }
 }
