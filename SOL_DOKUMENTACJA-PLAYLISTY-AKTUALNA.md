@@ -290,7 +290,17 @@ middle_end = kanoniczne utwory projektu
 
 Nie cofaj modelu do kopiowania title/artist/album na każdej pozycji playlisty. Nie twórz `middle_end` dla nierozpoznanych utworów tylko po to, żeby zapełnić FK. Nie mapuj po tytule / artyście / albumie bez jawnej decyzji. Nie przywracaj starego systemu tagów JSON.
 
-## 16. Publikacje tej samej playlisty w różnych serwisach
+## 16. `spotify_order` dla `bestof2018` — proteza, decyzja użytkownika 2026-09-13
+
+`middle_end.spotify_order` normalnie odzwierciedla kolejność polubienia utworu na **tej jednej, historycznej liście Liked Songs**, na której powstał system tagów (2019+). Utwory z `bestof2018` z definicji nie mogły tam być — playlista dotyczy roku 2018 lub wcześniejszego, sprzed powstania tej listy.
+
+Mimo to, na wyraźne polecenie użytkownika, wszystkim 100 utworom `bestof2018` nadano `spotify_order` jako **ciągłe liczby rosnące, kontynuujące numerację od dotychczasowego maksimum w całej bazie** (939–1038, bo maksimum przed tą operacją wynosiło 938). Kolejność wzięto z pozycji utworu na liście `bestof2018` (`playlist_item.position`).
+
+**To jest świadoma proteza, nie odtworzenie prawdziwej kolejności polubień.** Zasadność: kolejność na liście `bestof2018` przybliża kolejność słuchania/polubienia utworów z tego roku, mimo że nie pochodzi z tej samej, historycznej listy Liked Songs.
+
+**Nie robimy tego dla pozostałych lat (`bestof2019`–`bestof2025`).** Ich `spotify_order` pozostaje `NULL`, dopóki użytkownik nie podejmie osobnej, jawnej decyzji per playlista.
+
+## 17. Publikacje tej samej playlisty w różnych serwisach
 
 Dla playlist tworzonych przez nas SQL przechowuje zawartość **jeden raz**. Spotify, YouTube Music i ewentualne kolejne serwisy są publikacjami tej samej, mniej więcej zgodnej playlisty, a nie kolejnymi kopiami `playlist_item`.
 
