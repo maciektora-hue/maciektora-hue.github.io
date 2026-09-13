@@ -2,7 +2,7 @@ import csv
 import io
 import os
 
-import libsql
+import psycopg
 from flask import Flask, Response, jsonify, render_template, request
 from flask_cors import CORS
 
@@ -27,16 +27,13 @@ from statystyki import build_direction_page, load_model
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": ["https://maciektora-hue.github.io"]}})
 
-TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL", "libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io")
-TURSO_ADMIN_TOKEN = os.environ.get("TURSO_ADMIN_TOKEN")
+SUPABASE_DATABASE_URL = os.environ.get("SUPABASE_DATABASE_URL")
 
 
 def get_connection():
-    if not TURSO_ADMIN_TOKEN:
-        raise RuntimeError("Brak TURSO_ADMIN_TOKEN")
-    conn = libsql.connect(database=TURSO_DATABASE_URL, auth_token=TURSO_ADMIN_TOKEN)
-    conn.execute("PRAGMA foreign_keys = ON")
-    return conn
+    if not SUPABASE_DATABASE_URL:
+        raise RuntimeError("Brak SUPABASE_DATABASE_URL")
+    return psycopg.connect(SUPABASE_DATABASE_URL, autocommit=False)
 
 
 def fetch_rows(conn, sql, columns):
@@ -109,7 +106,7 @@ def content_tsv(conn, collection_id):
     return filename, out.getvalue()
 
 
-# WAŻNE: nie otwieramy połączenia libsql podczas importu modułu Gunicorna.
+# WAŻNE: nie otwieramy połączenia z bazą podczas importu modułu Gunicorna.
 # Inicjalizacja/migracje są wykonywane osobno; requesty otwierają własne połączenia.
 CONTENT_STORAGE_STATE = None
 
