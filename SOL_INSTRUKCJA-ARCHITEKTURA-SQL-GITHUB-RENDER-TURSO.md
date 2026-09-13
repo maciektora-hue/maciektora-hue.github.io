@@ -1,5 +1,11 @@
 # SOL — INSTRUKCJA: GitHub → WWW → Render API → Turso SQL
 
+> **ZASTĄPIONE.** Backend `piosenki-api` jest przepięty z Turso na
+> Supabase/PostgreSQL. Aktualny opis architektury:
+> `techniczne/SOL_DOKUMENTACJA-SQL-SUPABASE-AKTUALNA.md`.
+> Ten plik zostaje jako zapis historyczny — opisuje starą ścieżkę przez
+> Turso, która nie jest już używana przez żywą aplikację.
+
 > **PRZED JAKĄKOLWIEK OPERACJĄ NA SQL PRZECZYTAJ TEN PLIK W CAŁOŚCI.**
 >
 > Nie zgaduj architektury, nie twórz nowego połączenia „na próbę”, nie obchodź istniejącego API i nie wykonuj operacji zapisu/usuwania tylko po to, żeby sprawdzić, czy połączenie działa.

@@ -216,7 +216,34 @@ Stara baza zawiera 2 rekordy:
 
 Do Supabase wpisano dokładnie te 2 rekordy do kolumn `collection_id`, `label`, `sort_order`. Kontrola bezpośrednio po zapisie zwróciła oba rekordy z identycznymi wartościami. Migracja tej tabeli jest zakończona.
 
-Nie wykonano jeszcze przełączenia Render/Flask, WWW, publicznych polityk odczytu ani wyłączenia starej bazy.
+## 12. Przełączenie Render/Flask — stan 2026-09-13
+
+Backend `piosenki/*.py` (Flask, serwis Render `piosenki-api`) został przepisany
+z klienta `libsql`/SQLite na `psycopg` (psycopg 3) / PostgreSQL:
+
+- `get_connection()` w `piosenki/app.py` łączy się przez
+  `SUPABASE_DATABASE_URL` zamiast `TURSO_DATABASE_URL`/`TURSO_ADMIN_TOKEN`.
+- Placeholdery `?` zamienione na `%s` we wszystkich zapytaniach odczytowych
+  (`content_store.py`, `content_structure.py`, `playlist_api.py`,
+  `content_explorer_app.py`).
+- `piosenki/schema_view.py` przepisany na `information_schema`/`pg_catalog`
+  zamiast `PRAGMA`/`sqlite_schema`/`dbstat`.
+- Tymczasowy endpoint `/api/sol-migration/<table>` (odczyt surowych tabel z
+  Turso na potrzeby ręcznej migracji) usunięty — stracił sens po przepięciu.
+- Funkcje jednorazowej migracji `ensure_content_storage`
+  (`content_store.py`) i `ensure_content_structure_v2`
+  (`content_structure.py`) zostały nietknięte — nadal są kodem
+  SQLite/Turso-only i nie wolno ich uruchamiać na połączeniu do Supabase;
+  dane, które wstawiały, są już w Supabase z importu hurtowego.
+
+Backend łączy się kluczem/rolą z pełnym dostępem (odpowiednik dzisiejszego
+`TURSO_ADMIN_TOKEN` używanego do endpointów read-only) — publiczne polityki
+RLS tylko-do-odczytu nadal nie istnieją (patrz §7). To świadomie ten sam
+poziom ryzyka co wcześniej, nie gorszy; dodanie właściwych polityk RLS to
+osobne zadanie.
+
+Stan wdrożenia: kod gotowy, `SUPABASE_DATABASE_URL` ustawiany jako sekret w
+Renderze osobno od commita kodu.
 
 ## 10. Zasada ręcznej kopii
 

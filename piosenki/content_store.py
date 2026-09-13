@@ -279,6 +279,10 @@ def _validate_database_v1(conn) -> None:
 
 
 def ensure_content_storage(conn) -> dict:
+    # UWAGA: ta funkcja i jej pomocnicze zapytania (placeholdery "?", PRAGMA)
+    # są napisane pod SQLite/libsql/Turso. Dane, które tu wstawiały, są już
+    # przeniesione do Supabase importem hurtowym (walkaosql/). Nie uruchamiać
+    # tej ścieżki na połączeniu do Supabase/Postgres.
     conn.execute("PRAGMA foreign_keys = ON")
     _execute_schema(conn)
 
@@ -373,7 +377,7 @@ def fetch_content_rows(conn, collection_id: str) -> list[dict]:
                dokument_tytul, canonical_url, dokument_kod, poziom, glebokosc,
                kolejnosc, dokument_plik, source_url, document_sort_order
         FROM v_content_human
-        WHERE collection_id = ?
+        WHERE collection_id = %s
         ORDER BY document_sort_order, kolejnosc
         """,
         (collection_id,),
@@ -392,7 +396,7 @@ def fetch_content_status(conn, collection_id: str) -> dict | None:
         SELECT collection_id, documents, sections, anchors_ok, anchors_missing,
                descriptions_present, descriptions_missing
         FROM v_content_status
-        WHERE collection_id = ?
+        WHERE collection_id = %s
         """,
         (collection_id,),
     ).fetchone()

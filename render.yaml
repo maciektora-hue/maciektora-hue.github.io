@@ -6,7 +6,5 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn content_explorer_app:app
     envVars:
-      - key: TURSO_DATABASE_URL
-        value: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
-      - key: TURSO_ADMIN_TOKEN
+      - key: SUPABASE_DATABASE_URL
         sync: false

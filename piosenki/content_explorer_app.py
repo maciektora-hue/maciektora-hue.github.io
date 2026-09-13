@@ -27,8 +27,8 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
         keywords AS (
             SELECT
                 section_id,
-                group_concat(CASE WHEN lang='pl' THEN keyword END, ' · ') AS keywords_pl,
-                group_concat(CASE WHEN lang='en' THEN keyword END, ' · ') AS keywords_en
+                string_agg(CASE WHEN lang='pl' THEN keyword END, ' · ' ORDER BY keyword_order) AS keywords_pl,
+                string_agg(CASE WHEN lang='en' THEN keyword END, ' · ' ORDER BY keyword_order) AS keywords_en
             FROM ordered_terms
             GROUP BY section_id
         ),
@@ -77,7 +77,7 @@ def fetch_explorer_rows(conn, collection_id: str) -> list[dict]:
         LEFT JOIN keywords k ON k.section_id = s.section_id
         LEFT JOIN keyword_counts kc ON kc.section_id = s.section_id
         LEFT JOIN content_section_metrics m ON m.section_id = s.section_id
-        WHERE d.collection_id = ?
+        WHERE d.collection_id = %s
         ORDER BY
             d.sort_order,
             COALESCE(s.structure_order, s.section_order),
@@ -169,7 +169,7 @@ def api_content_explorer(collection_id):
     try:
         conn = get_connection()
         collection = conn.execute(
-            "SELECT label FROM content_collections WHERE collection_id=?",
+            "SELECT label FROM content_collections WHERE collection_id=%s",
             (collection_id,),
         ).fetchone()
         if collection is None:
@@ -178,7 +178,7 @@ def api_content_explorer(collection_id):
         rows = fetch_explorer_rows(conn, collection_id)
         return jsonify(
             status="ok",
-            source="live Turso / content_*",
+            source="live Supabase / content_*",
             collection_id=collection_id,
             label=collection[0],
             stats=build_stats(rows),

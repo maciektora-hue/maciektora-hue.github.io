@@ -20,6 +20,11 @@ def _rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(f, delimiter="\t"))
 
 
+# UWAGA: _has_column, _ensure_structure_order_column, _validate_database i
+# ensure_content_structure_v2 są napisane pod SQLite/libsql/Turso (PRAGMA,
+# placeholdery "?"). Dane, które ta migracja wstawiała, są już w Supabase
+# przez import hurtowy (walkaosql/). Nie uruchamiać tej ścieżki na
+# połączeniu do Supabase/Postgres.
 def _has_column(conn, table: str, column: str) -> bool:
     return any(row[1] == column for row in conn.execute(f"PRAGMA table_info({table})").fetchall())
 
@@ -248,7 +253,7 @@ def fetch_content_structure(conn, collection_id: str) -> list[dict]:
             COALESCE(s.content_html,'')
         FROM content_sections s
         JOIN content_documents d ON d.document_id=s.document_id
-        WHERE d.collection_id=?
+        WHERE d.collection_id=%s
         ORDER BY d.sort_order, COALESCE(s.structure_order, s.section_order), s.section_id
         """,
         (collection_id,),
