@@ -33,7 +33,9 @@ SUPABASE_DATABASE_URL = os.environ.get("SUPABASE_DATABASE_URL")
 def get_connection():
     if not SUPABASE_DATABASE_URL:
         raise RuntimeError("Brak SUPABASE_DATABASE_URL")
-    return psycopg.connect(SUPABASE_DATABASE_URL, autocommit=False)
+    # prepare_threshold=None: łączymy się przez Supavisor (transaction pooler,
+    # IPv4), który nie obsługuje prepared statements między transakcjami.
+    return psycopg.connect(SUPABASE_DATABASE_URL, autocommit=False, prepare_threshold=None)
 
 
 def fetch_rows(conn, sql, columns):
