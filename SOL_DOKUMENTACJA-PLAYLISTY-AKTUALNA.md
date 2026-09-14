@@ -1,14 +1,14 @@
 # SOL — DOKUMENTACJA PLAYLIST — AKTUALNA
 
 Status: AKTUALNY MODEL WARSTWY PLAYLIST
-Data: 2026-09-12
-Źródło prawdy dla zasad działania: ten dokument + live Turso + aktualny kod repozytorium
+Data: 2026-09-14
+Źródło prawdy dla zasad działania: ten dokument + live PostgreSQL/Supabase + aktualny kod repozytorium
 
 ## 1. Cel
 
 Ta dokumentacja opisuje aktualną warstwę playlist w projekcie `piosenki`: model SQL, mapowanie do kanonicznego `middle_end`, zasady tagów playlist, publiczny viewer oraz stan danych po imporcie testowym Liked Songs z 2026-09-11.
 
-Migracje i pliki XLSX są historią / źródłem importu. Po imporcie stan bieżący należy czytać z live Turso.
+Migracje i pliki XLSX są historią / źródłem importu. Po imporcie stan bieżący należy czytać z live PostgreSQL/Supabase. Wzmianki o Turso w opisach dawnych importów dotyczą historii sprzed migracji.
 
 ## 2. Model SQL
 
@@ -72,9 +72,9 @@ Stare pola `utwu_id`, `external_track_id`, `source_name`, `source_artist`, `sour
 
 Nie należy ich usuwać bez osobnej, jawnej migracji cleanupowej.
 
-## 6. Aktualny stan live
+## 6. Historyczny stan po imporcie 2026-09-11
 
-Zweryfikowany przez publiczne API po imporcie Liked Songs:
+Historyczny wynik zweryfikowany przez publiczne API po imporcie Liked Songs (aktualny pomiar: sekcja 17):
 
 - 10 playlist;
 - 1861 pozycji `playlist_item`;
@@ -311,3 +311,46 @@ owner:maciek-tora; wyspa=swiatla; spotify_url=https://open.spotify.com/playlist/
 ```
 
 Viewer interpretuje nazwy tagów URL, więc wie, który adres jest Spotify, który YouTube Music, i wyświetla odpowiednie przyciski. URL-e nie są pokazywane jako zwykłe tagi tekstowe.
+
+## 17. Kamień milowy 2026-09-14 — system działa również po migracji
+
+Po przejściu na PostgreSQL w Supabase udało się kontynuować pracę: dodać utwory do `middle_end`, powiązać je z pozycjami playlist oraz dołączyć nowe teksty i tagi. System przeszedł więc praktyczny sprawdzian dalszego rozwoju danych. W ocenie użytkownika działa dobrze lub bardzo dobrze; przeprowadzony audyt potwierdził spójność sprawdzonych relacji SQL.
+
+### Zmierzone rezultaty
+
+Stan live projektu `maciekGithubHue` (`uogsyhvkzirprxedurrh`) z 2026-09-14:
+
+| Miara | Stan po imporcie 2026-09-11 opisanym wyżej | Stan 2026-09-14 |
+|---|---:|---:|
+| Playlisty | 10 | 17 |
+| Pozycje playlist | 1861 | 2403 |
+| Różne `external_track` | 1033 | 1033 |
+| Rozstrzygnięte relacje `external_track_utwu` | 937 | 1030 |
+| Zewnętrzne utwory bez rozstrzygniętego mapowania | 96 | 3 |
+
+Obecnie **2400 z 2403 pozycji playlist ma jednoznaczne przypisanie do `utwu_id` — 99,88%**. Liczba pozycji uwzględnia wystąpienia tego samego utworu na różnych playlistach; nie jest liczbą unikalnych utworów. W całym katalogu zewnętrznym przybyły 93 rozstrzygnięte mapowania względem udokumentowanego stanu historycznego.
+
+Trzy nierozstrzygnięte pozycje pozostają w Liked Songs: „Wichita Vortex Sutra” — Philip Glass, „Nieprzysiadalność” — Świetliki i „Filandia” — Świetliki. Wcześniej nierozstrzygnięte „Ja pas!” i „Miłość Miłość” mają już przypisania.
+
+`external_track_utwu` przechowuje **udane mapowania**, więc przy rozpoznawaniu kolejnych utworów przybywa w niej wpisów. Ubywa rekordów `external_track` bez relacji w tej tabeli. Dopasowanie nie usuwa rekordu zewnętrznego ani nie przenosi go do legacy `playlist_item.utwu_id`.
+
+### Sprawdzian nowych tekstów i relacji
+
+W ostatniej partii 68 utworów przypisano 54 nowe teksty do 55 rekordów utworów oraz zapisano 54 snapshoty tagowania: 419 przypisań używających 106 istniejących tagów. Wszystkie 68 utworów ma powiązania z playlistami przez obowiązujący model.
+
+Audyt wykazał:
+
+- 0 osieroconych odwołań w 28 sprawdzonych relacjach kluczy obcych;
+- zgodność statusów tekstów z obecnością lub brakiem `lyrics_id`;
+- poprawne powiązania nowych tagów z katalogiem, grupami, osiami i rodzinami;
+- zgodne sprawdzone przypisania audio i identyfikatory YouTube.
+
+To potwierdzenie integralności danych i możliwości ich dalszego dodawania po migracji. Audyt nie był pełnym testem każdej funkcji interfejsu ani ponownym odsłuchem nagrań. Nowe pliki audio nie miały jeszcze analiz cech; warstwy walencji i biegunowości pozostawały niepełne.
+
+### Sukces nie oznacza wymogu 100%
+
+**Celem jest wiarygodny, spójny model, który można rozwijać — 100% przypisań ani 100% tekstów nie jest wymaganiem.** Użytkownik świadomie zaakceptował pozostawienie 11 utworów ze statusem tekstu `missing`. Brak tekstu i brak mapowania zewnętrznego utworu to dwie różne rzeczy.
+
+Planowane dodawanie cudzych playlist może zwiększyć liczbę nierozpoznanych utworów i obniżyć procent przypisań. To spodziewany efekt rozszerzenia zbioru, nie oznaka awarii. Takie pozycje mogą pozostać w `external_track` bez mapowania do `middle_end`; nie należy wymuszać dopasowań ani tworzyć kanonicznych utworów wyłącznie dla poprawienia wskaźnika.
+
+Ten etap uznajemy za udany: migracja została wykorzystana w normalnej pracy, katalog urósł, a kontrola wykazała spójność nowych danych.
