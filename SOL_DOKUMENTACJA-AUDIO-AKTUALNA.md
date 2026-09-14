@@ -418,3 +418,17 @@ REVIEW + decision=use:
 UNMATCHED:
   audio_middle_end (out, utwu_id=NULL)
 ```
+
+---
+
+# Uzupełnienie analiz po utworzeniu wysp — 2026-09-14
+
+Po utworzeniu dotychczasowych wysp doszły nowe piosenki. Wykonano dla nich lokalnie analizę audio zgodnie z opisaną w repozytorium metodą v05 oraz uzupełniono wyniki w bazie. Sprawdzono zgodność zapisanych wyników z pomiarami lokalnymi i zachowanie wcześniejszych analiz.
+
+Nowe piosenki nie były wejściem do historycznego wyznaczania wysp. Wysp nie przeliczano i nie zmieniano przypisań. Wykonanie pomiarów nie oznacza jeszcze sanityzacji nowej partii ani oceny jej dopasowania do wysp.
+
+Dalsze etapy pozostają osobnym zadaniem, w tej kolejności:
+1. Ocenić potrzebę i uzgodnić sanityzację nowych pomiarów.
+2. Sprawdzić, czy nowe piosenki pasują do którejś z istniejących wysp.
+
+Szczegółowy audyt wykonania i pliki umożliwiające wycofanie nowej partii zachowano lokalnie. Metodę ekstrakcji opisuje [SOL_audio-analysis-05.md](piosenki/SOL_audio-analysis-05.md).
