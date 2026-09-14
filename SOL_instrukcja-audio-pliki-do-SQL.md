@@ -111,3 +111,11 @@ Przy dopasowaniu:
 To zasada przyszłego doboru nagrań. Obecna wersja skryptu `piosenki/SOL_youtube-music-playlista-100.py` z tej sesji nadal pyta o wybór każdego nowego nagrania; wdrożenie automatycznego doboru wymaga zmiany skryptu.
 
 Pobranie pliku i jego zgodność z oczekiwanym nagraniem to osobne kwestie. Status `downloaded` wraz z istnieniem pliku potwierdza ukończenie pobrania, a nie niezależną weryfikację poprawności muzycznej. Samo pobranie nie uzupełnia przypisania audio w SQL.
+
+### Doprecyzowanie użytkownika — akceptowana zgodność około 90%
+
+Na potrzeby przypisania audio wystarcza mocna, prawdopodobna zgodność utworu i wykonawcy (około 90% w rozumieniu użytkowym, bez udawania wyliczonego wyniku statystycznego). Nie wymagamy stuprocentowego potwierdzenia konkretnej edycji na podstawie samych nazw w SQL.
+
+Oryginał i remaster są akceptowalne do przypisania; brak potwierdzenia konkretnego remasteru sam w sobie nie blokuje importu. Różnice wykonania lub kredytów można opisać jako zaakceptowany wariant zgodnie z modelem REVIEW. Analiza sygnału zawsze dotyczy konkretnego pobranego pliku, więc nie oznacza to identyczności wyników różnych nagrań.
+
+Odkładać wyraźnie inne utwory, niezgodnych wykonawców i inne części dzieła oraz rzeczywiście słabe dopasowania. Nie odkładać mocnych dopasowań tylko dlatego, że nie da się dowieść dokładnej edycji. To doprecyzowanie łagodzi wcześniejsze sformułowania o „pewnym” dopasowaniu.
