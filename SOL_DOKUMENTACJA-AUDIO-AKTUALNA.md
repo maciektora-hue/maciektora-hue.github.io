@@ -432,3 +432,7 @@ Dalsze etapy pozostają osobnym zadaniem, w tej kolejności:
 2. Sprawdzić, czy nowe piosenki pasują do którejś z istniejących wysp.
 
 Szczegółowy audyt wykonania i pliki umożliwiające wycofanie nowej partii zachowano lokalnie. Metodę ekstrakcji opisuje [SOL_audio-analysis-05.md](piosenki/SOL_audio-analysis-05.md).
+
+## Potwierdzenie spójności po analizie — 2026-09-14
+
+Sprawdzono powiązania nowych analiz z utworami i plikami audio oraz spójność tabel opisujących dopasowania. Nie znaleziono zerwanych odwołań, sprzecznych przypisań ani brakujących opisów wymaganych dla zaakceptowanych wyjątków. Nowe analizy są dostępne przez istniejące powiązania; nie było potrzeby dodatkowej korekty danych. Wcześniej odłożone braki audio pozostają odłożone. Pełny wynik kontroli i liczby zachowano w lokalnym audycie.
