@@ -104,6 +104,13 @@ GitHub przechowuje kod i dokumentację. PostgreSQL przechowuje dane.
 
 ### Keywordy / pojęcia
 
+Stan 2026-09-15: Rosja ma 300 konceptów PL/EN w SQL i 2104 przypisania do 620 sekcji oraz 9 TOMÓW. Każda pozycja ma 1–5 keywordsów, wyłącznie z istniejących concept_id. Wykorzystano 298 z 300 konceptów. Odczyt PL/EN w Content Explorer został sprawdzony.
+
+Cała baza: 892 koncepty, 1798 nazw/aliasów, 3402 przypisania (Rosja 2104 + AuDHD 1298). To stan po uzupełnieniu Rosji, nie historyczne liczby z migracji 12 września.
+
+[Dokumentacja wdrożenia Rosji](../piosenki/SOL_rosja-keywords-wdrozenie-2026-09-15.md).
+
+
 25. `content_keyword_concepts`
 26. `content_keyword_terms`
 27. `content_section_keywords`
