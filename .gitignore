@@ -1,0 +1,6 @@
+
+# Poświadczenia — nigdy do repo
+daneDoSql.txt
+*.token
+.env
+.env.*
