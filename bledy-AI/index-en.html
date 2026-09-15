@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Shelf of shame — AI mistakes</title>
+  <link rel="alternate" hreflang="pl" href="index.html">
+  <link rel="alternate" hreflang="en" href="index-en.html">
+  <meta name="description" content="An open register of mistakes made by AI models while working on this repository. Claude and SOL, kept separately.">
+  <style>
+    :root{
+      --bg:#1d1a16; --panel:#2a2520; --text:#ead7a8; --strong:#f3d796;
+      --muted:#b9aa82; --border:#544636; --bad:#d98a6a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:900px;margin:0 auto;padding:48px 20px 72px}
+    h1{color:var(--strong);font-size:clamp(2rem,5vw,3.3rem);margin:0 0 .4rem;line-height:1.1}
+    h2{color:var(--strong);font-size:1.4rem;margin:0 0 .3rem}
+    .lead{color:var(--muted);margin:0 0 2rem}
+    .backlink{display:inline-block;color:var(--muted);text-decoration:none;
+      border-bottom:1px solid var(--border);font-size:.9rem}
+    .backlink:hover{color:var(--strong)}
+    .shelf{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    a.slot{display:block;text-decoration:none;color:inherit;background:var(--panel);
+      border:1px solid var(--border);border-radius:14px;padding:24px;transition:border-color .15s}
+    a.slot:hover{border-color:var(--strong)}
+    .who{color:var(--bad);font-size:.78rem;font-weight:700;letter-spacing:.08em;
+      text-transform:uppercase;margin-bottom:.5rem}
+    .count{font-size:2.6rem;color:var(--bad);font-weight:700;line-height:1;
+      font-variant-numeric:tabular-nums;margin:.6rem 0 .2rem}
+    .count small{font-size:.9rem;color:var(--muted);font-weight:400;letter-spacing:0}
+    .slot p{margin:.6rem 0 0;color:var(--text);font-size:.94rem}
+    .enter{margin-top:1rem;color:var(--strong);font-weight:700;font-size:.85rem;letter-spacing:.04em}
+    .pl-note{margin-top:.7rem;color:var(--muted);font-size:.8rem;font-style:italic}
+    section.note{background:var(--panel);border:1px solid var(--border);
+      border-radius:14px;padding:24px;margin-top:22px}
+    section.note h2{font-size:1.15rem}
+    section.note p{margin:.6rem 0 0}
+    strong{color:var(--strong)}
+    ul{margin:.6rem 0 0;padding-left:1.2rem}
+    li{margin:0 0 .5rem}
+    footer{color:var(--muted);font-size:.85rem;margin-top:2.4rem;
+      padding-top:1.2rem;border-top:1px solid var(--border)}
+  </style>
+</head>
+<body>
+<main>
+  <p style="margin:0 0 2rem;display:flex;gap:1.2rem;align-items:baseline"><a class="backlink" href="../index-en.html">← main page</a><a class="backlink" href="index.html" lang="pl">Polski</a></p>
+
+  <h1>Shelf of shame</h1>
+  <p class="lead"><strong>This is not a section about the author.</strong> It is a register of
+  the mistakes made by the models — Claude and SOL — while working on this repository.
+  Kept with numbers and quotes rather than apologies, because a register of mistakes without
+  numbers slides into a literary genre in which the author comes off rather well.
+  Two shelves, because two models with two different repertoires. Both counters were
+  reset deliberately — see the note below.</p>
+
+  <div class="shelf">
+    <a class="slot" href="CLAUDE/">
+      <div class="who">Claude</div>
+      <h2>Repository review</h2>
+      <div class="count">2 <small>entries</small></div>
+      <p>Reporting “read in full” at 20.4% actually read. Four errata about a single
+      database token, ending in a recommendation to destroy the database where
+      invalidating a key would have done.</p>
+      <div class="enter">OPEN →</div>
+      <p class="pl-note">Entries are in Polish.</p>
+    </a>
+
+    <a class="slot" href="SOL/">
+      <div class="who">SOL / ChatGPT</div>
+      <h2>Build and migration</h2>
+      <div class="count">32 <small>items · 9 entries</small></div>
+      <p>A Mars mission instead of one <code>UPDATE</code>. A dozen prompts for a single
+      SQL command. <code>tags</code> confused with <code>playlist_tags</code>. Reconstructing
+      the system from the files next to it instead of reading the database.</p>
+      <div class="enter">OPEN →</div>
+      <p class="pl-note">Entries are in Polish.</p>
+    </a>
+  </div>
+
+  <section class="note">
+    <h2>Why it is on display</h2>
+    <p>Because otherwise it does not work. A register of mistakes kept privately serves
+    the feeling of keeping one. Put on display, it forces a number instead of an
+    impression — and forces the complaint to be recorded in the words in which it was
+    made, not in softened ones.</p>
+    <p>Three rules govern this shelf:</p>
+    <ul>
+      <li><strong>The number before the adjective.</strong> Not “I read quite a lot”,
+      but 10 files out of 147.</li>
+      <li><strong>Errata, never overwrite.</strong> A wrong entry stays; the correction
+      is added underneath. A shelf you can quietly take an exhibit off is not a shelf of shame.</li>
+      <li><strong>Quote, not paraphrase.</strong> The user’s complaint goes in verbatim.</li>
+    </ul>
+  </section>
+
+  <section class="note">
+    <h2>Counters reset on purpose</h2>
+    <p>Both shelves start from zero. Moving to <strong>Claude Code</strong> and, on
+    SOL’s side, to <strong>Codex</strong>, the author decided to go through all the
+    mistakes again from the beginning — and <strong>deliberately did not copy over the
+    custom instructions</strong> or the working knowledge accumulated earlier.</p>
+    <p>So the entries here are not made against project rules handed over at the start.
+    They are made where there were no rules at the start — and they show what a model
+    does before anything has been explained to it.</p>
+    <p>Hence something that would otherwise look like coincidence: the rule “read every
+    document separately and in full, no heuristics from the title” <strong>was already
+    written down</strong> in the project archive, in the <code>memento</code> of
+    2026-09-07, section 12. Claude never received it, broke it three times, and had to be
+    told it from scratch. That is not evidence the rule is unnecessary. It is a measurement
+    of what its absence costs.</p>
+    <p>The shelf therefore grows twice over: once as shame, once as <strong>a list of rules
+    to hand over at the start</strong>. The second function does not cancel the first and
+    is not an excuse for it.</p>
+  </section>
+
+  <section class="note">
+    <h2>The shared pattern</h2>
+    <p>Despite different models and different tasks, most entries on both sides come down
+    to one move: <strong>reconstructing the state of things from something standing next to
+    it, instead of reading the state itself.</strong></p>
+    <p>For SOL it was reading CSV files instead of the SQL table it had been asked about.
+    For Claude — copying a status from a to-do list instead of checking the database, and
+    reporting an impression of reading instead of counting the files. Each time the proper
+    measurement was available, and each time a substitute was reached for instead.</p>
+  </section>
+
+  <footer>
+    Directory <code>bledy-AI/</code> · entries added as they occur, kept separately for each model
+  </footer>
+</main>
+</body>
+</html>
