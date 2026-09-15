@@ -1,8 +1,7 @@
-name: Turso probe (read-only)
+name: Turso token revocation check
 
-# Sprawdza wyłącznie, czy instancja Turso nadal istnieje.
-# Nie używa tokena, nie łączy się z bazą, nie zapisuje niczego.
-# 404 = bazy nie ma. 401/200 = baza istnieje.
+# Read-only: verifies the existing GitHub secret with SELECT 1.
+# Never prints the token and never changes database data.
 
 on:
   workflow_dispatch:
@@ -17,24 +16,41 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe endpoint without credentials
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check whether the saved Turso token still authenticates
         env:
-          HOST: happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
         run: |
-          echo "host: $HOST"
-          echo "--- DNS ---"
-          getent hosts "$HOST" || true
-          echo "--- GET / (bez Authorization) ---"
-          curl -sS -o body1.txt -w 'HTTP %{http_code}\n' --max-time 20 "https://$HOST/" || true
-          head -c 400 body1.txt; echo
-          echo "--- GET /health (bez Authorization) ---"
-          curl -sS -o body2.txt -w 'HTTP %{http_code}\n' --max-time 20 "https://$HOST/health" || true
-          head -c 400 body2.txt; echo
-          echo "--- POST /v2/pipeline (bez Authorization) ---"
-          curl -sS -o body3.txt -w 'HTTP %{http_code}\n' --max-time 20 \
-            -X POST -H 'Content-Type: application/json' -d '{}' \
-            "https://$HOST/v2/pipeline" || true
-          head -c 400 body3.txt; echo
-          echo "--- INTERPRETACJA ---"
-          echo "404 wszedzie          => baza nie istnieje, token martwy"
-          echo "401 / 200 gdziekolwiek => baza istnieje, token rw dziala, unieważnić"
+          python - <<'PY'
+          import os
+          import sys
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN', '')
+          if not token:
+              print('TOKEN_STATUS=GITHUB_SECRET_MISSING')
+              sys.exit(0)
+
+          try:
+              conn = libsql.connect(
+                  database=os.environ['TURSO_DATABASE_URL'],
+                  auth_token=token,
+              )
+              result = conn.execute('SELECT 1').fetchone()
+              conn.close()
+              if result != (1,):
+                  print('TOKEN_STATUS=INCONCLUSIVE_UNEXPECTED_RESULT')
+                  sys.exit(1)
+              print('TOKEN_STATUS=ACTIVE')
+          except Exception as error:
+              message = str(error).lower()
+              auth_markers = ('401', 'unauth', 'authentication', 'invalid token', 'jwt')
+              if any(marker in message for marker in auth_markers):
+                  print('TOKEN_STATUS=REVOKED_OR_INVALID')
+                  sys.exit(0)
+              print('TOKEN_STATUS=INCONCLUSIVE_CONNECTION_ERROR')
+              sys.exit(1)
+          PY
