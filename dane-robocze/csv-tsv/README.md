@@ -1,14 +1,23 @@
 # Dane robocze — CSV / TSV
 
-To miejsce na aktywne pliki robocze CSV i TSV używane podczas przygotowania, uzgadniania i mapowania danych przed zapisem do SQL albo przed dalszą obróbką.
+To miejsce na aktywne pliki robocze i eksporty CSV/TSV służące przygotowaniu, uzgadnianiu i mapowaniu danych. Źródłem prawdy dla wdrożonych danych pozostaje SQL.
 
-To **nie jest archiwum**. Pliki tutaj mogą być dalej używane i modyfikowane.
+## Keywordsy Rosji — wdrożone 2026-09-15
 
-Dla systemu `content_keywords` trafiają tu m.in. robocze słowniki PL/EN oraz przyszłe pliki przypisań słów kluczowych do sekcji, w tym dla Rosja / Kolumbryna.
+- 300 zatwierdzonych konceptów z nazwami PL/EN w SQL: 290 nowych i 10 wykorzystanych ponownie.
+- 2104 przypisania do 620 sekcji heading i 9 TOMÓW; każda pozycja ma 1–5 keywordsów.
+- Przypisywać wolno wyłącznie istniejący w SQL concept_id. Nazwy językowe i aliasy przechowuje content_keyword_terms.
+- Wykorzystano 298 konceptów; Przewaga powietrzna i Mosty pozostają bez przypisań w tej wersji.
+- AuDHD: 1298 przypisań do 338 sekcji, 498 wykorzystywanych konceptów.
 
-Stan przy utworzeniu katalogu:
-- słownik pojęć i terminów PL/EN istnieje już w SQL,
-- `content_section_keywords` nie ma jeszcze przypisań słów kluczowych do sekcji,
-- przyszłe pliki przygotowujące takie przypisania są danymi roboczymi, nie archiwalnymi.
+Pliki:
 
-Źródłem prawdy dla stanu systemu pozostaje SQL i aktualna dokumentacja SOT/SOA, nie sam plik roboczy.
+- [Lista 300 PL/EN z identyfikatorami SQL](rosja/SOL_keywords-300-PL-EN-SQL-2026-09-15.tsv)
+- [Przypisania Rosji](rosja/SOL_section-keywords-2026-09-15.tsv)
+- [Metoda, reguły i walidacja wdrożenia](../../piosenki/SOL_rosja-keywords-wdrozenie-2026-09-15.md)
+
+## Słownik tłumaczeń a keywordsy
+
+SOL_slownik-tlumaczen-PL-EN-v18-1.tsv jest pomocą do spójnego tłumaczenia tekstów. Zawiera 668 pozycji różnych typów, w tym terminologię AuDHD. Nie jest listą 300 keywordsów Rosji ani tabelą przypisań do sekcji.
+
+Historyczna informacja o braku przypisań opisywała stan przy utworzeniu katalogu; nie obowiązuje po wdrożeniu.
