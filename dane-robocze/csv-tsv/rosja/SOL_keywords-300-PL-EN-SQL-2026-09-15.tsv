@@ -1,0 +1,301 @@
+list_id	concept_id	concept_key	keyword_pl	keyword_en	sections
+1	603	state_disintegration	Rozpad państwa	State disintegration	35
+2	604	continuity_of_statehood	Ciągłość państwowości	Continuity of statehood	9
+3	605	regime_change	Zmiana reżimu	Regime change	10
+4	606	authoritarianism	Autorytaryzm	Authoritarianism	4
+5	607	personalist_dictatorship	Dyktatura personalistyczna	Personalist dictatorship	7
+6	608	imperialism	Imperializm	Imperialism	7
+7	609	decolonization	Dekolonizacja	Decolonization	2
+8	610	sovereignty	Suwerenność	Sovereignty	1
+9	611	territorial_integrity	Integralność terytorialna	Territorial integrity	9
+10	612	federalism	Federalizm	Federalism	1
+11	613	separatism	Separatyzm	Separatism	3
+12	614	centre_periphery_relations	Relacje centrum–peryferie	Centre–periphery relations	5
+13	615	monopoly_on_violence	Monopol na przemoc	Monopoly on violence	6
+14	616	political_legitimacy	Legitymizacja władzy	Political legitimacy	10
+15	557	dark_legitimacy	Ciemna legitymizacja	dark legitimacy	14
+16	617	affirmative_legitimacy	Legitymizacja afirmatywna	Affirmative legitimacy	6
+17	618	political_succession	Sukcesja władzy	Political succession	1
+18	619	palace_coup	Przewrót pałacowy	Palace coup	3
+19	620	elite_loyalty	Lojalność elit	Elite loyalty	15
+20	621	elite_splits	Rozłam elit	Elite splits	6
+21	622	siloviki	Siłowicy	Siloviki	2
+22	623	oligarchs	Oligarchowie	Oligarchs	4
+23	624	clientelism	Klientelizm	Clientelism	1
+24	625	corruption	Korupcja	Corruption	4
+25	626	bureaucracy	Biurokracja	Bureaucracy	6
+26	627	political_repression	Represje polityczne	Political repression	6
+27	628	social_control	Kontrola społeczna	Social control	6
+28	629	political_survival	Przetrwanie polityczne	Political survival	22
+29	630	suspicious_elite_deaths	Podejrzane zgony elit	Suspicious elite deaths	15
+30	631	political_assassinations	Zabójstwa polityczne	Political assassinations	3
+31	632	political_prisoners	Więźniowie polityczni	Political prisoners	1
+32	633	impunity_of_power	Bezkarność władzy	Impunity of power	1
+33	634	war_of_attrition	Wojna na wyniszczenie	War of attrition	3
+34	635	long_range_strikes	Uderzenia dalekiego zasięgu	Long-range strikes	72
+35	636	drone_warfare	Wojna dronowa	Drone warfare	7
+36	637	air_defence	Obrona przeciwlotnicza	Air defence	6
+37	638	missile_defence	Obrona przeciwrakietowa	Missile defence	1
+38	639	defence_saturation	Przeciążenie obrony	Defence saturation	5
+39	640	air_superiority	Przewaga powietrzna	Air superiority	0
+40	641	strategic_aviation	Lotnictwo strategiczne	Strategic aviation	2
+41	642	airborne_early_warning_aircraft	Samoloty wczesnego ostrzegania	Airborne early warning aircraft	1
+42	643	ballistic_missiles	Pociski balistyczne	Ballistic missiles	7
+43	644	precision_weapons	Broń precyzyjna	Precision weapons	3
+44	645	glide_bombs	Bomby szybujące	Glide bombs	1
+45	646	nuclear_arsenal	Arsenał jądrowy	Nuclear arsenal	4
+46	647	nuclear_deterrence	Odstraszanie nuklearne	Nuclear deterrence	2
+47	648	nuclear_threshold	Próg nuklearny	Nuclear threshold	1
+48	649	nuclear_arsenal_control	Kontrola arsenału jądrowego	Nuclear arsenal control	5
+49	650	conflict_escalation	Eskalacja konfliktu	Conflict escalation	23
+50	651	de_escalation	Deeskalacja	De-escalation	1
+51	652	frozen_conflict	Zamrożenie konfliktu	Frozen conflict	3
+52	653	peace_negotiations	Negocjacje pokojowe	Peace negotiations	8
+53	654	capitulation	Kapitulacja	Capitulation	3
+54	655	military_mobilization	Mobilizacja wojskowa	Military mobilization	11
+55	656	contract_recruitment	Werbunek kontraktowy	Contract recruitment	4
+56	657	military_casualties	Straty osobowe	Military casualties	6
+57	658	military_reserves	Rezerwy wojskowe	Military reserves	2
+58	659	military_training	Wyszkolenie wojskowe	Military training	1
+59	660	military_morale	Morale wojskowe	Military morale	1
+60	661	command_and_control	Dowodzenie	Command and control	5
+61	662	military_reconnaissance	Rozpoznanie wojskowe	Military reconnaissance	3
+62	663	defence_industry	Przemysł zbrojeniowy	Defence industry	16
+63	664	ammunition_production	Produkcja amunicji	Ammunition production	3
+64	665	military_assistance	Pomoc wojskowa	Military assistance	6
+65	666	military_autonomy	Autonomia militarna	Military autonomy	3
+66	667	military_innovation	Innowacje wojskowe	Military innovation	8
+67	668	asymmetric_warfare	Wojna asymetryczna	Asymmetric warfare	1
+68	669	sabotage	Dywersja	Sabotage	1
+69	670	attacks_on_civilians	Ataki na ludność cywilną	Attacks on civilians	3
+70	671	dual_use_infrastructure	Infrastruktura podwójnego zastosowania	Dual-use infrastructure	6
+71	672	military_logistics	Logistyka wojskowa	Military logistics	30
+72	673	supply_chains	Łańcuchy dostaw	Supply chains	10
+73	674	bottlenecks	Wąskie gardła	Bottlenecks	15
+74	675	throughput	Przepustowość	Throughput	10
+75	578	stock_vs_flow	Zapas a strumień	stock vs flow	14
+76	676	strategic_stockpiles	Zapasy strategiczne	Strategic stockpiles	4
+77	677	spare_capacity	Rezerwy mocy	Spare capacity	7
+78	678	replacement_capacity	Zdolności odtworzeniowe	Replacement capacity	9
+79	679	irreversibility_of_losses	Nieodwracalność strat	Irreversibility of losses	10
+80	680	equipment_cannibalization	Kanibalizacja sprzętu	Equipment cannibalization	1
+81	681	spare_parts	Części zamienne	Spare parts	3
+82	682	repair_cycle	Cykl napraw	Repair cycle	7
+83	683	infrastructure_deterioration	Zużycie infrastruktury	Infrastructure deterioration	14
+84	684	critical_infrastructure	Infrastruktura krytyczna	Critical infrastructure	9
+85	685	municipal_infrastructure	Infrastruktura komunalna	Municipal infrastructure	1
+86	686	rail_transport	Transport kolejowy	Rail transport	12
+87	687	road_transport	Transport drogowy	Road transport	7
+88	688	maritime_transport	Transport morski	Maritime transport	4
+89	689	inland_navigation	Żegluga śródlądowa	Inland navigation	1
+90	690	civil_aviation	Lotnictwo cywilne	Civil aviation	5
+91	691	seaports	Porty morskie	Seaports	5
+92	692	bridges	Mosty	Bridges	0
+93	693	pipelines	Rurociągi	Pipelines	7
+94	694	pumping_stations	Pompownie	Pumping stations	1
+95	695	fuel_storage_facilities	Magazyny paliw	Fuel storage facilities	3
+96	696	logistics_centres	Centra logistyczne	Logistics centres	7
+97	697	e_commerce	Handel internetowy	E-commerce	6
+98	698	logistical_isolation	Izolacja logistyczna	Logistical isolation	5
+99	699	microelectronics	Mikroelektronika	Microelectronics	5
+100	700	chemical_industry	Przemysł chemiczny	Chemical industry	1
+101	701	explosives	Materiały wybuchowe	Explosives	2
+102	702	metallurgy	Metalurgia	Metallurgy	1
+103	703	war_economy	Gospodarka wojenna	War economy	4
+104	704	economic_mobilization	Mobilizacja gospodarki	Economic mobilization	6
+105	705	competition_for_resources	Konkurencja o zasoby	Competition for resources	6
+106	706	crowding_out_of_civilian_production	Wypieranie produkcji cywilnej	Crowding out of civilian production	1
+107	707	budget_deficit	Deficyt budżetowy	Budget deficit	9
+108	708	resource_revenues	Dochody surowcowe	Resource revenues	10
+109	709	tax_burden	Obciążenia podatkowe	Tax burden	1
+110	710	foreign_exchange_reserves	Rezerwy walutowe	Foreign exchange reserves	5
+111	711	gold_reserves	Rezerwy złota	Gold reserves	1
+112	712	national_wealth_fund	Fundusz Dobrobytu Narodowego	National Wealth Fund	1
+113	713	frozen_assets	Zamrożone aktywa	Frozen assets	2
+114	714	offshore_wealth	Majątek offshore	Offshore wealth	1
+115	715	banking_crisis	Kryzys bankowy	Banking crisis	8
+116	716	non_performing_loans	Złe kredyty	Non-performing loans	5
+117	717	insolvency	Niewypłacalność	Insolvency	6
+118	718	debt_restructuring	Restrukturyzacja zadłużenia	Debt restructuring	2
+119	719	bank_runs	Panika bankowa	Bank runs	3
+120	720	capital_flight	Ucieczka kapitału	Capital flight	1
+121	721	money_creation	Dodruk pieniądza	Money creation	2
+122	722	inflation	Inflacja	Inflation	1
+123	723	stagflation	Stagflacja	Stagflation	1
+124	724	rouble_devaluation	Dewaluacja rubla	Rouble devaluation	2
+125	725	wage_arrears	Zaległości płacowe	Wage arrears	1
+126	726	nationalization	Nacjonalizacja	Nationalization	1
+127	727	economic_sanctions	Sankcje gospodarcze	Economic sanctions	7
+128	728	sanctions_evasion	Obchodzenie sankcji	Sanctions evasion	7
+129	729	parallel_imports	Import równoległy	Parallel imports	2
+130	730	import_substitution	Substytucja importu	Import substitution	4
+131	731	technological_dependence	Zależność technologiczna	Technological dependence	10
+132	732	export_controls	Kontrola eksportu	Export controls	3
+133	733	shell_companies	Firmy słupowe	Shell companies	1
+134	734	infrastructure_investment	Inwestycje infrastrukturalne	Infrastructure investment	9
+135	735	adaptation_costs	Koszty adaptacji	Adaptation costs	11
+136	736	supply_shock	Szok podażowy	Supply shock	5
+137	737	demographic_crisis	Kryzys demograficzny	Demographic crisis	1
+138	738	emigration	Emigracja	Emigration	3
+139	739	brain_drain	Drenaż mózgów	Brain drain	3
+140	740	labour_shortages	Niedobór kadr	Labour shortages	11
+141	741	labour_market	Rynek pracy	Labour market	2
+142	742	wage_pressure	Presja płacowa	Wage pressure	2
+143	743	forced_displacement	Uchodźstwo	Forced displacement	1
+144	744	social_discontent	Niezadowolenie społeczne	Social discontent	4
+145	745	social_mobilization	Mobilizacja społeczna	Social mobilization	5
+146	746	societal_resilience	Odporność społeczna	Societal resilience	3
+147	747	regional_inequalities	Nierówności regionalne	Regional inequalities	2
+148	748	climate_change	Zmiany klimatu	Climate change	9
+149	749	permafrost	Wieczna zmarzlina	Permafrost	3
+150	750	ground_subsidence	Osiadanie gruntu	Ground subsidence	2
+151	751	drought	Susza	Drought	2
+152	752	heatwaves	Fale upałów	Heatwaves	2
+153	753	floods	Powodzie	Floods	2
+154	754	forest_fires	Pożary lasów	Forest fires	1
+155	755	peat_fires	Pożary torfowisk	Peat fires	1
+156	756	water_scarcity	Niedobór wody	Water scarcity	2
+157	757	seasonality	Sezonowość	Seasonality	6
+158	758	agriculture	Rolnictwo	Agriculture	2
+159	759	harvesting	Żniwa	Harvesting	2
+160	760	fertilizers	Nawozy	Fertilizers	2
+161	761	seed_imports	Import nasion	Seed imports	1
+162	762	food_security	Bezpieczeństwo żywnościowe	Food security	3
+163	763	food_price_inflation	Inflacja żywności	Food price inflation	1
+164	764	rationing	Reglamentacja	Rationing	5
+165	765	crude_oil	Ropa naftowa	Crude oil	10
+166	766	natural_gas	Gaz ziemny	Natural gas	10
+167	767	oil_refineries	Rafinerie	Oil refineries	15
+168	768	petrol	Benzyna	Petrol	2
+169	769	diesel_fuel	Olej napędowy	Diesel fuel	2
+170	770	aviation_fuel	Paliwo lotnicze	Aviation fuel	1
+171	771	fuel_shortages	Niedobory paliw	Fuel shortages	25
+172	772	shadow_fleet	Flota cieni	Shadow fleet	3
+173	773	oil_shock	Szok naftowy	Oil shock	9
+174	774	energy_prices	Ceny energii	Energy prices	5
+175	775	energy_security	Bezpieczeństwo energetyczne	Energy security	5
+176	776	energy_dependence	Zależność energetyczna	Energy dependence	12
+177	777	energy_coercion	Szantaż energetyczny	Energy coercion	1
+178	778	electricity_grids	Sieci elektroenergetyczne	Electricity grids	13
+179	779	electrical_substations	Podstacje elektroenergetyczne	Electrical substations	5
+180	780	transformers	Transformatory	Transformers	1
+181	781	power_plant_cooling	Chłodzenie elektrowni	Power plant cooling	2
+182	782	power_outages	Przerwy w dostawach prądu	Power outages	6
+183	783	district_heating	Ciepłownictwo	District heating	3
+184	784	electrification	Elektryfikacja	Electrification	3
+185	785	renewable_energy	Odnawialne źródła energii	Renewable energy	3
+186	786	solar_photovoltaics	Fotowoltaika	Solar photovoltaics	2
+187	787	nuclear_energy	Energetyka jądrowa	Nuclear energy	2
+188	788	energy_storage	Magazynowanie energii	Energy storage	1
+189	789	heat_pumps	Pompy ciepła	Heat pumps	1
+190	790	electric_mobility	Elektromobilność	Electric mobility	2
+191	791	distributed_energy	Energetyka rozproszona	Distributed energy	5
+192	792	decarbonization	Dekarbonizacja	Decarbonization	7
+193	793	fossil_fuel_substitution	Substytucja paliw kopalnych	Fossil fuel substitution	14
+194	794	petrochemicals	Petrochemia	Petrochemicals	4
+195	795	critical_minerals	Surowce krytyczne	Critical minerals	4
+196	796	rare_earth_elements	Metale ziem rzadkich	Rare earth elements	2
+197	797	lithium	Lit	Lithium	1
+198	798	mineral_processing	Przetwarzanie surowców	Mineral processing	5
+199	799	recycling	Recykling	Recycling	2
+200	800	resource_monopolies	Monopole surowcowe	Resource monopolies	11
+201	801	oil_cartels	Kartele naftowe	Oil cartels	4
+202	802	price_wars	Wojny cenowe	Price wars	2
+203	803	shale_oil	Ropa łupkowa	Shale oil	1
+204	804	energy_transition_costs	Koszty transformacji energetycznej	Energy transition costs	3
+205	805	propaganda	Propaganda	Propaganda	15
+206	806	disinformation	Dezinformacja	Disinformation	8
+207	807	information_warfare	Wojna informacyjna	Information warfare	7
+208	556	disinfolklore	Disinfolklore	Disinfolklore	35
+209	808	foreign_information_manipulation_and_interference	FIMI	Foreign information manipulation and interference	3
+210	809	maskirovka	Maskirowka	Maskirovka	7
+211	810	false_flag_operations	Operacje pod fałszywą flagą	False flag operations	1
+212	811	strategic_signalling	Sygnalizacja strategiczna	Strategic signalling	62
+213	812	multi_audience_communication	Komunikacja wieloadresatowa	Multi-audience communication	8
+214	813	signal_credibility	Wiarygodność sygnału	Signal credibility	9
+215	814	show_of_force	Demonstracja siły	Show of force	9
+216	815	omissions	Przemilczenia	Omissions	17
+217	816	data_suppression	Ukrywanie danych	Data suppression	6
+218	817	falsified_reporting	Fałszowanie raportów	Falsified reporting	6
+219	367	information_overload	Przeciążenie informacyjne	information overload	4
+220	818	censorship	Cenzura	Censorship	1
+221	819	self_censorship	Autocenzura	Self-censorship	2
+222	820	troll_farms	Fabryki trolli	Troll farms	1
+223	821	propaganda_distribution_networks	Sieci dystrybucji propagandy	Propaganda distribution networks	5
+224	822	narrative_archetypes	Archetypy narracyjne	Narrative archetypes	18
+225	823	political_memes	Memy polityczne	Political memes	4
+226	824	political_folklore	Folklor polityczny	Political folklore	9
+227	825	counter_narratives	Kontrnarracje	Counter-narratives	4
+228	589	re_archetyping	Przekształcanie archetypów	Re-Archetyping	7
+229	826	projection_of_intentions	Projekcja zamiarów	Projection of intentions	4
+230	827	pretext_fabrication	Fabrykowanie pretekstów	Pretext fabrication	4
+231	828	scapegoating	Kozioł ofiarny	Scapegoating	2
+232	829	emotional_manipulation	Manipulacja emocjonalna	Emotional manipulation	12
+233	830	coercive_control	Kontrola przymusowa	Coercive control	4
+234	831	political_cynicism	Cynizm polityczny	Political cynicism	2
+235	832	myth_of_invincibility	Mit niezwyciężoności	Myth of invincibility	9
+236	833	cognitive_resilience	Odporność poznawcza	Cognitive resilience	10
+237	834	information_hygiene	Higiena informacyjna	Information hygiene	3
+238	835	neurodiversity	Neuroróżnorodność	Neurodiversity	8
+239	836	decision_making_styles	Style decyzyjne	Decision-making styles	21
+240	403	pattern_recognition	Rozpoznawanie wzorców	pattern recognition	8
+241	837	systems_analysis	Analiza systemowa	Systems analysis	19
+242	838	feedback_loops	Sprzężenia zwrotne	Feedback loops	3
+243	839	cascading_failures	Awarie kaskadowe	Cascading failures	11
+244	254	nonlinearity	Nieliniowość	nonlinearity	6
+245	840	critical_thresholds	Progi krytyczne	Critical thresholds	18
+246	841	system_delays	Opóźnienia systemowe	System delays	8
+247	842	crisis_synchronization	Synchronizacja kryzysów	Crisis synchronization	12
+248	843	redundancy	Redundancja	Redundancy	3
+249	844	antifragility	Antykruchość	Antifragility	3
+250	845	institutional_inertia	Inercja instytucjonalna	Institutional inertia	6
+251	846	diminishing_marginal_returns	Malejące korzyści krańcowe	Diminishing marginal returns	1
+252	559	asymmetry_of_optionality	Asymetria opcji strategicznych	asymmetry of optionality	24
+253	847	game_theory	Teoria gier	Game theory	2
+254	848	nash_equilibrium	Równowaga Nasha	Nash equilibrium	20
+255	849	scenario_analysis	Analiza scenariuszowa	Scenario analysis	32
+256	850	forecast_calibration	Kalibracja prognoz	Forecast calibration	29
+257	851	leading_indicators	Wskaźniki wyprzedzające	Leading indicators	15
+258	852	inference_under_incomplete_information	Wnioskowanie przy niepełnych danych	Inference under incomplete information	23
+259	853	open_source_intelligence	OSINT	Open-source intelligence	13
+260	854	satellite_data	Dane satelitarne	Satellite data	3
+261	855	historical_analogies	Analogie historyczne	Historical analogies	24
+262	856	confirmation_bias	Błąd potwierdzenia	Confirmation bias	13
+263	857	falsifiability	Falsyfikowalność	Falsifiability	12
+264	858	empirical_validation	Walidacja empiryczna	Empirical validation	34
+265	859	analytical_reproducibility	Powtarzalność analizy	Analytical reproducibility	5
+266	860	steelmanning	Steelmanning	Steelmanning	18
+267	861	swot_analysis	Analiza SWOT	SWOT analysis	4
+268	862	ethics_of_analysis	Etyka analizy	Ethics of analysis	21
+269	863	russo_ukrainian_war	Wojna rosyjsko-ukraińska	Russo-Ukrainian war	22
+270	864	isolation_of_crimea	Izolacja Krymu	Isolation of Crimea	16
+271	865	kerch_bridge	Most Kerczeński	Kerch Bridge	3
+272	866	black_sea	Morze Czarne	Black Sea	2
+273	867	sea_of_azov	Morze Azowskie	Sea of Azov	2
+274	868	baltic_sea	Morze Bałtyckie	Baltic Sea	5
+275	869	south_caucasus	Kaukaz Południowy	South Caucasus	14
+276	870	russian_far_east	Rosyjski Daleki Wschód	Russian Far East	2
+277	871	strait_of_hormuz	Cieśnina Ormuz	Strait of Hormuz	4
+278	872	persian_gulf	Zatoka Perska	Persian Gulf	5
+279	873	disintegration_of_iran	Rozpad Iranu	Disintegration of Iran	16
+280	874	kurdish_question	Kwestia kurdyjska	Kurdish question	7
+281	875	national_identity	Tożsamość narodowa	National identity	13
+282	876	stateless_nations	Narody bez państwa	Stateless nations	4
+283	877	self_determination	Samostanowienie	Self-determination	4
+284	878	nuclear_proliferation	Proliferacja nuklearna	Nuclear proliferation	6
+285	879	enriched_uranium	Uran wzbogacony	Enriched uranium	1
+286	880	proxy_wars	Wojny zastępcze	Proxy wars	1
+287	881	military_intervention	Interwencja zbrojna	Military intervention	5
+288	882	mission_creep	Rozszerzanie zakresu interwencji	Mission creep	2
+289	883	regional_alliances	Sojusze regionalne	Regional alliances	24
+290	884	security_guarantees	Gwarancje bezpieczeństwa	Security guarantees	11
+291	885	dependence_on_a_patron	Zależność od patrona	Dependence on a patron	11
+292	886	strategic_autonomy	Autonomia strategiczna	Strategic autonomy	14
+293	887	spheres_of_influence	Strefy wpływów	Spheres of influence	7
+294	888	transport_corridors	Korytarze transportowe	Transport corridors	15
+295	889	convergence_of_interests	Zbieżność interesów	Convergence of interests	21
+296	555	hanseatic_league_2_0	Hanza 2.0	Hanseatic League 2.0	8
+297	596	yalta_3_0	Jałta 3.0	Yalta 3.0	4
+298	890	russia_s_dependence_on_china	Zależność Rosji od Chin	Russia's dependence on China	14
+299	891	nato	NATO	NATO	6
+300	892	european_union	Unia Europejska	European Union	8
