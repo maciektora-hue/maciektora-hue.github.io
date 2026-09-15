@@ -1,3 +1,5 @@
+> **Stan 2026-09-15 — Rosja:** 300 konceptów PL/EN przygotowanych do indeksowania, 2104 przypisania do 620 sekcji i 9 TOMÓW. Każda sekcja musi mieć **1–5 keywordsów, wyłącznie z konceptów istniejących w SQL**. Szczegóły, metoda i eksporty: [wdrożenie keywordsów Rosji](SOL_rosja-keywords-wdrozenie-2026-09-15.md). Liczby w historycznej sekcji „Stan po imporcie słownika PL/EN” poniżej dotyczą 2026-09-08.
+
 > **Aktualizacja 2026-09-15:** integracja Turso została wycofana. Fragmenty poniżej opisujące Turso/libSQL i dawne workflowy są historyczne i nie mogą służyć jako instrukcje wykonawcze. Obecny backend korzysta wyłącznie z `SUPABASE_DATABASE_URL` (PostgreSQL). Aktualna konfiguracja: `piosenki/app.py`, `piosenki/schema_view.py`, `render.yaml`.
 
 # SOL — model słów kluczowych dla sekcji treści
