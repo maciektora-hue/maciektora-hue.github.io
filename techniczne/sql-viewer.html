@@ -12,32 +12,8 @@
 <body>
 <main>
 <p><a href="index.html">← Techniczne</a> · <a href="../">strona główna</a></p>
-<h1>Viewer SQL</h1>
-<p class="lead">Bieżący stan faktycznej bazy Turso / SQLite. Każda tabela jest domyślnie zwinięta; po rozwinięciu widać jej kolumny, typy, klucze i wartości domyślne.</p>
-<div id="status" class="status">Pobieram bieżący schemat SQL…</div>
-<div id="summary" class="summary" hidden></div>
-<div id="tables" class="tables"></div>
-<footer>Odczyt tylko do prezentacji. Dane pochodzą bezpośrednio z działającej bazy, nie z dokumentacji na GitHubie.</footer>
+<h1>Viewer SQL wyłączony</h1>
+<p class="lead">Stary viewer został odłączony od narzędziowni.</p>
 </main>
-<script>
-const API='https://piosenki-api.onrender.com/api/techniczne/schema';
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const bytes=n=>n==null?'n/d':n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:n<1073741824?`${(n/1048576).toFixed(2)} MB`:`${(n/1073741824).toFixed(2)} GB`;
-const num=n=>new Intl.NumberFormat('pl-PL').format(n??0);
-function metric(label,value){return `<div class="metric"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`}
-function pill(label,value){return `<span class="pill"><span>${esc(label)}</span><strong>${esc(value)}</strong></span>`}
-function render(data){
- document.getElementById('status').innerHTML=`Źródło: <code>${esc(data.source)}</code>. Stan pobrany bezpośrednio z działającej bazy.`;
- const db=data.database||{};const summary=document.getElementById('summary');summary.hidden=false;
- summary.innerHTML=metric('Tabele',num(data.table_count))+metric('Wiersze łącznie',num(data.total_rows))+metric('Rozmiar bazy',bytes(db.size_bytes))+metric('Rozmiary tabel',db.per_table_size_source||'niedostępne');
- document.getElementById('tables').innerHTML=(data.tables||[]).map(t=>{
-   const fkByColumn={};(t.foreign_keys||[]).forEach(f=>{(fkByColumn[f.from]??=[]).push(f)});
-   const cols=t.columns||[];
-   const rows=cols.map(c=>{const fks=fkByColumn[c.name]||[];const pk=c.primary_key_position?`<span class="pk">PK${c.primary_key_position>1?' '+c.primary_key_position:''}</span>`:'<span class="none">—</span>';const fk=fks.length?fks.map(f=>`<span class="fk">${esc(f.to_table)}.${esc(f.to)}</span>`).join('<br>'):'<span class="none">—</span>';return `<tr><td>${esc(c.name)}</td><td><code>${esc(c.type||'')}</code></td><td>${c.not_null?'NOT NULL':'—'}</td><td>${pk}</td><td>${fk}</td><td>${c.default==null?'—':`<code>${esc(c.default)}</code>`}</td></tr>`;}).join('');
-   return `<details class="table-card"><summary><div class="name"><span class="chev">▶</span><span class="table-name">${esc(t.name)}</span></div><div class="stats">${pill('kolumny',num(cols.length))}${pill('wiersze',num(t.row_count))}${pill('rozmiar',bytes(t.size_bytes))}</div></summary><div class="body"><div class="scroll"><table><thead><tr><th>Kolumna</th><th>Typ</th><th>NULL</th><th>PRIMARY KEY</th><th>FOREIGN KEY →</th><th>DEFAULT</th></tr></thead><tbody>${rows}</tbody></table></div></div></details>`;
- }).join('');
-}
-fetch(API,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(render).catch(err=>{document.getElementById('status').innerHTML=`<span class="error">Nie udało się pobrać bieżącego schematu: ${esc(err.message)}</span>`;});
-</script>
 </body>
 </html>

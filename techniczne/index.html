@@ -27,10 +27,6 @@
     <strong>Przeglądarka treści · Rosja + AuDHD</strong>
     <span>Publiczna mapa danych z działającej bazy: projekty, dokumenty, hierarchia sekcji, tytuły i opisy PL/EN, anchory, deep-linki oraz keywordy. Pozwala obejrzeć strukturę od środka bez narzucania interpretacji.</span>
   </a>
-  <a class="viewer" href="sql-viewer.html">
-    <strong>Viewer bazy SQL</strong>
-    <span>Pokazuje bieżący stan faktycznej bazy Turso: tabele, kolumny, PK, FK, liczbę rekordów i dostępne informacje o rozmiarze. Dane są pobierane na żywo przez API, a nie odtwarzane z dokumentacji w repozytorium.</span>
-  </a>
   <a class="viewer" href="../piosenki/playlisty.html">
     <strong>Viewer playlist</strong>
     <span>Read-only widok playlist zapisanych w SQL: playlista → utwory, utwór → playlisty oraz zewnętrzne utwory, które nie mają jeszcze jawnego przypisania do <code>utwu_id</code>.</span>
@@ -57,11 +53,10 @@
     <div class="tool"><div class="no">03</div><div class="name">GitHub Actions</div><div class="desc">Automaty wykonujące zadania zapisane w <code>.github/workflows</code>: m.in. audyty, operacje na anchorach i inne powtarzalne prace na plikach oraz danych.</div></div>
     <div class="tool"><div class="no">04</div><div class="name">Render</div><div class="desc">Hostuje publiczny backend <code>piosenki-api</code>. Pobiera kod z tego repozytorium i uruchamia część serwerową w Pythonie.</div></div>
     <div class="tool"><div class="no">05</div><div class="name">Flask + Gunicorn</div><div class="desc">Flask definiuje API i strony generowane po stronie serwera, a Gunicorn uruchamia aplikację jako usługę WWW na Renderze.</div></div>
-    <div class="tool"><div class="no">06</div><div class="name">Turso / libSQL</div><div class="desc">Zewnętrzna baza zgodna z SQLite. Przechowuje dane SQL; backend łączy się z nią przez bibliotekę <code>libsql</code>. Token dostępu pozostaje w zmiennych środowiskowych Rendera, nie w publicznym HTML.</div></div>
-    <div class="tool"><div class="no">07</div><div class="name">Flask-CORS</div><div class="desc">Most między statycznym WWW na GitHub Pages a API na Renderze. Pozwala stronom z domeny GitHub Pages odczytywać endpointy <code>/api/*</code>.</div></div>
+    <div class="tool"><div class="no">06</div><div class="name">Flask-CORS</div><div class="desc">Most między statycznym WWW na GitHub Pages a API na Renderze. Pozwala stronom z domeny GitHub Pages odczytywać endpointy <code>/api/*</code>.</div></div>
   </div>
 
-  <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → Turso / libSQL. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
+  <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → SQL. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
 
   <footer>Techniczne · aktualny opis używanych narzędzi, integracji i danych w SQL</footer>
 </div>
