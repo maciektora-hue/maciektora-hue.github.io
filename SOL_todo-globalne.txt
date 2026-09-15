@@ -5,6 +5,8 @@ GLOBALNA LISTA ZADAŃ
 CZWARTEK — 2026-09-10
 [ ] Turso: unieważnić ujawniony token Read & Write i wygenerować nowy.
 [ ] Turso / WWW: utworzyć drugi, osobny endpoint dla WWW z uprawnieniami wyłącznie READ; obecny endpoint zostawić jako administracyjny z pełnym zapisem/usuwaniem. Endpoint WWW nazwać ogólnie, nie „piosenki”, bo ta baza SQL służy też do innych danych.
-[ ] Rosja / keywordy: dokończyć opracowanie nowych keywordów — prace już rozpoczęte, słownik istnieje.
-[ ] Rosja / keywordy: po opracowaniu wyeksportować nowe keywordy do Turso / SQL.
-[ ] Rosja / keywordy: po eksporcie do SQL dodać keywordy do rosyjskiej kolumbryny.
+[x] Rosja / keywordy: opracować i zatwierdzić wspólną listę 300 keywordsów oraz tłumaczenia PL/EN — wykonane 2026-09-15.
+[x] Rosja / keywordy: zapisać koncepty i nazwy PL/EN w PostgreSQL/Supabase — 290 nowych konceptów, 10 wykorzystanych ponownie.
+[x] Rosja / keywordy: przypisać koncepty SQL do 620 sekcji i 9 TOMÓW — 2104 przypisania, każda pozycja 1–5 keywordsów; odczyt PL/EN w Content Explorer sprawdzony.
+Uwaga zakresu: keywordsy są w SQL i Content Explorer; nie osadzano ich w źródłowych HTML-ach Kolumbryny.
+Dokumentacja: piosenki/SOL_rosja-keywords-wdrozenie-2026-09-15.md.
