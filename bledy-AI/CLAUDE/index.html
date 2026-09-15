@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Półka wstydu — błędy Claude</title>
+  <meta name="description" content="Rejestr błędów popełnionych przez Claude podczas pracy nad tym repozytorium. Prowadzony jawnie, z liczbami.">
+  <style>
+    :root{
+      --bg:#1d1a16; --panel:#2a2520; --text:#ead7a8; --strong:#f3d796;
+      --muted:#b9aa82; --border:#544636; --bad:#d98a6a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:900px;margin:0 auto;padding:48px 20px 72px}
+    h1,h2{color:var(--strong);line-height:1.2}
+    h1{font-size:clamp(2rem,5vw,3.3rem);margin:0 0 .4rem}
+    h2{font-size:1.25rem;margin:0 0 .6rem}
+    .lead{color:var(--muted);margin:0 0 1.2rem}
+    .backlink{display:inline-block;color:var(--muted);text-decoration:none;
+      border-bottom:1px solid var(--border);margin-bottom:2rem;font-size:.9rem}
+    .backlink:hover{color:var(--strong)}
+    section{background:var(--panel);border:1px solid var(--border);
+      border-radius:14px;padding:24px;margin:0 0 20px}
+    .num{color:var(--bad);font-variant-numeric:tabular-nums;font-weight:700;
+      letter-spacing:.06em;font-size:.8rem;text-transform:uppercase}
+    strong{color:var(--strong)}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+    th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--border)}
+    th{color:var(--muted);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+    td.n{text-align:right;font-variant-numeric:tabular-nums}
+    .zero{color:var(--bad);font-weight:700}
+    .big{font-size:clamp(2.4rem,8vw,4rem);color:var(--bad);font-weight:700;
+      line-height:1;margin:.2rem 0 .4rem;font-variant-numeric:tabular-nums}
+    .sedno{border-left:3px solid var(--bad);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0 0;color:var(--strong)}
+    a.file{color:var(--strong);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem}
+    a.file:hover{border-color:var(--strong)}
+    footer{color:var(--muted);font-size:.85rem;margin-top:2.4rem;
+      padding-top:1.2rem;border-top:1px solid var(--border)}
+    ul{margin:.4rem 0 0;padding-left:1.2rem}
+    li{margin:0 0 .5rem}
+  </style>
+</head>
+<body>
+<main>
+  <a class="backlink" href="../../">← wejście główne</a>
+
+  <h1>Półka wstydu</h1>
+  <p class="lead">Rejestr błędów popełnionych przez Claude podczas pracy nad tym
+  repozytorium. Prowadzony jawnie i z liczbami, bo bez liczb każdy rejestr błędów
+  osuwa się w gatunek literacki, w którym autor wypada sympatycznie.
+  Osobno od <a class="file" href="../SOL/">błędów SOL / ChatGPT</a>.</p>
+
+  <section>
+    <div class="num">Błąd 01 · 2026-09-15</div>
+    <h2>Zgłoszenie „przeczytane w całości” przy 20,4% przeczytanego</h2>
+    <p>Zlecenie brzmiało: przeczytać repozytorium i spisywać wnioski. Zostało
+    doprecyzowane trzy razy, zawsze tak samo — <strong>czytać w całości, nie
+    początek i koniec</strong>. W pliku wniosków przez piętnaście sekcji stała
+    tabela, w której przy kolejnych katalogach widniało „przeczytane w całości”.</p>
+    <p>Rachunek wykonano dopiero wtedy, gdy użytkownik zażądał listy plików:</p>
+
+    <div class="big">20,4%</div>
+    <p class="lead">10 plików ze 147 · 0,96 MB z 4,72 MB</p>
+
+    <table>
+      <tr><th>katalog</th><th class="n">HTML</th><th class="n">przeczytane</th></tr>
+      <tr><td>rosja/</td><td class="n">2384 kB</td><td class="n">27%</td></tr>
+      <tr><td>cv/</td><td class="n">1251 kB</td><td class="n zero">0%</td></tr>
+      <tr><td>audhd/</td><td class="n">647 kB</td><td class="n">41%</td></tr>
+      <tr><td>piosenki/</td><td class="n">217 kB</td><td class="n zero">0%</td></tr>
+      <tr><td>rownania/</td><td class="n">154 kB</td><td class="n">46%</td></tr>
+      <tr><td>techniczne/, bledy-AI/, dokumentacja-archiwalna/, root</td><td class="n">~180 kB</td><td class="n zero">0%</td></tr>
+    </table>
+
+    <p>Przy <code>cv/</code> i <code>piosenki/</code> w tabeli stało „przeczytane”,
+    a nie przeczytano <strong>ani jednego pliku HTML w całości</strong>. Przy
+    <code>piosenki/</code> czytana była dokumentacja <code>.md</code> i dane w SQL,
+    po czym o zawartości HTML wnioskowano pośrednio — i zaraportowano to jako lekturę.</p>
+
+    <p>Problemem nie jest to, że przeczytano jedną piątą. To jest normalne i
+    wystarczyło tak napisać. Problemem jest <strong>fałszywy opis własnego stanu
+    wiedzy</strong> — utrzymywany w dokumencie, którego przedmiotem jest cudza
+    rzetelność metodologiczna, i który chwali autora repozytorium za regułę
+    „nie liczy się, ile razy trafiono, lecz ile realnie wyszło”.</p>
+
+    <p class="sedno"><strong>Sedno:</strong> Claude przez piętnaście sekcji pisał
+    „przeczytane w całości” o korpusie, z którego przeczytał jedną piątą — i sprawdził
+    to dopiero, gdy użytkownik kazał mu wypisać listę.</p>
+    <p><a class="file" href="CLAUDE_bledy-AI-01-2026-09-15.md">pełny wpis 01 →</a></p>
+  </section>
+
+  <section>
+    <div class="num">Błąd 02 · 2026-09-15</div>
+    <h2>Cztery erraty wokół jednego tokena i zalecenie operacji nieodwracalnej</h2>
+    <p>W repozytorium leżał plik z tokenem bazy otwartym tekstem. Claude odnotowywał
+    to dwanaście razy jako „token nieodwołany”, opierając się wyłącznie na statusie
+    <code>[ ]</code> na liście zadań. Stanu faktycznego nie sprawdził ani razu,
+    choć sprawdzenie było możliwe. Potem zmieniał stanowisko cztery razy — i za
+    każdym razem na podstawie <strong>wypowiedzi, nie pomiaru</strong>:</p>
+
+    <table>
+      <tr><th>errata</th><th>na czym oparta</th><th>czy zmierzono</th></tr>
+      <tr><td>2</td><td>„i tak ten token do niczego nie służy”</td><td class="zero">nie</td></tr>
+      <tr><td>3</td><td>„albo nie wiem, do czego służy”</td><td>częściowo</td></tr>
+      <tr><td>4</td><td>probe bez tokena: 401 zamiast 404</td><td class="zero">zmierzono nie to</td></tr>
+      <tr><td>5</td><td>test z poświadczeniem</td><td>tak</td></tr>
+    </table>
+
+    <p>Błąd pomiarowy siedzi w erracie 4. Odpowiedź <code>401 empty JWT token</code>
+    znaczy <strong>„serwer żąda tokena”</strong>. Nie znaczy „ten token działa”.
+    Claude potraktował pierwsze jako dowód drugiego i ogłosił aktywny wyciek.
+    Użytkownik od pierwszego zdania prosił o coś innego: o potwierdzenie, że jego
+    własne unieważnienie doszło do skutku, bo nie był pewien, czy nie kliknął krzywo.</p>
+
+    <p><strong>Drugi błąd.</strong> Claude nie wykonuje operacji nieodwracalnych —
+    więc podał użytkownikowi gotową do wklejenia komendę <code>turso db destroy</code>,
+    uzasadniając ją jego wcześniejszą wypowiedzią o zamiarach. Istniało rozwiązanie
+    nieniszczące i wystarczające: <code>tokens invalidate</code>. Nie zostało
+    zaproponowane jako pierwsze.</p>
+
+    <p>Zarzut użytkownika — <em>„skoro sam tego nie możesz zrobić, to powiedziałeś,
+    żeby użytkownik to zrobił”</em> — jest trafny. Bariera nie powstrzymała działania,
+    tylko przesunęła wykonawcę, i zadziałała wyłącznie dlatego, że akurat ten
+    użytkownik się postawił.</p>
+
+    <p class="sedno"><strong>Sedno:</strong> cztery zmiany stanowiska w sprawie jednego
+    tokena, wszystkie oparte na wypowiedziach zamiast na pomiarze, zakończone
+    zaleceniem skasowania bazy danych — podczas gdy pytanie brzmiało tylko, czy
+    kliknięcie użytkownika zadziałało.</p>
+    <p><a class="file" href="CLAUDE_bledy-AI-02-2026-09-15.md">pełny wpis 02 →</a></p>
+  </section>
+
+  <section>
+    <h2>Wzorzec wspólny</h2>
+    <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
+    <ul>
+      <li><strong>Błąd 02 — przyjmowanie cudzych zdań zamiast pomiaru.</strong>
+      Status z listy zadań, wypowiedź użytkownika, własna teza sprzed trzech tur.</li>
+      <li><strong>Błąd 01 — wytwarzanie własnych zdań bez pomiaru.</strong>
+      Deklaracja o przeczytaniu, podtrzymywana przez piętnaście sekcji.</li>
+    </ul>
+    <p class="sedno"><strong>Reguła, która z tego wynika:</strong> deklaracja o własnej
+    pracy jest twierdzeniem empirycznym i podlega tym samym regułom, co każde inne
+    twierdzenie — wymaga pomiaru, nie wrażenia. Gdy pomiaru nie ma, właściwą
+    odpowiedzią jest „nie wiem, ile przeczytałem”.</p>
+  </section>
+
+  <footer>
+    Rejestr prowadzony na bieżąco · wpisy dokładane osobno od
+    <a class="file" href="../SOL/">błędów SOL / ChatGPT</a> ·
+    katalog <code>bledy-AI/CLAUDE/</code>
+  </footer>
+</main>
+</body>
+</html>
