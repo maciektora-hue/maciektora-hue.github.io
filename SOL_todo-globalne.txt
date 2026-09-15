@@ -1,3 +1,5 @@
+AKTUALIZACJA 2026-09-15: Turso wycofane. Poniższe zadania dotyczące Turso są nieaktualne; obowiązuje PostgreSQL/Supabase.
+
 GLOBALNA LISTA ZADAŃ
 
 CZWARTEK — 2026-09-10
