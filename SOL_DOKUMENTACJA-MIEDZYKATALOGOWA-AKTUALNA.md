@@ -328,14 +328,17 @@ content_keyword_terms
     └── EN
 ```
 
-Stan zapisany w dokumentacji repo po imporcie słownika:
+Stan wdrożony 2026-09-15:
 
-- 544 `content_keyword_concepts`,
-- 1088 `content_keyword_terms`,
-- 544 PL,
-- 544 EN.
+- cała baza: 892 koncepty i 1798 nazw językowych/aliasów;
+- Rosja: lista 300 konceptów PL/EN, 298 wykorzystanych, 2104 przypisania do 620 sekcji i 9 TOMÓW;
+- AuDHD: 498 wykorzystywanych konceptów, 1298 przypisań do 338 sekcji;
+- każda sekcja Rosji ma **1–5 keywordsów, wyłącznie przez concept_id istniejący w SQL**;
+- Content Explorer pokazuje 620/620 sekcji Rosji z keywordsami; wyświetlanie PL/EN sprawdzone.
 
-Sam model dopuszcza przypisania słów kluczowych do sekcji przez `content_section_keywords`.
+Słownik do tłumaczenia tekstów jest odrębnym artefaktem. Nie należy utożsamiać liczby jego pozycji z liczbą konceptów ani z liczbą przypisań.
+
+[Pełna dokumentacja wdrożenia, reguły i eksporty](piosenki/SOL_rosja-keywords-wdrozenie-2026-09-15.md).
 
 ---
 
