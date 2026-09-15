@@ -263,7 +263,7 @@
 
 
 <h2>16. Architektura audio V1 — stan projektowy</h2>
-<p>Warstwa audio jest projektowana jako rozszerzenie istniejącego modelu piosenek. Nie zastępuje <code>middle_end</code> i nie zmienia znaczenia <code>utwu_id</code>. Stan na 2026-09-09: schemat został uzgodniony, ale migracja nie została jeszcze wykonana na Turso.</p>
+<p>Warstwa audio jest projektowana jako rozszerzenie istniejącego modelu piosenek. Nie zastępuje <code>middle_end</code> i nie zmienia znaczenia <code>utwu_id</code>. Stan na 2026-09-09: schemat został uzgodniony, ale migracja nie została jeszcze wykonana w ówczesnej bazie danych.</p>
 
 <p>Aktualnym źródłem danych pomiarowych jest <code>audio_features_v08.csv</code>: 856 rekordów i 191 kolumn. Pierwsze 6 kolumn opisuje plik audio; pozostałe 185 kolumn opisuje konfigurację ekstraktora i wyniki cech audio. Cechy zostały policzone ekstraktorem v05; oznaczenie v08 dotyczy oczyszczonego zbioru po sanityzacji 1.0, nie nowej wersji ekstraktora.</p>
 
@@ -383,7 +383,7 @@
   <li>pierwszy import v08 ma zachować 856 aktywnych rekordów po sanityzacji 1.0.</li>
 </ul>
 
-<p>Przygotowany projekt migracji nosi nazwę <code>SOL_audio-schema-v01.sql</code>. Na etapie zapisania tej architektury plik migracji nie został jeszcze wykonany na Turso.</p>
+<p>Przygotowany projekt migracji nosi nazwę <code>SOL_audio-schema-v01.sql</code>. Na etapie zapisania tej architektury plik migracji nie został jeszcze wykonany w ówczesnej bazie danych.</p>
 
 </main>
 </body>
