@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Półka wstydu — błędy AI</title>
+  <meta name="description" content="Jawny rejestr błędów popełnionych przez AI przy pracy nad tym repozytorium. Osobno Claude, osobno SOL / ChatGPT.">
+  <style>
+    :root{
+      --bg:#1d1a16; --panel:#2a2520; --text:#ead7a8; --strong:#f3d796;
+      --muted:#b9aa82; --border:#544636; --bad:#d98a6a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:900px;margin:0 auto;padding:48px 20px 72px}
+    h1{color:var(--strong);font-size:clamp(2rem,5vw,3.3rem);margin:0 0 .4rem;line-height:1.1}
+    h2{color:var(--strong);font-size:1.4rem;margin:0 0 .3rem}
+    .lead{color:var(--muted);margin:0 0 2rem}
+    .backlink{display:inline-block;color:var(--muted);text-decoration:none;
+      border-bottom:1px solid var(--border);margin-bottom:2rem;font-size:.9rem}
+    .backlink:hover{color:var(--strong)}
+    .shelf{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    a.slot{display:block;text-decoration:none;color:inherit;background:var(--panel);
+      border:1px solid var(--border);border-radius:14px;padding:24px;transition:border-color .15s}
+    a.slot:hover{border-color:var(--strong)}
+    .who{color:var(--bad);font-size:.78rem;font-weight:700;letter-spacing:.08em;
+      text-transform:uppercase;margin-bottom:.5rem}
+    .count{font-size:2.6rem;color:var(--bad);font-weight:700;line-height:1;
+      font-variant-numeric:tabular-nums;margin:.6rem 0 .2rem}
+    .count small{font-size:.9rem;color:var(--muted);font-weight:400;letter-spacing:0}
+    .slot p{margin:.6rem 0 0;color:var(--text);font-size:.94rem}
+    .enter{margin-top:1rem;color:var(--strong);font-weight:700;font-size:.85rem;letter-spacing:.04em}
+    section.note{background:var(--panel);border:1px solid var(--border);
+      border-radius:14px;padding:24px;margin-top:22px}
+    section.note h2{font-size:1.15rem}
+    section.note p{margin:.6rem 0 0}
+    strong{color:var(--strong)}
+    ul{margin:.6rem 0 0;padding-left:1.2rem}
+    li{margin:0 0 .5rem}
+    footer{color:var(--muted);font-size:.85rem;margin-top:2.4rem;
+      padding-top:1.2rem;border-top:1px solid var(--border)}
+  </style>
+</head>
+<body>
+<main>
+  <a class="backlink" href="../">← wejście główne</a>
+
+  <h1>Półka wstydu</h1>
+  <p class="lead">Jawny rejestr błędów popełnionych przez AI przy pracy nad tym
+  repozytorium. Prowadzony z liczbami i cytatami, nie z przeprosinami — bo rejestr
+  błędów bez liczb osuwa się w gatunek literacki, w którym autor wypada sympatycznie.
+  Dwie półki, bo dwa modele i dwa różne repertuary. Oba liczniki wyzerowane celowo — nota niżej.</p>
+
+  <div class="shelf">
+    <a class="slot" href="CLAUDE/">
+      <div class="who">Claude</div>
+      <h2>Przegląd repozytorium</h2>
+      <div class="count">2 <small>wpisy</small></div>
+      <p>Zgłaszanie „przeczytane w całości” przy 20,4% przeczytanego.
+      Cztery erraty wokół jednego tokena i zalecenie skasowania bazy danych
+      tam, gdzie wystarczyło unieważnić klucz.</p>
+      <div class="enter">OTWÓRZ →</div>
+    </a>
+
+    <a class="slot" href="SOL/">
+      <div class="who">SOL / ChatGPT</div>
+      <h2>Budowa i migracja</h2>
+      <div class="count">32 <small>pozycje · 9 wpisów</small></div>
+      <p>Misja na Marsa zamiast jednego <code>UPDATE</code>. Kilkanaście promptów
+      na jedną komendę SQL. Pomylenie <code>tags</code> z <code>playlist_tags</code>.
+      Rekonstruowanie systemu z plików obok zamiast odczytu bazy.</p>
+      <div class="enter">OTWÓRZ →</div>
+    </a>
+  </div>
+
+  <section class="note">
+    <h2>Po co to stoi na widoku</h2>
+    <p>Bo inaczej nie działa. Rejestr błędów trzymany prywatnie służy poczuciu,
+    że się go prowadzi. Wystawiony — zmusza do podawania liczby zamiast wrażenia,
+    i do zapisania zarzutu w brzmieniu, w jakim padł, a nie w złagodzonym.</p>
+    <p>Zasady tej półki są trzy:</p>
+    <ul>
+      <li><strong>Liczba przed przymiotnikiem.</strong> Nie „przeczytałem sporo”,
+      tylko 10 plików ze 147.</li>
+      <li><strong>Errata zamiast nadpisania.</strong> Błędny wpis zostaje, korekta
+      dopisuje się pod nim. Półka, z której da się zdjąć eksponat, nie jest półką wstydu.</li>
+      <li><strong>Cytat zamiast streszczenia.</strong> Zarzut użytkownika trafia
+      tu w oryginale.</li>
+    </ul>
+  </section>
+
+  <section class="note">
+    <h2>Liczniki wyzerowane celowo</h2>
+    <p>Obie półki startują od nowa. W ramach przejścia na <strong>Claude Code</strong>
+    i na <strong>Codex</strong> po stronie SOL-a postanowiłem przejść wszystkie błędy
+    jeszcze raz, od początku — i <strong>celowo nie skopiowałem custom instructions
+    ani wypracowanych wcześniej informacji dla asystenta</strong>.</p>
+    <p>To znaczy, że wpisy na tych półkach nie powstają wbrew regułom projektu
+    przekazanym na wejściu. Powstają tam, gdzie reguł na wejściu nie było — i pokazują,
+    co model robi, zanim mu się cokolwiek wytłumaczy.</p>
+    <p>Stąd rzecz, która bez tej noty wygląda na zbieg okoliczności: zasada
+    „czytaj każdy dokument osobno i w całości, bez heurystyk z tytułu” <strong>była już
+    zapisana</strong> w archiwum projektu, w <code>memento</code> z 2026-09-07, sekcja 12.
+    Claude jej nie dostał i złamał ją trzy razy, po czym trzeba mu ją było podyktować
+    od zera. To nie jest dowód, że reguła jest zbędna. To pomiar tego, ile kosztuje
+    jej brak.</p>
+    <p>Półka rośnie więc dwa razy: raz jako wstyd, drugi raz jako <strong>lista reguł,
+    które trzeba będzie przekazać na wejściu</strong>. Druga funkcja nie unieważnia
+    pierwszej i nie jest dla niej wymówką.</p>
+  </section>
+
+  <section class="note">
+    <h2>Wzorzec wspólny obu półek</h2>
+    <p>Mimo różnych modeli i różnych zadań większość wpisów po obu stronach sprowadza
+    się do jednego ruchu: <strong>rekonstruowania stanu rzeczy z czegoś, co stoi obok,
+    zamiast odczytania samego stanu.</strong></p>
+    <p>U SOL-a było to czytanie plików CSV zamiast tabeli SQL, o którą pytano.
+    U Claude'a — przepisywanie statusu z listy zadań zamiast sprawdzenia bazy,
+    i raportowanie wrażenia z lektury zamiast policzenia plików. Za każdym razem
+    dostępny był właściwy pomiar i za każdym razem sięgnięto po substytut.</p>
+  </section>
+
+  <footer>
+    Katalog <code>bledy-AI/</code> · wpisy dokładane na bieżąco, osobno dla każdego modelu
+  </footer>
+</main>
+</body>
+</html>

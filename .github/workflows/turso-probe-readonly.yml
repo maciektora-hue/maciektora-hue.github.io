@@ -1,0 +1,56 @@
+name: Turso token revocation check
+
+# Read-only: verifies the existing GitHub secret with SELECT 1.
+# Never prints the token and never changes database data.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/turso-probe-readonly.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libsql
+        run: pip install libsql
+
+      - name: Check whether the saved Turso token still authenticates
+        env:
+          TURSO_DATABASE_URL: libsql://happy-hue-octopus-maciek-hue.aws-eu-west-1.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_ADMIN_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          import libsql
+
+          token = os.environ.get('TURSO_AUTH_TOKEN', '')
+          if not token:
+              print('TOKEN_STATUS=GITHUB_SECRET_MISSING')
+              sys.exit(0)
+
+          try:
+              conn = libsql.connect(
+                  database=os.environ['TURSO_DATABASE_URL'],
+                  auth_token=token,
+              )
+              result = conn.execute('SELECT 1').fetchone()
+              conn.close()
+              if result != (1,):
+                  print('TOKEN_STATUS=INCONCLUSIVE_UNEXPECTED_RESULT')
+                  sys.exit(1)
+              print('TOKEN_STATUS=ACTIVE')
+          except Exception as error:
+              message = str(error).lower()
+              auth_markers = ('401', 'unauth', 'authentication', 'invalid token', 'jwt')
+              if any(marker in message for marker in auth_markers):
+                  print('TOKEN_STATUS=REVOKED_OR_INVALID')
+                  sys.exit(0)
+              print('TOKEN_STATUS=INCONCLUSIVE_CONNECTION_ERROR')
+              sys.exit(1)
+          PY
