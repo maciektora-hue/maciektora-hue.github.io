@@ -27,6 +27,10 @@
     <strong>Content Explorer · Russia + AuDHD</strong>
     <span>A public map of the live data: projects, documents, section hierarchy, Polish/English titles and descriptions, anchors, deep links and keywords. It exposes the structure without imposing an interpretation.</span>
   </a>
+  <a class="viewer" href="sql-viewer.html">
+    <strong>SQL database viewer</strong>
+    <span>Live PostgreSQL / Supabase schema: tables, columns, keys, row counts and sizes, read through the API.</span>
+  </a>
   <a class="viewer" href="../piosenki/playlisty-en.html">
     <strong>Playlist viewer</strong>
     <span>Read-only view of playlists stored in SQL: playlist → tracks, track → playlists, and external tracks without an explicit <code>utwu_id</code> mapping. At present, all playlists loaded here are Maciek Tora’s own playlists.</span>
@@ -56,7 +60,7 @@
     <div class="tool"><div class="no">06</div><div class="name">Flask-CORS</div><div class="desc">The bridge between the static GitHub Pages site and the Render API. It allows pages from the GitHub Pages origin to read <code>/api/*</code> endpoints.</div></div>
   </div>
 
-  <div class="flow"><strong>Shortest version of the data path:</strong><br>GitHub Pages → Render / Flask → SQL. GitHub Actions runs alongside it as the repository automation layer.</div>
+  <div class="flow"><strong>Shortest version of the data path:</strong><br>GitHub Pages → Render / Flask → PostgreSQL / Supabase. GitHub Actions runs alongside it as the repository automation layer.</div>
 
   <footer>Technical · current overview of tools, integrations and data stored in SQL</footer>
 </div>

@@ -27,6 +27,10 @@
     <strong>Przeglądarka treści · Rosja + AuDHD</strong>
     <span>Publiczna mapa danych z działającej bazy: projekty, dokumenty, hierarchia sekcji, tytuły i opisy PL/EN, anchory, deep-linki oraz keywordy. Pozwala obejrzeć strukturę od środka bez narzucania interpretacji.</span>
   </a>
+  <a class="viewer" href="sql-viewer.html">
+    <strong>Viewer bazy SQL</strong>
+    <span>Bieżący schemat PostgreSQL / Supabase: tabele, kolumny, klucze, liczby rekordów i rozmiary. Dane pobierane na żywo przez API.</span>
+  </a>
   <a class="viewer" href="../piosenki/playlisty.html">
     <strong>Viewer playlist</strong>
     <span>Read-only widok playlist zapisanych w SQL: playlista → utwory, utwór → playlisty oraz zewnętrzne utwory, które nie mają jeszcze jawnego przypisania do <code>utwu_id</code>.</span>
@@ -56,7 +60,7 @@
     <div class="tool"><div class="no">06</div><div class="name">Flask-CORS</div><div class="desc">Most między statycznym WWW na GitHub Pages a API na Renderze. Pozwala stronom z domeny GitHub Pages odczytywać endpointy <code>/api/*</code>.</div></div>
   </div>
 
-  <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → SQL. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
+  <div class="flow"><strong>Najkrótszy obraz przepływu:</strong><br>GitHub Pages → Render / Flask → PostgreSQL / Supabase. GitHub Actions działa obok tego jako warstwa automatyzacji repozytorium.</div>
 
   <footer>Techniczne · aktualny opis używanych narzędzi, integracji i danych w SQL</footer>
 </div>
