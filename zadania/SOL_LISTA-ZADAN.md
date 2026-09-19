@@ -6,6 +6,9 @@ Wersja 01.00 · 2026-09-19
 
 Aktualna lista zadań dla całego repozytorium.
 
+> **2026-09-19:** posprzątane adresy WWW i nazwy plików w całym repozytorium.
+> Przed operacjami na plikach: `SOL_INFORMACJA-PO-SPRZATANIU-AKTUALNA.md`.
+
 ## Ściąga: co to jest CI
 
 **CI** = *Continuous Integration*. Robot, który po każdym zapisie do repozytorium sam odpala

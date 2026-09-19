@@ -7,6 +7,11 @@ Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
 
+> **Dla kolejnych czatów i agentów:** jeżeli pracujesz z pamięcią poprzednich sesji, kilkadziesiąt
+> ścieżek plików zmieniło się 2026-09-19. Zanim ruszysz pliki, przeczytaj
+> `SOL_INFORMACJA-PO-SPRZATANIU-AKTUALNA.md`. Przy sprzeczności między pamięcią a repozytorium
+> rozstrzyga repozytorium.
+
 ## 0.1. Konwencja adresów i nazw plików
 
 Obowiązuje w całym repozytorium od 2026-09-19.

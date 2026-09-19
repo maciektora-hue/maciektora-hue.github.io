@@ -52,6 +52,11 @@
   repozytorium. Prowadzony jawnie i z liczbami, bo bez liczb każdy rejestr błędów
   osuwa się w gatunek literacki, w którym autor wypada sympatycznie.
   Osobno od <a class="file" href="../SOL/">błędów SOL / ChatGPT</a>.</p>
+  <p class="lead">Ta półka jest krótsza od sąsiedniej nie dlatego, że Claude jest staranniejszy,
+  tylko dlatego, że zrobił w tym repozytorium <strong>znacznie mniej</strong>.
+  Strukturę, migrację i większość treści postawił SOL; Claude przyszedł później i sprząta.
+  Sprzątanie w gotowej strukturze, z wiedzą o tym, co się nie udało, jest łatwiejsze od budowania
+  i daje mniej okazji do pomyłki. Długość obu list mierzy objętość pracy, nie jakość modelu.</p>
 
   <section>
     <div class="num">Błąd 01 · 2026-09-15</div>
@@ -131,6 +136,38 @@
     zaleceniem skasowania bazy danych — podczas gdy pytanie brzmiało tylko, czy
     kliknięcie użytkownika zadziałało.</p>
     <p><a class="file" href="CLAUDE_bledy-AI-02-2026-09-15.md">pełny wpis 02 →</a></p>
+  </section>
+
+  <section>
+    <div class="num">Błąd 03 · 2026-09-19</div>
+    <h2>Ogłoszenie jedenastu plików martwymi bez przeczytania audytu, który je klasyfikował</h2>
+    <p>Podczas sprzątania adresów WWW powstało zestawienie plików bez stabilnego adresu.
+    Jedenastu plikom w <code>rosja/</code> została przypisana etykieta <strong>martwe pliki</strong>
+    i kategoria „sieroty”, na podstawie wyłącznie analizy linków: nikt do nich nie linkuje,
+    obok leżą nowsze warianty <code>-anchory</code>, więc wniosek nasuwał się sam.</p>
+    <p>Wniosek był fałszywy. W tym samym katalogu leżał plik
+    <code>rosja/SOL_audyt-osieroconych-html.md</code>, który klasyfikuje te pliki jako
+    <strong>świadomie zachowane zamrożone oryginały</strong>. Audyt został przeczytany dopiero przy
+    następnym poleceniu, tuż przed operacją na plikach — więc do usunięcia nie doszło, ale
+    <strong>błędne twierdzenie zostało już użytkownikowi przedstawione jako ustalenie</strong>,
+    razem z propozycją przeniesienia tych plików do poczekalni.</p>
+    <p class="sedno"><strong>To jest dokładnie ten wzorzec, za który na sąsiedniej półce krytykowany jest SOL:</strong>
+    rekonstruowanie stanu systemu z artefaktów obok, zamiast odczytania źródła, które stoi w tym samym katalogu.
+    Skrypt liczyący linki jest wygodniejszy niż przeczytanie dokumentu, i dlatego został użyty pierwszy.
+    Kolejność była odwrotna do właściwej: najpierw pomiar techniczny, potem dokumentacja,
+    zamiast najpierw dokumentacja, potem pomiar.</p>
+  </section>
+
+  <section>
+    <div class="num">Błąd 04 · 2026-09-19</div>
+    <h2>Praca wypchnięta na własną gałąź zamiast na wyznaczoną</h2>
+    <p>Sesja miała jawnie wskazaną gałąź roboczą. Po zmergowaniu pierwszego pull requesta
+    kolejna porcja pracy została wypchnięta na nowo utworzoną gałąź o innej nazwie,
+    bez sprawdzenia obowiązującej instrukcji. Pomyłka została zauważona samodzielnie i zgłoszona,
+    ale próba naprawy oznaczała nadpisanie zmergowanej historii i została słusznie zablokowana.</p>
+    <p class="sedno"><strong>Reguła:</strong> instrukcję dotyczącą miejsca zapisu pracy czyta się
+    <em>przed</em> pierwszym zapisem, a nie po. Naprawa błędu w historii gita jest zawsze droższa
+    niż jego uniknięcie, i często niemożliwa bez niszczenia cudzego stanu.</p>
   </section>
 
   <section>
