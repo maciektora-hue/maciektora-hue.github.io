@@ -2,7 +2,30 @@
 
 # Lista zadań
 
+Wersja 01.00 · 2026-09-19
+
 Aktualna lista zadań dla całego repozytorium.
+
+## Ściąga: co to jest CI
+
+**CI** = *Continuous Integration*. Robot, który po każdym zapisie do repozytorium sam odpala
+sprawdzenia, zamiast liczyć na to, że ktoś zrobi je ręcznie. Tu są to GitHub Actions,
+czyli pliki w `.github/workflows/`. Podgląd: zakładka **Actions** na GitHubie.
+
+Działają trzy:
+
+| Workflow | Co robi |
+|---|---|
+| `pages build and deployment` | wystawia stronę na `maciektora-hue.github.io` — to dzięki niemu zmiana w repo staje się widoczna w przeglądarce |
+| `unpack and split walkaosql` | skrypt pomocniczy |
+| `Konwencja stałych adresów WWW` | pilnuje martwych linków, anchorów w przekierowaniach, kopii treści i nazw plików |
+
+**Zielone CI znaczy tylko, że deploy się udał i że sprawdzane reguły nie zostały złamane.
+Nie znaczy, że treść jest dobra — tego nikt nie ocenia.**
+
+CI **nie sprawdza, czy anchory istnieją** w plikach docelowych i nie ma tego robić.
+Link do nienapisanej jeszcze sekcji to niedokończony tekst, nie awaria.
+Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
 
 ## DO ZROBIENIA
 

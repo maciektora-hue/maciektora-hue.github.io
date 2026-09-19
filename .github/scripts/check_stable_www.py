@@ -5,6 +5,23 @@ Strażnik konwencji stałych adresów WWW.
 Sprawdza pięć reguł. Każde naruszenie to błąd i czerwone CI.
 Znane, świadomie utrzymywane wyjątki mieszkają w .github/stable-www-allowlist.txt.
 
+CZEGO TEN SKRYPT ŚWIADOMIE NIE SPRAWDZA
+----------------------------------------
+NIE sprawdza, czy anchor wskazywany przez link istnieje w pliku docelowym.
+To decyzja projektowa, nie luka. NIE DODAWAĆ takiej reguly.
+
+Link do `#sekcja-15`, której jeszcze nie napisano, albo anchor po przeniesionej
+sekcji, to niedokończony tekst, a nie awaria: przeglądarka otworzy stronę od góry
+i nikomu nic się nie stanie. Reguły sprawdzane niżej mają inną naturę — łamią się
+po cichu i uderzają w kogoś z zewnątrz: 404, wyrzucenie czytelnika na górę
+dokumentu, dwa rozjeżdżające się źródła prawdy.
+
+Ten strażnik pilnuje ADRESÓW, nie kompletności tekstu. Stąd rozróżnienie:
+  - przekazywanie #anchor przez przekierowanie  -> sprawdzane (mechanika adresu)
+  - istnienie id="anchor" w pliku docelowym     -> nie sprawdzane (stan tekstu)
+
+Uzasadnienie w SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md, sekcja 0.3.
+
 Uruchomienie lokalne:
     python3 .github/scripts/check_stable_www.py
 """

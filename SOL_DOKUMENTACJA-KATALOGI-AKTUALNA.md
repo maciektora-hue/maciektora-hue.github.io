@@ -61,6 +61,45 @@ mechanizmem przekierowania. Zostaje w stubach jako zapas dla wyłączonego JavaS
 Stuby mają też `rel="canonical"` na cel oraz `robots: noindex`, żeby nie konkurować
 w wyszukiwarce z adresem właściwym.
 
+## 0.3. Czym jest CI i czego pilnuje w tym repozytorium
+
+**CI** to skrót od *Continuous Integration*. W praktyce: robot, który po każdym zapisie do repozytorium
+sam odpala zestaw sprawdzeń, zamiast liczyć na to, że ktoś zrobi je ręcznie i o niczym nie zapomni.
+Technicznie są to GitHub Actions, czyli pliki w `.github/workflows/`.
+
+W tym repozytorium CI robi trzy rzeczy:
+
+1. `pages build and deployment` — przebudowuje stronę i wystawia ją na `maciektora-hue.github.io`.
+   To jest to, co sprawia, że zmiana w repozytorium staje się widoczna w przeglądarce.
+2. `unpack and split walkaosql` — skrypt pomocniczy.
+3. `Konwencja stałych adresów WWW` — strażnik opisany w sekcji 0.1, kod w `.github/scripts/check_stable_www.py`.
+
+**Zielone CI nie znaczy, że strona jest dobra.** Znaczy tylko tyle, że deploy się udał i że sprawdzane
+reguły nie zostały złamane. Treści nikt nie ocenia.
+
+### Czego strażnik świadomie NIE sprawdza
+
+**CI nie weryfikuje, czy anchor wskazywany przez link faktycznie istnieje w pliku docelowym.**
+To decyzja projektowa, nie luka do załatania. Nie należy tego dodawać.
+
+Anchor, który nie ma odpowiednika w tekście, jest **inną kategorią problemu** niż pozostałe reguły.
+Można świadomie napisać link do `#sekcja-15`, której jeszcze nie ma, bo tekst dopiero powstaje,
+albo zostawić anchor po sekcji, która została przeniesiona. Przeglądarka po prostu otworzy stronę
+od góry i nikomu nic się nie stanie. To nie jest awaria: to co najwyżej niedokończony tekst,
+a o niedokończonych tekstach nie rozstrzyga robot.
+
+Reguły, których strażnik pilnuje, mają inną naturę: łamią się **po cichu i nieodwracalnie dla kogoś z zewnątrz**.
+Martwy link daje 404. Zgubiony fragment adresu przy przekierowaniu wyrzuca czytelnika na górę dokumentu,
+którego nie zamawiał. Kopia treści pod drugim adresem rozjeżdża się bez żadnego sygnału błędu.
+Tego nie widać gołym okiem i nikt tego nie zauważy, dopóki nie będzie za późno.
+
+Różnica w jednym zdaniu: **strażnik pilnuje adresów, nie kompletności tekstu.**
+
+Rozróżnienie **anchor w stubie** kontra **istnienie anchora w tekście**:
+
+- przekazywanie `#anchor` przez przekierowanie — **sprawdzane**, bo to mechanika adresu i łamie się niewidocznie,
+- istnienie `id="anchor"` w pliku docelowym — **nie sprawdzane**, bo to stan tekstu i jego brak nikogo nie blokuje.
+
 ## 0. Zakres i zasada
 
 Ten dokument opisuje publiczne katalogi i ich aktualną rolę w jednym repozytorium GitHub Pages.
