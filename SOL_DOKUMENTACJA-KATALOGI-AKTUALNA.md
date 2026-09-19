@@ -2,9 +2,36 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
+Wersja 01.00 · 2026-09-19
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
+
+## 0.1. Konwencja adresów i nazw plików
+
+Obowiązuje w całym repozytorium od 2026-09-19.
+
+**Nazwa pliku jest stała.** Nazwy plików treściowych nie zawierają numeru wersji ani daty.
+Numer wersji `XX.YY` oraz data `yyyy-mm-dd` żyją w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
+Drobna korekta podnosi `YY`, przebudowa podnosi `XX`.
+
+**Stabilne wejście katalogowe.** Większość działów ma dodatkowo krótki adres katalogowy
+(`rownania/navier-stokes/`, `cv/cv/`, `audhd/po-ludzku/`), który przekierowuje do pliku treściowego.
+To on jest adresem do rozsyłania.
+
+**Stuby archiwalne.** Każdy adres, który kiedyś był publiczny i zawierał wersję w nazwie pliku,
+ma pod sobą stub przekierowujący na adres stały. Stary link nigdy nie ma prawa dać 404.
+
+**Anchory muszą przetrwać przekierowanie.** Każdy stub przekazuje dalej fragment adresu:
+
+```html
+<script>location.replace('cel.html' + location.hash);</script>
+```
+
+Sam `<meta http-equiv="refresh">` gubi `#anchor`, więc nie wystarcza i nie może być jedynym
+mechanizmem przekierowania. Zostaje w stubach jako zapas dla wyłączonego JavaScriptu.
+Stuby mają też `rel="canonical"` na cel oraz `robots: noindex`, żeby nie konkurować
+w wyszukiwarce z adresem właściwym.
 
 ## 0. Zakres i zasada
 
@@ -74,17 +101,25 @@ Główny katalog ma:
 
 ## Stabilne wejście do CV
 
-`cv/cv/index.html` jest aliasem / przekierowaniem do aktualnego wersjonowanego pliku CV.
+`cv/cv/index.html` jest aliasem / przekierowaniem do aktualnego pliku CV.
 
 W obecnym stanie wskazuje:
 
-`CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html`
+`CLAUDE_Maciej-Tora-AI-CV.html`
 
-Dzięki temu publiczny adres `/cv/cv/` może pozostać stały mimo zmiany wersjonowanego pliku źródłowego.
+Nazwa pliku docelowego jest stała i nie zmienia się przy kolejnych wersjach CV.
+Numer wersji i data żyją w nagłówku wewnątrz dokumentu.
+Dzięki temu stałe są oba adresy naraz: publiczny `/cv/cv/` i bezpośredni adres pliku.
 
 ## Seventeen & Seventeen
 
 `cv/seventeen-and-seventeen/index.html` jest osobnym, stabilnym wejściem do materiału pogłębiającego profil zawodowy.
+
+Wskazuje na `CLAUDE_seventeen-and-seventeen-ai-concepts-EN.html`.
+
+Do 2026-09-19 ten plik nie był przekierowaniem, tylko pełną kopią treści pod stabilnym adresem.
+Oznaczało to dwa źródła prawdy gotowe rozjechać się przy pierwszej edycji jednego z nich.
+Obecnie jest przekierowaniem, tak jak `cv/cv/index.html`.
 
 ## Charakter techniczny
 
