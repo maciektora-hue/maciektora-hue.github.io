@@ -19,8 +19,36 @@ Drobna korekta podnosi `YY`, przebudowa podnosi `XX`.
 (`rownania/navier-stokes/`, `cv/cv/`, `audhd/po-ludzku/`), który przekierowuje do pliku treściowego.
 To on jest adresem do rozsyłania.
 
-**Stuby archiwalne.** Każdy adres, który kiedyś był publiczny i zawierał wersję w nazwie pliku,
-ma pod sobą stub przekierowujący na adres stały. Stary link nigdy nie ma prawa dać 404.
+**Stuby archiwalne i kiedy ich NIE zostawiamy.** Adres, który kiedyś był publiczny i zawierał
+wersję w nazwie pliku, dostaje stub przekierowujący na adres stały — ale tylko wtedy, gdy ten adres
+naprawdę wyszedł na zewnątrz.
+
+Rozstrzyga jedno pytanie: **czy ktoś dostał ten link?**
+
+- **Link został rozesłany** — stub zostaje na stałe. Nie wolno go usunąć nawet po latach,
+  bo po drugiej stronie jest czyjaś zakładka, mail albo wiadomość, której nikt już nie poprawi.
+- **Link nigdy nie wyszedł** — stub jest zbędny i należy go usunąć przy pierwszym sprzątaniu.
+  Utrzymywanie przekierowań pod adresami, których nikt nie zna, to nie ostrożność, tylko śmieci.
+
+Dlatego liczba stubów w repozytorium nie ma rosnąć mechanicznie przy każdej zmianie nazwy.
+Rośnie tylko tam, gdzie istnieje realny odbiorca starego adresu.
+
+## 0.2. Rejestr rozesłanych adresów archiwalnych
+
+Poniższe adresy zostały przekazane osobom trzecim, zanim nazwy plików zostały ustabilizowane.
+Stojące pod nimi stuby są **trwałe** i nie podlegają sprzątaniu.
+
+- `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
+- `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
+
+Ich angielskie odpowiedniki nie były rozsyłane pojedynczo, ale były osiągalne z publicznej nawigacji
+`rownania/navier-stokes/index-en.html` i `rownania/dziesiec-rownan/index-en.html`, więc mogły zostać
+zaindeksowane lub dodane do zakładek przez kogokolwiek. Ich stuby też zostają.
+
+Dla kontrastu: adresy CV z numerem wersji w nazwie (`cv/CLAUDE_Maciej-Tora-AI-CV-v07_12-*`,
+`v07_13-*` oraz `cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_07-*`) **nigdy nie zostały
+nikomu przekazane**. Ich stuby zostały utworzone 2026-09-19 i usunięte tego samego dnia,
+gdy tylko to ustalono. Nie należy ich odtwarzać.
 
 **Anchory muszą przetrwać przekierowanie.** Każdy stub przekazuje dalej fragment adresu:
 

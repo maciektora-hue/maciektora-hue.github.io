@@ -1,6 +1,6 @@
 # Osierocone HTML-e
 
-Wersja 01.01 · 2026-09-19
+Wersja 01.02 · 2026-09-19
 
 Katalog na pliki HTML, które nie są częścią aktualnych stron WWW ani aktywnej dokumentacji, ale których nie chcemy jeszcze usuwać.
 
@@ -9,7 +9,7 @@ To miejsce przejściowe do późniejszego przeglądu, przypisania albo archiwiza
 ## Zasada
 
 - przeniesienie tutaj nie jest usunięciem i nie kasuje historii,
-- jeżeli plik miał publiczny adres, pod starym adresem zostaje przekierowanie, żeby rozesłane linki nie dawały 404,
+- jeżeli stary adres został komuś rozesłany, zostaje pod nim przekierowanie; jeżeli nigdy nie wyszedł na zewnątrz, przekierowania się nie zostawia,
 - podkatalogi zachowują pochodzenie pliku, np. `audhd/`, `rosja/`, `cv/`.
 
 ## Zawartość
@@ -18,7 +18,7 @@ To miejsce przejściowe do późniejszego przeglądu, przypisania albo archiwiza
 
 `rosja/` — jednorazowy techniczny test połączenia SQL API.
 
-`cv/` — CV w wersji 07.12, zastąpione przez wersję bieżącą. Stary publiczny adres w `cv/` przekierowuje na aktualne CV, a nie na tę migawkę, bo rozesłany link do CV powinien prowadzić do wersji aktualnej.
+`cv/` — CV w wersji 07.12, zastąpione przez wersję bieżącą. Bez stuba pod starym adresem: żaden adres CV z numerem wersji w nazwie nie został nikomu przekazany, więc nie ma czego podtrzymywać. Migawka zostaje wyłącznie jako historia.
 
 ## Do rozstrzygnięcia przy przeglądzie
 

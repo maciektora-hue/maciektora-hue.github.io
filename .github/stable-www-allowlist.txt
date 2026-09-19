@@ -51,7 +51,6 @@ audhd/CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html
 audhd/ESEJ_architektury-pamieci-1_02-2026-04-28.html
 audhd/POWIESC_architektury-pamieci-2_00-2026-04-29.html
 audhd/adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html
-audhd/apendyks1-po-ludzku-02_01-2026-08-26.html
 audhd/audhd-fundatorzy-it-1_00-2026-04-27.html
 audhd/audhd-po-ludzku-v02_02-2026-07-09.html
 audhd/audhd_opracowanie_v6_0_2026-07-01-2.html
