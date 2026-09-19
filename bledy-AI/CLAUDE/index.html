@@ -171,6 +171,28 @@
   </section>
 
   <section>
+    <div class="num">Błąd 05 · 2026-09-19</div>
+    <h2>Artefakty kompilacji wpuszczone do repozytorium przez <code>git add -A</code></h2>
+    <p>Przy weryfikacji, że zmienione pliki Pythona nadal się kompilują, zostało uruchomione
+    <code>py_compile</code>. Polecenie wygenerowało katalog <code>__pycache__</code> z plikami
+    <code>.pyc</code>. Następny commit użył <code>git add -A</code>, które zagarnęło wszystko, co leżało
+    w katalogu roboczym — i <strong>dwa pliki bajtkodu trafiły do repozytorium</strong>, do katalogu
+    <code>piosenki/__pycache__/</code>, którego wcześniej w repozytorium nie było.</p>
+    <p>Wykrył to dopiero zewnętrzny hook zgłaszający nieśledzone pliki, już po wypchnięciu.
+    Własna kontrola tego nie złapała, bo sprawdzała <em>co działa</em>, a nie <em>co zostało dodane</em>.</p>
+    <p>Drugi, poważniejszy skutek: przy sprzątaniu tych plików zostały one najpierw uznane za cudze
+    i przywrócone, żeby nie kasować czyjejś zawartości. Dopiero sprawdzenie historii pokazało,
+    że <strong>wprowadził je własny commit</strong> pół godziny wcześniej.</p>
+    <p class="sedno"><strong>Reguła:</strong> <code>git add -A</code> commituje stan katalogu, a nie zamiar autora.
+    Przed zapisem należy obejrzeć listę plików, które faktycznie idą do repozytorium, zwłaszcza po
+    uruchomieniu czegokolwiek, co generuje pliki obok źródeł. Narzędzie weryfikujące nie może
+    zostawiać śladu w weryfikowanym repozytorium.</p>
+    <p>Naprawione tego samego dnia: pliki usunięte, <code>.gitignore</code> uzupełniony o
+    <code>__pycache__/</code> i <code>*.py[cod]</code>. Audyt wszystkich dodanych w tej sesji plików
+    potwierdził, że poza tymi dwoma nic niezamierzonego nie weszło.</p>
+  </section>
+
+  <section>
     <h2>Wzorzec wspólny</h2>
     <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
     <ul>

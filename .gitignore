@@ -4,3 +4,7 @@ daneDoSql.txt
 *.token
 .env
 .env.*
+
+# Artefakty kompilacji Pythona — generowane lokalnie, nigdy do repo
+__pycache__/
+*.py[cod]
