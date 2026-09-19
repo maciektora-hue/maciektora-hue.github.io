@@ -2,7 +2,7 @@
 
 # Lista zadań
 
-Wersja 01.01 · 2026-09-19
+Wersja 01.02 · 2026-09-19
 
 Aktualna lista zadań dla całego repozytorium.
 
@@ -64,4 +64,23 @@ Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
 
 ## ZROBIONE
 
-- 
+### 2026-09-19 — sprzątanie adresów WWW i CI
+
+- **Stałe nazwy plików** w `rownania/`, `piosenki/`, `cv/`, `audhd/` i `dokumentacja-archiwalna/`.
+  Numer wersji i data przeniesione do nagłówków dokumentów.
+- **Stuby pod starymi adresami** wszędzie tam, gdzie adres był publiczny; usunięte tam,
+  gdzie nigdy nie wyszedł na zewnątrz. Rejestr rozesłanych linków: dokumentacja katalogów, sekcja 0.2.
+- **Kopia treści pod stabilnym adresem CV** zamieniona na przekierowanie.
+- **Wszystkie 60 stubów przekazuje `#anchor`** dalej.
+- **Ilustracja OpenAI** w obu esejach o Navierze–Stokesie.
+- **Usunięte dwa jednorazowe workflowy** pozostawione po skończonej robocie.
+- **`walkaosql/` przeniesione** do `dane-archiwalne/`, z README i datą przeglądu 2027-09-19.
+- **Strażnik CI** `check-stable-www.yml` pilnujący konwencji, z listą wyjątków i uzasadnieniami.
+- **Cron `podtrzymanie-api.yml`** chroniący Supabase przed 7-dniową pauzą.
+- **Dokumentacja**: konwencja adresów (0.1), rejestr rozesłanych linków (0.2), poczekalnie (0.2.1),
+  czym jest CI i czego nie sprawdza (0.3), nota przekazania `SOL_INFORMACJA-PO-SPRZATANIU-AKTUALNA.md`.
+- **Rejestr błędów**: trzy wpisy na półce SOL-a, trzy na półce Claude, kontekst tłumaczący
+  różnicę długości obu list.
+
+Kontrola końcowa: 167 HTML-i, 0 martwych linków, 0 błędów parsowania,
+115 stron osiągalnych przed sprzątaniem i 116 po, zero utraconych.

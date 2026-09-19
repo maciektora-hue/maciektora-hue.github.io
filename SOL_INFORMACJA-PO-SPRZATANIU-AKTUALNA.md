@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.01 · 2026-09-19
+Wersja 01.02 · 2026-09-19
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -84,6 +84,58 @@ Workflow usunięty, pliki **nie usunięte** — leżą w poczekalni z README i d
 Komentarze w `piosenki/content_structure.py` i `piosenki/content_store.py` zostały przepięte
 na nową ścieżkę. Kod niczego z tego katalogu nie czyta, więc przenosiny nie zmieniły zachowania.
 
+### 7. Drugi jednorazowy workflow, tym razem odwrotny
+
+`.github/workflows/unpack-walkaosql.yml` usunięty. Jako **jedyny w repozytorium** miał gołe
+`on: push` bez filtra ścieżek i gałęzi, więc budził się przy każdym pushu na każdą gałąź,
+trzymając `contents: write` dla zadania bez pracy.
+
+Przegląd wszystkich pozostałych workflowów: **każdy ma filtr `paths`**, więc żaden nie uruchamia się
+przy zwykłym pushu. Większość ma filtr wskazujący na samego siebie — to celowa sztuczka na ręczne
+wyzwalanie, nieelegancka, ale nieszkodliwa. Nie ruszane.
+
+Reguła, która z tego wynika i obowiązuje dalej:
+**zadanie jednorazowe musi się samo wyłączać albo zostać usunięte po wykonaniu.**
+To był drugi taki przypadek: `sol-build-navier-stokes-zip-once` miał usterkę odwrotną
+i nie uruchomił się nigdy.
+
+### 8. Nowy cron podtrzymujący bazę
+
+`.github/workflows/podtrzymanie-api.yml` — codziennie o 05:17 UTC puka w
+`https://piosenki-api.onrender.com/health`, który otwiera połączenie i wykonuje `SELECT 1`.
+
+**Po co:** darmowy Supabase pauzuje projekt po 7 dniach bez ruchu, a wyjście z pauzy wymaga
+ręcznego przywracania. Cron temu zapobiega.
+
+**Czego NIE robi:** nie usuwa zimnego startu dla odwiedzającego. Render i tak zaśnie kwadrans
+po pingu. Na to jest osobne zadanie w `zadania/SOL_LISTA-ZADAN.md` — płatny plan usługi.
+
+Przetestowany uruchomieniem ręcznym: `HTTP 200`, `{"database":1,"status":"ok"}`.
+
+### 9. `.gitignore` i artefakty kompilacji
+
+Dwa pliki `.pyc` trafiły do repozytorium przez `git add -A` po uruchomieniu `py_compile`.
+Usunięte, `.gitignore` uzupełniony o `__pycache__/` i `*.py[cod]`.
+Audyt wszystkich plików dodanych w tej sesji potwierdził, że poza tymi dwoma nic
+niezamierzonego nie weszło. Zapisane w `bledy-AI/CLAUDE/` jako błąd 05.
+
+## Stan końcowy repozytorium
+
+| Miara | Wartość |
+|---|---|
+| plików HTML | 167 |
+| stubów przekierowujących | 60 |
+| stubów zachowujących `#anchor` | **60 / 60** |
+| martwych linków wewnętrznych | **0** |
+| błędów parsowania HTML | **0** |
+| martwych linków w dokumentacji | **0** |
+| działających workflowów | 3 |
+| wyjątków na liście strażnika | 45 |
+
+Osiągalność stron z publicznych korzeni porównana ze stanem sprzed sprzątania:
+**115 przed, 116 po, zero utraconych**. Integralność przeniesionych plików potwierdzona
+porównaniem sum blobów git: zero zmienionych, zero brakujących.
+
 ## Czego NIE wolno ruszać
 
 **Cztery stuby w `rownania/` pod starymi adresami z wersją w nazwie są trwałe.**
@@ -101,6 +153,8 @@ Każdy wpis ma uzasadnienie. Dopisanie pliku bez uzasadnienia należy odrzucić.
 1. Sprawdź, czy plik, który pamiętasz, nadal istnieje pod tą nazwą — `ls` albo wyszukiwanie w repo.
 2. Przeczytaj `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcje 0.1, 0.2 i 0.3 — konwencja adresów, rejestr rozesłanych linków, zakres CI.
 3. Uruchom strażnika lokalnie przed zapisem: `python3 .github/scripts/check_stable_www.py`.
+   Ten sam strażnik chodzi w CI przy każdym PR i pushu na `main`, więc i tak złapie naruszenie —
+   lepiej zobaczyć je u siebie niż na czerwono na GitHubie.
 4. Jeżeli coś w tym dokumencie kłóci się z Twoją pamięcią, **rozstrzyga repozytorium**.
 
 ## Uczciwa uwaga na koniec
