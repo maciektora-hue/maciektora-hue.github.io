@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.02 · 2026-09-19
+Wersja 01.03 · 2026-09-19
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -147,6 +147,12 @@ Wyglądają na sieroty i nie są. Klasyfikacja: `rosja/SOL_audyt-osieroconych-ht
 
 **Lista wyjątków `.github/stable-www-allowlist.txt` nie jest sposobem na uciszenie CI.**
 Każdy wpis ma uzasadnienie. Dopisanie pliku bez uzasadnienia należy odrzucić.
+
+**Nie jest też listą zaległości.** 44 pliki treściowe w `rosja/` i `audhd/` mają wersje w nazwach
+i **tak ma zostać**. Wersja w nazwie szkodzi tylko wtedy, gdy treść bywa aktualizowana — bo wtedy
+powstaje plik o nowej nazwie i rozesłany link umiera. Te teksty są zamknięte: rosyjskie formalnie
+zamrożone, a w `audhd/` żaden nie ma więcej niż jeden commit w historii. Wszystkie mają działające
+stabilne wejścia katalogowe. **Nie przerabiać ich „dla porządku”.**
 
 ## Zanim cokolwiek zrobisz
 

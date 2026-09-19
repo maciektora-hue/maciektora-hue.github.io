@@ -6,12 +6,23 @@
 # Wpisanie pliku tutaj NIE jest sposobem na uciszenie CI. Jest deklaracja,
 # ze naruszenie zostalo obejrzane i uznane za swiadoma decyzje. Kazdy blok
 # ma uzasadnienie. Nowy wpis bez uzasadnienia nalezy odrzucic na review.
+#
+# TO NIE JEST LISTA ZALEGLOSCI. Wpisy ponizej nie czekaja na przerobienie.
+# Wersja w nazwie pliku szkodzi wylacznie wtedy, gdy tresc bywa aktualizowana:
+# wtedy powstaje plik o nowej nazwie, a wczesniej rozeslany link umiera.
+# Plik zamrozony, ktory nigdy nie bedzie aktualizowany, moze wersje w nazwie
+# zachowac: nazwa pozostaje prawdziwa na zawsze i zaden link nie umiera.
+# Warunek konieczny: taki plik musi miec dzialajacy stabilny adres katalogowy.
+# Wszystkie pliki ponizej ten warunek spelniaja. Sprawdzone 2026-09-19.
 
-# --- rosja/: zamrozone oryginaly i ich warianty z anchorami -------------------
+# --- rosja/: teksty zamrozone, 29 plikow --------------------------------------
+# STATUS: wyjatek trwaly. Nie przerabiac.
 # Audyt rosja/SOL_audyt-osieroconych-html.md klasyfikuje pliki bez sufiksu
 # -anchory jako swiadomie zachowane zamrozone oryginaly. Warianty -anchory to
-# wersje robocze z identyfikatorami naglowkow, na ktore wskazuja stabilne
-# wejscia katalogowe. Kazdy z tych tekstow ma dzialajacy stabilny adres.
+# te same teksty z dorobionymi identyfikatorami naglowkow; tresc nie byla ruszana.
+# Te teksty sa zamkniete i nie beda aktualizowane, wiec numer wersji w nazwie
+# pozostanie prawdziwy na zawsze. Kazdy ma stabilne wejscie katalogowe
+# (rosja/monopole/, rosja/putin-cornered/, rosja/jalta-3/ i pozostale).
 rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html
 rosja/SOL_mapa-tematow-rozpad-rosji-EN-v01_00-2026-09-07.html
 rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html
@@ -42,10 +53,16 @@ rosja/monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html
 rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17-anchory.html
 rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html
 
-# --- audhd/: pliki tresciowe za stabilnymi wejsciami katalogowymi -------------
+# --- audhd/: teksty zamkniete, 15 plikow --------------------------------------
+# STATUS: wyjatek trwaly. Nie przerabiac.
 # Kazdy z tych plikow ma dzialajacy stabilny adres przez wlasny stub-katalog
-# (audhd/po-ludzku/, audhd/20-prac/ i pozostale), a kazdy z tych stubow
-# zachowuje anchor. Ujednolicenie samych nazw plikow to osobna operacja.
+# (audhd/po-ludzku/, audhd/co-to-znaczy/, audhd/publikacje/ i pozostale),
+# a kazdy z tych stubow zachowuje anchor.
+# Sprawdzone 2026-09-19: kazdy z nich ma w historii gita dokladnie JEDEN commit,
+# czyli zaden nie byl edytowany po wrzuceniu. Praktycznie sa tak samo zamkniete
+# jak teksty w rosja/, tylko bez tej etykiety w nazwie.
+# Gdyby ktorys z nich mial zaczac byc aktualizowany, wtedy i dopiero wtedy
+# nalezy nadac mu stala nazwe, przeniesc wersje do naglowka i zdjac go z tej listy.
 audhd/63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html
 audhd/CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html
 audhd/ESEJ_architektury-pamieci-1_02-2026-04-28.html

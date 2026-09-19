@@ -2,7 +2,7 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 01.00 · 2026-09-19
+Wersja 01.01 · 2026-09-19
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
@@ -19,6 +19,20 @@ Obowiązuje w całym repozytorium od 2026-09-19.
 **Nazwa pliku jest stała.** Nazwy plików treściowych nie zawierają numeru wersji ani daty.
 Numer wersji `XX.YY` oraz data `yyyy-mm-dd` żyją w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
 Drobna korekta podnosi `YY`, przebudowa podnosi `XX`.
+
+**Po co ta reguła w ogóle istnieje.** Wersja w nazwie pliku szkodzi z jednego konkretnego powodu:
+przy każdej korekcie treści powstaje plik o nowej nazwie, a wcześniej rozesłany link umiera.
+Reguła chroni **link przed aktualizacją treści**, nie estetykę nazw.
+
+**Z czego wynika wyjątek.** Tekst **zamknięty**, który nie będzie już aktualizowany, może wersję
+w nazwie zachować: skoro treść się nie zmieni, nazwa pozostaje prawdziwa na zawsze i żaden link
+nie umiera. Warunek konieczny: taki plik **musi mieć działające stabilne wejście katalogowe**.
+
+Dotyczy to 44 plików treściowych w `rosja/` i `audhd/`, wypisanych w `.github/stable-www-allowlist.txt`.
+Teksty w `rosja/` są formalnie zamrożone, a tym w `audhd/` od wrzucenia nie zmienił się ani jeden commit.
+Wszystkie mają stabilne adresy. **To nie jest zaległość do przerobienia, tylko trwały, sprawdzony wyjątek.**
+Gdyby którykolwiek z nich zaczął być aktualizowany, wtedy i dopiero wtedy dostaje stałą nazwę
+i schodzi z listy wyjątków.
 
 **Stabilne wejście katalogowe.** Większość działów ma dodatkowo krótki adres katalogowy
 (`rownania/navier-stokes/`, `cv/cv/`, `audhd/po-ludzku/`), który przekierowuje do pliku treściowego.
