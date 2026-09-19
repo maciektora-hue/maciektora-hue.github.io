@@ -87,6 +87,20 @@
       <li><strong>Wielokrotna nadweryfikacja tego samego faktu i tych samych danych.</strong> Po poprawnym odczycie źródła następowały kolejne, zbędne rundy kontroli: ponowne sprawdzanie tego samego pliku, osobne liczenie rekordów już zwróconych przez zapytanie, sprawdzanie czy rekordy pobrane z SQL-a rzeczywiście znalazły się w pliku, a następnie ponowne sprawdzanie tego samego po kolejnych operacjach. To nie zwiększało istotnie bezpieczeństwa, tylko mnożyło wywołania narzędzi, czas oczekiwania i ryzyko zawieszania rozmowy. Przy prostych operacjach obowiązuje zasada: jeden odczyt właściwego źródła, jedna zmiana, a dodatkowa weryfikacja tylko wtedy, gdy istnieje konkretny powód lub realne ryzyko błędu.</li>
       <li><strong>Import trzech playlist-mostów niezgodnie z aktualną dokumentacją projektu.</strong> Pierwszy dry-run nie obsługiwał pustych <code>id</code> zgodnie z istniejącą instrukcją; finalny zapis użył częściowo starej warstwy <code>playlist.tags</code>/<code>external_url</code> zamiast aktywnego <code>playlist.playlist_tags</code>, a pliki źródłowe pozostały również w <code>piosenki/</code> zamiast wyłącznie w <code>dane-robocze</code>. Import nie utworzył rekordów <code>middle_end</code>; osobnym błędem była późniejsza sugestia, że nierozpoznane utwory powinny być następnie dopisywane do <code>middle_end</code>, czego nie wolno robić w tej procedurze.</li>
       <li><strong>Brak stałego adresu WWW dla esejów o Navierze–Stokesie.</strong> Teksty zostały wystawione pod adresami zawierającymi numer wersji i datę w nazwie pliku: <code>navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html</code> i jego angielski odpowiednik. Oznaczało to, że każda korekta treści unieżywalniała wcześniej rozesłany link, bo powstawał plik o nowej nazwie, a stary albo znikał, albo zostawał jako nieaktualna kopia. Obowiązująca zasada jest odwrotna: nazwa pliku jest stała, a numer wersji i data żyją w nagłówku wewnątrz dokumentu. Stabilne wejście <code>rownania/navier-stokes/</code> powstało dopiero później, jako łatka na ten błąd, a nie jako pierwotny projekt adresacji.</li>
+      <li><strong>STABILNY ADRES CV BYŁ FIZYCZNĄ KOPIĄ PLIKU, A NIE PRZEKIEROWANIEM.</strong>
+      Pod adresem <code>cv/seventeen-and-seventeen/index.html</code> nie stało przekierowanie, tylko
+      <strong>druga, pełna kopia treści</strong> — 96 kilobajtów zduplikowanego HTML-a, żyjącego równolegle
+      do pliku źródłowego w <code>cv/</code>.
+      <strong>TO NIE JEST STABILNY ADRES. TO SĄ DWA DOKUMENTY UDAJĄCE JEDEN.</strong>
+      Stabilny adres ma wskazywać na treść, nigdy jej powielać: w chwili duplikacji powstają dwa źródła prawdy,
+      a pierwsza edycja jednego z nich rozjezdża je po cichu, bez żadnego sygnału błędu.
+      Dwóch adresów nie da się wtedy odróżnić z zewnątrz i nie wiadomo, który jest obowiązujący.
+      Rozjazd już się zaczął: kopie różniły się znacznikiem <code>robots: noindex</code>, obecnym tylko w jednej z nich.
+      Ciężar błędu podnosi to, że chodzi o <strong>CV</strong>, czyli dokument rozsyłany na zewnątrz,
+      przy którym pytanie „którą wersję właściwie czyta odbiorca” nie jest akademickie.
+      Obok, w tym samym katalogu, <code>cv/cv/index.html</code> był od początku zrobiony poprawnie,
+      jako przekierowanie — więc nie zabrakło wzorca do skopiowania, tylko zrozumienia, po co on istnieje.
+      Poprawione 2026-09-19: kopia zamieniona na przekierowanie.</li>
     </ol>
 
     <p class="summary"><strong>Największy błąd nadrzędny:</strong> brak trzymania się celu użytkownika i rozpoczęcie projektowania własnej wersji zadania zamiast literalnego wykonania tego, co zostało zlecone.</p>
