@@ -141,3 +141,29 @@ Kontrola po operacji: **OK**.
 - dynamiczne `deep_link` z mapy SQL: **poza zakresem audytu**
 - kontrola po operacji: **OK**
 - audyt: **ZAKOŃCZONY**
+
+## Aneks — 2026-09-19: zmiana nazw dwóch przeniesionych plików
+
+Kroki 7 i 8 powyżej opisują stan z chwili przeprowadzenia audytu i pozostają nienaruszone.
+Później, przy ujednolicaniu konwencji nazw w całym repozytorium, dwa z trzech przeniesionych
+plików zmieniły nazwy na stałe, bez numeru wersji:
+
+- `osierocone-html/audhd/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html` → `osierocone-html/audhd/CLAUDE_equations-metaphysics-and-rigged-jury-EN.html`
+- `osierocone-html/audhd/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html` → `osierocone-html/audhd/CLAUDE_rownania-metafizyka-i-komisja.html`
+
+Trzeci plik, `opis-po-ludzku-20-prac-naukowych.html`, nigdy nie miał wersji w nazwie i został bez zmian.
+
+Numer wersji i data, które wcześniej mieszkały w nazwie pliku, zostały przeniesione do nagłówka
+wewnątrz każdego dokumentu i opisują stan archiwalny, a nie bieżący:
+
+- `CLAUDE_rownania-metafizyka-i-komisja.html` → `Wersja 01.02 · 2026-09-03 · migawka archiwalna`
+- `CLAUDE_equations-metaphysics-and-rigged-jury-EN.html` → `Version 01.03 · 2026-09-07 · archival snapshot`
+
+Stwierdzenie z kroku 8 o identycznych blob SHA dotyczy stanu sprzed tej operacji i nie obowiązuje
+dla dwóch przemianowanych plików. Liczba plików w `osierocone-html/audhd/` pozostaje **3**,
+liczba trwałych usunięć treści pozostaje **0**.
+
+Uwaga do przyszłego przeglądu: obie migawki były w chwili przeniesienia bajt w bajt identyczne
+z żywymi plikami w `rownania/`. Te żywe pliki zostały od tego czasu zaktualizowane, więc kopie
+w poczekalni są teraz starszymi wersjami tych samych tekstów, a nie niezależnymi dokumentami.
+Przy przeglądzie warto rozstrzygnąć, czy mają zostać jako archiwum, czy zniknąć jako duplikaty.
