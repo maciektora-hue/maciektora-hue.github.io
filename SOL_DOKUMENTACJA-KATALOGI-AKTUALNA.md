@@ -2,7 +2,7 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 01.01 · 2026-09-19
+Wersja 01.02 · 2026-09-19
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
@@ -101,6 +101,29 @@ i następuje dopiero przy przeglądzie, z datą zapisaną w README danej poczeka
 2026-09-19 do `dane-archiwalne/` trafił katalog `walkaosql/`: zrzut starej bazy i narzędzia
 hurtowego importu do Supabase, zakończonego 2026-09-12. Kod w `piosenki/` powołuje się na tę
 ścieżkę wyłącznie w komentarzach wyjaśniających pochodzenie danych i niczego stamtąd nie czyta.
+
+## 0.2.2. Granica ujednolicania
+
+Konwencje z sekcji 0.1 istnieją po to, żeby **coś działało**: żeby rozesłany link nie umarł,
+żeby anchor przetrwał przekierowanie, żeby jedna treść nie miała dwóch źródeł.
+Nie istnieją po to, żeby wszystko wyglądało tak samo.
+
+**Test przed każdym ujednolicaniem:** co konkretnie się zepsuje, jeżeli tego nie zrobię?
+Jeżeli odpowiedź brzmi „nic, tylko będzie nierówno” — **nie robić**.
+Refaktor dotykający setek plików ma realny koszt: ryzyko, czas i szum w historii.
+Różnorodność, która nikogo nie boli, jest tańsza.
+
+Rzeczy w tym repozytorium **celowo nieujednolicone**, i tak mają zostać:
+
+- **Prefiksy `SOL_`, `CLAUDE_`, `ESEJ_`, `POWIESC_`** — niosą informację o autorze albo gatunku.
+  Zdjęcie ich dla symetrii skasowałoby dane.
+- **Wygląd działów** — `rownania/` jest ciemne i zielone, `audhd/apendyks1` biały i szeryfowy.
+  To nie jest niedoróbka, tylko różne teksty o różnym charakterze.
+- **Workflowy z filtrem `paths` wskazującym na sam siebie** — nieelegancka sztuczka na ręczne
+  wyzwalanie, ale działa i nikomu nie szkodzi.
+- **44 pliki z wersjami w nazwach** — patrz sekcja 0.1 i lista wyjątków.
+
+Zasada w jednym zdaniu: **ujednolica się to, co się psuje; resztę zostawia się w spokoju.**
 
 ## 0.3. Czym jest CI i czego pilnuje w tym repozytorium
 
