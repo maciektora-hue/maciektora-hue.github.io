@@ -12,7 +12,7 @@ Korzenie publiczne:
 
 ## Inwentaryzacja
 
-Łącznie w `rownania/`: 12 plików HTML.
+Łącznie w `rownania/`: 14 plików HTML.
 
 ### Korzenie
 - `rownania/index.html`
@@ -27,10 +27,12 @@ Korzenie publiczne:
 ### Stuby adresów archiwalnych
 - `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
 - `rownania/navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html`
-
-### Pliki treściowe
 - `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
 - `rownania/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
+
+### Pliki treściowe
+- `rownania/CLAUDE_rownania-metafizyka-i-komisja.html`
+- `rownania/CLAUDE_equations-metaphysics-and-rigged-jury-EN.html`
 - `rownania/navier-stokes-esej-dla-niematematyka.html`
 - `rownania/navier-stokes-essay-for-non-mathematician-EN.html`
 
@@ -45,8 +47,8 @@ Korzenie publiczne:
 - `navier-stokes/index-en.html`
 
 Redirecty prowadzą dalej do czterech właściwych plików treściowych:
-- `dziesiec-rownan/index.html` → `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
-- `dziesiec-rownan/index-en.html` → `CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
+- `dziesiec-rownan/index.html` → `CLAUDE_rownania-metafizyka-i-komisja.html`
+- `dziesiec-rownan/index-en.html` → `CLAUDE_equations-metaphysics-and-rigged-jury-EN.html`
 - `navier-stokes/index.html` → `navier-stokes-esej-dla-niematematyka.html`
 - `navier-stokes/index-en.html` → `navier-stokes-essay-for-non-mathematician-EN.html`
 
@@ -55,14 +57,16 @@ Obsługują wyłącznie linki rozesłane na zewnątrz, zanim nazwy plików zosta
 i przekierowują na aktualne adresy:
 - `navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html` → `navier-stokes-esej-dla-niematematyka.html`
 - `navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html` → `navier-stokes-essay-for-non-mathematician-EN.html`
+- `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html` → `CLAUDE_rownania-metafizyka-i-komisja.html`
+- `CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html` → `CLAUDE_equations-metaphysics-and-rigged-jury-EN.html`
 
 Nie należy ich traktować jako osierocone HTML-e ani usuwać.
 
 ## Wynik końcowy
 
-- 12 HTML-i w katalogu,
+- 14 HTML-i w katalogu,
 - 10/10 plików nawigacyjnych statycznie osiągalnych,
-- 2 stuby adresów archiwalnych, celowo poza nawigacją,
+- 4 stuby adresów archiwalnych, celowo poza nawigacją,
 - 0 osieroconych HTML-i,
 - 0 plików do przeniesienia,
 - 0 trwałych usunięć.
