@@ -12,7 +12,7 @@ Korzenie publiczne:
 
 ## Inwentaryzacja
 
-Łącznie w `rownania/`: 10 plików HTML.
+Łącznie w `rownania/`: 12 plików HTML.
 
 ### Korzenie
 - `rownania/index.html`
@@ -23,6 +23,10 @@ Korzenie publiczne:
 - `rownania/dziesiec-rownan/index-en.html`
 - `rownania/navier-stokes/index.html`
 - `rownania/navier-stokes/index-en.html`
+
+### Stuby adresów archiwalnych
+- `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
+- `rownania/navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html`
 
 ### Pliki treściowe
 - `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
@@ -46,10 +50,19 @@ Redirecty prowadzą dalej do czterech właściwych plików treściowych:
 - `navier-stokes/index.html` → `navier-stokes-esej-dla-niematematyka.html`
 - `navier-stokes/index-en.html` → `navier-stokes-essay-for-non-mathematician-EN.html`
 
+Stuby adresów archiwalnych są celowo nieosiągalne z nawigacji wewnętrznej.
+Obsługują wyłącznie linki rozesłane na zewnątrz, zanim nazwy plików zostały ustabilizowane,
+i przekierowują na aktualne adresy:
+- `navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html` → `navier-stokes-esej-dla-niematematyka.html`
+- `navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html` → `navier-stokes-essay-for-non-mathematician-EN.html`
+
+Nie należy ich traktować jako osierocone HTML-e ani usuwać.
+
 ## Wynik końcowy
 
-- 10 HTML-i w katalogu,
-- 10/10 statycznie osiągalnych,
+- 12 HTML-i w katalogu,
+- 10/10 plików nawigacyjnych statycznie osiągalnych,
+- 2 stuby adresów archiwalnych, celowo poza nawigacją,
 - 0 osieroconych HTML-i,
 - 0 plików do przeniesienia,
 - 0 trwałych usunięć.
