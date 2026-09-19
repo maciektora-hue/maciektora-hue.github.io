@@ -50,6 +50,20 @@ a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
   margin:1.3rem 0;
 }
 .small{font-size:.92rem;color:var(--muted)}
+figure.fig{
+  margin:2rem 0;
+  padding:0;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+figure.fig img{display:block;width:100%;height:auto}
+figure.fig figcaption{
+  padding:12px 18px 16px;
+  font-size:.92rem;
+  color:var(--muted);
+}
 code{
   background:#121b17;
   color:var(--strong);
@@ -74,6 +88,7 @@ hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
 <main>
 
 <h1>Navier–Stokes, AI, and the Dispute over Credit</h1>
+<p class="small">Version 02.01 · 2026-09-19</p>
 <p class="lead">
 An essay on what was actually announced, why the equations of fluid motion have anything to do with turbulence,
 why the problem is specifically about three dimensions, what Euler, Lean, Codex, and thousands of agents are doing in this story,
@@ -730,6 +745,20 @@ while the force <code>f</code> itself remains sufficiently smooth.
 OpenAI claims to achieve exactly this through specially constructed oscillations and cancellations.
 <a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">[S2]</a>
 </strong></p>
+
+
+<figure class="fig">
+<img src="img/openai-navier-stokes-blowup.webp"
+     alt="Visualisation of the blowup construction: vortex lines spiralling inwards while being stretched along the vertical axis."
+     loading="lazy" decoding="async" width="750" height="750">
+<figcaption>
+OpenAI's official illustration for the announcement: a vortex that simultaneously
+<strong>spirals inwards</strong> and is <strong>stretched along its axis</strong>.
+This is the mechanism meant to drive unbounded growth of velocity in finite time.
+Source: OpenAI,
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>.
+</figcaption>
+</figure>
 
 <p>
 OpenAI’s repository contains formalised theorems corresponding to C and D

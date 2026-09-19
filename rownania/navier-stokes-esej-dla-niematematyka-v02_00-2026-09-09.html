@@ -50,6 +50,20 @@ a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
   margin:1.3rem 0;
 }
 .small{font-size:.92rem;color:var(--muted)}
+figure.fig{
+  margin:2rem 0;
+  padding:0;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+figure.fig img{display:block;width:100%;height:auto}
+figure.fig figcaption{
+  padding:12px 18px 16px;
+  font-size:.92rem;
+  color:var(--muted);
+}
 code{
   background:#121b17;
   color:var(--strong);
@@ -73,6 +87,7 @@ hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
 <main>
 
 <h1>Navier–Stokes, AI i spór o autorstwo</h1>
+<p class="small">Wersja 02.01 · 2026-09-19</p>
 <p class="lead">
 Esej o tym, co właściwie zostało ogłoszone, dlaczego równania płynów mają coś wspólnego z turbulencją,
 czemu problem dotyczy akurat trzech wymiarów, po co w tej historii pojawiają się Euler, Lean, Codex i tysiące agentów,
@@ -733,6 +748,21 @@ a sama siła <code>f</code> pozostawała odpowiednio gładka.
 OpenAI twierdzi, że dokładnie to osiąga przez specjalnie skonstruowane oscylacje i kasowania.
 <a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf">[S2]</a>
 </strong></p>
+
+
+<figure class="fig">
+<img src="img/openai-navier-stokes-blowup.webp"
+     alt="Wizualizacja konstrukcji blowup: linie wiru zwijające się spiralnie do wewnątrz i rozciągane wzdłuż osi pionowej."
+     loading="lazy" decoding="async" width="750" height="750">
+<figcaption>
+Oficjalna ilustracja OpenAI do ogłoszenia wyniku: wir, który jednocześnie
+<strong>zwija się spiralnie do wewnątrz</strong> (<em>inward spiral</em>) i
+<strong>rozciąga wzdłuż osi</strong> (<em>axial stretching</em>).
+Ten właśnie mechanizm ma napędzać nieograniczony wzrost prędkości w skończonym czasie.
+Źródło: OpenAI,
+<a href="https://openai.com/index/navier-stokes-solution/">[S1]</a>.
+</figcaption>
+</figure>
 
 <p>
 Repozytorium OpenAI zawiera sformalizowane twierdzenia odpowiadające C i D
