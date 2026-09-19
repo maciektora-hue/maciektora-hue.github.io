@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.03 · 2026-09-19
+Wersja 01.04 · 2026-09-19
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -162,6 +162,36 @@ stabilne wejścia katalogowe. **Nie przerabiać ich „dla porządku”.**
    Ten sam strażnik chodzi w CI przy każdym PR i pushu na `main`, więc i tak złapie naruszenie —
    lepiej zobaczyć je u siebie niż na czerwono na GitHubie.
 4. Jeżeli coś w tym dokumencie kłóci się z Twoją pamięcią, **rozstrzyga repozytorium**.
+
+## Dlaczego sprzątał ktoś bez kontekstu
+
+Sprzątanie przeprowadził model, który **nie zna historii rozmów** z budowy tego repozytorium.
+Nie pamięta, co było ustalane w czacie, co miało powstać, co zostało świadomie odpuszczone
+ani dlaczego któryś plik wygląda, jak wygląda. Ta niewiedza okazała się **zaletą**, i warto rozumieć dlaczego.
+
+**Co daje brak kontekstu.** Nie ma z czego halucynować intencji. Nie da się powiedzieć
+„przecież ustaliliśmy, że tak ma być”, bo nie ma czego pamiętać. Każde twierdzenie o stanie systemu
+musi być **odczytane z repozytorium albo zmierzone**, inaczej nie istnieje.
+Dzięki temu luki w dokumentacji stają się widoczne zamiast być nieświadomie łatane pamięcią.
+To jest audyt przeprowadzony przez obcego — jedyny rodzaj, który znajduje to, czego autor przestał widzieć.
+
+**Czego brak kontekstu NIE załatwia.** Nie chroni przed zgadywaniem. Gdy dokumentacji się nie przeczyta,
+pamięć zastępuje się **wnioskowaniem z artefaktów**, a to jest równie zawodne.
+Dokładnie tak poszło z jedenastoma plikami w `rosja/`: zostały ogłoszone martwymi na podstawie analizy
+linków, podczas gdy dokument klasyfikujący je jako świadomie zamrożone leżał w tym samym katalogu.
+Nie uratował ich brak pamięci, tylko **przeczytanie pliku przed operacją**.
+
+**Wniosek najważniejszy, i to nie o modelu.** To sprzątanie udało się dlatego, że dokumentacja SOL-a
+była **wystarczająco dobra, żeby przetrwać kontakt z kimś obcym**. Audyty osieroconych HTML-i,
+opisy katalogów i raporty z migracji zawierały wszystko, co było potrzebne do podejmowania decyzji.
+Gdyby klasyfikacja plików w `rosja/` żyła wyłącznie w czacie, zostałyby przeniesione do poczekalni
+jako sieroty — i nikt by się nie zorientował.
+
+**Stąd reguła na przyszłość:** intencja, która istnieje tylko w rozmowie, **nie istnieje**.
+Kolejny agent jej nie odziedziczy i pierwsze porządki ją skasują.
+Jeżeli coś ma zostać tak, jak jest, musi być napisane w repozytorium razem z powodem.
+Sprawdzianem dokumentacji nie jest to, czy autor ją rozumie, tylko czy rozumie ją ktoś,
+kto nie był przy tej rozmowie.
 
 ## Uczciwa uwaga na koniec
 
