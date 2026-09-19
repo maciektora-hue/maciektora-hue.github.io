@@ -27,8 +27,8 @@ Korzenie publiczne:
 ### Pliki treściowe
 - `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
 - `rownania/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
-- `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
-- `rownania/navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html`
+- `rownania/navier-stokes-esej-dla-niematematyka.html`
+- `rownania/navier-stokes-essay-for-non-mathematician-EN.html`
 
 ## Osiągalność
 
@@ -43,8 +43,8 @@ Korzenie publiczne:
 Redirecty prowadzą dalej do czterech właściwych plików treściowych:
 - `dziesiec-rownan/index.html` → `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
 - `dziesiec-rownan/index-en.html` → `CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html`
-- `navier-stokes/index.html` → `navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
-- `navier-stokes/index-en.html` → `navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html`
+- `navier-stokes/index.html` → `navier-stokes-esej-dla-niematematyka.html`
+- `navier-stokes/index-en.html` → `navier-stokes-essay-for-non-mathematician-EN.html`
 
 ## Wynik końcowy
 
