@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Dwa konkurencyjne modele struktury brzmieniowej biblioteki: pełny podział na klastry oraz wyspy połączone strefami przejściowymi.">
+<title>Dwa modele mapy brzmienia</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#18231f;
+  --panel:#223129;
+  --text:#e7c27a;
+  --strong:#f3d796;
+  --muted:#c7b58d;
+  --line:#556b5e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.55;
+}
+main{max-width:820px;margin:0 auto;padding:28px 20px 56px}
+h1{font-size:clamp(2.2rem,7vw,4.5rem);line-height:1;margin:.3rem 0 .7rem;color:var(--strong);letter-spacing:-.03em}
+h2{font-size:1.2rem;margin-top:1.8rem;color:var(--strong)}
+p,li{max-width:74ch}
+a{color:var(--strong)}
+.meta,.muted{color:var(--muted)}
+.box{
+  border:1px solid var(--line);
+  background:var(--panel);
+  padding:14px 16px;
+  border-radius:8px;
+  margin:1rem 0
+}
+strong{color:var(--strong)}
+</style>
+</head>
+<body>
+<main>
+
+<p class="meta"><a href="audio.html">← Audio</a> · <a href="SOL-klastrowanie-audio-analiza-hipotez.html">Porównanie wyników</a> · <a href="SOL-klastrowanie-audio-dlaczego-3-wyspy.html">Dlaczego trzy wyspy?</a></p>
+
+<h1>Dwa modele mapy brzmienia</h1>
+<p class="meta docver">Wersja 01.00 · 2026-09-08</p>
+<p class="meta" data-description-update="2026-09-15"><strong>Zakres analizy: 8 września 2026.</strong> Mapa wysp, jej liczebności i udziały procentowe odnoszą się do 856 nagrań pozostałych po oczyszczeniu 891 plików. Później bibliotekę uzupełniono o kolejne utwory, nagrania i teksty. Definicje wysp oraz historyczne przypisania pozostają bez zmian; podane tutaj liczby nie są bieżącym licznikiem biblioteki.</p>
+
+<div class="box">
+<strong>Punkt wyjścia:</strong> zanim powstała mapa trzech wysp, porównywane były dwa różne sposoby opisu całej biblioteki. Jeden zakładał pełny podział na klastry. Drugi dopuszczał gęste wyspy otoczone obszarem przejściowym.
+</div>
+
+<h2>Model 1 — klastry wprost</h2>
+<p>
+Zakładamy, że cały zbiór można sensownie podzielić na kilka grup, a każdy utwór należy do jednej z nich. Szukamy takiej liczby klastrów, przy której podział jest stabilny, a grupy różnią się akustycznie w sposób dający się interpretować.
+</p>
+<p>
+Pierwsze testy pokazały, że szerokie podziały mogą być stabilne, ale wraz ze zwiększaniem liczby grup granice stają się coraz mniej naturalne. Zamiast wyraźnych kategorii pojawiają się raczej archetypy z miękkimi przejściami.
+</p>
+
+<h2>Model 2 — wyspy i strefy przejściowe</h2>
+<p>
+Nie zakładamy, że każdy utwór musi należeć do wyraźnego klastra. Szukamy kilku <strong>gęstych i stabilnych wysp</strong>, a pozostałe utwory mogą tworzyć mosty, strefy przejściowe, peryferia albo obszary bez ostrej struktury klastrowej.
+</p>
+<p>
+Liczba i wielkość wysp nie są ustalone z góry. Istotne jest to, czy rdzenie pozostają podobne mimo zmiany parametrów, zestawu cech i szerokości przyjętej „linii brzegowej”.
+</p>
+<p>
+To podejście szybko okazało się bardziej użyteczne: po pozostawieniu części utworów poza rdzeniami wyspy stawały się wyraźniejsze niż przy wymuszaniu pełnego podziału całej biblioteki.
+</p>
+
+<h2>Co porównywano</h2>
+<ul>
+  <li>stabilność grup przy zmianie próbki i parametrów,</li>
+  <li>separację między grupami,</li>
+  <li>odporność wyniku na zmianę zestawu cech audio,</li>
+  <li>udział utworów należących do dobrze określonych rdzeni,</li>
+  <li>strukturę obszaru pomiędzy rdzeniami: mosty, strefy przejściowe i peryferia.</li>
+</ul>
+
+<h2>Co wygrało</h2>
+<p>
+Dalsze analizy wskazały, że lepszym opisem jest <strong>krajobraz, nie pudełka</strong>: kilka stabilnych rdzeni połączonych ciągłą przestrzenią przejściową. Jako główną rozdzielczość mapy przyjęto później <strong>trzy wyspy</strong>.
+</p>
+
+<div class="box">
+<strong>Aktualny kierunek:</strong> trzy główne wyspy brzmienia + mosty + strefa przejściowa + peryferia. Dokładne porównanie obu modeli i liczby stojące za tym wyborem są opisane w kolejnych analizach.
+</div>
+
+</main>
+</body>
+</html>

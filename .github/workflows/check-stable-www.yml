@@ -1,0 +1,32 @@
+name: Konwencja stałych adresów WWW
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - '**.md'
+      - '.github/scripts/check_stable_www.py'
+      - '.github/stable-www-allowlist.txt'
+      - '.github/workflows/check-stable-www.yml'
+  pull_request:
+    paths:
+      - '**.html'
+      - '**.md'
+      - '.github/scripts/check_stable_www.py'
+      - '.github/stable-www-allowlist.txt'
+      - '.github/workflows/check-stable-www.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Sprawdź stałe adresy, anchory i martwe linki
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sprawdź konwencję
+        run: python3 .github/scripts/check_stable_www.py

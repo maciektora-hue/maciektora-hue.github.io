@@ -152,6 +152,8 @@ plików zmieniły nazwy na stałe, bez numeru wersji:
 - `osierocone-html/audhd/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html` → `osierocone-html/audhd/CLAUDE_rownania-metafizyka-i-komisja.html`
 
 Trzeci plik, `opis-po-ludzku-20-prac-naukowych.html`, nigdy nie miał wersji w nazwie i został bez zmian.
+Nie da się też nadać mu numeru wersji: to czyste przekierowanie, które nie zawiera żadnej treści.
+Wersjonuje się dokumenty, nie drogowskazy. Tekst, do którego prowadzi, opisuje kolejny aneks.
 
 Numer wersji i data, które wcześniej mieszkały w nazwie pliku, zostały przeniesione do nagłówka
 wewnątrz każdego dokumentu i opisują stan archiwalny, a nie bieżący:
@@ -167,3 +169,22 @@ Uwaga do przyszłego przeglądu: obie migawki były w chwili przeniesienia bajt 
 z żywymi plikami w `rownania/`. Te żywe pliki zostały od tego czasu zaktualizowane, więc kopie
 w poczekalni są teraz starszymi wersjami tych samych tekstów, a nie niezależnymi dokumentami.
 Przy przeglądzie warto rozstrzygnąć, czy mają zostać jako archiwum, czy zniknąć jako duplikaty.
+
+
+## Aneks — 2026-09-19: Appendix 1 po ludzku na stałej nazwie
+
+Plik treściowy stojący za stabilnym wejściem `audhd/20-prac/` przeszedł na konwencję stałych nazw:
+
+`audhd/apendyks1-po-ludzku-02_01-2026-08-26.html` → `audhd/apendyks1-po-ludzku.html`
+
+Numer wersji i data zamieszkały w nagłówku dokumentu jako `Wersja 02.01 · 2026-08-26`.
+Jest to **rzeczywista wersja tego tekstu**, odczytana z dotychczasowej nazwy pliku, a nie numer nadany od nowa.
+Dokument mówi zresztą sam o sobie, że jego wersja 02.00 powstała po sięgnięciu do treści badań,
+więc wpisanie tam `01.00` byłoby sprzeczne z jego własną treścią.
+
+`audhd/20-prac/index.html` został przepięty na nową nazwę, a pod starym adresem stoi stub
+zachowujący `#anchor`. Plik zniknął z listy wyjątków `.github/stable-www-allowlist.txt`,
+bo przestał być wyjątkiem.
+
+Pozostałe pliki treściowe w `audhd/` nadal mają wersje w nazwach i pozostają na liście wyjątków.
+Każdy z nich ma działający stabilny adres przez własny stub-katalog.

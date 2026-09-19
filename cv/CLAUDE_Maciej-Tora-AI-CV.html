@@ -230,18 +230,39 @@ h5:hover .section-link, h6:hover .section-link,
 .legacy-anchor { display: block; height: 0; overflow: hidden; }
 @media (hover: none) { .section-link { opacity: .52; } }
 
+
+    .professional-skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 46px;
+      align-items: start;
+    }
+    .professional-skills-grid h3 {
+      margin-top: 4px;
+      margin-bottom: 7px;
+    }
+    .professional-skills-grid .b {
+      margin: 6px 0;
+    }
+    @media (max-width: 640px) {
+      .professional-skills-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
 </style>
 
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://maciektora-hue.github.io/cv/cv/">
+<link rel="canonical" href="https://maciektora-hue.github.io/cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html">
 </head>
 <body>
-  <!-- Version 07.12 · 2026-09-07 -->
+  <!-- Version 07.13 · 2026-09-09 -->
 
   <header>
     <div class="hero-copy">
       <h1 id="maciej-tora">Maciej Tora</h1>
       <p class="tagline">AI Enablement &loz; PhD in Mathematics &loz; Founder &amp; CEO</p>
+      <p class="tagline docver">Version 07.13 · 2026-09-09</p>
       <div class="contact">
         <div>+48 601 441 298</div>
         <div><a href="mailto:maciek.tora@gmail.com">maciek.tora@gmail.com</a></div>
@@ -259,6 +280,25 @@ h5:hover .section-link, h6:hover .section-link,
         modelling, risk and compliance (AML/CFT, UBO, KYC), business development and technology. Experienced in turning complex,
         poorly defined problems into structured models, workflows and decision tools.
       </p>
+    </section>
+<section aria-labelledby="professional-skills">
+      <h2 id="professional-skills">PROFESSIONAL SKILLS</h2>
+      <div class="professional-skills-grid">
+        <div>
+          <h3 id="soft-skills">SOFT SKILLS</h3>
+          <p class="b">Learning agility</p>
+          <p class="b">Ownership &amp; accountability</p>
+          <p class="b">Cross-functional collaboration</p>
+          <p class="b">Decision-making under uncertainty</p>
+        </div>
+        <div>
+          <h3 id="hard-skills">HARD SKILLS</h3>
+          <p class="b">Process optimisation</p>
+          <p class="b">Quantitative modelling</p>
+          <p class="b">Project management</p>
+          <p class="b">Financial forecasting</p>
+        </div>
+      </div>
     </section>
 <section>
       <h2 id="core-ai-skills">CORE AI SKILLS</h2>

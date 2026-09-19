@@ -227,8 +227,8 @@ Wcześniej uzupełniono aktualną dokumentację audio o informację, że nowe pi
 
 - [Aktualna dokumentacja audio](../SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md)
 - [Ekstraktor v05](SOL_audio-analysis-05.md)
-- [Mapa trzech wysp](SOL-klastrowanie-audio-mapa-3-wysp-opis-v01-2026-09-08.html)
-- [Dlaczego trzy wyspy](SOL-klastrowanie-audio-dlaczego-3-wyspy-v01-2026-09-08.html)
-- [Porównanie hipotez](SOL-klastrowanie-audio-analiza-hipotez-v01-2026-09-08.html)
-- [Metoda opisu sygnatur](SOL-klastrowanie-audio-sygnatury-wysp-metoda-v01-2026-09-08.html)
+- [Mapa trzech wysp](SOL-klastrowanie-audio-mapa-3-wysp-opis.html)
+- [Dlaczego trzy wyspy](SOL-klastrowanie-audio-dlaczego-3-wyspy.html)
+- [Porównanie hipotez](SOL-klastrowanie-audio-analiza-hipotez.html)
+- [Metoda opisu sygnatur](SOL-klastrowanie-audio-sygnatury-wysp-metoda.html)
 - [Sanityzacja historycznego zbioru](SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html)

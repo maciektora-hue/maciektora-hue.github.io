@@ -531,7 +531,7 @@ Istnieją m.in.:
 - `sol-piosenki-tagi-CSV-v09-14.csv`,
 - `sol-definicje-tagow-CSV-v01-02.csv`,
 - `sol-ontologia-tagow-TXT-v01-03.txt`,
-- `sol-o-co-kaman-HTML-v01-00.html`.
+- `sol-o-co-kaman.html` (w `dokumentacja-archiwalna/piosenki/`; stary adres `sol-o-co-kaman-HTML-v01-00.html` przekierowuje).
 
 Są ważne jako dokumentacja historii i źródła importów.
 

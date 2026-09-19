@@ -2,9 +2,108 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
+Wersja 01.00 · 2026-09-19
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
+
+> **Dla kolejnych czatów i agentów:** jeżeli pracujesz z pamięcią poprzednich sesji, kilkadziesiąt
+> ścieżek plików zmieniło się 2026-09-19. Zanim ruszysz pliki, przeczytaj
+> `SOL_INFORMACJA-PO-SPRZATANIU-AKTUALNA.md`. Przy sprzeczności między pamięcią a repozytorium
+> rozstrzyga repozytorium.
+
+## 0.1. Konwencja adresów i nazw plików
+
+Obowiązuje w całym repozytorium od 2026-09-19.
+
+**Nazwa pliku jest stała.** Nazwy plików treściowych nie zawierają numeru wersji ani daty.
+Numer wersji `XX.YY` oraz data `yyyy-mm-dd` żyją w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
+Drobna korekta podnosi `YY`, przebudowa podnosi `XX`.
+
+**Stabilne wejście katalogowe.** Większość działów ma dodatkowo krótki adres katalogowy
+(`rownania/navier-stokes/`, `cv/cv/`, `audhd/po-ludzku/`), który przekierowuje do pliku treściowego.
+To on jest adresem do rozsyłania.
+
+**Stuby archiwalne i kiedy ich NIE zostawiamy.** Adres, który kiedyś był publiczny i zawierał
+wersję w nazwie pliku, dostaje stub przekierowujący na adres stały — ale tylko wtedy, gdy ten adres
+naprawdę wyszedł na zewnątrz.
+
+Rozstrzyga jedno pytanie: **czy ktoś dostał ten link?**
+
+- **Link został rozesłany** — stub zostaje na stałe. Nie wolno go usunąć nawet po latach,
+  bo po drugiej stronie jest czyjaś zakładka, mail albo wiadomość, której nikt już nie poprawi.
+- **Link nigdy nie wyszedł** — stub jest zbędny i należy go usunąć przy pierwszym sprzątaniu.
+  Utrzymywanie przekierowań pod adresami, których nikt nie zna, to nie ostrożność, tylko śmieci.
+
+Dlatego liczba stubów w repozytorium nie ma rosnąć mechanicznie przy każdej zmianie nazwy.
+Rośnie tylko tam, gdzie istnieje realny odbiorca starego adresu.
+
+## 0.2. Rejestr rozesłanych adresów archiwalnych
+
+Poniższe adresy zostały przekazane osobom trzecim, zanim nazwy plików zostały ustabilizowane.
+Stojące pod nimi stuby są **trwałe** i nie podlegają sprzątaniu.
+
+- `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
+- `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`
+
+Ich angielskie odpowiedniki nie były rozsyłane pojedynczo, ale były osiągalne z publicznej nawigacji
+`rownania/navier-stokes/index-en.html` i `rownania/dziesiec-rownan/index-en.html`, więc mogły zostać
+zaindeksowane lub dodane do zakładek przez kogokolwiek. Ich stuby też zostają.
+
+Dla kontrastu: adresy CV z numerem wersji w nazwie (`cv/CLAUDE_Maciej-Tora-AI-CV-v07_12-*`,
+`v07_13-*` oraz `cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_07-*`) **nigdy nie zostały
+nikomu przekazane**. Ich stuby zostały utworzone 2026-09-19 i usunięte tego samego dnia,
+gdy tylko to ustalono. Nie należy ich odtwarzać.
+
+**Anchory muszą przetrwać przekierowanie.** Każdy stub przekazuje dalej fragment adresu:
+
+```html
+<script>location.replace('cel.html' + location.hash);</script>
+```
+
+Sam `<meta http-equiv="refresh">` gubi `#anchor`, więc nie wystarcza i nie może być jedynym
+mechanizmem przekierowania. Zostaje w stubach jako zapas dla wyłączonego JavaScriptu.
+Stuby mają też `rel="canonical"` na cel oraz `robots: noindex`, żeby nie konkurować
+w wyszukiwarce z adresem właściwym.
+
+## 0.3. Czym jest CI i czego pilnuje w tym repozytorium
+
+**CI** to skrót od *Continuous Integration*. W praktyce: robot, który po każdym zapisie do repozytorium
+sam odpala zestaw sprawdzeń, zamiast liczyć na to, że ktoś zrobi je ręcznie i o niczym nie zapomni.
+Technicznie są to GitHub Actions, czyli pliki w `.github/workflows/`.
+
+W tym repozytorium CI robi trzy rzeczy:
+
+1. `pages build and deployment` — przebudowuje stronę i wystawia ją na `maciektora-hue.github.io`.
+   To jest to, co sprawia, że zmiana w repozytorium staje się widoczna w przeglądarce.
+2. `unpack and split walkaosql` — skrypt pomocniczy.
+3. `Konwencja stałych adresów WWW` — strażnik opisany w sekcji 0.1, kod w `.github/scripts/check_stable_www.py`.
+
+**Zielone CI nie znaczy, że strona jest dobra.** Znaczy tylko tyle, że deploy się udał i że sprawdzane
+reguły nie zostały złamane. Treści nikt nie ocenia.
+
+### Czego strażnik świadomie NIE sprawdza
+
+**CI nie weryfikuje, czy anchor wskazywany przez link faktycznie istnieje w pliku docelowym.**
+To decyzja projektowa, nie luka do załatania. Nie należy tego dodawać.
+
+Anchor, który nie ma odpowiednika w tekście, jest **inną kategorią problemu** niż pozostałe reguły.
+Można świadomie napisać link do `#sekcja-15`, której jeszcze nie ma, bo tekst dopiero powstaje,
+albo zostawić anchor po sekcji, która została przeniesiona. Przeglądarka po prostu otworzy stronę
+od góry i nikomu nic się nie stanie. To nie jest awaria: to co najwyżej niedokończony tekst,
+a o niedokończonych tekstach nie rozstrzyga robot.
+
+Reguły, których strażnik pilnuje, mają inną naturę: łamią się **po cichu i nieodwracalnie dla kogoś z zewnątrz**.
+Martwy link daje 404. Zgubiony fragment adresu przy przekierowaniu wyrzuca czytelnika na górę dokumentu,
+którego nie zamawiał. Kopia treści pod drugim adresem rozjeżdża się bez żadnego sygnału błędu.
+Tego nie widać gołym okiem i nikt tego nie zauważy, dopóki nie będzie za późno.
+
+Różnica w jednym zdaniu: **strażnik pilnuje adresów, nie kompletności tekstu.**
+
+Rozróżnienie **anchor w stubie** kontra **istnienie anchora w tekście**:
+
+- przekazywanie `#anchor` przez przekierowanie — **sprawdzane**, bo to mechanika adresu i łamie się niewidocznie,
+- istnienie `id="anchor"` w pliku docelowym — **nie sprawdzane**, bo to stan tekstu i jego brak nikogo nie blokuje.
 
 ## 0. Zakres i zasada
 
@@ -74,17 +173,25 @@ Główny katalog ma:
 
 ## Stabilne wejście do CV
 
-`cv/cv/index.html` jest aliasem / przekierowaniem do aktualnego wersjonowanego pliku CV.
+`cv/cv/index.html` jest aliasem / przekierowaniem do aktualnego pliku CV.
 
 W obecnym stanie wskazuje:
 
-`CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html`
+`CLAUDE_Maciej-Tora-AI-CV.html`
 
-Dzięki temu publiczny adres `/cv/cv/` może pozostać stały mimo zmiany wersjonowanego pliku źródłowego.
+Nazwa pliku docelowego jest stała i nie zmienia się przy kolejnych wersjach CV.
+Numer wersji i data żyją w nagłówku wewnątrz dokumentu.
+Dzięki temu stałe są oba adresy naraz: publiczny `/cv/cv/` i bezpośredni adres pliku.
 
 ## Seventeen & Seventeen
 
 `cv/seventeen-and-seventeen/index.html` jest osobnym, stabilnym wejściem do materiału pogłębiającego profil zawodowy.
+
+Wskazuje na `CLAUDE_seventeen-and-seventeen-ai-concepts-EN.html`.
+
+Do 2026-09-19 ten plik nie był przekierowaniem, tylko pełną kopią treści pod stabilnym adresem.
+Oznaczało to dwa źródła prawdy gotowe rozjechać się przy pierwszej edycji jednego z nich.
+Obecnie jest przekierowaniem, tak jak `cv/cv/index.html`.
 
 ## Charakter techniczny
 

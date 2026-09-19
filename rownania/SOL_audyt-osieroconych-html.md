@@ -62,6 +62,16 @@ i przekierowują na aktualne adresy:
 
 Nie należy ich traktować jako osierocone HTML-e ani usuwać.
 
+**Te cztery stuby są trwałe.** Dwa polskie adresy, `navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html`
+oraz `CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html`, zostały rozesłane osobom trzecim,
+zanim nazwy plików zostały ustabilizowane. Po drugiej stronie są linki, których nikt już nie poprawi,
+więc usunięcie tych plików oznaczałoby 404 u kogoś innego, a nie porządek u siebie.
+Dwa odpowiedniki angielskie zostają z tego samego powodu: były osiągalne z publicznej nawigacji,
+więc mogły trafić do indeksu wyszukiwarki lub czyichś zakładek.
+
+To jest wyjątek, nie reguła. Stub pod adresem, który nigdy nie wyszedł na zewnątrz, jest śmieciem
+i podlega usunięciu — tak jak stało się ze stubami CV. Zasada ogólna: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.1.
+
 ## Wynik końcowy
 
 - 14 HTML-i w katalogu,
