@@ -117,6 +117,22 @@
       Obok, w tym samym katalogu, <code>cv/cv/index.html</code> był od początku zrobiony poprawnie,
       jako przekierowanie — więc nie zabrakło wzorca do skopiowania, tylko zrozumienia, po co on istnieje.
       Poprawione 2026-09-19: kopia zamieniona na przekierowanie.</li>
+      <li><strong>Jednorazowy workflow migracji pozostawiony włączony na stałe, z gołym <code>on: push</code>.</strong>
+      <code>unpack-walkaosql.yml</code> rozpakowywał zrzut starej bazy i ciął go na pliki per tabela na potrzeby
+      migracji do Supabase. Migracja zakończyła się <strong>2026-09-12</strong>, co odnotowuje własny plik
+      <code>walkaosql/SOL-import-supabase-wynik-koncowy-2026-09-12.md</code>: 27/27 tabel, 15071/15071 wierszy, różnica zero.
+      Workflow nie został wtedy wyłączony. Przez kolejne <strong>78 commitów</strong> odpalał się przy każdym zapisie,
+      rozpakowywał 2,3 MB, mielił trzy skrypty Pythona i kończył komunikatem <code>No changes to commit</code>.
+      Osiemdziesiąt przebiegów o zerowym wyniku.
+      Do tego jako jedyny workflow w repozytorium miał <strong>gołe <code>on: push</code> bez filtra ścieżek i gałęzi</strong>,
+      więc budził się przy każdym pushu na każdą gałąź, w tym robocze, trzymając przy tym uprawnienie
+      <code>contents: write</code> dla zadania, które od tygodnia nie miało nic do zrobienia.
+      Osobno: ten sam zrzut bazy leży w repozytorium w trzech kopiach o identycznej sumie kontrolnej — <code>.sql</code>,
+      <code>.zip</code> i wygenerowana <code>rozpakowane/</code> — co daje 29 MB na katalog po skończonej migracji.
+      <strong>Zadanie jednorazowe musi się samo wyłączać albo zostać usunięte po wykonaniu.</strong>
+      To drugi taki przypadek w tym repozytorium: <code>sol-build-navier-stokes-zip-once.yml</code> miał odwrotną usterkę
+      i nie uruchomił się nigdy, bo czekał na plik, który nie istniał.
+      Workflow usunięty 2026-09-19; wygenerowane pliki zostają.</li>
     </ol>
 
     <p class="summary"><strong>Największy błąd nadrzędny:</strong> brak trzymania się celu użytkownika i rozpoczęcie projektowania własnej wersji zadania zamiast literalnego wykonania tego, co zostało zlecone.</p>

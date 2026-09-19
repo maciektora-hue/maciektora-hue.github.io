@@ -15,13 +15,15 @@ Aktualna lista zadań dla całego repozytorium.
 sprawdzenia, zamiast liczyć na to, że ktoś zrobi je ręcznie. Tu są to GitHub Actions,
 czyli pliki w `.github/workflows/`. Podgląd: zakładka **Actions** na GitHubie.
 
-Działają trzy:
+Działają dwa:
 
 | Workflow | Co robi |
 |---|---|
 | `pages build and deployment` | wystawia stronę na `maciektora-hue.github.io` — to dzięki niemu zmiana w repo staje się widoczna w przeglądarce |
-| `unpack and split walkaosql` | skrypt pomocniczy |
 | `Konwencja stałych adresów WWW` | pilnuje martwych linków, anchorów w przekierowaniach, kopii treści i nazw plików |
+
+`unpack and split walkaosql` został usunięty 2026-09-19: był narzędziem skończonej
+migracji do Supabase i odpalał się przy każdym pushu bez żadnego efektu.
 
 **Zielone CI znaczy tylko, że deploy się udał i że sprawdzane reguły nie zostały złamane.
 Nie znaczy, że treść jest dobra — tego nikt nie ocenia.**
