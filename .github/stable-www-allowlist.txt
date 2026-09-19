@@ -1,0 +1,70 @@
+# Lista wyjatkow od konwencji stalych adresow WWW
+#
+# Kazdy wpis to plik, ktory swiadomie lamie jedna z regul sprawdzanych przez
+# .github/scripts/check_stable_www.py. Pusta linia i wszystko po # jest ignorowane.
+#
+# Wpisanie pliku tutaj NIE jest sposobem na uciszenie CI. Jest deklaracja,
+# ze naruszenie zostalo obejrzane i uznane za swiadoma decyzje. Kazdy blok
+# ma uzasadnienie. Nowy wpis bez uzasadnienia nalezy odrzucic na review.
+
+# --- rosja/: zamrozone oryginaly i ich warianty z anchorami -------------------
+# Audyt rosja/SOL_audyt-osieroconych-html.md klasyfikuje pliki bez sufiksu
+# -anchory jako swiadomie zachowane zamrozone oryginaly. Warianty -anchory to
+# wersje robocze z identyfikatorami naglowkow, na ktore wskazuja stabilne
+# wejscia katalogowe. Kazdy z tych tekstow ma dzialajacy stabilny adres.
+rosja/SOL_mapa-tematow-korpusu-rozpad-rosji-v01_01-2026-09-03.html
+rosja/SOL_mapa-tematow-rozpad-rosji-EN-v01_00-2026-09-07.html
+rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31-anchory.html
+rosja/a1_POCZATEK_ZAMROZONE_kolumbryna-v3_5-2026-03-31.html
+rosja/a2_ZAMROZONE-maj-2026-gradually-stalo-sie-suddenly-v25_00-2026-06-25.html
+rosja/a3_ZAMROZONE-lista-celow-v19_00-2026-06-25.html
+rosja/a4_lipiec-2026-przejscie-na-hurt-v20_11-2026-08-01.html
+rosja/a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23-anchory.html
+rosja/a5_ZAMROZONE-audyt-2rewizje-v03_00-2026-06-23.html
+rosja/a6_ZAMROZONE-zapas-kontra-strumien-v02_00-2026-07-03.html
+rosja/a7_ZAMROZONE-jak-koncza-sie-panstwa-v02_00-2026-06-28.html
+rosja/d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25-anchory.html
+rosja/d1-zamrozone-narzedzie-dark-legitimacy-horbyk-v01_00-2026-03-25.html
+rosja/d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25-anchory.html
+rosja/d2-zamrozone-narzedzie-disinfolklore-kompilacja-v01_00-2026-03-25.html
+rosja/d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25-anchory.html
+rosja/d3-zamrozone-narzedzie-disinfolklore-swot-advocatus-v01_00-2026-03-25.html
+rosja/d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13-anchory.html
+rosja/d4-zamrozone-rosyjskie-samobojstwa-taksonomia-v08_01-2026-06-13.html
+rosja/d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24-anchory.html
+rosja/d5-zamrozone-putin-cornered-animal-v03_00-2026-03-24.html
+rosja/d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08-anchory.html
+rosja/d6-zamrozone-jalta-3-analiza-strategiczna-v01_00-2026-03-08.html
+rosja/d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08-anchory.html
+rosja/d7-zamrozone-jalta-3-apendyks-v01_00-2026-03-08.html
+rosja/monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17-anchory.html
+rosja/monopole-moralnosc-transformacja-zrodla-v01_00-2026-03-17.html
+rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17-anchory.html
+rosja/ropa-gaz-geopolityka-analiza-v01_00-2026-03-17.html
+
+# --- audhd/: pliki tresciowe za stabilnymi wejsciami katalogowymi -------------
+# Kazdy z tych plikow ma dzialajacy stabilny adres przez wlasny stub-katalog
+# (audhd/po-ludzku/, audhd/20-prac/ i pozostale), a kazdy z tych stubow
+# zachowuje anchor. Ujednolicenie samych nazw plikow to osobna operacja.
+audhd/63-cechy-rdzen-czy-maskowanie-01_01-2026-08-26.html
+audhd/CLAUDE_co-dziala-po-poznej-diagnozie-02_01-2026-08-26.html
+audhd/ESEJ_architektury-pamieci-1_02-2026-04-28.html
+audhd/POWIESC_architektury-pamieci-2_00-2026-04-29.html
+audhd/adhd-pomaganie-kosztem-siebie-v01.00-2026-05-14.html
+audhd/apendyks1-po-ludzku-02_01-2026-08-26.html
+audhd/audhd-fundatorzy-it-1_00-2026-04-27.html
+audhd/audhd-po-ludzku-v02_02-2026-07-09.html
+audhd/audhd_opracowanie_v6_0_2026-07-01-2.html
+audhd/autyzm-regulacja-mowienia-v01.00-2026-05-14.html
+audhd/co-to-znaczy-audhd-v03_01-2026-07-09-2.html
+audhd/dluga-lista-publikacji-4.01-2026-08-26.html
+audhd/ilu-nas-jest-audhd-polska-wstep-v03_00-2026-08-10.html
+audhd/kognitywistyka-ai-bledy-poznawcze-2_00-2026-04-28.html
+audhd/obiektywnosc-autyzm-v01.00-2026-05-14.html
+audhd/piec-jezykow-milosci-nd-v01.00-2026-05-18.html
+
+# --- osierocone-html/: migawki archiwalne ------------------------------------
+# Numer wersji w nazwie jest tu czescia tozsamosci migawki: odroznia ja od
+# pliku zywego o nazwie stalej. Pod starym publicznym adresem stoi
+# przekierowanie na wersje biezaca, wiec zaden rozeslany link nie daje 404.
+osierocone-html/cv/CLAUDE_Maciej-Tora-AI-CV-07_12.html
