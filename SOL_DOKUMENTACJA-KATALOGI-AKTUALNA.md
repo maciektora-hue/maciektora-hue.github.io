@@ -94,11 +94,12 @@ hurtowego importu do Supabase, zakończonego 2026-09-12. Kod w `piosenki/` powo�
 sam odpala zestaw sprawdzeń, zamiast liczyć na to, że ktoś zrobi je ręcznie i o niczym nie zapomni.
 Technicznie są to GitHub Actions, czyli pliki w `.github/workflows/`.
 
-W tym repozytorium CI robi dwie rzeczy:
+W tym repozytorium CI robi trzy rzeczy:
 
 1. `pages build and deployment` — przebudowuje stronę i wystawia ją na `maciektora-hue.github.io`.
    To jest to, co sprawia, że zmiana w repozytorium staje się widoczna w przeglądarce.
 2. `Konwencja stałych adresów WWW` — strażnik opisany w sekcji 0.1, kod w `.github/scripts/check_stable_www.py`.
+3. `Podtrzymanie API i bazy` — codzienny ping `/health`, żeby darmowy Supabase nie wszedł w 7-dniową pauzę. Nie usuwa zimnego startu Render.
 
 **Zielone CI nie znaczy, że strona jest dobra.** Znaczy tylko tyle, że deploy się udał i że sprawdzane
 reguły nie zostały złamane. Treści nikt nie ocenia.

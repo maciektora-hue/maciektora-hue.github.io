@@ -1,0 +1,64 @@
+name: Podtrzymanie API i bazy
+
+# Darmowy Render usypia usługę po ~15 minutach bezczynności, a darmowy Supabase
+# pauzuje projekt po 7 dniach bez ruchu. Ten cron raz dziennie puka w /health,
+# który otwiera połączenie i wykonuje SELECT 1 — czyli budzi Render i jednocześnie
+# dotyka bazy. Dzięki temu Supabase nie wchodzi w pauzę wymagającą ręcznego
+# przywracania.
+#
+# UWAGA: to NIE usuwa zimnego startu dla odwiedzającego. Render i tak zaśnie
+# 15 minut po tym pingu. Lekarstwem na zimny start jest płatny plan usługi —
+# patrz zadania/SOL_LISTA-ZADAN.md.
+#
+# UWAGA 2: GitHub wyłącza zaplanowane workflowy w repozytoriach bez aktywności
+# przez 60 dni. Jeżeli repo zamilknie na dwa miesiące, ten cron przestanie
+# chodzić i trzeba go włączyć ręcznie w zakładce Actions.
+
+on:
+  schedule:
+    # 05:17 UTC codziennie. Nierówna minuta celowo: o pełnych godzinach
+    # GitHub ma zator i opóźnia przebiegi.
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    name: Obudź piosenki-api i dotknij Supabase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Puknij w /health
+        run: |
+          set -uo pipefail
+          URL="https://piosenki-api.onrender.com/health"
+
+          for proba in 1 2 3; do
+            echo "── Próba $proba z 3"
+            start=$(date +%s)
+            odpowiedz=$(curl -sS --max-time 180 -w $'\n%{http_code}' "$URL" || true)
+            czas=$(( $(date +%s) - start ))
+
+            kod=$(printf '%s' "$odpowiedz" | tail -n1)
+            tresc=$(printf '%s' "$odpowiedz" | sed '$d')
+
+            echo "   HTTP $kod po ${czas}s"
+            echo "   $tresc"
+
+            if [ "$kod" = "200" ]; then
+              if [ "$czas" -gt 20 ]; then
+                echo "::notice::API odpowiedziało po ${czas}s — to był zimny start. Usuwa go dopiero płatny plan Render."
+              fi
+              echo "API i baza odpowiadają."
+              exit 0
+            fi
+
+            if [ "$proba" -lt 3 ]; then
+              echo "   Czekam 30s przed kolejną próbą…"
+              sleep 30
+            fi
+          done
+
+          echo "::error::piosenki-api nie odpowiedziało poprawnie po 3 próbach. Sprawdź https://dashboard.render.com i status projektu Supabase."
+          exit 1
