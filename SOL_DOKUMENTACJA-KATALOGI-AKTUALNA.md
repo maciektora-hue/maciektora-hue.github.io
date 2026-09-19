@@ -66,6 +66,28 @@ mechanizmem przekierowania. Zostaje w stubach jako zapas dla wyłączonego JavaS
 Stuby mają też `rel="canonical"` na cel oraz `robots: noindex`, żeby nie konkurować
 w wyszukiwarce z adresem właściwym.
 
+## 0.2.1. Poczekalnie: gdzie ląduje to, co przestało być potrzebne
+
+W tym repozytorium **nie kasuje się plików** dlatego, że akurat wyglądają na zbędne.
+Zamiast tego przenosi się je do jednej z trzech poczekalni, każda z własnym README:
+
+| Katalog | Na co |
+|---|---|
+| `osierocone-html/` | pliki HTML poza aktualną nawigacją |
+| `dokumentacja-archiwalna/` | stare dokumentacje, raporty, opisy architektury |
+| `dane-archiwalne/` | dane: CSV, TSV, zrzuty baz, narzędzia zakończonych migracji |
+
+Sens jest jeden: **główna część repozytorium ma pokazywać stan bieżący**, a nie warstwy
+osadzone po kolejnych zakończonych operacjach. Plik w poczekalni nadal istnieje, nadal jest
+w historii i nadal można po niego sięgnąć — po prostu przestał udawać element działającego systemu.
+
+Przeniesienie do poczekalni nie wymaga pewności, że plik jest zbędny. Usunięcie — wymaga,
+i następuje dopiero przy przeglądzie, z datą zapisaną w README danej poczekalni.
+
+2026-09-19 do `dane-archiwalne/` trafił katalog `walkaosql/`: zrzut starej bazy i narzędzia
+hurtowego importu do Supabase, zakończonego 2026-09-12. Kod w `piosenki/` powołuje się na tę
+ścieżkę wyłącznie w komentarzach wyjaśniających pochodzenie danych i niczego stamtąd nie czyta.
+
 ## 0.3. Czym jest CI i czego pilnuje w tym repozytorium
 
 **CI** to skrót od *Continuous Integration*. W praktyce: robot, który po każdym zapisie do repozytorium

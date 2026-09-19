@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.00 · 2026-09-19
+Wersja 01.01 · 2026-09-19
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -71,6 +71,18 @@ ZIP nigdy nie powstał. Workflow i jego niekompletne dane `.github/sol-data/nszi
 
 Stub w `osierocone-html/audhd/` przekierowywał na plik, który został w `audhd/` — czyli donikąd.
 Przepięty na `audhd/20-prac/`.
+
+### 6. Przeniesione do poczekalni
+
+`walkaosql/` → `dane-archiwalne/walkaosql/`
+
+Zrzut starej bazy i narzędzia hurtowego importu do Supabase. Import zakończył się 2026-09-12
+z wynikiem 27/27 tabel i 15071/15071 wierszy. Obsługujący go workflow `unpack-walkaosql.yml`
+nie został wtedy wyłączony i przez 78 commitów odpalał się przy każdym pushu bez żadnego efektu.
+Workflow usunięty, pliki **nie usunięte** — leżą w poczekalni z README i datą przeglądu 2027-09-19.
+
+Komentarze w `piosenki/content_structure.py` i `piosenki/content_store.py` zostały przepięte
+na nową ścieżkę. Kod niczego z tego katalogu nie czyta, więc przenosiny nie zmieniły zachowania.
 
 ## Czego NIE wolno ruszać
 

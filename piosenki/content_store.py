@@ -281,7 +281,7 @@ def _validate_database_v1(conn) -> None:
 def ensure_content_storage(conn) -> dict:
     # UWAGA: ta funkcja i jej pomocnicze zapytania (placeholdery "?", PRAGMA)
     # są napisane pod SQLite/libsql/Turso. Dane, które tu wstawiały, są już
-    # przeniesione do Supabase importem hurtowym (walkaosql/). Nie uruchamiać
+    # przeniesione do Supabase importem hurtowym (dane-archiwalne/walkaosql/). Nie uruchamiać
     # tej ścieżki na połączeniu do Supabase/Postgres.
     conn.execute("PRAGMA foreign_keys = ON")
     _execute_schema(conn)

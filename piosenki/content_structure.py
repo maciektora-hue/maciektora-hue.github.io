@@ -23,7 +23,7 @@ def _rows(path: Path) -> list[dict[str, str]]:
 # UWAGA: _has_column, _ensure_structure_order_column, _validate_database i
 # ensure_content_structure_v2 są napisane pod SQLite/libsql/Turso (PRAGMA,
 # placeholdery "?"). Dane, które ta migracja wstawiała, są już w Supabase
-# przez import hurtowy (walkaosql/). Nie uruchamiać tej ścieżki na
+# przez import hurtowy (dane-archiwalne/walkaosql/). Nie uruchamiać tej ścieżki na
 # połączeniu do Supabase/Postgres.
 def _has_column(conn, table: str, column: str) -> bool:
     return any(row[1] == column for row in conn.execute(f"PRAGMA table_info({table})").fetchall())
