@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.05 · 2026-09-20
+Wersja 02.00 · 2026-09-20
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -26,30 +26,30 @@ Przy sprzeczności między plikiem roboczym a dokumentacją `*-AKTUALNA.md` **ro
 
 ### 1. Konwencja nazw plików
 
-Nazwy plików treściowych **nie zawierają już numeru wersji ani daty**. Wersja `XX.YY` i data
-mieszkają w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
+> **UWAGA 2026-09-20: ta sekcja opisuje decyzję, która okazała się odwrócona.**
+> Zostaje jako zapis tego, co zrobiono 2026-09-19, ale **nie jest instrukcją.**
+> Obowiązującą regułę podaje `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.1:
+> **stały jest adres, nie nazwa pliku.**
 
-> **Uzupełnienie 2026-09-20.** Reguła powyżej opisuje układ pierwszy i pozostaje domyślna.
-> Dopuszczony został układ drugi, odwrotny: **wersja zostaje w nazwie pliku, a adresem
-> zewnętrznym jest stub bez wersji**, przekierowujący na wydanie bieżące. Chroniony jest ten
-> sam link i w ten sam sposób — przez to, że adres podany człowiekowi nie zawiera numeru
-> wersji. Pełny opis wraz z warunkami koniecznymi: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`,
-> sekcja 0.1. Pliki w układzie drugim są wypisane w `.github/stable-www-allowlist.txt`.
-> Migracji dotychczasowych plików **nie ma** — to, co stoi pod stałą nazwą, tak zostaje.
+Co zrobiono 2026-09-19: nazwom plików treściowych odebrano numer wersji i datę, a jedno
+i drugie przeniesiono do nagłówka dokumentu. Zmieniono tak kilkanaście ścieżek
+w `rownania/`, `cv/`, `piosenki/`, `audhd/` i `dokumentacja-archiwalna/`.
 
-Zmienione ścieżki:
+Dlaczego to było odwrócone. Diagnoza była trafna — eseje o Navierze–Stokesie nie miały
+żadnego stałego adresu, więc każde nowe wydanie zabijało rozesłany link. Lekarstwo było
+nietrafione: zamiast **dodać brakujące wejście katalogowe**, odebrano plikowi wersję.
+Skutek uboczny: 34 pliki w `rosja/` i `audhd/`, które miały to zrobione poprawnie od
+początku, zostały ogłoszone naruszeniem i trafiły na listę wyjątków. Reguła wymagająca
+natychmiastowego wyjątku dla większości repozytorium nie była regułą z wyjątkiem, tylko
+regułą napisaną odwrotnie.
 
-| było | jest |
-|---|---|
-| `rownania/navier-stokes-esej-dla-niematematyka-v02_00-2026-09-09.html` | `rownania/navier-stokes-esej-dla-niematematyka.html` |
-| `rownania/navier-stokes-essay-for-non-mathematician-EN-v02_00-2026-09-09.html` | `rownania/navier-stokes-essay-for-non-mathematician-EN.html` |
-| `rownania/CLAUDE_rownania-metafizyka-i-komisja-v01_02-2026-09-03.html` | `rownania/CLAUDE_rownania-metafizyka-i-komisja.html` |
-| `rownania/CLAUDE_equations-metaphysics-and-rigged-jury-EN-v01_03-2026-09-07.html` | `rownania/CLAUDE_equations-metaphysics-and-rigged-jury-EN.html` |
-| `cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html` | `cv/CLAUDE_Maciej-Tora-AI-CV.html` |
-| `cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN-v08_07-2026-09-07.html` | `cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN.html` |
-| `audhd/apendyks1-po-ludzku-02_01-2026-08-26.html` | `audhd/apendyks1-po-ludzku.html` |
-| dziewięć plików `piosenki/SOL-klastrowanie-audio-*-v01-2026-09-08.html` i pokrewnych | te same nazwy bez `-v01-2026-09-08` |
-| trzy pliki `dokumentacja-archiwalna/piosenki/*` | te same nazwy bez wersji i daty |
+Źródło pomyłki: preferencja autora brzmiała „nazwy plików zostają stałe" i została wzięta
+literalnie jako zdanie o plikach, podczas gdy było to zdanie o **adresach**. Preferencja
+została przeformułowana 2026-09-20.
+
+Co z tego zostało w mocy: **stabilny adres nigdy nie jest kopią pliku** (sekcja 2 poniżej)
+oraz **przekierowania przekazują `#anchor`** (sekcja 3). Obie reguły są niezależne od
+kierunku i obie dalej obowiązują.
 
 ### 2. Stabilny adres nigdy nie jest kopią pliku
 

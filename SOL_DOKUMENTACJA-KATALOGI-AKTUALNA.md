@@ -2,7 +2,7 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 01.03 · 2026-09-20
+Wersja 02.00 · 2026-09-20
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
@@ -14,64 +14,73 @@ Data zebrania: 2026-09-11
 
 ## 0.1. Konwencja adresów i nazw plików
 
-Obowiązuje w całym repozytorium od 2026-09-19, uzupełniona 2026-09-20 o układ drugi.
+Obowiązuje w całym repozytorium. Przepisana 2026-09-20 po stwierdzeniu, że poprzednia
+wersja tej sekcji mówiła rzecz odwrotną do intencji autora repozytorium.
 
-**Nazwa pliku jest stała.** Nazwy plików treściowych nie zawierają numeru wersji ani daty.
-Numer wersji `XX.YY` oraz data `yyyy-mm-dd` żyją w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
-Drobna korekta podnosi `YY`, przebudowa podnosi `XX`.
+**Stały jest ADRES, nie nazwa pliku.** To jest cała reguła i z niej wynika reszta.
 
-**Po co ta reguła w ogóle istnieje.** Wersja w nazwie pliku szkodzi z jednego konkretnego powodu:
-przy każdej korekcie treści powstaje plik o nowej nazwie, a wcześniej rozesłany link umiera.
-Reguła chroni **link przed aktualizacją treści**, nie estetykę nazw.
+Każdy tekst przeznaczony dla czytelnika ma **wejście katalogowe bez wersji**, na przykład
+`audhd/psychodynamika-cbt/`, `rosja/putin-cornered/`, `rownania/navier-stokes/`.
+Wejście jest stubem: przekierowuje na plik bieżący i przenosi `#kotwicę`.
+**Tylko ten adres jest rozsyłany na zewnątrz.**
 
-**Z czego wynika wyjątek.** Tekst **zamknięty**, który nie będzie już aktualizowany, może wersję
-w nazwie zachować: skoro treść się nie zmieni, nazwa pozostaje prawdziwa na zawsze i żaden link
-nie umiera. Warunek konieczny: taki plik **musi mieć działające stabilne wejście katalogowe**.
+**Nazwa pliku jest wewnętrzna.** Może zawierać numer wersji, datę, autora, `ZAMROZONE`,
+`NIE-PUBLIKOWAC` czy cokolwiek innego, co pomaga w pracy. Nikt tego nie zobaczy, bo nikt
+nie dostaje linku do pliku — dostaje link do wejścia.
 
-**Układ drugi, dopuszczony 2026-09-20.** Cel reguły — żeby rozesłany link przeżył kolejne
-wydanie — da się osiągnąć także odwrotnie: **wersja zostaje w nazwie pliku, a na zewnątrz
-idzie adres bez wersji**, który przekierowuje na wydanie bieżące. Reguła z układu pierwszego
-chroni link, chowając wersję w nagłówku; układ drugi chroni ten sam link, chowając wersję
-za stubem. Oba są poprawne, bo oba spełniają ten sam warunek: **adres podany człowiekowi
-nie zawiera numeru wersji**.
+**Wersja i data żyją też w nagłówku dokumentu**, tuż pod `<h1>`, w formacie `XX.YY` oraz
+`yyyy-mm-dd`. Drobna korekta podnosi `YY`, przebudowa `XX`. Nagłówek jest źródłem prawdy
+o wersji; nazwa pliku jest wygodą.
 
-Warunki konieczne układu drugiego, wszystkie sprawdzane przez strażnika albo przez review:
+**Przy nowym wydaniu** powstaje plik o nowym numerze, a wejście zostaje przepięte na niego.
+Adres się nie zmienia, więc rozesłany link żyje dalej.
 
-| warunek | po co |
-|---|---|
-| adres bez wersji jest stubem, nigdy kopią treści | dwie kopie zawsze się rozjeżdżają (reguła 3 strażnika) |
-| stub przekazuje `#anchor` | sam `meta refresh` gubi fragment (reguła 2 strażnika) |
-| plik treściowy ma `<link rel="canonical">` na adres bez wersji | to adres bez wersji ma być indeksowany |
-| przy podniesieniu wersji stub zostaje przepięty | inaczej stały adres prowadzi do starego wydania |
-| adres z numerem wersji nie jest rozsyłany | jest wewnętrzny; kolejne wydanie może go usunąć |
+### Czego pilnuje strażnik
 
-Kiedy który: tekst **zamknięty** — układ pierwszy albo drugi, obojętne.
-Tekst **żywy, którego wydania chcemy trzymać osobno** — układ drugi.
-W razie wątpliwości układ pierwszy, bo ma mniej ruchomych części.
+`.github/scripts/check_stable_www.py`, pięć reguł, każde naruszenie to czerwone CI:
 
-Dotyczy to 45 plików treściowych w `rosja/`, `audhd/` i `osierocone-html/`, wypisanych w `.github/stable-www-allowlist.txt`.
-Teksty w `rosja/` są formalnie zamrożone, a tym w `audhd/` od wrzucenia nie zmienił się ani jeden commit.
-Wszystkie mają stabilne adresy. **To nie jest zaległość do przerobienia, tylko trwały, sprawdzony wyjątek.**
-Gdyby którykolwiek z nich zaczął być aktualizowany, wtedy i dopiero wtedy dostaje stałą nazwę
-i schodzi z listy wyjątków.
+1. brak martwych linków wewnętrznych;
+2. każdy stub przekazuje `#kotwicę` dalej — sam `meta refresh` gubi fragment;
+3. stały adres nigdy nie jest kopią treści, tylko przekierowaniem;
+4. **plik z wersją lub datą w nazwie musi mieć stałe wejście katalogowe**;
+5. dokumentacja nie linkuje do nieistniejących plików.
 
-**Stabilne wejście katalogowe.** Większość działów ma dodatkowo krótki adres katalogowy
-(`rownania/navier-stokes/`, `cv/cv/`, `audhd/po-ludzku/`), który przekierowuje do pliku treściowego.
-To on jest adresem do rozsyłania.
+Reguła 4 została odwrócona 2026-09-20. Wcześniej brzmiała „plik treściowy nie ma wersji
+w nazwie" — czyli ścigała cechę nieszkodliwą i wymagała 45 wyjątków dla dominującego
+wzorca repozytorium. Szkodzi nie wersja w nazwie, tylko **brak stałego adresu**: dopiero
+wtedy kolejne wydanie zabija rozesłany link. To jest usterka, od której cała sprawa się
+zaczęła — eseje o Navierze–Stokesie stały pod wersjonowanymi nazwami i nic na nie nie
+wskazywało. Po odwróceniu reguły lista wyjątków skurczyła się z 45 do 12.
 
-**Stuby archiwalne i kiedy ich NIE zostawiamy.** Adres, który kiedyś był publiczny i zawierał
-wersję w nazwie pliku, dostaje stub przekierowujący na adres stały — ale tylko wtedy, gdy ten adres
-naprawdę wyszedł na zewnątrz.
+### Czego stałego wejścia się NIE daje
 
-Rozstrzyga jedno pytanie: **czy ktoś dostał ten link?**
+Świadomie, 38 plików: szablony Jinja w `piosenki/templates/`, widoki serwowane przez
+Flask, narzędzia w `techniczne/`, mapy kotwic, zawartość `osierocone-html/`, archiwum
+w `dokumentacja-archiwalna/` oraz jedenaście oryginałów bez kotwic w `rosja/`, których
+bliźniaki `-anchory` mają już własne adresy. Te dwanaście, które reguła 4 mimo to łapie,
+siedzi na liście wyjątków z uzasadnieniem.
 
-- **Link został rozesłany** — stub zostaje na stałe. Nie wolno go usunąć nawet po latach,
-  bo po drugiej stronie jest czyjaś zakładka, mail albo wiadomość, której nikt już nie poprawi.
-- **Link nigdy nie wyszedł** — stub jest zbędny i należy go usunąć przy pierwszym sprzątaniu.
-  Utrzymywanie przekierowań pod adresami, których nikt nie zna, to nie ostrożność, tylko śmieci.
+### Pliki bez wersji w nazwie — czy przerabiać
 
-Dlatego liczba stubów w repozytorium nie ma rosnąć mechanicznie przy każdej zmianie nazwy.
-Rośnie tylko tam, gdzie istnieje realny odbiorca starego adresu.
+Nie. **Nazwa bez wersji jest w pełni legalna** i sama w sobie jest stabilna, więc reguła 4
+jej nie dotyczy. Dziewiętnaście plików przemianowanych 2026-09-19 zostaje tak, jak jest.
+
+Decyzja z 2026-09-20, uzasadnienie: migracja z powrotem nie daje nic poza ryzykiem.
+Nadanie im wersji w nazwie nie poprawi ani jednego adresu, bo wejścia już mają, a w
+`rownania/` dotknęłaby jedynych czterech adresów w całym repozytorium, które zostały
+rozesłane na zewnątrz. Większość tych tekstów — dziewięć o klastrowaniu audio, trzy
+archiwalne — jest w praktyce zamrożona i nowego wydania nie doczeka.
+
+**Kiedy plik przechodzi na nazwę z wersją:** w momencie, w którym faktycznie dostaje nowe
+wydanie. Wtedy powstaje plik z numerem, wejście zostaje przepięte, a stara nazwa znika —
+chyba że ten konkretny adres został komuś wysłany, i wtedy zostaje po niej stub.
+
+### Stuby pod starymi nazwami
+
+Zostają **wyłącznie tam, gdzie adres został rozesłany, zanim powstało wejście**. W praktyce
+cztery pliki w `rownania/`. Reszta historycznych stubów została skasowana 2026-09-20, bo
+tamtych adresów nikt nigdy nie dostał. Stub pod wersjonowaną nazwą jest łatką na wysłany
+link, nie wejściem — strażnik go jako wejścia nie liczy.
 
 ## 0.2. Rejestr rozesłanych adresów archiwalnych
 

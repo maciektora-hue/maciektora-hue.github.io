@@ -3,6 +3,7 @@
 Strażnik konwencji stałych adresów WWW.
 
 Sprawdza pięć reguł. Każde naruszenie to błąd i czerwone CI.
+Reguła 4 została odwrócona 2026-09-20 — uzasadnienie przy samej regule.
 Znane, świadomie utrzymywane wyjątki mieszkają w .github/stable-www-allowlist.txt.
 
 CZEGO TEN SKRYPT ŚWIADOMIE NIE SPRAWDZA
@@ -118,14 +119,35 @@ def main():
                 + " (stabilny adres ma przekierowywac, a nie kopiowac plik)"
             )
 
-    # 4. Pliki treściowe nie mają wersji ani daty w nazwie.
+    # 4. Plik treściowy z wersją lub datą w nazwie musi mieć stałe wejście.
+    #
+    # Reguła odwrócona 2026-09-20. Wcześniej zabraniała wersji w nazwie, przez co
+    # ogłaszała naruszeniem dominujący wzorzec repozytorium i wymagała listy 45
+    # wyjątków. Wersja w nazwie sama w sobie nikomu nie szkodzi — szkodzi dopiero
+    # brak stałego adresu, bo wtedy kolejne wydanie zabija rozesłany link.
+    # To jest dokładnie usterka esejów o Navierze-Stokesie, od której się zaczęło.
+    #
+    # Stałym wejściem jest stub, który sam NIE ma wersji ani daty w nazwie —
+    # w praktyce katalog z index.html. Stub pod starą, wersjonowaną nazwą pliku
+    # jest łatką na rozesłany link, nie wejściem, więc się tu nie liczy.
+    wejscia = {}
+    for rel, text in texts.items():
+        if not is_stub(text):
+            continue
+        if VERSION_IN_NAME.search(os.path.basename(rel)):
+            continue
+        for target in set(LINK.findall(text)) | set(JS_REDIRECT.findall(text)):
+            if target.startswith(("http://", "https://", "//", "mailto:", "#")):
+                continue
+            wejscia.setdefault(resolve(rel, target), set()).add(rel)
+
     for rel, text in texts.items():
         if is_stub(text) or rel in allow:
             continue
-        if VERSION_IN_NAME.search(os.path.basename(rel)):
+        if VERSION_IN_NAME.search(os.path.basename(rel)) and rel not in wejscia:
             errors.append(
-                f"wersja lub data w nazwie pliku tresciowego: {rel} "
-                "(nazwa ma byc stala, wersja zyje w naglowku dokumentu)"
+                f"wersja w nazwie bez stalego wejscia: {rel} "
+                "(dodaj katalog z index.html przekierowujacym na ten plik)"
             )
 
     # 5. Dokumentacja nie wskazuje na nieistniejące pliki.
