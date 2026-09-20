@@ -1,6 +1,6 @@
 # SOT / SOA — ŹRÓDŁA PRAWDY CAŁEGO SYSTEMU
 
-Wersja: 01.00 · Data: 2026-09-20
+Wersja: 01.01 · Data: 2026-09-20
 Status: **DOKUMENT NADRZĘDNY — CZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA CZYMKOLWIEK**
 Zakres: repozytorium `maciektora-hue/maciektora-hue.github.io` i usługi, z których korzysta
 
@@ -35,6 +35,7 @@ pokazuje, gdzie plik konfiguracyjny w repo opisuje coś, czego na serwerze nie m
 |---|---|---|
 | 1 | **stan faktyczny usługi** (Supabase, Render, GitHub Actions) | co naprawdę działa i z czym |
 | 2 | **ten dokument** | który plik jest aktualny, co jest czym |
+| 2a | **`INSTRUKCJA-DLA-AGENTOW.md`** | jak pracować w tym repozytorium |
 | 3 | `ZASADA-*.md` w roocie | twarde zakazy i nakazy pracy |
 | 4 | `*-AKTUALNA.md` | reguły dziedzinowe swoich obszarów |
 | 5 | strażnik CI `check_stable_www.py` | konwencja adresów, egzekwowana maszynowo |
@@ -127,7 +128,9 @@ dokumentem historycznym i nie wolno z niego wnioskować, co serwis uruchamia.
 GitHub Pages serwuje `main` pod `https://maciektora-hue.github.io`. Plik w repozytorium
 **jest** stroną; nie ma osobnego kroku publikacji i nie ma wersji roboczej.
 
-**SOA dla adresów: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.1**, egzekwowana
+**SOA dla adresów: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.1**, a pełny spis
+wszystkich wejść i procedura wydania: **`SOL_DOKUMENTACJA-STUBY-AKTUALNA.md`**.
+To pierwsze podaje regułę, egzekwowana
 maszynowo przez `.github/scripts/check_stable_www.py` (siedem reguł).
 
 Reguła w jednym zdaniu: **stały jest adres, nie nazwa pliku.** Każdy tekst ma wejście

@@ -2,12 +2,14 @@
 
 # Lista zadań
 
-Wersja 01.03 · 2026-09-20
+Wersja 01.04 · 2026-09-20
 
 Aktualna lista zadań dla całego repozytorium.
 
-> **2026-09-20:** źródła prawdy całego systemu zebrane w `SOT-SOA-AKTUALNA.md`.
-> **Ten plik czytać jako pierwszy, przed jakąkolwiek operacją.**
+> **2026-09-20:** źródła prawdy całego systemu zebrane w `SOT-SOA-AKTUALNA.md`,
+> instrukcja pracy w `INSTRUKCJA-DLA-AGENTOW.md`, spis wszystkich wejść WWW
+> w `SOL_DOKUMENTACJA-STUBY-AKTUALNA.md`.
+> **Te trzy pliki czytać jako pierwsze, przed jakąkolwiek operacją.**
 >
 > **2026-09-19:** posprzątane adresy WWW w całym repozytorium. Uwaga: reguła nazw plików
 > została 2026-09-20 odwrócona — obowiązuje `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md` 0.1.
