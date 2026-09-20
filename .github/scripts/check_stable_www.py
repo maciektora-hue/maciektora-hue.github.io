@@ -2,8 +2,9 @@
 """
 Strażnik konwencji stałych adresów WWW.
 
-Sprawdza pięć reguł. Każde naruszenie to błąd i czerwone CI.
-Reguła 4 została odwrócona 2026-09-20 — uzasadnienie przy samej regule.
+Sprawdza siedem reguł. Każde naruszenie to błąd i czerwone CI.
+Reguła 4 została odwrócona 2026-09-20, reguły 6 i 7 dodane tego samego dnia —
+uzasadnienia stoją przy samych regułach.
 Znane, świadomie utrzymywane wyjątki mieszkają w .github/stable-www-allowlist.txt.
 
 CZEGO TEN SKRYPT ŚWIADOMIE NIE SPRAWDZA
@@ -37,6 +38,18 @@ ALLOWLIST = os.path.join(ROOT, ".github", "stable-www-allowlist.txt")
 
 SKIP_DIRS = {".git", ".github", "node_modules"}
 VERSION_IN_NAME = re.compile(r"v?\d+[._-]\d+|\d{4}-\d{2}-\d{2}")
+# Numer wydania w nazwie pliku: stem-01_03.html, stem-v02.00.html, stem-2_00.html.
+RELEASE_IN_NAME = re.compile(r"^(?P<stem>.+?)[-_]v?(?P<xx>\d{1,2})[._](?P<yy>\d{2})(?P<ogon>.*)\.html$")
+# Numer wydania w naglowku dokumentu. Szukany WYLACZNIE w <title> i w czesci przed
+# pierwszym <h2>, bo w tresci zdania w rodzaju "Wersja 01.00 podawala inna liczbe"
+# odnosza sie do wydan poprzednich i nie sa naglowkiem tego dokumentu.
+# W <title> numer bywa podany samym separatorem: "— 01.03", "· v01.00".
+RELEASE_IN_TITLE = re.compile(r"(?:Wersja\s*:?\s*|[-\u2013\u2014\u00b7]\s*v?)(\d{1,2})[.](\d{2})")
+# Zapis wiazacy: "Wersja: 01.03" z dwukropkiem, w naglowku albo w stopce dokumentu.
+# Dwukropek jest obowiazkowy, bo bez niego lapie zdania w rodzaju
+# "Wersja 01.00 podawala inna liczbe", ktore mowia o wydaniach poprzednich.
+RELEASE_DECLARED = re.compile(r"(?:Wersja|Version)\s*:\s*v?(\d{1,2})[.](\d{2})")
+TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
 LINK = re.compile(r'(?:href|url)=["\']?([^"\'>\s]+\.html)')
 JS_REDIRECT = re.compile(r"location\.replace\(\s*'([^']+)'")
 META_REFRESH = re.compile(r'http-equiv=["\']refresh["\']', re.I)
@@ -148,6 +161,68 @@ def main():
             errors.append(
                 f"wersja w nazwie bez stalego wejscia: {rel} "
                 "(dodaj katalog z index.html przekierowujacym na ten plik)"
+            )
+
+    # 6. Stałe wejście wskazuje na NAJNOWSZE wydanie.
+    #
+    # Dziura, którą to zamyka: po podbiciu wersji powstaje nowy plik, a stub zostaje
+    # przepięty ręcznie. Zapomniane przepięcie nie łamie żadnej innej reguły — adres
+    # działa, anchor działa, linku nikt nie zgubił — tylko po cichu podaje czytelnikowi
+    # stary tekst. Jedyny błąd w tym zestawie, którego nie widać z zewnątrz.
+    wydania = {}
+    for rel in files:
+        m = RELEASE_IN_NAME.match(os.path.basename(rel))
+        if not m or is_stub(texts[rel]):
+            continue
+        klucz = (os.path.dirname(rel), m.group("stem"), m.group("ogon"))
+        wydania.setdefault(klucz, []).append((int(m.group("xx")), int(m.group("yy")), rel))
+
+    for rel, text in texts.items():
+        if not is_stub(text) or VERSION_IN_NAME.search(os.path.basename(rel)):
+            continue
+        for target in set(LINK.findall(text)) | set(JS_REDIRECT.findall(text)):
+            if target.startswith(("http://", "https://", "//", "mailto:", "#")):
+                continue
+            cel = resolve(rel, target)
+            m = RELEASE_IN_NAME.match(os.path.basename(cel))
+            if not m:
+                continue
+            klucz = (os.path.dirname(cel), m.group("stem"), m.group("ogon"))
+            rodzina = sorted(wydania.get(klucz, []))
+            if rodzina and rodzina[-1][2] != cel:
+                errors.append(
+                    f"wejscie wskazuje na stare wydanie: {rel} -> {os.path.basename(cel)} "
+                    f"(najnowsze w katalogu: {os.path.basename(rodzina[-1][2])})"
+                )
+
+    # 7. Numer wydania w nazwie pliku zgadza się z numerem w nagłówku dokumentu.
+    #
+    # Druga połowa tej samej dziury: wersja podniesiona w treści, nazwa pliku stara,
+    # albo odwrotnie. Sprawdzane tylko tam, gdzie oba numery w ogóle istnieją —
+    # plik bez numeru w nazwie i tekst bez nagłówka wersji są pomijane bez uwag.
+    for rel, text in texts.items():
+        if is_stub(text):
+            continue
+        m = RELEASE_IN_NAME.match(os.path.basename(rel))
+        if not m:
+            continue
+        # Pierwszenstwo ma jawna deklaracja "Wersja: XX.YY" gdziekolwiek w dokumencie.
+        # Numer w <title> jest tylko ozdobnikiem i bywa nieodswiezony po podbiciu.
+        zadeklarowane = RELEASE_DECLARED.findall(text)
+        if zadeklarowane:
+            h = zadeklarowane[0]
+        else:
+            tytul = TITLE.search(text)
+            trafienia = RELEASE_IN_TITLE.findall(tytul.group(1)) if tytul else []
+            if not trafienia:
+                continue
+            h = trafienia[-1]
+        w_nazwie = (int(m.group("xx")), int(m.group("yy")))
+        w_naglowku = (int(h[0]), int(h[1]))
+        if w_nazwie != w_naglowku:
+            errors.append(
+                f"wersja w nazwie rozni sie od naglowka: {rel} "
+                f"(nazwa {w_nazwie[0]:02d}.{w_nazwie[1]:02d}, naglowek {w_naglowku[0]:02d}.{w_naglowku[1]:02d})"
             )
 
     # 5. Dokumentacja nie wskazuje na nieistniejące pliki.

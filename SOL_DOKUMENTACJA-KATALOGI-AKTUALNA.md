@@ -2,7 +2,7 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 02.00 · 2026-09-20
+Wersja 02.01 · 2026-09-20
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
@@ -37,13 +37,25 @@ Adres się nie zmienia, więc rozesłany link żyje dalej.
 
 ### Czego pilnuje strażnik
 
-`.github/scripts/check_stable_www.py`, pięć reguł, każde naruszenie to czerwone CI:
+`.github/scripts/check_stable_www.py`, siedem reguł, każde naruszenie to czerwone CI:
 
 1. brak martwych linków wewnętrznych;
 2. każdy stub przekazuje `#kotwicę` dalej — sam `meta refresh` gubi fragment;
 3. stały adres nigdy nie jest kopią treści, tylko przekierowaniem;
 4. **plik z wersją lub datą w nazwie musi mieć stałe wejście katalogowe**;
 5. dokumentacja nie linkuje do nieistniejących plików.
+6. **stałe wejście wskazuje na najnowsze wydanie** — nie na poprzednie;
+7. **numer wersji w nazwie pliku zgadza się z numerem w dokumencie**.
+
+Reguły 6 i 7 dodane 2026-09-20. Domykają jedyną dziurę, jaka w tym układzie została: przepięcie
+wejścia po podbiciu wersji jest ruchem ręcznym, a zapomniane przepięcie **nie łamie żadnej
+z reguł 1–5**. Adres działa, kotwica działa, nikt nie widzi 404 — tylko czytelnik dostaje stary
+tekst. To jedyny błąd w tym zestawie niewidoczny z zewnątrz, więc musi go łapać maszyna.
+
+Reguła 7 rozstrzyga też, co jest źródłem prawdy o wersji: **jawny zapis `Wersja: XX.YY`**
+w nagłówku albo stopce dokumentu. Numer doklejony do `<title>` jest ozdobnikiem i bywa
+nieodświeżony — pierwsze uruchomienie reguły wykryło dokładnie taki przypadek w długiej liście
+publikacji: stopka i nazwa pliku mówiły 4.01, tytuł został na 4.00.
 
 Reguła 4 została odwrócona 2026-09-20. Wcześniej brzmiała „plik treściowy nie ma wersji
 w nazwie" — czyli ścigała cechę nieszkodliwą i wymagała 45 wyjątków dla dominującego
