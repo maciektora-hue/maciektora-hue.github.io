@@ -1,6 +1,6 @@
 # SOT / SOA — ŹRÓDŁA PRAWDY CAŁEGO SYSTEMU
 
-Wersja: 01.03 · Data: 2026-09-20
+Wersja: 01.04 · Data: 2026-09-20
 Status: **DOKUMENT NADRZĘDNY — CZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA CZYMKOLWIEK**
 Zakres: repozytorium `maciektora-hue/maciektora-hue.github.io` i usługi, z których korzysta
 
@@ -208,10 +208,20 @@ ale obecny stan jest niedokończony. W starej bazie jest tylko 1 rekord, natomia
 być kilka definicji tagów więcej."* Zgłaszając ją jako nowe odkrycie, powtórzyłem cudzą
 pracę zamiast ją przeczytać.
 
-Otwarte zostaje `tag_axis_polarity` z zerem wierszy. Tabela jest wymieniona w schemacie
-(`techniczne/SOL_DOKUMENTACJA-SQL-SUPABASE-AKTUALNA.md`, pozycje 9 i 16), ale nigdzie nie
-jest napisane, czy pustka to stan docelowy, czy niedokończona migracja. **Do rozstrzygnięcia
-przed zbudowaniem czegokolwiek na tej tabeli.**
+**`tag_axis_polarity` — ROZSTRZYGNIĘTE 2026-09-20.** Pustka jest stanem projektowym,
+nie błędem. Tabela to bliźniak `tag_valence` o drobniejszym ziarnie: ten sam CHECK na
+wartości (−1/0/1 albo NULL), ten sam słownik statusów, klucz rozszerzony o `axis_name`.
+Oba klucze obce podpięte.
+
+Rozstrzyga rozkład danych. Wszystkie 76 wpisów w `tag_valence` ma status `resolved` —
+ani jednego `contextual`, choć CHECK go dopuszcza. Czyli wpisano tam **wyłącznie tagi
+rozstrzygalne globalnie**, a pozostałych 89 świadomie pominięto. Z tych 89 **żaden nie leży
+poza osiami, a 70 (79%) leży na więcej niż jednej** — czyli dokładnie w sytuacji, w której
+jeden globalny znak jest niemożliwy, bo tag ma inną biegunowość na różnych osiach.
+
+`tag_axis_polarity` jest przygotowanym miejscem na **172 pary (tag, oś)**. Nie jest
+duplikatem `tag_valence`, nie jest nieudaną migracją, nie jest martwa. Zadanie wypełnienia:
+`techniczne/SOL_ZADANIA-SQL-SUPABASE.md`.
 
 ### 7.3. Obie usługi Render na planie `free` — OTWARTE, poza zasięgiem agenta
 
