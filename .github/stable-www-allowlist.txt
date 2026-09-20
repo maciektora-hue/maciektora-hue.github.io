@@ -14,6 +14,18 @@
 # zachowac: nazwa pozostaje prawdziwa na zawsze i zaden link nie umiera.
 # Warunek konieczny: taki plik musi miec dzialajacy stabilny adres katalogowy.
 # Wszystkie pliki ponizej ten warunek spelniaja. Sprawdzone 2026-09-19.
+#
+# DRUGI DOPUSZCZALNY UKLAD, od 2026-09-20.
+# Tekst ZYWY tez moze miec wersje w nazwie, pod jednym warunkiem: na zewnatrz
+# istnieje adres BEZ wersji, ktory przekierowuje na wersje biezaca. Wtedy cel
+# reguly jest spelniony inaczej - link rozeslany ludziom nie zawiera numeru
+# wersji, wiec kolejne wydanie go nie zabija. Adres z numerem wersji jest
+# wylacznie wewnetrzny i NIGDY nie idzie na zewnatrz.
+# Warunki konieczne dla tego ukladu:
+#   - adres bez wersji jest stubem, nie kopia tresci;
+#   - stub przekazuje #anchor;
+#   - plik tresciowy wskazuje <link rel="canonical"> na adres bez wersji;
+#   - przy podniesieniu wersji stub zostaje przepiety na nowy plik.
 
 # --- rosja/: teksty zamrozone, 29 plikow --------------------------------------
 # STATUS: wyjatek trwaly. Nie przerabiac.
@@ -84,3 +96,13 @@ audhd/piec-jezykow-milosci-nd-v01.00-2026-05-18.html
 # pliku zywego o nazwie stalej. Pod starym publicznym adresem stoi
 # przekierowanie na wersje biezaca, wiec zaden rozeslany link nie daje 404.
 osierocone-html/cv/CLAUDE_Maciej-Tora-AI-CV-07_12.html
+
+# --- audhd/: tekst zywy, uklad z adresem stalym bez wersji, 1 plik -----------
+# STATUS: wyjatek swiadomy, uklad drugi opisany w naglowku tej listy.
+# Esej jest aktualizowany, wiec wersja w nazwie bylaby zwyklym naruszeniem -
+# gdyby nie to, ze adresem publicznym jest tu
+# audhd/psychodynamika-kopie-cbt-tresuje.html, czyli stub bez numeru wersji,
+# przekierowujacy na wydanie biezace i zachowujacy anchor. Tylko ten adres
+# jest rozsylany. Nazwa z wersja sluzy do trzymania historii wydan w repo.
+# Decyzja autora repozytorium z 2026-09-20.
+audhd/psychodynamika-kopie-cbt-tresuje-01_03.html

@@ -2,7 +2,7 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 01.02 · 2026-09-19
+Wersja 01.03 · 2026-09-20
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`
@@ -14,7 +14,7 @@ Data zebrania: 2026-09-11
 
 ## 0.1. Konwencja adresów i nazw plików
 
-Obowiązuje w całym repozytorium od 2026-09-19.
+Obowiązuje w całym repozytorium od 2026-09-19, uzupełniona 2026-09-20 o układ drugi.
 
 **Nazwa pliku jest stała.** Nazwy plików treściowych nie zawierają numeru wersji ani daty.
 Numer wersji `XX.YY` oraz data `yyyy-mm-dd` żyją w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
@@ -28,7 +28,28 @@ Reguła chroni **link przed aktualizacją treści**, nie estetykę nazw.
 w nazwie zachować: skoro treść się nie zmieni, nazwa pozostaje prawdziwa na zawsze i żaden link
 nie umiera. Warunek konieczny: taki plik **musi mieć działające stabilne wejście katalogowe**.
 
-Dotyczy to 44 plików treściowych w `rosja/` i `audhd/`, wypisanych w `.github/stable-www-allowlist.txt`.
+**Układ drugi, dopuszczony 2026-09-20.** Cel reguły — żeby rozesłany link przeżył kolejne
+wydanie — da się osiągnąć także odwrotnie: **wersja zostaje w nazwie pliku, a na zewnątrz
+idzie adres bez wersji**, który przekierowuje na wydanie bieżące. Reguła z układu pierwszego
+chroni link, chowając wersję w nagłówku; układ drugi chroni ten sam link, chowając wersję
+za stubem. Oba są poprawne, bo oba spełniają ten sam warunek: **adres podany człowiekowi
+nie zawiera numeru wersji**.
+
+Warunki konieczne układu drugiego, wszystkie sprawdzane przez strażnika albo przez review:
+
+| warunek | po co |
+|---|---|
+| adres bez wersji jest stubem, nigdy kopią treści | dwie kopie zawsze się rozjeżdżają (reguła 3 strażnika) |
+| stub przekazuje `#anchor` | sam `meta refresh` gubi fragment (reguła 2 strażnika) |
+| plik treściowy ma `<link rel="canonical">` na adres bez wersji | to adres bez wersji ma być indeksowany |
+| przy podniesieniu wersji stub zostaje przepięty | inaczej stały adres prowadzi do starego wydania |
+| adres z numerem wersji nie jest rozsyłany | jest wewnętrzny; kolejne wydanie może go usunąć |
+
+Kiedy który: tekst **zamknięty** — układ pierwszy albo drugi, obojętne.
+Tekst **żywy, którego wydania chcemy trzymać osobno** — układ drugi.
+W razie wątpliwości układ pierwszy, bo ma mniej ruchomych części.
+
+Dotyczy to 45 plików treściowych w `rosja/`, `audhd/` i `osierocone-html/`, wypisanych w `.github/stable-www-allowlist.txt`.
 Teksty w `rosja/` są formalnie zamrożone, a tym w `audhd/` od wrzucenia nie zmienił się ani jeden commit.
 Wszystkie mają stabilne adresy. **To nie jest zaległość do przerobienia, tylko trwały, sprawdzony wyjątek.**
 Gdyby którykolwiek z nich zaczął być aktualizowany, wtedy i dopiero wtedy dostaje stałą nazwę

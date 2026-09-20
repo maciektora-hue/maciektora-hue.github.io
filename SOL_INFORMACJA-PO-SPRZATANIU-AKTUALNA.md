@@ -1,6 +1,6 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 01.04 · 2026-09-19
+Wersja 01.05 · 2026-09-20
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
@@ -28,6 +28,14 @@ Przy sprzeczności między plikiem roboczym a dokumentacją `*-AKTUALNA.md` **ro
 
 Nazwy plików treściowych **nie zawierają już numeru wersji ani daty**. Wersja `XX.YY` i data
 mieszkają w nagłówku wewnątrz dokumentu, zwykle tuż pod `<h1>`.
+
+> **Uzupełnienie 2026-09-20.** Reguła powyżej opisuje układ pierwszy i pozostaje domyślna.
+> Dopuszczony został układ drugi, odwrotny: **wersja zostaje w nazwie pliku, a adresem
+> zewnętrznym jest stub bez wersji**, przekierowujący na wydanie bieżące. Chroniony jest ten
+> sam link i w ten sam sposób — przez to, że adres podany człowiekowi nie zawiera numeru
+> wersji. Pełny opis wraz z warunkami koniecznymi: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`,
+> sekcja 0.1. Pliki w układzie drugim są wypisane w `.github/stable-www-allowlist.txt`.
+> Migracji dotychczasowych plików **nie ma** — to, co stoi pod stałą nazwą, tak zostaje.
 
 Zmienione ścieżki:
 
