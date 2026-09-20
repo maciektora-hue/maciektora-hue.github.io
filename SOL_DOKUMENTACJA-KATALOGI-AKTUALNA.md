@@ -2,7 +2,8 @@
 
 # SOL — DOKUMENTACJA KATALOGÓW — AKTUALNA
 
-Wersja 02.01 · 2026-09-20
+Wersja 02.02 · 2026-09-20
+Dokument nadrzędny: `SOT-SOA-AKTUALNA.md` — przy sprzeczności rozstrzyga on.
 Status: AKTUALNY OPIS STANU REPOZYTORIUM
 Data zebrania: 2026-09-11
 Źródło: WYŁĄCZNIE aktualny GitHub `maciektora-hue/maciektora-hue.github.io`, branch `main`

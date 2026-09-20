@@ -1,6 +1,7 @@
 # SOL — INFORMACJA PO SPRZĄTANIU
 
-Wersja 02.00 · 2026-09-20
+Wersja 02.01 · 2026-09-20
+Dokument nadrzędny: `SOT-SOA-AKTUALNA.md` — przy sprzeczności rozstrzyga on.
 Status: OBOWIĄZUJĄCA — PRZECZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA PLIKACH
 Autor sprzątania: Claude
 Zakres: adresy WWW, nazwy plików, przekierowania, dokumentacja
