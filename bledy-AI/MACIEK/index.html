@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Półka wstydu — błędy Maćka</title>
+<style>
+    :root{
+      --bg:#1d1a16; --panel:#2a2520; --text:#ead7a8; --strong:#f3d796;
+      --muted:#b9aa82; --border:#544636; --bad:#d98a6a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:900px;margin:0 auto;padding:48px 20px 72px}
+    h1,h2{color:var(--strong);line-height:1.2}
+    h1{font-size:clamp(2rem,5vw,3.3rem);margin:0 0 .4rem}
+    h2{font-size:1.25rem;margin:0 0 .6rem}
+    .lead{color:var(--muted);margin:0 0 1.2rem}
+    .backlink{display:inline-block;color:var(--muted);text-decoration:none;
+      border-bottom:1px solid var(--border);margin-bottom:2rem;font-size:.9rem}
+    .backlink:hover{color:var(--strong)}
+    section{background:var(--panel);border:1px solid var(--border);
+      border-radius:14px;padding:24px;margin:0 0 20px}
+    .num{color:var(--bad);font-variant-numeric:tabular-nums;font-weight:700;
+      letter-spacing:.06em;font-size:.8rem;text-transform:uppercase}
+    strong{color:var(--strong)}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+    th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--border)}
+    th{color:var(--muted);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+    td.n{text-align:right;font-variant-numeric:tabular-nums}
+    .zero{color:var(--bad);font-weight:700}
+    .big{font-size:clamp(2.4rem,8vw,4rem);color:var(--bad);font-weight:700;
+      line-height:1;margin:.2rem 0 .4rem;font-variant-numeric:tabular-nums}
+    .sedno{border-left:3px solid var(--bad);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0 0;color:var(--strong)}
+    a.file{color:var(--strong);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem}
+    a.file:hover{border-color:var(--strong)}
+    footer{color:var(--muted);font-size:.85rem;margin-top:2.4rem;
+      padding-top:1.2rem;border-top:1px solid var(--border)}
+    ul{margin:.4rem 0 0;padding-left:1.2rem}
+    li{margin:0 0 .5rem}
+  </style>
+</head>
+<body>
+<main>
+<a class="backlink" href="../../">← wejście główne</a>
+
+<h1>Półka wstydu</h1>
+<p class="lead">Rejestr błędów popełnionych przez <strong>Maćka</strong> — czyli przez
+człowieka, który to zleca. Osobno od <a class="file" href="../CLAUDE/">błędów Claude</a>
+i <a class="file" href="../SOL/">błędów SOL / ChatGPT</a>.</p>
+<p class="lead">Ta szuflada powstała 2026-09-20, bo półka stojąca wyłącznie na błędach
+modeli mierzy połowę układu. Model wykonuje polecenie, którego treść ustala człowiek.
+Kiedy polecenie mówi co innego, niż zleceniodawca ma na myśli, wynik jest zły niezależnie
+od tego, jak starannie został wykonany — a rejestr, w którym takie przypadki lądują po
+stronie modelu, opisuje nie to, co się stało.</p>
+
+<section>
+<div class="num">Błąd 01 · 2026-09-20</div>
+<h2>Myślałem o adresach WWW, a pisałem o nazwach plików</h2>
+
+<p>Zasada przekazana modelowi brzmiała:</p>
+<blockquote>„Numer wersji XX.YY oraz datę trzymaj w nagłówku wewnątrz dokumentu, nie
+w nazwie pliku. <strong>Nazwy plików zostają stałe.</strong>”</blockquote>
+
+<p>Zasada, o którą naprawdę chodziło, brzmi:</p>
+<blockquote><strong>Stały jest ADRES</strong>, ten rozsyłany ludziom. Nazwa pliku pod
+spodem jest wewnętrzna i może zawierać wersję, datę, autora czy dopisek
+<code>NIE-PUBLIKOWAC</code>.</blockquote>
+
+<p>To są dwa różne zdania. Pierwsze jest o <strong>plikach</strong>, drugie o
+<strong>adresach</strong>. Model dostał pierwsze i wykonał je literalnie — bo tak brzmiało.</p>
+
+<div class="num">Co z tego wyszło</div>
+
+<table>
+<tr><th>skutek</th><th class="n">ile</th></tr>
+<tr><td>plików przemianowanych wbrew intencji (2026-09-19)</td><td class="n">19</td></tr>
+<tr><td>plików już zrobionych poprawnie, ogłoszonych naruszeniem</td><td class="n">34</td></tr>
+<tr><td>wpisów na liście wyjątków CI, żeby reguła nie świeciła na czerwono</td><td class="n">45</td></tr>
+<tr><td>dokumentacji <code>*-AKTUALNA.md</code> opisujących regułę odwrotnie</td><td class="n">2</td></tr>
+<tr><td>wpisów na liście wyjątków po naprawie (2026-09-20)</td><td class="n zero">12</td></tr>
+</table>
+
+<p>Najczytelniejszy objaw: strażnik CI dostał regułę, która <strong>ogłaszała naruszeniem
+dominujący wzorzec we własnym repozytorium</strong>. Czterdzieści pięć plików trzeba było
+natychmiast wpisać na listę wyjątków, żeby budowanie przechodziło. Reguła wymagająca
+wyjątku dla większości nie jest regułą z wyjątkiem — jest regułą napisaną odwrotnie.</p>
+
+<p>Diagnoza pierwotna była przy tym trafna: eseje o Navierze–Stokesie faktycznie nie miały
+żadnego stałego adresu i każde nowe wydanie zabijało rozesłany link. Nietrafione było
+lekarstwo — zamiast <strong>dodać brakujące wejście</strong>, odebrano plikom wersję.
+Naprawiono objaw po stronie, po której go nie było.</p>
+
+<div class="num">Wniosek</div>
+
+<p><strong>Zasada zapisana raz, w złym brzmieniu, działa dłużej niż pamięć o tym, co się
+miało na myśli.</strong> Ta jedna przeżyła kilkadziesiąt commitów, dwa dokumenty ze statusem
+OBOWIĄZUJĄCA, strażnika CI i całą sesję sprzątania. Nikt jej po drodze nie zakwestionował,
+bo na papierze była spójna — po prostu nie o tym.</p>
+
+<p>Reguła praktyczna na przyszłość: <strong>pisząc zasadę, nazwać rzecz, której dotyczy.</strong>
+„Stała nazwa pliku” i „stały adres” brzmią wymiennie tylko dopóty, dopóki plik jest adresem.
+W momencie, w którym przestaje nim być, jedno z tych zdań staje się fałszem — i to właśnie
+to zapisane.</p>
+</section>
+
+<section class="note">
+<h2>Co z tego jest po stronie modelu</h2>
+<p>Osobna sprawa, odnotowana osobno: 2026-09-20 model dostał polecenie „dodaj numer wersji
+do pliku”, <strong>zacytował</strong> sprzeczną z nim zasadę użytkownika, po czym i tak
+wykonał polecenie zamiast zapytać, które z dwóch zdań obowiązuje. Jedno pytanie w tamtym
+miejscu skróciłoby całą tę historię o kilka godzin. To idzie na
+<a class="file" href="../CLAUDE/">sąsiednią półkę</a>, nie na tę.</p>
+</section>
+</main>
+</body>
+</html>
