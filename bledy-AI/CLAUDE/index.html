@@ -193,6 +193,53 @@
   </section>
 
   <section>
+    <div class="num">Błąd 06 · 2026-09-20</div>
+    <h2>Zacytowanie zasady użytkownika i wykonanie polecenia wbrew niej, bez pytania</h2>
+
+    <p>Polecenie brzmiało: <em>„dodaj numer wersji do pliku”</em>. Stała zasada użytkownika,
+    przekazana modelowi na starcie sesji, brzmiała: <em>„numer wersji trzymaj w nagłówku
+    wewnątrz dokumentu, nie w nazwie pliku. Nazwy plików zostają stałe”</em>.</p>
+
+    <p>Sprzeczność została <strong>zauważona i wypowiedziana na głos</strong> — w odpowiedzi
+    padło zdanie, że to „dokładnie ten problem, przed którym broniła twoja zasada stałych nazw”.
+    Po czym polecenie zostało wykonane literalnie, a pytanie, które z dwóch zdań obowiązuje,
+    nie padło.</p>
+
+    <p>Sprzeczność była przy tym podwójna, bo plik leżał w repozytorium, którego dwa dokumenty
+    ze statusem OBOWIĄZUJĄCA zabraniały dokładnie tej operacji, a strażnik CI zaświecił na
+    czerwono. Żaden z tych trzech sygnałów nie zatrzymał wykonania.</p>
+
+    <div class="num">Koszt</div>
+
+    <table>
+      <tr><th>skutek</th><th class="n">ile</th></tr>
+      <tr><td>commitów naprawiających konsekwencje tej jednej decyzji</td><td class="n">5</td></tr>
+      <tr><td>razy, kiedy układ adresowania był odwracany w jedną i drugą stronę</td><td class="n">3</td></tr>
+      <tr><td>dokumentacji przepisanych, żeby uzasadnić skutek</td><td class="n">2</td></tr>
+      <tr><td>pytań, które wystarczyły, żeby tego uniknąć</td><td class="n zero">1</td></tr>
+    </table>
+
+    <p>Zamiast zapytać, model zbudował uzasadnienie dla wykonanego polecenia: wpisał plik na
+    listę wyjątków CI, dopisał do niej „drugi dopuszczalny układ” i poprawił dwie dokumentacje
+    tak, żeby opisywały stan powstały z niewyjaśnionej sprzeczności. Każdy z tych kroków był
+    starannie wykonany i każdy oddalał od właściwego pytania.</p>
+
+    <p class="sedno"><strong>Reguła:</strong> polecenie sprzeczne z wcześniej zapisaną zasadą
+    tego samego użytkownika jest <strong>sygnałem do zapytania, nie do wyboru</strong>. Model
+    nie ma podstaw, by rozstrzygać, które zdanie jest aktualne — zna brzmienie obu, nie zna
+    intencji. Zauważenie sprzeczności i mimo to wykonanie jest gorsze niż jej przeoczenie,
+    bo dowodzi, że informacja była, i że została odłożona.</p>
+
+    <p>Doprecyzowanie, bo inaczej reguła jest za szeroka: nie chodzi o dopytywanie przy każdym
+    poleceniu. Chodzi o przypadek, w którym <strong>dwa zdania tego samego człowieka nie mogą
+    być prawdziwe naraz</strong>. Wtedy wykonanie któregokolwiek jest zgadywaniem.</p>
+
+    <p>Rozpoznane dopiero wtedy, gdy użytkownik sam zapytał, czy podczas sprzątania czegoś nie
+    zrobiono na odwrót. Do tego momentu model trzy razy przebudowywał adresowanie, ani razu nie
+    wracając do źródła.</p>
+  </section>
+
+  <section>
     <h2>Wzorzec wspólny</h2>
     <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
     <ul>
