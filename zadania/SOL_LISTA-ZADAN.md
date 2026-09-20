@@ -2,7 +2,7 @@
 
 # Lista zadań
 
-Wersja 01.04 · 2026-09-20
+Wersja 01.05 · 2026-09-20
 
 Aktualna lista zadań dla całego repozytorium.
 
@@ -39,6 +39,31 @@ Link do nienapisanej jeszcze sekcji to niedokończony tekst, nie awaria.
 Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
 
 ## DO ZROBIENIA
+
+- **PODTRZYMANIE BAZY `hue-nexus-sql` — ZADANIE DLA DRUGIEGO REPOZYTORIUM.**
+  2026-09-20 przyszedł mail od Supabase: projekt `hue-nexus-sql` (`ejqturfbtghybugmizcl`,
+  organizacja `maciekHUE`) jest **zaplanowany do zapauzowania** z powodu braku aktywności
+  przez ponad 7 dni. Zegar zresetowano ręcznym zapytaniem — **to kupuje tydzień, nie więcej.**
+
+  Przyczyna: ten projekt obsługuje usługę `temat-hue` z repozytorium
+  `hue-nexus/happy-hue-ledger` i **nie ma odpowiednika naszego `podtrzymanie-api.yml`**.
+
+  Czego NIE wystarczy: samo pingowanie Rendera. Dla Supabase liczy się wyłącznie ruch
+  **w bazie**. Ping budzi usługę, ale jeśli trafiony endpoint nie otwiera połączenia,
+  projekt i tak zapauzuje.
+
+  Do zrobienia w `hue-nexus/happy-hue-ledger`:
+  1. sprawdzić, czy aplikacja ma endpoint sięgający do bazy; jeśli nie — dodać `/health`
+     robiący `SELECT 1`, wzorem `piosenki/app.py`;
+  2. dodać cron w `.github/workflows/`, wzorem `podtrzymanie-api.yml`;
+  3. nad endpointem postawić to samo ostrzeżenie, że zapytania do bazy nie wolno stamtąd
+     usuwać, bo awaria będzie cicha.
+
+  **Wymaga osobnej sesji** — sesja przypięta do właściciela `maciektora-hue` nie dodaje
+  repozytoriów innego właściciela.
+
+  Wariant awaryjny, gdyby pauza groziła wcześniej: ręczne zapytanie do bazy z panelu
+  Supabase zeruje licznik na kolejne 7 dni.
 
 - **DOKUPIĆ PŁATNY PLAN RENDER DLA `piosenki-api` — ok. 7 USD/mies. (Starter).**
   Usługa stoi dziś na planie `free`, który usypia kontener po około 15 minutach bezczynności.
