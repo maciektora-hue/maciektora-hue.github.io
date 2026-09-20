@@ -231,4 +231,4 @@ Wcześniej uzupełniono aktualną dokumentację audio o informację, że nowe pi
 - [Dlaczego trzy wyspy](SOL-klastrowanie-audio-dlaczego-3-wyspy.html)
 - [Porównanie hipotez](SOL-klastrowanie-audio-analiza-hipotez.html)
 - [Metoda opisu sygnatur](SOL-klastrowanie-audio-sygnatury-wysp-metoda.html)
-- [Sanityzacja historycznego zbioru](SOL-kamien-milowy-piosenki-audio-sanityzacja-1_0-2026-09-08.html)
+- [Sanityzacja historycznego zbioru](kamien-milowy-audio/index.html)

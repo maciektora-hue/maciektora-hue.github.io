@@ -101,7 +101,7 @@ osierocone-html/cv/CLAUDE_Maciej-Tora-AI-CV-07_12.html
 # STATUS: wyjatek swiadomy, uklad drugi opisany w naglowku tej listy.
 # Esej jest aktualizowany, wiec wersja w nazwie bylaby zwyklym naruszeniem -
 # gdyby nie to, ze adresem publicznym jest tu
-# audhd/psychodynamika-kopie-cbt-tresuje.html, czyli stub bez numeru wersji,
+# audhd/psychodynamika-cbt/, czyli stub-katalog bez numeru wersji,
 # przekierowujacy na wydanie biezace i zachowujacy anchor. Tylko ten adres
 # jest rozsylany. Nazwa z wersja sluzy do trzymania historii wydan w repo.
 # Decyzja autora repozytorium z 2026-09-20.
