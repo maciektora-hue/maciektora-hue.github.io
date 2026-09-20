@@ -1,6 +1,6 @@
 # SOT / SOA — ŹRÓDŁA PRAWDY CAŁEGO SYSTEMU
 
-Wersja: 01.01 · Data: 2026-09-20
+Wersja: 01.03 · Data: 2026-09-20
 Status: **DOKUMENT NADRZĘDNY — CZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA CZYMKOLWIEK**
 Zakres: repozytorium `maciektora-hue/maciektora-hue.github.io` i usługi, z których korzysta
 
@@ -37,7 +37,7 @@ pokazuje, gdzie plik konfiguracyjny w repo opisuje coś, czego na serwerze nie m
 | 2 | **ten dokument** | który plik jest aktualny, co jest czym |
 | 2a | **`INSTRUKCJA-DLA-AGENTOW.md`** | jak pracować w tym repozytorium |
 | 3 | `ZASADA-*.md` w roocie | twarde zakazy i nakazy pracy |
-| 4 | `*-AKTUALNA.md` | reguły dziedzinowe swoich obszarów |
+| 4 | `*-AKTUALNA.md`, także w `techniczne/` | reguły dziedzinowe swoich obszarów |
 | 5 | strażnik CI `check_stable_www.py` | konwencja adresów, egzekwowana maszynowo |
 | 6 | treść plików roboczych, komentarze w kodzie, stare notatki | nic nie rozstrzygają |
 
@@ -182,44 +182,86 @@ Eksport: generowany przez API w locie (TSV z `/api/content/...`), **nie leży w 
 
 ---
 
-## 7. Rozbieżności wykryte przy weryfikacji 2026-09-20
+## 7. Rozbieżności — stan po naprawie 2026-09-20
 
-Zadanie brzmiało: najpierw sprawdzić stan faktyczny, nie przepisywać dokumentacji. Oto co
-z tego wyszło. **Żadna z tych pozycji nie jest tu naprawiona — są zgłoszone.**
+Wersja 01.00 tego dokumentu zgłaszała cztery pozycje. Po sprawdzeniu **dwie okazały się
+moimi fałszywymi alarmami**, jedna jest naprawiona, jedna została otwarta. Pozostawiam
+historię, bo wykreślenie własnej pomyłki z dokumentu o źródłach prawdy byłoby żartem.
 
-### 7.1. `render.yaml` opisuje nieistniejącą konfigurację
+### 7.1. `render.yaml` — NAPRAWIONE
 
-| | w `render.yaml` | faktycznie na Render |
-|---|---|---|
-| `rootDir` | `piosenki` | *(puste)* |
-| `buildCommand` | `pip install -r requirements.txt` | `cd piosenki && pip install -r requirements.txt` |
-| `startCommand` | `gunicorn content_explorer_app:app` | `cd piosenki && gunicorn app:app` |
+Plik deklarował `gunicorn content_explorer_app:app`, a usługa od początku uruchamiała
+`gunicorn app:app`. Różnica nie była kosmetyczna: **endpointy definiuje wyłącznie
+`piosenki/app.py`**, bo `content_explorer_app.py` nie ma ani jednej trasy — wdrożenie
+według tego pliku dałoby serwis bez API.
 
-Różnica nie jest kosmetyczna: **repozytorium twierdzi, że serwis uruchamia
-`content_explorer_app`, a serwis uruchamia `app`.** Oba pliki istnieją, oba definiują
-aplikację Flask, ale endpointy ma tylko `app.py` — `content_explorer_app.py` nie definiuje
-ani jednej trasy. Gdyby ktoś wdrożył wersję z `render.yaml`, dostałby serwis bez API.
+Naprawione przez doprowadzenie `render.yaml` do stanu odczytanego z Render, tak żeby jego
+ewentualne zastosowanie niczego nie zmieniło. W pliku stoi komentarz wyjaśniający, że
+**SOA dla wdrożenia pozostaje panel Render** — bo skoro rozjazd przeżył wszystkie
+wdrożenia, to dowód, że ten plik nie jest przy deployu czytany.
 
-**Do decyzji:** doprowadzić `render.yaml` do stanu faktycznego, albo usunąć go jako mylący.
-Sam fakt, że rozjazd przeżył wdrożenie, dowodzi, że ten plik nie jest czytany przy deployu.
+### 7.2. Puste tabele — JEDNA OTWARTA, NIE NOWA
 
-### 7.2. Dwie tabele puste albo prawie puste
+`playlist_tag_def` z jednym wierszem **nie jest zagadką** — to zadanie zgłoszone
+2026-09-12 w `techniczne/SOL_ZADANIA-SQL-SUPABASE.md`, pozycja 1: *„Tabela jest potrzebna,
+ale obecny stan jest niedokończony. W starej bazie jest tylko 1 rekord, natomiast powinno
+być kilka definicji tagów więcej."* Zgłaszając ją jako nowe odkrycie, powtórzyłem cudzą
+pracę zamiast ją przeczytać.
 
-`tag_axis_polarity` — 0 wierszy. `playlist_tag_def` — 1 wiersz. Nie wiadomo, czy to stan
-docelowy, czy niedokończony import. Do rozstrzygnięcia przed budowaniem czegokolwiek na nich.
+Otwarte zostaje `tag_axis_polarity` z zerem wierszy. Tabela jest wymieniona w schemacie
+(`techniczne/SOL_DOKUMENTACJA-SQL-SUPABASE-AKTUALNA.md`, pozycje 9 i 16), ale nigdzie nie
+jest napisane, czy pustka to stan docelowy, czy niedokończona migracja. **Do rozstrzygnięcia
+przed zbudowaniem czegokolwiek na tej tabeli.**
 
-### 7.3. Obie usługi Render na planie `free`
+### 7.3. Obie usługi Render na planie `free` — OTWARTE, poza zasięgiem agenta
 
-`piosenki-api` i `temat-hue` — obie usypiają po kwadransie. Dla `piosenki-api` dotyczy to
-14 stron doczytujących dane. Zadanie zakupu planu `Starter` stoi otwarte
-w `zadania/SOL_LISTA-ZADAN.md` i **tylko płatny plan to usuwa** — cron `podtrzymanie-api.yml`
-chroni wyłącznie Supabase przed 7-dniową pauzą.
+`piosenki-api` i `temat-hue` usypiają po kwadransie. Dla `piosenki-api` dotyczy to 14 stron
+doczytujących dane. Jedynym lekarstwem jest płatny plan `Starter` — cron
+`podtrzymanie-api.yml` chroni wyłącznie Supabase przed 7-dniową pauzą i zimnego startu nie
+usuwa. Zadanie stoi w `zadania/SOL_LISTA-ZADAN.md` i **wymaga decyzji finansowej człowieka.**
 
-### 7.4. Ślady po SQLite w kodzie
+### 7.4. Ślady po SQLite — FAŁSZYWY ALARM
 
-W `piosenki/` w zapytaniach występuje `sqlite_master`, czyli katalog systemowy SQLite,
-w projekcie działającym na PostgreSQL. Prawdopodobnie martwy kod po migracji.
-Do sprawdzenia, nie do odruchowego kasowania.
+Zgłosiłem `sqlite_master` w projekcie na PostgreSQL jako prawdopodobny martwy kod po
+migracji. **Jest odwrotnie.** W `piosenki/sol-sprawdz-integralnosc-PY-v01-03.py` SQLite
+w pamięci jest użyty celowo: skrypt wykonuje plik SQL z ontologią tagów w jednorazowej
+bazie i sprawdza, czy powstały oczekiwane tabele. To narzędzie walidacyjne, które nie
+dotyka Supabase i **nie wolno go usuwać.**
+
+Komentarze o SQLite/libsql/Turso w `content_store.py` i `content_structure.py` też są
+w porządku: same oznaczają tamte funkcje jako napisane pod poprzedni silnik.
+
+**Reguła, która z tego wynika:** zanim zgłosisz kod jako martwy, przeczytaj, co robi.
+Nazwa z poprzedniej epoki nie jest dowodem.
+
+## 7a. Rejestr dokumentów rozstrzygających
+
+Trzynaście plików, które o czymś rozstrzygają. Trzy z nich **nie leżą w roocie** i dlatego
+łatwo je przeoczyć — wersja 01.00 tego dokumentu je przeoczyła.
+
+| plik | rozstrzyga o |
+|---|---|
+| `SOT-SOA-AKTUALNA.md` | źródła prawdy, hierarchia — **nadrzędny** |
+| `INSTRUKCJA-DLA-AGENTOW.md` | jak pracować w tym repozytorium |
+| `ZASADA-TYLKO-SQL.md` | jedyne dozwolone źródło danych |
+| `piosenki/ZASADA-TYLKO-SQL.md` | ta sama zasada, kopia w katalogu aplikacji |
+| `ZASADA-BEZ-DODATKOWYCH-SPRAWDZEN.md` | zakaz rozszerzania zakresu |
+| `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md` | konwencja adresów, sekcja 0.1 |
+| `SOL_DOKUMENTACJA-STUBY-AKTUALNA.md` | spis wejść, procedura wydania |
+| `SOL_INFORMACJA-PO-SPRZATANIU-AKTUALNA.md` | co zmieniono 2026-09-19; sekcja 1 **odwrócona** |
+| `SOL_DOKUMENTACJA-AUDIO-AKTUALNA.md` | warstwa audio |
+| `SOL_DOKUMENTACJA-PLAYLISTY-AKTUALNA.md` | warstwa playlist |
+| `SOL_DOKUMENTACJA-SLOWA-LYRICS-TAGI-AKTUALNA.md` | słowa, lyrics, tagi |
+| `SOL_DOKUMENTACJA-MIEDZYKATALOGOWA-AKTUALNA.md` | warstwy wspólne |
+| `techniczne/SOL_DOKUMENTACJA-SQL-SUPABASE-AKTUALNA.md` | **schemat SQL** — pełny opis tabel |
+| `techniczne/SOL_ZADANIA-SQL-SUPABASE.md` | **otwarte zadania na bazie** |
+| `zadania/SOL_LISTA-ZADAN.md` | zadania całego repozytorium |
+
+Dwa ostatnie w `techniczne/` czytać **przed zgłoszeniem czegokolwiek jako problem w bazie**.
+Połowa moich uwag z wersji 01.00 była tam już opisana.
+
+Historyczne, **nie instrukcje**: `SOL_INSTRUKCJA-ARCHITEKTURA-SQL-GITHUB-RENDER-TURSO.md`
+i wszystko, co wspomina Turso — integracja wycofana 2026-09-15.
 
 ---
 

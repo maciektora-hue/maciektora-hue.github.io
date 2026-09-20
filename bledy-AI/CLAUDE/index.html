@@ -240,6 +240,42 @@
   </section>
 
   <section>
+    <div class="num">Błąd 07 · 2026-09-20</div>
+    <h2>Zgłoszenie dwóch „rozbieżności”, które nie istniały</h2>
+
+    <p>Przy budowie dokumentu SOT/SOA zadanie brzmiało: <strong>najpierw ustalić stan
+    faktyczny, a nie przepisywać dokumentację</strong>. Wykonane połowicznie — usługi zostały
+    odpytane rzetelnie, repozytorium przeliczone, ale dwie z czterech zgłoszonych
+    rozbieżności były wytworem pośpiechu.</p>
+
+    <table>
+      <tr><th>zgłoszone</th><th>jak jest naprawdę</th></tr>
+      <tr><td><code>sqlite_master</code> w projekcie na PostgreSQL — „prawdopodobnie martwy
+      kod po migracji”</td><td>narzędzie walidacyjne. SQLite w pamięci wykonuje plik SQL
+      z ontologią i sprawdza, czy powstały oczekiwane tabele. Nie dotyka Supabase,
+      <strong>nie wolno go usuwać</strong></td></tr>
+      <tr><td><code>playlist_tag_def</code> z jednym wierszem — „nie wiadomo, czy to stan
+      docelowy”</td><td>wiadomo od 2026-09-12. Pozycja 1 listy
+      <code>techniczne/SOL_ZADANIA-SQL-SUPABASE.md</code>, z opisem i planem
+      uzupełnienia</td></tr>
+    </table>
+
+    <p>Wspólna przyczyna: <strong>nie przeczytałem dwóch dokumentacji, bo nie leżały
+    w roocie.</strong> <code>techniczne/SOL_DOKUMENTACJA-SQL-SUPABASE-AKTUALNA.md</code>
+    i <code>techniczne/SOL_ZADANIA-SQL-SUPABASE.md</code> odpowiadały na połowę moich uwag,
+    zanim je zgłosiłem.</p>
+
+    <p class="sedno"><strong>Reguła:</strong> zanim zgłosisz kod jako martwy —
+    <strong>przeczytaj, co robi</strong>. Nazwa z poprzedniej epoki nie jest dowodem.
+    Zanim zgłosisz problem jako nowy — <strong>sprawdź, czy nie jest już opisany</strong>,
+    i to nie tylko w katalogu głównym.</p>
+
+    <p>Szkoda była ograniczona, bo rozbieżności zostały zgłoszone, a nie naprawione — gdyby
+    naprawione, skasowałbym działające narzędzie walidacyjne. To jest argument za regułą
+    „zgłoś, nie naprawiaj” mocniejszy niż jakikolwiek napisany na zapas.</p>
+  </section>
+
+  <section>
     <h2>Wzorzec wspólny</h2>
     <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
     <ul>
