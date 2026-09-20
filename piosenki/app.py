@@ -113,6 +113,22 @@ def content_tsv(conn, collection_id):
 CONTENT_STORAGE_STATE = None
 
 
+# NIE USUWAĆ STĄD ZAPYTANIA DO BAZY.
+#
+# To nie jest zwykły health check. SELECT 1 poniżej jest jedyną rzeczą, która
+# trzyma projekt Supabase przy życiu: darmowy plan pauzuje projekt po 7 dniach
+# bez ruchu w bazie, a odpauzowanie jest ręczne i ma 90-dniowy termin, po którym
+# zostaje już tylko pobranie danych.
+#
+# W ten endpoint puka codziennie .github/workflows/podtrzymanie-api.yml. Ping
+# budzi Render, ale dla Supabase liczy się wyłącznie to, że request DOTYKA BAZY.
+#
+# Gdyby ktoś "zoptymalizował" ten endpoint tak, żeby zwracał status bez otwierania
+# połączenia — co brzmi jak rozsądna zmiana — cron nadal świeciłby na zielono,
+# a projekt zapauzowałby się po tygodniu. Awaria byłaby cicha i wyszłaby dopiero
+# z maila od Supabase.
+#
+# Kontekst: SOT-SOA-AKTUALNA.md, sekcja o automatyzacji.
 @app.get("/health")
 def health():
     try:

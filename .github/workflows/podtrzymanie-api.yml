@@ -6,11 +6,16 @@ name: Podtrzymanie API i bazy
 # dotyka bazy. Dzięki temu Supabase nie wchodzi w pauzę wymagającą ręcznego
 # przywracania.
 #
-# UWAGA: to NIE usuwa zimnego startu dla odwiedzającego. Render i tak zaśnie
+# UWAGA 1: to NIE usuwa zimnego startu dla odwiedzającego. Render i tak zaśnie
 # 15 minut po tym pingu. Lekarstwem na zimny start jest płatny plan usługi —
 # patrz zadania/SOL_LISTA-ZADAN.md.
 #
-# UWAGA 2: GitHub wyłącza zaplanowane workflowy w repozytoriach bez aktywności
+# UWAGA 2: ochrona Supabase wisi na tym, że /health OTWIERA POŁĄCZENIE z bazą.
+# Jeżeli ktoś usunie stamtąd zapytanie, ten cron nadal będzie zielony, bo API
+# odpowie 200 — a projekt i tak zapauzuje się po tygodniu. Stosowne ostrzeżenie
+# stoi w piosenki/app.py nad samym endpointem.
+#
+# UWAGA 3: GitHub wyłącza zaplanowane workflowy w repozytoriach bez aktywności
 # przez 60 dni. Jeżeli repo zamilknie na dwa miesiące, ten cron przestanie
 # chodzić i trzeba go włączyć ręcznie w zakładce Actions.
 

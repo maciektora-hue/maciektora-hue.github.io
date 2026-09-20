@@ -1,6 +1,6 @@
 # SOT / SOA — ŹRÓDŁA PRAWDY CAŁEGO SYSTEMU
 
-Wersja: 01.04 · Data: 2026-09-20
+Wersja: 01.05 · Data: 2026-09-20
 Status: **DOKUMENT NADRZĘDNY — CZYTAĆ PRZED PIERWSZĄ OPERACJĄ NA CZYMKOLWIEK**
 Zakres: repozytorium `maciektora-hue/maciektora-hue.github.io` i usługi, z których korzysta
 
@@ -154,6 +154,22 @@ rozpakowywanie ZIP-ów, jednorazowe importy. Każdy ma filtr `paths` wskazujący
 samego siebie: nieelegancka sztuczka na ręczne wyzwalanie, ale nieszkodliwa. Sprawdzone
 2026-09-20: **25 z 26 ma filtr `paths`**, jedyny bez to `podtrzymanie-api.yml`, bo działa
 na `schedule`.
+
+**Dwa osobne zegary, dwa różne lekarstwa.** Render na planie `free` usypia usługę po
+~15 minutach i budzi ją każdy request — crona to nie naprawia, bo usługa zaśnie kwadrans
+później; na zimny start pomaga wyłącznie płatny plan. Supabase na planie `free` **pauzuje
+projekt po 7 dniach bez ruchu w bazie**, a odpauzowanie jest ręczne i wygasa po 90 dniach.
+Cron leczy wyłącznie to drugie.
+
+**I leczy tylko dlatego, że `/health` otwiera połączenie i wykonuje `SELECT 1`.** Sam ping
+Rendera nie jest aktywnością Supabase. To jest najbardziej krucha zależność w całym układzie:
+usunięcie zapytania z health checka nie zepsuje ani jednego testu, nie zapali CI i nie zmieni
+odpowiedzi API — a po tygodniu projekt będzie zapauzowany. Ostrzeżenie stoi nad endpointem
+w `piosenki/app.py` i w samym workflow.
+
+**To samo dotyczy drugiego projektu.** `hue-nexus-sql` nie ma własnego podtrzymania i
+2026-09-20 dostał ostrzeżenie o zbliżającej się pauzie — zegar zresetowano ręcznym zapytaniem.
+Docelowe rozwiązanie należy do repozytorium `hue-nexus/happy-hue-ledger`.
 
 Reguła, która z tego wynika i obowiązuje: **zadanie jednorazowe musi się samo wyłączać
 albo zostać usunięte po wykonaniu.** Dwa razy tak nie było i dwa razy skończyło się
