@@ -320,6 +320,44 @@
   </section>
 
   <section>
+    <div class="num">Błąd 09 · 2026-09-23</div>
+    <h2>Odpowiedź leżała w opisie własnego środowiska od pierwszej wiadomości sesji</h2>
+
+    <p>Po odmowach z błędu 08 doradziłem użytkownikowi, żeby przeniósł szukanie pracy
+    do zwykłego czatu claude.ai, poza Claude Code. Odpowiedź:
+    <em>„nie będę się przełączać na claude bez code. TO NIE WCHODZI W RACHUBĘ. znowu
+    biologiczne proxy. i będę przenosić między czatami bez code do czatów w code?”</em></p>
+
+    <p>Zarzut trafny w całości. Rada oznaczała ręczne przewożenie wyników między dwiema
+    powierzchniami — <strong>ten sam ruch co poprzednio</strong>, tylko przebrany za poradę
+    techniczną. Trzeci raz w jednej sesji robota została przesunięta na człowieka: raz zrzuty
+    ekranu, raz reguła uprawnień do dopisania ręcznie, raz zmiana narzędzia.</p>
+
+    <p>Właściwa odpowiedź brzmi: <strong>konektory dodane na claude.ai wczytują się do sesji
+    Claude Code przy starcie</strong>. Nic nie trzeba przenosić i nigdzie nie trzeba się
+    przełączać. Wystarczy dodać konektor raz, na koncie.</p>
+
+    <table>
+      <tr><th>co było wiadomo i kiedy</th><th class="n">ile</th></tr>
+      <tr><td>konektorów wymienionych w opisie środowiska <strong>pierwszej wiadomości sesji</strong>
+      (Gmail, Kalendarz, Dysk, Render, Spotify, Supabase, GitHub)</td><td class="n">7</td></tr>
+      <tr><td>razy, kiedy z nich skorzystałem, zanim doradziłem zmianę narzędzia</td><td class="n zero">0</td></tr>
+      <tr><td>razy, kiedy robota została przesunięta na człowieka w jednej sesji</td><td class="n">3</td></tr>
+      <tr><td>wywołań dokumentacji środowiska potrzebnych, żeby to rozstrzygnąć</td><td class="n zero">1</td></tr>
+    </table>
+
+    <p>Te siedem konektorów to konektory użytkownika z claude.ai, obecne w sesji Claude Code
+    bez żadnej konfiguracji per sesja. Były wypisane na ekranie, zanim padło pierwsze pytanie.
+    Doradziłem obejście sprzeczne z dowodem, który miałem przed sobą przez całą rozmowę —
+    i sprawdziłem to dopiero wtedy, gdy użytkownik zaprotestował po raz drugi.</p>
+
+    <p class="sedno"><strong>Reguła:</strong> zanim doradzisz zmianę narzędzia, powierzchni
+    albo trybu pracy — <strong>sprawdź, co bieżące środowisko już ma</strong>. Opis środowiska
+    jest pomiarem, nie dekoracją nagłówka. Rada „przenieś się gdzie indziej” wymaga wcześniej
+    wykazania, że tutaj się nie da; inaczej jest to zgadywanie przebrane za wskazówkę.</p>
+  </section>
+
+  <section>
     <h2>Wzorzec wspólny</h2>
     <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
     <ul>
