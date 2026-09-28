@@ -47,13 +47,19 @@ Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
   więc czytelnik CV nie ma ich gdzie zobaczyć.
 
   Do zrobienia:
-  1. Maciek wybiera z telefonu eseje o LLM jako dżinie oraz inne teksty warte publikacji.
-     Powód: tylko on wie, które są gotowe i które mają zostać prywatne.
-  2. Każdy tekst dostaje katalog ze stałym adresem i stub według
+  1. Najpierw szukać w archiwum PRA-PLIKÓW (katalog `catalog_files` w bazie `hue-nexus-sql`,
+     repozytorium `hue-nexus/happy-hue-ledger`), bo tam mają trafiać pliki z telefonu.
+     Stan 2026-09-28: 3933 pozycje. Wyszukanie po „dżin / genie / djinn / lampa / życzeni”
+     w ścieżce, tytule i opisie dało 16 trafień, wszystkie niezwiązane z esejami. Po
+     „kognitywist” — tylko „Kognitywistyka, AI i błędy poznawcze”, już opublikowany
+     w `audhd/kognitywistyka-ai/`. Eseje mogą mieć inne tytuły albo nie być jeszcze w archiwum.
+  2. Czego nie ma w archiwum, Maciek dorzuca z telefonu do PRA-PLIKÓW i wskazuje, które teksty
+     publikować. Powód: tylko on wie, które są gotowe, a które mają zostać prywatne.
+  3. Każdy tekst dostaje katalog ze stałym adresem i stub według
      `SOL_DOKUMENTACJA-STUBY-AKTUALNA.md`, wersję i datę w nagłówku.
-  3. Kafelek albo link z odpowiedniej strony głównej, np. `audhd/kognitywistyka-ai/`,
+  4. Kafelek albo link z odpowiedniej strony głównej, np. `audhd/kognitywistyka-ai/`,
      jeżeli tam pasuje.
-  4. Na koniec sprawdzić, czy 17x17 może linkować do opublikowanych esejów.
+  5. Na koniec sprawdzić, czy 17x17 może linkować do opublikowanych esejów.
 
 - **PODTRZYMANIE BAZY `hue-nexus-sql` — ZADANIE DLA DRUGIEGO REPOZYTORIUM.**
   2026-09-20 przyszedł mail od Supabase: projekt `hue-nexus-sql` (`ejqturfbtghybugmizcl`,
