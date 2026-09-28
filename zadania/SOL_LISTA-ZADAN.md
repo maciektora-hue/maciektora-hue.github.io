@@ -40,72 +40,20 @@ Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
 
 ## DO ZROBIENIA
 
-- **WRZUCIĆ NA TO REPOZYTORIUM ESEJE O MODELACH JĘZYKOWYCH JAKO DŻINIE — i inne teksty z telefonu.**
-  Dopisane 2026-09-28. Druga siedemnastka w 17x17 (`cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN.html`,
-  08.10) powołuje się na „essays on language models and cognition” — linia dżina: LLM-as-genie,
-  The inner genie, Sedimentation, Source amnesia. Część tych tekstów istnieje tylko w telefonie,
-  więc czytelnik CV nie ma ich gdzie zobaczyć.
+- ~~**PODTRZYMANIE BAZY `hue-nexus-sql`.**~~ — **zrobione**, sprawdzone 2026-09-28.
+  Repozytorium `hue-nexus/happy-hue-ledger` ma własny cron `.github/workflows/podtrzymanie-bazy.yml`:
+  codziennie puka w `https://temat-hue.onrender.com/health`, a ten endpoint czyta tabelę w bazie.
+  Ostatni przebieg 2026-09-28, wynik: sukces.
 
-  Do zrobienia:
-  1. Najpierw szukać w archiwum PRA-PLIKÓW (katalog `catalog_files` w bazie `hue-nexus-sql`,
-     repozytorium `hue-nexus/happy-hue-ledger`), bo tam mają trafiać pliki z telefonu.
-     Stan 2026-09-28: 3933 pozycje. Wyszukanie po „dżin / genie / djinn / lampa / życzeni”
-     w ścieżce, tytule i opisie dało 16 trafień, wszystkie niezwiązane z esejami. Po
-     „kognitywist” — tylko „Kognitywistyka, AI i błędy poznawcze”, już opublikowany
-     w `audhd/kognitywistyka-ai/`. Eseje mogą mieć inne tytuły albo nie być jeszcze w archiwum.
-  2. Czego nie ma w archiwum, Maciek dorzuca z telefonu do PRA-PLIKÓW i wskazuje, które teksty
-     publikować. Powód: tylko on wie, które są gotowe, a które mają zostać prywatne.
-  3. Każdy tekst dostaje katalog ze stałym adresem i stub według
-     `SOL_DOKUMENTACJA-STUBY-AKTUALNA.md`, wersję i datę w nagłówku.
-  4. Kafelek albo link z odpowiedniej strony głównej, np. `audhd/kognitywistyka-ai/`,
-     jeżeli tam pasuje.
-  5. Na koniec sprawdzić, czy 17x17 może linkować do opublikowanych esejów.
+- ~~**DOKUPIĆ PŁATNY PLAN RENDER DLA `piosenki-api`.**~~ — **zrobione 2026-09-28.**
+  API Rendera potwierdza plan `0.5c-512mb` (Starter) dla `piosenki-api`; usługa `temat-hue`
+  z drugiego repozytorium też stoi na płatnym planie. Płatne instancje nie zasypiają.
 
-- **PODTRZYMANIE BAZY `hue-nexus-sql` — ZADANIE DLA DRUGIEGO REPOZYTORIUM.**
-  2026-09-20 przyszedł mail od Supabase: projekt `hue-nexus-sql` (`ejqturfbtghybugmizcl`,
-  organizacja `maciekHUE`) jest **zaplanowany do zapauzowania** z powodu braku aktywności
-  przez ponad 7 dni. Zegar zresetowano ręcznym zapytaniem — **to kupuje tydzień, nie więcej.**
-
-  Przyczyna: ten projekt obsługuje usługę `temat-hue` z repozytorium
-  `hue-nexus/happy-hue-ledger` i **nie ma odpowiednika naszego `podtrzymanie-api.yml`**.
-
-  Czego NIE wystarczy: samo pingowanie Rendera. Dla Supabase liczy się wyłącznie ruch
-  **w bazie**. Ping budzi usługę, ale jeśli trafiony endpoint nie otwiera połączenia,
-  projekt i tak zapauzuje.
-
-  Do zrobienia w `hue-nexus/happy-hue-ledger`:
-  1. sprawdzić, czy aplikacja ma endpoint sięgający do bazy; jeśli nie — dodać `/health`
-     robiący `SELECT 1`, wzorem `piosenki/app.py`;
-  2. dodać cron w `.github/workflows/`, wzorem `podtrzymanie-api.yml`;
-  3. nad endpointem postawić to samo ostrzeżenie, że zapytania do bazy nie wolno stamtąd
-     usuwać, bo awaria będzie cicha.
-
-  **Wymaga osobnej sesji** — sesja przypięta do właściciela `maciektora-hue` nie dodaje
-  repozytoriów innego właściciela.
-
-  Wariant awaryjny, gdyby pauza groziła wcześniej: ręczne zapytanie do bazy z panelu
-  Supabase zeruje licznik na kolejne 7 dni.
-
-- **DOKUPIĆ PŁATNY PLAN RENDER DLA `piosenki-api` — ok. 7 USD/mies. (Starter).**
-  Usługa stoi dziś na planie `free`, który usypia kontener po około 15 minutach bezczynności.
-  Po dłuższej przerwie pierwsze wejście czeka kilkanaście do kilkudziesięciu sekund na zimny start.
-  Dotyczy **14 stron** doczytujących dane z tego API, między innymi `piosenki/playlisty.html`,
-  `piosenki/slowa.html`, `techniczne/sql-viewer.html` i obu map sekcji. Strona otwiera się od razu,
-  ale dane pojawiają się z opóźnieniem, co wygląda jak awaria.
-
-  **Płatne instancje Render nie zasypiają** — to jedyne realne lekarstwo na zimny start.
-  Cron `podtrzymanie-api.yml` go **nie usuwa**: chroni wyłącznie przed 7-dniową pauzą Supabase,
-  bo Render i tak zaśnie kwadrans po pingu.
-
-  Panel: https://dashboard.render.com/web/srv-daf3ji8n74is73866hd0 — zmiana planu na `Starter`.
-  Cenę potwierdzić na miejscu, mogła się zmienić.
-
-  **Czego NIE kupować przy okazji:** Supabase Pro (~25 USD/mies.). Nie przyspiesza zapytań,
-  usuwa tylko pauzowanie i dodaje backupy — a pauzowanie załatwia darmowy cron.
-  Oba projekty Supabase mają dziś status `ACTIVE_HEALTHY`.
-
-  **Do decyzji osobno:** druga usługa `temat-hue` (repo `hue-nexus/happy-hue-ledger`)
-  też stoi na `free` i ma tę samą przypadłość.
+  **Cron `podtrzymanie-api.yml` ZOSTAJE.** Płatny Render nie zasypia, ale cron nie służy
+  budzeniu Rendera: codziennie dotyka bazy Supabase `maciekGithubHue`, która na darmowym
+  planie pauzuje po 7 dniach bez ruchu. Ostatni przebieg 2026-09-28, wynik: sukces.
+  Powód tej adnotacji: 2026-09-28 agent błędnie ocenił ten cron jako zbędny —
+  `hue-nexus/happy-hue-ledger`, rejestr błędów, AI-027.
 
 - ~~**ZBUDOWAĆ JEDEN NADRZĘDNY SOT + SOA DLA CAŁEGO SYSTEMU.**~~ — **zrobione 2026-09-20**,
   plik `SOT-SOA-AKTUALNA.md` w roocie. Stan faktyczny ustalony przez odpytanie Supabase
@@ -113,6 +61,23 @@ Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
   sekcja 7 dokumentu — **z których żadna nie została naprawiona, wszystkie są do decyzji:**
   `render.yaml` opisuje inny startCommand niż działający serwis, dwie tabele są puste,
   obie usługi Render stoją na planie `free`, w kodzie zostały ślady po SQLite.
+
+## KIEDYŚ — ODŁOŻONE
+
+Zadania zapisane, żeby nie zginęły, ale świadomie odłożone przez Maćka. Nie zaczynać bez jego polecenia.
+
+- **Teksty z telefonu na to repozytorium** — dopisane 2026-09-28:
+  - eseje o modelach językowych jako dżinie (linia dżina z drugiej siedemnastki 17x17:
+    LLM-as-genie, The inner genie, Sedimentation, Source amnesia);
+  - teksty filozoficzne;
+  - inne warte publikacji, żeby nie kurzyły się w telefonie.
+
+  Gdy przyjdzie pora: najpierw szukać w archiwum PRA-PLIKÓW (katalog `catalog_files` w bazie
+  `hue-nexus-sql`, repozytorium `hue-nexus/happy-hue-ledger`), bo tam mają trafiać pliki
+  z telefonu. Stan 2026-09-28: 3933 pozycje; wyszukanie po „dżin / genie / djinn / lampa /
+  życzeni” nie znalazło esejów, eseje mogą mieć inne tytuły albo nie być jeszcze w archiwum.
+  Co publikować, wybiera Maciek. Każdy tekst: stały adres, stub, wersja w nagłówku, kafelek;
+  na koniec link z 17x17.
 
 ## W TOKU
 
