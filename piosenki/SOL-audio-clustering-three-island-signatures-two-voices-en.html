@@ -57,11 +57,16 @@ ul{padding-left:1.25rem}
 .playlist-top-links{display:flex;gap:7px;flex-wrap:wrap}
 .playlist-top-links a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;text-decoration:none;font-size:.82rem;font-weight:700;color:var(--strong)}
 </style>
+<style id="lang-switch-big">
+/* Duży, jednolity przełącznik języka na stronach głównych kafelków — 2026-09-28 */
+a.lang-switch{display:inline-flex!important;align-items:center;justify-content:center;padding:10px 18px!important;margin:0!important;border:2px solid currentColor!important;border-radius:999px!important;font:800 1rem/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;letter-spacing:.04em;text-transform:none!important;text-decoration:none!important;white-space:nowrap}
+a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
+</style>
 </head>
 <body>
 <main>
 
-<p class="meta"><a href="audio-en.html">← Audio</a> · <a href="index-en.html">Song analysis</a> · <a href="slowa-en.html">Lyrics</a> · <a href="SOL-klastrowanie-audio-wyniki-dwa-glosy.html" lang="pl">Polski</a></p>
+<p class="meta"><a href="audio-en.html">← Audio</a> · <a href="index-en.html">Song analysis</a> · <a href="slowa-en.html">Lyrics</a> · <a class="lang-switch" href="SOL-klastrowanie-audio-wyniki-dwa-glosy.html" lang="pl">Polski</a></p>
 
 <h1 id="three-island-signatures-two-voices">Three-island signatures — results in two voices</h1>
 <p class="meta docver">Version 01.00 · 2026-09-08</p>

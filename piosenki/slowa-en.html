@@ -48,10 +48,15 @@ code{color:var(--strong)}
 .routes a{display:block;margin:.45rem 0}
 footer{margin-top:2.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
 </style>
+<style id="lang-switch-big">
+/* Duży, jednolity przełącznik języka na stronach głównych kafelków — 2026-09-28 */
+a.lang-switch{display:inline-flex!important;align-items:center;justify-content:center;padding:10px 18px!important;margin:0!important;border:2px solid currentColor!important;border-radius:999px!important;font:800 1rem/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;letter-spacing:.04em;text-transform:none!important;text-decoration:none!important;white-space:nowrap}
+a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
+</style>
 </head>
 <body>
 <main>
-<p class="meta"><a href="index-en.html">← Song analysis</a> · <a href="audio-en.html">Audio</a> · <a href="slowa.html" lang="pl">Polski</a></p>
+<p class="meta"><a href="index-en.html">← Song analysis</a> · <a href="audio-en.html">Audio</a> · <a class="lang-switch" href="slowa.html" lang="pl">Polski</a></p>
 
 <h1>Lyrics.</h1>
 <p class="note" data-description-update="2026-09-15"><strong>State recorded in the summary dated 14 September 2026:</strong> 1,058 tracks and 939 lyric records. That batch added 54 texts, linked them to 55 existing tracks and added their semantic tags. Lyric and track counts differ because performances may share a text, while some tracks are instrumental or lack lyrics. Interactive views fetch their data separately; these figures are a dated summary. See Audio for the scope of the historical island map.</p>
