@@ -201,7 +201,18 @@
       h3 { font-size: 17px; }
       .pubs p { font-size: 13px; }
     }
-    @media print { html { background: #fff; } body { margin: 0 auto; box-shadow: none; } body:before { display: none; } }
+    /* Druk i PDF: białe tło, bez górnego odstępu nad nagłówkiem, nagłówek stanowiska nie zostaje sam na dole strony. */
+    @page { margin: 10mm 12mm; }
+    @media print {
+      html, body { background: #fff; }
+      body { margin: 0 auto; padding: 0; box-shadow: none; }
+      body:before { display: none; }
+      header { margin-top: 0; }
+      h2, h3, .role { break-after: avoid; page-break-after: avoid; }
+      p.b { break-inside: avoid; page-break-inside: avoid; }
+      .mini-credit { margin-top: 18px; break-before: avoid; page-break-before: avoid; }
+      #pzu-asset-management-pzu { break-before: page; page-break-before: always; }
+    }
   
     .mini-credit {
       margin: 34px 0 4px;
@@ -256,13 +267,13 @@ h5:hover .section-link, h6:hover .section-link,
 <link rel="canonical" href="https://maciektora-hue.github.io/cv/CLAUDE_Maciej-Tora-AI-CV-v07_13-2026-09-09.html">
 </head>
 <body>
-  <!-- Version 07.19 · 2026-09-28 -->
+  <!-- Version 07.20 · 2026-09-28 -->
 
   <header>
     <div class="hero-copy">
       <h1 id="maciej-tora">Maciej Tora</h1>
       <p class="tagline">AI Enablement &loz; PhD in Mathematics &loz; Founder &amp; CEO</p>
-      <p class="tagline docver">Version 07.19 · 2026-09-28</p>
+      <p class="tagline docver">Version 07.20 · 2026-09-28</p>
       <div class="contact">
         <div>+48 601 441 298</div>
         <div><a href="mailto:maciek.tora@gmail.com">maciek.tora@gmail.com</a></div>
