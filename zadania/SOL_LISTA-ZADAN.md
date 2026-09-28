@@ -2,7 +2,7 @@
 
 # Lista zadań
 
-Wersja 01.05 · 2026-09-20
+Wersja 01.06 · 2026-09-28
 
 Aktualna lista zadań dla całego repozytorium.
 
@@ -39,6 +39,21 @@ Link do nienapisanej jeszcze sekcji to niedokończony tekst, nie awaria.
 Pełne uzasadnienie: `SOL_DOKUMENTACJA-KATALOGI-AKTUALNA.md`, sekcja 0.3.
 
 ## DO ZROBIENIA
+
+- **WRZUCIĆ NA TO REPOZYTORIUM ESEJE O MODELACH JĘZYKOWYCH JAKO DŻINIE — i inne teksty z telefonu.**
+  Dopisane 2026-09-28. Druga siedemnastka w 17x17 (`cv/CLAUDE_seventeen-and-seventeen-ai-concepts-EN.html`,
+  08.10) powołuje się na „essays on language models and cognition” — linia dżina: LLM-as-genie,
+  The inner genie, Sedimentation, Source amnesia. Część tych tekstów istnieje tylko w telefonie,
+  więc czytelnik CV nie ma ich gdzie zobaczyć.
+
+  Do zrobienia:
+  1. Maciek wybiera z telefonu eseje o LLM jako dżinie oraz inne teksty warte publikacji.
+     Powód: tylko on wie, które są gotowe i które mają zostać prywatne.
+  2. Każdy tekst dostaje katalog ze stałym adresem i stub według
+     `SOL_DOKUMENTACJA-STUBY-AKTUALNA.md`, wersję i datę w nagłówku.
+  3. Kafelek albo link z odpowiedniej strony głównej, np. `audhd/kognitywistyka-ai/`,
+     jeżeli tam pasuje.
+  4. Na koniec sprawdzić, czy 17x17 może linkować do opublikowanych esejów.
 
 - **PODTRZYMANIE BAZY `hue-nexus-sql` — ZADANIE DLA DRUGIEGO REPOZYTORIUM.**
   2026-09-20 przyszedł mail od Supabase: projekt `hue-nexus-sql` (`ejqturfbtghybugmizcl`,
