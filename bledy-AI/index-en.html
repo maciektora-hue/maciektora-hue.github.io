@@ -45,10 +45,15 @@
     footer{color:var(--muted);font-size:.85rem;margin-top:2.4rem;
       padding-top:1.2rem;border-top:1px solid var(--border)}
   </style>
+<style id="lang-switch-big">
+/* Duży, jednolity przełącznik języka na stronach głównych kafelków — 2026-09-28 */
+a.lang-switch{display:inline-flex!important;align-items:center;justify-content:center;padding:10px 18px!important;margin:0!important;border:2px solid currentColor!important;border-radius:999px!important;font:800 1rem/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;letter-spacing:.04em;text-transform:none!important;text-decoration:none!important;white-space:nowrap}
+a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
+</style>
 </head>
 <body>
 <main>
-  <p style="margin:0 0 2rem;display:flex;gap:1.2rem;align-items:baseline"><a class="backlink" href="../index-en.html">← main page</a><a class="backlink" href="index.html" lang="pl">Polski</a></p>
+  <p style="margin:0 0 2rem;display:flex;gap:1.2rem;align-items:baseline"><a class="backlink" href="../index-en.html">← main page</a><a class="backlink lang-switch" href="index.html" lang="pl">Polski</a></p>
 
   <h1>Shelf of shame</h1>
   <p class="lead">A register of the mistakes made while working on this repository.
