@@ -211,13 +211,18 @@
       .scale, .verdict { background: transparent; border-color: #779588; }
     }
   </style>
+<style id="lang-switch-big">
+/* Duży, jednolity przełącznik języka na stronach głównych kafelków — 2026-09-28 */
+a.lang-switch{display:inline-flex!important;align-items:center;justify-content:center;padding:10px 18px!important;margin:0!important;border:2px solid currentColor!important;border-radius:999px!important;font:800 1rem/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;letter-spacing:.04em;text-transform:none!important;text-decoration:none!important;white-space:nowrap}
+a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
+</style>
 </head>
 <body>
 <main>
   <nav class="map-nav" aria-label="Navigation between the topic map and the index">
     <a href="index-en.html">← Home</a>
     <a href="index-en.html">All documents</a>
-    <a href="mapa/" lang="pl">Polski</a>
+    <a class="lang-switch" href="mapa/" lang="pl">Polski</a>
   </nav>
   <header>
     <h1>What is actually inside “Collapse of Russia”</h1>
