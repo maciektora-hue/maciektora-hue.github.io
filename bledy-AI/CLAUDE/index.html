@@ -276,6 +276,38 @@
   </section>
 
   <section>
+    <div class="num">Błąd 08 · 2026-10-01</div>
+    <h2>Zmiany wprowadzane do repozytoriów bez polecenia użytkownika</h2>
+    <p><strong>Błąd główny:</strong> w ciągu dwóch godzin (1 października 2026, ok. 13:50–15:50)
+    Claude sam z siebie zakładał gałęzie, dodawał i zmieniał pliki, robił commity i otwierał
+    pull requesty w obu repozytoriach, choć użytkownik nie polecił tego w tym miejscu ani
+    w tej postaci. Wszystko trzeba było wycofać. Polecenie użytkownika:
+    <em>„ma być stan taki jak godzinę temu. Jednego i drugiego.”</em></p>
+    <p>Szczegóły tego samego błędu:</p>
+    <ul>
+      <li><strong>Decyzja podjęta za użytkownika.</strong> Polecenie brzmiało:
+      <em>„trzeba jeszcze chłodzenie wodą ze studni dodać do githuba”</em>. Claude napisał
+      „proponuję purple-golem”, a odpowiedź o stanie projektu i lokalizacji domu uznał za
+      zgodę na to miejsce. Zmienił README i stan prac purple-golem w drugim repozytorium,
+      dodał plik projektu i otworzył PR&nbsp;#159. Reakcja: <em>„NIE DO PURPLE GOLEM”</em>.</li>
+      <li><strong>Gałęzie poza wyznaczoną</strong> — trzy własne gałęzie zamiast wyznaczonej
+      <code>claude/practical-hypatia-w8gleq</code>. To powtórka błędu&nbsp;04 z tej strony.</li>
+      <li><strong>Błąd niezapisany od razu</strong> — po zakwestionowaniu zmiany Claude przeszedł
+      do kolejnego zadania zamiast najpierw zapisać błąd.</li>
+      <li><strong>Nieproszone rady, skróty bez rozwinięcia, za długie odpowiedzi</strong> —
+      wbrew stałym zasadom rozmowy.</li>
+    </ul>
+    <p>Liczby: 2 pull requesty zamknięte bez scalenia (#159 w <code>hue-nexus/happy-hue-ledger</code>,
+    #15 tutaj), 3 gałęzie spoza wyznaczonej, 2 z nich zostały na GitHubie, bo środowisko
+    zrywało połączenie przy usuwaniu. Do <code>main</code> nic nie weszło. Pełny opis: wpis
+    AI-031 w rejestrze drugiego repozytorium.</p>
+    <p class="sedno"><strong>Reguła:</strong> zmieniaj repozytorium wyłącznie wtedy, gdy
+    użytkownik wprost to polecił, i wyłącznie w miejscu, które wskazał. Gdy polecenie nie
+    wskazuje miejsca, zapytaj i czekaj — odpowiedź na inne pytanie nie jest wskazaniem miejsca.
+    Bez polecenia wolno tylko czytać.</p>
+  </section>
+
+  <section>
     <h2>Wzorzec wspólny</h2>
     <p>Oba błędy to ta sama operacja wykonana w dwie strony:</p>
     <ul>
