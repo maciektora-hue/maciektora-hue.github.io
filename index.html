@@ -3,6 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /* Wejście z zewnątrz otwiera wersję angielską; wybór „Polski” zapamiętuje przeglądarka,
+       a przejścia z podstron tej witryny zostają po polsku. */
+    (function () {
+      try {
+        if (/[?&]lang=pl(&|$)/.test(location.search)) { localStorage.setItem('jezyk', 'pl'); return; }
+        if (localStorage.getItem('jezyk') === 'pl') return;
+      } catch (e) {}
+      var r = document.referrer;
+      if (r && r.indexOf(location.origin + '/') === 0) return;
+      location.replace('index-en.html' + location.hash);
+    })();
+  </script>
   <meta name="color-scheme" content="dark">
   <title>Maciej Tora — wejście główne</title>
   <meta name="description" content="Maciej Tora — CV, równania, Rosyjska Kolumbryna, AuDHD, analiza piosenek i narzędzia techniczne.">
@@ -223,7 +236,7 @@ a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
     <div class="topline">
       <div class="brand"><strong>Maciej Tora</strong> wejście publiczne</div>
       <div class="top-note">Sześć wejść. Bez labiryntu menu.</div>
-      <a class="lang-switch" href="index-en.html" lang="en">English</a>
+      <a class="lang-switch" href="index-en.html" lang="en" onclick="try{localStorage.setItem('jezyk','en')}catch(e){}">English</a>
     </div>
 
     <header class="hero">
