@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Power and distribution boards · Engineering</title>
+<meta name="description" content="Electrical wiring split into groups so that a fault in one circuit does not cut power to the whole house.">
+<style>
+:root{--bg:#0b1815;--bg2:#10251f;--panel:#13241e;--ink:#f2e7cf;--muted:#b7aa91;--amber:#e0aa43;--hot:#f1c363;--line:rgba(224,170,67,.28);--soft:rgba(242,231,207,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 8%,rgba(224,170,67,.09),transparent 30%),linear-gradient(180deg,var(--bg2),var(--bg));color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}.shell{width:min(1050px,calc(100% - 30px));margin:auto;padding:26px 0 56px}a{color:inherit}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--soft)}.top a{color:var(--hot);text-decoration:none}.lang{padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:.78rem;font-weight:800}header{padding:58px 0 34px}.eyebrow{color:var(--hot);font-size:.76rem;font-weight:850;letter-spacing:.17em;text-transform:uppercase}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,9vw,6.8rem);line-height:.92;font-weight:500;letter-spacing:-.045em;margin:8px 0 20px}.lead{max-width:790px;color:var(--muted);font-size:1.08rem}.section-title{margin:42px 0 14px;font-family:Georgia,"Times New Roman",serif;font-size:2rem;font-weight:500}.viewer{display:block;padding:24px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));text-decoration:none}.viewer+.viewer{margin-top:10px}.viewer strong{display:block;color:var(--hot);font-size:1.35rem;margin-bottom:5px}.viewer span{color:var(--muted)}.tools{display:grid;gap:10px}.tool{display:grid;grid-template-columns:54px 180px 1fr;gap:14px;padding:16px 18px;border:1px solid var(--soft);border-radius:12px;background:rgba(255,255,255,.025)}.no{color:var(--hot);font-weight:850}.name{font-weight:800}.desc{color:var(--muted)}code{color:var(--hot)}.flow{margin-top:18px;padding:18px;border-left:2px solid var(--amber);background:rgba(255,255,255,.025);color:var(--muted)}footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--soft);color:var(--muted);font-size:.82rem}@media(max-width:720px){.tool{grid-template-columns:40px 1fr}.desc{grid-column:2}.top{align-items:flex-start}header{padding-top:42px}}
+</style>
+<link rel="alternate" hreflang="pl" href="index.html">
+<link rel="alternate" hreflang="en" href="index-en.html">
+<style id="lang-switch-big">
+/* Duży, jednolity przełącznik języka na stronach głównych kafelków — 2026-09-28 */
+a.lang-switch{display:inline-flex!important;align-items:center;justify-content:center;padding:10px 18px!important;margin:0!important;border:2px solid currentColor!important;border-radius:999px!important;font:800 1rem/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;letter-spacing:.04em;text-transform:none!important;text-decoration:none!important;white-space:nowrap}
+a.lang-switch:hover,a.lang-switch:focus-visible{opacity:.8}
+</style>
+
+<style>.status{display:inline-block;margin-top:10px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;color:var(--hot);font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a href="../index-en.html">← Engineering</a><a class="lang lang-switch" href="index.html" lang="pl">Polski</a></div>
+  <header>
+    <div class="eyebrow">Engineering · power</div>
+    <h1>Power and distribution boards</h1>
+    <p class="lead">The wiring in two houses, rebuilt so that a fault in one circuit does not cut power to the whole house. Deliberately over-engineered.</p>
+  </header>
+  <h2 class="section-title">Principles</h2>
+  <div class="tools">
+    <div class="tool"><div class="no">01</div><div class="name">Groups instead of one breaker</div><div class="desc">Each floor's circuits are split into three groups, one per phase. Every group has its own residual-current device and its own group breaker.</div></div>
+    <div class="tool"><div class="no">02</div><div class="name">Earth leakage</div><div class="desc">On an insulation fault or water ingress only one group's residual-current device trips. The rest of the house keeps working.</div></div>
+    <div class="tool"><div class="no">03</div><div class="name">Short circuit</div><div class="desc">The circuit breaker trips, usually together with the group breaker. One group goes dark, not the whole house.</div></div>
+    <div class="tool"><div class="no">04</div><div class="name">No three-phase loads</div><div class="desc">A "three-phase" hob is really three separate single-phase zones, so each phase can have its own residual-current device. Condition: a separate neutral wire for each phase.</div></div>
+    <div class="tool"><div class="no">05</div><div class="name">Roles of the devices</div><div class="desc">The B breaker handles short circuits, the group breaker guards the group's load, the residual-current device protects people, and the switch-disconnector only isolates.</div></div>
+  </div>
+  <div class="flow"><strong>In preparation:</strong><br>The whole installation stored in SQL — devices, terminals, wires and circuits — and drawn from that data: a front view of the board, a single-line diagram and a simulation showing what trips on earth leakage, short circuit and overload.</div>
+  <footer>Engineering · power and distribution boards</footer>
+</div>
+</body>
+</html>
