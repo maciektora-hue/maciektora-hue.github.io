@@ -266,13 +266,13 @@ h5:hover .section-link, h6:hover .section-link,
 <link rel="canonical" href="https://maciektora-hue.github.io/cv/CLAUDE_Maciej-Tora-AI-CV.html">
 </head>
 <body>
-  <!-- Version 08.06 · 2026-11-19 -->
+  <!-- Version 08.07 · 2026-11-19 -->
 
   <header>
     <div class="hero-copy">
       <h1 id="maciej-tora">Maciej Tora</h1>
       <p class="tagline">AI Enablement &loz; PhD in Mathematics &loz; Founder &amp; CEO</p>
-      <p class="tagline docver">Version 08.06 · 2026-11-19</p>
+      <p class="tagline docver">Version 08.07 · 2026-11-19</p>
       <div class="contact">
         <div>+48 601 441 298</div>
         <div><a href="mailto:maciek.tora@gmail.com">maciek.tora@gmail.com</a></div>
@@ -328,6 +328,7 @@ h5:hover .section-link, h6:hover .section-link,
         <p>Every system below started from a real-life need, not from a wish to showcase AI. I combine hands-on domain knowledge — bookkeeping and VAT, building heating, research subjects — with programming and AI to specify tools that fit the way the work actually flows, instead of bending the work to off-the-shelf software. <em>Detailed project descriptions and live demos available on request.</em></p>
         <p class="b"><strong>JPK_VAT archive and generator (in production since January <span class="lnum">2026</span>).</strong> KSeF e-invoices are loaded into a relational SQL database by a deterministic script, which guarantees data integrity. An AI agent tags each invoice — GTU codes, procedure markers such as MPP, custom categories including exclusions — using a written, growing rulebook of edge cases. The system generates the monthly JPK_VAT files, filed for <span class="lnum">2026</span> for several companies. <em>Details on request.</em></p>
         <p class="b"><strong>Full bookkeeping for a joint-stock company</strong> (over <span class="lnum">2,000</span> records), done almost entirely on an Android phone with Claude — mobile app, no coding environment. Data kept by design in CSV files split into accounting journals: no database or server, fully portable. Claude generated the ledger entries and three years of full financial statements, filed with the KRS. To validate the method, I independently re-did one year’s books and compared them with a professional accounting firm’s version; where they differed, I analysed the legal position in detail and the corrected version was filed. <em>Details on request.</em></p>
+        <p class="b"><strong>Smart-home heating control (in daily use since September <span class="lnum">2026</span>).</strong> Replaced a closed proprietary system with Home Assistant Green, chosen for its ready-made community integrations and for being open and well documented for custom code. Where those integrations fell short, I specified and built with Claude my own control layer: a web and mobile app plus a home bridge that drives a Modbus relay board over an outbound-only connection, with no open ports. Currently controls <span class="lnum">8</span> valves and <span class="lnum">7</span> pumps. <em>Details on request.</em></p>
         <p class="b"><strong>A public site with its own data platform</strong>: nearly 180 HTML documents behind stable addresses enforced by a CI guard, a PostgreSQL database (Supabase, 28 tables, row-level security on all), a Flask API on Render, and a written source-of-truth hierarchy that settles conflicts between memory, repository and live services.</p>
         <p class="b">Designed and operate a specification-driven workflow for agentic AI work: a written rulebook governing file structure, versioning, formatting and process, used to steer model behaviour consistently across sessions and tools.</p>
         <p class="b">Work across multiple frontier models with a declared split of roles and per-artefact attribution. <strong>The method evolved in two stages.</strong> First, conversational Claude and ChatGPT, where every step stays visible and reviewable — the analytical work and the corpus below were built this way. Then, from August–September 2026, with the specifications in place: <strong>coding agents — Claude Code and Codex, working in turns on the same repositories</strong> — moved the earlier work into Git and built the systems above, every change landing as a reviewed pull request.</p>
