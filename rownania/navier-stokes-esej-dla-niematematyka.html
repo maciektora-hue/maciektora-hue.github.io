@@ -80,6 +80,9 @@ blockquote{
 .toc li{break-inside:avoid;margin:.25rem 0}
 .sources li{margin-bottom:.85rem}
 hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.95em}
+th,td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{font-weight:600}
 @media(max-width:720px){.toc ul{columns:1}main{padding-top:28px}}
 </style>
 </head>
@@ -87,12 +90,12 @@ hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
 <main>
 
 <h1>Navier–Stokes, AI i spór o autorstwo</h1>
-<p class="small">Wersja 02.02 · 2026-11-21</p>
+<p class="small">Wersja 02.03 · 2026-11-21</p>
 <p class="lead">
 Esej o tym, co właściwie zostało ogłoszone, dlaczego równania płynów mają coś wspólnego z turbulencją,
 czemu problem dotyczy akurat trzech wymiarów, po co w tej historii pojawiają się Euler, Lean, Codex i tysiące agentów,
 oraz dlaczego wokół przełomu OpenAI natychmiast wybuchł spór o priorytet, dane i autorstwo.
-Stan źródeł: 9 września 2026; rozdział 17 — 21 listopada 2026.
+Stan źródeł: 9 września 2026; rozdziały 17–18 — 21 listopada 2026.
 </p>
 
 <div class="box">
@@ -131,7 +134,8 @@ ale marketingowe przedstawienie sprawy jako samodzielnego sukcesu modeli OpenAI 
 <li><a href="#wiemy">15. Co wiemy, czego nie wiemy</a></li>
 <li><a href="#znaczenie">16. Dlaczego to może zmienić naukę</a></li>
 <li><a href="#postepy">17. Postępy do 21 listopada 2026</a></li>
-<li><a href="#zrodla">18. Źródła</a></li>
+<li><a href="#riemann">18. Jakby tego było mało: Riemann</a></li>
+<li><a href="#zrodla">19. Źródła</a></li>
 </ul>
 </nav>
 
@@ -1288,7 +1292,113 @@ Clay ma przed sobą wyjątkowo „niespieszny” proces.
 </p>
 </div>
 
-<h2 id="zrodla">18. Źródła</h2>
+<h2 id="riemann">18. Jakby Naviera–Stokesa było mało: ten sam człowiek i hipoteza Riemanna</h2>
+
+<p>
+Gdyby to był kryminał, czytelnik w tym miejscu rzuciłby książką o ścianę: za dużo zbiegów okoliczności.
+Rano 20 listopada Alpöge i Buckmaster publikują dowód blow-upu dla Naviera–Stokesa bez siły zewnętrznej.
+Tego samego dnia Levent Alpöge, czyli ten sam człowiek, którego we wrześniu OpenAI nie chciało widzieć
+wśród autorów opracowania ze względu na zatrudnienie w Anthropic (rozdział 13),
+wrzuca na swoją stronę czterostronicową notkę, która zaczyna się od zdania:
+„I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis”.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a>
+Wszystko to dzieje się w tym samym tygodniu, w którym Anthropic zadebiutował na Nasdaq.
+<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed">[S22]</a>
+</p>
+
+<h3>Akta sprawy</h3>
+
+<ul>
+<li><strong>Co ogłoszono.</strong> Dowód uogólnionej hipotezy Riemanna (GRH), czyli mocniejszego twierdzenia,
+z którego klasyczna hipoteza Riemanna wynika jako szczególny przypadek.
+Hipoteza dotyczy rozkładu liczb pierwszych i jest otwarta od 1859 roku.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Dowód rzeczowy nr 1.</strong> Około 17 milionów linii kodu w Leanie, który według autora zawiera formalną weryfikację.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Dowód rzeczowy nr 2, którego nie ma.</strong> Próby uzyskania od Claude'a tekstu czytelnego dla człowieka
+dały ponad 250 000 stron, więc autor go nie udostępnił.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Podział ról.</strong> Według relacji Alpöge to on wybrał kierunek, a Claude wykonał dużą część ciężkiej pracy technicznej,
+zwłaszcza pod koniec, gdzie, jak pisze, AI go „daleko wyprzedziło”.
+<a href="https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline">[S23]</a></li>
+<li><strong>Pierwsza opinia biegłego.</strong> Tao nazywa to ogromnym dowodem istniejącym wyłącznie w Leanie.
+Weryfikację najlepiej śledzić w wątku na Lean Zulip. Według jego bardzo wstępnej analizy dowód korzysta
+z pełnej mocy współczesnego programu Langlandsa i geometrii arytmetycznej. Tao spodziewa się, że przetrawienie go zajmie trochę czasu.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a></li>
+<li><strong>Poszlaka z przeszłości.</strong> W sierpniu Anthropic opisywał, jak Claude zabrał się do hipotezy Riemanna i jej nie udowodnił,
+ale przy okazji podniósł dolne ograniczenie odsetka zer na prostej krytycznej z 41,6% do 67,2%.
+Firma pisała wtedy wprost, że nie spodziewa się, by te techniki doprowadziły do dowodu.
+<a href="https://anthropic.com/research/riemann-zeta">[S24]</a>
+Trzy miesiące później doprowadziły. Albo doprowadziły inne techniki. Śledztwo trwa.</li>
+</ul>
+
+<p>
+Dla tej historii ważne jest jedno: wrześniowy spór o to, czy pracownik firmy AI może być autorem wyniku,
+który powstał przy pomocy cudzego modelu, odwraca się teraz w lustrzanym odbiciu.
+Pracownik firmy AI ogłasza wynik przy pomocy <em>własnego</em> modelu firmy, w tygodniu jej debiutu giełdowego.
+Wszystkie pytania z rozdziału 16 — o autorstwo, priorytet i to, kto ma interes w ogłoszeniu — wracają.
+Zmieniły się tylko strony.
+</p>
+
+<h3>Ile to jest? Jednostka miary: 1 Proust</h3>
+
+<p>
+Liczby z tej historii są tak duże, że strony przestają cokolwiek mówić. Potrzebna jest jednostka z ludzkiej skali.
+</p>
+
+<div class="box">
+<p>
+<strong>1 Proust</strong> to długość „W poszukiwaniu straconego czasu” Marcela Prousta:
+według Księgi Rekordów Guinnessa najdłuższej powieści świata, liczącej około <strong>9 609 000 znaków</strong>,
+przy czym każda litera i każda spacja liczy się jako jeden znak.
+<a href="https://guinnessworldrecords.com/world-records/longest-novel">[S25]</a>
+To około 5 340 stron znormalizowanych (po 1800 znaków) i mniej więcej 89 godzin czytania w tempie powieści.
+Jednostka pomocnicza: 1 miliProust (mP) to około 9 600 znaków, czyli nieco ponad 5 stron znormalizowanych.
+</p>
+</div>
+
+<p>
+Założenia przeliczenia: strona tekstu matematycznego ma około 3000 znaków,
+linia kodu w Leanie około 40 znaków (z wcięciami),
+powieść czyta się w tempie około 1 strony znormalizowanej na minutę,
+a matematykę badawczą ze zrozumieniem w tempie około 2 stron dziennie.
+Wyniki są rzędami wielkości, nie pomiarem.
+</p>
+
+<table>
+<thead>
+<tr><th>dowód</th><th>rozmiar</th><th>Prousty</th><th>czytanie jak powieść</th><th>czytanie jak matematyka (2 str./dzień)</th></tr>
+</thead>
+<tbody>
+<tr><td>Wiles, Wielkie Twierdzenie Fermata (1995)</td><td>~129 stron</td><td>~40 mP</td><td>~3,5 h</td><td>~2 miesiące</td></tr>
+<tr><td>OpenAI, Navier–Stokes z siłą zewnętrzną (wrzesień)</td><td>166 stron</td><td>~52 mP</td><td>~4,5 h</td><td>~3 miesiące</td></tr>
+<tr><td>Alpöge–Buckmaster, Navier–Stokes bez siły zewnętrznej, tekst</td><td>79 stron</td><td>~25 mP</td><td>~2 h</td><td>~1,5 miesiąca</td></tr>
+<tr><td>Alpöge–Buckmaster, Navier–Stokes, Lean</td><td>~600 tys. linii</td><td>~2,5 P</td><td>~220 h</td><td>—</td></tr>
+<tr><td>Alpöge + Claude, GRH, Lean</td><td>~17 mln linii</td><td>~71 P</td><td>~6 300 h</td><td>—</td></tr>
+<tr><td>Alpöge + Claude, GRH, nieopublikowany tekst „dla ludzi”</td><td>&gt;250 tys. stron</td><td>~78 P</td><td>~6 950 h (~3,5 roku na etacie)</td><td>~340 lat</td></tr>
+</tbody>
+</table>
+
+<p>
+Wniosek jest prosty. Najdłuższa powieść w historii literatury to w tej skali drobiazg:
+dowód hipotezy Riemanna w wersji „dla ludzi” to mniej więcej 78 kompletów Prousta.
+Gdyby matematyk czytał go w tempie, w jakim czyta się matematykę, musiałby zacząć za Augusta II Mocnego,
+żeby skończyć dziś. Klasyczne pytanie z rozdziału 15 — „czy dowód przejdzie wieloletnią niezależną weryfikację” —
+zmienia tu znaczenie. Nie da się go sprawdzić tak, jak czyta się książkę, tylko tak, jak sprawdza się program:
+kompilatorem, a potem oceniając, czy zapisano właściwe twierdzenie.
+</p>
+
+<div class="box">
+<h3>Najkrótsza uczciwa wersja rozdziału</h3>
+<p>
+Tego samego dnia, w którym ogłoszono drugi dowód dla Naviera–Stokesa, ten sam matematyk ogłosił dowód uogólnionej hipotezy Riemanna,
+zrobiony z Claude'em i zapisany wyłącznie w Leanie: około 71 Proustów kodu, bez czytelnego tekstu.
+To może być największy wynik w historii matematyki albo najdroższy błąd w zapisie definicji.
+Na razie wiadomo tylko tyle, że nikt nie przeczyta go jak książki, a niezależna weryfikacja dopiero się zaczyna.
+</p>
+</div>
+
+<h2 id="zrodla">19. Źródła</h2>
 
 <ol class="sources">
 <li><strong>[S1] OpenAI — „On the Navier–Stokes Millennium Prize Problem”, 8.09.2026.</strong><br>
@@ -1367,6 +1477,19 @@ Rozbieżności między dowodem w Leanie a dowodem w języku naturalnym.<br>
 <li><strong>[S21] OfficeChai — „Tristan Buckmaster, Levent Alpöge Claim Proof Of Navier-Stokes Millennium Prize Problem Without Forcing”, 20.11.2026.</strong><br>
 Budowa dowodu, certyfikat, użyte modele (Claude, Codex), stan weryfikacji.<br>
 <a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/</a></li>
+
+<li><strong>[S22] Tom's Hardware — „Anthropic mathematician claims to have solved 167-year-old math problem with Claude”, 20.11.2026.</strong><br>
+<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed">https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed</a></li>
+
+<li><strong>[S23] Nacionale — „How does Alpöge say Claude helped with his Riemann hypothesis proof claim?”, 20.11.2026.</strong><br>
+<a href="https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline">https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline</a></li>
+
+<li><strong>[S24] Anthropic — „Learning more about Claude's mathematical capabilities”, 10.08.2026.</strong><br>
+<a href="https://anthropic.com/research/riemann-zeta">https://anthropic.com/research/riemann-zeta</a></li>
+
+<li><strong>[S25] Guinness World Records — „Longest novel”.</strong><br>
+Definicja jednostki 1 Proust: 9 609 000 znaków.<br>
+<a href="https://guinnessworldrecords.com/world-records/longest-novel">https://guinnessworldrecords.com/world-records/longest-novel</a></li>
 </ol>
 
 <hr>
