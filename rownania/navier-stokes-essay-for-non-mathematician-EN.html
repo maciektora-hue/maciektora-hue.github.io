@@ -80,6 +80,9 @@ blockquote{
 .toc li{break-inside:avoid;margin:.25rem 0}
 .sources li{margin-bottom:.85rem}
 hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.95em}
+th,td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{font-weight:600}
 @media(max-width:720px){.toc ul{columns:1}main{padding-top:28px}}
 </style>
 </head>
@@ -88,12 +91,12 @@ hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
 <main>
 
 <h1>Navier–Stokes, AI, and the Dispute over Credit</h1>
-<p class="small">Version 02.01 · 2026-09-19</p>
+<p class="small">Version 02.04 · 2026-11-21</p>
 <p class="lead">
 An essay on what was actually announced, why the equations of fluid motion have anything to do with turbulence,
 why the problem is specifically about three dimensions, what Euler, Lean, Codex, and thousands of agents are doing in this story,
 and why OpenAI’s breakthrough immediately triggered a dispute over priority, data, and scientific credit.
-Sources current as of 9 September 2026.
+Sources current as of 9 September 2026; Chapters 17–18 as of 21 November 2026.
 </p>
 
 <div class="box">
@@ -131,7 +134,9 @@ but the marketing version of the story, framed as a self-contained triumph of Op
 <li><a href="#trzy">14. Three public narratives</a></li>
 <li><a href="#wiemy">15. What we know and what we do not</a></li>
 <li><a href="#znaczenie">16. Why this may change science</a></li>
-<li><a href="#zrodla">17. Sources</a></li>
+<li><a href="#postepy">17. Progress up to 21 November 2026</a></li>
+<li><a href="#riemann">18. As if that were not enough: Riemann</a></li>
+<li><a href="#zrodla">19. Sources</a></li>
 </ul>
 </nav>
 
@@ -1118,7 +1123,278 @@ while information about <em>where to look</em> becomes almost as valuable as the
 </p>
 </div>
 
-<h2 id="zrodla">17. Sources</h2>
+<h2 id="postepy">17. What happened next: progress up to 21 November 2026</h2>
+
+<p>
+Chapters 1–16 describe the state of affairs on 9 September. This chapter was added later. It does not revise that account;
+it shows how the story unfolded over the following ten weeks.
+One-sentence summary: the September race did not end with OpenAI.
+Two and a half months later, the same pair who had “lost” in September announced a result
+for the version without an external force, the one most people had been asking about from the start.
+</p>
+
+<h3>September: an investigation, Clay, and a letter from Fields Medalists</h3>
+
+<p>
+The first days after the announcement felt like a cross-examination. On 10 September OpenAI announced that, following an internal investigation,
+it had confirmed that Buckmaster’s Codex prompts from the preceding two months could not have influenced the system,
+including through training. On 13 September it narrowed that claim to inputs after 3 July.
+Commentators noted that this left the question of his earlier, heavy Codex use unanswered.
+On the same 10 September, Córdoba said publicly that if his group’s work had not existed,
+AI would not have solved the problem.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+</p>
+
+<p>
+On 11 September the Clay Mathematics Institute wrote that the problem had “apparently been settled”,
+but that its verification and credit process is “deliberately unhurried”.
+The same day, 24 Fields Medalists published the open letter
+“A Severe Misalignment of AI in Mathematics”. Four more signed it later.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+<a href="https://doi.org/10.5281/zenodo.22737750">[S14]</a>
+</p>
+
+<h3>October: Lean checks out, but not everything does</h3>
+
+<p>
+Independent users rebuilt OpenAI’s formalization from scratch. It passed Comparator,
+a tool for judging untrusted Lean proofs, and two independent kernels,
+and it uses only Lean’s three standard axioms.
+<a href="https://github.com/incrediblecrab/learning-navier-stokes">[S15]</a>
+In other words, as a theorem in Lean, the result is correct.
+</p>
+
+<p>
+On 6 October, however, Bastounis, Circelli, and Hansen published “Navier–Stokes lost in translation”,
+documenting discrepancies between the Lean version and the natural-language proof.
+<a href="https://arxiv.org/abs/2610.08144">[S16]</a>
+This is exactly the problem described in Chapter 8: Lean checks that the conclusion follows from the assumptions,
+but not that the right assumptions and the right conclusion were written down.
+On 13 October Scientific American surveyed mathematicians and concluded
+that the resemblance between the methods of OpenAI and of Buckmaster–Alpöge is “merely skin-deep”.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+That weakens the strongest version of the suspicions in Chapter 13, but it does not settle the dispute
+over who first pointed in the right direction.
+</p>
+
+<p>
+As an aside: on 6 October OpenAI announced another batch of 377 results.
+The most prominent was a proof of the quasi-Riemann hypothesis, a weaker form of the Riemann hypothesis.
+<a href="https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019">[S17]</a>
+The September pace turned out to be the norm, not the exception.
+</p>
+
+<h3>20 November: three results in one day</h3>
+
+<p>
+Terence Tao ranked that day’s announcements by how well “digested” they already are,
+stressing that the ranking is not a verdict on correctness.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<ol>
+<li><strong>Unforced Euler</strong> (Alpöge, Buckmaster, Coiculescu). A human-readable proof of blow-up
+for the three-dimensional Euler equations, written with heavy AI assistance and formalized in Lean.</li>
+<li><strong>Unforced Navier–Stokes</strong> (Alpöge, Buckmaster). A 79-page paper and about 600,000 lines of Lean
+in about 2,270 files.
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">[S19]</a></li>
+<li><strong>The generalized Riemann hypothesis</strong> (Alpöge). A separate story: the proof exists only in Lean,
+runs to about 17 million lines, and its human-readable version is over 250,000 pages long and, by the author’s own account, unreadable.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+</ol>
+
+<p>
+For this essay, item 2 is what matters. Chapter 7 explained that the official branches C and D allow a smooth external force,
+so formally OpenAI’s September result may already have “solved” the problem.
+For most mathematicians and physicists, though, the real question had always been whether a fluid
+<em>that nobody is pushing</em> can develop a singularity on its own.
+If the new paper holds up, the answer is yes.
+</p>
+
+<h3>What the new proof actually claims</h3>
+
+<p>
+The solution starts from smooth data and stays smooth until a finite time T.
+At that moment it blows up at the rate (T−t)<sup>−1/4</sup> and, in self-similar variables, converges to a specific profile.
+<a href="https://github.com/tristanbuckmaster/navier-stokes/tree/main/lean">[S19]</a>
+The rate (T−t)<sup>−1/4</sup> is no accident: it is exactly the lower bound Jean Leray derived in 1934.
+The singularity forms as slowly as is possible at all.
+</p>
+
+<p>
+The proof has two parts. The first is a conditional theorem: if a smooth, “backward discretely self-similar” solution exists,
+blow-up follows. The second shows that such a solution exists, using a numerically computed approximation
+which the authors call a <em>certificate</em> and which satisfies a set of explicit inequalities.
+The strategy resembles earlier computer-assisted work by Hou and Chen on Euler blow-up.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+Tao describes it as the expected approach: first build an approximate solution numerically,
+then use rigorous perturbation theory to turn it into an exact one.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<h3>Who used which AI — Chapter 9 continued</h3>
+
+<p>
+The authors write that they used Claude and Codex throughout.
+According to the paper, Anthropic’s models wrote the first unforced proof from the pair’s earlier drafts.
+The authors then reworked and restructured it with Claude and Codex, replacing some parts with their own ideas.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+So Codex, the OpenAI tool at the centre of the September data dispute, was this time helping the other side.
+</p>
+
+<p>
+Buckmaster was frank about the haste: “after last time, we couldn’t risk waiting”.
+That is why, as he admitted, the Navier–Stokes write-up is unpolished and heavily LLM-assisted.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+The thesis of Chapter 16, that knowing <em>where to look</em> becomes an asset,
+has now been confirmed in practice. Researchers publish sooner than they would like,
+because they have good reason to fear being scooped.
+</p>
+
+<h3>What is still missing</h3>
+
+<ul>
+<li>The key numerical certificate has not been released. The paper gives only its cryptographic hash
+and says it will be released “soon”.</li>
+<li>The rigorous interval-arithmetic computation (128-bit precision, the Arb library in FLINT)
+that checks the certificate is not part of the Lean formalization or of the repository.</li>
+<li>A 20 November patch changed some of the Lean statements and the proofs depending on them,
+and the package was not rebuilt after the patch.</li>
+<li>The paper has not been peer reviewed. Tao writes that more work is needed before there is a “proper, professionally written proof”.</li>
+</ul>
+<p>
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">[S19]</a>
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<p>
+The October lesson applies here too: a green Lean build is a lot, but it is not everything.
+In this case the most important part, the numbers on which the existence of the profile rests, currently sits outside Lean.
+</p>
+
+<div class="box">
+<h3>The shortest honest version — as of 21 November 2026</h3>
+<p>
+In September OpenAI showed blow-up with a smooth external force: formally within Clay’s rules, but not what everyone was asking.
+Its Lean code compiles, but at least one paper charges it with errors in translation from natural language.
+In November the pair who had lost the September race announced blow-up with no external force at all,
+with help from Claude and Codex, formalized in Lean, but without the numerical certificate published yet.
+</p>
+<p>
+If this result holds up, the dispute over who first solved the Navier–Stokes problem will not go away; it will shift.
+The question will stop being “who was first” and become “who solved which problem”.
+Clay has an exceptionally “unhurried” process ahead of it.
+</p>
+</div>
+
+<h2 id="riemann">18. As if Navier–Stokes were not enough: the same man and the Riemann hypothesis</h2>
+
+<p>
+If this were a detective novel, the reader would throw the book at the wall here: too many coincidences.
+On the morning of 20 November, Alpöge and Buckmaster publish a proof of unforced Navier–Stokes blow-up.
+The same day Levent Alpöge — the very man OpenAI did not want among the authors of a write-up in September
+because he works at Anthropic (Chapter 13) — posts a four-page note on his website that opens with the sentence:
+“I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis”.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a>
+All this in the same week that Anthropic debuted on the Nasdaq.
+<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed">[S22]</a>
+</p>
+
+<h3>The case file</h3>
+
+<ul>
+<li><strong>What was announced.</strong> A proof of the generalized Riemann hypothesis (GRH), a stronger statement
+of which the classical Riemann hypothesis is a special case.
+The hypothesis concerns the distribution of prime numbers and has been open since 1859.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Exhibit A.</strong> About 17 million lines of Lean code, which the author says contain a formal verification.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Exhibit B, which does not exist.</strong> Attempts to get a human-readable text out of Claude
+produced over 250,000 pages, so the author has not released it.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+<li><strong>Division of labour.</strong> By Alpöge’s account, he chose the direction and Claude did much of the hard technical work,
+especially towards the end, where, he writes, the AI “far outpaced” him.
+<a href="https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline">[S23]</a></li>
+<li><strong>First expert opinion.</strong> Tao calls it an enormous Lean-only proof.
+Verification is best followed in a Lean Zulip thread. His very initial analysis suggests the proof draws on the full power
+of the modern Langlands program and arithmetic geometry, and he expects digesting it to take some time.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a></li>
+<li><strong>A clue from the past.</strong> In August Anthropic described how Claude took a stab at the Riemann hypothesis and did not prove it,
+but along the way raised the lower bound on the fraction of zeros on the critical line from 41.6% to 67.2%.
+The company wrote plainly that it did not expect those techniques to lead to a proof.
+<a href="https://anthropic.com/research/riemann-zeta">[S24]</a>
+Three months later they did. Or other techniques did. The investigation continues.</li>
+</ul>
+
+<p>
+One thing matters for this story: the September dispute over whether an AI-company employee can be an author of a result
+produced with someone else’s model is now reversed, as in a mirror.
+An AI-company employee announces a result produced with his company’s <em>own</em> model, in the week of its stock-market debut.
+All the questions of Chapter 16 — authorship, priority, and who has an interest in the announcement — come back.
+Only the sides have changed.
+</p>
+
+<h3>How much is that? A unit of measure: 1 Proust</h3>
+
+<p>
+The numbers in this story are so large that pages stop meaning anything. We need a unit on a human scale.
+</p>
+
+<div class="box">
+<p>
+<strong>1 Proust</strong> is the length of Marcel Proust’s <em>In Search of Lost Time</em>:
+according to Guinness World Records the longest novel in the world, at about <strong>9,609,000 characters</strong>,
+with every letter and every space counted as one character.
+<a href="https://guinnessworldrecords.com/world-records/longest-novel">[S25]</a>
+That is about 5,340 standard pages (1,800 characters each) and roughly 89 hours of reading at novel pace.
+Auxiliary unit: 1 milliProust (mP) is about 9,600 characters, a little over 5 standard pages.
+</p>
+</div>
+
+<p>
+Assumptions: a page of mathematical text has about 3,000 characters,
+a line of Lean code about 40 characters (including indentation),
+a novel is read at about one standard page per minute,
+and research mathematics is read with understanding at about 2 pages a day.
+The results are orders of magnitude, not measurements.
+</p>
+
+<table>
+<thead>
+<tr><th>proof</th><th>size</th><th>Prousts</th><th>read like a novel</th><th>read like mathematics (2 pp./day)</th></tr>
+</thead>
+<tbody>
+<tr><td>Wiles, Fermat’s Last Theorem (1995)</td><td>~129 pages</td><td>~40 mP</td><td>~3.5 h</td><td>~2 months</td></tr>
+<tr><td>OpenAI, forced Navier–Stokes (September)</td><td>166 pages</td><td>~52 mP</td><td>~4.5 h</td><td>~3 months</td></tr>
+<tr><td>Alpöge–Buckmaster, unforced Navier–Stokes, text</td><td>79 pages</td><td>~25 mP</td><td>~2 h</td><td>~1.5 months</td></tr>
+<tr><td>Alpöge–Buckmaster, Navier–Stokes, Lean</td><td>~600k lines</td><td>~2.5 P</td><td>~220 h</td><td>—</td></tr>
+<tr><td>Alpöge + Claude, GRH, Lean</td><td>~17M lines</td><td>~71 P</td><td>~6,300 h</td><td>—</td></tr>
+<tr><td>Alpöge + Claude, GRH, unreleased “human” text</td><td>&gt;250k pages</td><td>~78 P</td><td>~6,950 h (~3.5 working years)</td><td>~340 years</td></tr>
+</tbody>
+</table>
+
+<p>
+The conclusion is simple. On this scale the longest novel in the history of literature is a trifle:
+the “human” version of the Riemann proof is about 78 complete Prousts.
+A mathematician reading it at the pace mathematics is read would have had to start around the reign of Augustus II the Strong
+to finish today. Reviewers should therefore write their reviews and their wills — their last will and testament — in parallel,
+since the chances of finishing the former before needing the latter are slim. The classic question of Chapter 15 —
+“will the proof survive years of independent verification?” — changes meaning here. It cannot be checked the way a book is read,
+only the way a program is checked: with a compiler, and then by judging whether the right theorem was written down.
+</p>
+
+<div class="box">
+<h3>The shortest honest version of this chapter</h3>
+<p>
+On the same day a second Navier–Stokes proof was announced, the same mathematician announced a proof of the generalized Riemann hypothesis,
+made with Claude and written only in Lean: about 71 Prousts of code, with no readable text.
+It may be the greatest result in the history of mathematics, or the most expensive mistake in a definition.
+For now all we know is that nobody will read it like a book, and independent verification has only just begun.
+</p>
+</div>
+
+<h2 id="zrodla">19. Sources</h2>
 
 <ol class="sources">
 <li><strong>[S1] OpenAI — “On the Navier–Stokes Millennium Prize Problem”, 8 September 2026.</strong><br>
@@ -1165,6 +1441,51 @@ Earlier public work on finite-time blow-up for hypodissipative Navier–Stokes w
 
 <li><strong>[S12] Wired — dispute over data, compute, and authorship.</strong><br>
 <a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics">https://www.wired.com/story/openai-navier-stokes-math-discovery-academics</a></li>
+
+<li><strong>[S13] Wikipedia — “Navier–Stokes priority controversy”.</strong><br>
+September–October timeline: OpenAI’s investigation, Clay’s statement, the Fields Medalists’ letter, criticism of the formalization, Scientific American’s findings.<br>
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy</a></li>
+
+<li><strong>[S14] A. Avila et al. — “A Severe Misalignment of AI in Mathematics”, 11 Sept 2026.</strong><br>
+Open letter by Fields Medalists.<br>
+<a href="https://doi.org/10.5281/zenodo.22737750">https://doi.org/10.5281/zenodo.22737750</a></li>
+
+<li><strong>[S15] incrediblecrab — “learning-navier-stokes”.</strong><br>
+Independent rebuild of OpenAI’s formalization: Comparator, two kernels, three standard axioms.<br>
+<a href="https://github.com/incrediblecrab/learning-navier-stokes">https://github.com/incrediblecrab/learning-navier-stokes</a></li>
+
+<li><strong>[S16] Bastounis, Circelli, Hansen — “Navier-Stokes lost in translation”, arXiv:2610.08144.</strong><br>
+Discrepancies between the Lean proof and the natural-language proof.<br>
+<a href="https://arxiv.org/abs/2610.08144">https://arxiv.org/abs/2610.08144</a></li>
+
+<li><strong>[S17] Quanta Magazine — “AI Proved the Quasi-Riemann Hypothesis. What Happens Now?”, 19 Oct 2026.</strong><br>
+<a href="https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019">https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019</a></li>
+
+<li><strong>[S18] Terence Tao — “Unforced Euler singularity, unforced Navier-Stokes singularity, and the Generalized Riemann Hypothesis”, 20 Nov 2026.</strong><br>
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/</a></li>
+
+<li><strong>[S19] L. Alpöge, T. Buckmaster — “Finite-time blow-up for the Navier–Stokes equations”, 79 pages, 20 Nov 2026, with a Lean formalization.</strong><br>
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">https://github.com/tristanbuckmaster/navier-stokes/</a></li>
+
+<li><strong>[S20] Quanta Magazine — “A claimed proof of the Riemann hypothesis”, 20 Nov 2026.</strong><br>
+<a href="https://www.quantamagazine.org/updates/transformation/">https://www.quantamagazine.org/updates/transformation/</a></li>
+
+<li><strong>[S21] OfficeChai — “Tristan Buckmaster, Levent Alpöge Claim Proof Of Navier-Stokes Millennium Prize Problem Without Forcing”, 20 Nov 2026.</strong><br>
+Structure of the proof, the certificate, models used (Claude, Codex), verification status.<br>
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/</a></li>
+
+<li><strong>[S22] Tom’s Hardware — “Anthropic mathematician claims to have solved 167-year-old math problem with Claude”, 20 Nov 2026.</strong><br>
+<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed">https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-mathematician-claims-to-have-solved-167-year-old-math-problem-with-claude-riemann-hypothesis-proof-allegedly-discovered-but-remains-unconfirmed</a></li>
+
+<li><strong>[S23] Nacionale — “How does Alpöge say Claude helped with his Riemann hypothesis proof claim?”, 20 Nov 2026.</strong><br>
+<a href="https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline">https://www.nacionale.com/en/articles/how-does-alpoge-say-claude-helped-riemann-hypothesis-proof-claim-timeline</a></li>
+
+<li><strong>[S24] Anthropic — “Learning more about Claude’s mathematical capabilities”, 10 Aug 2026.</strong><br>
+<a href="https://anthropic.com/research/riemann-zeta">https://anthropic.com/research/riemann-zeta</a></li>
+
+<li><strong>[S25] Guinness World Records — “Longest novel”.</strong><br>
+Definition of the unit 1 Proust: 9,609,000 characters.<br>
+<a href="https://guinnessworldrecords.com/world-records/longest-novel">https://guinnessworldrecords.com/world-records/longest-novel</a></li>
 </ol>
 
 <hr>
