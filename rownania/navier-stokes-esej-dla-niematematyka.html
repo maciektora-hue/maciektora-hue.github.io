@@ -87,12 +87,12 @@ hr{border:0;border-top:1px solid var(--border);margin:2.4rem 0}
 <main>
 
 <h1>Navier–Stokes, AI i spór o autorstwo</h1>
-<p class="small">Wersja 02.01 · 2026-09-19</p>
+<p class="small">Wersja 02.02 · 2026-11-21</p>
 <p class="lead">
 Esej o tym, co właściwie zostało ogłoszone, dlaczego równania płynów mają coś wspólnego z turbulencją,
 czemu problem dotyczy akurat trzech wymiarów, po co w tej historii pojawiają się Euler, Lean, Codex i tysiące agentów,
 oraz dlaczego wokół przełomu OpenAI natychmiast wybuchł spór o priorytet, dane i autorstwo.
-Stan źródeł: 9 września 2026.
+Stan źródeł: 9 września 2026; rozdział 17 — 21 listopada 2026.
 </p>
 
 <div class="box">
@@ -130,7 +130,8 @@ ale marketingowe przedstawienie sprawy jako samodzielnego sukcesu modeli OpenAI 
 <li><a href="#trzy">14. Trzy publiczne narracje</a></li>
 <li><a href="#wiemy">15. Co wiemy, czego nie wiemy</a></li>
 <li><a href="#znaczenie">16. Dlaczego to może zmienić naukę</a></li>
-<li><a href="#zrodla">17. Źródła</a></li>
+<li><a href="#postepy">17. Postępy do 21 listopada 2026</a></li>
+<li><a href="#zrodla">18. Źródła</a></li>
 </ul>
 </nav>
 
@@ -1122,7 +1123,172 @@ a informacja o tym, <em>gdzie warto szukać</em>, staje się niemal równie cenn
 </p>
 </div>
 
-<h2 id="zrodla">17. Źródła</h2>
+<h2 id="postepy">17. Co wydarzyło się później: postępy do 21 listopada 2026</h2>
+
+<p>
+Rozdziały 1–16 opisują stan na 9 września. Ten rozdział dopisano później. Nie zmienia on tamtego opisu,
+tylko pokazuje, jak historia potoczyła się przez kolejne dziesięć tygodni.
+Jedno zdanie streszczenia: wrześniowy wyścig nie skończył się na OpenAI.
+Dwa i pół miesiąca później ten sam duet, który wtedy „przegrał”, ogłosił wynik
+dla wersji bez siły zewnętrznej, czyli tej, o którą większość ludzi pytała od początku.
+</p>
+
+<h3>Wrzesień: dochodzenie, Clay i list medalistów</h3>
+
+<p>
+Pierwsze dni po ogłoszeniu wyglądały jak przesłuchanie. 10 września OpenAI ogłosiło, że po wewnętrznym dochodzeniu
+potwierdziło, iż prompty Buckmastera w Codexie z ostatnich dwóch miesięcy nie mogły wpłynąć na system,
+także przez trening. 13 września zawęziło to twierdzenie do danych z okresu po 3 lipca.
+Komentatorzy zauważyli, że w ten sposób pytanie o wcześniejsze, intensywne korzystanie z Codexa
+pozostało bez odpowiedzi. Tego samego 10 września Córdoba publicznie stwierdził, że bez prac jego grupy
+AI nie rozwiązałaby tego problemu.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+</p>
+
+<p>
+11 września Clay Mathematics Institute napisał, że problem „najwyraźniej został rozstrzygnięty”,
+ale jego proces weryfikacji i przyznawania zasług jest „celowo niespieszny”.
+Tego samego dnia 24 laureatów Medalu Fieldsa opublikowało list otwarty
+„A Severe Misalignment of AI in Mathematics”. Później podpisało go jeszcze czterech kolejnych.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+<a href="https://doi.org/10.5281/zenodo.22737750">[S14]</a>
+</p>
+
+<h3>Październik: Lean się zgadza, ale nie wszystko</h3>
+
+<p>
+Niezależni użytkownicy przebudowali formalizację OpenAI od zera. Przeszła przez Comparator,
+czyli narzędzie do sprawdzania niezaufanych dowodów w Leanie, oraz przez dwa niezależne jądra.
+Używa wyłącznie trzech standardowych aksjomatów Leana.
+<a href="https://github.com/incrediblecrab/learning-navier-stokes">[S15]</a>
+To oznacza, że jako twierdzenie w Leanie wynik jest poprawny.
+</p>
+
+<p>
+6 października Bastounis, Circelli i Hansen opublikowali jednak pracę „Navier–Stokes lost in translation”.
+Wykazują w niej rozbieżności między wersją w Leanie a tekstem dowodu w języku naturalnym.
+<a href="https://arxiv.org/abs/2610.08144">[S16]</a>
+To dokładnie ten problem, o którym była mowa w rozdziale 8: Lean sprawdza, czy z założeń wynika teza,
+ale nie sprawdza, czy zapisano właściwe założenia i właściwą tezę.
+13 października Scientific American przepytał matematyków i doszedł do wniosku,
+że podobieństwo metod OpenAI i Buckmastera–Alpöge jest „tylko powierzchowne”.
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">[S13]</a>
+Ten wniosek osłabia najmocniejszą wersję podejrzeń z rozdziału 13, ale nie rozstrzyga sporu o to,
+kto pierwszy wskazał kierunek.
+</p>
+
+<p>
+Na marginesie: 6 października OpenAI ogłosiło kolejną serię 377 wyników.
+Najgłośniejszy z nich to dowód quasi-hipotezy Riemanna, czyli słabszej wersji hipotezy Riemanna.
+<a href="https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019">[S17]</a>
+Tempo z września okazało się więc normą, a nie wyjątkiem.
+</p>
+
+<h3>20 listopada: trzy wyniki jednego dnia</h3>
+
+<p>
+Terence Tao uporządkował ogłoszenia z tego dnia według tego, jak dobrze zostały już „przetrawione”.
+Zastrzegł przy tym, że ta kolejność nie jest oceną ich poprawności.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<ol>
+<li><strong>Euler bez siły zewnętrznej</strong> (Alpöge, Buckmaster, Coiculescu). Czytelny dla człowieka dowód
+blow-upu dla trójwymiarowych równań Eulera, przygotowany przy intensywnej pomocy AI i sformalizowany w Leanie.</li>
+<li><strong>Navier–Stokes bez siły zewnętrznej</strong> (Alpöge, Buckmaster). 79-stronicowa praca i około 600 000 linii Leana
+w około 2 270 plikach.
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">[S19]</a></li>
+<li><strong>Uogólniona hipoteza Riemanna</strong> (Alpöge). To osobna historia: dowód istnieje wyłącznie w Leanie,
+ma około 17 milionów linii, a jego wersja dla ludzi liczy ponad 250 000 stron i, według samego autora, nie nadaje się do czytania.
+<a href="https://www.quantamagazine.org/updates/transformation/">[S20]</a></li>
+</ol>
+
+<p>
+Dla tego eseju najważniejszy jest punkt 2. Rozdział 7 wyjaśniał, że oficjalne gałęzie C i D dopuszczają gładką siłę zewnętrzną,
+więc formalnie wrześniowy wynik OpenAI mógł już „rozwiązywać” problem.
+Dla większości matematyków i fizyków prawdziwym pytaniem było jednak zawsze to, czy płyn,
+<em>którego nikt nie popycha</em>, może sam z siebie wytworzyć osobliwość.
+Jeśli nowa praca się obroni, odpowiedź brzmi: tak.
+</p>
+
+<h3>Co właściwie twierdzi nowy dowód</h3>
+
+<p>
+Rozwiązanie startuje z gładkich danych i pozostaje gładkie aż do skończonego czasu T.
+W tym momencie wybucha w tempie (T−t)<sup>−1/4</sup> i w zmiennych samopodobnych zbiega do określonego profilu.
+<a href="https://github.com/tristanbuckmaster/navier-stokes/tree/main/lean">[S19]</a>
+Tempo (T−t)<sup>−1/4</sup> nie jest przypadkowe: to dokładnie dolne ograniczenie, które Jean Leray wyprowadził w 1934 roku.
+Osobliwość pojawia się więc najwolniej, jak to w ogóle możliwe.
+</p>
+
+<p>
+Dowód ma dwie części. Pierwsza to twierdzenie warunkowe: jeśli istnieje gładkie, „wstecznie dyskretnie samopodobne” rozwiązanie,
+to następuje blow-up. Druga część pokazuje, że takie rozwiązanie istnieje. Robi to za pomocą przybliżenia policzonego numerycznie,
+które autorzy nazywają <em>certyfikatem</em> i które spełnia zestaw jawnych nierówności.
+Ta strategia przypomina wcześniejsze prace Hou i Chena o blow-upie dla Eulera wspomaganym komputerowo.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+Tao opisuje ją jako spodziewane podejście: najpierw zbudować numerycznie przybliżone rozwiązanie,
+a potem rygorystyczną teorią zaburzeń zamienić je w rozwiązanie dokładne.
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<h3>Kto używał którego AI — ciąg dalszy rozdziału 9</h3>
+
+<p>
+Autorzy piszą, że przez cały czas korzystali z Claude'a i Codexa.
+Według pracy pierwszy dowód wersji bez siły zewnętrznej napisały modele Anthropic na podstawie wcześniejszych szkiców duetu.
+Autorzy przerobili go potem i przebudowali z pomocą Claude'a i Codexa, a część fragmentów zastąpili własnymi pomysłami.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+Codex, czyli narzędzie OpenAI, którego dotyczył cały wrześniowy spór o dane, pomagał więc tym razem drugiej stronie.
+</p>
+
+<p>
+Buckmaster skomentował pośpiech wprost: „po ostatnim razie nie mogliśmy ryzykować czekania”.
+Dlatego, jak sam przyznał, tekst o Navierze–Stokesie jest nieoszlifowany i mocno wspomagany przez LLM.
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+Teza z rozdziału 16, że informacja o tym, <em>gdzie warto szukać</em>, staje się aktywem,
+dostała tu potwierdzenie od strony praktyki. Badacze publikują szybciej,
+niż by chcieli, bo mają uzasadnione powody bać się, że ktoś ich ubiegnie.
+</p>
+
+<h3>Czego jeszcze brakuje</h3>
+
+<ul>
+<li>Kluczowy certyfikat numeryczny nie został opublikowany. Praca podaje tylko jego skrót kryptograficzny
+i zapowiada, że certyfikat ukaże się „wkrótce”.</li>
+<li>Rygorystyczne obliczenie w arytmetyce przedziałowej (precyzja 128 bitów, biblioteka Arb we FLINT),
+które ten certyfikat sprawdza, nie należy do formalizacji w Leanie ani do repozytorium.</li>
+<li>Poprawka z 20 listopada zmieniła część twierdzeń w Leanie i zależne od nich dowody,
+a po poprawce pakietu nie przebudowano.</li>
+<li>Praca nie przeszła recenzji. Tao pisze, że zanim powstanie „porządny, profesjonalnie napisany dowód”, potrzeba jeszcze pracy.</li>
+</ul>
+<p>
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">[S19]</a>
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">[S21]</a>
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">[S18]</a>
+</p>
+
+<p>
+Wniosek z października działa więc i tutaj: zielony Lean to dużo, ale nie wszystko.
+W tym przypadku najważniejsza część, czyli liczby, na których opiera się istnienie profilu, leży na razie poza Leanem.
+</p>
+
+<div class="box">
+<h3>Najkrótsza uczciwa wersja — stan na 21 listopada 2026</h3>
+<p>
+We wrześniu OpenAI pokazało blow-up z gładką siłą zewnętrzną: formalnie mieszczący się w regułach Clay, ale nie o to wszyscy pytali.
+Lean tego wyniku się kompiluje, ale co najmniej jedna praca zarzuca mu błędy w przekładzie z języka naturalnego.
+W listopadzie duet, który we wrześniu przegrał wyścig, ogłosił blow-up bez żadnej siły zewnętrznej,
+przy pomocy Claude'a i Codexa, z formalizacją w Leanie, ale bez opublikowanego jeszcze certyfikatu numerycznego.
+</p>
+<p>
+Jeśli ten wynik się obroni, spór o to, kto pierwszy rozwiązał problem Naviera–Stokesa, nie zniknie, tylko się przesunie.
+Pytanie przestanie brzmieć „kto pierwszy”, a zacznie: „kto rozwiązał który problem”.
+Clay ma przed sobą wyjątkowo „niespieszny” proces.
+</p>
+</div>
+
+<h2 id="zrodla">18. Źródła</h2>
 
 <ol class="sources">
 <li><strong>[S1] OpenAI — „On the Navier–Stokes Millennium Prize Problem”, 8.09.2026.</strong><br>
@@ -1169,6 +1335,38 @@ Wcześniejsza publiczna praca o finite-time blow-up dla hipodyssypatywnego Navie
 
 <li><strong>[S12] Wired — spór o dane, compute i autorstwo.</strong><br>
 <a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics">https://www.wired.com/story/openai-navier-stokes-math-discovery-academics</a></li>
+
+<li><strong>[S13] Wikipedia — „Navier–Stokes priority controversy”.</strong><br>
+Chronologia wrzesień–październik: dochodzenie OpenAI, oświadczenie Clay, list medalistów, krytyka formalizacji, ustalenia Scientific American.<br>
+<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy">https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy</a></li>
+
+<li><strong>[S14] A. Avila i in. — „A Severe Misalignment of AI in Mathematics”, 11.09.2026.</strong><br>
+List otwarty laureatów Medalu Fieldsa.<br>
+<a href="https://doi.org/10.5281/zenodo.22737750">https://doi.org/10.5281/zenodo.22737750</a></li>
+
+<li><strong>[S15] incrediblecrab — „learning-navier-stokes”.</strong><br>
+Niezależna przebudowa formalizacji OpenAI: Comparator, dwa jądra, trzy standardowe aksjomaty.<br>
+<a href="https://github.com/incrediblecrab/learning-navier-stokes">https://github.com/incrediblecrab/learning-navier-stokes</a></li>
+
+<li><strong>[S16] Bastounis, Circelli, Hansen — „Navier-Stokes lost in translation”, arXiv:2610.08144.</strong><br>
+Rozbieżności między dowodem w Leanie a dowodem w języku naturalnym.<br>
+<a href="https://arxiv.org/abs/2610.08144">https://arxiv.org/abs/2610.08144</a></li>
+
+<li><strong>[S17] Quanta Magazine — „AI Proved the Quasi-Riemann Hypothesis. What Happens Now?”, 19.10.2026.</strong><br>
+<a href="https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019">https://quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019</a></li>
+
+<li><strong>[S18] Terence Tao — „Unforced Euler singularity, unforced Navier-Stokes singularity, and the Generalized Riemann Hypothesis”, 20.11.2026.</strong><br>
+<a href="https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/">https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/</a></li>
+
+<li><strong>[S19] L. Alpöge, T. Buckmaster — „Finite-time blow-up for the Navier–Stokes equations”, 79 stron, 20.11.2026, z formalizacją Lean.</strong><br>
+<a href="https://github.com/tristanbuckmaster/navier-stokes/">https://github.com/tristanbuckmaster/navier-stokes/</a></li>
+
+<li><strong>[S20] Quanta Magazine — „A claimed proof of the Riemann hypothesis”, 20.11.2026.</strong><br>
+<a href="https://www.quantamagazine.org/updates/transformation/">https://www.quantamagazine.org/updates/transformation/</a></li>
+
+<li><strong>[S21] OfficeChai — „Tristan Buckmaster, Levent Alpöge Claim Proof Of Navier-Stokes Millennium Prize Problem Without Forcing”, 20.11.2026.</strong><br>
+Budowa dowodu, certyfikat, użyte modele (Claude, Codex), stan weryfikacji.<br>
+<a href="https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/">https://officechai.com/ai/tristan-buckmaster-levent-alpoge-claim-proof-of-navier-stokes-millennium-prize-problem-without-forcing/</a></li>
 </ol>
 
 <hr>
